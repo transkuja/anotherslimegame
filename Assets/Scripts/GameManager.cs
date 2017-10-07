@@ -43,6 +43,32 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    public static UI UiReference
+    {
+        get
+        {
+            return Instance.uiReference;
+        }
+
+        set
+        {
+            Instance.uiReference = value;
+        }
+    }
+
+    public static int GameplayType
+    {
+        get
+        {
+            return Instance.gameplayType;
+        }
+
+        set
+        {
+            Instance.gameplayType = value;
+        }
+    }
+
     [Header("Jump Settings")]
     [Tooltip("Jump unit is used to calibrate full charge jump")]
     [SerializeField] float jumpUnit = 250.0f;
@@ -51,5 +77,7 @@ public class GameManager : MonoBehaviour {
 
     [SerializeField]
     [Range(1, 2)]
-    public static int gameplayType = 1;
+    private int gameplayType = 1;
+
+    UI uiReference;
 }

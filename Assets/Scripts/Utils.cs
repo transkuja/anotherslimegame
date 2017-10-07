@@ -5,7 +5,7 @@ public class Utils {
 
     static int[] mapTypeValue =
         {
-            10,           // CollectableType Evolution1
+            100,           // CollectableType Evolution1
             50             // CollectableType Evolution2
         };
 

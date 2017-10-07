@@ -54,7 +54,7 @@ public class Player : MonoBehaviour {
     public void UpdateCollectableValue(CollectableType type, int pickedValue)
     {
         collectables[(int)type] = Mathf.Clamp(collectables[(int)type] + pickedValue, 0, Utils.GetMaxValueForCollectable(type));
-        if (GameManager.gameplayType == 1)
+        if (GameManager.GameplayType == 1)
         {
             if (collectables[(int)type] == Utils.GetMaxValueForCollectable(type))
                 EvolveGameplay1(type);
@@ -64,8 +64,22 @@ public class Player : MonoBehaviour {
     // GAMEPLAY TEST 1: all of this should be in an Evolution class handling all evolution parameters (+ we should be able to pickup collectables and "refresh" an evolution indefinitely)
     private void EvolveGameplay1(CollectableType type)
     {
-        transform.GetChild((int)PlayerChildren.Evolutions).GetChild((int)type).gameObject.SetActive(true); ;
+        transform.GetChild((int)PlayerChildren.Evolutions).GetChild((int)type).gameObject.SetActive(true);
         StartCoroutine("Detransform", type);
+    }
+
+    public void EvolveGameplay2(CollectableType type)
+    {
+        transform.GetChild((int)PlayerChildren.Evolutions).GetChild((int)type).gameObject.SetActive(true);
+        collectables[0] -= Utils.GetMaxValueForCollectable(type);
+        StartCoroutine("Detransform2", type);
+    }
+
+    private IEnumerator Detransform2(CollectableType type)
+    {
+        yield return new WaitForSeconds(5);
+        transform.GetChild((int)PlayerChildren.Evolutions).GetChild((int)type).gameObject.SetActive(false);
+        yield return null;
     }
 
     private IEnumerator Detransform(CollectableType type)

@@ -1,6 +1,6 @@
 ﻿using XInputDotNetPure;
 using UnityEngine;
-
+using System;
 
 [RequireComponent(typeof(Player))]
 public class PlayerController : MonoBehaviour {
@@ -25,6 +25,8 @@ public class PlayerController : MonoBehaviour {
     [Range(5, 1000)] float jumpChargeSpeed = 15.0f;
     [SerializeField]
     [Range(5, 1000)] float movementSpeed = 25.0f;
+
+    int selectedEvolution = 0;
 
     private void Start()
     {
@@ -54,13 +56,14 @@ public class PlayerController : MonoBehaviour {
 
         if (isUsingAController)
         {
-            Debug.Log("??");
             // TODO: optimize?
             prevState = state;
             state = GamePad.GetState(playerIndex);
 
             HandleMovementWithController();
             HandleJumpWithController();
+            if (GameManager.GameplayType == 2)
+                HandleEvolutionsWithController();
         }
         else
         {
@@ -68,6 +71,28 @@ public class PlayerController : MonoBehaviour {
             jumpPressed = Input.GetKeyDown(KeyCode.Space);
             HandleMovementWithKeyBoard();
             HandleJumpWithKeyboard();
+        }
+    }
+
+    private void HandleEvolutionsWithController()
+    {
+        if (prevState.Buttons.LeftShoulder == ButtonState.Released && state.Buttons.LeftShoulder == ButtonState.Pressed)
+        {
+            selectedEvolution = selectedEvolution > 0 ? (selectedEvolution - 1) % (int)CollectableType.Size : 0;
+            GameManager.UiReference.NeedUpdate(selectedEvolution.ToString());
+        }
+        if (prevState.Buttons.RightShoulder == ButtonState.Released && state.Buttons.RightShoulder == ButtonState.Pressed)
+        {
+            selectedEvolution = (selectedEvolution + 1) % (int)CollectableType.Size;
+            GameManager.UiReference.NeedUpdate(selectedEvolution.ToString());
+        }
+        if (prevState.Buttons.Y == ButtonState.Released && state.Buttons.Y == ButtonState.Pressed)
+        {
+            if (player.Collectables[0] >= Utils.GetMaxValueForCollectable((CollectableType)Enum.Parse(typeof(CollectableType), selectedEvolution.ToString())))
+            {
+                player.EvolveGameplay2((CollectableType)Enum.Parse(typeof(CollectableType), selectedEvolution.ToString()));
+            }
+            // if has enough => evolve else nothing
         }
     }
 
