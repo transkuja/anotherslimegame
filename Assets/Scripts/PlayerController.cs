@@ -28,6 +28,13 @@ public class PlayerController : MonoBehaviour {
 
     int selectedEvolution = 0;
 
+
+    // TMP
+    float blerpStep;
+    Transform lerpInitialPos;
+    Transform lerpTarget;
+    bool isLerping = false;
+
     private void Start()
     {
         player = GetComponent<Player>();
@@ -72,6 +79,7 @@ public class PlayerController : MonoBehaviour {
             HandleMovementWithKeyBoard();
             HandleJumpWithKeyboard();
         }
+
     }
 
     private void HandleEvolutionsWithController()
@@ -112,6 +120,8 @@ public class PlayerController : MonoBehaviour {
         initialVelocity *= (Mathf.Abs(state.ThumbSticks.Left.X) + Mathf.Abs(state.ThumbSticks.Left.Y) > 0.95f) ? GameManager.MaxMovementSpeed : GameManager.MaxMovementSpeed / 2.0f;
 
         player.Rb.velocity = new Vector3(initialVelocity.x, player.Rb.velocity.y, initialVelocity.z);
+
+        transform.LookAt(transform.position + new Vector3(state.ThumbSticks.Left.X, 0.0f, state.ThumbSticks.Left.Y));
     }
 
     private void OnCollisionEnter(Collision collision)

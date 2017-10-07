@@ -72,7 +72,7 @@ public class GameManager : MonoBehaviour {
     [Header("Jump Settings")]
     [Tooltip("Jump unit is used to calibrate full charge jump")]
     [SerializeField] float jumpUnit = 250.0f;
-    [SerializeField] float maxMovementSpeed = 50.0f;
+    [SerializeField] float maxMovementSpeed = 40.0f;
 
 
     [SerializeField]
