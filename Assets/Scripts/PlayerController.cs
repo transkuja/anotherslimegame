@@ -19,14 +19,6 @@ public class PlayerController : MonoBehaviour {
     [SerializeField]
     [Range(5, 1000)] float jumpChargeSpeed = 15.0f;
 
-    [Header("Jump Settings")]
-    [Tooltip("Maximum number of frames forces are added to the player while pressing Jump button")]
-    [SerializeField] int maxJumpFrames; // 5
-    //[Tooltip("Power of the force added to the player each frame the Jump button is pressed")]
-    //[SerializeField] float jumpPower; // 50.0f
-    [Tooltip("Delay before next jump after hitting the ground")]
-    [SerializeField] float jumpDelay; // 0.3f
-
     private void Start()
     {
         player = GetComponent<Player>();
@@ -34,7 +26,8 @@ public class PlayerController : MonoBehaviour {
             Debug.LogWarning("Player component should not be null");
     }
 
-    void Update () {
+    void Update ()
+    {
         // TODO: externaliser pour le comportement multi
         if (!playerIndexSet || !prevState.IsConnected)
         {
@@ -54,23 +47,9 @@ public class PlayerController : MonoBehaviour {
         // TODO: optimize?
         prevState = state;
         state = GamePad.GetState(playerIndex);
-        Debug.Log(chargeFactor);
 
-        if (state.Buttons.A == ButtonState.Pressed && chargeFactor < 1.0f && isReadyForNextJumpInput)
-        {
-            chargeFactor += jumpChargeSpeed * Time.unscaledDeltaTime;
-            if (chargeFactor > 1.0f)
-                Jump(GameManager.JumpUnit);
-        }
 
-        if (prevState.Buttons.A == ButtonState.Pressed && state.Buttons.A == ButtonState.Released && isReadyForNextJumpInput)
-            Jump(GameManager.JumpUnit * chargeFactor);
-
-        if (state.Buttons.A == ButtonState.Released && isWaitingForNextRelease)
-        {
-            isWaitingForNextRelease = false;
-            isReadyForNextJumpInput = true;
-        }
+        HandleJump();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -84,6 +63,28 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    private void HandleJump()
+    {
+        // Charge jump if A button is pressed for a "long" time and only if on the ground
+        if (state.Buttons.A == ButtonState.Pressed && chargeFactor < 1.0f && isReadyForNextJumpInput)
+        {
+            chargeFactor += jumpChargeSpeed * Time.unscaledDeltaTime;
+            // Force max charge jump if the charge reach maximum charge
+            if (chargeFactor > 1.0f)
+                Jump(GameManager.JumpUnit);
+        }
+
+        // Jump when the A button is released and only if on the ground
+        if (prevState.Buttons.A == ButtonState.Pressed && state.Buttons.A == ButtonState.Released && isReadyForNextJumpInput)
+            Jump(GameManager.JumpUnit * chargeFactor);
+
+        // Prevent input in the air
+        if (state.Buttons.A == ButtonState.Released && isWaitingForNextRelease)
+        {
+            isWaitingForNextRelease = false;
+            isReadyForNextJumpInput = true;
+        }
+    }
     void Jump(float jumpPower)
     {
         player.Rb.AddForce(Vector3.up * jumpPower);
