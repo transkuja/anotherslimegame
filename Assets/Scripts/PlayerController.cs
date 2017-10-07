@@ -6,7 +6,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
     bool playerIndexSet = false;
     PlayerIndex playerIndex;
-    GamePadState testState;
+    bool isUsingAController = false;
     GamePadState state;
     GamePadState prevState;
 
@@ -41,18 +41,20 @@ public class PlayerController : MonoBehaviour {
             for (int i = 0; i < 4; ++i)
             {
                 PlayerIndex testPlayerIndex = (PlayerIndex)i;
-                testState = GamePad.GetState(testPlayerIndex);
+                GamePadState testState = GamePad.GetState(testPlayerIndex);
                 if (testState.IsConnected)
                 {
                     Debug.Log(string.Format("GamePad found {0}", testPlayerIndex));
                     playerIndex = testPlayerIndex;
                     playerIndexSet = true;
+                    isUsingAController = true;
                 }
             }
         }
 
-        if (testState.IsConnected)
+        if (isUsingAController)
         {
+            Debug.Log("??");
             // TODO: optimize?
             prevState = state;
             state = GamePad.GetState(playerIndex);
@@ -91,7 +93,7 @@ public class PlayerController : MonoBehaviour {
     {
         if (collision.gameObject.GetComponent<Ground>() != null)
         {
-            if (testState.IsConnected ? state.Buttons.A == ButtonState.Released : true)
+            if (isUsingAController ? state.Buttons.A == ButtonState.Released : true)
                 isReadyForNextJumpInput = true;
             else
                 isWaitingForNextRelease = true;
