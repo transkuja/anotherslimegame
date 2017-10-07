@@ -30,7 +30,21 @@ public class GameManager : MonoBehaviour {
         private set { }
     }
 
+    public static float MaxMovementSpeed
+    {
+        get
+        {
+            return Instance.maxMovementSpeed;
+        }
+
+        set
+        {
+            Instance.maxMovementSpeed = value;
+        }
+    }
+
     [Header("Jump Settings")]
     [Tooltip("Jump unit is used to calibrate full charge jump")]
     [SerializeField] float jumpUnit = 250.0f;
+    [SerializeField] float maxMovementSpeed = 50.0f;
 }

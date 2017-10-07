@@ -6,8 +6,13 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
     bool playerIndexSet = false;
     PlayerIndex playerIndex;
+    GamePadState testState;
     GamePadState state;
     GamePadState prevState;
+
+    // TMP
+    bool jumpPressed = false;
+    bool jumpButtonWasPressed = false;
 
     int currentJumpHeight = 0;
     Player player;
@@ -18,6 +23,8 @@ public class PlayerController : MonoBehaviour {
 
     [SerializeField]
     [Range(5, 1000)] float jumpChargeSpeed = 15.0f;
+    [SerializeField]
+    [Range(5, 1000)] float movementSpeed = 25.0f;
 
     private void Start()
     {
@@ -34,7 +41,7 @@ public class PlayerController : MonoBehaviour {
             for (int i = 0; i < 4; ++i)
             {
                 PlayerIndex testPlayerIndex = (PlayerIndex)i;
-                GamePadState testState = GamePad.GetState(testPlayerIndex);
+                testState = GamePad.GetState(testPlayerIndex);
                 if (testState.IsConnected)
                 {
                     Debug.Log(string.Format("GamePad found {0}", testPlayerIndex));
@@ -44,26 +51,54 @@ public class PlayerController : MonoBehaviour {
             }
         }
 
-        // TODO: optimize?
-        prevState = state;
-        state = GamePad.GetState(playerIndex);
+        if (testState.IsConnected)
+        {
+            // TODO: optimize?
+            prevState = state;
+            state = GamePad.GetState(playerIndex);
 
+            HandleMovementWithController();
+            HandleJumpWithController();
+        }
+        else
+        {
+            jumpButtonWasPressed = jumpPressed;
+            jumpPressed = Input.GetKeyDown(KeyCode.Space);
+            HandleMovementWithKeyBoard();
+            HandleJumpWithKeyboard();
+        }
+    }
 
-        HandleJump();
+    private void HandleMovementWithKeyBoard()
+    {
+        Vector3 initialVelocity = new Vector3(Input.GetAxisRaw("Horizontal"), 0.0f, Input.GetAxisRaw("Vertical"));
+        initialVelocity.Normalize();
+        initialVelocity *= (Mathf.Abs(Input.GetAxisRaw("Horizontal")) + Mathf.Abs(Input.GetAxisRaw("Vertical")) > 0.95f) ? GameManager.MaxMovementSpeed : GameManager.MaxMovementSpeed / 2.0f;
+
+        player.Rb.velocity = new Vector3(initialVelocity.x, player.Rb.velocity.y, initialVelocity.z);
+    }
+
+    private void HandleMovementWithController()
+    {
+        Vector3 initialVelocity = new Vector3(state.ThumbSticks.Left.X, 0.0f, state.ThumbSticks.Left.Y);
+        initialVelocity.Normalize();
+        initialVelocity *= (Mathf.Abs(state.ThumbSticks.Left.X) + Mathf.Abs(state.ThumbSticks.Left.Y) > 0.95f) ? GameManager.MaxMovementSpeed : GameManager.MaxMovementSpeed / 2.0f;
+
+        player.Rb.velocity = new Vector3(initialVelocity.x, player.Rb.velocity.y, initialVelocity.z);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.GetComponent<Ground>() != null)
         {
-            if (state.Buttons.A == ButtonState.Released)
+            if (testState.IsConnected ? state.Buttons.A == ButtonState.Released : true)
                 isReadyForNextJumpInput = true;
             else
                 isWaitingForNextRelease = true;
         }
     }
 
-    private void HandleJump()
+    private void HandleJumpWithController()
     {
         // Charge jump if A button is pressed for a "long" time and only if on the ground
         if (state.Buttons.A == ButtonState.Pressed && chargeFactor < 1.0f && isReadyForNextJumpInput)
@@ -85,6 +120,33 @@ public class PlayerController : MonoBehaviour {
             isReadyForNextJumpInput = true;
         }
     }
+
+    private void HandleJumpWithKeyboard()
+    {
+        if (Input.GetKeyDown(KeyCode.Space) && isReadyForNextJumpInput)
+            Jump(GameManager.JumpUnit);
+
+        //// Charge jump if A button is pressed for a "long" time and only if on the ground
+        //if (jumpPressed && chargeFactor < 1.0f && isReadyForNextJumpInput)
+        //{
+        //    chargeFactor += jumpChargeSpeed * Time.unscaledDeltaTime;
+        //    // Force max charge jump if the charge reach maximum charge
+        //    if (chargeFactor > 1.0f)
+        //        Jump(GameManager.JumpUnit);
+        //}
+
+        //// Jump when the A button is released and only if on the ground
+        //if (jumpButtonWasPressed && Input.GetKeyUp(KeyCode.Space) && isReadyForNextJumpInput)
+        //    Jump(GameManager.JumpUnit * chargeFactor);
+
+        //// Prevent input in the air
+        //if (Input.GetKeyUp(KeyCode.Space) && isWaitingForNextRelease)
+        //{
+        //    isWaitingForNextRelease = false;
+        //    isReadyForNextJumpInput = true;
+        //}
+    }
+
     void Jump(float jumpPower)
     {
         player.Rb.AddForce(Vector3.up * jumpPower);
