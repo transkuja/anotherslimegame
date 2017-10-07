@@ -47,4 +47,9 @@ public class GameManager : MonoBehaviour {
     [Tooltip("Jump unit is used to calibrate full charge jump")]
     [SerializeField] float jumpUnit = 250.0f;
     [SerializeField] float maxMovementSpeed = 50.0f;
+
+
+    [SerializeField]
+    [Range(1, 2)]
+    public static int gameplayType = 1;
 }

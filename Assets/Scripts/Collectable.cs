@@ -23,7 +23,7 @@ public class Collectable : MonoBehaviour
         {
             if (player.Collectables[(int)type] < Utils.GetMaxValueForCollectable(type))
             {
-                player.Collectables[(int)type] = Mathf.Clamp(player.Collectables[(int)type] + value, 0, Utils.GetMaxValueForCollectable(type));
+                player.UpdateCollectableValue(type, value);
                 Destroy(this.gameObject);
             }
         }
