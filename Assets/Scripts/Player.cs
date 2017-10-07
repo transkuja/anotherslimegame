@@ -5,6 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour {
 
     Rigidbody rb;
+    bool canDoubleJump = false;
 
     public Rigidbody Rb
     {
@@ -16,6 +17,19 @@ public class Player : MonoBehaviour {
         set
         {
             rb = value;
+        }
+    }
+
+    public bool CanDoubleJump
+    {
+        get
+        {
+            return canDoubleJump;
+        }
+
+        set
+        {
+            canDoubleJump = value;
         }
     }
 

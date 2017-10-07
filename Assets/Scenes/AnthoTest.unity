@@ -359,8 +359,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54c362ab20e0e3d48917d6cc5b2e53e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  jumpChargeSpeed: 19.2
   maxJumpFrames: 5
-  jumpPower: 50
+  jumpDelay: 0.3
 --- !u!54 &1876505071
 Rigidbody:
   m_ObjectHideFlags: 0
