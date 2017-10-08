@@ -4,6 +4,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour {
 
     private static GameManager instance = null;
+    private static EvolutionManager evolutionManager = new EvolutionManager();
 
     public static GameManager Instance
     {
@@ -66,6 +67,14 @@ public class GameManager : MonoBehaviour {
         set
         {
             Instance.gameplayType = value;
+        }
+    }
+
+    public static EvolutionManager EvolutionManager
+    {
+        get
+        {
+            return evolutionManager;
         }
     }
 

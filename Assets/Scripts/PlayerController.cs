@@ -86,19 +86,20 @@ public class PlayerController : MonoBehaviour {
     {
         if (prevState.Buttons.LeftShoulder == ButtonState.Released && state.Buttons.LeftShoulder == ButtonState.Pressed)
         {
-            selectedEvolution = selectedEvolution > 0 ? (selectedEvolution - 1) % (int)CollectableType.Size : 0;
+            selectedEvolution = selectedEvolution > 0 ? (selectedEvolution - 1) % (int)Powers.Size : 0;
             GameManager.UiReference.NeedUpdate(selectedEvolution.ToString());
         }
         if (prevState.Buttons.RightShoulder == ButtonState.Released && state.Buttons.RightShoulder == ButtonState.Pressed)
         {
-            selectedEvolution = (selectedEvolution + 1) % (int)CollectableType.Size;
+            selectedEvolution = (selectedEvolution + 1) % (int)Powers.Size;
             GameManager.UiReference.NeedUpdate(selectedEvolution.ToString());
         }
         if (prevState.Buttons.Y == ButtonState.Released && state.Buttons.Y == ButtonState.Pressed)
         {
-            if (player.Collectables[0] >= Utils.GetMaxValueForCollectable((CollectableType)Enum.Parse(typeof(CollectableType), selectedEvolution.ToString())))
+            Evolution selectedEvol = GameManager.EvolutionManager.GetEvolutionByPowerName((Powers)Enum.Parse(typeof(Powers), selectedEvolution.ToString()));
+            if (player.Collectables[0] >= selectedEvol.Cost)
             {
-                player.EvolveGameplay2((CollectableType)Enum.Parse(typeof(CollectableType), selectedEvolution.ToString()));
+                player.EvolveGameplay2(selectedEvol);
             }
             // if has enough => evolve else nothing
         }
