@@ -185,7 +185,7 @@ MonoBehaviour:
     m_MaxSpeed: 3000
     m_AccelTime: 1
     m_DecelTime: 2
-    m_InputAxisName: Mouse X
+    m_InputAxisName: Joystick X
     m_InputAxisValue: 0
   m_RecenterToTargetHeading:
     m_enabled: 0
@@ -714,7 +714,7 @@ MonoBehaviour:
     m_MaxSpeed: 3000
     m_AccelTime: 1
     m_DecelTime: 2
-    m_InputAxisName: Mouse X
+    m_InputAxisName: Joystick X
     m_InputAxisValue: 0
   m_RecenterToTargetHeading:
     m_enabled: 0
@@ -817,7 +817,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 751700349}
-  m_LocalRotation: {x: 0.22217852, y: 0, z: 0, w: 0.975006}
+  m_LocalRotation: {x: 0.2221785, y: 0, z: 0, w: 0.975006}
   m_LocalPosition: {x: 0.6841546, y: 4.71, z: -15.61}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -1089,7 +1089,7 @@ MonoBehaviour:
   - m_Priority
   m_LockStageInInspector: 01000000
   m_Priority: 10
-  m_LookAt: {fileID: 0}
+  m_LookAt: {fileID: 1876505069}
   m_Follow: {fileID: 0}
   m_Lens:
     FieldOfView: 40
@@ -1104,7 +1104,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1438347422}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0.20445418, y: -0, z: -0, w: 0.9788762}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1219,7 +1219,7 @@ MonoBehaviour:
     m_MaxSpeed: 3000
     m_AccelTime: 1
     m_DecelTime: 2
-    m_InputAxisName: Mouse X
+    m_InputAxisName: Joystick X
     m_InputAxisValue: 0
   m_RecenterToTargetHeading:
     m_enabled: 0
@@ -1602,8 +1602,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1742035344}
   - component: {fileID: 1742035343}
+  - component: {fileID: 1742035345}
   m_Layer: 0
-  m_Name: CM FreeLook1
+  m_Name: CameraFreeLock
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1641,14 +1642,14 @@ MonoBehaviour:
     m_MaxSpeed: 3000
     m_AccelTime: 1
     m_DecelTime: 2
-    m_InputAxisName: Mouse X
+    m_InputAxisName: Joystick X
     m_InputAxisValue: 0
   m_YAxis:
     Value: 0.5
     m_MaxSpeed: 3
     m_AccelTime: 3
     m_DecelTime: 3
-    m_InputAxisName: Mouse Y
+    m_InputAxisName: Joystick Y
     m_InputAxisValue: 0
   m_RecenterToTargetHeading:
     m_enabled: 0
@@ -1677,6 +1678,17 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1742035345
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1742035342}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c37e36074c8e0c45901044618b6a6d3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1876505065
 GameObject:
   m_ObjectHideFlags: 0

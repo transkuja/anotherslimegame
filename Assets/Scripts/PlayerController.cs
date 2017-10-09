@@ -47,6 +47,7 @@ public class PlayerController : MonoBehaviour {
         // TODO: externaliser pour le comportement multi
         if (!playerIndexSet || !prevState.IsConnected)
         {
+            isUsingAController = false;
             for (int i = 0; i < 4; ++i)
             {
                 PlayerIndex testPlayerIndex = (PlayerIndex)i;
@@ -107,11 +108,15 @@ public class PlayerController : MonoBehaviour {
 
     private void HandleMovementWithKeyBoard()
     {
-        Vector3 initialVelocity = new Vector3(Input.GetAxisRaw("Horizontal"), 0.0f, Input.GetAxisRaw("Vertical"));
+        Vector3 initialVelocity = new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
+        Debug.Log(Input.GetAxis("Horizontal"));
         initialVelocity.Normalize();
-        initialVelocity *= (Mathf.Abs(Input.GetAxisRaw("Horizontal")) + Mathf.Abs(Input.GetAxisRaw("Vertical")) > 0.95f) ? GameManager.MaxMovementSpeed : GameManager.MaxMovementSpeed / 2.0f;
+        initialVelocity *= (Mathf.Abs(Input.GetAxis("Horizontal")) + Mathf.Abs(Input.GetAxis("Vertical")) > 0.95f) ? GameManager.MaxMovementSpeed : GameManager.MaxMovementSpeed / 2.0f;
 
         player.Rb.velocity = new Vector3(initialVelocity.x, player.Rb.velocity.y, initialVelocity.z);
+
+        transform.LookAt(transform.position + new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical")));
+
     }
 
     private void HandleMovementWithController()
