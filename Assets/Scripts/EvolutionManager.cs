@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -84,6 +85,22 @@ public class EvolutionManager {
         {
             case Powers.DoubleJump:
                 return doubleJumpEvolution;
+            case Powers.Hover:
+                return hoverEvolution;
+            default:
+                Debug.Log("Unknown power something went wrong");
+                return null;
+        }
+    }
+
+    internal void AddEvolutionComponent(GameObject gameObject, Evolution evolution)
+    {
+        Powers power = (Powers)Enum.Parse(typeof(Powers), )
+        switch (evolution.Id)
+        {
+            case Powers.DoubleJump:
+                gameObject.AddComponent<DoubleJump>();
+                break;
             case Powers.Hover:
                 return hoverEvolution;
             default:
