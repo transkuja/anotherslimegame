@@ -115,7 +115,13 @@ public class PlayerController : MonoBehaviour {
 
         player.Rb.velocity = new Vector3(initialVelocity.x, player.Rb.velocity.y, initialVelocity.z);
 
-        transform.LookAt(transform.position + new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical")));
+        Vector3 camVectorForward = new Vector3(Camera.main.transform.forward.x, 0.0f, Camera.main.transform.forward.z);
+        camVectorForward.Normalize();
+
+        Vector3 velocityVec = initialVelocity.z * camVectorForward + initialVelocity.x * Camera.main.transform.right + Vector3.up * player.Rb.velocity.y;
+
+        player.Rb.velocity = velocityVec;
+        transform.LookAt(transform.position + new Vector3(velocityVec.x, 0.0f, velocityVec.z));
 
     }
 
@@ -125,9 +131,13 @@ public class PlayerController : MonoBehaviour {
         initialVelocity.Normalize();
         initialVelocity *= (Mathf.Abs(state.ThumbSticks.Left.X) + Mathf.Abs(state.ThumbSticks.Left.Y) > 0.95f) ? GameManager.MaxMovementSpeed : GameManager.MaxMovementSpeed / 2.0f;
 
-        player.Rb.velocity = new Vector3(initialVelocity.x, player.Rb.velocity.y, initialVelocity.z);
+        Vector3 camVectorForward = new Vector3(Camera.main.transform.forward.x, 0.0f, Camera.main.transform.forward.z);
+        camVectorForward.Normalize();
 
-        transform.LookAt(transform.position + new Vector3(state.ThumbSticks.Left.X, 0.0f, state.ThumbSticks.Left.Y));
+        Vector3 velocityVec = initialVelocity.z * camVectorForward + initialVelocity.x * Camera.main.transform.right + Vector3.up * player.Rb.velocity.y;
+        
+        player.Rb.velocity = velocityVec;
+        transform.LookAt(transform.position + new Vector3(velocityVec.x, 0.0f, velocityVec.z));
     }
 
     private void OnCollisionEnter(Collision collision)
