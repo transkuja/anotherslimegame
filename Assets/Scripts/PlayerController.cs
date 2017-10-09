@@ -27,6 +27,7 @@ public class PlayerController : MonoBehaviour {
     [Range(5, 1000)] float movementSpeed = 25.0f;
 
     int selectedEvolution = 0;
+    bool isGrounded = true;
 
 
     // TMP
@@ -142,8 +143,10 @@ public class PlayerController : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.GetComponent<Ground>() != null)
+        if (collision.gameObject.GetComponent<Ground>() != null && 
+            Vector3.Dot(collision.contacts[0].normal, transform.up) <= )
         {
+            isGrounded = true;
             if (isUsingAController ? state.Buttons.A == ButtonState.Released : true)
                 isReadyForNextJumpInput = true;
             else
@@ -202,6 +205,7 @@ public class PlayerController : MonoBehaviour {
 
     void Jump(float jumpPower)
     {
+        isGrounded = false;
         player.Rb.AddForce(Vector3.up * jumpPower);
         isReadyForNextJumpInput = false;
         isWaitingForNextRelease = false;
