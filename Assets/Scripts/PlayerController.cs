@@ -28,12 +28,8 @@ public class PlayerController : MonoBehaviour {
 
     int selectedEvolution = 0;
 
-
-    // TMP
-    float blerpStep;
-    Transform lerpInitialPos;
-    Transform lerpTarget;
-    bool isLerping = false;
+    // TODO: send this value to jumpManager
+    bool isGrounded = true;
 
     private void Start()
     {
@@ -144,6 +140,14 @@ public class PlayerController : MonoBehaviour {
     {
         if (collision.gameObject.GetComponent<Ground>() != null)
         {
+            RaycastHit hitInfo;
+            float maxDistance = 2.0f;
+            if (Physics.Raycast(transform.position, -transform.up, out hitInfo, maxDistance))
+            {
+                if (hitInfo.transform.gameObject.GetComponent<Ground>() != null)
+                    isGrounded = true;
+            }
+
             if (isUsingAController ? state.Buttons.A == ButtonState.Released : true)
                 isReadyForNextJumpInput = true;
             else
@@ -179,29 +183,11 @@ public class PlayerController : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Space) && isReadyForNextJumpInput)
             Jump(GameManager.JumpUnit);
 
-        //// Charge jump if A button is pressed for a "long" time and only if on the ground
-        //if (jumpPressed && chargeFactor < 1.0f && isReadyForNextJumpInput)
-        //{
-        //    chargeFactor += jumpChargeSpeed * Time.unscaledDeltaTime;
-        //    // Force max charge jump if the charge reach maximum charge
-        //    if (chargeFactor > 1.0f)
-        //        Jump(GameManager.JumpUnit);
-        //}
-
-        //// Jump when the A button is released and only if on the ground
-        //if (jumpButtonWasPressed && Input.GetKeyUp(KeyCode.Space) && isReadyForNextJumpInput)
-        //    Jump(GameManager.JumpUnit * chargeFactor);
-
-        //// Prevent input in the air
-        //if (Input.GetKeyUp(KeyCode.Space) && isWaitingForNextRelease)
-        //{
-        //    isWaitingForNextRelease = false;
-        //    isReadyForNextJumpInput = true;
-        //}
     }
 
     void Jump(float jumpPower)
     {
+        isGrounded = false;
         player.Rb.AddForce(Vector3.up * jumpPower);
         isReadyForNextJumpInput = false;
         isWaitingForNextRelease = false;
