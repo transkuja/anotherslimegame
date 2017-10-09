@@ -38,7 +38,7 @@ public class PlayerController : MonoBehaviour {
             Debug.LogWarning("Player component should not be null");
     }
 
-    void Update ()
+    void FixedUpdate ()
     {
         // TODO: externaliser pour le comportement multi
         if (!playerIndexSet || !prevState.IsConnected)
