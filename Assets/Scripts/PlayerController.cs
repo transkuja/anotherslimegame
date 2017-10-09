@@ -30,11 +30,6 @@ public class PlayerController : MonoBehaviour {
     bool isGrounded = true;
 
 
-    // TMP
-    float blerpStep;
-    Transform lerpInitialPos;
-    Transform lerpTarget;
-    bool isLerping = false;
 
     private void Start()
     {
@@ -182,25 +177,6 @@ public class PlayerController : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Space) && isReadyForNextJumpInput)
             Jump(GameManager.JumpUnit);
 
-        //// Charge jump if A button is pressed for a "long" time and only if on the ground
-        //if (jumpPressed && chargeFactor < 1.0f && isReadyForNextJumpInput)
-        //{
-        //    chargeFactor += jumpChargeSpeed * Time.unscaledDeltaTime;
-        //    // Force max charge jump if the charge reach maximum charge
-        //    if (chargeFactor > 1.0f)
-        //        Jump(GameManager.JumpUnit);
-        //}
-
-        //// Jump when the A button is released and only if on the ground
-        //if (jumpButtonWasPressed && Input.GetKeyUp(KeyCode.Space) && isReadyForNextJumpInput)
-        //    Jump(GameManager.JumpUnit * chargeFactor);
-
-        //// Prevent input in the air
-        //if (Input.GetKeyUp(KeyCode.Space) && isWaitingForNextRelease)
-        //{
-        //    isWaitingForNextRelease = false;
-        //    isReadyForNextJumpInput = true;
-        //}
     }
 
     void Jump(float jumpPower)
