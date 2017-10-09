@@ -138,13 +138,13 @@ public class PlayerController : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.GetComponent<Ground>() != null)
+        if (collision.gameObject.GetComponentInParent<Ground>() != null)
         {
             RaycastHit hitInfo;
             float maxDistance = 2.0f;
             if (Physics.Raycast(transform.position, -transform.up, out hitInfo, maxDistance))
             {
-                if (hitInfo.transform.gameObject.GetComponent<Ground>() != null)
+                if (hitInfo.transform.gameObject.GetComponentInParent<Ground>() != null)
                     isGrounded = true;
             }
 
