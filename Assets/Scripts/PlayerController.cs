@@ -27,9 +27,9 @@ public class PlayerController : MonoBehaviour {
     [Range(5, 1000)] float movementSpeed = 25.0f;
 
     int selectedEvolution = 0;
+
+    // TODO: send this value to jumpManager
     bool isGrounded = true;
-
-
 
     private void Start()
     {
@@ -138,10 +138,16 @@ public class PlayerController : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.GetComponent<Ground>() != null && 
-            Vector3.Dot(collision.contacts[0].normal, transform.up) <= )
+        if (collision.gameObject.GetComponent<Ground>() != null)
         {
-            isGrounded = true;
+            RaycastHit hitInfo;
+            float maxDistance = 2.0f;
+            if (Physics.Raycast(transform.position, -transform.up, out hitInfo, maxDistance))
+            {
+                if (hitInfo.transform.gameObject.GetComponent<Ground>() != null)
+                    isGrounded = true;
+            }
+
             if (isUsingAController ? state.Buttons.A == ButtonState.Released : true)
                 isReadyForNextJumpInput = true;
             else
