@@ -10,7 +10,6 @@ public class Evolution
     CollectableType associatedCollectable;
     int cost;
     BodyPart bodyPart;
-    bool[] powerUnlocked;
 
     public int Cost
     {
@@ -60,8 +59,6 @@ public class Evolution
         associatedCollectable = _associatedCollectable;
         cost = _cost;
         bodyPart = _bodyPart;
-        powerUnlocked = new bool[(int)Powers.Size];
-        powerUnlocked[(int)_powerName] = true;
     }
 }
 
