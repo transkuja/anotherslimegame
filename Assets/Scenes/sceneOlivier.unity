@@ -1311,6 +1311,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 704ce895d0132514f94181d72d828f8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  refPrefabMonster: {fileID: 0}
+  refPrefabLoot: {fileID: 0}
 --- !u!1 &806496765
 GameObject:
   m_ObjectHideFlags: 0
