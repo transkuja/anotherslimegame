@@ -31,6 +31,21 @@ public class PlayerController : MonoBehaviour {
     // TODO: send this value to jumpManager
     bool isGrounded = true;
 
+    public bool IsGrounded
+    {
+        get
+        {
+            return isGrounded;
+        }
+
+        private set
+        {
+            if (value == true)
+                GetComponent<JumpManager>().Stop();
+            isGrounded = value;
+        }
+    }
+
     private void Start()
     {
         player = GetComponent<Player>();
@@ -145,7 +160,7 @@ public class PlayerController : MonoBehaviour {
             if (Physics.Raycast(transform.position, -transform.up, out hitInfo, maxDistance))
             {
                 if (hitInfo.transform.gameObject.GetComponentInParent<Ground>() != null)
-                    isGrounded = true;
+                    IsGrounded = true;
             }
 
             if (isUsingAController ? state.Buttons.A == ButtonState.Released : true)
@@ -187,7 +202,7 @@ public class PlayerController : MonoBehaviour {
 
     void Jump(float jumpPower)
     {
-        isGrounded = false;
+        IsGrounded = false;
         player.Rb.AddForce(Vector3.up * jumpPower);
         isReadyForNextJumpInput = false;
         isWaitingForNextRelease = false;
