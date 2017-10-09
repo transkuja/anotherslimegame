@@ -44,26 +44,17 @@ public class DynamicJoystickCameraController : MonoBehaviour {
             if (prevState.IsConnected != state.IsConnected)
             {
                 freelockCamera.m_XAxis.m_InputAxisName = "Joystick X";
-                freelockCamera.m_XAxis.m_InputAxisValue = 0.0f;
-
                 freelockCamera.m_YAxis.m_InputAxisName = "Joystick Y";
-                freelockCamera.m_YAxis.m_InputAxisValue = 0.0f;
                 once = false;
             }
-
- 
         }
         else
         {
-
             if (!once)
             {
                 once = true;
                 freelockCamera.m_XAxis.m_InputAxisName = "Mouse X";
-                freelockCamera.m_XAxis.m_InputAxisValue = 0.0f;
-
                 freelockCamera.m_YAxis.m_InputAxisName = "Mouse Y";
-                freelockCamera.m_YAxis.m_InputAxisValue = 0.0f;
             }
 
         }
