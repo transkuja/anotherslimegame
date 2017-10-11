@@ -34,8 +34,8 @@ public class DebugPanel : MonoBehaviour {
     {
         Player player = DebugTools.debugPlayerSelected;
         evolutionsText.text = "";
-        evolutionsText.text += Powers.DoubleJump + ": " + ((player.GetComponent<DoubleJump>() != null) ? "Active" : "Inactive") + "\n";
-        evolutionsText.text += Powers.Hover + ": " + ((player.GetComponent<Hover>() != null) ? "Active" : "Inactive") + "\n";
+        evolutionsText.text += Powers.DoubleJump + ": " + ((player.GetComponent<DoubleJump>() != null) ? player.GetComponent<DoubleJump>().Timer.ToString("0.0") + "s" : "Inactive") + "\n";
+        evolutionsText.text += Powers.Hover + ": " + ((player.GetComponent<Hover>() != null) ? player.GetComponent<Hover>().Timer.ToString("0.0") + "s" : "Inactive") + "\n";
     }
 
     void UpdateCollectableText()

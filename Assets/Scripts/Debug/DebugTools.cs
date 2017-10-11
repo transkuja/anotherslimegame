@@ -37,6 +37,17 @@ public class DebugTools : MonoBehaviour {
             else
                 Debug.Log("DEBUG MODE DEACTIVATED!");
         }
+
+        if (isDebugModeActive)
+        {
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                debugPlayerSelected.Collectables = new int[(int)CollectableType.Size];
+                if (debugPlayerSelected.GetComponent<DoubleJump>()) Destroy(debugPlayerSelected.GetComponent<DoubleJump>());
+                if (debugPlayerSelected.GetComponent<Hover>()) Destroy(debugPlayerSelected.GetComponent<Hover>());
+            }
+            
+        }
         
     }
 }
