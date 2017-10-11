@@ -219,6 +219,8 @@ public class PlayerController : MonoBehaviour {
     {
         IsGrounded = false;
         player.Rb.AddForce(Vector3.up * jumpPower);
+        GetComponent<JumpManager>().Jump(20,JumpManager.JumpEnum.Basic);
+
         isReadyForNextJumpInput = false;
         isWaitingForNextRelease = false;
         chargeFactor = 0.0f;

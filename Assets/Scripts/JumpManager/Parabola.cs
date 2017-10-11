@@ -33,6 +33,11 @@ public class Parabola {
         // Enregistre la speed maximale du joueur, la force à appliquer pour sauter.
     public void ComputeValues(float maxSpeed)
     {
+        if (maxSpeed <=0 || height<=0 || xz_h<=0)
+        {
+            Debug.Log("Error Jump non paramétré");
+            return;
+        }
         xz_speed = maxSpeed;
         v0 = (2 * height * xz_speed) / xz_h;
         curGravity = (-2 * height * xz_speed * xz_speed) / (xz_h * xz_h);

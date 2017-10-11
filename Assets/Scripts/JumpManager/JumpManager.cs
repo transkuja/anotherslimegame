@@ -2,16 +2,19 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum JumpEnum
-{
-    Basic,Small,Double
-}
+
 /* Inspiré de "Math for Game Programmers: Building a Better Jump"
  *  https://www.youtube.com/watch?v=hG9SzQxaCm8                  */
 
 [RequireComponent(typeof(Rigidbody))]
 public class JumpManager : MonoBehaviour
 {
+    public enum JumpEnum
+    {
+        Small,Basic, Double
+    }
+
+
     private Rigidbody rb;
     private Jump curJump;
     public Jump[] jumpTab;
