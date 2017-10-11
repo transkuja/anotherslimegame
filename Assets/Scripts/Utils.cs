@@ -13,4 +13,6 @@ public class Utils {
     {
         return mapTypeValue[(int)collectableType];
     }
+
+
 }
