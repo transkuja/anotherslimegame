@@ -47,6 +47,15 @@ public class DynamicJoystickCameraController : MonoBehaviour {
                 freelockCamera.m_YAxis.m_InputAxisName = "Joystick Y";
                 once = false;
             }
+            
+            /*if(freelockCamera.LookAt.GetComponent<Rigidbody>().velocity.magnitude >0.01f)
+            {
+                freelockCamera.m_RecenterToTargetHeading.m_enabled = true;
+            }
+            else
+            {
+                freelockCamera.m_RecenterToTargetHeading.m_enabled = false;
+            }*/
         }
         else
         {
