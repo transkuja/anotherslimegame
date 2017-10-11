@@ -7,11 +7,11 @@ public class SpawnManager : MonoBehaviour{
 
     // Spawned Items Location
     public Dictionary<int, Transform> dicSpawnItemsLocations = new Dictionary<int, Transform>();
-    public int lastInsertedKeySpawnItems = 0;
+    private int lastInsertedKeySpawnItems = 0;
 
     // Spawned Monsters Location
     public Dictionary<int, Transform> dicSpawnMonstersLocations = new Dictionary<int, Transform>();
-    public int lastInsertedKeySpawnMonsters = 0;
+    private int lastInsertedKeySpawnMonsters = 0;
 
     // Frame control on item
     private int spawnedItemsCountAtTheSameTime = 0;

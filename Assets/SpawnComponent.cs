@@ -24,10 +24,10 @@ public class SpawnComponent : MonoBehaviour {
 	void Start () {
         switch (mySpawnType) {
             case SpawnType.Item:
-                SpawnManager.Instance.RegisterSpawnItemLocation(this.transform, myItemType);
+                mySpawnId = SpawnManager.Instance.RegisterSpawnItemLocation(this.transform, myItemType, needSpawn, forceSpawn);
                 break;
             case SpawnType.Monster:
-                SpawnManager.Instance.RegisterSpawnMonsterLocation(this.transform, myMonsterType);
+                mySpawnId = SpawnManager.Instance.RegisterSpawnMonsterLocation(this.transform, myMonsterType, needSpawn, forceSpawn);
                 break;
             default:
                 Debug.Log("Unknowned Spawn Type");

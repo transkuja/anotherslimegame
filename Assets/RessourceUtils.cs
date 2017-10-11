@@ -12,6 +12,10 @@ public class RessourceUtils : MonoBehaviour {
         if (instance == null)
         {
             instance = this;
+
+            refPrefabMonster = GetComponentInChildren<PrefabMonster>();
+            refPrefabLoot = GetComponentInChildren<PrefabLoot>();
+
             DontDestroyOnLoad(Instance);
         }
         else
@@ -40,9 +44,4 @@ public class RessourceUtils : MonoBehaviour {
         }
     }
 
-    public void Start()
-    {
-        refPrefabMonster = GetComponentInChildren<PrefabMonster>();
-        refPrefabLoot = GetComponentInChildren<PrefabLoot>();
-    }
 }
