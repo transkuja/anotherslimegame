@@ -40,9 +40,25 @@ public class PlayerController : MonoBehaviour {
 
         private set
         {
-            if (value == true)
+            if (value == true && GetComponent<JumpManager>() != null)
                 GetComponent<JumpManager>().Stop();
             isGrounded = value;
+        }
+    }
+
+    public PlayerIndex PlayerIndex
+    {
+        get
+        {
+            return playerIndex;
+        }
+    }
+
+    public bool IsUsingAController
+    {
+        get
+        {
+            return isUsingAController;
         }
     }
 
@@ -120,7 +136,6 @@ public class PlayerController : MonoBehaviour {
     private void HandleMovementWithKeyBoard()
     {
         Vector3 initialVelocity = new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
-        Debug.Log(Input.GetAxis("Horizontal"));
         initialVelocity.Normalize();
         initialVelocity *= (Mathf.Abs(Input.GetAxis("Horizontal")) + Mathf.Abs(Input.GetAxis("Vertical")) > 0.95f) ? GameManager.MaxMovementSpeed : GameManager.MaxMovementSpeed / 2.0f;
 

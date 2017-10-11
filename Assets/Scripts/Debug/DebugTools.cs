@@ -4,18 +4,39 @@ using UnityEngine;
 
 public class DebugTools : MonoBehaviour {
 
-    public static bool isDebugModeActive = false;
+    private static bool isDebugModeActive = false;
 
     [SerializeField]
     Transform debugPanel;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public static Player debugPlayerSelected;
+
+    private void Start()
+    {
+        if (debugPanel == null)
+        {
+            Debug.LogWarning("DebugPanel is not linked on DebugTools, autolink with Find ...");
+            debugPanel = GameObject.Find("DebugPanel").transform;
+        }
+
+        // TODO: very ugly handling, should be refactored when multiplayer are handled (references in GameManager?)
+        if (debugPlayerSelected == null)
+        {
+            debugPlayerSelected = GameObject.Find("Player").GetComponent<Player>();
+        }
+    }
+
+    void Update () {
+        if (Input.GetKey(KeyCode.LeftControl)
+            && Input.GetKeyDown(KeyCode.CapsLock))
+        {
+            isDebugModeActive = !isDebugModeActive;
+            debugPanel.gameObject.SetActive(isDebugModeActive);
+            if (isDebugModeActive)
+                Debug.Log("DEBUG MODE ACTIVATED!");
+            else
+                Debug.Log("DEBUG MODE DEACTIVATED!");
+        }
+        
+    }
 }

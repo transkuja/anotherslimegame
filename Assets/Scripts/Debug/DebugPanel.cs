@@ -21,10 +21,37 @@ public class DebugPanel : MonoBehaviour {
         evolutionsText = evolutions.GetComponent<Text>();
         collectablesText = collectables.GetComponent<Text>();
         playerInfoText = playerInfo.GetComponent<Text>();
+        evolutionsText.text = collectablesText.text = playerInfoText.text = "";
     }
 
     void Update () {
-		
-	}
+        UpdateEvolutionText();
+        UpdateCollectableText();
+        UpdatePlayerInfoText();
+    }
 
+    void UpdateEvolutionText()
+    {
+        Player player = DebugTools.debugPlayerSelected;
+        evolutionsText.text = "";
+        evolutionsText.text += Powers.DoubleJump + ": " + ((player.GetComponent<DoubleJump>() != null) ? "Active" : "Inactive") + "\n";
+        evolutionsText.text += Powers.Hover + ": " + ((player.GetComponent<Hover>() != null) ? "Active" : "Inactive") + "\n";
+    }
+
+    void UpdateCollectableText()
+    {
+        Player player = DebugTools.debugPlayerSelected;
+        collectablesText.text = "";
+        for (int i = 0; i < player.Collectables.Length; i++)
+            collectablesText.text += player.Collectables[i] + " " + ((CollectableType)i).ToString() + " collectable\n";
+    }
+
+    void UpdatePlayerInfoText()
+    {
+        PlayerController playerController = DebugTools.debugPlayerSelected.GetComponent<PlayerController>();
+        playerInfoText.text = "";
+        playerInfoText.text += "Player index: " + (int)playerController.PlayerIndex + "\n";
+        playerInfoText.text += "Use a controller: " + playerController.IsUsingAController + "\n";
+        playerInfoText.text += "Is grounded: " + playerController.IsGrounded + "\n";
+    }
 }
