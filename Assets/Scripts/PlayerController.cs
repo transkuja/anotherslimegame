@@ -218,8 +218,14 @@ public class PlayerController : MonoBehaviour {
     void Jump(float jumpPower)
     {
         IsGrounded = false;
-        player.Rb.AddForce(Vector3.up * jumpPower);
-        GetComponent<JumpManager>().Jump(20,JumpManager.JumpEnum.Basic);
+        JumpManager jm;
+        if (jm = GetComponent<JumpManager>())
+            jm.Jump(20,JumpManager.JumpEnum.Basic);
+        else
+        {
+            player.Rb.AddForce(Vector3.up * jumpPower);
+            Debug.Log("Using \"player.Rb.AddForce(Vector3.up * jumpPower);\"methode");
+        }
 
         isReadyForNextJumpInput = false;
         isWaitingForNextRelease = false;

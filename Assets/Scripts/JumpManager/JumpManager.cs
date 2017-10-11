@@ -21,7 +21,7 @@ public class JumpManager : MonoBehaviour
     public void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        if (curJump == null)
+        if (curJump == null && jumpTab!=null && jumpTab.Length>1)
         {
             curJump = jumpTab[0];
         }
@@ -34,7 +34,9 @@ public class JumpManager : MonoBehaviour
     public void Jump(float playerMaxGroundSpeed, JumpEnum type)
     {
         SetGravity();
-        curJump = jumpTab[(int) type];
+        if (jumpTab != null && jumpTab.Length>=(int)type)
+            curJump = jumpTab[(int) type];
+
         if (curJump != null)
             curJump.InitJump(rb, playerMaxGroundSpeed);
     }

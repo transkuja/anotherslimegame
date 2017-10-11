@@ -6,12 +6,8 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: TEX_Slime_01
-<<<<<<< Updated upstream
-  m_Shader: {fileID: 30, guid: 0000000000000000f000000000000000, type: 0}
-=======
+  m_Name: MatAsuppr
   m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
->>>>>>> Stashed changes
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -23,11 +19,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BumpMap:
-<<<<<<< Updated upstream
-        m_Texture: {fileID: 2800000, guid: 0b343b179d2251243a8bbed3fe8e2773, type: 3}
-=======
         m_Texture: {fileID: 0}
->>>>>>> Stashed changes
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _DetailAlbedoMap:
@@ -47,11 +39,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-<<<<<<< Updated upstream
-        m_Texture: {fileID: 2800000, guid: c1f2a2311f0cd68478e5c6406ef8f425, type: 3}
-=======
-        m_Texture: {fileID: 2800000, guid: 313904d3daf352546abd4840b9154d46, type: 3}
->>>>>>> Stashed changes
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -63,11 +51,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
-<<<<<<< Updated upstream
-        m_Texture: {fileID: 2800000, guid: 0b343b179d2251243a8bbed3fe8e2773, type: 3}
-=======
         m_Texture: {fileID: 0}
->>>>>>> Stashed changes
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
@@ -81,23 +65,12 @@ Material:
     - _Metallic: 0
     - _Mode: 0
     - _OcclusionStrength: 1
-<<<<<<< Updated upstream
-    - _Parallax: 0.0069
-    - _Shininess: 0.223
-=======
     - _Parallax: 0.02
->>>>>>> Stashed changes
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
-<<<<<<< Updated upstream
-    - _Color: {r: 1, g: 1, b: 1, a: 0.853}
+    - _Color: {r: 0.9460445, g: 0.44117647, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _SpecColor: {r: 0.5, g: 0.5, b: 0.5, a: 0}
-=======
-    - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
->>>>>>> Stashed changes
