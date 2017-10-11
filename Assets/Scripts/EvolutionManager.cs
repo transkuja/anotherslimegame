@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,7 +11,7 @@ public class Evolution
     CollectableType associatedCollectable;
     int cost;
     BodyPart bodyPart;
-    bool[] powerUnlocked;
+    Powers power;
 
     public int Cost
     {
@@ -60,8 +61,6 @@ public class Evolution
         associatedCollectable = _associatedCollectable;
         cost = _cost;
         bodyPart = _bodyPart;
-        powerUnlocked = new bool[(int)Powers.Size];
-        powerUnlocked[(int)_powerName] = true;
     }
 }
 
@@ -90,8 +89,25 @@ public class EvolutionManager {
             case Powers.Hover:
                 return hoverEvolution;
             default:
-                Debug.Log("Unknown power something went wrong");
+                Debug.Log("Unknown power, something went wrong");
                 return null;
+        }
+    }
+
+    public void AddEvolutionComponent(GameObject gameObject, Evolution evolution)
+    {
+        Powers power = (Powers)evolution.Id;
+        switch (power)
+        {
+            case Powers.DoubleJump:
+                gameObject.AddComponent<DoubleJump>();
+                break;
+            case Powers.Hover:
+                gameObject.AddComponent<Hover>();
+                break;
+            default:
+                Debug.Log("Unknown power, something went wrong");
+                break;
         }
     }
 
@@ -105,7 +121,7 @@ public class EvolutionManager {
             case CollectableType.Evolution2:
                 return hoverEvolution;
             default:
-                Debug.Log("Unknown power something went wrong");
+                Debug.Log("Unknown power, something went wrong");
                 return null;
         }
     }

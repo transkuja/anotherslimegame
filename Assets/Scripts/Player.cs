@@ -65,30 +65,16 @@ public class Player : MonoBehaviour {
     // GAMEPLAY TEST 1: all of this should be in an Evolution class handling all evolution parameters (+ we should be able to pickup collectables and "refresh" an evolution indefinitely)
     private void EvolveGameplay1(Evolution evolution)
     {
+        GameManager.EvolutionManager.AddEvolutionComponent(gameObject, evolution);
         transform.GetChild((int)PlayerChildren.Evolutions).GetChild((int)evolution.BodyPart).gameObject.SetActive(true);
-        StartCoroutine("Detransform", evolution);
+        collectables[(int)evolution.AssociatedCollectable] -= evolution.Cost;
     }
 
     public void EvolveGameplay2(Evolution evolution)
     {
+        GameManager.EvolutionManager.AddEvolutionComponent(gameObject, evolution);
         transform.GetChild((int)PlayerChildren.Evolutions).GetChild((int)evolution.BodyPart).gameObject.SetActive(true);
         collectables[0] -= evolution.Cost;
-        StartCoroutine("Detransform2", evolution);
-    }
-
-    private IEnumerator Detransform2(Evolution evolution)
-    {
-        yield return new WaitForSeconds(evolution.Duration);
-        transform.GetChild((int)PlayerChildren.Evolutions).GetChild(evolution.Id).gameObject.SetActive(false);
-        yield return null;
-    }
-
-    private IEnumerator Detransform(Evolution evolution)
-    {
-        yield return new WaitForSeconds(evolution.Duration);
-        transform.GetChild((int)PlayerChildren.Evolutions).GetChild(evolution.Id).gameObject.SetActive(false);
-        collectables[(int)evolution.AssociatedCollectable] -= evolution.Cost;
-        yield return null;
     }
 
     void Start () {
