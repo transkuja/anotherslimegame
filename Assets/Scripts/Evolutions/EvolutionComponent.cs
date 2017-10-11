@@ -26,19 +26,23 @@ public class EvolutionComponent : MonoBehaviour {
     {
         evolution = GameManager.EvolutionManager.GetEvolutionByPowerName(powerName);
         isEvolutionInitialized = true;
+        Timer = evolution.Duration;
     }
 
     void Update()
     {
-        if (isEvolutionInitialized)
+        if (isTimerInitialized)
         {
-            Timer = evolution.Duration;
-            if (isTimerInitialized)
+            timer -= Time.deltaTime;
+            if (timer <= 0.0f)
             {
-                timer -= Time.deltaTime;
-                if (timer <= 0.0f)
-                    Destroy(this);
+                Destroy(this);
             }
         }
+    }
+
+    private void OnDestroy()
+    {
+        transform.GetChild((int)PlayerChildren.Evolutions).GetChild((int)evolution.BodyPart).gameObject.SetActive(false);
     }
 }

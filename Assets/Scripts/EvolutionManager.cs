@@ -71,8 +71,8 @@ public class EvolutionManager {
     List<Evolution> evolutions = new List<Evolution>();
 
     // Evolution database handled in code
-    Evolution doubleJumpEvolution = new Evolution(Powers.DoubleJump, 10, CollectableType.Evolution1, 20, BodyPart.Head);
-    Evolution hoverEvolution = new Evolution(Powers.Hover, 15, CollectableType.Evolution2, 30, BodyPart.Wings);
+    Evolution doubleJumpEvolution = new Evolution(Powers.DoubleJump, 5, CollectableType.Evolution1, 20, BodyPart.Head);
+    Evolution hoverEvolution = new Evolution(Powers.Hover, 3, CollectableType.Evolution2, 30, BodyPart.Wings);
 
     private void Start()
     {
@@ -100,11 +100,14 @@ public class EvolutionManager {
         switch (power)
         {
             case Powers.DoubleJump:
-                gameObject.AddComponent<DoubleJump>();
+                if (gameObject.GetComponent<DoubleJump>() != null) gameObject.GetComponent<DoubleJump>().Timer = evolution.Duration;
+                else
+                    gameObject.AddComponent<DoubleJump>();
                 break;
             case Powers.Hover:
-                gameObject.AddComponent<Hover>();
-                break;
+                if (gameObject.GetComponent<Hover>() != null) gameObject.GetComponent<Hover>().Timer = evolution.Duration;
+                else
+                    gameObject.AddComponent<Hover>(); break;
             default:
                 Debug.Log("Unknown power, something went wrong");
                 break;
