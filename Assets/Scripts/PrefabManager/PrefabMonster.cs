@@ -2,13 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum MonsterType { Monster1 }
 public class PrefabMonster : MonoBehaviour {
 
     [SerializeField]
     public GameObject prefabMonster1;
 
-    public GameObject spawnMonster2Instance(Vector3 where, Quaternion direction, Transform parent)
+    public GameObject SpawnMonsterInstance(Vector3 where, Quaternion direction, Transform parent, MonsterType myMonsterType )
     {
-        return Instantiate(prefabMonster1, where, direction, parent);
+        switch (myMonsterType)
+        {
+            case MonsterType.Monster1:
+                return Instantiate(prefabMonster1, where, direction, parent);
+            default:
+                Debug.Log("Unknown Monster type");
+                return null;
+        }
+
+
     }
 }

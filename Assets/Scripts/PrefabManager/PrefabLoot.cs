@@ -2,22 +2,28 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum ItemType { Collectable1, Collectable2 }
 public class PrefabLoot : MonoBehaviour {
 
     [SerializeField]
     public GameObject prefabCollectable1;
 
-    public GameObject spawnCollectable1Instance(Vector3 where, Quaternion direction, Transform parent)
-    {
-        return Instantiate(prefabCollectable1, where, direction, parent);
-    }
-
 
     [SerializeField]
     public GameObject prefabCollectable2;
 
-    public GameObject spawnCollectable2Instance(Vector3 where, Quaternion direction, Transform parent)
+
+    public GameObject SpawnCollectableInstance(Vector3 where, Quaternion direction, Transform parent, ItemType myItemType)
     {
-        return Instantiate(prefabCollectable2, where, direction, parent);
+        switch (myItemType)
+        {
+            case ItemType.Collectable1:
+                return Instantiate(prefabCollectable1, where, direction, parent);
+            case ItemType.Collectable2:
+                return Instantiate(prefabCollectable2, where, direction, parent);
+            default:
+                Debug.Log("Unknown Item type");
+                return null;
+        }
     }
 }

@@ -14,6 +14,10 @@ public class RessourceUtils : MonoBehaviour {
             instance = this;
             DontDestroyOnLoad(Instance);
         }
+        else
+        {
+            Destroy(this.gameObject);
+        }
     }
 
 
