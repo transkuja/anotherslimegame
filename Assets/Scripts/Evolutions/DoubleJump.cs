@@ -2,18 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DoubleJump : MonoBehaviour {
-
-    Evolution evolution = GameManager.EvolutionManager.GetEvolutionByPowerName(Powers.DoubleJump);
-    float timer;
+public class DoubleJump : EvolutionComponent {
 
 	void Start () {
-        timer = evolution.Duration;
-	}
-	
-	void Update () {
-        timer -= Time.deltaTime;
-        if (timer <= 0.0f)
-            Destroy(this);
-	}
+        SetPower(Powers.DoubleJump);
+    }
+
 }

@@ -11,6 +11,7 @@ public class Evolution
     CollectableType associatedCollectable;
     int cost;
     BodyPart bodyPart;
+    Powers power;
 
     public int Cost
     {
@@ -88,24 +89,25 @@ public class EvolutionManager {
             case Powers.Hover:
                 return hoverEvolution;
             default:
-                Debug.Log("Unknown power something went wrong");
+                Debug.Log("Unknown power, something went wrong");
                 return null;
         }
     }
 
-    internal void AddEvolutionComponent(GameObject gameObject, Evolution evolution)
+    public void AddEvolutionComponent(GameObject gameObject, Evolution evolution)
     {
-        Powers power = (Powers)Enum.Parse(typeof(Powers), )
-        switch (evolution.Id)
+        Powers power = (Powers)evolution.Id;
+        switch (power)
         {
             case Powers.DoubleJump:
                 gameObject.AddComponent<DoubleJump>();
                 break;
             case Powers.Hover:
-                return hoverEvolution;
+                gameObject.AddComponent<Hover>();
+                break;
             default:
-                Debug.Log("Unknown power something went wrong");
-                return null;
+                Debug.Log("Unknown power, something went wrong");
+                break;
         }
     }
 
@@ -119,7 +121,7 @@ public class EvolutionManager {
             case CollectableType.Evolution2:
                 return hoverEvolution;
             default:
-                Debug.Log("Unknown power something went wrong");
+                Debug.Log("Unknown power, something went wrong");
                 return null;
         }
     }
