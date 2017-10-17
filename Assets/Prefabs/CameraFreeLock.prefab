@@ -137,7 +137,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1609860516583100}
-  m_LocalRotation: {x: 0.19545637, y: 0.00016930382, z: -0.000033742315, w: 0.9807124}
+  m_LocalRotation: {x: 0.08287791, y: -0, z: -0, w: 0.99655974}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -152,7 +152,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1296728241362266}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.6841546, y: 5.3199997, z: -15.61}
+  m_LocalPosition: {x: 3.4907913, y: 5.33, z: -18.791855}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4927379642546100}
@@ -206,7 +206,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1235039094787110}
-  m_LocalRotation: {x: 0.1838788, y: 0.00016968991, z: -0.000031743635, w: 0.9829489}
+  m_LocalRotation: {x: 0.14863196, y: -0, z: -0, w: 0.9888926}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -220,7 +220,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1351147400139210}
-  m_LocalRotation: {x: 0.24004439, y: 0.00016758603, z: -0.0000414397, w: 0.9707619}
+  m_LocalRotation: {x: 0.086726435, y: 0.00017198305, z: -0.000014971885, w: 0.9962322}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -250,8 +250,8 @@ MonoBehaviour:
     Value: 0
     m_MaxSpeed: 3000
     m_AccelTime: 0.15
-    m_DecelTime: 2
-    m_InputAxisName: Joystick X
+    m_DecelTime: 0.5
+    m_InputAxisName: 
     m_InputAxisValue: 0
   m_RecenterToTargetHeading:
     m_enabled: 0
@@ -302,15 +302,15 @@ MonoBehaviour:
     Value: 0
     m_MaxSpeed: 3000
     m_AccelTime: 0.15
-    m_DecelTime: 2
-    m_InputAxisName: Joystick X
+    m_DecelTime: 0.5
+    m_InputAxisName: 
     m_InputAxisValue: 0
   m_YAxis:
     Value: 0.5
-    m_MaxSpeed: 3
+    m_MaxSpeed: 30
     m_AccelTime: 3
-    m_DecelTime: 3
-    m_InputAxisName: Joystick Y
+    m_DecelTime: 0.5
+    m_InputAxisName: 
     m_InputAxisValue: 0
   m_RecenterToTargetHeading:
     m_enabled: 0
@@ -345,8 +345,8 @@ MonoBehaviour:
     Value: 0
     m_MaxSpeed: 3000
     m_AccelTime: 0.15
-    m_DecelTime: 2
-    m_InputAxisName: Joystick X
+    m_DecelTime: 0.5
+    m_InputAxisName: 
     m_InputAxisValue: 0
   m_RecenterToTargetHeading:
     m_enabled: 0
@@ -367,7 +367,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowGuides: 1
-  m_TrackedObjectOffset: {x: 0, y: 0, z: 0}
+  m_TrackedObjectOffset: {x: 0, y: 2, z: 0}
   m_HorizontalDamping: 0
   m_VerticalDamping: 0
   m_ScreenX: 0.5
@@ -489,8 +489,8 @@ MonoBehaviour:
     Value: 0
     m_MaxSpeed: 3000
     m_AccelTime: 0.15
-    m_DecelTime: 2
-    m_InputAxisName: Joystick X
+    m_DecelTime: 0.5
+    m_InputAxisName: 
     m_InputAxisValue: 0
   m_RecenterToTargetHeading:
     m_enabled: 0
@@ -545,7 +545,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowGuides: 1
-  m_TrackedObjectOffset: {x: 0, y: 0, z: 0}
+  m_TrackedObjectOffset: {x: 0, y: 1.5, z: 0}
   m_HorizontalDamping: 0
   m_VerticalDamping: 0
   m_ScreenX: 0.5
@@ -579,7 +579,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowGuides: 1
-  m_TrackedObjectOffset: {x: 0, y: 0, z: 0}
+  m_TrackedObjectOffset: {x: 0, y: 0.5, z: 0}
   m_HorizontalDamping: 0
   m_VerticalDamping: 0
   m_ScreenX: 0.5

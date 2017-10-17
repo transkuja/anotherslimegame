@@ -16,6 +16,7 @@ public class DynamicJoystickCameraController : MonoBehaviour {
     // Use this for initialization
     void Start () {
         freelockCamera = GetComponent<Cinemachine.CinemachineFreeLook>();
+        
     }
 	
 	// Update is called once per frame
@@ -43,11 +44,14 @@ public class DynamicJoystickCameraController : MonoBehaviour {
 
             if (prevState.IsConnected != state.IsConnected)
             {
-                freelockCamera.m_XAxis.m_InputAxisName = "Joystick X";
-                freelockCamera.m_YAxis.m_InputAxisName = "Joystick Y";
+                freelockCamera.m_XAxis.m_InputAxisName = string.Empty;
+                freelockCamera.m_YAxis.m_InputAxisName = string.Empty;
                 once = false;
             }
-            
+
+            freelockCamera.m_XAxis.m_InputAxisValue = Mathf.Abs(state.ThumbSticks.Right.X) > 0.1f ? state.ThumbSticks.Right.X : 0;
+            freelockCamera.m_YAxis.m_InputAxisValue = Mathf.Abs(state.ThumbSticks.Right.Y) > 0.1f ? state.ThumbSticks.Right.Y : 0;
+
             /*if(freelockCamera.LookAt.GetComponent<Rigidbody>().velocity.magnitude >0.01f)
             {
                 freelockCamera.m_RecenterToTargetHeading.m_enabled = true;
