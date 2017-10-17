@@ -55,6 +55,7 @@ GameObject:
   - component: {fileID: 224184861729579698}
   - component: {fileID: 222668409072126044}
   - component: {fileID: 114039211935558858}
+  - component: {fileID: 114541907844884092}
   m_Layer: 5
   m_Name: DebugPanel
   m_TagString: Untagged
@@ -183,6 +184,17 @@ MonoBehaviour:
     Collectable5: 0
 
     Collectable6: 0'
+--- !u!114 &114541907844884092
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1624314631187652}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 137ec0f1b35e1884480e47e46d15ef0b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114564449536116178
 MonoBehaviour:
   m_ObjectHideFlags: 1
