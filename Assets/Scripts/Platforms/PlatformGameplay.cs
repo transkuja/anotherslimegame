@@ -77,5 +77,5 @@ public class PlatformGameplay : MonoBehaviour {
         //movementWhenPlayerJumpsOn;
         //returnToPositionWhenPlayerExits;
     }
-}
+
 }
