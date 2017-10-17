@@ -95,17 +95,29 @@ public class PlayerController : MonoBehaviour {
             prevState = state;
             state = GamePad.GetState(playerIndex);
 
-            HandleMovementWithController();
-            HandleJumpWithController();
-            if (GameManager.GameplayType == 2)
-                HandleEvolutionsWithController();
+            if (GameManager.CurrentState == GameState.Normal)
+            {
+                HandleMovementWithController();
+                HandleJumpWithController();
+                if (GameManager.GameplayType == 2)
+                    HandleEvolutionsWithController();
+            }
+            // TODO: Externalize "state" to handle pause in PauseMenu?
+            if (prevState.Buttons.Start == ButtonState.Released && state.Buttons.Start == ButtonState.Pressed)
+                GameManager.ChangeState(GameState.Paused);
+
         }
         else
         {
-            jumpButtonWasPressed = jumpPressed;
-            jumpPressed = Input.GetKeyDown(KeyCode.Space);
-            HandleMovementWithKeyBoard();
-            HandleJumpWithKeyboard();
+            if (GameManager.CurrentState == GameState.Normal)
+            {
+                jumpButtonWasPressed = jumpPressed;
+                jumpPressed = Input.GetKeyDown(KeyCode.Space);
+                HandleMovementWithKeyBoard();
+                HandleJumpWithKeyboard();
+            }
+            if (Input.GetKeyDown(KeyCode.Escape))
+                GameManager.ChangeState(GameState.Paused);
         }
 
     }

@@ -1,11 +1,13 @@
 ﻿
 using UnityEngine;
 
+public enum GameState { Normal, Paused, ForcedPause }
 public class GameManager : MonoBehaviour {
 
     private static GameManager instance = null;
     private static EvolutionManager evolutionManager = new EvolutionManager();
-
+    private static GameState currentState = GameState.Normal;
+   
     public static GameManager Instance
     {
         get
@@ -78,6 +80,43 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    public static GameState CurrentState
+    {
+        get
+        {
+            return currentState;
+        }
+    }
+
+    /*
+     * Try to change state into the desired new state, else change state into the logical one
+     */
+    public static void ChangeState(GameState _newState)
+    {
+        if (_newState == GameState.Paused)
+        {
+            if (currentState == GameState.Paused)
+            {
+                currentState = GameState.Normal;
+                pauseMenuReference.gameObject.SetActive(false);
+            }
+            else if (currentState == GameState.Normal)
+            {
+                currentState = GameState.Paused;
+                pauseMenuReference.gameObject.SetActive(true);
+            }
+        }
+
+        else if (_newState == GameState.Normal)
+        {
+            if (currentState == GameState.Paused)
+            {
+                currentState = GameState.Normal;
+                pauseMenuReference.gameObject.SetActive(false);
+            }
+        }
+    }
+
     [Header("Jump Settings")]
     [Tooltip("Jump unit is used to calibrate full charge jump")]
     [SerializeField] float jumpUnit = 500.0f;
@@ -89,4 +128,5 @@ public class GameManager : MonoBehaviour {
     private int gameplayType = 1;
 
     UI uiReference;
+    public static PauseMenu pauseMenuReference;
 }
