@@ -66,14 +66,12 @@ public class Player : MonoBehaviour {
     private void EvolveGameplay1(Evolution evolution)
     {
         GameManager.EvolutionManager.AddEvolutionComponent(gameObject, evolution);
-        transform.GetChild((int)PlayerChildren.Evolutions).GetChild((int)evolution.BodyPart).gameObject.SetActive(true);
         collectables[(int)evolution.AssociatedCollectable] -= evolution.Cost;
     }
 
     public void EvolveGameplay2(Evolution evolution)
     {
         GameManager.EvolutionManager.AddEvolutionComponent(gameObject, evolution);
-        transform.GetChild((int)PlayerChildren.Evolutions).GetChild((int)evolution.BodyPart).gameObject.SetActive(true);
         collectables[0] -= evolution.Cost;
     }
 

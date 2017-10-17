@@ -32,7 +32,7 @@ public class DebugPanel : MonoBehaviour {
 
     void UpdateEvolutionText()
     {
-        Player player = DebugTools.debugPlayerSelected;
+        Player player = DebugTools.DebugPlayerSelected;
         evolutionsText.text = "";
         evolutionsText.text += Powers.DoubleJump + ": " + ((player.GetComponent<DoubleJump>() != null) ? player.GetComponent<DoubleJump>().Timer.ToString("0.0") + "s" : "Inactive") + "\n";
         evolutionsText.text += Powers.Hover + ": " + ((player.GetComponent<Hover>() != null) ? player.GetComponent<Hover>().Timer.ToString("0.0") + "s" : "Inactive") + "\n";
@@ -40,7 +40,7 @@ public class DebugPanel : MonoBehaviour {
 
     void UpdateCollectableText()
     {
-        Player player = DebugTools.debugPlayerSelected;
+        Player player = DebugTools.DebugPlayerSelected;
         collectablesText.text = "";
         for (int i = 0; i < player.Collectables.Length; i++)
             collectablesText.text += player.Collectables[i] + " " + ((CollectableType)i).ToString() + " collectable\n";
@@ -48,7 +48,7 @@ public class DebugPanel : MonoBehaviour {
 
     void UpdatePlayerInfoText()
     {
-        PlayerController playerController = DebugTools.debugPlayerSelected.GetComponent<PlayerController>();
+        PlayerController playerController = DebugTools.DebugPlayerSelected.GetComponent<PlayerController>();
         playerInfoText.text = "";
         playerInfoText.text += "Player index: " + (int)playerController.PlayerIndex + "\n";
         playerInfoText.text += "Use a controller: " + playerController.IsUsingAController + "\n";

@@ -9,7 +9,20 @@ public class DebugTools : MonoBehaviour {
     [SerializeField]
     Transform debugPanel;
 
-    public static Player debugPlayerSelected;
+    private static Player debugPlayerSelected;
+
+    public static Player DebugPlayerSelected
+    {
+        get
+        {
+            // TODO: very ugly handling, should be refactored when multiplayer are handled (references in GameManager?)
+            if (debugPlayerSelected == null)
+            {
+                debugPlayerSelected = GameObject.FindObjectOfType<Player>();
+            }
+            return debugPlayerSelected;
+        }
+    }
 
     private void Start()
     {
@@ -19,16 +32,15 @@ public class DebugTools : MonoBehaviour {
             debugPanel = GameObject.Find("DebugPanel").transform;
         }
 
-        // TODO: very ugly handling, should be refactored when multiplayer are handled (references in GameManager?)
         if (debugPlayerSelected == null)
         {
-            debugPlayerSelected = GameObject.Find("Player").GetComponent<Player>();
+            debugPlayerSelected = GameObject.FindObjectOfType<Player>();
         }
     }
 
     void Update () {
         if (Input.GetKey(KeyCode.LeftControl)
-            && Input.GetKeyDown(KeyCode.CapsLock))
+            && Input.GetKeyDown(KeyCode.RightShift))
         {
             isDebugModeActive = !isDebugModeActive;
             debugPanel.gameObject.SetActive(isDebugModeActive);
@@ -40,13 +52,46 @@ public class DebugTools : MonoBehaviour {
 
         if (isDebugModeActive)
         {
-            if (Input.GetKeyDown(KeyCode.Alpha1))
+            if (Input.GetKey(KeyCode.Alpha1))
             {
-                debugPlayerSelected.Collectables = new int[(int)CollectableType.Size];
-                if (debugPlayerSelected.GetComponent<DoubleJump>()) Destroy(debugPlayerSelected.GetComponent<DoubleJump>());
-                if (debugPlayerSelected.GetComponent<Hover>()) Destroy(debugPlayerSelected.GetComponent<Hover>());
+                if (Input.GetKeyDown(KeyCode.Alpha2))
+                {
+                    if (DebugPlayerSelected.GetComponent<DoubleJump>() == null)
+                        GameManager.EvolutionManager.AddEvolutionComponent(DebugPlayerSelected.gameObject, GameManager.EvolutionManager.GetEvolutionByPowerName(Powers.DoubleJump));
+                    Debug.Log("Added Double Jump on player " + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
+                }
+                if (Input.GetKeyDown(KeyCode.Alpha3))
+                {
+                    if (DebugPlayerSelected.GetComponent<Hover>() == null)
+                        GameManager.EvolutionManager.AddEvolutionComponent(DebugPlayerSelected.gameObject, GameManager.EvolutionManager.GetEvolutionByPowerName(Powers.Hover));
+                    Debug.Log("Added Hover on player " + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
+                }
             }
-            
+            else if (Input.GetKey(KeyCode.Alpha2))
+            {
+                if (Input.GetKeyUp(KeyCode.Alpha1))
+                {
+                    GameObject go = RessourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
+                        DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, ItemType.Collectable1);
+                    Debug.Log("Pop some " + ItemType.Collectable1 + " on the ground!");
+                }
+                if (Input.GetKeyDown(KeyCode.Alpha3))
+                {
+                    GameObject go = RessourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
+                        DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, ItemType.Collectable2);
+                    Debug.Log("Pop some " + ItemType.Collectable2 + " on the ground!");
+                }
+            }
+            else
+            {
+                if (Input.GetKeyDown(KeyCode.Alpha0))
+                {
+                    DebugPlayerSelected.Collectables = new int[(int)CollectableType.Size];
+                    if (DebugPlayerSelected.GetComponent<DoubleJump>()) Destroy(DebugPlayerSelected.GetComponent<DoubleJump>());
+                    if (DebugPlayerSelected.GetComponent<Hover>()) Destroy(DebugPlayerSelected.GetComponent<Hover>());
+                    Debug.Log("Reset current player! " + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
+                }
+            }
         }
         
     }

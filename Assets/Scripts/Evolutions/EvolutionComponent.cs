@@ -25,6 +25,7 @@ public class EvolutionComponent : MonoBehaviour {
     protected void SetPower(Powers powerName)
     {
         evolution = GameManager.EvolutionManager.GetEvolutionByPowerName(powerName);
+        transform.GetChild((int)PlayerChildren.Evolutions).GetChild((int)evolution.BodyPart).gameObject.SetActive(true);
         isEvolutionInitialized = true;
         Timer = evolution.Duration;
     }
