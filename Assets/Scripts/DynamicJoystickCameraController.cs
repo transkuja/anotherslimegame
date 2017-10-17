@@ -49,9 +49,9 @@ public class DynamicJoystickCameraController : MonoBehaviour {
                 once = false;
             }
 
-            freelockCamera.m_XAxis.m_InputAxisValue = Mathf.Abs(state.ThumbSticks.Right.X) > 0.1f ? state.ThumbSticks.Right.X : 0;
+            freelockCamera.m_XAxis.m_InputAxisValue = Mathf.Abs(state.ThumbSticks.Right.X) > 0.1f ? -state.ThumbSticks.Right.X : 0;
             freelockCamera.m_YAxis.m_InputAxisValue = Mathf.Abs(state.ThumbSticks.Right.Y) > 0.1f ? state.ThumbSticks.Right.Y : 0;
-
+            freelockCamera.m_XAxis.m_InputAxisValue += Mathf.Abs(state.ThumbSticks.Left.X) > 0.1f ? -state.ThumbSticks.Left.X : 0;
             /*if(freelockCamera.LookAt.GetComponent<Rigidbody>().velocity.magnitude >0.01f)
             {
                 freelockCamera.m_RecenterToTargetHeading.m_enabled = true;
