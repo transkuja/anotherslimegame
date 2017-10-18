@@ -35,6 +35,18 @@ public class PlatformGameplay : MonoBehaviour {
     [Tooltip("Will make the player slide on the platform")]
     public bool isSlippery;
 
+
+    // Private variables
+    Transform originPosition;
+    Vector3 lerpOriginPosition;
+    Vector3 lerpNewPosition;
+    float moveLerpValue = 0.0f;
+    float delayTimer;
+    bool isInPong = false;
+    bool hasPlayerJumpedOn = false;
+    bool hasPlayerJumpedOff = false;
+    bool hasPlatformReachedDestination = false;
+
     void Start () {
 		if (isBouncy)
         {
@@ -61,21 +73,69 @@ public class PlatformGameplay : MonoBehaviour {
             else
                 movingAxis.Normalize();
         }
+        originPosition = transform;
+        lerpOriginPosition = transform.position;
+        lerpNewPosition = transform.position + movingDistance * movingAxis;
+        delayTimer = delayBeforeMovement;
     }
-	
-	void Update () {
-		
-	}
+
+    void Update () {
+        HandlePlatformMove();
+    }
 
     void MovingProcess()
     {
-        //movingSpeed;
-        //movingDistance;
-        //delayBeforeMovement;
+        if (delayTimer < 0.0f)
+        {
+            transform.position = Vector3.Lerp(lerpOriginPosition, lerpNewPosition, moveLerpValue);
+            moveLerpValue += Time.deltaTime * movingSpeed * ((!isInPong) ? 1 : -1);
+            if (Vector3.Distance(transform.position, lerpNewPosition) < 0.1f)
+            {
+                hasPlatformReachedDestination = true;
+                if (isAPingPongMovement)
+                    isInPong = !isInPong;
+                if (delayBeforeMovement > 0.0f)
+                    delayTimer = delayBeforeMovement;
+                moveLerpValue = (isInPong) ? 1.0f : 0.0f;
+            }
+            else
+                hasPlatformReachedDestination = false;
 
-        //isAPingPongMovement;
-        //movementWhenPlayerJumpsOn;
-        //returnToPositionWhenPlayerExits;
+        }
+        else
+        {
+            delayTimer -= Time.deltaTime;
+        }
     }
 
+    void HandlePlatformMove()
+    {
+        if (returnToPositionWhenPlayerExits)
+        {
+            if (hasPlayerJumpedOff && hasPlatformReachedDestination)
+            {
+                isInPong = true;
+                MovingProcess();
+            }
+        }
+
+        if (movementWhenPlayerJumpsOn)
+        {
+            if (hasPlayerJumpedOn)
+                MovingProcess();
+        }
+        else
+            MovingProcess();
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        // if collision avec player au dessus
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        // if collision avec player au dessus
+
+    }
 }
