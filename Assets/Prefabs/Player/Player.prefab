@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 114151656722686244}
   - component: {fileID: 54138837213083474}
   - component: {fileID: 64775657094239104}
+  - component: {fileID: 114657460145555874}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -722,6 +723,42 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collectables: 1400000000000000
+--- !u!114 &114657460145555874
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1220672195264224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bb0e0ceaeb96e3e41a12986d30583ee5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jumpTab:
+  - name: Basic
+    upParabola:
+      height: 4
+      xz_h: 5
+    hasFallingParabola: 0
+    fallingParabola:
+      height: 0
+      xz_h: 0
+    isContinue: 0
+    minJumpParabola:
+      height: 0
+      xz_h: 0
+  - name: Basic
+    upParabola:
+      height: 4
+      xz_h: 5
+    hasFallingParabola: 0
+    fallingParabola:
+      height: 0
+      xz_h: 0
+    isContinue: 0
+    minJumpParabola:
+      height: 0
+      xz_h: 0
 --- !u!114 &114878306231690940
 MonoBehaviour:
   m_ObjectHideFlags: 1
