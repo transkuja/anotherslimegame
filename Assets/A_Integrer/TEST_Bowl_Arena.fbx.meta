@@ -1,0 +1,162 @@
+fileFormatVersion: 2
+guid: d786af44c4b889f4e89ebf12863b3100
+timeCreated: 1508449391
+licenseType: Free
+ModelImporter:
+  serializedVersion: 21
+  fileIDToRecycleName:
+    100000: Bowl_Arena
+    100002: Leaf_019
+    100004: Leaf_020
+    100006: Leaf_021
+    100008: Leaf_022
+    100010: Leaf_023
+    100012: Leaf_024
+    100014: Leaf_025
+    100016: Leaf_026
+    100018: Leaf_027
+    100020: Mushroom_01
+    100022: Mushroom_02
+    100024: Mushroom_03
+    100026: Mushroom_04
+    100028: Mushroom_05
+    100030: plateformes
+    100032: //RootNode
+    400000: Bowl_Arena
+    400002: Leaf_019
+    400004: Leaf_020
+    400006: Leaf_021
+    400008: Leaf_022
+    400010: Leaf_023
+    400012: Leaf_024
+    400014: Leaf_025
+    400016: Leaf_026
+    400018: Leaf_027
+    400020: Mushroom_01
+    400022: Mushroom_02
+    400024: Mushroom_03
+    400026: Mushroom_04
+    400028: Mushroom_05
+    400030: plateformes
+    400032: //RootNode
+    2300000: Bowl_Arena
+    2300002: Leaf_019
+    2300004: Leaf_020
+    2300006: Leaf_021
+    2300008: Leaf_022
+    2300010: Leaf_023
+    2300012: Leaf_024
+    2300014: Leaf_025
+    2300016: Leaf_026
+    2300018: Leaf_027
+    2300020: Mushroom_01
+    2300022: Mushroom_02
+    2300024: Mushroom_03
+    2300026: Mushroom_04
+    2300028: Mushroom_05
+    3300000: Bowl_Arena
+    3300002: Leaf_019
+    3300004: Leaf_020
+    3300006: Leaf_021
+    3300008: Leaf_022
+    3300010: Leaf_023
+    3300012: Leaf_024
+    3300014: Leaf_025
+    3300016: Leaf_026
+    3300018: Leaf_027
+    3300020: Mushroom_01
+    3300022: Mushroom_02
+    3300024: Mushroom_03
+    3300026: Mushroom_04
+    3300028: Mushroom_05
+    4300000: Mushroom_01
+    4300002: Mushroom_02
+    4300004: Mushroom_03
+    4300006: Mushroom_04
+    4300008: Mushroom_05
+    4300010: Leaf_019
+    4300012: Leaf_020
+    4300014: Leaf_021
+    4300016: Leaf_022
+    4300018: Leaf_023
+    4300020: Leaf_024
+    4300022: Leaf_025
+    4300024: Leaf_026
+    4300026: Leaf_027
+    4300028: Bowl_Arena
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
