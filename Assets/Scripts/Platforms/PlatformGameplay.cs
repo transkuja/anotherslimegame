@@ -82,6 +82,11 @@ public class PlatformGameplay : MonoBehaviour {
         lerpOriginPosition = transform.position;
         lerpNewPosition = transform.position + movingDistance * movingAxis;
         delayTimer = delayBeforeMovement;
+        if (GetComponent<Ground>() == null && tag != "Ground")
+        {
+            Debug.LogWarning("There's nothing indicating that the platform is part of the ground. Adding Ground component.");
+            gameObject.AddComponent<Ground>();
+        }
     }
 
     void Update () {
