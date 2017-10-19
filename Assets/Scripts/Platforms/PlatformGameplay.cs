@@ -85,15 +85,19 @@ public class PlatformGameplay : MonoBehaviour {
 
     void MovingProcess()
     {
+        // Not a ping pong movement should only do the ping
+        if (!isAPingPongMovement && isInPong)
+            return;
+
         if (delayTimer < 0.0f)
         {
             transform.position = Vector3.Lerp(lerpOriginPosition, lerpNewPosition, moveLerpValue);
             moveLerpValue += Time.deltaTime * movingSpeed * ((!isInPong) ? 1 : -1);
-            if (Vector3.Distance(transform.position, lerpNewPosition) < 0.1f)
+            if ((Vector3.Distance(transform.position, lerpNewPosition) < 0.1f && !isInPong)
+                || (Vector3.Distance(transform.position, lerpOriginPosition) < 0.1f && isInPong))
             {
                 hasPlatformReachedDestination = true;
-                if (isAPingPongMovement)
-                    isInPong = !isInPong;
+                isInPong = !isInPong;
                 if (delayBeforeMovement > 0.0f)
                     delayTimer = delayBeforeMovement;
                 moveLerpValue = (isInPong) ? 1.0f : 0.0f;
