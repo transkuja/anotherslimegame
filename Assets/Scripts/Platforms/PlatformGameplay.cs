@@ -114,15 +114,6 @@ public class PlatformGameplay : MonoBehaviour {
 
     void HandlePlatformMove()
     {
-        if (returnToPositionWhenPlayerExits)
-        {
-            if (hasPlayerJumpedOff && hasPlatformReachedDestination)
-            {
-                isInPong = true;
-                MovingProcess();
-            }
-        }
-
         if (movementWhenPlayerJumpsOn)
         {
             if (hasPlayerJumpedOn)
@@ -135,11 +126,22 @@ public class PlatformGameplay : MonoBehaviour {
     private void OnCollisionEnter(Collision collision)
     {
         // if collision avec player au dessus
+        if (collision.gameObject.GetComponent<Player>() != null
+            && Vector3.Dot(collision.contacts[0].normal, Vector3.up) < -0.95f)
+        {
+            hasPlayerJumpedOn = true;
+            hasPlayerJumpedOff = false;
+            collision.transform.SetParent(transform);
+        }
     }
 
     private void OnCollisionExit(Collision collision)
     {
         // if collision avec player au dessus
-
+        if (collision.gameObject.GetComponent<Player>() != null && hasPlayerJumpedOn)
+        {
+            hasPlayerJumpedOff = true;
+            collision.transform.SetParent(null);
+        }
     }
 }
