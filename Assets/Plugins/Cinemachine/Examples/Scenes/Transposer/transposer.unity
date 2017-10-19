@@ -42,7 +42,7 @@ RenderSettings:
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
-  serializedVersion: 9
+  serializedVersion: 11
   m_GIWorkflowMode: 0
   m_GISettings:
     serializedVersion: 2
@@ -54,7 +54,7 @@ LightmapSettings:
     m_EnableBakedLightmaps: 1
     m_EnableRealtimeLightmaps: 1
   m_LightmapEditorSettings:
-    serializedVersion: 7
+    serializedVersion: 9
     m_Resolution: 2
     m_BakeResolution: 40
     m_TextureWidth: 1024
@@ -71,9 +71,10 @@ LightmapSettings:
     m_FinalGatherFiltering: 1
     m_FinalGatherRayCount: 1024
     m_ReflectionCompression: 2
-    m_StationaryBakeMode: 1
+    m_MixedBakeMode: 1
     m_BakeBackend: 0
     m_PVRSampling: 1
+    m_PVRDirectSampleCount: 32
     m_PVRSampleCount: 500
     m_PVRBounces: 2
     m_PVRFiltering: 0
@@ -86,8 +87,7 @@ LightmapSettings:
     m_PVRFilteringAtrousNormalSigma: 1
     m_PVRFilteringAtrousPositionSigma: 1
   m_LightingDataAsset: {fileID: 0}
-  m_RuntimeCPUUsage: 25
-  m_ShadowMaskMode: 2
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -284,7 +284,7 @@ Camera:
   far clip plane: 5000
   field of view: 40
   orthographic: 0
-  orthographic size: 5
+  orthographic size: 10
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -306,7 +306,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 468527918}
-  m_LocalRotation: {x: 0.00043694858, y: -0.44633684, z: 0.00021793932, w: 0.8948649}
+  m_LocalRotation: {x: 0.00043698342, y: -0.44619378, z: 0.00021786947, w: 0.89493626}
   m_LocalPosition: {x: -289.8247, y: 4.1, z: -16.532837}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -339,6 +339,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowDebugText: 0
+  m_ShowCameraFrustum: 1
+  m_WorldUpOverride: {fileID: 0}
+  m_UpdateMethod: 2
   m_DefaultBlend:
     m_Style: 1
     m_Time: 2
@@ -346,13 +349,13 @@ MonoBehaviour:
   m_CameraCutEvent:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: Cinemachine.CinemachineBrain+BrainEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine, Version=0.0.0.0, Culture=neutral,
-      PublicKeyToken=null
+    m_TypeName: Cinemachine.CinemachineBrain+VcamEvent, Assembly-CSharp, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!1 &618629028
 GameObject:
   m_ObjectHideFlags: 3
@@ -400,6 +403,9 @@ MonoBehaviour:
   m_YDamping: 1
   m_ZDamping: 1
   m_BindingMode: 1
+  m_PitchDamping: 1
+  m_YawDamping: 1
+  m_RollDamping: 1
 --- !u!114 &618629031
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -468,8 +474,9 @@ MonoBehaviour:
   m_Priority: 10
   m_LookAt: {fileID: 1200725360}
   m_Follow: {fileID: 1200725360}
-  m_LensAttributes:
+  m_Lens:
     FieldOfView: 40
+    OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
     Dutch: 0
@@ -535,6 +542,9 @@ MonoBehaviour:
   m_YDamping: 1
   m_ZDamping: 1
   m_BindingMode: 2
+  m_PitchDamping: 1
+  m_YawDamping: 1
+  m_RollDamping: 1
 --- !u!114 &901510349
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -603,8 +613,9 @@ MonoBehaviour:
   m_Priority: 10
   m_LookAt: {fileID: 1200725360}
   m_Follow: {fileID: 1200725360}
-  m_LensAttributes:
+  m_Lens:
     FieldOfView: 40
+    OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
     Dutch: 0
@@ -615,7 +626,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 904204508}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.00043698342, y: -0.44619378, z: 0.00021786947, w: 0.89493626}
   m_LocalPosition: {x: -289.8247, y: 4.1, z: -16.532837}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -718,7 +729,7 @@ Animator:
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 025857098477b614e9d28478a5b9c90e, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 0
+  m_UpdateMode: 1
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
@@ -794,6 +805,9 @@ MonoBehaviour:
   m_YDamping: 1
   m_ZDamping: 1
   m_BindingMode: 3
+  m_PitchDamping: 1
+  m_YawDamping: 1
+  m_RollDamping: 1
 --- !u!114 &1233816044
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -839,8 +853,9 @@ MonoBehaviour:
   m_Priority: 10
   m_LookAt: {fileID: 1200725360}
   m_Follow: {fileID: 1200725360}
-  m_LensAttributes:
+  m_Lens:
     FieldOfView: 40
+    OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
     Dutch: 0
@@ -920,7 +935,22 @@ Light:
   m_Lightmapping: 4
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
-  m_CCT: 6570
+  m_FalloffTable:
+    m_Table[0]: 0
+    m_Table[1]: 0
+    m_Table[2]: 0
+    m_Table[3]: 0
+    m_Table[4]: 0
+    m_Table[5]: 0
+    m_Table[6]: 0
+    m_Table[7]: 0
+    m_Table[8]: 0
+    m_Table[9]: 0
+    m_Table[10]: 0
+    m_Table[11]: 0
+    m_Table[12]: 0
+  m_ColorTemperature: 6570
+  m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
 --- !u!1 &1569161794
@@ -957,8 +987,9 @@ MonoBehaviour:
   m_Priority: 10
   m_LookAt: {fileID: 1200725360}
   m_Follow: {fileID: 1200725360}
-  m_LensAttributes:
+  m_Lens:
     FieldOfView: 40
+    OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
     Dutch: 0
@@ -1108,6 +1139,9 @@ MonoBehaviour:
   m_YDamping: 1
   m_ZDamping: 1
   m_BindingMode: 0
+  m_PitchDamping: 1
+  m_YawDamping: 1
+  m_RollDamping: 1
 --- !u!114 &1868423861
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -1176,8 +1210,9 @@ MonoBehaviour:
   m_Priority: 10
   m_LookAt: {fileID: 1200725360}
   m_Follow: {fileID: 1200725360}
-  m_LensAttributes:
+  m_Lens:
     FieldOfView: 40
+    OrthographicSize: 10
     NearClipPlane: 0.1
     FarClipPlane: 5000
     Dutch: 0
@@ -1243,6 +1278,9 @@ MonoBehaviour:
   m_YDamping: 1
   m_ZDamping: 1
   m_BindingMode: 4
+  m_PitchDamping: 1
+  m_YawDamping: 1
+  m_RollDamping: 1
 --- !u!114 &2000944850
 MonoBehaviour:
   m_ObjectHideFlags: 3

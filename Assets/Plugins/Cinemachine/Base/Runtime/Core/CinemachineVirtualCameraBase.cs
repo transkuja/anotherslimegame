@@ -33,20 +33,22 @@ namespace Cinemachine
 
         /// <summary>Inspector control - Use for hiding sections of the Inspector UI.</summary>
         [HideInInspector, SerializeField, NoSaveDuringPlay]
-        public bool m_HideHeaderInInspector;
-
-        /// <summary>Inspector control - Use for hiding sections of the Inspector UI.</summary>
-        [HideInInspector, SerializeField, NoSaveDuringPlay]
         public string[] m_ExcludedPropertiesInInspector = new string[] { "m_Script" };
 
         /// <summary>Inspector control - Use for enabling sections of the Inspector UI.</summary>
         [HideInInspector, SerializeField, NoSaveDuringPlay]
         public CinemachineCore.Stage[] m_LockStageInInspector;
 
+        /// <summary>Version that was last streamed, for upgrading legacy</summary>
+        public int ValidatingStreamVersion { get; private set; }
+
+        [HideInInspector, SerializeField, NoSaveDuringPlay]
+        private int m_StreamingVersion;
+
         /// <summary>The priority will determine which camera becomes active based on the
         /// state of other cameras and this camera.  Higher numbers have greater priority.
         /// </summary>
-        [SaveDuringPlay]
+        [NoSaveDuringPlay]
         [Tooltip("The priority will determine which camera becomes active based on the state of other cameras and this camera.  Higher numbers have greater priority.")]
         public int m_Priority = 10;
 
@@ -88,12 +90,11 @@ namespace Cinemachine
         /// * CinemachineVirtualCameraBase vcam: the virtual camera being updated
         /// * CinemachineCore.Stage stage: what stage in the pipeline has just been updated
         /// * ref CameraState newState: the current state of the vcam
-        /// * CameraState previousState: the state of the vcam last frame (needed for damping calculateions, etc)
-        /// * float deltaTime: the frame timestep.  0 or -1 means "don't consider the previous frame"
+        /// * float deltaTime: the frame timestep.  Less than 0 means "don't consider the previous frame"
         /// </summary>
         public delegate void OnPostPipelineStageDelegate(
             CinemachineVirtualCameraBase vcam, CinemachineCore.Stage stage,
-            ref CameraState newState, CameraState previousState, float deltaTime);
+            ref CameraState newState, float deltaTime);
 
         /// <summary>Get the name of the Virtual Camera.  Base implementation
         /// returns the owner GameObject's name.</summary>
@@ -135,6 +136,12 @@ namespace Cinemachine
             }
         }
 
+        /// <summary>Check whether the vcam a live child of this camera.  
+        /// This base class implementation always returns false.</summary>
+        /// <param name="vcam">The Virtual Camera to check</param>
+        /// <returns>True if the vcam is currently actively influencing the state of this vcam</returns>
+        public virtual bool IsLiveChild(ICinemachineCamera vcam) { return false; }
+
         /// <summary>Get the LookAt target for the Aim component in the CinemachinePipeline.</summary>
         public abstract Transform LookAt { get; set; }
 
@@ -142,19 +149,46 @@ namespace Cinemachine
         public abstract Transform Follow { get; set; }
 
         /// <summary>Set this to force the next update to ignore deltaTime and reset itself</summary>
-        public bool PreviousStateInvalid { get; set; }
+        public bool PreviousStateIsValid 
+        { 
+            get
+            {
+                if (LookAt != m_previousLookAtTarget)
+                {
+                    m_previousLookAtTarget = LookAt;
+                    m_previousStateIsValid = false;
+                }
+                if (Follow != m_previousFollowTarget)
+                {
+                    m_previousFollowTarget = Follow;
+                    m_previousStateIsValid = false;
+                }
+                return m_previousStateIsValid;
+            }
+            set
+            {
+                m_previousStateIsValid = value;
+            }
+        }
+        private bool m_previousStateIsValid;
+        private Transform m_previousLookAtTarget;
+        private Transform m_previousFollowTarget;
 
         /// <summary>Called by CinemachineCore at designated update time
         /// so the vcam can position itself and track its targets.  
         /// Do not call this method.  Let the framework do it at the appropriate time</summary>
         /// <param name="worldUp">Default world Up, set by the CinemachineBrain</param>
-        /// <param name="deltaTime">Delta time for time-based effects (ignore if less than or equal to 0)</param>
+        /// <param name="deltaTime">Delta time for time-based effects (ignore if less than 0)</param>
         public abstract void UpdateCameraState(Vector3 worldUp, float deltaTime);
 
         /// <summary>Notification that this virtual camera is going live.
-        /// Base class implementation does nothing.</summary>
+        /// Base class implementationmust be called by any overridden method.</summary>
         /// <param name="fromCam">The camera being deactivated.  May be null.</param>
-        public virtual void OnTransitionFromCamera(ICinemachineCamera fromCam) {}
+        public virtual void OnTransitionFromCamera(ICinemachineCamera fromCam) 
+        {
+            if (!gameObject.activeInHierarchy)
+                PreviousStateIsValid = false;
+        }
 
         /// <summary>Base class implementation does nothing.</summary>
         protected virtual void Start()
@@ -167,9 +201,13 @@ namespace Cinemachine
             CinemachineCore.Instance.RemoveActiveCamera(this);
         }
 
-        /// <summary>Enforce bounds for fields, when changed in inspector.</summary>
+        /// <summary>Enforce bounds for fields, when changed in inspector.  
+        /// Call base class implementation at the beginning of overridden method.
+        /// After base method is called, ValidatingStreamVersion will be valid.</summary>
         protected virtual void OnValidate()
         {
+            ValidatingStreamVersion = m_StreamingVersion;
+            m_StreamingVersion = CinemachineCore.kStreamingVersion;
         }
 
         /// <summary>Base class implementation adds the virtual camera from the priority queue.</summary>
@@ -177,21 +215,19 @@ namespace Cinemachine
         {
             // Sanity check - if another vcam component is enabled, shut down
             var vcamComponents = GetComponents<CinemachineVirtualCameraBase>();
-            if (vcamComponents.Length > 1)
+            for (int i = 0; i < vcamComponents.Length; ++i)
             {
-                foreach (var vcam in vcamComponents)
+                if (vcamComponents[i].enabled && vcamComponents[i] != this)
                 {
-                    if (vcam.enabled && vcam != this)
-                    {
-                        Debug.LogError(Name
-                            + " has multiple CinemachineVirtualCameraBase-derived components.  Disabling "
-                            + GetType().Name + ".");
-                        enabled = false;
-                    }
+                    Debug.LogError(Name
+                        + " has multiple CinemachineVirtualCameraBase-derived components.  Disabling "
+                        + GetType().Name + ".");
+                    enabled = false;
                 }
             }
             UpdateSlaveStatus();
             UpdatePriorityQueueStatus();    // Add to queue
+            PreviousStateIsValid = false;
         }
 
         /// <summary>Base class implementation makes sure the priority queue remains up-to-date.</summary>
@@ -278,6 +314,19 @@ namespace Cinemachine
                 CinemachineCore.Instance.AddActiveCamera(this);
                 m_QueuePriority = m_Priority;
             }
+        }
+
+        /// <summary>When multiple virtual cameras have the highest priority, there is
+        /// sometimes the need to push one to the top, making it the current Live camera if 
+        /// it shares the highest priority in the queue with its peers.  
+        /// 
+        /// This happens automatically when a 
+        /// new vcam is enabled: the most recent one goes to the top of the priority subqueue.  
+        /// Use this method to push a vcam to the top of its priority peers.  
+        /// If it and its peers share the highest priority, then this vcam will become Live.</summary>
+        public void MoveToTopOfPrioritySubqueue()
+        {
+            UpdatePriorityQueueStatus();
         }
     }
 }

@@ -1,3 +1,4 @@
+using Cinemachine.Utility;
 using UnityEngine;
 
 namespace Cinemachine
@@ -15,7 +16,7 @@ namespace Cinemachine
     [AddComponentMenu("")] // Don't display in add component menu
     [RequireComponent(typeof(CinemachinePipeline))]
     [SaveDuringPlay]
-    public class CinemachineTransposer : MonoBehaviour, ICinemachineComponent
+    public class CinemachineTransposer : CinemachineComponentBase
     {
         /// <summary>The distance which the transposer will attempt to maintain from the transposer subject</summary>
         [Tooltip("The distance vector that the transposer will attempt to maintain from the Follow target")]
@@ -46,123 +47,213 @@ namespace Cinemachine
         public float m_ZDamping = 1f;
 
         /// <summary>
-        /// Selects the coordinate space for the <c>Transposer</c> to use for its offsets
+        /// The coordinate space to use when interpreting the offset from the target
         /// </summary>
         [DocumentationSorting(5.01f, DocumentationSortingAttribute.Level.UserRef)]
-        public enum TransposerOffsetType
+        public enum BindingMode
         {
             /// <summary>
-            /// Camera offset from target will be computed using a frame of reference consisting
+            /// Camera will be bound to the Follow target using a frame of reference consisting
             /// of the target's local frame at the moment when the virtual camera was enabled,
             /// or when the target was assigned.
             /// </summary>
             LockToTargetOnAssign = 0,
             /// <summary>
-            /// Camera offset from target will be computed using a frame of reference consisting
+            /// Camera will be bound to the Follow target using a frame of reference consisting
             /// of the target's local frame, with the tilt and roll zeroed out.
             /// </summary>
             LockToTargetWithWorldUp = 1,
             /// <summary>
-            /// Camera offset from target will be computed using a frame of reference consisting
+            /// Camera will be bound to the Follow target using a frame of reference consisting
             /// of the target's local frame, with the roll zeroed out.
             /// </summary>
             LockToTargetNoRoll = 2,
             /// <summary>
-            /// Camera offset from target will be computed using the target's local frame.
+            /// Camera will be bound to the Follow target using the target's local frame.
             /// </summary>
             LockToTarget = 3,
             /// <summary>
-            /// Camera offset from target will be computed using world space.
+            /// Camera will be bound to the Follow target using a world space offset.
             /// </summary>
             WorldSpace = 4
         }
         /// <summary>The coordinate space to use when interpreting the offset from the target</summary>
+        [Space]
         [Tooltip("The coordinate space to use when interpreting the offset from the target.  This is also used to set the camera's Up vector, which will be maintained when aiming the camera.")]
-        public TransposerOffsetType m_BindingMode = TransposerOffsetType.LockToTargetWithWorldUp;
+        public BindingMode m_BindingMode = BindingMode.LockToTargetWithWorldUp;
+
+        /// <summary>How aggressively the camera tries to track the target rotation's X angle.  
+        /// Small numbers are more responsive.  Larger numbers give a more heavy slowly responding camera.</summary>
+        [Range(0f, 20f)]
+        [Tooltip("How aggressively the camera tries to track the target rotation's X angle.  Small numbers are more responsive.  Larger numbers give a more heavy slowly responding camera.")]
+        public float m_PitchDamping = 0;
+
+        /// <summary>How aggressively the camera tries to track the target rotation's Y angle.  
+        /// Small numbers are more responsive.  Larger numbers give a more heavy slowly responding camera.</summary>
+        [Range(0f, 20f)]
+        [Tooltip("How aggressively the camera tries to track the target rotation's Y angle.  Small numbers are more responsive.  Larger numbers give a more heavy slowly responding camera.")]
+        public float m_YawDamping = 0;
+
+        /// <summary>How aggressively the camera tries to track the target rotation's Z angle.  
+        /// Small numbers are more responsive.  Larger numbers give a more heavy slowly responding camera.</summary>
+        [Range(0f, 20f)]
+        [Tooltip("How aggressively the camera tries to track the target rotation's Z angle.  Small numbers are more responsive.  Larger numbers give a more heavy slowly responding camera.")]
+        public float m_RollDamping = 0f;
 
         /// <summary>True if component is enabled and has a valid Follow target</summary>
-        public bool IsValid
-        { get { return enabled && VirtualCamera.Follow != null; } }
-
-        /// <summary>Get the Cinemachine Virtual Camera affected by this component</summary>
-        public ICinemachineCamera VirtualCamera
-        { get { return gameObject.transform.parent.gameObject.GetComponent<ICinemachineCamera>(); } }
+        public override bool IsValid { get { return enabled && FollowTarget != null; } }
 
         /// <summary>Get the Cinemachine Pipeline stage that this component implements.
         /// Always returns the Body stage</summary>
-        public CinemachineCore.Stage Stage { get { return CinemachineCore.Stage.Body; } }
+        public override CinemachineCore.Stage Stage { get { return CinemachineCore.Stage.Body; } }
 
         /// <summary>Positions the virtual camera according to the transposer rules.</summary>
         /// <param name="curState">The current camera state</param>
-        /// <param name="statePrevFrame">The camera state on the previous frame (unused)</param>
-        /// <param name="deltaTime">Used for damping.  If 0 or less, no damping is done.</param>
-        /// <returns>curState with new RawPosition</returns>
-        public virtual CameraState MutateCameraState(
-            CameraState curState, CameraState statePrevFrame, float deltaTime)
+        /// <param name="deltaTime">Used for damping.  If less than 0, no damping is done.</param>
+        public override void MutateCameraState(ref CameraState curState, float deltaTime)
         {
-            if (!IsValid)
-                return curState;
-
-            if (m_previousTarget != VirtualCamera.Follow || deltaTime <= 0)
+            //UnityEngine.Profiling.Profiler.BeginSample("CinemachineTransposer.MutateCameraState");
+            InitPrevFrameStateInfo(ref curState, deltaTime);
+            if (IsValid)
             {
-                m_targetOrientationOnAssign = VirtualCamera.Follow.rotation;
-                m_previousTarget = VirtualCamera.Follow;
+                Vector3 pos;
+                Quaternion orient;
+                TrackTarget(deltaTime, curState.ReferenceUp, out pos, out orient);
+                curState.RawPosition = pos + orient * m_FollowOffset;
+                curState.ReferenceUp = orient * Vector3.up;
             }
+            //UnityEngine.Profiling.Profiler.EndSample();
+        }
 
-            // Where to put the camera
-            Vector3 targetPosition = GetDesiredTargetPosition();
-            Vector3 worldOffset = statePrevFrame.RawPosition - targetPosition;
+        /// <summary>API for the editor, to process a position drag from the user.
+        /// This implementation adds the delta to the follow offset.</summary>
+        /// <param name="delta">The amount dragged this frame</param>
+        public override void OnPositionDragged(Vector3 delta)
+        {
+            Quaternion targetOrientation = GetReferenceOrientation(VcamState.ReferenceUp);
+            Vector3 localOffset = Quaternion.Inverse(targetOrientation) * delta;
+            m_FollowOffset += localOffset;
+        }
 
-            // Adjust for damping, which is done in local coords
-            if (deltaTime > 0)
+        /// <summary>Initializes the state for previous frame if appropriate.</summary>
+        protected void InitPrevFrameStateInfo(
+            ref CameraState curState, float deltaTime)
+        {
+            if (m_previousTarget != FollowTarget || deltaTime < 0)
             {
-                Quaternion localToWorldTransform = GetReferenceOrientation();
-                Vector3 localOffset = Quaternion.Inverse(localToWorldTransform) * worldOffset;
-                Vector3 damping = Damping;
+                m_previousTarget = FollowTarget;
+                m_targetOrientationOnAssign 
+                    = (m_previousTarget == null) ? Quaternion.identity : FollowTarget.rotation;
+            }
+            if (deltaTime < 0)
+            {
+                m_PreviousTargetPosition = curState.RawPosition;
+                m_PreviousReferenceOrientation = GetReferenceOrientation(curState.ReferenceUp);
+            }
+        }
+
+        /// <summary>Positions the virtual camera according to the transposer rules.</summary>
+        /// <param name="deltaTime">Used for damping.  If less than 0, no damping is done.</param>
+        /// <param name="up">Current camera up</param>
+        /// <param name="outTargetPosition">Resulting camera position</param>
+        /// <param name="outTargetOrient">Damped target orientation</param>
+        protected void TrackTarget(
+            float deltaTime, Vector3 up,
+            out Vector3 outTargetPosition, out Quaternion outTargetOrient)
+        {
+            Quaternion targetOrientation = GetReferenceOrientation(up);
+            Quaternion dampedOrientation = targetOrientation;
+            if (deltaTime >= 0)
+            {
+                Vector3 relative = (Quaternion.Inverse(m_PreviousReferenceOrientation) 
+                    * targetOrientation).eulerAngles;
                 for (int i = 0; i < 3; ++i)
-                    localOffset[i] *= deltaTime / Mathf.Max(damping[i], deltaTime);
-                worldOffset = localToWorldTransform * localOffset;
+                    if (relative[i] > 180)
+                        relative[i] -= 360;
+                relative = Damper.Damp(relative, AngularDamping, deltaTime);
+                dampedOrientation = m_PreviousReferenceOrientation * Quaternion.Euler(relative);
             }
-            CameraState newState = curState;
-            newState.RawPosition = statePrevFrame.RawPosition - worldOffset;
+            Quaternion orientationDelta 
+                = dampedOrientation * Quaternion.Inverse(m_PreviousReferenceOrientation);
+            m_PreviousReferenceOrientation = dampedOrientation;
 
-            if (m_BindingMode == TransposerOffsetType.LockToTarget)
-                newState.ReferenceUp = GetReferenceOrientation() * Vector3.up;
+            Vector3 targetPosition = FollowTarget.position;
+            Vector3 currentPosition 
+                = (orientationDelta * (m_PreviousTargetPosition - targetPosition)) + targetPosition;
+            Vector3 worldOffset = targetPosition - currentPosition;
 
-            return newState;
+            // Adjust for damping, which is done in target-local coords
+            if (deltaTime >= 0)
+            {
+                Vector3 localOffset = Quaternion.Inverse(targetOrientation) * worldOffset;
+                localOffset = Damper.Damp(localOffset, Damping, deltaTime);
+                worldOffset = targetOrientation * localOffset;
+            }
+            outTargetPosition = m_PreviousTargetPosition = currentPosition + worldOffset;
+            outTargetOrient = dampedOrientation;
         }
 
         /// <summary>
         /// Damping speeds for each of the 3 axes of the offset from target
         /// </summary>
         protected Vector3 Damping
-        { get { return new Vector3(m_XDamping, m_YDamping, m_ZDamping) * kHumanReadableDampingScalar; } }
-        const float kHumanReadableDampingScalar = 0.1f;
+        {
+            get { return new Vector3(m_XDamping, m_YDamping, m_ZDamping); } 
+        }
+
+        /// <summary>
+        /// Damping speeds for each of the 3 axes of the target's rotation
+        /// </summary>
+        protected Vector3 AngularDamping
+        {
+            get 
+            { 
+                switch (m_BindingMode)
+                {
+                    case BindingMode.LockToTargetNoRoll:
+                        return new Vector3(m_PitchDamping, m_YawDamping, 0); 
+                    case BindingMode.LockToTargetWithWorldUp:
+                        return new Vector3(0, m_YawDamping, 0); 
+                    case BindingMode.LockToTargetOnAssign:
+                    case BindingMode.WorldSpace:
+                        return Vector3.zero;
+                    default:
+                        return new Vector3(m_PitchDamping, m_YawDamping, m_RollDamping); 
+                }
+            } 
+        }
 
         /// <summary>Internal API for the Inspector Editor, so it can draw a marker at the target</summary>
-        public Vector3 GetDesiredTargetPosition()
+        public Vector3 GeTargetCameraPosition(Vector3 worldUp)
         {
             if (!IsValid)
                 return Vector3.zero;
-            return VirtualCamera.Follow.position
-                + GetReferenceOrientation() * m_FollowOffset;
+            return FollowTarget.position + GetReferenceOrientation(worldUp) * m_FollowOffset;
         }
 
+        /// <summary>State information for damping</summary>
+        Vector3 m_PreviousTargetPosition = Vector3.zero;
+        Quaternion m_PreviousReferenceOrientation = Quaternion.identity;
         Quaternion m_targetOrientationOnAssign = Quaternion.identity;
         Transform m_previousTarget = null;
-        Quaternion GetReferenceOrientation()
+
+        /// <summary>Internal API for the Inspector Editor, so it can draw a marker at the target</summary>
+        public Quaternion GetReferenceOrientation(Vector3 worldUp)
         {
-            Quaternion targetOrientation = VirtualCamera.Follow.rotation;
-            switch (m_BindingMode)
+            if (FollowTarget != null)
             {
-                case TransposerOffsetType.LockToTargetOnAssign:
-                    return m_targetOrientationOnAssign;
-                case TransposerOffsetType.LockToTargetWithWorldUp:
-                    return Quaternion.AngleAxis(targetOrientation.eulerAngles.y, Vector3.up);
-                case TransposerOffsetType.LockToTargetNoRoll:
-                    return Quaternion.LookRotation(targetOrientation * Vector3.forward, Vector3.up);
-                case TransposerOffsetType.LockToTarget:
-                    return targetOrientation;
+                Quaternion targetOrientation = FollowTarget.rotation;
+                switch (m_BindingMode)
+                {
+                    case BindingMode.LockToTargetOnAssign:
+                        return m_targetOrientationOnAssign;
+                    case BindingMode.LockToTargetWithWorldUp:
+                        return Quaternion.AngleAxis(targetOrientation.eulerAngles.y, worldUp);
+                    case BindingMode.LockToTargetNoRoll:
+                        return Quaternion.LookRotation(targetOrientation * Vector3.forward, worldUp);
+                    case BindingMode.LockToTarget:
+                        return targetOrientation;
+                }
             }
             return Quaternion.identity; // world space
         }
