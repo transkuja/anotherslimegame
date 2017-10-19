@@ -51,6 +51,7 @@ public class PlatformGameplay : MonoBehaviour {
     bool hasPlayerJumpedOff = false;
     bool hasJumpAgainWhenDestReached = false;
     bool hasPlatformReachedDestination = false;
+    bool isOnPlatform = false;
 
     void Start () {
 		if (isBouncy)
@@ -68,7 +69,7 @@ public class PlatformGameplay : MonoBehaviour {
         if (isATeleporter)
         {
             if (teleporterTarget == null)
-                Debug.LogWarning("The platform is flagged as a teleporter but no target has been defined!")
+                Debug.LogWarning("The platform is flagged as a teleporter but no target has been defined!");
         }
         if (isMoving)
         {
@@ -149,6 +150,32 @@ public class PlatformGameplay : MonoBehaviour {
         }
     }
 
+    void TeleportProcess()
+    {
+        if (isOnPlatform)
+        {
+            if (delayTimer < 0.0f)
+            {
+                Player player = GetComponentInChildren<Player>();
+                if (player != null)
+                {
+                    player.transform.SetParent(null);
+                    player.transform.position = teleporterTarget.position;
+                    player.transform.rotation = teleporterTarget.rotation;
+                    isOnPlatform = false;
+                }
+                if (delayBeforeMovement > 0.0f)
+                    delayTimer = delayBeforeMovement;
+            }
+            else
+            {
+                delayTimer -= Time.deltaTime;
+            }
+        }
+        else
+            delayTimer = delayBeforeMovement;
+    }
+
     void HandlePlatformMove()
     {
         if (movementWhenPlayerJumpsOn)
@@ -162,7 +189,8 @@ public class PlatformGameplay : MonoBehaviour {
 
     void HandleTeleportation()
     {
-
+        if (isATeleporter && teleporterTarget != null)
+            TeleportProcess();
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -176,6 +204,8 @@ public class PlatformGameplay : MonoBehaviour {
             hasPlayerJumpedOn = true;
             hasPlayerJumpedOff = false;
             collision.transform.SetParent(transform);
+
+            isOnPlatform = true;
         }
     }
 
@@ -185,6 +215,7 @@ public class PlatformGameplay : MonoBehaviour {
         {
             hasPlayerJumpedOff = true;
             collision.transform.SetParent(null);
+            isOnPlatform = false;
         }
     }
 }
