@@ -93,7 +93,7 @@ public class SpawnManager : MonoBehaviour{
 
         SpawnedItemsCount++;
         RessourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
-            instance.dicSpawnItemsLocations[idLocation].transform.localPosition,
+            instance.dicSpawnItemsLocations[idLocation].transform.position,
             instance.dicSpawnItemsLocations[idLocation].transform.rotation,
             null,
             myItemType
@@ -117,7 +117,7 @@ public class SpawnManager : MonoBehaviour{
 
         SpawnedMonsterCount++;
         RessourceUtils.Instance.refPrefabMonster.SpawnMonsterInstance(
-            instance.dicSpawnMonstersLocations[idLocation].transform.localPosition,
+            instance.dicSpawnMonstersLocations[idLocation].transform.position,
             instance.dicSpawnMonstersLocations[idLocation].transform.rotation,
             null,
             myMonsterType
