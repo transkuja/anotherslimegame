@@ -5,11 +5,15 @@ using UnityEngine;
 // WIP Antho
 public class PlatformGameplay : MonoBehaviour {
 
+    [Header("Physics")]
     [Tooltip("Will make the player bounce on the platform")]
     public bool isBouncy = false;
     [Tooltip("Will make items bounce on the platform")]
     public bool isBouncyForItems = false;
+    [Tooltip("Will make the player slide on the platform")]
+    public bool isSlippery;
 
+    [Header("Movement")]
     [Tooltip("Defines if the platform will move or not")]
     public bool isMoving = false;
     [Tooltip("The axis on which the platform moves (the vector will be normalized)")]
@@ -23,17 +27,17 @@ public class PlatformGameplay : MonoBehaviour {
     [Tooltip("The platform will only starts the movement when the player jumps on it")]
     public bool movementWhenPlayerJumpsOn = false;
     [Tooltip("The platform will return to its original position when the player jumps off")]
-    public bool returnToPositionWhenPlayerExits = false;
+    public bool backToOriginOnPlayerExit = false;
+    [Tooltip("The platform will return to its original position when the player jumps on it")]
+    public bool backToOriginOnPlayerJumpOn = false;
     [Tooltip("The delay before the movement starts")]
     public float delayBeforeMovement = 0.0f;
 
+    [Header("Teleportation")]
     [Tooltip("Teleports a player to a distant place")]
     public bool isATeleporter;
     [Tooltip("The transform target for the teleportation")]
     public Transform teleporterTarget;
-
-    [Tooltip("Will make the player slide on the platform")]
-    public bool isSlippery;
 
 
     // Private variables
@@ -45,6 +49,7 @@ public class PlatformGameplay : MonoBehaviour {
     bool isInPong = false;
     bool hasPlayerJumpedOn = false;
     bool hasPlayerJumpedOff = false;
+    bool hasJumpAgainWhenDestReached = false;
     bool hasPlatformReachedDestination = false;
 
     void Start () {
@@ -85,10 +90,30 @@ public class PlatformGameplay : MonoBehaviour {
 
     void MovingProcess()
     {
-        // Not a ping pong movement should only do the ping
-        if (!isAPingPongMovement && isInPong)
+        // Not a ping pong movement should only do the ping, except if a return is planned
+        if (!isAPingPongMovement && isInPong
+            && !backToOriginOnPlayerExit && !backToOriginOnPlayerJumpOn)
             return;
 
+
+        // Handle specific pongs
+        if (isInPong)
+        {
+            // On player exit first, 
+            //      so that the behavior is still correct if both OnPlayerExit and OnPlayerJumpOn are checked
+            if (backToOriginOnPlayerExit)
+            {
+                if (!hasPlayerJumpedOff)
+                    return;
+            }
+            else if (backToOriginOnPlayerJumpOn)
+            {
+                if (!hasJumpAgainWhenDestReached)
+                    return;
+            }
+        }
+
+        // Movement process
         if (delayTimer < 0.0f)
         {
             transform.position = Vector3.Lerp(lerpOriginPosition, lerpNewPosition, moveLerpValue);
@@ -97,10 +122,15 @@ public class PlatformGameplay : MonoBehaviour {
                 || (Vector3.Distance(transform.position, lerpOriginPosition) < 0.1f && isInPong))
             {
                 hasPlatformReachedDestination = true;
+                hasJumpAgainWhenDestReached = false;
                 isInPong = !isInPong;
                 if (delayBeforeMovement > 0.0f)
                     delayTimer = delayBeforeMovement;
                 moveLerpValue = (isInPong) ? 1.0f : 0.0f;
+
+                // If no pong behaviour is specified, do not reset hasPlayerJumpedOn to ping pong indefinitely after activation
+                if (!isInPong && (backToOriginOnPlayerExit || backToOriginOnPlayerJumpOn))
+                    hasPlayerJumpedOn = false;
             }
             else
                 hasPlatformReachedDestination = false;
@@ -125,10 +155,12 @@ public class PlatformGameplay : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision)
     {
-        // if collision avec player au dessus
+        // Check if collision is with player from above
         if (collision.gameObject.GetComponent<Player>() != null
             && Vector3.Dot(collision.contacts[0].normal, Vector3.up) < -0.95f)
         {
+            if (hasPlayerJumpedOff && hasPlatformReachedDestination) hasJumpAgainWhenDestReached = true;
+
             hasPlayerJumpedOn = true;
             hasPlayerJumpedOff = false;
             collision.transform.SetParent(transform);
@@ -137,7 +169,6 @@ public class PlatformGameplay : MonoBehaviour {
 
     private void OnCollisionExit(Collision collision)
     {
-        // if collision avec player au dessus
         if (collision.gameObject.GetComponent<Player>() != null && hasPlayerJumpedOn)
         {
             hasPlayerJumpedOff = true;
