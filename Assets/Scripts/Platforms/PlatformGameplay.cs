@@ -67,7 +67,8 @@ public class PlatformGameplay : MonoBehaviour {
         }
         if (isATeleporter)
         {
-            // isATeleporter start process
+            if (teleporterTarget == null)
+                Debug.LogWarning("The platform is flagged as a teleporter but no target has been defined!")
         }
         if (isMoving)
         {
@@ -91,6 +92,7 @@ public class PlatformGameplay : MonoBehaviour {
 
     void Update () {
         HandlePlatformMove();
+        HandleTeleportation();
     }
 
     void MovingProcess()
@@ -156,6 +158,11 @@ public class PlatformGameplay : MonoBehaviour {
         }
         else
             MovingProcess();
+    }
+
+    void HandleTeleportation()
+    {
+
     }
 
     private void OnCollisionEnter(Collision collision)
