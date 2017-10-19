@@ -679,7 +679,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
 --- !u!64 &64775657094239104
 MeshCollider:
   m_ObjectHideFlags: 1
@@ -737,8 +737,8 @@ MonoBehaviour:
   jumpTab:
   - name: Basic
     upParabola:
-      height: 4
-      xz_h: 5
+      height: 8
+      xz_h: 7
     hasFallingParabola: 0
     fallingParabola:
       height: 0
@@ -749,8 +749,8 @@ MonoBehaviour:
       xz_h: 0
   - name: Basic
     upParabola:
-      height: 4
-      xz_h: 5
+      height: 8
+      xz_h: 7
     hasFallingParabola: 0
     fallingParabola:
       height: 0
