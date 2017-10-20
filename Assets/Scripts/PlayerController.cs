@@ -23,8 +23,6 @@ public class PlayerController : MonoBehaviour {
 
     [SerializeField]
     [Range(5, 1000)] float jumpChargeSpeed = 15.0f;
-    [SerializeField]
-    [Range(5, 1000)] float movementSpeed = 25.0f;
 
     int selectedEvolution = 0;
 
@@ -183,7 +181,7 @@ public class PlayerController : MonoBehaviour {
         if (collision.gameObject.GetComponentInParent<Ground>() != null)
         {
             RaycastHit hitInfo;
-            float maxDistance = 0.5f;
+            float maxDistance = 1.2f;
             if (Physics.Raycast(transform.position, -transform.up, out hitInfo, maxDistance))
             {
                 if (hitInfo.transform.gameObject.GetComponentInParent<Ground>() != null)
