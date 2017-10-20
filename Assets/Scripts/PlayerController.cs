@@ -183,7 +183,7 @@ public class PlayerController : MonoBehaviour {
         if (collision.gameObject.GetComponentInParent<Ground>() != null)
         {
             RaycastHit hitInfo;
-            float maxDistance = 2.0f;
+            float maxDistance = 0.5f;
             if (Physics.Raycast(transform.position, -transform.up, out hitInfo, maxDistance))
             {
                 if (hitInfo.transform.gameObject.GetComponentInParent<Ground>() != null)
@@ -199,6 +199,9 @@ public class PlayerController : MonoBehaviour {
 
     private void HandleJumpWithController()
     {
+        if (!IsGrounded)
+            return;
+
         // Charge jump if A button is pressed for a "long" time and only if on the ground
         if (state.Buttons.A == ButtonState.Pressed && chargeFactor < 1.0f && isReadyForNextJumpInput)
         {
@@ -222,6 +225,9 @@ public class PlayerController : MonoBehaviour {
 
     private void HandleJumpWithKeyboard()
     {
+        if (!IsGrounded)
+            return;
+
         if (Input.GetKeyDown(KeyCode.Space) && isReadyForNextJumpInput)
             Jump(GameManager.JumpUnit);
 
