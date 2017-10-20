@@ -207,8 +207,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 712f946b65ca22b489ee615b5f38226c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isTimedDoor: 1
   timer: {fileID: 114872999528357694}
   time: 50
+  refSwitch: {fileID: 0}
+  switchOn: 0
   porte: {fileID: 1035365699323694}
 --- !u!114 &114872999528357694
 MonoBehaviour:
