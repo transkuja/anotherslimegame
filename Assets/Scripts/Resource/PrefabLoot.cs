@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ItemType { Collectable1, Collectable2 }
 public class PrefabLoot : MonoBehaviour {
 
     [SerializeField]
@@ -13,13 +12,15 @@ public class PrefabLoot : MonoBehaviour {
     public GameObject prefabCollectable2;
 
 
-    public GameObject SpawnCollectableInstance(Vector3 where, Quaternion direction, Transform parent, ItemType myItemType)
+    public GameObject SpawnCollectableInstance(Vector3 where, Quaternion direction, Transform parent, CollectableType myItemType)
     {
         switch (myItemType)
         {
-            case ItemType.Collectable1:
+            case CollectableType.Evolution1:
                 return Instantiate(prefabCollectable1, where, direction, parent);
-            case ItemType.Collectable2:
+            case CollectableType.Evolution2:
+                return Instantiate(prefabCollectable2, where, direction, parent);
+            case CollectableType.Points:
                 return Instantiate(prefabCollectable2, where, direction, parent);
             default:
                 Debug.Log("Unknown Item type");

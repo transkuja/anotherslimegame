@@ -18,6 +18,14 @@ public class Collectable : MonoBehaviour
     {
         if (player && !isAttracted)
         {
+            // Grab everything not linked to evolution (points)
+            if (!Utils.IsAnEvolutionCollectable(type))
+            {
+                isAttracted = true;
+                playerTarget = player;
+                return;
+            }
+
             if (GameManager.CurrentGameMode.evolutionMode != EvolutionMode.GrabEvolution)
             {
                 if (player.Collectables[(int)type] < Utils.GetMaxValueForCollectable(type))
@@ -34,6 +42,8 @@ public class Collectable : MonoBehaviour
                     playerTarget = player;
                 }
             }
+
+
         }    
     }
 

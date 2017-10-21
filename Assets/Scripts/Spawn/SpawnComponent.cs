@@ -9,7 +9,8 @@ public class SpawnComponent : MonoBehaviour {
     public SpawnType mySpawnType;
 
     public MonsterType myMonsterType;
-    public ItemType myItemType;
+
+    public CollectableType myItemType;
 
 
     private int mySpawnId;
@@ -24,6 +25,11 @@ public class SpawnComponent : MonoBehaviour {
 	void Start () {
         switch (mySpawnType) {
             case SpawnType.Item:
+                if (myItemType == CollectableType.Size)
+                {
+                    Debug.LogError("Are you serious with your shit? Size is not a real collectable type -_-");
+                    break;
+                }
                 mySpawnId = SpawnManager.Instance.RegisterSpawnItemLocation(this.transform, myItemType, needSpawn, forceSpawn);
                 break;
             case SpawnType.Monster:

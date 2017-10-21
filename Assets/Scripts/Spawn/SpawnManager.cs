@@ -77,7 +77,7 @@ public class SpawnManager : MonoBehaviour{
         }
     }
 
-    private void SpawnItem(int idLocation, ItemType myItemType, bool forceSpawn = false)
+    private void SpawnItem(int idLocation, CollectableType myItemType, bool forceSpawn = false)
     {
         if(instance.dicSpawnItemsLocations.ContainsKey(idLocation) == false)
         {
@@ -126,7 +126,7 @@ public class SpawnManager : MonoBehaviour{
 
     // add a transformation to spawn manager, retrieve the id where the spawn location was inserted
     // call before everything
-    public int RegisterSpawnItemLocation(Transform mySpawnLocation, ItemType myItemType, bool needSpawn = false, bool forceSpawn = false)
+    public int RegisterSpawnItemLocation(Transform mySpawnLocation, CollectableType myItemType, bool needSpawn = false, bool forceSpawn = false)
     {
         instance.dicSpawnItemsLocations.Add(lastInsertedKeySpawnItems, mySpawnLocation);
 

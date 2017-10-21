@@ -106,7 +106,9 @@ public class EvolutionManager {
         }
     }
 
-    // Only for gameplay 1
+    /*
+     * Return the evolution linked to the collectable type or null if the collectable is not linked to any evolution (ex: Points)
+     */
     public Evolution GetEvolutionByCollectableType(CollectableType _type)
     {
         switch (_type)
@@ -116,7 +118,6 @@ public class EvolutionManager {
             case CollectableType.Evolution2:
                 return hoverEvolution;
             default:
-                Debug.Log("Unknown power, something went wrong");
                 return null;
         }
     }

@@ -55,6 +55,14 @@ public class Player : MonoBehaviour {
     public void UpdateCollectableValue(CollectableType type, int pickedValue)
     {
         collectables[(int)type] = Mathf.Clamp(collectables[(int)type] + pickedValue, 0, Utils.GetMaxValueForCollectable(type));
+        if (!Utils.IsAnEvolutionCollectable(type))
+            return;
+
+        EvolutionCheck(type);
+    }
+
+    void EvolutionCheck(CollectableType type)
+    {
         if (GameManager.CurrentGameMode.evolutionMode == EvolutionMode.GrabCollectableAndAutoEvolve)
         {
             Evolution evolution = GameManager.EvolutionManager.GetEvolutionByCollectableType(type);

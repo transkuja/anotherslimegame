@@ -52,6 +52,7 @@ public class DebugTools : MonoBehaviour {
 
         if (isDebugModeActive)
         {
+            // TODO Antho: Handle evolution mode switch
             if (Input.GetKey(KeyCode.Alpha1))
             {
                 if (Input.GetKeyDown(KeyCode.Alpha2))
@@ -72,14 +73,14 @@ public class DebugTools : MonoBehaviour {
                 if (Input.GetKeyUp(KeyCode.Alpha1))
                 {
                     GameObject go = RessourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
-                        DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, ItemType.Collectable1);
-                    Debug.Log("Pop some " + ItemType.Collectable1 + " on the ground!");
+                        DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.Evolution1);
+                    Debug.Log("Pop some " + CollectableType.Evolution1 + " on the ground!");
                 }
                 if (Input.GetKeyDown(KeyCode.Alpha3))
                 {
                     GameObject go = RessourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
-                        DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, ItemType.Collectable2);
-                    Debug.Log("Pop some " + ItemType.Collectable2 + " on the ground!");
+                        DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.Evolution2);
+                    Debug.Log("Pop some " + CollectableType.Evolution2 + " on the ground!");
                 }
             }
             else
