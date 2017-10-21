@@ -7,7 +7,7 @@ public class Evolution
 {
     int id;
     string name; 
-    float duration;
+    public float duration;
     CollectableType associatedCollectable;
     int cost;
     BodyPart bodyPart;
@@ -26,14 +26,6 @@ public class Evolution
         get
         {
             return id;
-        }
-    }
-
-    public float Duration
-    {
-        get
-        {
-            return duration;
         }
     }
 
@@ -68,44 +60,44 @@ public enum BodyPart { Head, Wings, Size }
 public enum Powers { DoubleJump, Hover, Size }
 
 public class EvolutionManager {
-    List<Evolution> evolutions = new List<Evolution>();
 
     // Evolution database handled in code
     Evolution doubleJumpEvolution = new Evolution(Powers.DoubleJump, 5, CollectableType.Evolution1, 20, BodyPart.Head);
     Evolution hoverEvolution = new Evolution(Powers.Hover, 3, CollectableType.Evolution2, 30, BodyPart.Wings);
 
-    private void Start()
+    public Evolution GetEvolutionByPowerName(Powers _powerName, bool isPermanent = false)
     {
-        evolutions.Add(doubleJumpEvolution);
-        evolutions.Add(hoverEvolution);
-    }
+        Evolution tmpEvolution;
 
-    public Evolution GetEvolutionByPowerName(Powers _powerName)
-    {
         switch (_powerName)
         {
             case Powers.DoubleJump:
-                return doubleJumpEvolution;
+                tmpEvolution = doubleJumpEvolution;
+                break;
             case Powers.Hover:
-                return hoverEvolution;
+                tmpEvolution = hoverEvolution;
+                break;
             default:
                 Debug.Log("Unknown power, something went wrong");
                 return null;
         }
+
+        if (isPermanent) tmpEvolution.duration = 0.0f;
+        return tmpEvolution;
     }
 
-    public void AddEvolutionComponent(GameObject gameObject, Evolution evolution)
+    public void AddEvolutionComponent(GameObject gameObject, Evolution evolution, bool isPermanent = false)
     {
         Powers power = (Powers)evolution.Id;
         switch (power)
         {
             case Powers.DoubleJump:
-                if (gameObject.GetComponent<DoubleJump>() != null) gameObject.GetComponent<DoubleJump>().Timer = evolution.Duration;
+                if (gameObject.GetComponent<DoubleJump>() != null) gameObject.GetComponent<DoubleJump>().Timer = (isPermanent) ? 0.0f : evolution.duration;
                 else
                     gameObject.AddComponent<DoubleJump>();
                 break;
             case Powers.Hover:
-                if (gameObject.GetComponent<Hover>() != null) gameObject.GetComponent<Hover>().Timer = evolution.Duration;
+                if (gameObject.GetComponent<Hover>() != null) gameObject.GetComponent<Hover>().Timer = (isPermanent) ? 0.0f : evolution.duration;
                 else
                     gameObject.AddComponent<Hover>(); break;
             default:

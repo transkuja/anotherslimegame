@@ -97,7 +97,7 @@ public class PlayerController : MonoBehaviour {
             {
                 HandleMovementWithController();
                 HandleJumpWithController();
-                if (GameManager.GameplayType == 2)
+                if (GameManager.CurrentGameMode.evolutionMode == EvolutionMode.GrabCollectableAndActivate)
                     HandleEvolutionsWithController();
             }
             // TODO: Externalize "state" to handle pause in PauseMenu?

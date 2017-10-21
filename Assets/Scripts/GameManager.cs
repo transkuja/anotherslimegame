@@ -6,8 +6,15 @@ public class GameManager : MonoBehaviour {
 
     private static GameManager instance = null;
     private static EvolutionManager evolutionManager = new EvolutionManager();
+    private static GameModeManager gameModeManager = new GameModeManager();
+    private static GameMode currentGameMode;
     private static GameState currentState = GameState.Normal;
-   
+
+    private void Awake()
+    {
+        currentGameMode = gameModeManager.GetGameModeByName(Gamemode.Escape);
+    }
+
     public static GameManager Instance
     {
         get
@@ -49,19 +56,6 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    public static int GameplayType
-    {
-        get
-        {
-            return Instance.gameplayType;
-        }
-
-        set
-        {
-            Instance.gameplayType = value;
-        }
-    }
-
     public static EvolutionManager EvolutionManager
     {
         get
@@ -70,11 +64,27 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    public static GameModeManager GameModeManager
+    {
+        get
+        {
+            return gameModeManager;
+        }
+    }
+
     public static GameState CurrentState
     {
         get
         {
             return currentState;
+        }
+    }
+
+    public static GameMode CurrentGameMode
+    {
+        get
+        {
+            return currentGameMode;
         }
     }
 
@@ -111,10 +121,6 @@ public class GameManager : MonoBehaviour {
     }
 
     [SerializeField] float maxMovementSpeed = 40.0f;
-
-    [SerializeField]
-    [Range(1, 3)]
-    private int gameplayType = 1;
 
     UI uiReference;
     public static PauseMenu pauseMenuReference;

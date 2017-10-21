@@ -18,7 +18,8 @@ public class EvolutionComponent : MonoBehaviour {
         set
         {
             timer = value;
-            isTimerInitialized = true;
+            if (timer != 0.0f)
+                isTimerInitialized = true;
         }
     }
 
@@ -27,7 +28,7 @@ public class EvolutionComponent : MonoBehaviour {
         evolution = GameManager.EvolutionManager.GetEvolutionByPowerName(powerName);
         transform.GetChild((int)PlayerChildren.Evolutions).GetChild((int)evolution.BodyPart).gameObject.SetActive(true);
         isEvolutionInitialized = true;
-        Timer = evolution.Duration;
+        Timer = evolution.duration;
     }
 
     void Update()
