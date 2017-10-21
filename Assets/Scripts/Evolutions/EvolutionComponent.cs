@@ -25,7 +25,8 @@ public class EvolutionComponent : MonoBehaviour {
 
     protected void SetPower(Powers powerName)
     {
-        evolution = GameManager.EvolutionManager.GetEvolutionByPowerName(powerName);
+        GetComponent<Player>().activeEvolutions++;
+        evolution = GameManager.EvolutionManager.GetEvolutionByPowerName(powerName, (GameManager.CurrentGameMode.evolutionMode == EvolutionMode.GrabEvolution));
         transform.GetChild((int)PlayerChildren.Evolutions).GetChild((int)evolution.BodyPart).gameObject.SetActive(true);
         isEvolutionInitialized = true;
         Timer = evolution.duration;
@@ -45,6 +46,7 @@ public class EvolutionComponent : MonoBehaviour {
 
     private void OnDestroy()
     {
+        GetComponent<Player>().activeEvolutions--;
         transform.GetChild((int)PlayerChildren.Evolutions).GetChild((int)evolution.BodyPart).gameObject.SetActive(false);
     }
 }

@@ -11,6 +11,7 @@ public class Player : MonoBehaviour {
     [Header("Collectables")]
     [SerializeField] int[] collectables;
 
+    public uint activeEvolutions = 0;
 
     public Rigidbody Rb
     {
@@ -60,6 +61,14 @@ public class Player : MonoBehaviour {
             if (collectables[(int)type] >= evolution.Cost)
                 EvolveGameplay1(evolution);
         }
+        else if (GameManager.CurrentGameMode.evolutionMode == EvolutionMode.GrabEvolution)
+        {
+            if (activeEvolutions == 0)
+            {
+                Evolution evolution = GameManager.EvolutionManager.GetEvolutionByCollectableType(type);
+                PermanentEvolution(evolution);
+            }
+        }
     }
 
     // GAMEPLAY TEST 1: all of this should be in an Evolution class handling all evolution parameters (+ we should be able to pickup collectables and "refresh" an evolution indefinitely)
@@ -73,6 +82,11 @@ public class Player : MonoBehaviour {
     {
         GameManager.EvolutionManager.AddEvolutionComponent(gameObject, evolution);
         collectables[0] -= evolution.Cost;
+    }
+
+    private void PermanentEvolution(Evolution evolution)
+    {
+        GameManager.EvolutionManager.AddEvolutionComponent(gameObject, evolution, true);
     }
 
     void Start () {
