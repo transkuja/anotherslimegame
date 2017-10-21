@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 public enum PlayerChildren { Evolutions };
 public class Player : MonoBehaviour {
@@ -13,10 +11,14 @@ public class Player : MonoBehaviour {
 
     public uint activeEvolutions = 0;
 
+    public Transform respawnPoint;
+
     public Rigidbody Rb
     {
         get
         {
+            if (rb == null)
+                rb = GetComponent<Rigidbody>();
             return rb;
         }
 
@@ -100,6 +102,6 @@ public class Player : MonoBehaviour {
     void Start () {
         rb = GetComponent<Rigidbody>();
         collectables = new int[(int)CollectableType.Size];
-	}
+    }
 
 }

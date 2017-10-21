@@ -1,5 +1,5 @@
-﻿
-using UnityEngine;
+﻿using UnityEngine;
+using System.Collections.Generic;
 
 public enum GameState { Normal, Paused, ForcedPause }
 public class GameManager : MonoBehaviour {
@@ -9,6 +9,8 @@ public class GameManager : MonoBehaviour {
     private static GameModeManager gameModeManager = new GameModeManager();
     private static GameMode currentGameMode;
     private static GameState currentState = GameState.Normal;
+    private PlayerStart playerStart;
+    List<GameObject> playersReference = new List<GameObject>();
 
     private void Awake()
     {
@@ -86,6 +88,35 @@ public class GameManager : MonoBehaviour {
         {
             return currentGameMode;
         }
+    }
+
+    public PlayerStart PlayerStart
+    {
+        get
+        {
+            return playerStart;
+        }
+    }
+
+    public uint ActivePlayersAtStart
+    {
+        get
+        {
+            return playerStart.ActivePlayersAtStart;
+        }
+    }
+
+    public List<GameObject> PlayersReference
+    {
+        get
+        {
+            return playersReference;
+        }
+    }
+
+    public void RegisterPlayerStart(PlayerStart _ps)
+    {
+        playerStart = _ps;
     }
 
     /*

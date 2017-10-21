@@ -5,7 +5,8 @@ using System;
 [RequireComponent(typeof(Player))]
 public class PlayerController : MonoBehaviour {
     bool playerIndexSet = false;
-    PlayerIndex playerIndex;
+
+    public PlayerIndex playerIndex;
     bool isUsingAController = false;
     GamePadState state;
     GamePadState prevState;
@@ -50,6 +51,11 @@ public class PlayerController : MonoBehaviour {
         {
             return playerIndex;
         }
+
+        set
+        {
+            playerIndex = value;
+        }
     }
 
     public bool IsUsingAController
@@ -57,6 +63,19 @@ public class PlayerController : MonoBehaviour {
         get
         {
             return isUsingAController;
+        }
+
+        set
+        {
+            isUsingAController = value;
+        }
+    }
+
+    public bool PlayerIndexSet
+    {
+        set
+        {
+            playerIndexSet = value;
         }
     }
 
@@ -70,19 +89,21 @@ public class PlayerController : MonoBehaviour {
     void FixedUpdate ()
     {
         // TODO: externaliser pour le comportement multi
-        if (!playerIndexSet || !prevState.IsConnected)
+        if (!playerIndexSet)
+            return;
+
+        if (!prevState.IsConnected)
         {
             isUsingAController = false;
-            for (int i = 0; i < 4; ++i)
+            for (int i = 0; i < GameManager.Instance.ActivePlayersAtStart; i++)
             {
-                PlayerIndex testPlayerIndex = (PlayerIndex)i;
-                GamePadState testState = GamePad.GetState(testPlayerIndex);
+                GamePadState testState = GamePad.GetState(playerIndex);
+
                 if (testState.IsConnected)
                 {
-                    Debug.Log(string.Format("GamePad found {0}", testPlayerIndex));
-                    playerIndex = testPlayerIndex;
                     playerIndexSet = true;
                     isUsingAController = true;
+                    break;
                 }
             }
         }
