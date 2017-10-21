@@ -6,6 +6,8 @@ public class Collectable : MonoBehaviour
     CollectableType type;
     [SerializeField]
     int value;
+    bool isAttracted = false;
+    Player playerTarget;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -14,24 +16,40 @@ public class Collectable : MonoBehaviour
 
     private void PickUp(Player player)
     {
-        if (player)
+        if (player && !isAttracted)
         {
             if (GameManager.CurrentGameMode.evolutionMode != EvolutionMode.GrabEvolution)
             {
                 if (player.Collectables[(int)type] < Utils.GetMaxValueForCollectable(type))
                 {
-                    player.UpdateCollectableValue(type, value);
-                    Destroy(this.gameObject);
+                    isAttracted = true;
+                    playerTarget = player;
                 }
             }
             else
             {
                 if (player.activeEvolutions == 0)
                 {
-                    player.UpdateCollectableValue(type, value);
-                    Destroy(this.gameObject);
+                    isAttracted = true;
+                    playerTarget = player;
                 }
             }
         }    
+    }
+
+    private void Update()
+    {
+        if (isAttracted)
+            Attract();
+    }
+
+    void Attract()
+    {
+        GetComponent<Rigidbody>().MovePosition(playerTarget.transform.position);
+        if (Vector3.Distance(playerTarget.transform.position, transform.position) < GetComponent<MeshFilter>().mesh.bounds.extents.magnitude)
+        {
+            playerTarget.UpdateCollectableValue(type, value);
+            Destroy(this.gameObject);
+        }
     }
 }
