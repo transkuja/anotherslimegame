@@ -11,3 +11,16 @@ public class RespawnPoint : MonoBehaviour {
             other.GetComponent<Player>().respawnPoint = transform;
     }
 }
+
+
+public class Respawner
+{
+    /*
+     * Contains specific respawn rules
+     */
+    public static void RespawnProcess(Player player)
+    {
+        player.transform.position = player.respawnPoint.position;
+        player.transform.rotation = player.respawnPoint.rotation;
+    }
+}

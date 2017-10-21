@@ -6,17 +6,7 @@ public class DeathZone : MonoBehaviour {
     {
         if (other.GetComponent<Player>() != null)
         {
-            RespawnProcess(other.GetComponent<Player>());
+            Respawner.RespawnProcess(other.GetComponent<Player>());
         }
     }
-
-    /*
-     * Contains specific respawn rules
-     */
-    void RespawnProcess(Player player)
-    {
-        player.transform.position = player.respawnPoint.position;
-        player.transform.rotation = player.respawnPoint.rotation;
-    }
-
 }

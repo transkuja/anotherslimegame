@@ -92,6 +92,12 @@ public class DebugTools : MonoBehaviour {
                     if (DebugPlayerSelected.GetComponent<Hover>()) Destroy(DebugPlayerSelected.GetComponent<Hover>());
                     Debug.Log("Reset current player! " + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
                 }
+
+                if (Input.GetKeyDown(KeyCode.Alpha9))
+                {
+                    Respawner.RespawnProcess(DebugPlayerSelected);
+                    Debug.Log("Reset current player to last respawn point! " + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
+                }
             }
         }
         
