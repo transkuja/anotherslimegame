@@ -14,7 +14,7 @@ public class SpawnComponent : MonoBehaviour {
 
 
     private int mySpawnId;
-
+    
     [Tooltip("Spawn a spawnable in registry")]
     public bool needSpawn = true;
 
@@ -23,6 +23,11 @@ public class SpawnComponent : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+
+        // TODO: shitty tool to see where we put spawners (need a tool?)
+        Destroy(GetComponent<MeshRenderer>());
+        Destroy(GetComponent<MeshFilter>());
+
         switch (mySpawnType) {
             case SpawnType.Item:
                 if (myItemType == CollectableType.Size)
