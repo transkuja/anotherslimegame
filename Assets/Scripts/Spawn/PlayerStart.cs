@@ -1,13 +1,24 @@
 ﻿using XInputDotNetPure;
-
+using UnityEngine.SceneManagement;
 using UnityEngine;
+using System.Collections.Generic;
 
 public class PlayerStart : MonoBehaviour {
 
     Transform[] playerStart;
     public GameObject playerPrefab;
-    public GameObject cameraPrefab;
+    public GameObject[] cameraPlayerReferences;
     uint activePlayersAtStart = 0;
+
+    List<GameObject> playersReference = new List<GameObject>();
+
+    public List<GameObject> PlayersReference
+    {
+        get
+        {
+            return playersReference;
+        }
+    }
 
     public uint ActivePlayersAtStart
     {
@@ -23,6 +34,7 @@ public class PlayerStart : MonoBehaviour {
             playerStart[i] = transform.GetChild(i);
         GameManager.Instance.RegisterPlayerStart(this);
         SpawnPlayers();
+        AttributeCamera();
     }
 
     public Transform GetPlayerStart(uint playerIndex)
@@ -49,12 +61,6 @@ public class PlayerStart : MonoBehaviour {
     public void SpawnPlayers()
     {
         CheckNumberOfActivePlayers();
-
-        //cameraSceneReference.GetComponent<Cinemachine.CinemachineFreeLook>().LookAt = go.transform;
-        //cameraSceneReference.GetComponent<Cinemachine.CinemachineFreeLook>().Follow = go.transform;
-        //currentPlayer.cameraReference = cameraSceneReference;
-        //cameraSceneReference.SetActive(true);
-
         // ===================================================
         // Debug 
         if (activePlayersAtStart == 0)
@@ -65,17 +71,13 @@ public class PlayerStart : MonoBehaviour {
             go.transform.rotation = playerSpawn.rotation;
             Player currentPlayer = go.GetComponent<Player>();
             currentPlayer.respawnPoint = playerSpawn;
-            cameraPrefab.GetComponent<Cinemachine.CinemachineFreeLook>().LookAt = go.transform;
-            cameraPrefab.GetComponent<Cinemachine.CinemachineFreeLook>().Follow = go.transform;
-            currentPlayer.cameraReference = cameraPrefab;
-            cameraPrefab.SetActive(true);
             PlayerController playerController = go.GetComponent<PlayerController>();
 
             playerController.PlayerIndex = 0;
             playerController.IsUsingAController = false;
             playerController.PlayerIndexSet = true;
 
-            GameManager.Instance.PlayersReference.Add(go);
+            PlayersReference.Add(go);
         }
         // ==========================================================
 
@@ -87,18 +89,55 @@ public class PlayerStart : MonoBehaviour {
             go.transform.rotation = playerSpawn.rotation;
             Player currentPlayer = go.GetComponent<Player>();
             currentPlayer.respawnPoint = playerSpawn;
-            cameraPrefab.GetComponent<Cinemachine.CinemachineFreeLook>().LookAt = go.transform;
-            cameraPrefab.GetComponent<Cinemachine.CinemachineFreeLook>().Follow = go.transform;
-            currentPlayer.cameraReference = cameraPrefab;
-            cameraPrefab.SetActive(true);
+
             PlayerController playerController = go.GetComponent<PlayerController>();
 
             playerController.PlayerIndex = (PlayerIndex)i;
             playerController.IsUsingAController = true;
             playerController.PlayerIndexSet = true;
 
-            GameManager.Instance.PlayersReference.Add(go);
+            PlayersReference.Add(go);
 
+        }
+    }
+
+    public void AttributeCamera()
+    {
+        if (cameraPlayerReferences.Length == 0)
+        {
+            Debug.LogError("No camera assigned in playerStart");
+            return;
+        }
+
+        if (activePlayersAtStart == 0)
+        {
+            GameObject go = PlayersReference[0];
+            if (SceneManager.GetActiveScene() == SceneManager.GetSceneByBuildIndex(0))
+            {
+                cameraPlayerReferences[0].GetComponent<Cinemachine.CinemachineVirtualCamera>().LookAt = go.transform;
+            } else
+            {
+                cameraPlayerReferences[0].GetComponent<Cinemachine.CinemachineFreeLook>().LookAt = go.transform;
+                cameraPlayerReferences[0].GetComponent<Cinemachine.CinemachineFreeLook>().Follow = go.transform;
+            } 
+            go.GetComponent<Player>().cameraReference = cameraPlayerReferences[0];
+            cameraPlayerReferences[0].SetActive(true);
+        }
+
+        for (int i = 0; i < activePlayersAtStart; i++)
+        {
+            GameObject go = PlayersReference[i];
+            if (SceneManager.GetActiveScene() == SceneManager.GetSceneByBuildIndex(0))
+            {
+                cameraPlayerReferences[i].GetComponent<Cinemachine.CinemachineVirtualCamera>().LookAt = go.transform;
+            }
+            else
+            {
+                cameraPlayerReferences[i].GetComponent<Cinemachine.CinemachineFreeLook>().LookAt = go.transform;
+                cameraPlayerReferences[i].GetComponent<Cinemachine.CinemachineFreeLook>().Follow = go.transform;
+            }
+            go.GetComponent<Player>().cameraReference = cameraPlayerReferences[i];
+            cameraPlayerReferences[i].SetActive(true);
         }
     }
 

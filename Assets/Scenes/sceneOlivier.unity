@@ -10713,17 +10713,22 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 1535007872}
     m_Modifications:
+    - target: {fileID: 114985652565730510, guid: d35b4cf660131064298fb319f3e4e30c,
+        type: 2}
+      propertyPath: cameraPlayerReferences.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4756922043918338, guid: d35b4cf660131064298fb319f3e4e30c, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -6.3
+      value: 140
       objectReference: {fileID: 0}
     - target: {fileID: 4756922043918338, guid: d35b4cf660131064298fb319f3e4e30c, type: 2}
       propertyPath: m_LocalPosition.y
-      value: -0.8699999
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4756922043918338, guid: d35b4cf660131064298fb319f3e4e30c, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -2.2620292
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4756922043918338, guid: d35b4cf660131064298fb319f3e4e30c, type: 2}
       propertyPath: m_LocalRotation.x
@@ -10753,6 +10758,11 @@ Prefab:
     - target: {fileID: 114985652565730510, guid: d35b4cf660131064298fb319f3e4e30c,
         type: 2}
       propertyPath: cameraSceneReference
+      value: 
+      objectReference: {fileID: 1525236384}
+    - target: {fileID: 114985652565730510, guid: d35b4cf660131064298fb319f3e4e30c,
+        type: 2}
+      propertyPath: cameraPlayerReferences.Array.data[0]
       value: 
       objectReference: {fileID: 1525236384}
     m_RemovedComponents: []

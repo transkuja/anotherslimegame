@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
+
 
 public enum GameState { Normal, Paused, ForcedPause }
 public class GameManager : MonoBehaviour {
@@ -10,12 +10,6 @@ public class GameManager : MonoBehaviour {
     private static GameMode currentGameMode;
     private static GameState currentState = GameState.Normal;
     private PlayerStart playerStart;
-    List<GameObject> playersReference = new List<GameObject>();
-
-    private void Awake()
-    {
-        currentGameMode = gameModeManager.GetGameModeByName(Gamemode.Escape);
-    }
 
     public static GameManager Instance
     {
@@ -86,7 +80,17 @@ public class GameManager : MonoBehaviour {
     {
         get
         {
+            // Load from another scene than the menu load te escape gameMode fow now
+            // TODO : Destroy this ? 
+            if (currentGameMode == null)
+            {
+                currentGameMode = gameModeManager.GetGameModeByName(Gamemode.Escape);
+            }
             return currentGameMode;
+        }
+        set
+        {
+            currentGameMode = value;
         }
     }
 
@@ -106,13 +110,7 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    public List<GameObject> PlayersReference
-    {
-        get
-        {
-            return playersReference;
-        }
-    }
+
 
     public void RegisterPlayerStart(PlayerStart _ps)
     {
