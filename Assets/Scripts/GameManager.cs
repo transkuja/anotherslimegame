@@ -23,16 +23,6 @@ public class GameManager : MonoBehaviour {
         private set { }
     }
 
-    public static float JumpUnit
-    {
-        get
-        {
-            return Instance.jumpUnit;
-        }
-
-        private set { }
-    }
-
     public static float MaxMovementSpeed
     {
         get
@@ -120,14 +110,10 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    [Header("Jump Settings")]
-    [Tooltip("Jump unit is used to calibrate full charge jump")]
-    [SerializeField] float jumpUnit = 500.0f;
     [SerializeField] float maxMovementSpeed = 40.0f;
 
-
     [SerializeField]
-    [Range(1, 2)]
+    [Range(1, 3)]
     private int gameplayType = 1;
 
     UI uiReference;

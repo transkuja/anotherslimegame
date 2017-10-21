@@ -206,12 +206,12 @@ public class PlayerController : MonoBehaviour {
             chargeFactor += jumpChargeSpeed * Time.unscaledDeltaTime;
             // Force max charge jump if the charge reach maximum charge
             if (chargeFactor > 1.0f)
-                Jump(GameManager.JumpUnit);
+                Jump();
         }
 
         // Jump when the A button is released and only if on the ground
         if (prevState.Buttons.A == ButtonState.Pressed && state.Buttons.A == ButtonState.Released && isReadyForNextJumpInput)
-            Jump(GameManager.JumpUnit * chargeFactor);
+            Jump();
 
         // Prevent input in the air
         if (state.Buttons.A == ButtonState.Released && isWaitingForNextRelease)
@@ -227,21 +227,18 @@ public class PlayerController : MonoBehaviour {
             return;
 
         if (Input.GetKeyDown(KeyCode.Space) && isReadyForNextJumpInput)
-            Jump(GameManager.JumpUnit);
+            Jump();
 
     }
 
-    void Jump(float jumpPower)
+    void Jump()
     {
         IsGrounded = false;
         JumpManager jm;
         if (jm = GetComponent<JumpManager>())
             jm.Jump(20,JumpManager.JumpEnum.Basic);
         else
-        {
-            player.Rb.AddForce(Vector3.up * jumpPower);
-            Debug.Log("Using \"player.Rb.AddForce(Vector3.up * jumpPower);\"methode");
-        }
+            Debug.LogError("No jump manager attached to player!");
 
         isReadyForNextJumpInput = false;
         isWaitingForNextRelease = false;
