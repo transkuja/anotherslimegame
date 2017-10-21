@@ -27,9 +27,13 @@ public class PlayerController : MonoBehaviour {
     [Range(5, 1000)] float jumpChargeSpeed = 15.0f;
 
     int selectedEvolution = 0;
-
+    [SerializeField]
+    [Range(10, 100000)]
+    float customGravity;
     // TODO: send this value to jumpManager
     bool isGrounded = true;
+
+    public bool isGravityEnabled = true;
 
     public bool IsGrounded
     {
@@ -89,6 +93,11 @@ public class PlayerController : MonoBehaviour {
 
     void FixedUpdate ()
     {
+        if (isGravityEnabled)
+        {
+            player.Rb.AddForce(-customGravity * Vector3.up, ForceMode.Acceleration);
+        }
+        //player.Rb.velocity = new Vector3(player.Rb.velocity.x, -customGravity, player.Rb.velocity.z);
         // TODO: externaliser pour le comportement multi
         if (!playerIndexSet)
             return;

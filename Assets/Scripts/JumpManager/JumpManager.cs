@@ -16,11 +16,14 @@ public class JumpManager : MonoBehaviour
 
 
     private Rigidbody rb;
+    private PlayerController pc;
+
     private Jump curJump;
     public Jump[] jumpTab;
     public void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        pc = GetComponent<PlayerController>();
         if (curJump == null && jumpTab!=null && jumpTab.Length>1)
         {
             curJump = jumpTab[0];
@@ -28,7 +31,8 @@ public class JumpManager : MonoBehaviour
     }
     void SetGravity()
     {
-        rb.useGravity = false;
+        // rb.useGravity = false;
+        pc.isGravityEnabled = false;
     }
 
     public void Jump(float playerMaxGroundSpeed, JumpEnum type)
@@ -49,7 +53,8 @@ public class JumpManager : MonoBehaviour
     public void Stop()
     {
         curJump = null;
-        rb.useGravity = true;
+        pc.isGravityEnabled = true;
+        //rb.useGravity = true;
     }
 
     // dans le cas d'un jump à pression continue
