@@ -1,6 +1,7 @@
 ﻿using XInputDotNetPure;
 using UnityEngine;
 using System;
+using UnityEngine.SceneManagement;
 
 [RequireComponent(typeof(Player))]
 public class PlayerController : MonoBehaviour {
@@ -122,8 +123,9 @@ public class PlayerController : MonoBehaviour {
                     HandleEvolutionsWithController();
             }
             // TODO: Externalize "state" to handle pause in PauseMenu?
-            if (prevState.Buttons.Start == ButtonState.Released && state.Buttons.Start == ButtonState.Pressed)
-                GameManager.ChangeState(GameState.Paused);
+            if( SceneManager.GetActiveScene() != SceneManager.GetSceneByBuildIndex(0) )
+                if (prevState.Buttons.Start == ButtonState.Released && state.Buttons.Start == ButtonState.Pressed)
+                    GameManager.ChangeState(GameState.Paused);
 
         }
         else
@@ -135,8 +137,9 @@ public class PlayerController : MonoBehaviour {
                 HandleMovementWithKeyBoard();
                 HandleJumpWithKeyboard();
             }
-            if (Input.GetKeyDown(KeyCode.Escape))
-                GameManager.ChangeState(GameState.Paused);
+            if (SceneManager.GetActiveScene() != SceneManager.GetSceneByBuildIndex(0))
+                if (Input.GetKeyDown(KeyCode.Escape))
+                    GameManager.ChangeState(GameState.Paused);
         }
 
     }
