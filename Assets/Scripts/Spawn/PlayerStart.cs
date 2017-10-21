@@ -6,6 +6,7 @@ public class PlayerStart : MonoBehaviour {
 
     Transform[] playerStart;
     public GameObject playerPrefab;
+    public GameObject cameraPrefab;
     uint activePlayersAtStart = 0;
 
     public uint ActivePlayersAtStart
@@ -49,6 +50,11 @@ public class PlayerStart : MonoBehaviour {
     {
         CheckNumberOfActivePlayers();
 
+        //cameraSceneReference.GetComponent<Cinemachine.CinemachineFreeLook>().LookAt = go.transform;
+        //cameraSceneReference.GetComponent<Cinemachine.CinemachineFreeLook>().Follow = go.transform;
+        //currentPlayer.cameraReference = cameraSceneReference;
+        //cameraSceneReference.SetActive(true);
+
         // ===================================================
         // Debug 
         if (activePlayersAtStart == 0)
@@ -57,7 +63,12 @@ public class PlayerStart : MonoBehaviour {
             Transform playerSpawn = playerStart[0];
             go.transform.position = playerSpawn.position;
             go.transform.rotation = playerSpawn.rotation;
-            go.GetComponent<Player>().respawnPoint = playerSpawn;
+            Player currentPlayer = go.GetComponent<Player>();
+            currentPlayer.respawnPoint = playerSpawn;
+            cameraPrefab.GetComponent<Cinemachine.CinemachineFreeLook>().LookAt = go.transform;
+            cameraPrefab.GetComponent<Cinemachine.CinemachineFreeLook>().Follow = go.transform;
+            currentPlayer.cameraReference = cameraPrefab;
+            cameraPrefab.SetActive(true);
             PlayerController playerController = go.GetComponent<PlayerController>();
 
             playerController.PlayerIndex = 0;
@@ -74,7 +85,12 @@ public class PlayerStart : MonoBehaviour {
             Transform playerSpawn = playerStart[i];
             go.transform.position = playerSpawn.position;
             go.transform.rotation = playerSpawn.rotation;
-            go.GetComponent<Player>().respawnPoint = playerSpawn;
+            Player currentPlayer = go.GetComponent<Player>();
+            currentPlayer.respawnPoint = playerSpawn;
+            cameraPrefab.GetComponent<Cinemachine.CinemachineFreeLook>().LookAt = go.transform;
+            cameraPrefab.GetComponent<Cinemachine.CinemachineFreeLook>().Follow = go.transform;
+            currentPlayer.cameraReference = cameraPrefab;
+            cameraPrefab.SetActive(true);
             PlayerController playerController = go.GetComponent<PlayerController>();
 
             playerController.PlayerIndex = (PlayerIndex)i;

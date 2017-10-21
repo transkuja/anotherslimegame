@@ -12,6 +12,7 @@ public class Player : MonoBehaviour {
     public uint activeEvolutions = 0;
 
     public Transform respawnPoint;
+    public GameObject cameraReference;
 
     public Rigidbody Rb
     {
