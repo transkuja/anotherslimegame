@@ -52,7 +52,11 @@ public class DynamicJoystickCameraController : MonoBehaviour {
             freelockCamera.m_XAxis.m_InputAxisValue = Mathf.Abs(state.ThumbSticks.Right.X) > 0.1f ? -state.ThumbSticks.Right.X : 0;
             freelockCamera.m_YAxis.m_InputAxisValue = Mathf.Abs(state.ThumbSticks.Right.Y) > 0.1f ? state.ThumbSticks.Right.Y : 0;
             //Need a more complex function ?
-            freelockCamera.m_XAxis.m_InputAxisValue += Mathf.Abs(state.ThumbSticks.Left.X) > 0.1f ? -state.ThumbSticks.Left.X* Mathf.Lerp(0.5f, 1.0f, Mathf.Abs(state.ThumbSticks.Left.X)) : 0;
+            if (GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerController>().IsGrounded)
+                freelockCamera.m_XAxis.m_InputAxisValue += Mathf.Abs(state.ThumbSticks.Left.X) > 0.1f ? -state.ThumbSticks.Left.X* Mathf.Lerp(0.5f, 1.0f, Mathf.Abs(state.ThumbSticks.Left.X)) : 0;
+            else
+                freelockCamera.m_XAxis.m_InputAxisValue += Mathf.Abs(state.ThumbSticks.Left.X) > 0.1f ? (-state.ThumbSticks.Left.X * Mathf.Lerp(0.5f, 1.0f, Mathf.Abs(state.ThumbSticks.Left.X)))/2.0f : 0;
+
             /*if(freelockCamera.LookAt.GetComponent<Rigidbody>().velocity.magnitude >0.01f)
             {
                 freelockCamera.m_RecenterToTargetHeading.m_enabled = true;
