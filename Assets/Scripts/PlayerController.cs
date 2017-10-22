@@ -28,8 +28,13 @@ public class PlayerController : MonoBehaviour {
 
     int selectedEvolution = 0;
     [SerializeField]
-    [Range(10, 100000)]
-    float customGravity;
+    [Range(70, 250)]
+    float customGravity; // 90 seems good
+    [SerializeField]
+    [Range(0, 250)]
+    float airForce;
+
+    public bool inputsOnJoystickLowered = false;
     // TODO: send this value to jumpManager
     bool isGrounded = true;
 
@@ -120,6 +125,16 @@ public class PlayerController : MonoBehaviour {
         if (isGravityEnabled)
         {
             player.Rb.AddForce(-customGravity * Vector3.up, ForceMode.Acceleration);
+            if (player.Rb.velocity.y < -10.0f)
+            {
+                // No Inputs Mode
+                inputsOnJoystickLowered = true;
+            }
+            else
+            {
+                inputsOnJoystickLowered = false;
+            }
+
         }
         //player.Rb.velocity = new Vector3(player.Rb.velocity.x, -customGravity, player.Rb.velocity.z);
         // TODO: externaliser pour le comportement multi
@@ -219,10 +234,13 @@ public class PlayerController : MonoBehaviour {
     }
 
     private void HandleMovementWithController()
-    {
+    {          
         Vector3 initialVelocity = new Vector3(state.ThumbSticks.Left.X, 0.0f, state.ThumbSticks.Left.Y);
+
         initialVelocity.Normalize();
         initialVelocity *= (Mathf.Abs(state.ThumbSticks.Left.X) + Mathf.Abs(state.ThumbSticks.Left.Y) > 0.95f) ? GameManager.MaxMovementSpeed : GameManager.MaxMovementSpeed / 2.0f;
+        if (inputsOnJoystickLowered)
+            initialVelocity /= 2.0f;
 
         Vector3 camVectorForward = new Vector3(Camera.main.transform.forward.x, 0.0f, Camera.main.transform.forward.z);
         camVectorForward.Normalize();
