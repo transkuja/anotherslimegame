@@ -20,12 +20,13 @@ public class ScoreScreen : MonoBehaviour {
     private void Awake()
     {
         GameManager.Instance.RegisterScoreScreenPanel(this);
+        scorePanel = transform.GetChild((int)ScoreScreenChildren.ScorePanel).gameObject;
+        gameObject.SetActive(false);
+
     }
 
     public void Init()
     {
-        scorePanel = transform.GetChild((int)ScoreScreenChildren.ScorePanel).gameObject;
-        gameObject.SetActive(false);
 
         for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
         {
@@ -42,19 +43,23 @@ public class ScoreScreen : MonoBehaviour {
         scorePanelPlayer[player].GetComponent<PlayerScore>().TextCoins.text = player.Collectables[(int)CollectableType.Points].ToString();
         scorePanelPlayer[player].GetComponent<PlayerScore>().TextPointCoins.text = (player.Collectables[(int)CollectableType.Points] * valueCoins).ToString();
         scorePanelPlayer[player].SetActive(true);
-        
+
+        //Tmp
+        gameObject.SetActive(true);
+
+
     }
 
     void Update()
     {
+
         // TODO : Multi to be handle
         if (!GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerController>().PlayerIndexSet)
             return;
 
         if (GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerController>().IsUsingAController)
         {
-            
-            if (GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerController>().PrevState.Buttons.Start == ButtonState.Released && GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerController>().State.Buttons.Start == ButtonState.Pressed)
+            if (GamePad.GetState(GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerController>().playerIndex).Buttons.Start == ButtonState.Pressed)
                 ExitToMainMenu();
 
         }
@@ -68,6 +73,7 @@ public class ScoreScreen : MonoBehaviour {
 
     public void ExitToMainMenu()
     {
+        Debug.Log("la");
         SceneManager.LoadScene(0);
     }
 

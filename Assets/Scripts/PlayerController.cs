@@ -99,22 +99,6 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    public GamePadState State
-    {
-        get
-        {
-            return state;
-        }
-    }
-
-    public GamePadState PrevState
-    {
-        get
-        {
-            return prevState;
-        }
-    }
-
     private void Start()
     {
         player = GetComponent<Player>();
