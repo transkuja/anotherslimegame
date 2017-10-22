@@ -35,6 +35,10 @@ public class PlayerController : MonoBehaviour {
 
     public bool isGravityEnabled = true;
 
+    // TMP??
+    RaycastHit hitInfo;
+    float maxDistanceOffset = 2.0f;
+
     public bool IsGrounded
     {
         get
@@ -213,18 +217,37 @@ public class PlayerController : MonoBehaviour {
     {
         if (collision.gameObject.GetComponentInParent<Ground>() != null)
         {
-            RaycastHit hitInfo;
-            float maxDistance = 1.2f;
-            if (Physics.Raycast(transform.position, -transform.up, out hitInfo, maxDistance))
-            {
-                if (hitInfo.transform.gameObject.GetComponentInParent<Ground>() != null)
-                    IsGrounded = true;
-            }
+            //if (Physics.Raycast(transform.position, -transform.up, out hitInfo, maxDistanceOffset))
+            //{
+            //    if (hitInfo.transform.gameObject.GetComponentInParent<Ground>() != null)
+            //        IsGrounded = true;
+            //}
+
+            //Debug.Log("normal" + collision.contacts[0].normal);
+            //Debug.Log("angle" + Vector3.Angle(collision.contacts[0].normal, transform.up));
+            //if (Vector3.Angle(collision.contacts[0].normal, transform.up) < 45)
+            //{
+            //    IsGrounded = true;
+            //}
 
             if (isUsingAController ? state.Buttons.A == ButtonState.Released : true)
                 isReadyForNextJumpInput = true;
             else
                 isWaitingForNextRelease = true;
+        }
+    }
+
+    private void Update()
+    {
+        if (player.Rb.velocity.y <= 0.2f && !isGrounded)
+        {
+            if (Physics.Raycast(transform.position, -transform.up, out hitInfo, maxDistanceOffset))
+            {
+                if (hitInfo.transform.gameObject.GetComponentInParent<Ground>() != null)
+                {
+                    IsGrounded = true;
+                }
+            }
         }
     }
 

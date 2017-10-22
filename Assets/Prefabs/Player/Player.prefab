@@ -775,6 +775,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerIndex: 0
   jumpChargeSpeed: 19.2
+  customGravity: 90
+  isGravityEnabled: 1
 --- !u!135 &135489572043095924
 SphereCollider:
   m_ObjectHideFlags: 1

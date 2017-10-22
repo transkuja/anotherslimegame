@@ -52,8 +52,11 @@ public class JumpManager : MonoBehaviour
     }
     public void Stop()
     {
-        curJump = null;
-        pc.isGravityEnabled = true;
+        if (curJump != null)
+        {
+            curJump = null;
+            pc.isGravityEnabled = true;
+        }
         //rb.useGravity = true;
     }
 
