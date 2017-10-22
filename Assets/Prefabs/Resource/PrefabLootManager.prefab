@@ -57,3 +57,5 @@ MonoBehaviour:
     type: 2}
   prefabCollectable3: {fileID: 1097748654610884, guid: 192da9fc314c1a34499a8e48ed50a415,
     type: 2}
+  prefabKeySprite: {fileID: 1883766573907508, guid: 362c8f3bb33972d48be36f9204c699c7,
+    type: 2}

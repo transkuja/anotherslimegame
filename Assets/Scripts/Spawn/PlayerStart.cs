@@ -35,7 +35,10 @@ public class PlayerStart : MonoBehaviour {
         GameManager.Instance.RegisterPlayerStart(this);
         SpawnPlayers();
         AttributeCamera();
+
+        // Inits
         InitializeScorePanel();
+        InitializePlayersUI();
     }
 
     public Transform GetPlayerStart(uint playerIndex)
@@ -147,4 +150,8 @@ public class PlayerStart : MonoBehaviour {
         GameManager.Instance.ScoreScreenReference.Init();
     }
 
+    void InitializePlayersUI()
+    {
+        GameManager.Instance.PlayerUI.Init();
+    }
 }

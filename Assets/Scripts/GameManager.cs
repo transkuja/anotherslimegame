@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour {
     private static GameMode currentGameMode;
     private static GameState currentState = GameState.Normal;
     private PlayerStart playerStart;
+    private PlayerUI playerUI;
 
     public static GameManager Instance
     {
@@ -118,9 +119,22 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    public PlayerUI PlayerUI
+    {
+        get
+        {
+            return playerUI;
+        }
+    }
+
     public void RegisterPlayerStart(PlayerStart _ps)
     {
         playerStart = _ps;
+    }
+
+    public void RegisterPlayerUI(PlayerUI _pUI)
+    {
+        playerUI = _pUI;
     }
 
     public void RegisterScoreScreenPanel(ScoreScreen _ss)

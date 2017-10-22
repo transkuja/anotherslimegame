@@ -72,13 +72,13 @@ public class DebugTools : MonoBehaviour {
             {
                 if (Input.GetKeyUp(KeyCode.Alpha1))
                 {
-                    GameObject go = RessourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
+                    GameObject go = ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
                         DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.Evolution1);
                     Debug.Log("Pop some " + CollectableType.Evolution1 + " on the ground!");
                 }
                 if (Input.GetKeyDown(KeyCode.Alpha3))
                 {
-                    GameObject go = RessourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
+                    GameObject go = ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
                         DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.Evolution2);
                     Debug.Log("Pop some " + CollectableType.Evolution2 + " on the ground!");
                 }

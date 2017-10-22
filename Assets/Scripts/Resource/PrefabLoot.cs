@@ -11,6 +11,8 @@ public class PrefabLoot : MonoBehaviour {
     [SerializeField]
     public GameObject prefabCollectable3;
 
+    public GameObject prefabKeySprite;
+
     public GameObject SpawnCollectableInstance(Vector3 where, Quaternion direction, Transform parent, CollectableType myItemType)
     {
         switch (myItemType)
