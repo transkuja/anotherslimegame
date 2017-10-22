@@ -209,10 +209,10 @@ public class PlayerController : MonoBehaviour {
 
         player.Rb.velocity = new Vector3(initialVelocity.x, player.Rb.velocity.y, initialVelocity.z);
 
-        Vector3 camVectorForward = new Vector3(Camera.main.transform.forward.x, 0.0f, Camera.main.transform.forward.z);
+        Vector3 camVectorForward = new Vector3(player.cameraReference.transform.forward.x, 0.0f, player.cameraReference.transform.forward.z);
         camVectorForward.Normalize();
 
-        Vector3 velocityVec = initialVelocity.z * camVectorForward + initialVelocity.x * Camera.main.transform.right + Vector3.up * player.Rb.velocity.y;
+        Vector3 velocityVec = initialVelocity.z * camVectorForward + initialVelocity.x * player.cameraReference.transform.right + Vector3.up * player.Rb.velocity.y;
 
         player.Rb.velocity = velocityVec;
         transform.LookAt(transform.position + new Vector3(velocityVec.x, 0.0f, velocityVec.z));
@@ -228,15 +228,15 @@ public class PlayerController : MonoBehaviour {
         if (isFreeFalling)
             initialVelocity /= 2.0f;
 
-        Vector3 camVectorForward = new Vector3(Camera.main.transform.forward.x, 0.0f, Camera.main.transform.forward.z);
+        Vector3 camVectorForward = new Vector3(player.cameraReference.transform.forward.x, 0.0f, player.cameraReference.transform.forward.z);
         camVectorForward.Normalize();
 
         Vector3 velocityVec = initialVelocity.z * camVectorForward + Vector3.up * player.Rb.velocity.y;
         if (isGrounded)
-            velocityVec += initialVelocity.x * Camera.main.transform.right;
+            velocityVec += initialVelocity.x * player.cameraReference.transform.right;
 
         player.Rb.velocity = velocityVec;
-        transform.LookAt(transform.position + new Vector3(velocityVec.x, 0.0f, velocityVec.z) + initialVelocity.x * Camera.main.transform.right);
+        transform.LookAt(transform.position + new Vector3(velocityVec.x, 0.0f, velocityVec.z) + initialVelocity.x * player.cameraReference.transform.right);
     }
 
     private void OnCollisionEnter(Collision collision)

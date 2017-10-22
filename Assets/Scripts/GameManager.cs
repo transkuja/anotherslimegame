@@ -153,13 +153,15 @@ public class GameManager : MonoBehaviour {
             {
                 currentState = GameState.Normal;
                 pauseMenuReference.gameObject.SetActive(false);
-                Camera.main.GetComponent<Cinemachine.CinemachineBrain>().enabled = true;
+                for (int i = 0; i < instance.playerStart.ActivePlayersAtStart; i++)
+                    instance.playerStart.cameraPlayerReferences[i].transform.GetChild(1).GetComponent<Cinemachine.CinemachineBrain>().enabled = true;
             }
             else if (currentState == GameState.Normal)
             {
                 currentState = GameState.Paused;
                 pauseMenuReference.gameObject.SetActive(true);
-                Camera.main.GetComponent<Cinemachine.CinemachineBrain>().enabled = false;
+                for (int i = 0; i < instance.playerStart.ActivePlayersAtStart; i++)
+                    instance.playerStart.cameraPlayerReferences[i].transform.GetChild(1).GetComponent<Cinemachine.CinemachineBrain>().enabled = false;
             }
         }
 
@@ -169,7 +171,8 @@ public class GameManager : MonoBehaviour {
             {
                 currentState = GameState.Normal;
                 pauseMenuReference.gameObject.SetActive(false);
-                Camera.main.GetComponent<Cinemachine.CinemachineBrain>().enabled = true;
+                for (int i = 0; i < instance.playerStart.ActivePlayersAtStart; i++)
+                    instance.playerStart.cameraPlayerReferences[i].transform.GetChild(1).GetComponent<Cinemachine.CinemachineBrain>().enabled = true;
             }
         }
     }
