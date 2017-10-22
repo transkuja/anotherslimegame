@@ -82,9 +82,29 @@ public class PlayerController : MonoBehaviour {
 
     public bool PlayerIndexSet
     {
+        get
+        {
+            return playerIndexSet;
+        }
         set
         {
             playerIndexSet = value;
+        }
+    }
+
+    public GamePadState State
+    {
+        get
+        {
+            return state;
+        }
+    }
+
+    public GamePadState PrevState
+    {
+        get
+        {
+            return prevState;
         }
     }
 

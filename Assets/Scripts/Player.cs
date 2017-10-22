@@ -14,6 +14,8 @@ public class Player : MonoBehaviour {
     public Transform respawnPoint;
     public GameObject cameraReference;
 
+    public float time;
+
     public Rigidbody Rb
     {
         get
@@ -103,6 +105,14 @@ public class Player : MonoBehaviour {
     void Start () {
         rb = GetComponent<Rigidbody>();
         collectables = new int[(int)CollectableType.Size];
+        time = 0.0f;
+    }
+
+    private void Update()
+    {
+        time += Time.unscaledDeltaTime;
+        // TODO rethink this.
+        if (time > 1000000) time = 0.0f;
     }
 
 }

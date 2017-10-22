@@ -153,4 +153,5 @@ public class GameManager : MonoBehaviour {
 
     UI uiReference;
     public static PauseMenu pauseMenuReference;
+    public static ScoreScreen scoreScreenReference;
 }
