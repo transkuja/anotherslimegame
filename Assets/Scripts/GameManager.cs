@@ -110,11 +110,22 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-
+    public ScoreScreen ScoreScreenReference
+    {
+        get
+        {
+            return scoreScreenReference;
+        }
+    }
 
     public void RegisterPlayerStart(PlayerStart _ps)
     {
         playerStart = _ps;
+    }
+
+    public void RegisterScoreScreenPanel(ScoreScreen _ss)
+    {
+        scoreScreenReference = _ss;
     }
 
     /*
@@ -153,5 +164,5 @@ public class GameManager : MonoBehaviour {
 
     UI uiReference;
     public static PauseMenu pauseMenuReference;
-    public static ScoreScreen scoreScreenReference;
+    private ScoreScreen scoreScreenReference;
 }

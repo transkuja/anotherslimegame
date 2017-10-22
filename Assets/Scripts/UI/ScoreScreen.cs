@@ -17,13 +17,17 @@ public class ScoreScreen : MonoBehaviour {
     public Dictionary<Player, GameObject> scorePanelPlayer = new Dictionary<Player, GameObject>();
     public int rank = 0;
 
-    void Start()
+    private void Awake()
     {
-        GameManager.scoreScreenReference = this;
+        GameManager.Instance.RegisterScoreScreenPanel(this);
+    }
+
+    public void Init()
+    {
         scorePanel = transform.GetChild((int)ScoreScreenChildren.ScorePanel).gameObject;
         gameObject.SetActive(false);
 
-        for (int i=0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
+        for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
         {
             GameObject playerScore = Instantiate(prefabPlayerScore, scorePanel.transform);
             scorePanelPlayer.Add(GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<Player>(), playerScore);

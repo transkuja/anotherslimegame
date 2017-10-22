@@ -13,9 +13,9 @@ public class EndingTrigger : MonoBehaviour {
             // Making the player to stop in the air 
             other.GetComponent<Rigidbody>().Sleep();
 
-            GameManager.scoreScreenReference.GetComponent<ScoreScreen>().rank++;
-            GameManager.scoreScreenReference.GetComponent<ScoreScreen>().RefreshScores(other.GetComponent<Player>());
-            GameManager.scoreScreenReference.gameObject.SetActive(true);
+            GameManager.Instance.ScoreScreenReference.rank++;
+            GameManager.Instance.ScoreScreenReference.RefreshScores(other.GetComponent<Player>());
+            GameManager.Instance.ScoreScreenReference.gameObject.SetActive(true);
         }
     }
 }

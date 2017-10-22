@@ -35,6 +35,7 @@ public class PlayerStart : MonoBehaviour {
         GameManager.Instance.RegisterPlayerStart(this);
         SpawnPlayers();
         AttributeCamera();
+        InitializeScorePanel();
     }
 
     public Transform GetPlayerStart(uint playerIndex)
@@ -139,6 +140,11 @@ public class PlayerStart : MonoBehaviour {
             go.GetComponent<Player>().cameraReference = cameraPlayerReferences[i];
             cameraPlayerReferences[i].SetActive(true);
         }
+    }
+
+    void InitializeScorePanel()
+    {
+        GameManager.Instance.ScoreScreenReference.Init();
     }
 
 }
