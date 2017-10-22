@@ -19,6 +19,7 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4351748109412450}
+  - component: {fileID: 114688142822401562}
   m_Layer: 0
   m_Name: Porte
   m_TagString: Untagged
@@ -72,7 +73,6 @@ GameObject:
   - component: {fileID: 224221645010271592}
   - component: {fileID: 222534277569114110}
   - component: {fileID: 114872999528357694}
-  - component: {fileID: 114549882993418480}
   m_Layer: 0
   m_Name: Text
   m_TagString: Untagged
@@ -196,23 +196,19 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &114549882993418480
+--- !u!114 &114688142822401562
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1709536965214868}
+  m_GameObject: {fileID: 1035365699323694}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 712f946b65ca22b489ee615b5f38226c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isTimedDoor: 1
   timer: {fileID: 114872999528357694}
   time: 50
-  refSwitch: {fileID: 0}
-  switchOn: 0
-  porte: {fileID: 1035365699323694}
 --- !u!114 &114872999528357694
 MonoBehaviour:
   m_ObjectHideFlags: 1

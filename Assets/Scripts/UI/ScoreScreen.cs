@@ -33,10 +33,10 @@ public class ScoreScreen : MonoBehaviour {
     public void RefreshScores(Player player)
     {
         scorePanelPlayer[player].GetComponent<PlayerScore>().Rank.text = rank.ToString();
-        scorePanelPlayer[player].GetComponent<PlayerScore>().TextTime.text = GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<Player>().time.ToString();
-        scorePanelPlayer[player].GetComponent<PlayerScore>().TextPointTime.text = (Mathf.RoundToInt(GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<Player>().time) * valueTime).ToString();
-        scorePanelPlayer[player].GetComponent<PlayerScore>().TextCoins.text = GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<Player>().Collectables[(int)CollectableType.Points].ToString();
-        scorePanelPlayer[player].GetComponent<PlayerScore>().TextPointCoins.text = (GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<Player>().Collectables[(int)CollectableType.Points] * valueCoins).ToString();
+        scorePanelPlayer[player].GetComponent<PlayerScore>().TextTime.text = player.time.ToString();
+        scorePanelPlayer[player].GetComponent<PlayerScore>().TextPointTime.text = (Mathf.RoundToInt(player.time) * valueTime).ToString();
+        scorePanelPlayer[player].GetComponent<PlayerScore>().TextCoins.text = player.Collectables[(int)CollectableType.Points].ToString();
+        scorePanelPlayer[player].GetComponent<PlayerScore>().TextPointCoins.text = (player.Collectables[(int)CollectableType.Points] * valueCoins).ToString();
         scorePanelPlayer[player].SetActive(true);
         
     }
