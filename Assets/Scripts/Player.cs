@@ -16,6 +16,8 @@ public class Player : MonoBehaviour {
 
     public float time;
 
+    Animator anim;
+
     public Rigidbody Rb
     {
         get
@@ -28,6 +30,21 @@ public class Player : MonoBehaviour {
         set
         {
             rb = value;
+        }
+    }
+
+    public Animator Anim
+    {
+        get
+        {
+            if (anim == null)
+                anim = GetComponentInChildren<Animator>();
+            return anim;
+        }
+
+        set
+        {
+            anim = value;
         }
     }
 

@@ -11,11 +11,10 @@ public class EndingTrigger : MonoBehaviour {
             other.GetComponent<PlayerController>().enabled = false;
 
             // Making the player to stop in the air 
-            other.GetComponent<Rigidbody>().Sleep();
+            other.GetComponent<Rigidbody>().Sleep(); // Quelque part là, il y a un sleep
 
             GameManager.Instance.ScoreScreenReference.rank++;
             GameManager.Instance.ScoreScreenReference.RefreshScores(other.GetComponent<Player>());
-            GameManager.Instance.ScoreScreenReference.gameObject.SetActive(true);
         }
     }
 }

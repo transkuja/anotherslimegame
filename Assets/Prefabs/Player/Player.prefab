@@ -703,7 +703,7 @@ Animator:
   m_GameObject: {fileID: 1936107028613958}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: c06eddb649b83af4b88bba2418daae1b, type: 3}
-  m_Controller: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d6228e23ac2e9e34895a06202e57f189, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -726,6 +726,7 @@ MonoBehaviour:
   activeEvolutions: 0
   respawnPoint: {fileID: 0}
   cameraReference: {fileID: 0}
+  time: 0
 --- !u!114 &114657460145555874
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -776,6 +777,8 @@ MonoBehaviour:
   playerIndex: 0
   jumpChargeSpeed: 19.2
   customGravity: 90
+  airForce: 0
+  isFreeFalling: 0
   isGravityEnabled: 1
 --- !u!135 &135489572043095924
 SphereCollider:

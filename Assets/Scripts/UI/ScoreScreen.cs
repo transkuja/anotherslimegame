@@ -17,6 +17,8 @@ public class ScoreScreen : MonoBehaviour {
     public Dictionary<Player, GameObject> scorePanelPlayer = new Dictionary<Player, GameObject>();
     public int rank = 0;
 
+    uint nbrOfPlayersAtTheEnd = 0;
+
     private void Awake()
     {
         GameManager.Instance.RegisterScoreScreenPanel(this);
@@ -44,10 +46,17 @@ public class ScoreScreen : MonoBehaviour {
         scorePanelPlayer[player].GetComponent<PlayerScore>().TextPointCoins.text = (player.Collectables[(int)CollectableType.Points] * valueCoins).ToString();
         scorePanelPlayer[player].SetActive(true);
 
-        //Tmp
-        gameObject.SetActive(true);
+        player.Anim.SetBool("hasFinished", true);
+        nbrOfPlayersAtTheEnd++;
+        CheckEndGame();
+    }
 
-
+    void CheckEndGame()
+    {
+        if (nbrOfPlayersAtTheEnd == GameManager.Instance.PlayerStart.ActivePlayersAtStart)
+        {
+            gameObject.SetActive(true);
+        }
     }
 
     void Update()
@@ -73,7 +82,6 @@ public class ScoreScreen : MonoBehaviour {
 
     public void ExitToMainMenu()
     {
-        Debug.Log("la");
         SceneManager.LoadScene(0);
     }
 
