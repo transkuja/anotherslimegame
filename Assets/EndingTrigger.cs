@@ -8,9 +8,13 @@ public class EndingTrigger : MonoBehaviour {
     {
         if (other.GetComponent<Player>() != null)
         {
-            // TODO : Handle multiple player -> pause
-            GameManager.ChangeState(GameState.Paused);
-            GameManager.scoreScreenReference.GetComponent<ScoreScreen>().RefreshScores();
+            other.GetComponent<PlayerController>().enabled = false;
+
+            // Making the player to stop in the air 
+            other.GetComponent<Rigidbody>().Sleep();
+
+            GameManager.scoreScreenReference.GetComponent<ScoreScreen>().rank++;
+            GameManager.scoreScreenReference.GetComponent<ScoreScreen>().RefreshScores(other.GetComponent<Player>());
             GameManager.scoreScreenReference.gameObject.SetActive(true);
         }
     }

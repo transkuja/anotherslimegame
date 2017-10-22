@@ -1,6 +1,8 @@
 ﻿using XInputDotNetPure;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System.Collections;
+using System.Collections.Generic;
 
 public class ScoreScreen : MonoBehaviour {
     enum ScoreScreenChildren { ScorePanel }
@@ -12,24 +14,30 @@ public class ScoreScreen : MonoBehaviour {
     private int valueCoins = 20;
     private int valueTime = 15;
 
+    public Dictionary<Player, GameObject> scorePanelPlayer = new Dictionary<Player, GameObject>();
+    public int rank = 0;
 
     void Start()
     {
         GameManager.scoreScreenReference = this;
         scorePanel = transform.GetChild((int)ScoreScreenChildren.ScorePanel).gameObject;
         gameObject.SetActive(false);
+
+        for (int i=0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
+        {
+            GameObject playerScore = Instantiate(prefabPlayerScore, scorePanel.transform);
+            scorePanelPlayer.Add(GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<Player>(), playerScore);
+        }
     }
 
-    public void RefreshScores()
+    public void RefreshScores(Player player)
     {
-        // foreach player
-        GameObject playerScore = Instantiate(prefabPlayerScore, scorePanel.transform);
-        playerScore.GetComponent<PlayerScore>().Rank.text = "1";
-        playerScore.GetComponent<PlayerScore>().TextTime.text = GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<Player>().time.ToString();
-        playerScore.GetComponent<PlayerScore>().TextPointTime.text = (Mathf.RoundToInt(GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<Player>().time) * valueTime).ToString();
-        playerScore.GetComponent<PlayerScore>().TextCoins.text = GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<Player>().Collectables[(int)CollectableType.Points].ToString();
-        playerScore.GetComponent<PlayerScore>().TextPointCoins.text = (GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<Player>().Collectables[(int)CollectableType.Points] * valueCoins).ToString();
-        playerScore.SetActive(true);
+        scorePanelPlayer[player].GetComponent<PlayerScore>().Rank.text = rank.ToString();
+        scorePanelPlayer[player].GetComponent<PlayerScore>().TextTime.text = GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<Player>().time.ToString();
+        scorePanelPlayer[player].GetComponent<PlayerScore>().TextPointTime.text = (Mathf.RoundToInt(GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<Player>().time) * valueTime).ToString();
+        scorePanelPlayer[player].GetComponent<PlayerScore>().TextCoins.text = GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<Player>().Collectables[(int)CollectableType.Points].ToString();
+        scorePanelPlayer[player].GetComponent<PlayerScore>().TextPointCoins.text = (GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<Player>().Collectables[(int)CollectableType.Points] * valueCoins).ToString();
+        scorePanelPlayer[player].SetActive(true);
         
     }
 
