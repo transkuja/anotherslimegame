@@ -37,6 +37,8 @@ public class PlayerController : MonoBehaviour {
     public bool isFreeFalling = false;
     // TODO: send this value to jumpManager
     bool isGrounded = true;
+    bool canDoubleJump = true;
+    bool hasJumpButtonBeenReleased = true;
 
     public bool isGravityEnabled = true;
 
@@ -271,9 +273,15 @@ public class PlayerController : MonoBehaviour {
             //}
 
             if (isUsingAController ? state.Buttons.A == ButtonState.Released : true)
+            {
                 isReadyForNextJumpInput = true;
+                canDoubleJump = true;
+            }
             else
+            {
+                canDoubleJump = false;
                 isWaitingForNextRelease = true;
+            }
         }
     }
 
@@ -293,27 +301,45 @@ public class PlayerController : MonoBehaviour {
 
     private void HandleJumpWithController()
     {
-        if (!IsGrounded)
+        if (!IsGrounded && !canDoubleJump)
             return;
 
         // Charge jump if A button is pressed for a "long" time and only if on the ground
-        if (state.Buttons.A == ButtonState.Pressed && chargeFactor < 1.0f && isReadyForNextJumpInput)
+        if (isGrounded)
         {
-            chargeFactor += jumpChargeSpeed * Time.unscaledDeltaTime;
-            // Force max charge jump if the charge reach maximum charge
-            if (chargeFactor > 1.0f)
+            if (state.Buttons.A == ButtonState.Pressed && chargeFactor < 1.0f && isReadyForNextJumpInput)
+            {
+                chargeFactor += jumpChargeSpeed * Time.unscaledDeltaTime;
+                // Force max charge jump if the charge reach maximum charge
+                if (chargeFactor > 1.0f)
+                {
+                    Jump();
+                }
+            }
+
+            if (prevState.Buttons.A == ButtonState.Pressed && state.Buttons.A == ButtonState.Released && isReadyForNextJumpInput)
+            {
                 Jump();
+            }
         }
 
+        if (state.Buttons.A == ButtonState.Released)
+            hasJumpButtonBeenReleased = true;
+
         // Jump when the A button is released and only if on the ground
-        if (prevState.Buttons.A == ButtonState.Pressed && state.Buttons.A == ButtonState.Released && isReadyForNextJumpInput)
+        if (!isReadyForNextJumpInput && state.Buttons.A == ButtonState.Pressed && canDoubleJump && hasJumpButtonBeenReleased)
+        {
+            GetComponent<JumpManager>().Stop();
+            canDoubleJump = false;
             Jump();
+        }
 
         // Prevent input in the air
         if (state.Buttons.A == ButtonState.Released && isWaitingForNextRelease)
         {
             isWaitingForNextRelease = false;
             isReadyForNextJumpInput = true;
+            canDoubleJump = true;
         }
     }
 
@@ -338,6 +364,7 @@ public class PlayerController : MonoBehaviour {
 
         isReadyForNextJumpInput = false;
         isWaitingForNextRelease = false;
+        hasJumpButtonBeenReleased = false;
         chargeFactor = 0.0f;
     }
 }
