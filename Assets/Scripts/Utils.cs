@@ -7,7 +7,8 @@ public class Utils {
         {
             100,           // CollectableType Evolution1
             50,            // CollectableType Evolution2
-            9999           // Max points
+            9999,          // Max points
+            3              // Max Keys
         };
 
     /*

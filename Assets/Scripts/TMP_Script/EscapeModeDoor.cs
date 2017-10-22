@@ -1,23 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class EscapeModeDoor : MonoBehaviour, IDoor {
 
+    public int requieredAmountKeys = 3;
 
-
-    // Use this for initialization
-    void Start () {
-
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.GetComponent<Player>() != null)
+        {
+            if (other.GetComponent<Player>().Collectables[(int)CollectableType.Key] == requieredAmountKeys) {
+                OpenDoor();
+            }
+        }
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     public void OpenDoor()
     {
-        gameObject.SetActive(false);
+        transform.parent.parent.gameObject.SetActive(false);
     }
 }
