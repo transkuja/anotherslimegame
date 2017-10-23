@@ -1,0 +1,33 @@
+==========================================================================
+Deadline lundi prochain:
+- Level Design Phase 1 (running)
+	- Dupliquer l'entrance 
+	- Disposer des plateformes et des coins (coin coin)
+	- Mettre un spawn d'évolution
+[MATHIEU] - Dash
+[SEB] - Ajouter une ombre sous le personnage
+[OLIVIER] - Evolution Super Force
+==========================================================================
+==========================================================================
+Must have lundi prochain:
+- Mouvement de caméra au démarrage qui montre le LD Phase 1 et la position des évolutions
+[REMI] - Le temps doit être géré de façon global (avec stock de la valeur d'arrivée dans le joueur uniquement)
+- Pièges
+	- Pics
+	- Trou
+	- Whatever
+
+[ANTHONY]- Rotating platforms
+- Bouncy platforms
+==========================================================================
+
+RàF (reste à faire, pas rien à foutre)
+- Slippery platforms
+- Evolution Agilité
+- Evolution Platformist
+- Evolution "Mage"
+[REMI]- Améliorer le HUB de sélection de niveaux (afficher à quoi correspond chaque porte + charger le gamemode en conséquence)
+
+Very Pas Important pour l'instant:
+[ANTHONY]- Revoir les règles de "Fin de partie"
+[REMI]- Affichage des canards pété (une des clés du joueur 2 apparait en dehors de l'écran)
