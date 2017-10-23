@@ -273,7 +273,7 @@ public class PlayerController : MonoBehaviour {
     {
         if (player.Rb.velocity.y <= 0.2f && !isGrounded)
         {
-            if (Physics.Raycast(transform.position, -transform.up, out hitInfo, maxDistanceOffset))
+            if (Physics.SphereCast(transform.position + Vector3.up, 1f, -transform.up, out hitInfo, maxDistanceOffset))
             {
                 if (hitInfo.transform.gameObject.GetComponentInParent<Ground>() != null)
                 {
