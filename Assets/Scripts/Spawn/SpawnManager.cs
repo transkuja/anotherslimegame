@@ -61,8 +61,14 @@ public class SpawnManager : MonoBehaviour{
         {
             Destroy(this.gameObject);
         }
+        ResetInstance();
     }
 
+    public void ResetInstance()
+    {
+        instance.spawnedItemsCountAtTheSameTime = 0;
+        instance.spawnedItemsCountAtTheSameTime = 0;
+    }
 
     public static SpawnManager Instance
     {
