@@ -177,7 +177,7 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    [SerializeField] float maxMovementSpeed = 40.0f;
+    [SerializeField] float maxMovementSpeed = 35.0f;
 
     UI uiReference;
     public static PauseMenu pauseMenuReference;
