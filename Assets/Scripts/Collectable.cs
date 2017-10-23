@@ -7,6 +7,7 @@ public class Collectable : MonoBehaviour
     [SerializeField]
     int value;
     bool isAttracted = false;
+    uint movementSpeed = 40;
     Player playerTarget;
 
     private void OnTriggerEnter(Collider other)
@@ -51,7 +52,7 @@ public class Collectable : MonoBehaviour
         }    
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         if (isAttracted)
             Attract();
@@ -59,7 +60,9 @@ public class Collectable : MonoBehaviour
 
     void Attract()
     {
-        GetComponent<Rigidbody>().MovePosition(playerTarget.transform.position);
+        Vector3 direction = (playerTarget.transform.position - transform.position).normalized;
+   
+        GetComponent<Rigidbody>().MovePosition(transform.position + direction * movementSpeed * Time.deltaTime);
         if (Vector3.Distance(playerTarget.transform.position, transform.position) < GetComponent<MeshFilter>().mesh.bounds.extents.magnitude)
         {
             playerTarget.UpdateCollectableValue(type, value);
