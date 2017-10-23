@@ -1,16 +1,26 @@
 ﻿using UnityEngine;
-using UnityEngine.SceneManagement;
+
+
 
 public class StartingTrigger : MonoBehaviour {
 
-    public Gamemode gameMode;
+    public GameModeProperties gmProperties;
 
     public void OnTriggerEnter(Collider other)
     {
         if(other.GetComponent<Player>() != null)
         {
-            GameManager.CurrentGameMode = GameManager.GameModeManager.GetGameModeByName(gameMode);
-            SceneManager.LoadScene(1);
+            LevelSelection.Instance.ListOfPotentialGame.Add(gmProperties);
+            LevelSelection.Instance.ProcessCountdown();
+        }
+    }
+
+    public void OnTriggerExit(Collider other)
+    {
+        if (other.GetComponent<Player>() != null)
+        {
+            LevelSelection.Instance.ListOfPotentialGame.Remove(gmProperties);
+            LevelSelection.Instance.ProcessCountdown();
         }
     }
 }
