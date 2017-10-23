@@ -20,13 +20,12 @@ public class GameMode {
     int nbPlayersMax;
     List<string> authorizedMaps = new List<string>();
 
-    public GameMode(Gamemode _gamemode, EvolutionMode _evolutionMode, int _nbPlayersMin, int _nbPlayersMax, List<string> _authorizedMaps)
+    public GameMode(Gamemode _gamemode, EvolutionMode _evolutionMode, int _nbPlayersMin, int _nbPlayersMax)
     {
         gamemode = _gamemode;
         evolutionMode = _evolutionMode;
         nbPlayersMin = _nbPlayersMin;
         nbPlayersMax = _nbPlayersMax;
-        authorizedMaps = _authorizedMaps;
     }
 }
 
@@ -35,10 +34,10 @@ public class GameMode {
  */
 public class GameModeManager
 {
-    GameMode escapeMode = new GameMode(Gamemode.Escape, EvolutionMode.GrabEvolution, 1, 4, null);
+    GameMode escapeMode = new GameMode(Gamemode.Escape, EvolutionMode.GrabEvolution, 1, 4);
 
-    GameMode arenaMode1 = new GameMode(Gamemode.Arena, EvolutionMode.GrabCollectableAndAutoEvolve, 1, 4, null);
-    GameMode arenaMode2 = new GameMode(Gamemode.Arena, EvolutionMode.GrabCollectableAndActivate, 1, 4, null);
+    GameMode arenaMode1 = new GameMode(Gamemode.Arena, EvolutionMode.GrabCollectableAndAutoEvolve, 1, 4);
+    GameMode arenaMode2 = new GameMode(Gamemode.Arena, EvolutionMode.GrabCollectableAndActivate, 1, 4);
 
 
     public GameMode GetGameModeByName(Gamemode _name, EvolutionMode _evolutionMode = EvolutionMode.GrabEvolution)
