@@ -16,7 +16,7 @@ public class LevelSelection : MonoBehaviour {
     private static LevelSelection instance = null;
 
     public float countdown = 0.0f;
-    public bool isCountdownStarted = false;
+    private bool isCountdownStarted = false;
     public Menu menuRef;
 
     public void Awake()
@@ -38,9 +38,14 @@ public class LevelSelection : MonoBehaviour {
 
     public void ProcessCountdown()
     {
-        if(ListOfPotentialGame.Count == 0)
+        if (GameManager.Instance.ActivePlayersAtStart == 1)
         {
-            instance.isCountdownStarted = true;
+            LoadLevel(listOfPotentialGame[0].gameMode, listOfPotentialGame[0].indexLevel);
+            return;
+        }
+        if (ListOfPotentialGame.Count == 0)
+        {
+            instance.IsCountdownStarted = false;
             instance.countdown = 0.0f;
             return;
         }
@@ -48,7 +53,7 @@ public class LevelSelection : MonoBehaviour {
         if(instance.countdown == 0.0f)
         {
             instance.countdown = 7.0f;
-            instance.isCountdownStarted = true;
+            instance.IsCountdownStarted = true;
         }
 
     }
@@ -61,20 +66,35 @@ public class LevelSelection : MonoBehaviour {
         }
     }
 
+    public bool IsCountdownStarted
+    {
+        get
+        {
+            return isCountdownStarted;
+        }
+
+        set
+        {
+            menuRef.GetComponent<Menu>().ToogleCountdownText(value);
+            isCountdownStarted = value;
+        }
+    }
+
     // Use this for initialization
     void Start () {
         // Je m'assure que ma liste est bien vide
         listOfPotentialGame.Clear();
-        isCountdownStarted = false;
+        IsCountdownStarted = false;
         countdown = 0.0f;
     }
 	
 	// Update is called once per frame
 	void Update () {
-		if (isCountdownStarted)
+		if (IsCountdownStarted)
         {
-            countdown -= Time.deltaTime;
+        
             menuRef.GetComponent<Menu>().RefreshCountDown(countdown);
+            countdown -= Time.deltaTime;
             if ( countdown < 0.0f)
             {
                 countdown = 0.0f;

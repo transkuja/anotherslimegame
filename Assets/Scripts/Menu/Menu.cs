@@ -56,12 +56,13 @@ public class Menu : MonoBehaviour {
         }
     }
 
+    public void ToogleCountdownText(bool visible)
+    {
+        transform.GetChild(2).gameObject.SetActive(visible);
+    }
+
     public void RefreshCountDown(float countdown)
     {
-        if (countdown < 0.0f)
-        {
-            transform.GetChild(2).gameObject.SetActive(false);
-        }
         int minutes = Mathf.FloorToInt(countdown / 60);
         int seconds = (int)countdown % 60;
 
