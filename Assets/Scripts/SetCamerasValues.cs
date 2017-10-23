@@ -20,12 +20,12 @@ public class SetCamerasValues : MonoBehaviour {
     {
         if(ReApply)
         {
-            SetCamerasValues();
+            SetValues();
             ReApply = false;
         }
     }
 
-    public void SetCamerasValues()
+    public void SetValues()
     {
         for(int i = 0; i < transform.childCount; i++)
         {
