@@ -75,8 +75,8 @@ public class PlatformGameplay : MonoBehaviour {
     bool hasPlatformReachedDestination = false;
     bool isOnPlatform = false;
 
-    void Start () {
-		if (isBouncy)
+    void Start() {
+        if (isBouncy)
         {
             // isbouncy start process
         }
@@ -123,9 +123,10 @@ public class PlatformGameplay : MonoBehaviour {
         }
     }
 
-    void Update () {
+    void Update() {
         HandlePlatformMove();
         HandleTeleportation();
+        HandlePlatformRotation();
     }
 
     void MovingProcess()
@@ -208,6 +209,19 @@ public class PlatformGameplay : MonoBehaviour {
             delayTimer = delayBeforeMovement;
     }
 
+    // WIP Antho
+    void RotationProcess()
+    {
+        if (isRotating)
+        {
+            if (rotateAroundLocalAxis)
+                transform.Rotate(rotateAxis, Time.deltaTime * rotateSpeed);
+            else
+                transform.RotateAround(transform.position + rotateAxisOffset, rotateAxis, Time.deltaTime * rotateSpeed);
+
+        }
+    }
+
     void HandlePlatformMove()
     {
         if (movementWhenPlayerJumpsOn)
@@ -217,6 +231,11 @@ public class PlatformGameplay : MonoBehaviour {
         }
         else
             MovingProcess();
+    }
+
+    void HandlePlatformRotation()
+    {
+        RotationProcess();
     }
 
     void HandleTeleportation()
