@@ -459,6 +459,11 @@ Prefab:
       propertyPath: m_Name
       value: CameraFreeLook3
       objectReference: {fileID: 0}
+    - target: {fileID: 114818965959187960, guid: 0352a3a981f4d464bba6caaaa9e392e1,
+        type: 2}
+      propertyPath: m_Damping
+      value: 0.2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0352a3a981f4d464bba6caaaa9e392e1, type: 2}
   m_IsPrefabParent: 0
@@ -1625,9 +1630,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_FollowOffset: {x: 0, y: 0.4, z: -6}
-  m_XDamping: 0
-  m_YDamping: 0
-  m_ZDamping: 0
+  m_XDamping: 0.2
+  m_YDamping: 0.2
+  m_ZDamping: 0.2
   m_BindingMode: 4
   m_PitchDamping: 0
   m_YawDamping: 0
@@ -6284,6 +6289,11 @@ Prefab:
       propertyPath: m_Name
       value: CameraFreeLook2
       objectReference: {fileID: 0}
+    - target: {fileID: 114818965959187960, guid: 0352a3a981f4d464bba6caaaa9e392e1,
+        type: 2}
+      propertyPath: m_Damping
+      value: 0.2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0352a3a981f4d464bba6caaaa9e392e1, type: 2}
   m_IsPrefabParent: 0
@@ -6481,9 +6491,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_FollowOffset: {x: 0, y: 4.5, z: -6}
-  m_XDamping: 0
-  m_YDamping: 0
-  m_ZDamping: 0
+  m_XDamping: 0.2
+  m_YDamping: 0.2
+  m_ZDamping: 0.2
   m_BindingMode: 4
   m_PitchDamping: 0
   m_YawDamping: 0
@@ -7559,9 +7569,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_FollowOffset: {x: 0, y: 4.5, z: -6}
-  m_XDamping: 0
-  m_YDamping: 0
-  m_ZDamping: 0
+  m_XDamping: 0.2
+  m_YDamping: 0.2
+  m_ZDamping: 0.2
   m_BindingMode: 4
   m_PitchDamping: 0
   m_YawDamping: 0
@@ -7765,9 +7775,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_FollowOffset: {x: 0, y: 2.5, z: -7}
-  m_XDamping: 0
-  m_YDamping: 0
-  m_ZDamping: 0
+  m_XDamping: 0.2
+  m_YDamping: 0.2
+  m_ZDamping: 0.2
   m_BindingMode: 4
   m_PitchDamping: 0
   m_YawDamping: 0
@@ -8290,9 +8300,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_FollowOffset: {x: 0, y: 2.5, z: -7}
-  m_XDamping: 0
-  m_YDamping: 0
-  m_ZDamping: 0
+  m_XDamping: 0.2
+  m_YDamping: 0.2
+  m_ZDamping: 0.2
   m_BindingMode: 4
   m_PitchDamping: 0
   m_YawDamping: 0
@@ -9393,9 +9403,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_FollowOffset: {x: 0, y: 4.5, z: -6}
-  m_XDamping: 0
-  m_YDamping: 0
-  m_ZDamping: 0
+  m_XDamping: 0.2
+  m_YDamping: 0.2
+  m_ZDamping: 0.2
   m_BindingMode: 4
   m_PitchDamping: 0
   m_YawDamping: 0
@@ -9504,9 +9514,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_FollowOffset: {x: 0, y: 2.5, z: -7}
-  m_XDamping: 0
-  m_YDamping: 0
-  m_ZDamping: 0
+  m_XDamping: 0.2
+  m_YDamping: 0.2
+  m_ZDamping: 0.2
   m_BindingMode: 4
   m_PitchDamping: 0
   m_YawDamping: 0
@@ -10322,9 +10332,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_FollowOffset: {x: 0, y: 0.4, z: -6}
-  m_XDamping: 0
-  m_YDamping: 0
-  m_ZDamping: 0
+  m_XDamping: 0.2
+  m_YDamping: 0.2
+  m_ZDamping: 0.2
   m_BindingMode: 4
   m_PitchDamping: 0
   m_YawDamping: 0
@@ -12115,9 +12125,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_FollowOffset: {x: 0, y: 0.4, z: -6}
-  m_XDamping: 0
-  m_YDamping: 0
-  m_ZDamping: 0
+  m_XDamping: 0.2
+  m_YDamping: 0.2
+  m_ZDamping: 0.2
   m_BindingMode: 4
   m_PitchDamping: 0
   m_YawDamping: 0
@@ -12211,6 +12221,11 @@ Prefab:
       propertyPath: m_CollideAgainst.m_Bits
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 114818965959187960, guid: 0352a3a981f4d464bba6caaaa9e392e1,
+        type: 2}
+      propertyPath: m_Damping
+      value: 0.2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0352a3a981f4d464bba6caaaa9e392e1, type: 2}
   m_IsPrefabParent: 0
@@ -12290,9 +12305,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_FollowOffset: {x: 0, y: 2.5, z: -7}
-  m_XDamping: 0
-  m_YDamping: 0
-  m_ZDamping: 0
+  m_XDamping: 0.2
+  m_YDamping: 0.2
+  m_ZDamping: 0.2
   m_BindingMode: 4
   m_PitchDamping: 0
   m_YawDamping: 0
@@ -13637,6 +13652,11 @@ Prefab:
     - target: {fileID: 1296728241362266, guid: 0352a3a981f4d464bba6caaaa9e392e1, type: 2}
       propertyPath: m_Name
       value: CameraFreeLook4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114818965959187960, guid: 0352a3a981f4d464bba6caaaa9e392e1,
+        type: 2}
+      propertyPath: m_Damping
+      value: 0.2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 0352a3a981f4d464bba6caaaa9e392e1, type: 2}
@@ -16448,9 +16468,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_FollowOffset: {x: 0, y: 0.4, z: -6}
-  m_XDamping: 0
-  m_YDamping: 0
-  m_ZDamping: 0
+  m_XDamping: 0.2
+  m_YDamping: 0.2
+  m_ZDamping: 0.2
   m_BindingMode: 4
   m_PitchDamping: 0
   m_YawDamping: 0
@@ -17062,9 +17082,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_FollowOffset: {x: 0, y: 4.5, z: -6}
-  m_XDamping: 0
-  m_YDamping: 0
-  m_ZDamping: 0
+  m_XDamping: 0.2
+  m_YDamping: 0.2
+  m_ZDamping: 0.2
   m_BindingMode: 4
   m_PitchDamping: 0
   m_YawDamping: 0
