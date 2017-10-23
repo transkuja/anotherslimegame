@@ -12,7 +12,7 @@ public class ScoreScreen : MonoBehaviour {
     public GameObject prefabPlayerScore;
 
     private int valueCoins = 20;
-    private int valueTime = 15;
+    private int valueTime = 25;
 
     public Dictionary<Player, GameObject> scorePanelPlayer = new Dictionary<Player, GameObject>();
     public int rank = 0;
@@ -41,7 +41,7 @@ public class ScoreScreen : MonoBehaviour {
     {
         scorePanelPlayer[player].GetComponent<PlayerScore>().Rank.text = rank.ToString();
         scorePanelPlayer[player].GetComponent<PlayerScore>().TextTime.text = player.time.ToString();
-        scorePanelPlayer[player].GetComponent<PlayerScore>().TextPointTime.text = (Mathf.RoundToInt(player.time) * valueTime).ToString();
+        scorePanelPlayer[player].GetComponent<PlayerScore>().TextPointTime.text = (((SpawnManager.Instance.SpawnedItemsCount* valueCoins )/ Mathf.RoundToInt(player.time)) * valueTime).ToString();
         scorePanelPlayer[player].GetComponent<PlayerScore>().TextCoins.text = player.Collectables[(int)CollectableType.Points].ToString();
         scorePanelPlayer[player].GetComponent<PlayerScore>().TextPointCoins.text = (player.Collectables[(int)CollectableType.Points] * valueCoins).ToString();
         scorePanelPlayer[player].SetActive(true);
