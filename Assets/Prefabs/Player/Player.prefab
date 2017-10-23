@@ -783,6 +783,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bounceStrength: 25
   bounceDetectionThreshold: 0.2
+  impactForce: 0
+  impactPropagationThreshold: 0
 --- !u!114 &114657460145555874
 MonoBehaviour:
   m_ObjectHideFlags: 1
