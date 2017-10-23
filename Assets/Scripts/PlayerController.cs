@@ -37,7 +37,7 @@ public class PlayerController : MonoBehaviour {
     public bool isFreeFalling = false;
     // TODO: send this value to jumpManager
     bool isGrounded = true;
-    bool canDoubleJump = true;
+    public bool canDoubleJump = true;
     bool hasJumpButtonBeenReleased = true;
 
     public bool isGravityEnabled = true;

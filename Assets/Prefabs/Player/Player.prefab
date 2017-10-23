@@ -26,6 +26,7 @@ GameObject:
   - component: {fileID: 54138837213083474}
   - component: {fileID: 64775657094239104}
   - component: {fileID: 114657460145555874}
+  - component: {fileID: 114393565218108792}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -769,6 +770,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d82ad40c82a5cf41adc396a9d3c265b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114393565218108792
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1220672195264224}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edeb7f77259ffc54f8bac63f5f5ad463, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bounceStrength: 25
+  bounceDetectionThreshold: 0.2
 --- !u!114 &114657460145555874
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -821,6 +835,7 @@ MonoBehaviour:
   customGravity: 90
   airForce: 0
   isFreeFalling: 0
+  canDoubleJump: 1
   isGravityEnabled: 1
 --- !u!119 &119241878091508526
 Projector:
