@@ -33,6 +33,28 @@ public class PlatformGameplay : MonoBehaviour {
     [Tooltip("The delay before the movement starts")]
     public float delayBeforeMovement = 0.0f;
 
+    /*
+     * Rotations
+     * - Local x,y,z
+     * - Based on an axis and a position
+     * Combinaisons
+     * - Multiple locals
+     * - Local + axis/position
+     * - Local + movement
+     * - /!\ pas de axis/position si deja du mvt
+     */
+    [Header("Rotation")]
+    [Tooltip("Defines if the platform will rotate or not")]
+    public bool isRotating = false;
+    [Tooltip("Does the platform rotate around a local axis?")]
+    public bool rotateAroundLocalAxis = false;
+    [Tooltip("The platform will rotate around this axis")]
+    public Vector3 rotateAxis = Vector3.zero;
+    [Tooltip("Moves the center of rotation")]
+    public Vector3 rotateAxisOffset = Vector3.zero;
+    [Tooltip("The platform rotate velocity")]
+    public float rotateSpeed = 0.0f;
+
     [Header("Teleportation")]
     [Tooltip("Teleports a player to a distant place")]
     public bool isATeleporter;
@@ -79,6 +101,16 @@ public class PlatformGameplay : MonoBehaviour {
             }
             else
                 movingAxis.Normalize();
+        }
+
+        if (isRotating)
+        {
+            if (rotateAxis == Vector3.zero)
+            {
+                Debug.LogWarning("isRotating is set to true but no rotating axis are defined!");
+            }
+            else
+                rotateAxis.Normalize();
         }
         originPosition = transform;
         lerpOriginPosition = transform.position;
