@@ -1,7 +1,7 @@
 ==========================================================================
 Deadline lundi prochain:
 - Level Design Phase 1 (running)
-	- Dupliquer l'entrance 
+	- Dupliquer l'entrance (3x la taille de l'entrance semble pas mal)
 	- Disposer des plateformes et des coins (coin coin)
 	- Mettre un spawn d'évolution
 [MATHIEU] - Dash
