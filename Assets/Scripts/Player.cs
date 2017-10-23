@@ -78,7 +78,9 @@ public class Player : MonoBehaviour {
     {
         collectables[(int)type] = Mathf.Clamp(collectables[(int)type] + pickedValue, 0, Utils.GetMaxValueForCollectable(type));
         if (type == CollectableType.Key)
-            GameManager.Instance.PlayerUI.RefreshPlayerUi(this, collectables[(int)type]);
+            GameManager.Instance.PlayerUI.RefreshKeysPlayerUi(this, collectables[(int)type]);
+        if (type == CollectableType.Points)
+            GameManager.Instance.PlayerUI.RefreshPointsPlayerUi(this, collectables[(int)type]);
 
         if (!Utils.IsAnEvolutionCollectable(type))
             return;

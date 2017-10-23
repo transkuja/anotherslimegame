@@ -59,3 +59,5 @@ MonoBehaviour:
     type: 2}
   prefabKeySprite: {fileID: 1883766573907508, guid: 362c8f3bb33972d48be36f9204c699c7,
     type: 2}
+  prefabPointSprite: {fileID: 1692447390881034, guid: 28b823fa6e68a7846bda862ce28e464a,
+    type: 2}

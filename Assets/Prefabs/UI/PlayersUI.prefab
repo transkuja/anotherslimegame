@@ -40,9 +40,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabPlayerUI:
   - {fileID: 1124516027859742, guid: 6bd786aa09668cc4ba07fdf4b145f3c6, type: 2}
-  - {fileID: 1619181605614708, guid: a4d530f6dce252a43822761bfb3f1b57, type: 2}
-  - {fileID: 1627600383276892, guid: 99b3c633a064a364db577924150b97c3, type: 2}
-  - {fileID: 1350845438092068, guid: 6a510b2eebb4fdb4d9daa5510ef50296, type: 2}
+  - {fileID: 1433053134460618, guid: a4d530f6dce252a43822761bfb3f1b57, type: 2}
+  - {fileID: 1700888667892220, guid: 99b3c633a064a364db577924150b97c3, type: 2}
+  - {fileID: 1880568538060474, guid: 6a510b2eebb4fdb4d9daa5510ef50296, type: 2}
 --- !u!224 &224290023661187414
 RectTransform:
   m_ObjectHideFlags: 1
