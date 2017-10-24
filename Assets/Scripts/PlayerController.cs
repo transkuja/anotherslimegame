@@ -3,6 +3,14 @@ using UnityEngine;
 using System;
 using UnityEngine.SceneManagement;
 
+public enum DashingState
+{
+    Ready,
+    Dashing,
+    Cooldown
+}
+
+
 [RequireComponent(typeof(Player))]
 public class PlayerController : MonoBehaviour {
     bool playerIndexSet = false;
@@ -45,6 +53,17 @@ public class PlayerController : MonoBehaviour {
     // TMP??
     RaycastHit hitInfo;
     float maxDistanceOffset = 2.0f;
+
+    // Dashing variables
+    public DashingState currentState;
+    public float dashingTimer;
+    public float dashingMaxTimer;
+    public float dashingCooldownTimer;
+    public float dashingCooldownMaxTimer;
+    public float dashingVelocity;
+    public float distanceToReach;
+    //public Vector3 myPositionBeforeDashing;
+
 
     public bool IsGrounded
     {
@@ -104,10 +123,21 @@ public class PlayerController : MonoBehaviour {
         player = GetComponent<Player>();
         if (player == null)
             Debug.LogWarning("Player component should not be null");
+
+        // Dashing initialisation
+        dashingMaxTimer = 0.15f;
+        dashingTimer = dashingMaxTimer;
+        dashingCooldownMaxTimer = 0.5f;
+        dashingCooldownTimer = dashingCooldownMaxTimer;
+        dashingVelocity = 100.0f;
+        currentState = DashingState.Cooldown;
+
     }
 
     void FixedUpdate ()
     {
+        if (!GameManager.Instance.PlayerStart.isPlayerReady) return;
+
         if (isGravityEnabled)
         {
             player.Rb.AddForce(-customGravity * Vector3.up, ForceMode.Acceleration);
@@ -176,6 +206,48 @@ public class PlayerController : MonoBehaviour {
                     GameManager.ChangeState(GameState.Paused);
         }
 
+        // Dashing behavior
+        if (isUsingAController)
+        {
+            switch (currentState)
+            {
+                case DashingState.Ready:
+ 
+                    if (prevState.Buttons.X == ButtonState.Pressed && state.Buttons.X == ButtonState.Released)
+                    {
+                        customGravity = 0.0f;
+                        GetComponent<JumpManager>().Stop();
+                        currentState = DashingState.Dashing;
+                    }
+                    break;
+                case DashingState.Dashing:
+                    player.Rb.velocity = transform.forward * dashingVelocity;
+     
+                    if (SceneManager.GetActiveScene() != SceneManager.GetSceneByBuildIndex(0))
+                        player.cameraReference.transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().Follow = null;
+                    dashingTimer -= Time.fixedDeltaTime;
+
+                    // ? Timer ?
+                    if(dashingTimer <= 0.0f)
+                    {
+                        currentState = DashingState.Cooldown;
+                        dashingTimer = dashingMaxTimer;
+                        customGravity = 90; // J'ai pas la basis gravity
+                    }
+                    break;
+                case DashingState.Cooldown:
+                    if (SceneManager.GetActiveScene() != SceneManager.GetSceneByBuildIndex(0))
+                        player.cameraReference.transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().Follow = transform;
+                    dashingCooldownTimer -= Time.fixedDeltaTime;
+                    if (dashingCooldownTimer <= 0.0f)
+                    {
+                        dashingCooldownTimer = dashingCooldownMaxTimer;
+                        currentState = DashingState.Ready;
+                    }
+                    break;
+            }
+        }
+
     }
 
     private void HandleEvolutionsWithController()
@@ -209,10 +281,10 @@ public class PlayerController : MonoBehaviour {
 
         player.Rb.velocity = new Vector3(initialVelocity.x, player.Rb.velocity.y, initialVelocity.z);
 
-        Vector3 camVectorForward = new Vector3(player.cameraReference.transform.forward.x, 0.0f, player.cameraReference.transform.forward.z);
+        Vector3 camVectorForward = new Vector3(player.cameraReference.transform.GetChild(0).forward.x, 0.0f, player.cameraReference.transform.forward.z);
         camVectorForward.Normalize();
 
-        Vector3 velocityVec = initialVelocity.z * camVectorForward + initialVelocity.x * player.cameraReference.transform.right + Vector3.up * player.Rb.velocity.y;
+        Vector3 velocityVec = initialVelocity.z * camVectorForward + initialVelocity.x * player.cameraReference.transform.GetChild(0).right + Vector3.up * player.Rb.velocity.y;
 
         player.Rb.velocity = velocityVec;
         transform.LookAt(transform.position + new Vector3(velocityVec.x, 0.0f, velocityVec.z));
@@ -228,15 +300,15 @@ public class PlayerController : MonoBehaviour {
         if (isFreeFalling)
             initialVelocity /= 2.0f;
 
-        Vector3 camVectorForward = new Vector3(player.cameraReference.transform.forward.x, 0.0f, player.cameraReference.transform.forward.z);
+        Vector3 camVectorForward = new Vector3(player.cameraReference.transform.GetChild(0).forward.x, 0.0f, player.cameraReference.transform.GetChild(0).forward.z);
         camVectorForward.Normalize();
 
         Vector3 velocityVec = initialVelocity.z * camVectorForward + Vector3.up * player.Rb.velocity.y;
         if (isGrounded)
-            velocityVec += initialVelocity.x * player.cameraReference.transform.right;
+            velocityVec += initialVelocity.x * player.cameraReference.transform.GetChild(0).right;
 
         player.Rb.velocity = velocityVec;
-        transform.LookAt(transform.position + new Vector3(velocityVec.x, 0.0f, velocityVec.z) + initialVelocity.x * player.cameraReference.transform.right);
+        transform.LookAt(transform.position + new Vector3(velocityVec.x, 0.0f, velocityVec.z) + initialVelocity.x * player.cameraReference.transform.GetChild(0).right);
     }
 
     private void OnCollisionEnter(Collision collision)

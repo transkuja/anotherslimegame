@@ -15,11 +15,11 @@ public class SpawnManager : MonoBehaviour{
 
     // Frame control on item
     private int spawnedItemsCountAtTheSameTime = 0;
-    private const int MAXSPAWNITEMSCOUNTATTHESAMETIME = 10;
+    private const int MAXSPAWNITEMSCOUNTATTHESAMETIME = 100;
 
     // Frame control on monster
     private int spawnedMonsterCountAtTheSameTime = 0;
-    private const int MAXSPAWNMONSTERSCOUNTATTHESAMETIME = 2;
+    private const int MAXSPAWNMONSTERSCOUNTATTHESAMETIME = 20;
 
     private static SpawnManager instance;
 
@@ -93,7 +93,7 @@ public class SpawnManager : MonoBehaviour{
             
         if(!forceSpawn && SpawnedItemsCount == MAXSPAWNITEMSCOUNTATTHESAMETIME)
         {
-            Debug.Log("Error  : max monster reach");
+            Debug.Log("Error  : max item reach");
             return;
         }
 

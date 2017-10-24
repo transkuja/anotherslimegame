@@ -12,6 +12,8 @@ public class PlayerStart : MonoBehaviour {
 
     List<GameObject> playersReference = new List<GameObject>();
 
+    public bool isPlayerReady = false;
+
     public List<GameObject> PlayersReference
     {
         get
@@ -42,9 +44,12 @@ public class PlayerStart : MonoBehaviour {
             InitializeScorePanel();
             InitializePlayersUI();
         }
-    }
 
-    public Transform GetPlayerStart(uint playerIndex)
+        isPlayerReady = true;
+
+}
+
+public Transform GetPlayerStart(uint playerIndex)
     {
         return playerStart[playerIndex];
     }
@@ -123,7 +128,7 @@ public class PlayerStart : MonoBehaviour {
                 cameraPlayerReferences[i].transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().Follow = go.transform;
                 cameraPlayerReferences[i].transform.GetChild(1).GetComponent<DynamicJoystickCameraController>().playerIndex = (PlayerIndex)i;
             }
-            go.GetComponent<Player>().cameraReference = cameraPlayerReferences[i].transform.GetChild(0).gameObject;
+            go.GetComponent<Player>().cameraReference = cameraPlayerReferences[i];
             cameraPlayerReferences[i].SetActive(true);
         }
     }

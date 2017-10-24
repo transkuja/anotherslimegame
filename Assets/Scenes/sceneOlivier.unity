@@ -1625,9 +1625,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_FollowOffset: {x: 0, y: 0.4, z: -6}
-  m_XDamping: 0
-  m_YDamping: 0
-  m_ZDamping: 0
+  m_XDamping: 0.2
+  m_YDamping: 0.2
+  m_ZDamping: 0.2
   m_BindingMode: 4
   m_PitchDamping: 0
   m_YawDamping: 0
@@ -4623,6 +4623,11 @@ MonoBehaviour:
   backToOriginOnPlayerExit: 0
   backToOriginOnPlayerJumpOn: 0
   delayBeforeMovement: 1.69
+  isRotating: 0
+  rotateAroundLocalAxis: 0
+  rotateAxis: {x: 0, y: 0, z: 0}
+  rotateAxisOffset: {x: 0, y: 0, z: 0}
+  rotateSpeed: 0
   isATeleporter: 0
   teleporterTarget: {fileID: 0}
 --- !u!23 &607564645
@@ -6467,12 +6472,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4044717213e31446939f7bd49c896ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TrackedObjectOffset: {x: 0, y: 2, z: 0}
+  m_TrackedObjectOffset: {x: 0, y: 0.5, z: 0}
   m_LookaheadTime: 0
   m_HorizontalDamping: 0
   m_VerticalDamping: 0
   m_ScreenX: 0.5
-  m_ScreenY: 0.5
+  m_ScreenY: 0.55
   m_DeadZoneWidth: 0
   m_DeadZoneHeight: 0
   m_SoftZoneWidth: 0.8
@@ -6491,9 +6496,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_FollowOffset: {x: 0, y: 4.5, z: -6}
-  m_XDamping: 0
-  m_YDamping: 0
-  m_ZDamping: 0
+  m_XDamping: 0.2
+  m_YDamping: 0.2
+  m_ZDamping: 0.2
   m_BindingMode: 4
   m_PitchDamping: 0
   m_YawDamping: 0
@@ -6764,6 +6769,11 @@ MonoBehaviour:
   backToOriginOnPlayerExit: 0
   backToOriginOnPlayerJumpOn: 0
   delayBeforeMovement: 3
+  isRotating: 0
+  rotateAroundLocalAxis: 0
+  rotateAxis: {x: 0, y: 0, z: 0}
+  rotateAxisOffset: {x: 0, y: 0, z: 0}
+  rotateSpeed: 0
   isATeleporter: 0
   teleporterTarget: {fileID: 0}
 --- !u!23 &881922950
@@ -7162,6 +7172,11 @@ MonoBehaviour:
   backToOriginOnPlayerExit: 0
   backToOriginOnPlayerJumpOn: 0
   delayBeforeMovement: 3
+  isRotating: 0
+  rotateAroundLocalAxis: 0
+  rotateAxis: {x: 0, y: 0, z: 0}
+  rotateAxisOffset: {x: 0, y: 0, z: 0}
+  rotateSpeed: 0
   isATeleporter: 0
   teleporterTarget: {fileID: 0}
 --- !u!23 &916067344
@@ -7545,12 +7560,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4044717213e31446939f7bd49c896ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TrackedObjectOffset: {x: 0, y: 2, z: 0}
+  m_TrackedObjectOffset: {x: 0, y: 0.5, z: 0}
   m_LookaheadTime: 0
   m_HorizontalDamping: 0
   m_VerticalDamping: 0
   m_ScreenX: 0.5
-  m_ScreenY: 0.5
+  m_ScreenY: 0.55
   m_DeadZoneWidth: 0
   m_DeadZoneHeight: 0
   m_SoftZoneWidth: 0.8
@@ -7569,9 +7584,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_FollowOffset: {x: 0, y: 4.5, z: -6}
-  m_XDamping: 0
-  m_YDamping: 0
-  m_ZDamping: 0
+  m_XDamping: 0.2
+  m_YDamping: 0.2
+  m_ZDamping: 0.2
   m_BindingMode: 4
   m_PitchDamping: 0
   m_YawDamping: 0
@@ -7751,7 +7766,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4044717213e31446939f7bd49c896ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TrackedObjectOffset: {x: 0, y: 1.5, z: 0}
+  m_TrackedObjectOffset: {x: 0, y: 0.5, z: 0}
   m_LookaheadTime: 0
   m_HorizontalDamping: 0
   m_VerticalDamping: 0
@@ -7775,9 +7790,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_FollowOffset: {x: 0, y: 2.5, z: -7}
-  m_XDamping: 0
-  m_YDamping: 0
-  m_ZDamping: 0
+  m_XDamping: 0.2
+  m_YDamping: 0.2
+  m_ZDamping: 0.2
   m_BindingMode: 4
   m_PitchDamping: 0
   m_YawDamping: 0
@@ -8276,7 +8291,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4044717213e31446939f7bd49c896ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TrackedObjectOffset: {x: 0, y: 1.5, z: 0}
+  m_TrackedObjectOffset: {x: 0, y: 0.5, z: 0}
   m_LookaheadTime: 0
   m_HorizontalDamping: 0
   m_VerticalDamping: 0
@@ -8300,9 +8315,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_FollowOffset: {x: 0, y: 2.5, z: -7}
-  m_XDamping: 0
-  m_YDamping: 0
-  m_ZDamping: 0
+  m_XDamping: 0.2
+  m_YDamping: 0.2
+  m_ZDamping: 0.2
   m_BindingMode: 4
   m_PitchDamping: 0
   m_YawDamping: 0
@@ -9379,12 +9394,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4044717213e31446939f7bd49c896ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TrackedObjectOffset: {x: 0, y: 2, z: 0}
+  m_TrackedObjectOffset: {x: 0, y: 0.5, z: 0}
   m_LookaheadTime: 0
   m_HorizontalDamping: 0
   m_VerticalDamping: 0
   m_ScreenX: 0.5
-  m_ScreenY: 0.5
+  m_ScreenY: 0.55
   m_DeadZoneWidth: 0
   m_DeadZoneHeight: 0
   m_SoftZoneWidth: 0.8
@@ -9403,9 +9418,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_FollowOffset: {x: 0, y: 4.5, z: -6}
-  m_XDamping: 0
-  m_YDamping: 0
-  m_ZDamping: 0
+  m_XDamping: 0.2
+  m_YDamping: 0.2
+  m_ZDamping: 0.2
   m_BindingMode: 4
   m_PitchDamping: 0
   m_YawDamping: 0
@@ -9490,7 +9505,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4044717213e31446939f7bd49c896ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TrackedObjectOffset: {x: 0, y: 1.5, z: 0}
+  m_TrackedObjectOffset: {x: 0, y: 0.5, z: 0}
   m_LookaheadTime: 0
   m_HorizontalDamping: 0
   m_VerticalDamping: 0
@@ -9514,9 +9529,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_FollowOffset: {x: 0, y: 2.5, z: -7}
-  m_XDamping: 0
-  m_YDamping: 0
-  m_ZDamping: 0
+  m_XDamping: 0.2
+  m_YDamping: 0.2
+  m_ZDamping: 0.2
   m_BindingMode: 4
   m_PitchDamping: 0
   m_YawDamping: 0
@@ -9901,6 +9916,11 @@ MonoBehaviour:
   backToOriginOnPlayerExit: 0
   backToOriginOnPlayerJumpOn: 0
   delayBeforeMovement: 0
+  isRotating: 0
+  rotateAroundLocalAxis: 0
+  rotateAxis: {x: 0, y: 0, z: 0}
+  rotateAxisOffset: {x: 0, y: 0, z: 0}
+  rotateSpeed: 0
   isATeleporter: 0
   teleporterTarget: {fileID: 0}
 --- !u!23 &1183984618
@@ -10332,9 +10352,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_FollowOffset: {x: 0, y: 0.4, z: -6}
-  m_XDamping: 0
-  m_YDamping: 0
-  m_ZDamping: 0
+  m_XDamping: 0.2
+  m_YDamping: 0.2
+  m_ZDamping: 0.2
   m_BindingMode: 4
   m_PitchDamping: 0
   m_YawDamping: 0
@@ -12125,9 +12145,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_FollowOffset: {x: 0, y: 0.4, z: -6}
-  m_XDamping: 0
-  m_YDamping: 0
-  m_ZDamping: 0
+  m_XDamping: 0.2
+  m_YDamping: 0.2
+  m_ZDamping: 0.2
   m_BindingMode: 4
   m_PitchDamping: 0
   m_YawDamping: 0
@@ -12281,7 +12301,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4044717213e31446939f7bd49c896ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TrackedObjectOffset: {x: 0, y: 1.5, z: 0}
+  m_TrackedObjectOffset: {x: 0, y: 0.5, z: 0}
   m_LookaheadTime: 0
   m_HorizontalDamping: 0
   m_VerticalDamping: 0
@@ -12305,9 +12325,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_FollowOffset: {x: 0, y: 2.5, z: -7}
-  m_XDamping: 0
-  m_YDamping: 0
-  m_ZDamping: 0
+  m_XDamping: 0.2
+  m_YDamping: 0.2
+  m_ZDamping: 0.2
   m_BindingMode: 4
   m_PitchDamping: 0
   m_YawDamping: 0
@@ -14409,7 +14429,7 @@ Prefab:
     - target: {fileID: 224253512408005366, guid: ebd48e33ce16a7c498ce0f86ed08310f,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 1829664555950164, guid: ebd48e33ce16a7c498ce0f86ed08310f, type: 2}
       propertyPath: m_IsActive
@@ -14996,6 +15016,11 @@ MonoBehaviour:
   backToOriginOnPlayerExit: 0
   backToOriginOnPlayerJumpOn: 0
   delayBeforeMovement: 3
+  isRotating: 0
+  rotateAroundLocalAxis: 0
+  rotateAxis: {x: 0, y: 0, z: 0}
+  rotateAxisOffset: {x: 0, y: 0, z: 0}
+  rotateSpeed: 0
   isATeleporter: 0
   teleporterTarget: {fileID: 0}
 --- !u!23 &1839964825
@@ -16463,9 +16488,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_FollowOffset: {x: 0, y: 0.4, z: -6}
-  m_XDamping: 0
-  m_YDamping: 0
-  m_ZDamping: 0
+  m_XDamping: 0.2
+  m_YDamping: 0.2
+  m_ZDamping: 0.2
   m_BindingMode: 4
   m_PitchDamping: 0
   m_YawDamping: 0
@@ -17053,12 +17078,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4044717213e31446939f7bd49c896ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_TrackedObjectOffset: {x: 0, y: 2, z: 0}
+  m_TrackedObjectOffset: {x: 0, y: 0.5, z: 0}
   m_LookaheadTime: 0
   m_HorizontalDamping: 0
   m_VerticalDamping: 0
   m_ScreenX: 0.5
-  m_ScreenY: 0.5
+  m_ScreenY: 0.55
   m_DeadZoneWidth: 0
   m_DeadZoneHeight: 0
   m_SoftZoneWidth: 0.8
@@ -17077,9 +17102,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_FollowOffset: {x: 0, y: 4.5, z: -6}
-  m_XDamping: 0
-  m_YDamping: 0
-  m_ZDamping: 0
+  m_XDamping: 0.2
+  m_YDamping: 0.2
+  m_ZDamping: 0.2
   m_BindingMode: 4
   m_PitchDamping: 0
   m_YawDamping: 0
@@ -17188,6 +17213,11 @@ MonoBehaviour:
   backToOriginOnPlayerExit: 0
   backToOriginOnPlayerJumpOn: 0
   delayBeforeMovement: 1.69
+  isRotating: 0
+  rotateAroundLocalAxis: 0
+  rotateAxis: {x: 0, y: 0, z: 0}
+  rotateAxisOffset: {x: 0, y: 0, z: 0}
+  rotateSpeed: 0
   isATeleporter: 0
   teleporterTarget: {fileID: 0}
 --- !u!23 &2064486593
