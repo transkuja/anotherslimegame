@@ -23,6 +23,14 @@ public class EvolutionComponent : MonoBehaviour {
         }
     }
 
+    public Evolution Evolution
+    {
+        get
+        {
+            return evolution;
+        }
+    }
+
     protected void SetPower(Powers powerName)
     {
         GetComponent<Player>().activeEvolutions++;

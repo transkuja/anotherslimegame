@@ -317,7 +317,7 @@ public class PlayerController : MonoBehaviour {
 
         player.Rb.velocity = new Vector3(initialVelocity.x, player.Rb.velocity.y, initialVelocity.z);
 
-        Vector3 camVectorForward = new Vector3(player.cameraReference.transform.GetChild(0).forward.x, 0.0f, player.cameraReference.transform.forward.z);
+        Vector3 camVectorForward = new Vector3(player.cameraReference.transform.GetChild(0).forward.x, 0.0f, player.cameraReference.transform.GetChild(0).transform.forward.z);
         camVectorForward.Normalize();
 
         Vector3 velocityVec = initialVelocity.z * camVectorForward + initialVelocity.x * player.cameraReference.transform.GetChild(0).right + Vector3.up * player.Rb.velocity.y;
