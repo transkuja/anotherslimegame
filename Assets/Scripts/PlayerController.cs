@@ -2,6 +2,7 @@
 using UnityEngine;
 using System;
 using UnityEngine.SceneManagement;
+using Cinemachine;
 
 public enum DashingState
 {
@@ -224,7 +225,24 @@ public class PlayerController : MonoBehaviour {
                     player.Rb.velocity = transform.forward * dashingVelocity;
      
                     if (SceneManager.GetActiveScene() != SceneManager.GetSceneByBuildIndex(0))
-                        player.cameraReference.transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().Follow = null;
+                    {
+                        //Body
+                        CinemachineTransposer tr;
+                        tr = ((CinemachineTransposer)(player.cameraReference.transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().GetRig(0).GetCinemachineComponent(CinemachineCore.Stage.Body)));
+                        tr.m_XDamping = 0f;
+                        tr.m_YDamping = 0f;
+                        tr.m_ZDamping = 0f;
+
+                        tr = ((CinemachineTransposer)(player.cameraReference.transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().GetRig(1).GetCinemachineComponent(CinemachineCore.Stage.Body)));
+                        tr.m_XDamping = 0f;
+                        tr.m_YDamping = 0f;
+                        tr.m_ZDamping = 0f;
+
+                        tr = ((CinemachineTransposer)(player.cameraReference.transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().GetRig(2).GetCinemachineComponent(CinemachineCore.Stage.Body)));
+                        tr.m_XDamping = 0f;
+                        tr.m_YDamping = 0f;
+                        tr.m_ZDamping = 0f;
+                    }
                     dashingTimer -= Time.fixedDeltaTime;
 
                     // ? Timer ?
@@ -237,7 +255,25 @@ public class PlayerController : MonoBehaviour {
                     break;
                 case DashingState.Cooldown:
                     if (SceneManager.GetActiveScene() != SceneManager.GetSceneByBuildIndex(0))
-                        player.cameraReference.transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().Follow = transform;
+                    {
+                        //Body
+                        CinemachineTransposer tr;
+                        tr = ((CinemachineTransposer)(player.cameraReference.transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().GetRig(0).GetCinemachineComponent(CinemachineCore.Stage.Body)));
+                        tr.m_XDamping = .2f;
+                        tr.m_YDamping = .2f;
+                        tr.m_ZDamping = .2f;
+
+                        tr = ((CinemachineTransposer)(player.cameraReference.transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().GetRig(1).GetCinemachineComponent(CinemachineCore.Stage.Body)));
+                        tr.m_XDamping = .2f;
+                        tr.m_YDamping = .2f;
+                        tr.m_ZDamping = .2f;
+
+                        tr = ((CinemachineTransposer)(player.cameraReference.transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().GetRig(2).GetCinemachineComponent(CinemachineCore.Stage.Body)));
+                        tr.m_XDamping = .2f;
+                        tr.m_YDamping = .2f;
+                        tr.m_ZDamping = .2f;
+                    }
+
                     dashingCooldownTimer -= Time.fixedDeltaTime;
                     if (dashingCooldownTimer <= 0.0f)
                     {
