@@ -20,6 +20,7 @@ public class JumpManager : MonoBehaviour
 
     private Jump curJump;
     public Jump[] jumpTab;
+
     public void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -67,6 +68,21 @@ public class JumpManager : MonoBehaviour
         if (curJump != null && rb.velocity.y >0)
             curJump.SwitchMinimalJump();
     }
-   
+   public float GetGravity()
+    {
+        if (jumpTab!=null)
+        {
+            Jump basicJump = jumpTab[(int)JumpEnum.Basic];
+            if (basicJump != null)
+            {
+                if (basicJump.HasFallingParabola)
+                    return -basicJump.FallingParabola.CurGravity;
+                else
+                    return -basicJump.upParabola.CurGravity;
+            }
+        }
+        Debug.Log("Error Gravity : Player has no basicJump : gravity set to 70");
+        return -70;
+    }
    
 }

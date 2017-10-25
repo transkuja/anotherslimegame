@@ -135,7 +135,9 @@ public class PlayerController : MonoBehaviour {
         dashingCooldownTimer = dashingCooldownMaxTimer;
         dashingVelocity = 100.0f;
         currentState = DashingState.Cooldown;
-
+        JumpManager jumpManager = GetComponent<JumpManager>();
+        if (jumpManager != null)
+            customGravity = jumpManager.GetGravity();
     }
 
     void FixedUpdate ()
