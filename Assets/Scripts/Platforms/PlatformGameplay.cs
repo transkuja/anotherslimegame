@@ -5,8 +5,11 @@ using UnityEngine;
 // WIP Antho
 public class PlatformGameplay : MonoBehaviour {
     [Header("Debug")]
+    [Tooltip("Draws GREEN gizmos to show how platform starts, CYAN gizmos for rotation center")]
     public bool drawGizmos = false;
+    [Tooltip("Draws only the gizmo lines")]
     public bool drawLinesOnly = false;
+    [Tooltip("Draws only the gizmo shapes")]
     public bool drawShapesOnly = false;
 
     [Tooltip("Reset the platform to origin position")]
