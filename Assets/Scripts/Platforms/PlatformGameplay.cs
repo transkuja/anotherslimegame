@@ -67,6 +67,7 @@ public class PlatformGameplay : MonoBehaviour {
     [Header("Rotation")]
     [Tooltip("Defines if the platform will rotate or not")]
     public bool isRotating = false;
+    // TODO: rename this
     [Tooltip("Enable to freeze local rotation around XZ while performing other any rotations")]
     public bool preserveUp = false;
     [Tooltip("Moves the center of rotation")]
@@ -254,7 +255,11 @@ public class PlatformGameplay : MonoBehaviour {
                 transform.Rotate(baseRotation.rotateAxis, Time.deltaTime * baseRotation.rotateSpeed);
             else
             {
+                Quaternion beforeRotation = transform.rotation;
                 transform.RotateAround(platformOriginPosition + newRotationCenter, baseRotation.rotateAxis, Time.deltaTime * baseRotation.rotateSpeed);
+                if (preserveUp)
+                    transform.rotation = new Quaternion(beforeRotation.x, transform.rotation.y, beforeRotation.z, beforeRotation.w);
+
             }
             
             if (isDualRotationEnabled)
