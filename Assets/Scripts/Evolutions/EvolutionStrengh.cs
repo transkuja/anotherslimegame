@@ -6,46 +6,96 @@ using XInputDotNetPure;
 // utils 
 //GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerController>();
 //GamePad.GetState(playerIndex).Buttons.A;
+public enum DashState
+{
+    NONE,CHARGING,DASHING
+}
 
 public class EvolutionStrengh : EvolutionComponent
 {
     [SerializeField]float downDashPower = 100;
     [SerializeField] float expulseDashPower = 60;
-    bool isDownDashing = false;
+    [SerializeField] float maxDashChargeDelay = 0.7f;
+    float timer;
     Rigidbody rb;
+    DashState dashState;
 
+    // ici je dois savoir tant que x est appuyé. 
+    // Quand x est relaché. 
 
-    public void Start()
+    public void ColorChangeAsupr(Color color)
     {
+        Transform slimeBody = null;
+        string slimeName = "Slime_0"+( ((int)playerController.playerIndex)+1);
+        Transform slimeMeshParent = transform.Find(slimeName);
+
+        if (slimeMeshParent != null)
+            slimeBody = slimeMeshParent.Find("Slime_Body");
+        if (slimeBody!=null)
+        {
+            slimeBody.GetComponent<MeshRenderer>().materials[0].color = color;
+        }
+    }
+
+
+    public override void  Start()
+    {
+        base.Start();
         SetPower(Powers.Strengh);
         rb = GetComponent<Rigidbody>();
-        Debug.Log("I am Strengh");
+        Debug.Log("I have Strengh");
     }
-  
-    public override void SpecialAction()
+    public void DashStart()
     {
-        base.SpecialAction();
-     
-        JumpManager jumpManager = GetComponent<JumpManager>();
+            // stop mouvement
+        ColorChangeAsupr(Color.red);
         if (rb == null)
         {
             Debug.Log("Error : missing Rb on player");
             return;
         }
-        isDownDashing = true;
-        Vector3 downPush = Vector3.down * downDashPower;
-        rb.velocity = downPush; // Override current velocity. 
-        //rb.AddForce(downPush, ForceMode.Impulse); // doesn't overide current velocity;
-        if (jumpManager!=null)
+        rb.velocity = Vector3.zero;
+                // stop jump
+        JumpManager jumpManager = GetComponent<JumpManager>();
+        if (jumpManager != null)
         {
             jumpManager.Stop();
         }
+        playerController.isGravityEnabled = false;
+        playerController.canJump = false;
+        playerController.canMoveXZ = false;
+        timer = 0;
+        dashState = DashState.CHARGING;
     }
+    public void Levitate()
+    {
+        timer += Time.deltaTime;
+        if (timer > maxDashChargeDelay)
+            LauchDash();
+    }
+    public void LauchDash()
+    {
+        Vector3 downPush = Vector3.down * downDashPower;
+        rb.velocity = downPush; // Override current velocity. 
+        playerController.isGravityEnabled = true;
+        dashState = DashState.DASHING;
+    }
+    public override void Update()
+    {
+        base.Update();
+        if (isSpecialActionPushedOnce && dashState != DashState.DASHING)
+            DashStart();
+        if (isSpecialActionPushed && dashState == DashState.CHARGING)
+            Levitate();
+        if (isSpecialActionReleased && dashState != DashState.DASHING)
+            LauchDash();
+    }
+
     public override void OnCollisionEnter(Collision coll)
     {
         base.OnCollisionEnter(coll);
         Rigidbody otherRb;
-        if (isDownDashing)
+        if (dashState == DashState.DASHING)
         {
             if (coll.transform.GetComponent<Player>() != null)
             {
@@ -56,9 +106,17 @@ public class EvolutionStrengh : EvolutionComponent
                 otherRb.AddForce(direction * expulseDashPower, ForceMode.Impulse);
             }
         }
+       
+    }
+    public override void OnCollisionStay(Collision coll)
+    {
+        base.OnCollisionStay(coll);
         if (playerController.IsGrounded)
         {
-            isDownDashing = false;
+            dashState = DashState.NONE;
+            playerController.canJump = true;
+            playerController.canMoveXZ = true;
+            ColorChangeAsupr(Color.white);
         }
     }
 }

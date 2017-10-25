@@ -10,9 +10,11 @@ public class EvolutionComponent : MonoBehaviour {
     bool isEvolutionInitialized = false;
     bool isTimerInitialized = false;
     protected PlayerController playerController;
-    protected bool isSpecialActionPressed = false;
+    protected bool isSpecialActionPushedOnce = false;
+    protected bool isSpecialActionPushed = false;
+    protected bool isSpecialActionReleased = false;
 
-    public void Start()
+    public virtual void Start()
     {
         
     }
@@ -54,13 +56,30 @@ public class EvolutionComponent : MonoBehaviour {
         }
         if (playerController.IsUsingAController)
         {
-            if (GamePad.GetState(playerController.playerIndex).Buttons.X == ButtonState.Pressed && !isSpecialActionPressed)
+            isSpecialActionPushedOnce = false;
+            isSpecialActionReleased = false;
+            if (GamePad.GetState(playerController.playerIndex).Buttons.X == ButtonState.Pressed)
             {
-                SpecialAction();
-                isSpecialActionPressed = true;
+                if (!isSpecialActionPushed)
+                    isSpecialActionPushedOnce = true;
+                isSpecialActionPushed = true;
+
+                
             }
-            else if (GamePad.GetState(playerController.playerIndex).Buttons.X == ButtonState.Released)
-                isSpecialActionPressed = false;
+            if (isSpecialActionPushed)
+                if (GamePad.GetState(playerController.playerIndex).Buttons.X == ButtonState.Released)
+                {
+                    isSpecialActionPushed = false;
+                    isSpecialActionReleased = true;
+                }
+
+            //if (GamePad.GetState(playerController.playerIndex).Buttons.X == ButtonState.Pressed && (!isSpecialActionPressed))
+            //{
+            //    SpecialAction();
+            //    isSpecialActionPressed = true;
+            //}
+            //else if (GamePad.GetState(playerController.playerIndex).Buttons.X == ButtonState.Released)
+            //    isSpecialActionPressed = false;
         }
     }
     public virtual void SpecialAction()
@@ -72,6 +91,10 @@ public class EvolutionComponent : MonoBehaviour {
         transform.GetChild((int)PlayerChildren.Evolutions).GetChild((int)evolution.BodyPart).gameObject.SetActive(false);
     }
     public virtual void OnCollisionEnter(Collision coll)
+    {
+
+    }
+    public virtual void OnCollisionStay(Collision coll)
     {
 
     }
