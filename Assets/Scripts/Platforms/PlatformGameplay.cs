@@ -67,6 +67,8 @@ public class PlatformGameplay : MonoBehaviour {
     [Header("Rotation")]
     [Tooltip("Defines if the platform will rotate or not")]
     public bool isRotating = false;
+    [Tooltip("Enable to freeze local rotation around XZ while performing other any rotations")]
+    public bool preserveUp = false;
     [Tooltip("Moves the center of rotation")]
     public Vector3 newRotationCenter = Vector3.zero;
     public Rotation baseRotation;
@@ -262,6 +264,7 @@ public class PlatformGameplay : MonoBehaviour {
                 else
                     transform.RotateAround(transform.position, secondRotation.rotateAxis, Time.deltaTime * secondRotation.rotateSpeed);
             }
+            
         }
     }
 
