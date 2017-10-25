@@ -258,7 +258,7 @@ public class PlatformGameplay : MonoBehaviour {
             if (isDualRotationEnabled)
             {
                 if (secondRotation.rotateAroundLocalAxis)
-                    transform.Rotate(baseRotation.rotateAxis, Time.deltaTime * secondRotation.rotateSpeed);
+                    transform.Rotate(secondRotation.rotateAxis, Time.deltaTime * secondRotation.rotateSpeed);
                 else
                     transform.RotateAround(transform.position, secondRotation.rotateAxis, Time.deltaTime * secondRotation.rotateSpeed);
             }
