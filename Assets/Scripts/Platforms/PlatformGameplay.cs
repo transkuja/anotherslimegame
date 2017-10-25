@@ -84,11 +84,13 @@ public class PlatformGameplay : MonoBehaviour {
     public bool hasADelayedRotation = false;
     [Tooltip("The time before the platform starts moving in seconds.")]
     public float delayBeforeTransition = 1.0f;
-    [Tooltip("The time of the transition in seconds.")]
+    // TODO: should be in seconds
+    [Tooltip("The time of the transition.")]
     public float transitionTime = 1.0f;
     [Tooltip("The time before the platform starts moving to return to its original state in seconds.")]
     public float delayBeforeTransitionReturn = 1.0f;
-    [Tooltip("The time of the return transition in seconds.")]
+    // TODO: should be in seconds
+    [Tooltip("The time of the return transition.")]
     public float transitionTimeReturn = 1.0f;
     [Tooltip("The platform will rotate around this local axis")]
     public Vector3 rotateAxisLocal = Vector3.zero;
@@ -120,7 +122,14 @@ public class PlatformGameplay : MonoBehaviour {
     Vector3 platformOriginPosition;
     Quaternion platformOriginRotation;
     Vector3 platformOriginScale;
+    float delayRotationTimer = 0.0f;
+    bool delayedRotationIsInPing = true;
 
+    Quaternion lerpOriginRotation;
+    Quaternion lerpNewRotation;
+    float rotateLerpValue = 0.0f;
+    float rotateLerpSpeed;
+    bool isRotationLerpActive = false;
 
     // Gizmos check variables
     bool drawLineOnlyPrevState;
@@ -289,8 +298,64 @@ public class PlatformGameplay : MonoBehaviour {
                 else
                     transform.RotateAround(transform.position, secondRotation.rotateAxis, Time.deltaTime * secondRotation.rotateSpeed);
             }
+
+            if (hasADelayedRotation)
+            {
+                delayRotationTimer += Time.deltaTime;
+                if (delayedRotationIsInPing)
+                {
+                    if (delayRotationTimer > delayBeforeTransition && !isRotationLerpActive)
+                    {
+                        HandleDelayedRotation();
+                    }
+                }
+                else
+                {
+                    if ((delayRotationTimer > delayBeforeTransitionReturn || rotationAngle == RotationAngle.Deg360) && !isRotationLerpActive)
+                    {
+                        HandleDelayedRotation();
+                    }
+                }
+
+                if (isRotationLerpActive)
+                {
+                    rotateLerpValue += Time.deltaTime;
+                    transform.rotation = Quaternion.Lerp(lerpOriginRotation, lerpNewRotation, rotateLerpValue * rotateLerpSpeed);
+                    if (rotateLerpValue >= 1.0f)
+                    {
+                        delayedRotationIsInPing = !delayedRotationIsInPing;
+                        delayRotationTimer = 0.0f;
+                        isRotationLerpActive = false;
+                    }
+                }
+            
+
+            }
             
         }
+    }
+
+    void HandleDelayedRotation()
+    {
+        float tmpTransitionTime = (delayedRotationIsInPing) ? transitionTime : transitionTimeReturn;
+        float rotationAngleFloat;
+
+        if (rotationAngle == RotationAngle.Deg360)
+        {
+            rotationAngleFloat = RotationAngleToFloat(rotationAngle) / 2.0f;
+            tmpTransitionTime = transitionTime / 2.0f;
+            lerpNewRotation = transform.rotation * Quaternion.AngleAxis(rotationAngleFloat, rotateAxisLocal);
+        }
+        else
+        {
+            rotationAngleFloat = RotationAngleToFloat(rotationAngle);
+            lerpNewRotation = transform.rotation * Quaternion.AngleAxis(((delayedRotationIsInPing) ? 1 : -1) * rotationAngleFloat, rotateAxisLocal);
+        }
+
+        lerpOriginRotation = transform.rotation;
+        rotateLerpSpeed = rotationAngleFloat / tmpTransitionTime;
+        rotateLerpValue = 0.0f;
+        isRotationLerpActive = true;
     }
 
     void ResetPlatformToOrigin()
@@ -377,7 +442,7 @@ public class PlatformGameplay : MonoBehaviour {
                 Gizmos.DrawRay(transform.position, platformOriginPosition - transform.position);
 
 
-            // Platform center of rotation
+            // Center of rotation
             if (isRotating)
             {
                 Gizmos.color = Color.cyan;
@@ -409,5 +474,19 @@ public class PlatformGameplay : MonoBehaviour {
             }
             drawLineOnlyPrevState = drawLinesOnly;
         }
+    }
+
+    float RotationAngleToFloat(RotationAngle rotationAngle)
+    {
+        switch(rotationAngle)
+        {
+            case RotationAngle.Deg180:
+                return 180.0f;
+            case RotationAngle.Deg360:
+                return 360.0f;
+            case RotationAngle.Deg90:
+                return 90.0f;
+        }
+        return 0.0f;
     }
 }
