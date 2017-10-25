@@ -14,6 +14,7 @@ public enum DashingState
 
 [RequireComponent(typeof(Player))]
 public class PlayerController : MonoBehaviour {
+
     bool playerIndexSet = false;
 
     public PlayerIndex playerIndex;
@@ -24,9 +25,8 @@ public class PlayerController : MonoBehaviour {
     // TMP
     bool jumpPressed = false;
     bool jumpButtonWasPressed = false;
-    public bool canMoveXZ = true;
-    public bool canJump = true;
-
+    [HideInInspector]public bool canMoveXZ = true;
+    [HideInInspector]public bool canJump = true;
     int currentJumpHeight = 0;
     Player player;
 
@@ -34,6 +34,7 @@ public class PlayerController : MonoBehaviour {
     bool isWaitingForNextRelease = false;
     float chargeFactor = 0.0f;
 
+    [SerializeField] private Stats stats;
     [SerializeField]
     [Range(5, 1000)] float jumpChargeSpeed = 15.0f;
 
@@ -313,9 +314,10 @@ public class PlayerController : MonoBehaviour {
 
     private void HandleMovementWithKeyBoard()
     {
+        
         Vector3 initialVelocity = new Vector3(Input.GetAxisRaw("Horizontal"), 0.0f, Input.GetAxisRaw("Vertical"));
         initialVelocity.Normalize();
-        initialVelocity *= (Mathf.Abs(Input.GetAxisRaw("Horizontal")) + Mathf.Abs(Input.GetAxisRaw("Vertical")) > 0.95f) ? GameManager.MaxMovementSpeed : GameManager.MaxMovementSpeed / 2.0f;
+        initialVelocity *= (Mathf.Abs(Input.GetAxisRaw("Horizontal")) + Mathf.Abs(Input.GetAxisRaw("Vertical")) > 0.95f) ? stats.Get(Stats.StatType.GROUND_SPEED) : stats.Get(Stats.StatType.GROUND_SPEED) / 2.0f;
 
         player.Rb.velocity = new Vector3(initialVelocity.x, player.Rb.velocity.y, initialVelocity.z);
 
@@ -334,9 +336,10 @@ public class PlayerController : MonoBehaviour {
         Vector3 initialVelocity = new Vector3(state.ThumbSticks.Left.X, 0.0f, state.ThumbSticks.Left.Y);
 
         initialVelocity.Normalize();
-        initialVelocity *= (Mathf.Abs(state.ThumbSticks.Left.X) + Mathf.Abs(state.ThumbSticks.Left.Y) > 0.95f) ? GameManager.MaxMovementSpeed : GameManager.MaxMovementSpeed / 2.0f;
         if (isFreeFalling)
-            initialVelocity /= 2.0f;
+            initialVelocity *= (Mathf.Abs(state.ThumbSticks.Left.X) + Mathf.Abs(state.ThumbSticks.Left.Y) > 0.95f) ? stats.Get(Stats.StatType.GROUND_SPEED) : stats.Get(Stats.StatType.GROUND_SPEED) / 2.0f;
+        else
+            initialVelocity *= (Mathf.Abs(state.ThumbSticks.Left.X) + Mathf.Abs(state.ThumbSticks.Left.Y) > 0.95f) ? stats.Get(Stats.StatType.AIR_CONTROL) : stats.Get(Stats.StatType.AIR_CONTROL) / 2.0f;
 
         Vector3 camVectorForward = new Vector3(player.cameraReference.transform.GetChild(0).forward.x, 0.0f, player.cameraReference.transform.GetChild(0).forward.z);
         camVectorForward.Normalize();
@@ -391,6 +394,7 @@ public class PlayerController : MonoBehaviour {
                 }
             }
         }
+        stats.Update();
     }
 
     private void HandleJumpWithController()
