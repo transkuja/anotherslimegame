@@ -302,25 +302,23 @@ public class PlatformGameplay : MonoBehaviour {
             if (hasADelayedRotation)
             {
                 delayRotationTimer += Time.deltaTime;
-                if (delayedRotationIsInPing)
+                if (!isRotationLerpActive)
                 {
-                    if (delayRotationTimer > delayBeforeTransition && !isRotationLerpActive)
+                    if (delayedRotationIsInPing)
                     {
-                        HandleDelayedRotation();
+                        if (delayRotationTimer > delayBeforeTransition)
+                            HandleDelayedRotation();
+                    }
+                    else
+                    {
+                        if (delayRotationTimer > delayBeforeTransitionReturn || rotationAngle == RotationAngle.Deg360)
+                            HandleDelayedRotation();
                     }
                 }
                 else
                 {
-                    if ((delayRotationTimer > delayBeforeTransitionReturn || rotationAngle == RotationAngle.Deg360) && !isRotationLerpActive)
-                    {
-                        HandleDelayedRotation();
-                    }
-                }
-
-                if (isRotationLerpActive)
-                {
-                    rotateLerpValue += Time.deltaTime;
-                    transform.rotation = Quaternion.Lerp(lerpOriginRotation, lerpNewRotation, rotateLerpValue * rotateLerpSpeed);
+                    rotateLerpValue += Time.deltaTime * rotateLerpSpeed;
+                    transform.rotation = Quaternion.Lerp(lerpOriginRotation, lerpNewRotation, rotateLerpValue);
                     if (rotateLerpValue >= 1.0f)
                     {
                         delayedRotationIsInPing = !delayedRotationIsInPing;
@@ -328,8 +326,6 @@ public class PlatformGameplay : MonoBehaviour {
                         isRotationLerpActive = false;
                     }
                 }
-            
-
             }
             
         }

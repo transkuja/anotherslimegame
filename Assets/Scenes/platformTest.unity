@@ -133,7 +133,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4855681443257848, guid: 1bd1517eea92b9c4aa31d357beb3c913, type: 2}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0.27454668
       objectReference: {fileID: 0}
     - target: {fileID: 4855681443257848, guid: 1bd1517eea92b9c4aa31d357beb3c913, type: 2}
       propertyPath: m_LocalRotation.z
@@ -141,7 +141,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4855681443257848, guid: 1bd1517eea92b9c4aa31d357beb3c913, type: 2}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.9615738
       objectReference: {fileID: 0}
     - target: {fileID: 4855681443257848, guid: 1bd1517eea92b9c4aa31d357beb3c913, type: 2}
       propertyPath: m_RootOrder
@@ -190,7 +190,7 @@ Prefab:
     - target: {fileID: 114721393872451352, guid: 1bd1517eea92b9c4aa31d357beb3c913,
         type: 2}
       propertyPath: baseRotation.rotateAxis.y
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114721393872451352, guid: 1bd1517eea92b9c4aa31d357beb3c913,
         type: 2}
@@ -201,6 +201,85 @@ Prefab:
         type: 2}
       propertyPath: drawGizmos
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114721393872451352, guid: 1bd1517eea92b9c4aa31d357beb3c913,
+        type: 2}
+      propertyPath: newRotationCenter.z
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 114721393872451352, guid: 1bd1517eea92b9c4aa31d357beb3c913,
+        type: 2}
+      propertyPath: baseRotation.rotateAxis.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4855681443257848, guid: 1bd1517eea92b9c4aa31d357beb3c913, type: 2}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -31.87
+      objectReference: {fileID: 0}
+    - target: {fileID: 114721393872451352, guid: 1bd1517eea92b9c4aa31d357beb3c913,
+        type: 2}
+      propertyPath: hasADelayedRotation
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114721393872451352, guid: 1bd1517eea92b9c4aa31d357beb3c913,
+        type: 2}
+      propertyPath: rotateAxisLocal.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114721393872451352, guid: 1bd1517eea92b9c4aa31d357beb3c913,
+        type: 2}
+      propertyPath: transitionTime
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 114721393872451352, guid: 1bd1517eea92b9c4aa31d357beb3c913,
+        type: 2}
+      propertyPath: transitionTimeReturn
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 114721393872451352, guid: 1bd1517eea92b9c4aa31d357beb3c913,
+        type: 2}
+      propertyPath: delayBeforeTransition
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 114721393872451352, guid: 1bd1517eea92b9c4aa31d357beb3c913,
+        type: 2}
+      propertyPath: rotateAxisLocal.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114721393872451352, guid: 1bd1517eea92b9c4aa31d357beb3c913,
+        type: 2}
+      propertyPath: rotationAngle
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114721393872451352, guid: 1bd1517eea92b9c4aa31d357beb3c913,
+        type: 2}
+      propertyPath: preserveUp
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114721393872451352, guid: 1bd1517eea92b9c4aa31d357beb3c913,
+        type: 2}
+      propertyPath: baseRotation.rotateAroundLocalAxis
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114721393872451352, guid: 1bd1517eea92b9c4aa31d357beb3c913,
+        type: 2}
+      propertyPath: isDualRotationEnabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114721393872451352, guid: 1bd1517eea92b9c4aa31d357beb3c913,
+        type: 2}
+      propertyPath: secondRotation.rotateAxis.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114721393872451352, guid: 1bd1517eea92b9c4aa31d357beb3c913,
+        type: 2}
+      propertyPath: secondRotation.rotateAroundLocalAxis
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114721393872451352, guid: 1bd1517eea92b9c4aa31d357beb3c913,
+        type: 2}
+      propertyPath: secondRotation.rotateSpeed
+      value: 30
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 1bd1517eea92b9c4aa31d357beb3c913, type: 2}
