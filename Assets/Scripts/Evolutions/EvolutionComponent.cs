@@ -66,7 +66,7 @@ public class EvolutionComponent : MonoBehaviour {
         {
             isSpecialActionPushedOnce = false;
             isSpecialActionReleased = false;
-            if (GamePad.GetState(playerController.playerIndex).Buttons.X == ButtonState.Pressed)
+            if (GamePad.GetState(playerController.playerIndex).Buttons.Y == ButtonState.Pressed)
             {
                 if (!isSpecialActionPushed)
                     isSpecialActionPushedOnce = true;
@@ -75,7 +75,7 @@ public class EvolutionComponent : MonoBehaviour {
                 
             }
             if (isSpecialActionPushed)
-                if (GamePad.GetState(playerController.playerIndex).Buttons.X == ButtonState.Released)
+                if (GamePad.GetState(playerController.playerIndex).Buttons.Y == ButtonState.Released)
                 {
                     isSpecialActionPushed = false;
                     isSpecialActionReleased = true;

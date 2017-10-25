@@ -83,6 +83,7 @@ public class Jump  {
     public void AtPeakOfJump()
     {
         //Debug.Log("heightAtPeak : " + controllerRb.position.y);
+        //Debug.Break();
         if (isContinue)
         {
             curParabola = upParabola;

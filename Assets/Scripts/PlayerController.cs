@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour {
     bool isWaitingForNextRelease = false;
     float chargeFactor = 0.0f;
 
-    [SerializeField] private Stats stats;
+    [SerializeField] public Stats stats; // tu mens intellisense
     [SerializeField]
     [Range(5, 1000)] float jumpChargeSpeed = 15.0f;
 
@@ -338,7 +338,7 @@ public class PlayerController : MonoBehaviour {
         Vector3 initialVelocity = new Vector3(state.ThumbSticks.Left.X, 0.0f, state.ThumbSticks.Left.Y);
 
         initialVelocity.Normalize();
-        if (isFreeFalling)
+        if (!isFreeFalling)
             initialVelocity *= (Mathf.Abs(state.ThumbSticks.Left.X) + Mathf.Abs(state.ThumbSticks.Left.Y) > 0.95f) ? stats.Get(Stats.StatType.GROUND_SPEED) : stats.Get(Stats.StatType.GROUND_SPEED) / 2.0f;
         else
             initialVelocity *= (Mathf.Abs(state.ThumbSticks.Left.X) + Mathf.Abs(state.ThumbSticks.Left.Y) > 0.95f) ? stats.Get(Stats.StatType.AIR_CONTROL) : stats.Get(Stats.StatType.AIR_CONTROL) / 2.0f;

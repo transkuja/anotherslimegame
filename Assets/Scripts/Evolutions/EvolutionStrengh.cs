@@ -43,6 +43,7 @@ public class EvolutionStrengh : EvolutionComponent
         base.Start();
         SetPower(Powers.Strengh);
         rb = GetComponent<Rigidbody>();
+        playerController.stats.AddBuff(new StatBuff(Stats.StatType.GROUND_SPEED, 0.85f, -1));
         Debug.Log("I have Strengh");
     }
     public void DashStart()

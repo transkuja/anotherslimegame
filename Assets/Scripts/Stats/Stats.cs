@@ -12,10 +12,11 @@ public class Stats  {
     {
         GROUND_SPEED,
         AIR_CONTROL,
-        TURN_SPEED,
+        TURN_SPEED, // non implémenté
         JUMP_HEIGHT, // non implémenté
-        JUMP_NB,
-        DASH_FORCE,
+        JUMP_NB,  // non implémenté
+        DASH_FORCE,// non implémenté
+        DASH_RESISTANCE, // non implémenté
 
         MAX_STATS
     }
@@ -24,7 +25,7 @@ public class Stats  {
     {
         [HideInInspector]public string name; // ne sert qu'a l'affichage dans l'éditor si une autre solution existe je suis chaud
         public float baseStat;
-        public float currentStat;
+        [HideInInspector]public float currentStat;
     }
     private List<StatBuff> buffList;
     [SerializeField] private Stat[] stats = new Stat[(int)StatType.MAX_STATS]; // tableau contenant toutes les stats du joueur
@@ -68,6 +69,8 @@ public class Stats  {
     }
     public void AddBuff(StatBuff buff)
     {
+        if (buffList == null)
+            buffList = new List<StatBuff>();
         buffList.Add(buff);
         UpdateStat(buff.StatType);
         Debug.Log("Buff Added");
