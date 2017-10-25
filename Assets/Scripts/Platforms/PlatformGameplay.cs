@@ -73,9 +73,29 @@ public class PlatformGameplay : MonoBehaviour {
     [Tooltip("Moves the center of rotation")]
     public Vector3 newRotationCenter = Vector3.zero;
     public Rotation baseRotation;
+
+    [Header("Dual rotations")]
     [Tooltip("Dual rotation is used to rotate a platform around a point, relative to the platform position, while rotating the platform itself.")]
     public bool isDualRotationEnabled = false;
     public Rotation secondRotation;
+
+    [Header("Delayed rotation")]
+    [Tooltip("Delay a rotation with a timer.")]
+    public bool hasADelayedRotation = false;
+    [Tooltip("The time before the platform starts moving in seconds.")]
+    public float delayBeforeTransition = 1.0f;
+    [Tooltip("The time of the transition in seconds.")]
+    public float transitionTime = 1.0f;
+    [Tooltip("The time before the platform starts moving to return to its original state in seconds.")]
+    public float delayBeforeTransitionReturn = 1.0f;
+    [Tooltip("The time of the return transition in seconds.")]
+    public float transitionTimeReturn = 1.0f;
+    [Tooltip("The platform will rotate around this local axis")]
+    public Vector3 rotateAxisLocal = Vector3.zero;
+
+    public enum RotationAngle { Deg90, Deg180, Deg360};
+    [Tooltip("The angle of the delayed rotation. If 360 is selected, there's no return transition.")]
+    public RotationAngle rotationAngle;
 
     [Header("Teleportation")]
     [Tooltip("Teleports a player to a distant place")]
