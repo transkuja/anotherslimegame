@@ -18,8 +18,11 @@ public class PlatformGameplay : MonoBehaviour {
     [Header("Physics")]
     [Tooltip("Will make the player bounce on the platform")]
     public bool isBouncy = false;
-    [Tooltip("Will make items bounce on the platform")]
-    public bool isBouncyForItems = false;
+    [Tooltip("Platforms will only bounce for gameobject in this mask")]
+    public LayerMask bouncyMask;
+    [SerializeField]
+    [Range(10.0f, 2000.0f)]
+    float bounceStrength = 25.0f;
     [Tooltip("Will make the player slide on the platform")]
     public bool isSlippery;
 
@@ -43,16 +46,6 @@ public class PlatformGameplay : MonoBehaviour {
     [Tooltip("The delay before the movement starts")]
     public float delayBeforeMovement = 0.0f;
 
-    /*
-     * Rotations
-     * - Local x,y,z
-     * - Based on an axis and a position
-     * Combinaisons
-     * - Multiple locals
-     * - Local + axis/position
-     * - Local + movement
-     * - /!\ pas de axis/position si deja du mvt
-     */
     [System.Serializable]
     public class Rotation
     {
@@ -140,14 +133,6 @@ public class PlatformGameplay : MonoBehaviour {
         platformOriginRotation = transform.rotation;
         platformOriginScale = transform.localScale;
 
-        if (isBouncy)
-        {
-            // isbouncy start process
-        }
-        if (isBouncyForItems)
-        {
-            // isBouncyForItems start process
-        }
         if (isSlippery)
         {
             // isSlippery start process
@@ -400,6 +385,18 @@ public class PlatformGameplay : MonoBehaviour {
             collision.transform.SetParent(transform);
 
             isOnPlatform = true;
+        }
+
+        // Handle bouncy for collisions other than player
+        if (isBouncy)
+        {
+            if (bouncyMask == (bouncyMask | (1 << collision.gameObject.layer)))
+            {
+                if (collision.gameObject.GetComponent<Rigidbody>() != null)
+                    collision.gameObject.GetComponent<Rigidbody>().velocity += Vector3.up * bounceStrength;
+                if (collision.gameObject.GetComponent<PlayerController>() != null)
+                    collision.gameObject.GetComponent<PlayerController>().canDoubleJump = true;
+            }
         }
     }
 
