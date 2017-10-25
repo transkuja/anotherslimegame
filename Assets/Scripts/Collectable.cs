@@ -24,6 +24,7 @@ public class Collectable : MonoBehaviour
             {
                 if (player.Collectables[(int)type] < Utils.GetMaxValueForCollectable(type))
                 {
+                    if (AudioManager.Instance != null && AudioManager.Instance.coinFX!=null) AudioManager.Instance.PlayOneShot(AudioManager.Instance.coinFX);
                     isAttracted = true;
                     playerTarget = player;
                     return;
