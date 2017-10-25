@@ -224,13 +224,17 @@ public class PlatformGameplay : MonoBehaviour {
 
     void HandlePlatformMove()
     {
-        if (movementWhenPlayerJumpsOn)
+        if (isMoving)
         {
-            if (hasPlayerJumpedOn)
+
+            if (movementWhenPlayerJumpsOn)
+            {
+                if (hasPlayerJumpedOn)
+                    MovingProcess();
+            }
+            else
                 MovingProcess();
         }
-        else
-            MovingProcess();
     }
 
     void HandlePlatformRotation()
