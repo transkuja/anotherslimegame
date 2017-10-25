@@ -5,6 +5,9 @@ using UnityEngine;
 // WIP Antho
 public class PlatformGameplay : MonoBehaviour {
 
+    [Tooltip("Reset the platform to origin position")]
+    public bool resetPlatform = false;
+
     [Header("Physics")]
     [Tooltip("Will make the player bounce on the platform")]
     public bool isBouncy = false;
@@ -43,17 +46,26 @@ public class PlatformGameplay : MonoBehaviour {
      * - Local + movement
      * - /!\ pas de axis/position si deja du mvt
      */
+    [System.Serializable]
+    public class Rotation
+    {
+        [Tooltip("Does the platform rotate around a local axis?")]
+        public bool rotateAroundLocalAxis = false;
+        [Tooltip("The platform will rotate around this axis")]
+        public Vector3 rotateAxis = Vector3.zero;
+        [Tooltip("The platform rotate velocity")]
+        public float rotateSpeed = 10.0f;
+    }
+
     [Header("Rotation")]
     [Tooltip("Defines if the platform will rotate or not")]
     public bool isRotating = false;
-    [Tooltip("Does the platform rotate around a local axis?")]
-    public bool rotateAroundLocalAxis = false;
-    [Tooltip("The platform will rotate around this axis")]
-    public Vector3 rotateAxis = Vector3.zero;
     [Tooltip("Moves the center of rotation")]
-    public Vector3 rotateAxisOffset = Vector3.zero;
-    [Tooltip("The platform rotate velocity")]
-    public float rotateSpeed = 0.0f;
+    public Vector3 newRotationCenter = Vector3.zero;
+    public Rotation baseRotation;
+    [Tooltip("Dual rotation is used to rotate a platform around a point, relative to the platform position, while rotating the platform itself.")]
+    public bool isDualRotationEnabled = false;
+    public Rotation secondRotation;
 
     [Header("Teleportation")]
     [Tooltip("Teleports a player to a distant place")]
@@ -75,7 +87,13 @@ public class PlatformGameplay : MonoBehaviour {
     bool hasPlatformReachedDestination = false;
     bool isOnPlatform = false;
 
+    Vector3 platformOriginPosition;
+    Quaternion platformOriginRotation;
+
     void Start() {
+        platformOriginPosition = transform.position;
+        platformOriginRotation = transform.rotation;
+
         if (isBouncy)
         {
             // isbouncy start process
@@ -105,12 +123,12 @@ public class PlatformGameplay : MonoBehaviour {
 
         if (isRotating)
         {
-            if (rotateAxis == Vector3.zero)
+            if (baseRotation.rotateAxis == Vector3.zero)
             {
                 Debug.LogWarning("isRotating is set to true but no rotating axis are defined!");
             }
             else
-                rotateAxis.Normalize();
+                baseRotation.rotateAxis.Normalize();
         }
         originPosition = transform;
         lerpOriginPosition = transform.position;
@@ -124,6 +142,9 @@ public class PlatformGameplay : MonoBehaviour {
     }
 
     void Update() {
+        if (resetPlatform)
+            ResetPlatformToOrigin();
+
         HandlePlatformMove();
         HandleTeleportation();
         HandlePlatformRotation();
@@ -214,12 +235,28 @@ public class PlatformGameplay : MonoBehaviour {
     {
         if (isRotating)
         {
-            if (rotateAroundLocalAxis)
-                transform.Rotate(rotateAxis, Time.deltaTime * rotateSpeed);
+            if (baseRotation.rotateAroundLocalAxis)
+                transform.Rotate(baseRotation.rotateAxis, Time.deltaTime * baseRotation.rotateSpeed);
             else
-                transform.RotateAround(transform.position + rotateAxisOffset, rotateAxis, Time.deltaTime * rotateSpeed);
-
+            {
+                transform.RotateAround(platformOriginPosition + newRotationCenter, baseRotation.rotateAxis, Time.deltaTime * baseRotation.rotateSpeed);
+            }
+            
+            if (isDualRotationEnabled)
+            {
+                if (secondRotation.rotateAroundLocalAxis)
+                    transform.Rotate(baseRotation.rotateAxis, Time.deltaTime * secondRotation.rotateSpeed);
+                else
+                    transform.RotateAround(transform.position, secondRotation.rotateAxis, Time.deltaTime * secondRotation.rotateSpeed);
+            }
         }
+    }
+
+    void ResetPlatformToOrigin()
+    {
+        transform.position = platformOriginPosition;
+        transform.rotation = platformOriginRotation;
+        resetPlatform = false;
     }
 
     void HandlePlatformMove()
