@@ -139,8 +139,6 @@ public class PlayerController : MonoBehaviour {
 
     void FixedUpdate ()
     {
-        if (!GameManager.Instance.PlayerStart.isPlayerReady) return;
-
         if (isGravityEnabled)
         {
             player.Rb.AddForce(-customGravity * Vector3.up, ForceMode.Acceleration);

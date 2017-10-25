@@ -1,8 +1,8 @@
 ﻿using XInputDotNetPure;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using System.Collections;
 using System.Collections.Generic;
+using System;
 
 public class ScoreScreen : MonoBehaviour {
     enum ScoreScreenChildren { ScorePanel }
@@ -39,9 +39,14 @@ public class ScoreScreen : MonoBehaviour {
 
     public void RefreshScores(Player player)
     {
+        float time = GameManager.Instance.PlayerStart.timeSinceStageIsSet;
+        int minutes = Mathf.FloorToInt(time / 60);
+        int seconds = (int)time % 60;
+     
+        String timeStr = string.Format("{0:00} : {1:00}", minutes, seconds);
         scorePanelPlayer[player].GetComponent<PlayerScore>().Rank.text = rank.ToString();
-        scorePanelPlayer[player].GetComponent<PlayerScore>().TextTime.text = player.time.ToString();
-        scorePanelPlayer[player].GetComponent<PlayerScore>().TextPointTime.text = (((SpawnManager.Instance.SpawnedItemsCount* valueCoins )/ Mathf.RoundToInt(player.time)) * valueTime).ToString();
+        scorePanelPlayer[player].GetComponent<PlayerScore>().TextTime.text = timeStr;
+        scorePanelPlayer[player].GetComponent<PlayerScore>().TextPointTime.text = (((SpawnManager.Instance.SpawnedItemsCount* valueCoins )/ Mathf.RoundToInt(time)) * valueTime).ToString();
         scorePanelPlayer[player].GetComponent<PlayerScore>().TextCoins.text = player.Collectables[(int)CollectableType.Points].ToString();
         scorePanelPlayer[player].GetComponent<PlayerScore>().TextPointCoins.text = (player.Collectables[(int)CollectableType.Points] * valueCoins).ToString();
         scorePanelPlayer[player].SetActive(true);
