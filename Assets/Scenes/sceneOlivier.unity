@@ -5448,6 +5448,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03b7096c0b5a8b94590ba4f31b2394d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  drawGizmos: 0
+  drawLinesOnly: 0
+  drawShapesOnly: 0
+  resetPlatform: 0
   isBouncy: 0
   isBouncyForItems: 0
   isSlippery: 0
@@ -5461,10 +5465,16 @@ MonoBehaviour:
   backToOriginOnPlayerJumpOn: 0
   delayBeforeMovement: 1.69
   isRotating: 0
-  rotateAroundLocalAxis: 0
-  rotateAxis: {x: 0, y: 0, z: 0}
-  rotateAxisOffset: {x: 0, y: 0, z: 0}
-  rotateSpeed: 0
+  newRotationCenter: {x: 0, y: 0, z: 0}
+  baseRotation:
+    rotateAroundLocalAxis: 0
+    rotateAxis: {x: 0, y: 0, z: 0}
+    rotateSpeed: 10
+  isDualRotationEnabled: 0
+  secondRotation:
+    rotateAroundLocalAxis: 0
+    rotateAxis: {x: 0, y: 0, z: 0}
+    rotateSpeed: 10
   isATeleporter: 0
   teleporterTarget: {fileID: 0}
 --- !u!23 &607564645
@@ -8424,6 +8434,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03b7096c0b5a8b94590ba4f31b2394d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  drawGizmos: 0
+  drawLinesOnly: 0
+  drawShapesOnly: 0
+  resetPlatform: 0
   isBouncy: 0
   isBouncyForItems: 0
   isSlippery: 0
@@ -8437,10 +8451,16 @@ MonoBehaviour:
   backToOriginOnPlayerJumpOn: 0
   delayBeforeMovement: 3
   isRotating: 0
-  rotateAroundLocalAxis: 0
-  rotateAxis: {x: 0, y: 0, z: 0}
-  rotateAxisOffset: {x: 0, y: 0, z: 0}
-  rotateSpeed: 0
+  newRotationCenter: {x: 0, y: 0, z: 0}
+  baseRotation:
+    rotateAroundLocalAxis: 0
+    rotateAxis: {x: 0, y: 0, z: 0}
+    rotateSpeed: 10
+  isDualRotationEnabled: 0
+  secondRotation:
+    rotateAroundLocalAxis: 0
+    rotateAxis: {x: 0, y: 0, z: 0}
+    rotateSpeed: 10
   isATeleporter: 0
   teleporterTarget: {fileID: 0}
 --- !u!23 &881922950
@@ -8827,6 +8847,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03b7096c0b5a8b94590ba4f31b2394d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  drawGizmos: 0
+  drawLinesOnly: 0
+  drawShapesOnly: 0
+  resetPlatform: 0
   isBouncy: 0
   isBouncyForItems: 0
   isSlippery: 0
@@ -8840,10 +8864,16 @@ MonoBehaviour:
   backToOriginOnPlayerJumpOn: 0
   delayBeforeMovement: 3
   isRotating: 0
-  rotateAroundLocalAxis: 0
-  rotateAxis: {x: 0, y: 0, z: 0}
-  rotateAxisOffset: {x: 0, y: 0, z: 0}
-  rotateSpeed: 0
+  newRotationCenter: {x: 0, y: 0, z: 0}
+  baseRotation:
+    rotateAroundLocalAxis: 0
+    rotateAxis: {x: 0, y: 0, z: 0}
+    rotateSpeed: 10
+  isDualRotationEnabled: 0
+  secondRotation:
+    rotateAroundLocalAxis: 0
+    rotateAxis: {x: 0, y: 0, z: 0}
+    rotateSpeed: 10
   isATeleporter: 0
   teleporterTarget: {fileID: 0}
 --- !u!23 &916067344
@@ -11908,6 +11938,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03b7096c0b5a8b94590ba4f31b2394d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  drawGizmos: 0
+  drawLinesOnly: 0
+  drawShapesOnly: 0
+  resetPlatform: 0
   isBouncy: 0
   isBouncyForItems: 0
   isSlippery: 0
@@ -11921,10 +11955,16 @@ MonoBehaviour:
   backToOriginOnPlayerJumpOn: 0
   delayBeforeMovement: 0
   isRotating: 0
-  rotateAroundLocalAxis: 0
-  rotateAxis: {x: 0, y: 0, z: 0}
-  rotateAxisOffset: {x: 0, y: 0, z: 0}
-  rotateSpeed: 0
+  newRotationCenter: {x: 0, y: 0, z: 0}
+  baseRotation:
+    rotateAroundLocalAxis: 0
+    rotateAxis: {x: 0, y: 0, z: 0}
+    rotateSpeed: 10
+  isDualRotationEnabled: 0
+  secondRotation:
+    rotateAroundLocalAxis: 0
+    rotateAxis: {x: 0, y: 0, z: 0}
+    rotateSpeed: 10
   isATeleporter: 0
   teleporterTarget: {fileID: 0}
 --- !u!23 &1183984618
@@ -12737,7 +12777,7 @@ MonoBehaviour:
   m_ShowCameraFrustum: 0
   m_IgnoreTimeScale: 0
   m_WorldUpOverride: {fileID: 0}
-  m_UpdateMethod: 2
+  m_UpdateMethod: 0
   m_DefaultBlend:
     m_Style: 1
     m_Time: 2
@@ -13320,7 +13360,7 @@ MonoBehaviour:
   m_ShowCameraFrustum: 0
   m_IgnoreTimeScale: 0
   m_WorldUpOverride: {fileID: 0}
-  m_UpdateMethod: 2
+  m_UpdateMethod: 0
   m_DefaultBlend:
     m_Style: 1
     m_Time: 2
@@ -15870,6 +15910,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03b7096c0b5a8b94590ba4f31b2394d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  drawGizmos: 0
+  drawLinesOnly: 0
+  drawShapesOnly: 0
+  resetPlatform: 0
   isBouncy: 0
   isBouncyForItems: 0
   isSlippery: 0
@@ -15883,10 +15927,16 @@ MonoBehaviour:
   backToOriginOnPlayerJumpOn: 0
   delayBeforeMovement: 3
   isRotating: 0
-  rotateAroundLocalAxis: 0
-  rotateAxis: {x: 0, y: 0, z: 0}
-  rotateAxisOffset: {x: 0, y: 0, z: 0}
-  rotateSpeed: 0
+  newRotationCenter: {x: 0, y: 0, z: 0}
+  baseRotation:
+    rotateAroundLocalAxis: 0
+    rotateAxis: {x: 0, y: 0, z: 0}
+    rotateSpeed: 10
+  isDualRotationEnabled: 0
+  secondRotation:
+    rotateAroundLocalAxis: 0
+    rotateAxis: {x: 0, y: 0, z: 0}
+    rotateSpeed: 10
   isATeleporter: 0
   teleporterTarget: {fileID: 0}
 --- !u!23 &1602233488
@@ -18043,7 +18093,7 @@ Prefab:
     - target: {fileID: 224253512408005366, guid: ebd48e33ce16a7c498ce0f86ed08310f,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 20
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1829664555950164, guid: ebd48e33ce16a7c498ce0f86ed08310f, type: 2}
       propertyPath: m_IsActive
@@ -18429,7 +18479,7 @@ MonoBehaviour:
   m_ShowCameraFrustum: 0
   m_IgnoreTimeScale: 0
   m_WorldUpOverride: {fileID: 0}
-  m_UpdateMethod: 2
+  m_UpdateMethod: 0
   m_DefaultBlend:
     m_Style: 1
     m_Time: 2
@@ -18560,6 +18610,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03b7096c0b5a8b94590ba4f31b2394d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  drawGizmos: 0
+  drawLinesOnly: 0
+  drawShapesOnly: 0
+  resetPlatform: 0
   isBouncy: 0
   isBouncyForItems: 0
   isSlippery: 0
@@ -18573,10 +18627,16 @@ MonoBehaviour:
   backToOriginOnPlayerJumpOn: 0
   delayBeforeMovement: 3
   isRotating: 0
-  rotateAroundLocalAxis: 0
-  rotateAxis: {x: 0, y: 0, z: 0}
-  rotateAxisOffset: {x: 0, y: 0, z: 0}
-  rotateSpeed: 0
+  newRotationCenter: {x: 0, y: 0, z: 0}
+  baseRotation:
+    rotateAroundLocalAxis: 0
+    rotateAxis: {x: 0, y: 0, z: 0}
+    rotateSpeed: 10
+  isDualRotationEnabled: 0
+  secondRotation:
+    rotateAroundLocalAxis: 0
+    rotateAxis: {x: 0, y: 0, z: 0}
+    rotateSpeed: 10
   isATeleporter: 0
   teleporterTarget: {fileID: 0}
 --- !u!23 &1839964825
@@ -19116,6 +19176,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03b7096c0b5a8b94590ba4f31b2394d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  drawGizmos: 0
+  drawLinesOnly: 0
+  drawShapesOnly: 0
+  resetPlatform: 0
   isBouncy: 0
   isBouncyForItems: 0
   isSlippery: 0
@@ -19129,10 +19193,16 @@ MonoBehaviour:
   backToOriginOnPlayerJumpOn: 0
   delayBeforeMovement: 3
   isRotating: 0
-  rotateAroundLocalAxis: 0
-  rotateAxis: {x: 0, y: 0, z: 0}
-  rotateAxisOffset: {x: 0, y: 0, z: 0}
-  rotateSpeed: 0
+  newRotationCenter: {x: 0, y: 0, z: 0}
+  baseRotation:
+    rotateAroundLocalAxis: 0
+    rotateAxis: {x: 0, y: 0, z: 0}
+    rotateSpeed: 10
+  isDualRotationEnabled: 0
+  secondRotation:
+    rotateAroundLocalAxis: 0
+    rotateAxis: {x: 0, y: 0, z: 0}
+    rotateSpeed: 10
   isATeleporter: 0
   teleporterTarget: {fileID: 0}
 --- !u!23 &1886399845
@@ -21412,6 +21482,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03b7096c0b5a8b94590ba4f31b2394d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  drawGizmos: 0
+  drawLinesOnly: 0
+  drawShapesOnly: 0
+  resetPlatform: 0
   isBouncy: 0
   isBouncyForItems: 0
   isSlippery: 0
@@ -21425,10 +21499,16 @@ MonoBehaviour:
   backToOriginOnPlayerJumpOn: 0
   delayBeforeMovement: 1.69
   isRotating: 0
-  rotateAroundLocalAxis: 0
-  rotateAxis: {x: 0, y: 0, z: 0}
-  rotateAxisOffset: {x: 0, y: 0, z: 0}
-  rotateSpeed: 0
+  newRotationCenter: {x: 0, y: 0, z: 0}
+  baseRotation:
+    rotateAroundLocalAxis: 0
+    rotateAxis: {x: 0, y: 0, z: 0}
+    rotateSpeed: 10
+  isDualRotationEnabled: 0
+  secondRotation:
+    rotateAroundLocalAxis: 0
+    rotateAxis: {x: 0, y: 0, z: 0}
+    rotateSpeed: 10
   isATeleporter: 0
   teleporterTarget: {fileID: 0}
 --- !u!23 &2064486593
