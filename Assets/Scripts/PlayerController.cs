@@ -24,6 +24,8 @@ public class PlayerController : MonoBehaviour {
     // TMP
     bool jumpPressed = false;
     bool jumpButtonWasPressed = false;
+    public bool canMoveXZ = true;
+    public bool canJump = true;
 
     int currentJumpHeight = 0;
     Player player;
@@ -182,8 +184,10 @@ public class PlayerController : MonoBehaviour {
 
             if (GameManager.CurrentState == GameState.Normal)
             {
-                HandleMovementWithController();
-                HandleJumpWithController();
+                if (canMoveXZ)
+                    HandleMovementWithController();
+                if (canJump)
+                    HandleJumpWithController();
                 if (GameManager.CurrentGameMode.evolutionMode == EvolutionMode.GrabCollectableAndActivate)
                     HandleEvolutionsWithController();
             }

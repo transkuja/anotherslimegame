@@ -67,6 +67,12 @@ public class DebugTools : MonoBehaviour {
                         GameManager.EvolutionManager.AddEvolutionComponent(DebugPlayerSelected.gameObject, GameManager.EvolutionManager.GetEvolutionByPowerName(Powers.Hover));
                     Debug.Log("Added Hover on player " + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
                 }
+                if (Input.GetKeyDown(KeyCode.Alpha4))
+                {
+                    if (DebugPlayerSelected.GetComponent<EvolutionStrengh>() == null)
+                        GameManager.EvolutionManager.AddEvolutionComponent(DebugPlayerSelected.gameObject, GameManager.EvolutionManager.GetEvolutionByPowerName(Powers.Strengh));
+                    Debug.Log("Added Strengh on player " + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
+                }
             }
             else if (Input.GetKey(KeyCode.Alpha2))
             {

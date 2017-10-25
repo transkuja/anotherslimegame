@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using XInputDotNetPure;
 using UnityEngine;
 
 public class Evolution
@@ -13,6 +14,8 @@ public class Evolution
     BodyPart bodyPart;
     Powers power;
 
+        // GamePlay for each evolution
+    
     public int Cost
     {
         get
@@ -54,16 +57,20 @@ public class Evolution
         cost = _cost;
         bodyPart = _bodyPart;
     }
+
+
+  
 }
 
 public enum BodyPart { Head, Wings, Size }
-public enum Powers { DoubleJump, Hover, Size }
+public enum Powers { DoubleJump, Hover, Size, Strengh }
 
 public class EvolutionManager {
 
     // Evolution database handled in code
     Evolution doubleJumpEvolution = new Evolution(Powers.DoubleJump, 5, CollectableType.Evolution1, 20, BodyPart.Head);
     Evolution hoverEvolution = new Evolution(Powers.Hover, 3, CollectableType.Evolution2, 30, BodyPart.Wings);
+    Evolution strenghEvolution = new Evolution(Powers.Strengh, 3, CollectableType.Evolution2, 30, BodyPart.Wings);
 
     public Evolution GetEvolutionByPowerName(Powers _powerName, bool isPermanent = false)
     {
@@ -76,6 +83,9 @@ public class EvolutionManager {
                 break;
             case Powers.Hover:
                 tmpEvolution = hoverEvolution;
+                break;
+            case Powers.Strengh:
+                tmpEvolution = strenghEvolution;
                 break;
             default:
                 Debug.Log("Unknown power, something went wrong");
@@ -100,6 +110,10 @@ public class EvolutionManager {
                 if (gameObject.GetComponent<Hover>() != null) gameObject.GetComponent<Hover>().Timer = (isPermanent) ? 0.0f : evolution.duration;
                 else
                     gameObject.AddComponent<Hover>(); break;
+            case Powers.Strengh:
+                if (gameObject.GetComponent<EvolutionStrengh>() != null) gameObject.GetComponent<EvolutionStrengh>().Timer = (isPermanent) ? 0.0f : evolution.duration;
+                else
+                    gameObject.AddComponent<EvolutionStrengh>(); break;
             default:
                 Debug.Log("Unknown power, something went wrong");
                 break;
