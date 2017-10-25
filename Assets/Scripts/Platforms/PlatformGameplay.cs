@@ -339,7 +339,7 @@ public class PlatformGameplay : MonoBehaviour {
                 if (meshFilter != null)
                 {
                     // /!\ platformOriginRotation returns an error when we stop play mode
-                    Gizmos.DrawWireMesh(GetComponent<MeshFilter>().sharedMesh, platformOriginPosition, platformOriginRotation, platformOriginScale);
+                    Gizmos.DrawWireMesh(GetComponent<MeshFilter>().sharedMesh, platformOriginPosition, Quaternion.identity, platformOriginScale);
                 }
                 else
                     Gizmos.DrawCube(platformOriginPosition, Vector3.one);
