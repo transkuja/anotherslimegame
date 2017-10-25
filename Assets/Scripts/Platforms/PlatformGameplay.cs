@@ -4,6 +4,10 @@ using UnityEngine;
 
 // WIP Antho
 public class PlatformGameplay : MonoBehaviour {
+    [Header("Debug")]
+    public bool drawGizmos = false;
+    public bool drawLinesOnly = false;
+    public bool drawShapesOnly = false;
 
     [Tooltip("Reset the platform to origin position")]
     public bool resetPlatform = false;
@@ -89,10 +93,17 @@ public class PlatformGameplay : MonoBehaviour {
 
     Vector3 platformOriginPosition;
     Quaternion platformOriginRotation;
+    Vector3 platformOriginScale;
+
+
+    // Gizmos check variables
+    bool drawLineOnlyPrevState;
+    bool drawShapesOnlyPrevState;
 
     void Start() {
         platformOriginPosition = transform.position;
         platformOriginRotation = transform.rotation;
+        platformOriginScale = transform.localScale;
 
         if (isBouncy)
         {
@@ -230,7 +241,6 @@ public class PlatformGameplay : MonoBehaviour {
             delayTimer = delayBeforeMovement;
     }
 
-    // WIP Antho
     void RotationProcess()
     {
         if (isRotating)
@@ -308,6 +318,65 @@ public class PlatformGameplay : MonoBehaviour {
             hasPlayerJumpedOff = true;
             collision.transform.SetParent(null);
             isOnPlatform = false;
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (drawGizmos)
+        {
+            GizmosCheck();
+
+            // Platform origin
+            Gizmos.color = Color.green;
+            if (!drawLinesOnly)
+            {
+                MeshFilter meshFilter = GetComponentInParent<MeshFilter>();
+                if (meshFilter == null) meshFilter = GetComponentInChildren<MeshFilter>();
+                if (meshFilter != null)
+                {
+                    // /!\ platformOriginRotation returns an error when we stop play mode
+                    Gizmos.DrawWireMesh(GetComponent<MeshFilter>().sharedMesh, platformOriginPosition, platformOriginRotation, platformOriginScale);
+                }
+                else
+                    Gizmos.DrawCube(platformOriginPosition, Vector3.one);
+            }
+
+            if (!drawShapesOnly)
+                Gizmos.DrawRay(transform.position, platformOriginPosition - transform.position);
+
+
+            // Platform center of rotation
+            if (isRotating)
+            {
+                Gizmos.color = Color.cyan;
+                if (!drawShapesOnly)
+                    Gizmos.DrawRay(transform.position, platformOriginPosition + newRotationCenter - transform.position);
+                if (!drawLinesOnly)
+                    Gizmos.DrawSphere(platformOriginPosition + newRotationCenter, 1.0f);
+            }
+        }
+    }
+
+    void GizmosCheck()
+    {
+        if (drawLinesOnly && !drawLineOnlyPrevState)
+        {
+            if (drawShapesOnly)
+            {
+                drawShapesOnlyPrevState = false;
+                drawShapesOnly = false;
+            }
+            drawLineOnlyPrevState = drawLinesOnly;
+        }
+        if (drawShapesOnly && !drawShapesOnlyPrevState)
+        {
+            if (drawLinesOnly)
+            {
+                drawLineOnlyPrevState = false;
+                drawLinesOnly = false;
+            }
+            drawLineOnlyPrevState = drawLinesOnly;
         }
     }
 }
