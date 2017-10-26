@@ -1,11 +1,11 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class Collectable : MonoBehaviour
 {
     [SerializeField]
     CollectableType type;
-    [SerializeField]
-    int value;
+    public int value;
     bool isAttracted = false;
     uint movementSpeed = 40;
     Player playerTarget;
@@ -69,5 +69,12 @@ public class Collectable : MonoBehaviour
             playerTarget.UpdateCollectableValue(type, value);
             Destroy(this.gameObject);
         }
+    }
+
+    public IEnumerator ReactivateCollider()
+    {
+        yield return new WaitForSeconds(1.0f);
+        GetComponent<SphereCollider>().enabled = true;
+        yield return null;
     }
 }

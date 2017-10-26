@@ -219,7 +219,7 @@ public class PlayerController : MonoBehaviour {
             {
                 case DashingState.Ready:
  
-                    if (prevState.Buttons.X == ButtonState.Pressed && state.Buttons.X == ButtonState.Released)
+                    if (prevState.Buttons.X == ButtonState.Released && state.Buttons.X == ButtonState.Pressed)
                     {
                         customGravity = 0.0f;
                         GetComponent<JumpManager>().Stop();
@@ -382,6 +382,15 @@ public class PlayerController : MonoBehaviour {
                 isWaitingForNextRelease = true;
             }
         }
+    
+        //Semi-fonctionnel : Le Dash fais perdre des points au joueur qui effectue le dash et les objects/points ne sont pas transferer
+        if(collision.gameObject.GetComponent<Player>() != null )/* .name == "player1" || collision.gameobject.name == "player2" || collision.gameobject.name == "player3" || collision.gameobject.name == "player4")*/
+        {
+            if (currentState == DashingState.Dashing)
+            {
+                DamagePlayer(collision);
+            }
+        }
     }
 
     private void Update()
@@ -466,5 +475,25 @@ public class PlayerController : MonoBehaviour {
         isWaitingForNextRelease = false;
         hasJumpButtonBeenReleased = false;
         chargeFactor = 0.0f;
+    }
+
+    public void DamagePlayer(Collision collision)
+    {
+        if (collision.gameObject.GetComponent<Player>().Collectables[(int)CollectableType.Points] > 0)
+        {
+            for (int i = 0; i < Mathf.Clamp((float)Math.Floor(collision.gameObject.GetComponent<Player>().Collectables[(int)CollectableType.Points] / 30.0f), 1, 2); i++)
+            {
+                GameObject go = ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
+                collision.gameObject.GetComponent<Player>().transform.position + new Vector3(1, 1.5f, 10),
+                collision.gameObject.GetComponent<Player>().transform.rotation,
+                null,
+                CollectableType.Points);
+
+                go.GetComponent<SphereCollider>().enabled = false;
+                collision.gameObject.GetComponent<Player>().UpdateCollectableValue(CollectableType.Points, -30);
+                go.GetComponent<Collectable>().value = 30;
+                StartCoroutine(go.GetComponent<Collectable>().ReactivateCollider());
+            }
+        }
     }
 }
