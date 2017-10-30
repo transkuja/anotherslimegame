@@ -272,9 +272,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sourceMusic: {fileID: 82241179900713382}
-  musicGame: {fileID: 0}
   sourceFX: {fileID: 82199631404650456}
+  musicGame: {fileID: 0}
   coinFX: {fileID: 8300000, guid: feb2dbf42d2211f4694d4b25cc50c7ce, type: 3}
   blobSound: {fileID: 0}
   volumeMusic: 0.5
-  volumeFXs: 1
+  volumeFXs: 0.5

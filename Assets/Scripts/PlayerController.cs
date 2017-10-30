@@ -450,10 +450,11 @@ public class PlayerController : MonoBehaviour {
         player.Rb.velocity = velocityVec;
         transform.LookAt(transform.position + new Vector3(velocityVec.x, 0.0f, velocityVec.z) + initialVelocity.x * player.cameraReference.transform.GetChild(0).right);
 
-        // Animation
-        player.GetComponent<Player>().Anim.SetBool("isWalking", ((Mathf.Abs(state.ThumbSticks.Left.X) > 0.05f) || Mathf.Abs(state.ThumbSticks.Left.Y) > 0.05f) && player.GetComponent<PlayerController>().IsGrounded);
 
-    }
+        // Animation
+        player.GetComponent<Player>().Anim.SetFloat("MouvementSpeed", Mathf.Abs(state.ThumbSticks.Left.X) > Mathf.Abs(state.ThumbSticks.Left.Y) ? Mathf.Abs(state.ThumbSticks.Left.X) : Mathf.Abs(state.ThumbSticks.Left.Y));
+        player.GetComponent<Player>().Anim.SetBool("isWalking", ((Mathf.Abs(state.ThumbSticks.Left.X) > 0.02f) || Mathf.Abs(state.ThumbSticks.Left.Y) > 0.02f) && player.GetComponent<PlayerController>().IsGrounded);
+        }
 
     private void OnCollisionEnter(Collision collision)
     {
