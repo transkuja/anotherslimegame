@@ -1,63 +1,47 @@
 fileFormatVersion: 2
-guid: bf9583c45372aff44a17d167c3377efb
-timeCreated: 1509380543
+guid: f9997896c1ef3bb44bc3967f4c7f00bf
+timeCreated: 1509379851
 licenseType: Free
 ModelImporter:
   serializedVersion: 21
   fileIDToRecycleName:
-    100000: AGILE_ailes
-    100002: aileD
-    100004: aileG
-    100006: corps
-    100008: FORT_marteau
-    100010: MainD
-    100012: mainG
-    100014: mains
-    100016: OreileD
-    100018: OreilleG
-    100020: oreilles
-    100022: PLATFROME_baguette
-    100024: //RootNode
-    400000: AGILE_ailes
-    400002: aileD
-    400004: aileG
-    400006: corps
-    400008: FORT_marteau
-    400010: MainD
-    400012: mainG
-    400014: mains
-    400016: OreileD
-    400018: OreilleG
-    400020: oreilles
-    400022: PLATFROME_baguette
-    400024: //RootNode
-    2300000: aileD
-    2300002: aileG
-    2300004: corps
-    2300006: FORT_marteau
-    2300008: MainD
-    2300010: mainG
-    2300012: OreileD
-    2300014: OreilleG
-    2300016: PLATFROME_baguette
-    3300000: aileD
-    3300002: aileG
-    3300004: corps
-    3300006: FORT_marteau
-    3300008: MainD
-    3300010: mainG
-    3300012: OreileD
-    3300014: OreilleG
-    3300016: PLATFROME_baguette
-    4300000: corps
-    4300002: mainG
-    4300004: MainD
-    4300006: OreilleG
-    4300008: OreileD
-    4300010: FORT_marteau
-    4300012: aileG
-    4300014: aileD
-    4300016: PLATFROME_baguette
+    100000: //RootNode
+    100002: pCube4
+    100004: pCube6
+    100006: pCube7
+    100008: pCylinder3
+    100010: pCylinder4
+    100012: pCylinder5
+    100014: pPipe2
+    400000: //RootNode
+    400002: pCube4
+    400004: pCube6
+    400006: pCube7
+    400008: pCylinder3
+    400010: pCylinder4
+    400012: pCylinder5
+    400014: pPipe2
+    2300000: pCube4
+    2300002: pCube6
+    2300004: pCube7
+    2300006: pCylinder3
+    2300008: pCylinder4
+    2300010: pCylinder5
+    2300012: pPipe2
+    3300000: pCube4
+    3300002: pCube6
+    3300004: pCube7
+    3300006: pCylinder3
+    3300008: pCylinder4
+    3300010: pCylinder5
+    3300012: pPipe2
+    4300000: pCube7
+    4300002: pCube6
+    4300004: pCube4
+    4300006: pCylinder5
+    4300008: pCylinder4
+    4300010: pPipe2
+    4300012: pCylinder3
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -86,7 +70,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 50
+    globalScale: 1
     meshCompression: 0
     addColliders: 0
     importVisibility: 1
