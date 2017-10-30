@@ -20,6 +20,16 @@ public class Respawner
      */
     public static void RespawnProcess(Player player)
     {
+        if (player == null)
+        {
+            Debug.LogError("Can't respawn player: Trying to respawn a null player!");
+            return;
+        }
+        if (player.respawnPoint == null)
+        {
+            Debug.LogError("Can't respawn player: Respawn point is null!");
+            return;
+        }
         player.transform.position = player.respawnPoint.position;
         player.transform.rotation = player.respawnPoint.rotation;
     }
