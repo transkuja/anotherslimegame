@@ -6,10 +6,6 @@ using XInputDotNetPure;
 // utils 
 //GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerController>();
 //GamePad.GetState(playerIndex).Buttons.A;
-public enum DashState
-{
-    NONE,CHARGING,DASHING
-}
 
 public class EvolutionStrengh : EvolutionComponent
 {
@@ -18,7 +14,6 @@ public class EvolutionStrengh : EvolutionComponent
     [SerializeField] float maxDashChargeDelay = 0.7f;
     float timer;
     Rigidbody rb;
-    DashState dashState;
 
     // ici je dois savoir tant que x est appuyé. 
     // Quand x est relaché. 
@@ -62,41 +57,30 @@ public class EvolutionStrengh : EvolutionComponent
         {
             jumpManager.Stop();
         }
-        playerController.isGravityEnabled = false;
-        playerController.canJump = false;
-        playerController.canMoveXZ = false;
         timer = 0;
-        dashState = DashState.CHARGING;
+        //GetComponent<PlayerController>().StrenghState = SkillState.Charging;
     }
     public void Levitate()
     {
         timer += Time.deltaTime;
         if (timer > maxDashChargeDelay)
-            LauchDash();
+        {
+            LaunchDash();
+            GetComponent<PlayerController>().StrenghState = SkillState.Dashing;
+        }
+
     }
-    public void LauchDash()
+    public void LaunchDash()
     {
         Vector3 downPush = Vector3.down * downDashPower;
         rb.velocity = downPush; // Override current velocity. 
-        playerController.isGravityEnabled = true;
-        dashState = DashState.DASHING;
-    }
-    public override void Update()
-    {
-        base.Update();
-        if (isSpecialActionPushedOnce && dashState != DashState.DASHING)
-            DashStart();
-        if (isSpecialActionPushed && dashState == DashState.CHARGING)
-            Levitate();
-        if (isSpecialActionReleased && dashState != DashState.DASHING)
-            LauchDash();
     }
 
     public override void OnCollisionEnter(Collision coll)
     {
         base.OnCollisionEnter(coll);
         Rigidbody otherRb;
-        if (dashState == DashState.DASHING)
+        if (GetComponent<PlayerController>().StrenghState == SkillState.Dashing)
         {
             if (coll.transform.GetComponent<Player>() != null)
             {
@@ -112,11 +96,9 @@ public class EvolutionStrengh : EvolutionComponent
     public override void OnCollisionStay(Collision coll)
     {
         base.OnCollisionStay(coll);
-        if (playerController.IsGrounded)
+        if (GetComponent<PlayerController>().StrenghState == SkillState.Dashing && playerController.IsGrounded)
         {
-            dashState = DashState.NONE;
-            playerController.canJump = true;
-            playerController.canMoveXZ = true;
+            GetComponent<PlayerController>().StrenghState = SkillState.Ready;
             ColorChangeAsupr(Color.white);
         }
     }

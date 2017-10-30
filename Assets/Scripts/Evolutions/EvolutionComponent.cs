@@ -62,36 +62,7 @@ public class EvolutionComponent : MonoBehaviour {
                 Destroy(this);
             }
         }
-        if (playerController.IsUsingAController)
-        {
-            isSpecialActionPushedOnce = false;
-            isSpecialActionReleased = false;
-            if (GamePad.GetState(playerController.playerIndex).Buttons.Y == ButtonState.Pressed)
-            {
-                if (!isSpecialActionPushed)
-                    isSpecialActionPushedOnce = true;
-                isSpecialActionPushed = true;
-
-                
-            }
-            if (isSpecialActionPushed)
-                if (GamePad.GetState(playerController.playerIndex).Buttons.Y == ButtonState.Released)
-                {
-                    isSpecialActionPushed = false;
-                    isSpecialActionReleased = true;
-                }
-
-            //if (GamePad.GetState(playerController.playerIndex).Buttons.X == ButtonState.Pressed && (!isSpecialActionPressed))
-            //{
-            //    SpecialAction();
-            //    isSpecialActionPressed = true;
-            //}
-            //else if (GamePad.GetState(playerController.playerIndex).Buttons.X == ButtonState.Released)
-            //    isSpecialActionPressed = false;
-        }
     }
-    public virtual void SpecialAction()
-    {}
 
     private void OnDestroy()
     {
