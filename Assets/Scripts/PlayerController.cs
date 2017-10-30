@@ -229,11 +229,6 @@ public class PlayerController : MonoBehaviour {
         dashingVelocity = 100.0f;
         dashingState = SkillState.Cooldown;
         brainState = BrainState.Free;
-        JumpManager jumpManager = GetComponent<JumpManager>();
-        if (jumpManager != null)
-            customGravity = jumpManager.GetGravity();
-
-        stats.Init();
     }
 
     void FixedUpdate ()
