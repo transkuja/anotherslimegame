@@ -477,7 +477,7 @@ public class PlayerController : MonoBehaviour {
         chargeFactor = 0.0f;
     }
 
-    public void DamagePlayer(Collision collision)
+    public void DamagePlayer(Collision collision, Vector3? force = null)
     {
         if (collision.gameObject.GetComponent<Player>().Collectables[(int)CollectableType.Points] > 0)
         {
@@ -495,5 +495,7 @@ public class PlayerController : MonoBehaviour {
                 StartCoroutine(go.GetComponent<Collectable>().ReactivateCollider());
             }
         }
+        if (force!=null)
+            player.Rb.AddForce(force.Value, ForceMode.Impulse);
     }
 }
