@@ -62,6 +62,8 @@ public class PlayerController : MonoBehaviour {
 
     public bool isGravityEnabled = true;
 
+    public Collectable collect;
+
     // TMP??
     RaycastHit hitInfo;
     float maxDistanceOffset = 2.0f;
@@ -639,7 +641,6 @@ public class PlayerController : MonoBehaviour {
         {
             for (int i = 0; i < Mathf.Clamp((float)Math.Floor(collision.gameObject.GetComponent<Player>().Collectables[typeCollectable] / collect.Value), 1, 2); i++)
             {
-                Debug.Log("Coucou");
                 Debug.Log(collect.iscollectableFromPlayer);
                 GameObject go = ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
                 collision.gameObject.GetComponent<Player>().transform.position,
@@ -647,9 +648,7 @@ public class PlayerController : MonoBehaviour {
                 null,
                 CollectableType.Points,
                 collect.iscollectableFromPlayer);
-                Debug.Log(go.GetComponent<Collectable>().iscollectableFromPlayer);
-
-
+                //Debug.Log(go.GetComponent<Collectable>().iscollectableFromPlayer);
 
                 //Dispersion des collectables
                 if (go.GetComponent<Collectable>().iscollectableFromPlayer)
@@ -657,8 +656,6 @@ public class PlayerController : MonoBehaviour {
                     Transform position = collision.gameObject.GetComponent<Player>().transform;
                     position.Translate(GetComponent<Collectable>().Dispersion());
                 }
-
-
 
                 go.GetComponent<SphereCollider>().enabled = false;
                 collision.gameObject.GetComponent<Player>().UpdateCollectableValue(CollectableType.Points, -(int)go.GetComponent<Collectable>().Value);
