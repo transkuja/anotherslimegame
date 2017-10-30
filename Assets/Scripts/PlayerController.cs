@@ -235,6 +235,7 @@ public class PlayerController : MonoBehaviour {
     {
         if (isGravityEnabled)
         {
+            // TODO : Vector.down remove the minus ???? lol
             player.Rb.AddForce(-customGravity * Vector3.up, ForceMode.Acceleration);
             if (player.Rb.velocity.y < -10.0f)
             {
@@ -282,8 +283,14 @@ public class PlayerController : MonoBehaviour {
                     HandleJumpWithController();
                 if (GameManager.CurrentGameMode.evolutionMode == EvolutionMode.GrabCollectableAndActivate)
                     HandleEvolutionsWithController();
+
+                // Dash
+                DashControllerState();
+                // Strengh
+                if (GetComponent<EvolutionStrengh>() != null)
+                    StrenghControllerState();
             }
-            // TODO: Externalize "state" to handle pause in PauseMenu?
+            // TODO: Externalize "state" to handle pause in PauseMenu? //  Remi : Can't manage GamePade(IndexPlayer) Instead, copy not working
             if( SceneManager.GetActiveScene() != SceneManager.GetSceneByBuildIndex(0) )
                 if (prevState.Buttons.Start == ButtonState.Released && state.Buttons.Start == ButtonState.Pressed)
                     GameManager.ChangeState(GameState.Paused);
@@ -291,6 +298,7 @@ public class PlayerController : MonoBehaviour {
         }
         else
         {
+            // Keyboard
             if (GameManager.CurrentState == GameState.Normal)
             {
                 jumpButtonWasPressed = jumpPressed;
@@ -301,17 +309,6 @@ public class PlayerController : MonoBehaviour {
             if (SceneManager.GetActiveScene() != SceneManager.GetSceneByBuildIndex(0))
                 if (Input.GetKeyDown(KeyCode.Escape))
                     GameManager.ChangeState(GameState.Paused);
-        }
-
-        // Dashing behavior
-        if (isUsingAController)
-        {
-            DashControllerState();
-
-            if ( GetComponent<EvolutionStrengh>() != null)
-            {
-                StrenghControllerState();
-            }
         }
     }
 
@@ -452,6 +449,10 @@ public class PlayerController : MonoBehaviour {
 
         player.Rb.velocity = velocityVec;
         transform.LookAt(transform.position + new Vector3(velocityVec.x, 0.0f, velocityVec.z) + initialVelocity.x * player.cameraReference.transform.GetChild(0).right);
+
+        // Animation
+        player.GetComponent<Player>().Anim.SetBool("isWalking", ((Mathf.Abs(state.ThumbSticks.Left.X) > 0.05f) || Mathf.Abs(state.ThumbSticks.Left.Y) > 0.05f) && player.GetComponent<PlayerController>().IsGrounded);
+
     }
 
     private void OnCollisionEnter(Collision collision)

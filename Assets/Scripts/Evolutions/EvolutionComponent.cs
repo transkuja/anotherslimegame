@@ -46,7 +46,7 @@ public class EvolutionComponent : MonoBehaviour {
     {
         GetComponent<Player>().activeEvolutions++;
         evolution = GameManager.EvolutionManager.GetEvolutionByPowerName(powerName, (GameManager.CurrentGameMode.evolutionMode == EvolutionMode.GrabEvolution));
-        transform.GetChild((int)PlayerChildren.Evolutions).GetChild((int)evolution.BodyPart).gameObject.SetActive(true);
+        transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)evolution.BodyPart).gameObject.SetActive(true);
         isEvolutionInitialized = true;
         Timer = evolution.duration;
         playerController = GetComponent<PlayerController>();
@@ -67,7 +67,7 @@ public class EvolutionComponent : MonoBehaviour {
     private void OnDestroy()
     {
         GetComponent<Player>().activeEvolutions--;
-        transform.GetChild((int)PlayerChildren.Evolutions).GetChild((int)evolution.BodyPart).gameObject.SetActive(false);
+        transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)evolution.BodyPart).gameObject.SetActive(false);
     }
     public virtual void OnCollisionEnter(Collision coll)
     {

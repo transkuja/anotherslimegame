@@ -62,15 +62,15 @@ public class Evolution
   
 }
 
-public enum BodyPart { Head, Wings, Size }
+public enum BodyPart { Body, Wings, Hammer, Staff, Size }
 public enum Powers { DoubleJump, Hover, Size, Strengh }
 
 public class EvolutionManager {
 
     // Evolution database handled in code
-    Evolution doubleJumpEvolution = new Evolution(Powers.DoubleJump, 5, CollectableType.Evolution1, 20, BodyPart.Head);
+    Evolution doubleJumpEvolution = new Evolution(Powers.DoubleJump, 5, CollectableType.Evolution1, 20, BodyPart.Wings);
     Evolution hoverEvolution = new Evolution(Powers.Hover, 3, CollectableType.Evolution2, 30, BodyPart.Wings);
-    Evolution strenghEvolution = new Evolution(Powers.Strengh, 3, CollectableType.Evolution2, 30, BodyPart.Wings);
+    Evolution strenghEvolution = new Evolution(Powers.Strengh, 3, CollectableType.Evolution2, 30, BodyPart.Hammer);
 
     public Evolution GetEvolutionByPowerName(Powers _powerName, bool isPermanent = false)
     {
