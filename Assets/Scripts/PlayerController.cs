@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour {
     bool isWaitingForNextRelease = false;
     float chargeFactor = 0.0f;
 
-    [SerializeField] public Stats stats; // tu mens intellisense
+    [SerializeField] public Stats stats = new Stats(); // tu mens intellisense
     [SerializeField]
     [Range(5, 1000)] float jumpChargeSpeed = 15.0f;
 
@@ -138,6 +138,8 @@ public class PlayerController : MonoBehaviour {
         JumpManager jumpManager = GetComponent<JumpManager>();
         if (jumpManager != null)
             customGravity = jumpManager.GetGravity();
+
+        stats.Init();
     }
 
     void FixedUpdate ()

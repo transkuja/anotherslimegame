@@ -31,7 +31,7 @@ public class Stats  {
     [SerializeField] private Stat[] stats = new Stat[(int)StatType.MAX_STATS]; // tableau contenant toutes les stats du joueur
 
 
-    public Stats(PlayerController playerController)
+    public Stats()
     {
         for (int i = 0; i < (int)StatType.MAX_STATS; i++)
         {
@@ -41,7 +41,15 @@ public class Stats  {
         buffList = new List<StatBuff>();
     }
 
-
+    public void Init()
+    {
+        for (int i = 0; i < (int)StatType.MAX_STATS; i++)
+        {
+            stats[i].name = ((StatType)i).ToString();
+            stats[i].currentStat = stats[i].baseStat;
+        }
+        buffList = new List<StatBuff>();
+    }
     /// <summary>
     /// 
     /// </summary>

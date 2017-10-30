@@ -758,7 +758,6 @@ MonoBehaviour:
   activeEvolutions: 0
   respawnPoint: {fileID: 0}
   cameraReference: {fileID: 0}
-  time: 0
 --- !u!114 &114246775000216146
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -833,12 +832,44 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerIndex: 0
+  canMoveXZ: 1
+  canJump: 1
+  stats:
+    stats:
+    - name: 
+      baseStat: 30
+      currentStat: 0
+    - name: 
+      baseStat: 30
+      currentStat: 0
+    - name: 
+      baseStat: 30
+      currentStat: 0
+    - name: 
+      baseStat: 30
+      currentStat: 0
+    - name: 
+      baseStat: 30
+      currentStat: 0
+    - name: 
+      baseStat: 30
+      currentStat: 0
+    - name: 
+      baseStat: 30
+      currentStat: 0
   jumpChargeSpeed: 19.2
   customGravity: 90
   airForce: 0
   isFreeFalling: 0
   canDoubleJump: 1
   isGravityEnabled: 1
+  currentState: 0
+  dashingTimer: 0
+  dashingMaxTimer: 0
+  dashingCooldownTimer: 0
+  dashingCooldownMaxTimer: 0
+  dashingVelocity: 0
+  distanceToReach: 0
 --- !u!119 &119241878091508526
 Projector:
   m_ObjectHideFlags: 1
