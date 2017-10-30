@@ -16,7 +16,7 @@ public class PrefabLoot : MonoBehaviour {
 
     public GameObject prefabPointSprite;
 
-    public GameObject SpawnCollectableInstance(Vector3 where, Quaternion direction, Transform parent, CollectableType myItemType)
+    public GameObject SpawnCollectableInstance(Vector3 where, Quaternion direction, Transform parent, CollectableType myItemType, bool isCollectableFromPlayer)
     {
         switch (myItemType)
         {
@@ -30,5 +30,7 @@ public class PrefabLoot : MonoBehaviour {
                 Debug.Log("Unknown Item type");
                 return null;
         }
+
+        //prefabCollectable1.GetComponent<Collectable>()
     }
 }

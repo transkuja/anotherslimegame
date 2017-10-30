@@ -102,7 +102,8 @@ public class SpawnManager : MonoBehaviour{
             instance.dicSpawnItemsLocations[idLocation].transform.position,
             instance.dicSpawnItemsLocations[idLocation].transform.rotation,
             null,
-            myItemType
+            myItemType,
+            false
         );
     }
 

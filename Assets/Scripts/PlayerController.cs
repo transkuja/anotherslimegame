@@ -627,29 +627,45 @@ public class PlayerController : MonoBehaviour {
         {
             case GameModeType.Escape:
                 typeCollectable = (int)CollectableType.Points; break;
-            case GameModeType.Arena: 
+            case GameModeType.Arena:
                 typeCollectable = (int)CollectableType.Points; break;
             default:
                 break;
         }
+
         if (typeCollectable == -1) return;
 
         if (collision.gameObject.GetComponent<Player>().Collectables[typeCollectable] > 0)
         {
-            for (int i = 0; i < Mathf.Clamp((float)Math.Floor(collision.gameObject.GetComponent<Player>().Collectables[typeCollectable] / (float)GetComponent<Collectable>().Value), 1, 2); i++)
+            for (int i = 0; i < Mathf.Clamp((float)Math.Floor(collision.gameObject.GetComponent<Player>().Collectables[typeCollectable] / collect.Value), 1, 2); i++)
             {
+                Debug.Log("Coucou");
+                Debug.Log(collect.iscollectableFromPlayer);
                 GameObject go = ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
-                collision.gameObject.GetComponent<Player>().transform.position + new Vector3(1, 1.5f, 10),
+                collision.gameObject.GetComponent<Player>().transform.position,
                 collision.gameObject.GetComponent<Player>().transform.rotation,
                 null,
-                CollectableType.Points);
+                CollectableType.Points,
+                collect.iscollectableFromPlayer);
+                Debug.Log(go.GetComponent<Collectable>().iscollectableFromPlayer);
+
+
+
+                //Dispersion des collectables
+                if (go.GetComponent<Collectable>().iscollectableFromPlayer)
+                {
+                    Transform position = collision.gameObject.GetComponent<Player>().transform;
+                    position.Translate(GetComponent<Collectable>().Dispersion());
+                }
+
+
 
                 go.GetComponent<SphereCollider>().enabled = false;
-                collision.gameObject.GetComponent<Player>().UpdateCollectableValue(CollectableType.Points, -go.GetComponent<Collectable>().Value);
+                collision.gameObject.GetComponent<Player>().UpdateCollectableValue(CollectableType.Points, -(int)go.GetComponent<Collectable>().Value);
                 StartCoroutine(go.GetComponent<Collectable>().ReactivateCollider());
             }
         }
-        if (force!=null)
+        if (force != null)
             player.Rb.AddForce(force.Value, ForceMode.Impulse);
     }
 }

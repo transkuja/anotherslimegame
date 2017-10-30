@@ -5,12 +5,15 @@ public class Collectable : MonoBehaviour
 {
     [SerializeField]
     CollectableType type;
-    private int value;
+    private float value;
     bool isAttracted = false;
     uint movementSpeed = 40;
     Player playerTarget;
 
-    public int Value
+    public Vector3[] position = new Vector3[4];
+    public bool iscollectableFromPlayer = true;
+
+    public float Value
     {
         get
         {
@@ -26,6 +29,13 @@ public class Collectable : MonoBehaviour
     public void Start()
     {
         Value = Utils.GetMaxCollectableValue(type);
+
+        position[0] = new Vector3(-2, 0, -2);
+        position[1] = new Vector3(2, 0, -2);
+        position[2] = new Vector3(-2, 0, 2);
+        position[3] = new Vector3(2, 0, 2);
+
+        //iscollectableFromPlayer = true;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -84,7 +94,7 @@ public class Collectable : MonoBehaviour
         GetComponent<Rigidbody>().MovePosition(transform.position + direction * movementSpeed * Time.deltaTime);
         if (Vector3.Distance(playerTarget.transform.position, transform.position) < GetComponent<MeshFilter>().mesh.bounds.extents.magnitude)
         {
-            playerTarget.UpdateCollectableValue(type, value);
+            playerTarget.UpdateCollectableValue(type, (int)value);
             Destroy(this.gameObject);
         }
     }
@@ -94,5 +104,10 @@ public class Collectable : MonoBehaviour
         yield return new WaitForSeconds(1.0f);
         GetComponent<SphereCollider>().enabled = true;
         yield return null;
+    }
+
+    public Vector3 Dispersion()
+    {
+        return position[UnityEngine.Random.Range(0, 3)];
     }
 }
