@@ -71,15 +71,125 @@ public class PlayerController : MonoBehaviour {
     private SkillState dashingState;
     private SkillState strengthState;
 
-
+    // Dashing variables // Redefine in start()
     public float dashingTimer;
     public float dashingMaxTimer;
     public float dashingCooldownTimer;
     public float dashingCooldownMaxTimer;
     public float dashingVelocity;
-    public float distanceToReach;
-    //public Vector3 myPositionBeforeDashing;
 
+    // Camera Dumping Values // Redefine in start()
+    public float defaultDumpingValues = 0.2f;
+    public float noDumpingValues = 0.0f;
+
+    private void Awake()
+    {
+        stats.Init();
+        JumpManager jumpManager = GetComponent<JumpManager>();
+        if (jumpManager != null)
+            customGravity = jumpManager.GetGravity(stats.Get(Stats.StatType.GROUND_SPEED));
+    }
+
+    private void Start()
+    {
+        player = GetComponent<Player>();
+        if (player == null)
+            Debug.LogWarning("Player component should not be null");
+
+        // Dashing initialisation
+        dashingMaxTimer = 0.15f;
+        dashingTimer = dashingMaxTimer;
+        dashingCooldownMaxTimer = 0.5f;
+        dashingCooldownTimer = dashingCooldownMaxTimer;
+        dashingVelocity = 100.0f;
+        dashingState = SkillState.Cooldown;
+        brainState = BrainState.Free;
+
+        // Camera Dumping values
+        defaultDumpingValues = 0.2f;
+        noDumpingValues = 0.0f;
+    }
+
+    void FixedUpdate()
+    {
+        if (isGravityEnabled)
+        {
+            // TODO : Vector.down remove the minus ???? lol
+            player.Rb.AddForce(-customGravity * Vector3.up, ForceMode.Acceleration);
+            if (player.Rb.velocity.y < -10.0f)
+            {
+                // No Inputs Mode
+                isFreeFalling = true;
+            }
+            else
+            {
+                isFreeFalling = false;
+            }
+
+        }
+        //player.Rb.velocity = new Vector3(player.Rb.velocity.x, -customGravity, player.Rb.velocity.z);
+        // TODO: externaliser pour le comportement multi
+        if (!playerIndexSet)
+            return;
+
+        if (!prevState.IsConnected)
+        {
+            isUsingAController = false;
+            for (int i = 0; i < GameManager.Instance.ActivePlayersAtStart; i++)
+            {
+                GamePadState testState = GamePad.GetState(playerIndex);
+
+                if (testState.IsConnected)
+                {
+                    playerIndexSet = true;
+                    isUsingAController = true;
+                    break;
+                }
+            }
+        }
+
+        if (isUsingAController)
+        {
+            // TODO: optimize?
+            prevState = state;
+            state = GamePad.GetState(playerIndex);
+
+            if (GameManager.CurrentState == GameState.Normal)
+            {
+                if (canMoveXZ)
+                    HandleMovementWithController();
+                if (canJump)
+                    HandleJumpWithController();
+                if (GameManager.CurrentGameMode.evolutionMode == EvolutionMode.GrabCollectableAndActivate)
+                    HandleEvolutionsWithController();
+
+                // Dash
+                DashControllerState();
+                // Strength
+                if (GetComponent<EvolutionStrength>() != null)
+                    StrengthControllerState();
+            }
+            // TODO: Externalize "state" to handle pause in PauseMenu? //  Remi : Can't manage GamePade(IndexPlayer) Instead, copy not working
+            if (SceneManager.GetActiveScene() != SceneManager.GetSceneByBuildIndex(0))
+                if (prevState.Buttons.Start == ButtonState.Released && state.Buttons.Start == ButtonState.Pressed)
+                    GameManager.ChangeState(GameState.Paused);
+
+        }
+        else
+        {
+            // Keyboard
+            if (GameManager.CurrentState == GameState.Normal)
+            {
+                jumpButtonWasPressed = jumpPressed;
+                jumpPressed = Input.GetKeyDown(KeyCode.Space);
+                HandleMovementWithKeyBoard();
+                HandleJumpWithKeyboard();
+            }
+            if (SceneManager.GetActiveScene() != SceneManager.GetSceneByBuildIndex(0))
+                if (Input.GetKeyDown(KeyCode.Escape))
+                    GameManager.ChangeState(GameState.Paused);
+        }
+    }
 
     public bool IsGrounded
     {
@@ -132,13 +242,6 @@ public class PlayerController : MonoBehaviour {
         {
             playerIndexSet = value;
         }
-    }
-    private void Awake()
-    {
-        stats.Init();
-        JumpManager jumpManager = GetComponent<JumpManager>();
-        if (jumpManager != null)
-            customGravity = jumpManager.GetGravity(stats.Get(Stats.StatType.GROUND_SPEED));
     }
 
     public SkillState DashingState
@@ -206,109 +309,15 @@ public class PlayerController : MonoBehaviour {
             {
                 canJump = false;
                 canMoveXZ = false;
+                ChangeDumpingValuesCameraFreeLook(noDumpingValues);
             }
-            else {
+            else // Free
+            {
                 canJump = true;
                 canMoveXZ = true;
+                ChangeDumpingValuesCameraFreeLook(defaultDumpingValues);
             }
             brainState = value;
-        }
-    }
-
-    private void Start()
-    {
-        player = GetComponent<Player>();
-        if (player == null)
-            Debug.LogWarning("Player component should not be null");
-
-        // Dashing initialisation
-        dashingMaxTimer = 0.15f;
-        dashingTimer = dashingMaxTimer;
-        dashingCooldownMaxTimer = 0.5f;
-        dashingCooldownTimer = dashingCooldownMaxTimer;
-        dashingVelocity = 100.0f;
-        dashingState = SkillState.Cooldown;
-        brainState = BrainState.Free;
-    }
-
-    void FixedUpdate ()
-    {
-        if (isGravityEnabled)
-        {
-            // TODO : Vector.down remove the minus ???? lol
-            player.Rb.AddForce(-customGravity * Vector3.up, ForceMode.Acceleration);
-            if (player.Rb.velocity.y < -10.0f)
-            {
-                // No Inputs Mode
-                isFreeFalling = true;
-            }
-            else
-            {
-                isFreeFalling = false;
-            }
-
-        }
-        //player.Rb.velocity = new Vector3(player.Rb.velocity.x, -customGravity, player.Rb.velocity.z);
-        // TODO: externaliser pour le comportement multi
-        if (!playerIndexSet)
-            return;
-
-        if (!prevState.IsConnected)
-        {
-            isUsingAController = false;
-            for (int i = 0; i < GameManager.Instance.ActivePlayersAtStart; i++)
-            {
-                GamePadState testState = GamePad.GetState(playerIndex);
-
-                if (testState.IsConnected)
-                {
-                    playerIndexSet = true;
-                    isUsingAController = true;
-                    break;
-                }
-            }
-        }
-
-        if (isUsingAController)
-        {
-            // TODO: optimize?
-            prevState = state;
-            state = GamePad.GetState(playerIndex);
-
-            if (GameManager.CurrentState == GameState.Normal)
-            {
-                if (canMoveXZ)
-                    HandleMovementWithController();
-                if (canJump)
-                    HandleJumpWithController();
-                if (GameManager.CurrentGameMode.evolutionMode == EvolutionMode.GrabCollectableAndActivate)
-                    HandleEvolutionsWithController();
-
-                // Dash
-                DashControllerState();
-                // Strength
-                if (GetComponent<EvolutionStrength>() != null)
-                    StrengthControllerState();
-            }
-            // TODO: Externalize "state" to handle pause in PauseMenu? //  Remi : Can't manage GamePade(IndexPlayer) Instead, copy not working
-            if( SceneManager.GetActiveScene() != SceneManager.GetSceneByBuildIndex(0) )
-                if (prevState.Buttons.Start == ButtonState.Released && state.Buttons.Start == ButtonState.Pressed)
-                    GameManager.ChangeState(GameState.Paused);
-
-        }
-        else
-        {
-            // Keyboard
-            if (GameManager.CurrentState == GameState.Normal)
-            {
-                jumpButtonWasPressed = jumpPressed;
-                jumpPressed = Input.GetKeyDown(KeyCode.Space);
-                HandleMovementWithKeyBoard();
-                HandleJumpWithKeyboard();
-            }
-            if (SceneManager.GetActiveScene() != SceneManager.GetSceneByBuildIndex(0))
-                if (Input.GetKeyDown(KeyCode.Escape))
-                    GameManager.ChangeState(GameState.Paused);
         }
     }
 
@@ -321,9 +330,11 @@ public class PlayerController : MonoBehaviour {
 
                 if (prevState.Buttons.X == ButtonState.Released && state.Buttons.X == ButtonState.Pressed)
                 {
+                    // TMP         
+                    if(GetComponent<EvolutionStrength>() != null) GetComponent<EvolutionStrength>().ColorChangeAsupr(Color.red);
+
                     GetComponent<JumpManager>().Stop();
                     DashingState = SkillState.Dashing;
-                    ChangeDumpingValuesCameraFreeLook(0f);
                 }
                 break;
             case SkillState.Dashing:
@@ -335,6 +346,9 @@ public class PlayerController : MonoBehaviour {
                 {
                     dashingTimer = dashingMaxTimer;
                     DashingState = SkillState.Cooldown;
+
+                    // TMP    
+                    if (GetComponent<EvolutionStrength>() != null) GetComponent<EvolutionStrength>().ColorChangeAsupr(Color.white);
                 }
                 break;
             case SkillState.Cooldown:
@@ -342,7 +356,6 @@ public class PlayerController : MonoBehaviour {
                 dashingCooldownTimer -= Time.fixedDeltaTime;
                 if (dashingCooldownTimer <= 0.0f)
                 {
-                    ChangeDumpingValuesCameraFreeLook(0.2f);
                     dashingCooldownTimer = dashingCooldownMaxTimer;
                     DashingState = SkillState.Ready;
                 }
@@ -350,6 +363,7 @@ public class PlayerController : MonoBehaviour {
             default: break;
         }
     }
+
     private void StrengthControllerState()
     {
         switch (strengthState)
@@ -359,28 +373,23 @@ public class PlayerController : MonoBehaviour {
 
                 if (prevState.Buttons.Y == ButtonState.Released && state.Buttons.Y == ButtonState.Pressed)
                 {
-                    ChangeDumpingValuesCameraFreeLook(0f);
                     GetComponent<EvolutionStrength>().DashStart();
                     StrengthState = SkillState.Charging;
                 }
 
                 break;
             case SkillState.Charging:
-
                 if (state.Buttons.Y == ButtonState.Pressed)
                 {
-                    ChangeDumpingValuesCameraFreeLook(0f);
                     GetComponent<EvolutionStrength>().Levitate();
                 }
                 else if (state.Buttons.Y == ButtonState.Released)
                 {
-
                     GetComponent<EvolutionStrength>().LaunchDash();
                     StrengthState = SkillState.Dashing;
                 }
                 break;
             case SkillState.Dashing:
-                ChangeDumpingValuesCameraFreeLook(0.2f); // TODO : Remi ,Need to be call only once
                 break;
             case SkillState.Cooldown:
                 break;
@@ -449,12 +458,11 @@ public class PlayerController : MonoBehaviour {
 
         player.Rb.velocity = velocityVec;
         transform.LookAt(transform.position + new Vector3(velocityVec.x, 0.0f, velocityVec.z) + initialVelocity.x * player.cameraReference.transform.GetChild(0).right);
-
-
-        // Animation
+        
+        // TMP Animation
         player.GetComponent<Player>().Anim.SetFloat("MouvementSpeed", Mathf.Abs(state.ThumbSticks.Left.X) > Mathf.Abs(state.ThumbSticks.Left.Y) ? Mathf.Abs(state.ThumbSticks.Left.X) : Mathf.Abs(state.ThumbSticks.Left.Y));
         player.GetComponent<Player>().Anim.SetBool("isWalking", ((Mathf.Abs(state.ThumbSticks.Left.X) > 0.02f) || Mathf.Abs(state.ThumbSticks.Left.Y) > 0.02f) && player.GetComponent<PlayerController>().IsGrounded);
-        }
+    }
 
     private void OnCollisionEnter(Collision collision)
     {

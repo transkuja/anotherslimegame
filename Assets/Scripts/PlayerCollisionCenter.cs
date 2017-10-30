@@ -18,10 +18,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
     float impactPropagationThreshold;
 
     // Collision with strength on one player
-    [SerializeField] float expulseDashFactor = 30;
-    // Collision with strength on one player
-    [SerializeField] float expulseStrengthFactor = 60;
-
+    [SerializeField] float repulsionFactor = 30;
 
     PlayerController playerController;
     Rigidbody rb;
@@ -54,6 +51,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision)
     {
+        // Interaction Joueur / Joueur
         if (collision.gameObject.GetComponent<Player>())
         {
             PlayerController collidedPlayerController = collision.transform.gameObject.GetComponent<PlayerController>();
@@ -72,28 +70,35 @@ public class PlayerCollisionCenter : MonoBehaviour {
             }
             else
             {
+                int repulsionMultiplier = 1;
+
                 // At least one is dashing
                 if ( (_PlayerController.DashingState == SkillState.Dashing || _PlayerController.StrengthState == SkillState.Dashing)
                    && (collidedPlayerController.DashingState != SkillState.Dashing && collidedPlayerController.StrengthState != SkillState.Dashing) )
                 {
                     // ThisPlayer is dashing
+
+                    // Damage Behavior
                     DamagePlayer(collision.transform.gameObject.GetComponent<Player>());
 
                     // ExpluseForce
-                    ExpulsePlayer(collision, collision.transform.gameObject.GetComponent<Rigidbody>(), expulseDashFactor);
+                    if (_PlayerController.StrengthState == SkillState.Dashing) repulsionMultiplier *= 2;
+                    RepulseRigibody(collision, collision.transform.gameObject.GetComponent<Rigidbody>(), repulsionFactor * repulsionMultiplier);
                 }
-                else if ((_PlayerController.DashingState == SkillState.Dashing || _PlayerController.StrengthState == SkillState.Dashing)
-                         && (collidedPlayerController.DashingState != SkillState.Dashing && collidedPlayerController.StrengthState != SkillState.Dashing))
+                else if ((_PlayerController.DashingState != SkillState.Dashing && _PlayerController.StrengthState != SkillState.Dashing)
+                         && (collidedPlayerController.DashingState == SkillState.Dashing && collidedPlayerController.StrengthState != SkillState.Dashing))
                 {
                     // Collided is dashing
 
+                    // Damage Behavior
                     DamagePlayer(_PlayerController.GetComponent<Player>());
 
                     // ExpluseForce
-                    ExpulsePlayer(collision, _Rb, expulseDashFactor);
+                    if (collidedPlayerController.StrengthState == SkillState.Dashing) repulsionMultiplier *= 2;
+                    RepulseRigibody(collision, _Rb, repulsionFactor * repulsionMultiplier);
                 }
                 else if ((_PlayerController.DashingState == SkillState.Dashing || _PlayerController.StrengthState == SkillState.Dashing)
-                        && (collidedPlayerController.DashingState != SkillState.Dashing && collidedPlayerController.StrengthState != SkillState.Dashing))
+                        && (collidedPlayerController.DashingState == SkillState.Dashing || collidedPlayerController.StrengthState == SkillState.Dashing))
                 {
                     // Both are dashing
 
@@ -102,10 +107,29 @@ public class PlayerCollisionCenter : MonoBehaviour {
                     DamagePlayer(_PlayerController.GetComponent<Player>());
 
                     // ExpluseForce
-                    ExpulsePlayer(collision, _Rb, expulseDashFactor);
-                    ExpulsePlayer(collision, collision.transform.gameObject.GetComponent<Rigidbody>(), expulseDashFactor);
+                    // Double the love
+                    if (_PlayerController.StrengthState == SkillState.Dashing) repulsionMultiplier *= 2;
+                    if (collidedPlayerController.StrengthState == SkillState.Dashing) repulsionMultiplier *= 2;
+                    RepulseRigibody(collision, _Rb, repulsionFactor * repulsionMultiplier);
+                    RepulseRigibody(collision, collision.transform.gameObject.GetComponent<Rigidbody>(), repulsionFactor * repulsionMultiplier);
                 }
             }
+        }
+
+        if (collision.gameObject.tag == "HardBreakable")
+        {
+            if (GetComponent<EvolutionStrength>() != null && (GetComponent<PlayerController>().StrengthState == SkillState.Dashing || GetComponent<PlayerController>().DashingState == SkillState.Dashing))
+            {
+                if (collision.gameObject.GetComponent<Rigidbody>() != null)
+                {
+                    // TMP impredictable
+                    collision.gameObject.GetComponent<Rigidbody>().isKinematic = false;
+                    collision.gameObject.transform.parent = null;
+                    RepulseRigibody(collision, collision.gameObject.GetComponent<Rigidbody>(), repulsionFactor);
+                    //Destroy(collision.gameObject, 4);
+                }
+            }
+
         }
     }
 
@@ -129,7 +153,6 @@ public class PlayerCollisionCenter : MonoBehaviour {
                 if (playerImpacted.Rb.velocity.magnitude > impactPropagationThreshold)
                     _Rb.velocity += (playerImpacted.Rb.velocity * impactForce);
             }
-
         }
     }
 
@@ -169,12 +192,12 @@ public class PlayerCollisionCenter : MonoBehaviour {
         }
     }
 
-    public void ExpulsePlayer(Collision collision, Rigidbody rbPlayerToExpulse, float expulseFactor)
+    public void RepulseRigibody(Collision collision, Rigidbody rbPlayerToExpulse, float repulsionFactor)
     {
         Vector3 direction = collision.contacts[0].point - rb.position;
         direction.y = 0;
         direction.Normalize();
 
-        rbPlayerToExpulse.AddForce(direction * expulseFactor, ForceMode.Impulse);
+        rbPlayerToExpulse.AddForce(direction * repulsionFactor, ForceMode.Impulse);
     }
 }
