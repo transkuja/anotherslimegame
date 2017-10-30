@@ -5453,7 +5453,10 @@ MonoBehaviour:
   drawShapesOnly: 0
   resetPlatform: 0
   isBouncy: 0
-  isBouncyForItems: 0
+  bouncyMask:
+    serializedVersion: 2
+    m_Bits: 0
+  bounceStrength: 25
   isSlippery: 0
   isMoving: 1
   movingAxis: {x: 0, y: 2, z: 0}
@@ -5465,6 +5468,7 @@ MonoBehaviour:
   backToOriginOnPlayerJumpOn: 0
   delayBeforeMovement: 1.69
   isRotating: 0
+  preserveUp: 0
   newRotationCenter: {x: 0, y: 0, z: 0}
   baseRotation:
     rotateAroundLocalAxis: 0
@@ -5475,6 +5479,13 @@ MonoBehaviour:
     rotateAroundLocalAxis: 0
     rotateAxis: {x: 0, y: 0, z: 0}
     rotateSpeed: 10
+  hasADelayedRotation: 0
+  delayBeforeTransition: 1
+  transitionTime: 1
+  delayBeforeTransitionReturn: 1
+  transitionTimeReturn: 1
+  rotateAxisLocal: {x: 0, y: 0, z: 0}
+  rotationAngle: 0
   isATeleporter: 0
   teleporterTarget: {fileID: 0}
 --- !u!23 &607564645
@@ -6327,7 +6338,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4068925896781514, guid: 4ba7cc01b3b1dac4d83c77432a4e1bfd, type: 2}
       propertyPath: m_RootOrder
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4ba7cc01b3b1dac4d83c77432a4e1bfd, type: 2}
@@ -8155,7 +8166,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 9d2d953bbe0b121469dcce136b560ba3, type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 9d2d953bbe0b121469dcce136b560ba3, type: 3}
       propertyPath: m_LocalScale.x
@@ -8605,7 +8616,10 @@ MonoBehaviour:
   drawShapesOnly: 0
   resetPlatform: 0
   isBouncy: 0
-  isBouncyForItems: 0
+  bouncyMask:
+    serializedVersion: 2
+    m_Bits: 0
+  bounceStrength: 25
   isSlippery: 0
   isMoving: 1
   movingAxis: {x: 0, y: 4, z: 0}
@@ -8617,6 +8631,7 @@ MonoBehaviour:
   backToOriginOnPlayerJumpOn: 0
   delayBeforeMovement: 3
   isRotating: 0
+  preserveUp: 0
   newRotationCenter: {x: 0, y: 0, z: 0}
   baseRotation:
     rotateAroundLocalAxis: 0
@@ -8627,6 +8642,13 @@ MonoBehaviour:
     rotateAroundLocalAxis: 0
     rotateAxis: {x: 0, y: 0, z: 0}
     rotateSpeed: 10
+  hasADelayedRotation: 0
+  delayBeforeTransition: 1
+  transitionTime: 1
+  delayBeforeTransitionReturn: 1
+  transitionTimeReturn: 1
+  rotateAxisLocal: {x: 0, y: 0, z: 0}
+  rotationAngle: 0
   isATeleporter: 0
   teleporterTarget: {fileID: 0}
 --- !u!23 &881922950
@@ -9018,7 +9040,10 @@ MonoBehaviour:
   drawShapesOnly: 0
   resetPlatform: 0
   isBouncy: 0
-  isBouncyForItems: 0
+  bouncyMask:
+    serializedVersion: 2
+    m_Bits: 0
+  bounceStrength: 25
   isSlippery: 0
   isMoving: 1
   movingAxis: {x: 0, y: 5, z: 0}
@@ -9030,6 +9055,7 @@ MonoBehaviour:
   backToOriginOnPlayerJumpOn: 0
   delayBeforeMovement: 3
   isRotating: 0
+  preserveUp: 0
   newRotationCenter: {x: 0, y: 0, z: 0}
   baseRotation:
     rotateAroundLocalAxis: 0
@@ -9040,6 +9066,13 @@ MonoBehaviour:
     rotateAroundLocalAxis: 0
     rotateAxis: {x: 0, y: 0, z: 0}
     rotateSpeed: 10
+  hasADelayedRotation: 0
+  delayBeforeTransition: 1
+  transitionTime: 1
+  delayBeforeTransitionReturn: 1
+  transitionTimeReturn: 1
+  rotateAxisLocal: {x: 0, y: 0, z: 0}
+  rotationAngle: 0
   isATeleporter: 0
   teleporterTarget: {fileID: 0}
 --- !u!23 &916067344
@@ -11101,6 +11134,48 @@ Transform:
   m_PrefabParentObject: {fileID: 4105322277415010, guid: 4b3d4161c8e739b4e85a2e9a800bfb9d,
     type: 2}
   m_PrefabInternal: {fileID: 1072134635}
+--- !u!1001 &1076859298
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4355761701438066, guid: beddba8f0180dd9409af84ea5a2d8dc5, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 68.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4355761701438066, guid: beddba8f0180dd9409af84ea5a2d8dc5, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 2.33
+      objectReference: {fileID: 0}
+    - target: {fileID: 4355761701438066, guid: beddba8f0180dd9409af84ea5a2d8dc5, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -13.091856
+      objectReference: {fileID: 0}
+    - target: {fileID: 4355761701438066, guid: beddba8f0180dd9409af84ea5a2d8dc5, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4355761701438066, guid: beddba8f0180dd9409af84ea5a2d8dc5, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0.45548022
+      objectReference: {fileID: 0}
+    - target: {fileID: 4355761701438066, guid: beddba8f0180dd9409af84ea5a2d8dc5, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0.000000029802322
+      objectReference: {fileID: 0}
+    - target: {fileID: 4355761701438066, guid: beddba8f0180dd9409af84ea5a2d8dc5, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 0.8902459
+      objectReference: {fileID: 0}
+    - target: {fileID: 4355761701438066, guid: beddba8f0180dd9409af84ea5a2d8dc5, type: 2}
+      propertyPath: m_RootOrder
+      value: 12
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: beddba8f0180dd9409af84ea5a2d8dc5, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &1098691095
 GameObject:
   m_ObjectHideFlags: 0
@@ -12109,7 +12184,10 @@ MonoBehaviour:
   drawShapesOnly: 0
   resetPlatform: 0
   isBouncy: 0
-  isBouncyForItems: 0
+  bouncyMask:
+    serializedVersion: 2
+    m_Bits: 0
+  bounceStrength: 25
   isSlippery: 0
   isMoving: 1
   movingAxis: {x: 0, y: 2, z: 0}
@@ -12121,6 +12199,7 @@ MonoBehaviour:
   backToOriginOnPlayerJumpOn: 0
   delayBeforeMovement: 0
   isRotating: 0
+  preserveUp: 0
   newRotationCenter: {x: 0, y: 0, z: 0}
   baseRotation:
     rotateAroundLocalAxis: 0
@@ -12131,6 +12210,13 @@ MonoBehaviour:
     rotateAroundLocalAxis: 0
     rotateAxis: {x: 0, y: 0, z: 0}
     rotateSpeed: 10
+  hasADelayedRotation: 0
+  delayBeforeTransition: 1
+  transitionTime: 1
+  delayBeforeTransitionReturn: 1
+  transitionTimeReturn: 1
+  rotateAxisLocal: {x: 0, y: 0, z: 0}
+  rotationAngle: 0
   isATeleporter: 0
   teleporterTarget: {fileID: 0}
 --- !u!23 &1183984618
@@ -12932,7 +13018,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 9d2d953bbe0b121469dcce136b560ba3, type: 3}
       propertyPath: m_RootOrder
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 9d2d953bbe0b121469dcce136b560ba3, type: 3}
       propertyPath: m_LocalScale.x
@@ -16149,7 +16235,10 @@ MonoBehaviour:
   drawShapesOnly: 0
   resetPlatform: 0
   isBouncy: 0
-  isBouncyForItems: 0
+  bouncyMask:
+    serializedVersion: 2
+    m_Bits: 0
+  bounceStrength: 25
   isSlippery: 0
   isMoving: 1
   movingAxis: {x: 0, y: 4, z: 0}
@@ -16161,6 +16250,7 @@ MonoBehaviour:
   backToOriginOnPlayerJumpOn: 0
   delayBeforeMovement: 3
   isRotating: 0
+  preserveUp: 0
   newRotationCenter: {x: 0, y: 0, z: 0}
   baseRotation:
     rotateAroundLocalAxis: 0
@@ -16171,6 +16261,13 @@ MonoBehaviour:
     rotateAroundLocalAxis: 0
     rotateAxis: {x: 0, y: 0, z: 0}
     rotateSpeed: 10
+  hasADelayedRotation: 0
+  delayBeforeTransition: 1
+  transitionTime: 1
+  delayBeforeTransitionReturn: 1
+  transitionTimeReturn: 1
+  rotateAxisLocal: {x: 0, y: 0, z: 0}
+  rotationAngle: 0
   isATeleporter: 0
   teleporterTarget: {fileID: 0}
 --- !u!23 &1602233488
@@ -18849,7 +18946,10 @@ MonoBehaviour:
   drawShapesOnly: 0
   resetPlatform: 0
   isBouncy: 0
-  isBouncyForItems: 0
+  bouncyMask:
+    serializedVersion: 2
+    m_Bits: 0
+  bounceStrength: 25
   isSlippery: 0
   isMoving: 1
   movingAxis: {x: 0, y: 2, z: 0}
@@ -18861,6 +18961,7 @@ MonoBehaviour:
   backToOriginOnPlayerJumpOn: 0
   delayBeforeMovement: 3
   isRotating: 0
+  preserveUp: 0
   newRotationCenter: {x: 0, y: 0, z: 0}
   baseRotation:
     rotateAroundLocalAxis: 0
@@ -18871,6 +18972,13 @@ MonoBehaviour:
     rotateAroundLocalAxis: 0
     rotateAxis: {x: 0, y: 0, z: 0}
     rotateSpeed: 10
+  hasADelayedRotation: 0
+  delayBeforeTransition: 1
+  transitionTime: 1
+  delayBeforeTransitionReturn: 1
+  transitionTimeReturn: 1
+  rotateAxisLocal: {x: 0, y: 0, z: 0}
+  rotationAngle: 0
   isATeleporter: 0
   teleporterTarget: {fileID: 0}
 --- !u!23 &1839964825
@@ -19415,7 +19523,10 @@ MonoBehaviour:
   drawShapesOnly: 0
   resetPlatform: 0
   isBouncy: 0
-  isBouncyForItems: 0
+  bouncyMask:
+    serializedVersion: 2
+    m_Bits: 0
+  bounceStrength: 25
   isSlippery: 0
   isMoving: 1
   movingAxis: {x: 0, y: 4, z: 0}
@@ -19427,6 +19538,7 @@ MonoBehaviour:
   backToOriginOnPlayerJumpOn: 0
   delayBeforeMovement: 3
   isRotating: 0
+  preserveUp: 0
   newRotationCenter: {x: 0, y: 0, z: 0}
   baseRotation:
     rotateAroundLocalAxis: 0
@@ -19437,6 +19549,13 @@ MonoBehaviour:
     rotateAroundLocalAxis: 0
     rotateAxis: {x: 0, y: 0, z: 0}
     rotateSpeed: 10
+  hasADelayedRotation: 0
+  delayBeforeTransition: 1
+  transitionTime: 1
+  delayBeforeTransitionReturn: 1
+  transitionTimeReturn: 1
+  rotateAxisLocal: {x: 0, y: 0, z: 0}
+  rotationAngle: 0
   isATeleporter: 0
   teleporterTarget: {fileID: 0}
 --- !u!23 &1886399845
@@ -21721,7 +21840,10 @@ MonoBehaviour:
   drawShapesOnly: 0
   resetPlatform: 0
   isBouncy: 0
-  isBouncyForItems: 0
+  bouncyMask:
+    serializedVersion: 2
+    m_Bits: 0
+  bounceStrength: 25
   isSlippery: 0
   isMoving: 1
   movingAxis: {x: 0, y: 2, z: 0}
@@ -21733,6 +21855,7 @@ MonoBehaviour:
   backToOriginOnPlayerJumpOn: 0
   delayBeforeMovement: 1.69
   isRotating: 0
+  preserveUp: 0
   newRotationCenter: {x: 0, y: 0, z: 0}
   baseRotation:
     rotateAroundLocalAxis: 0
@@ -21743,6 +21866,13 @@ MonoBehaviour:
     rotateAroundLocalAxis: 0
     rotateAxis: {x: 0, y: 0, z: 0}
     rotateSpeed: 10
+  hasADelayedRotation: 0
+  delayBeforeTransition: 1
+  transitionTime: 1
+  delayBeforeTransitionReturn: 1
+  transitionTimeReturn: 1
+  rotateAxisLocal: {x: 0, y: 0, z: 0}
+  rotationAngle: 0
   isATeleporter: 0
   teleporterTarget: {fileID: 0}
 --- !u!23 &2064486593
