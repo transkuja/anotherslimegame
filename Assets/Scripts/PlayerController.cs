@@ -62,8 +62,6 @@ public class PlayerController : MonoBehaviour {
 
     public bool isGravityEnabled = true;
 
-    public Collectable collect;
-
     // TMP??
     RaycastHit hitInfo;
     float maxDistanceOffset = 2.0f;
@@ -143,7 +141,7 @@ public class PlayerController : MonoBehaviour {
             customGravity = jumpManager.GetGravity(stats.Get(Stats.StatType.GROUND_SPEED));
     }
 
-    public SkillState CurrentState
+    public SkillState DashingState
     {
         get
         {
@@ -327,67 +325,29 @@ public class PlayerController : MonoBehaviour {
                 if (prevState.Buttons.X == ButtonState.Released && state.Buttons.X == ButtonState.Pressed)
                 {
                     GetComponent<JumpManager>().Stop();
-                    CurrentState = SkillState.Dashing;
+                    DashingState = SkillState.Dashing;
+                    ChangeDumpingValuesCameraFreeLook(0f);
                 }
                 break;
             case SkillState.Dashing:
                 player.Rb.velocity = transform.forward * dashingVelocity;
-
-                if (SceneManager.GetActiveScene() != SceneManager.GetSceneByBuildIndex(0))
-                {
-                    //Body
-                    CinemachineTransposer tr;
-                    tr = ((CinemachineTransposer)(player.cameraReference.transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().GetRig(0).GetCinemachineComponent(CinemachineCore.Stage.Body)));
-                    tr.m_XDamping = 0f;
-                    tr.m_YDamping = 0f;
-                    tr.m_ZDamping = 0f;
-
-                    tr = ((CinemachineTransposer)(player.cameraReference.transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().GetRig(1).GetCinemachineComponent(CinemachineCore.Stage.Body)));
-                    tr.m_XDamping = 0f;
-                    tr.m_YDamping = 0f;
-                    tr.m_ZDamping = 0f;
-
-                    tr = ((CinemachineTransposer)(player.cameraReference.transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().GetRig(2).GetCinemachineComponent(CinemachineCore.Stage.Body)));
-                    tr.m_XDamping = 0f;
-                    tr.m_YDamping = 0f;
-                    tr.m_ZDamping = 0f;
-                }
+    
                 dashingTimer -= Time.fixedDeltaTime;
-
                 // ? Timer ?
                 if (dashingTimer <= 0.0f)
                 {
                     dashingTimer = dashingMaxTimer;
-                    CurrentState = SkillState.Cooldown;
-
+                    DashingState = SkillState.Cooldown;
                 }
                 break;
             case SkillState.Cooldown:
-                if (SceneManager.GetActiveScene() != SceneManager.GetSceneByBuildIndex(0))
-                {
-                    //Body
-                    CinemachineTransposer tr;
-                    tr = ((CinemachineTransposer)(player.cameraReference.transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().GetRig(0).GetCinemachineComponent(CinemachineCore.Stage.Body)));
-                    tr.m_XDamping = .2f;
-                    tr.m_YDamping = .2f;
-                    tr.m_ZDamping = .2f;
-
-                    tr = ((CinemachineTransposer)(player.cameraReference.transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().GetRig(1).GetCinemachineComponent(CinemachineCore.Stage.Body)));
-                    tr.m_XDamping = .2f;
-                    tr.m_YDamping = .2f;
-                    tr.m_ZDamping = .2f;
-
-                    tr = ((CinemachineTransposer)(player.cameraReference.transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().GetRig(2).GetCinemachineComponent(CinemachineCore.Stage.Body)));
-                    tr.m_XDamping = .2f;
-                    tr.m_YDamping = .2f;
-                    tr.m_ZDamping = .2f;
-                }
 
                 dashingCooldownTimer -= Time.fixedDeltaTime;
                 if (dashingCooldownTimer <= 0.0f)
                 {
+                    ChangeDumpingValuesCameraFreeLook(0.2f);
                     dashingCooldownTimer = dashingCooldownMaxTimer;
-                    CurrentState = SkillState.Ready;
+                    DashingState = SkillState.Ready;
                 }
                 break;
             default: break;
@@ -395,7 +355,6 @@ public class PlayerController : MonoBehaviour {
     }
     private void StrenghControllerState()
     {
-        Debug.Log(strenghState);
         switch (strenghState)
         {
             case SkillState.Ready:
@@ -403,15 +362,17 @@ public class PlayerController : MonoBehaviour {
 
                 if (prevState.Buttons.Y == ButtonState.Released && state.Buttons.Y == ButtonState.Pressed)
                 {
+                    ChangeDumpingValuesCameraFreeLook(0f);
                     GetComponent<EvolutionStrengh>().DashStart();
                     StrenghState = SkillState.Charging;
                 }
 
                 break;
             case SkillState.Charging:
+
                 if (state.Buttons.Y == ButtonState.Pressed)
                 {
-
+                    ChangeDumpingValuesCameraFreeLook(0f);
                     GetComponent<EvolutionStrengh>().Levitate();
                 }
                 else if (state.Buttons.Y == ButtonState.Released)
@@ -422,14 +383,9 @@ public class PlayerController : MonoBehaviour {
                 }
                 break;
             case SkillState.Dashing:
+                ChangeDumpingValuesCameraFreeLook(0.2f); // TODO : Remi ,Need to be call only once
                 break;
             case SkillState.Cooldown:
-                //dashingCooldownTimer -= Time.fixedDeltaTime;
-                //if (dashingCooldownTimer <= 0.0f)
-                //{
-                //    dashingCooldownTimer = dashingCooldownMaxTimer;
-                //    CurrentState = SkillState.Ready;
-                //}
                 break;
             default: break;
         }
@@ -526,15 +482,7 @@ public class PlayerController : MonoBehaviour {
                 isWaitingForNextRelease = true;
             }
         }
-    
-        //Semi-fonctionnel : Le Dash fais perdre des points au joueur qui effectue le dash et les objects/points ne sont pas transferer
-        if(collision.gameObject.GetComponent<Player>() != null )/* .name == "player1" || collision.gameobject.name == "player2" || collision.gameobject.name == "player3" || collision.gameobject.name == "player4")*/
-        {
-            if (dashingState == SkillState.Dashing)
-            {
-                DamagePlayer(collision);
-            }
-        }
+   
     }
 
     private void Update()
@@ -621,48 +569,28 @@ public class PlayerController : MonoBehaviour {
         chargeFactor = 0.0f;
     }
 
-    public void DamagePlayer(Collision collision, Vector3? force = null)
+  
+    // TODO : Remi , Export this in camera controls
+    public void ChangeDumpingValuesCameraFreeLook(float _newValues)
     {
-        GameModeType gm = GameManager.CurrentGameMode.gameModeType;
-        int typeCollectable = -1;
-        switch (gm)
+        if (SceneManager.GetActiveScene() != SceneManager.GetSceneByBuildIndex(0))
         {
-            case GameModeType.Escape:
-                typeCollectable = (int)CollectableType.Points; break;
-            case GameModeType.Arena:
-                typeCollectable = (int)CollectableType.Points; break;
-            default:
-                break;
+            //Body
+            CinemachineTransposer tr;
+            tr = ((CinemachineTransposer)(player.cameraReference.transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().GetRig(0).GetCinemachineComponent(CinemachineCore.Stage.Body)));
+            tr.m_XDamping = _newValues;
+            tr.m_YDamping = _newValues;
+            tr.m_ZDamping = _newValues;
+
+            tr = ((CinemachineTransposer)(player.cameraReference.transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().GetRig(1).GetCinemachineComponent(CinemachineCore.Stage.Body)));
+            tr.m_XDamping = _newValues;
+            tr.m_YDamping = _newValues;
+            tr.m_ZDamping = _newValues;
+
+            tr = ((CinemachineTransposer)(player.cameraReference.transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().GetRig(2).GetCinemachineComponent(CinemachineCore.Stage.Body)));
+            tr.m_XDamping = _newValues;
+            tr.m_YDamping = _newValues;
+            tr.m_ZDamping = _newValues;
         }
-
-        if (typeCollectable == -1) return;
-
-        if (collision.gameObject.GetComponent<Player>().Collectables[typeCollectable] > 0)
-        {
-            for (int i = 0; i < Mathf.Clamp((float)Math.Floor(collision.gameObject.GetComponent<Player>().Collectables[typeCollectable] / collect.Value), 1, 2); i++)
-            {
-                Debug.Log(collect.iscollectableFromPlayer);
-                GameObject go = ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
-                collision.gameObject.GetComponent<Player>().transform.position,
-                collision.gameObject.GetComponent<Player>().transform.rotation,
-                null,
-                CollectableType.Points,
-                collect.iscollectableFromPlayer);
-                //Debug.Log(go.GetComponent<Collectable>().iscollectableFromPlayer);
-
-                //Dispersion des collectables
-                if (go.GetComponent<Collectable>().iscollectableFromPlayer)
-                {
-                    Transform position = collision.gameObject.GetComponent<Player>().transform;
-                    position.Translate(GetComponent<Collectable>().Dispersion());
-                }
-
-                go.GetComponent<SphereCollider>().enabled = false;
-                collision.gameObject.GetComponent<Player>().UpdateCollectableValue(CollectableType.Points, -(int)go.GetComponent<Collectable>().Value);
-                StartCoroutine(go.GetComponent<Collectable>().ReactivateCollider());
-            }
-        }
-        if (force != null)
-            player.Rb.AddForce(force.Value, ForceMode.Impulse);
     }
 }

@@ -11,7 +11,7 @@ public class Utils {
             3              // Max Keys
         };
 
-    static int[] maxValueCollectable =
+    static int[] defaultValueCollectable =
     {
         30,
         30,
@@ -36,11 +36,15 @@ public class Utils {
             || collectableType == CollectableType.Evolution2;
     }
 
-
-
-
-    public static int GetMaxCollectableValue(CollectableType collectableType)
+    [System.Obsolete("Unused method see belew")]
+    public static int GetDefaultCollectableValue(CollectableType collectableType)
     {
-        return maxValueCollectable[(int)collectableType];
+        return defaultValueCollectable[(int)collectableType];
     }
+
+    public static int GetDefaultCollectableValue(int collectableType)
+    {
+        return defaultValueCollectable[collectableType];
+    }
+
 }

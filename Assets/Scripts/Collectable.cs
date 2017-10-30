@@ -11,7 +11,6 @@ public class Collectable : MonoBehaviour
     Player playerTarget;
 
     public Vector3[] position = new Vector3[4];
-    public bool iscollectableFromPlayer = true;
 
     public float Value
     {
@@ -28,14 +27,12 @@ public class Collectable : MonoBehaviour
 
     public void Start()
     {
-        Value = Utils.GetMaxCollectableValue(type);
+        Value = Utils.GetDefaultCollectableValue(type);
 
         position[0] = new Vector3(-2, 0, -2);
         position[1] = new Vector3(2, 0, -2);
         position[2] = new Vector3(-2, 0, 2);
         position[3] = new Vector3(2, 0, 2);
-
-        //iscollectableFromPlayer = true;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -106,7 +103,9 @@ public class Collectable : MonoBehaviour
         yield return null;
     }
 
-    public Vector3 Dispersion()
+    // if index is need to add a little bit more random
+    // should not use the same index twice
+    public Vector3 Dispersion(int index)
     {
         return position[UnityEngine.Random.Range(0, 3)];
     }
