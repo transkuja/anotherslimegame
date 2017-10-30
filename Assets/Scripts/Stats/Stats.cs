@@ -40,16 +40,20 @@ public class Stats  {
         }
         buffList = new List<StatBuff>();
     }
-
     public void Init()
     {
+        stats = new Stat[(int)StatType.MAX_STATS];
         for (int i = 0; i < (int)StatType.MAX_STATS; i++)
         {
             stats[i].name = ((StatType)i).ToString();
             stats[i].currentStat = stats[i].baseStat;
         }
         buffList = new List<StatBuff>();
+        stats[(int)Stats.StatType.GROUND_SPEED].baseStat = 30;
+        stats[(int)Stats.StatType.AIR_CONTROL].baseStat = 20;
     }
+
+
     /// <summary>
     /// 
     /// </summary>
@@ -120,3 +124,4 @@ public class Stats  {
             }
     }
 }
+
