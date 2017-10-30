@@ -129,7 +129,21 @@ public class PlayerCollisionCenter : MonoBehaviour {
                     //Destroy(collision.gameObject, 4);
                 }
             }
+        }
 
+        if (collision.gameObject.tag == "Breakable")
+        {
+            if (GetComponent<PlayerController>().StrengthState == SkillState.Dashing || GetComponent<PlayerController>().DashingState == SkillState.Dashing)
+            {
+                if (collision.gameObject.GetComponent<Rigidbody>() != null)
+                {
+                    // TMP impredictable
+                    collision.gameObject.GetComponent<Rigidbody>().isKinematic = false;
+                    collision.gameObject.transform.parent = null;
+                    RepulseRigibody(collision, collision.gameObject.GetComponent<Rigidbody>(), repulsionFactor);
+                    //Destroy(collision.gameObject, 4);
+                }
+            }
         }
     }
 
