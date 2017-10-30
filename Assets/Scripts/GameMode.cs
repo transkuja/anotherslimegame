@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Gamemode {
+public enum GameModeType {
     Escape, // Main Gamemode, 1st phase run and grab evolution, 2nd phase escape with X keys
     Arena // Fight and collect points  
 };
@@ -14,15 +14,15 @@ public enum EvolutionMode {
 };
 
 public class GameMode {
-    public Gamemode gamemode;
+    public GameModeType gameModeType;
     public EvolutionMode evolutionMode;
     int nbPlayersMin;
     int nbPlayersMax;
     List<string> authorizedMaps = new List<string>();
 
-    public GameMode(Gamemode _gamemode, EvolutionMode _evolutionMode, int _nbPlayersMin, int _nbPlayersMax)
+    public GameMode(GameModeType _gameModeType, EvolutionMode _evolutionMode, int _nbPlayersMin, int _nbPlayersMax)
     {
-        gamemode = _gamemode;
+        gameModeType = _gameModeType;
         evolutionMode = _evolutionMode;
         nbPlayersMin = _nbPlayersMin;
         nbPlayersMax = _nbPlayersMax;
@@ -34,19 +34,19 @@ public class GameMode {
  */
 public class GameModeManager
 {
-    GameMode escapeMode = new GameMode(Gamemode.Escape, EvolutionMode.GrabEvolution, 1, 4);
+    GameMode escapeMode = new GameMode(GameModeType.Escape, EvolutionMode.GrabEvolution, 1, 4);
 
-    GameMode arenaMode1 = new GameMode(Gamemode.Arena, EvolutionMode.GrabCollectableAndAutoEvolve, 1, 4);
-    GameMode arenaMode2 = new GameMode(Gamemode.Arena, EvolutionMode.GrabCollectableAndActivate, 1, 4);
+    GameMode arenaMode1 = new GameMode(GameModeType.Arena, EvolutionMode.GrabCollectableAndAutoEvolve, 1, 4);
+    GameMode arenaMode2 = new GameMode(GameModeType.Arena, EvolutionMode.GrabCollectableAndActivate, 1, 4);
 
 
-    public GameMode GetGameModeByName(Gamemode _name, EvolutionMode _evolutionMode = EvolutionMode.GrabEvolution)
+    public GameMode GetGameModeByName(GameModeType _name, EvolutionMode _evolutionMode = EvolutionMode.GrabEvolution)
     {
         switch (_name)
         {
-            case Gamemode.Escape:
+            case GameModeType.Escape:
                 return escapeMode;
-            case Gamemode.Arena:
+            case GameModeType.Arena:
                 if (_evolutionMode == EvolutionMode.GrabCollectableAndAutoEvolve)
                     return arenaMode1;
                 else

@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 [System.Serializable]
 public class GameModeProperties
 {
-    [SerializeField] public Gamemode gameMode;
+    [SerializeField] public GameModeType gameMode;
     [SerializeField] public int indexLevel;
 }
 
@@ -104,7 +104,7 @@ public class LevelSelection : MonoBehaviour {
         }
 	}
 
-    public void LoadLevel(Gamemode gameMode, int indexLevel)
+    public void LoadLevel(GameModeType gameMode, int indexLevel)
     {
         GameManager.CurrentGameMode = GameManager.GameModeManager.GetGameModeByName(gameMode);
         SceneManager.LoadScene(indexLevel);

@@ -5,10 +5,28 @@ public class Collectable : MonoBehaviour
 {
     [SerializeField]
     CollectableType type;
-    public int value;
+    private int value;
     bool isAttracted = false;
     uint movementSpeed = 40;
     Player playerTarget;
+
+    public int Value
+    {
+        get
+        {
+            return value;
+        }
+
+        set
+        {
+            this.value = value;
+        }
+    }
+
+    public void Start()
+    {
+        Value = Utils.GetMaxCollectableValue(type);
+    }
 
     private void OnTriggerEnter(Collider other)
     {

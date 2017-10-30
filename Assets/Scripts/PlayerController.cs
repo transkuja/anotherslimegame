@@ -481,9 +481,22 @@ public class PlayerController : MonoBehaviour {
 
     public void DamagePlayer(Collision collision, Vector3? force = null)
     {
-        if (collision.gameObject.GetComponent<Player>().Collectables[(int)CollectableType.Points] > 0)
+        GameModeType gm = GameManager.CurrentGameMode.gameModeType;
+        int typeCollectable = -1;
+        switch (gm)
         {
-            for (int i = 0; i < Mathf.Clamp((float)Math.Floor(collision.gameObject.GetComponent<Player>().Collectables[(int)CollectableType.Points] / 30.0f), 1, 2); i++)
+            case GameModeType.Escape:
+                typeCollectable = (int)CollectableType.Points; break;
+            case GameModeType.Arena: 
+                typeCollectable = (int)CollectableType.Points; break;
+            default:
+                break;
+        }
+        if (typeCollectable == -1) return;
+
+        if (collision.gameObject.GetComponent<Player>().Collectables[typeCollectable] > 0)
+        {
+            for (int i = 0; i < Mathf.Clamp((float)Math.Floor(collision.gameObject.GetComponent<Player>().Collectables[typeCollectable] / (float)GetComponent<Collectable>().Value), 1, 2); i++)
             {
                 GameObject go = ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
                 collision.gameObject.GetComponent<Player>().transform.position + new Vector3(1, 1.5f, 10),
@@ -492,8 +505,7 @@ public class PlayerController : MonoBehaviour {
                 CollectableType.Points);
 
                 go.GetComponent<SphereCollider>().enabled = false;
-                collision.gameObject.GetComponent<Player>().UpdateCollectableValue(CollectableType.Points, -30);
-                go.GetComponent<Collectable>().value = 30;
+                collision.gameObject.GetComponent<Player>().UpdateCollectableValue(CollectableType.Points, -go.GetComponent<Collectable>().Value);
                 StartCoroutine(go.GetComponent<Collectable>().ReactivateCollider());
             }
         }

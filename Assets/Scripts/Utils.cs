@@ -11,6 +11,14 @@ public class Utils {
             3              // Max Keys
         };
 
+    static int[] maxValueCollectable =
+    {
+        30,
+        30,
+        30,
+        1
+    };
+
     /*
      * Returns the maximum value for a collectableType
      */
@@ -26,5 +34,13 @@ public class Utils {
     {
         return collectableType == CollectableType.Evolution1
             || collectableType == CollectableType.Evolution2;
+    }
+
+
+
+
+    public static int GetMaxCollectableValue(CollectableType collectableType)
+    {
+        return maxValueCollectable[(int)collectableType];
     }
 }

@@ -85,7 +85,7 @@ public class GameManager : MonoBehaviour {
             // TODO : Destroy this ? 
             if (currentGameMode == null)
             {
-                currentGameMode = gameModeManager.GetGameModeByName(Gamemode.Escape);
+                currentGameMode = gameModeManager.GetGameModeByName(GameModeType.Escape);
             }
             return currentGameMode;
         }
