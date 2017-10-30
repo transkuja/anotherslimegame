@@ -121,6 +121,13 @@ public class PlayerController : MonoBehaviour {
             playerIndexSet = value;
         }
     }
+    private void Awake()
+    {
+        stats.Init();
+        JumpManager jumpManager = GetComponent<JumpManager>();
+        if (jumpManager != null)
+            customGravity = jumpManager.GetGravity(stats.Get(Stats.StatType.GROUND_SPEED));
+    }
 
     private void Start()
     {
@@ -135,11 +142,6 @@ public class PlayerController : MonoBehaviour {
         dashingCooldownTimer = dashingCooldownMaxTimer;
         dashingVelocity = 100.0f;
         currentState = DashingState.Cooldown;
-        JumpManager jumpManager = GetComponent<JumpManager>();
-        if (jumpManager != null)
-            customGravity = jumpManager.GetGravity();
-
-        stats.Init();
     }
 
     void FixedUpdate ()
@@ -469,7 +471,7 @@ public class PlayerController : MonoBehaviour {
         IsGrounded = false;
         JumpManager jm;
         if (jm = GetComponent<JumpManager>())
-            jm.Jump(20,JumpManager.JumpEnum.Basic);
+            jm.Jump(stats.Get(Stats.StatType.GROUND_SPEED),JumpManager.JumpEnum.Basic);
         else
             Debug.LogError("No jump manager attached to player!");
 

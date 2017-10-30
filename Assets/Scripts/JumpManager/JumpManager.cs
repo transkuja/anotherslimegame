@@ -29,6 +29,14 @@ public class JumpManager : MonoBehaviour
         {
             curJump = jumpTab[0];
         }
+      
+    }
+    public void Start()
+    {
+        for (int i = 0; i < jumpTab.Length; i++)
+        {
+            jumpTab[i].InitJump(rb, pc.stats.Get(Stats.StatType.GROUND_SPEED));
+        }
     }
     void SetGravity()
     {
@@ -39,7 +47,7 @@ public class JumpManager : MonoBehaviour
     public void Jump(float playerMaxGroundSpeed, JumpEnum type)
     {
         SetGravity();
-        if (jumpTab != null && jumpTab.Length>=(int)type)
+        if (jumpTab != null && jumpTab.Length >= (int)type) 
             curJump = jumpTab[(int) type];
 
         if (curJump != null)
@@ -68,21 +76,22 @@ public class JumpManager : MonoBehaviour
         if (curJump != null && rb.velocity.y >0)
             curJump.SwitchMinimalJump();
     }
-   public float GetGravity()
+   public float GetGravity(float playerMaxGroundSpeed)
     {
         if (jumpTab!=null)
         {
             Jump basicJump = jumpTab[(int)JumpEnum.Basic];
             if (basicJump != null)
             {
+                basicJump.InitValues(playerMaxGroundSpeed);
                 if (basicJump.HasFallingParabola)
                     return -basicJump.FallingParabola.CurGravity;
                 else
                     return -basicJump.upParabola.CurGravity;
             }
         }
-        Debug.Log("Error Gravity : Player has no basicJump : gravity set to 70");
-        return -70;
+        Debug.Log("Error Gravity : Player has no basicJump : gravity set to 90");
+        return -90;
     }
    
 }

@@ -59,6 +59,23 @@ public class Jump  {
     }
     #endregion
 
+
+    public void InitValues(float _playerMaxGroundSpeed)
+    {
+        playerMaxGroundSpeed = _playerMaxGroundSpeed;
+        if (upParabola != null)
+        {
+            upParabola.ComputeValues(playerMaxGroundSpeed);
+        }
+        if (fallingParabola != null && hasFallingParabola)
+        {
+            fallingParabola.ComputeValues(playerMaxGroundSpeed);
+        }
+        if (minJumpParabola!=null && isContinue)
+        {
+            minJumpParabola.ComputeValues(playerMaxGroundSpeed);
+        }
+    }
     public void InitJump(Rigidbody rb,float _playerMaxGroundSpeed)
     {
         controllerRb = rb;

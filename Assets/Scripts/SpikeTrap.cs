@@ -14,7 +14,9 @@ public class SpikeTrap : MonoBehaviour {
             Player p = col.GetComponentInParent<Player>();
             p.CanDoubleJump = true;
             p.UpdateCollectableValue(damageOn, -damage);
-            p.GetComponent<JumpManager>().Jump(20,JumpManager.JumpEnum.Basic);
+
+            PlayerController pController = p.GetComponent<PlayerController>(); 
+            p.GetComponent<JumpManager>().Jump(pController.stats.Get(Stats.StatType.GROUND_SPEED), JumpManager.JumpEnum.Basic);
         }
     }
 }

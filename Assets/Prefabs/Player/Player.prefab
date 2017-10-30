@@ -796,7 +796,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   jumpTab:
-  - name: Basic
+  - name: Min
     upParabola:
       height: 8
       xz_h: 5
@@ -811,7 +811,7 @@ MonoBehaviour:
   - name: Basic
     upParabola:
       height: 8
-      xz_h: 5
+      xz_h: 12
     hasFallingParabola: 0
     fallingParabola:
       height: 0
@@ -836,26 +836,26 @@ MonoBehaviour:
   canJump: 1
   stats:
     stats:
-    - name: 
+    - name: GROUND_SPEED
       baseStat: 30
       currentStat: 0
-    - name: 
-      baseStat: 30
+    - name: AIR_CONTROL
+      baseStat: 20
       currentStat: 0
-    - name: 
-      baseStat: 30
+    - name: TURN_SPEED
+      baseStat: 0
       currentStat: 0
-    - name: 
-      baseStat: 30
+    - name: JUMP_HEIGHT
+      baseStat: 0
       currentStat: 0
-    - name: 
-      baseStat: 30
+    - name: JUMP_NB
+      baseStat: 0
       currentStat: 0
-    - name: 
-      baseStat: 30
+    - name: DASH_FORCE
+      baseStat: 0
       currentStat: 0
-    - name: 
-      baseStat: 30
+    - name: DASH_RESISTANCE
+      baseStat: 0
       currentStat: 0
   jumpChargeSpeed: 19.2
   customGravity: 90
