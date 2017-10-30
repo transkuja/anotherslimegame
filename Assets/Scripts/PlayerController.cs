@@ -69,7 +69,7 @@ public class PlayerController : MonoBehaviour {
     // Dashing variables
     private BrainState brainState;
     private SkillState dashingState;
-    private SkillState strenghState;
+    private SkillState strengthState;
 
 
     public float dashingTimer;
@@ -166,11 +166,11 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    public SkillState StrenghState
+    public SkillState StrengthState
     {
         get
         {
-            return strenghState;
+            return strengthState;
         }
 
         set
@@ -189,7 +189,7 @@ public class PlayerController : MonoBehaviour {
                     BrainState = BrainState.Free;
                     break;
             }
-            strenghState = value;
+            strengthState = value;
         }
     }
 
@@ -286,9 +286,9 @@ public class PlayerController : MonoBehaviour {
 
                 // Dash
                 DashControllerState();
-                // Strengh
-                if (GetComponent<EvolutionStrengh>() != null)
-                    StrenghControllerState();
+                // Strength
+                if (GetComponent<EvolutionStrength>() != null)
+                    StrengthControllerState();
             }
             // TODO: Externalize "state" to handle pause in PauseMenu? //  Remi : Can't manage GamePade(IndexPlayer) Instead, copy not working
             if( SceneManager.GetActiveScene() != SceneManager.GetSceneByBuildIndex(0) )
@@ -350,9 +350,9 @@ public class PlayerController : MonoBehaviour {
             default: break;
         }
     }
-    private void StrenghControllerState()
+    private void StrengthControllerState()
     {
-        switch (strenghState)
+        switch (strengthState)
         {
             case SkillState.Ready:
                 if (brainState == BrainState.Occupied) return;
@@ -360,8 +360,8 @@ public class PlayerController : MonoBehaviour {
                 if (prevState.Buttons.Y == ButtonState.Released && state.Buttons.Y == ButtonState.Pressed)
                 {
                     ChangeDumpingValuesCameraFreeLook(0f);
-                    GetComponent<EvolutionStrengh>().DashStart();
-                    StrenghState = SkillState.Charging;
+                    GetComponent<EvolutionStrength>().DashStart();
+                    StrengthState = SkillState.Charging;
                 }
 
                 break;
@@ -370,13 +370,13 @@ public class PlayerController : MonoBehaviour {
                 if (state.Buttons.Y == ButtonState.Pressed)
                 {
                     ChangeDumpingValuesCameraFreeLook(0f);
-                    GetComponent<EvolutionStrengh>().Levitate();
+                    GetComponent<EvolutionStrength>().Levitate();
                 }
                 else if (state.Buttons.Y == ButtonState.Released)
                 {
 
-                    GetComponent<EvolutionStrengh>().LaunchDash();
-                    StrenghState = SkillState.Dashing;
+                    GetComponent<EvolutionStrength>().LaunchDash();
+                    StrengthState = SkillState.Dashing;
                 }
                 break;
             case SkillState.Dashing:

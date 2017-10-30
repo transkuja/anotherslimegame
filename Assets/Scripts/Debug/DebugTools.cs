@@ -69,9 +69,9 @@ public class DebugTools : MonoBehaviour {
                 }
                 if (Input.GetKeyDown(KeyCode.Alpha4))
                 {
-                    if (DebugPlayerSelected.GetComponent<EvolutionStrengh>() == null)
-                        GameManager.EvolutionManager.AddEvolutionComponent(DebugPlayerSelected.gameObject, GameManager.EvolutionManager.GetEvolutionByPowerName(Powers.Strengh));
-                    Debug.Log("Added Strengh on player " + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
+                    if (DebugPlayerSelected.GetComponent<EvolutionStrength>() == null)
+                        GameManager.EvolutionManager.AddEvolutionComponent(DebugPlayerSelected.gameObject, GameManager.EvolutionManager.GetEvolutionByPowerName(Powers.Strength));
+                    Debug.Log("Added Strength on player " + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
                 }
             }
             else if (Input.GetKey(KeyCode.Alpha2))
@@ -79,14 +79,14 @@ public class DebugTools : MonoBehaviour {
                 if (Input.GetKeyUp(KeyCode.Alpha1))
                 {
                     GameObject go = ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
-                        DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.Evolution1);
-                    Debug.Log("Pop some " + CollectableType.Evolution1 + " on the ground!");
+                        DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.WingsEvolution1);
+                    Debug.Log("Pop some " + CollectableType.WingsEvolution1 + " on the ground!");
                 }
                 if (Input.GetKeyDown(KeyCode.Alpha3))
                 {
                     GameObject go = ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
-                        DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.Evolution2);
-                    Debug.Log("Pop some " + CollectableType.Evolution2 + " on the ground!");
+                        DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.WingsEvolution2);
+                    Debug.Log("Pop some " + CollectableType.WingsEvolution2 + " on the ground!");
                 }
             }
             else

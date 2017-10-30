@@ -17,10 +17,10 @@ public class PlayerCollisionCenter : MonoBehaviour {
     [Range(0.0f, 40.0f)]
     float impactPropagationThreshold;
 
-    // Collision with strengh on one player
+    // Collision with strength on one player
     [SerializeField] float expulseDashFactor = 30;
-    // Collision with strengh on one player
-    [SerializeField] float expulseStrenghFactor = 60;
+    // Collision with strength on one player
+    [SerializeField] float expulseStrengthFactor = 60;
 
 
     PlayerController playerController;
@@ -61,9 +61,9 @@ public class PlayerCollisionCenter : MonoBehaviour {
             if (collidedPlayerController == null) return;
 
             if (_PlayerController.DashingState != SkillState.Dashing
-                && _PlayerController.StrenghState != SkillState.Dashing
+                && _PlayerController.StrengthState != SkillState.Dashing
                 && collidedPlayerController.DashingState != SkillState.Dashing 
-                && collidedPlayerController.StrenghState != SkillState.Dashing)
+                && collidedPlayerController.StrengthState != SkillState.Dashing)
             {
                 // Default interaction no one is dashing of using an abilty
                 // Could be reduce to thisPlayerController.BrainState == BrainState.Occupied && collidedPlayerController.BrainState == BrainState.Occupied
@@ -73,8 +73,8 @@ public class PlayerCollisionCenter : MonoBehaviour {
             else
             {
                 // At least one is dashing
-                if ( (_PlayerController.DashingState == SkillState.Dashing || _PlayerController.StrenghState == SkillState.Dashing)
-                   && (collidedPlayerController.DashingState != SkillState.Dashing && collidedPlayerController.StrenghState != SkillState.Dashing) )
+                if ( (_PlayerController.DashingState == SkillState.Dashing || _PlayerController.StrengthState == SkillState.Dashing)
+                   && (collidedPlayerController.DashingState != SkillState.Dashing && collidedPlayerController.StrengthState != SkillState.Dashing) )
                 {
                     // ThisPlayer is dashing
                     DamagePlayer(collision.transform.gameObject.GetComponent<Player>());
@@ -82,8 +82,8 @@ public class PlayerCollisionCenter : MonoBehaviour {
                     // ExpluseForce
                     ExpulsePlayer(collision, collision.transform.gameObject.GetComponent<Rigidbody>(), expulseDashFactor);
                 }
-                else if ((_PlayerController.DashingState == SkillState.Dashing || _PlayerController.StrenghState == SkillState.Dashing)
-                         && (collidedPlayerController.DashingState != SkillState.Dashing && collidedPlayerController.StrenghState != SkillState.Dashing))
+                else if ((_PlayerController.DashingState == SkillState.Dashing || _PlayerController.StrengthState == SkillState.Dashing)
+                         && (collidedPlayerController.DashingState != SkillState.Dashing && collidedPlayerController.StrengthState != SkillState.Dashing))
                 {
                     // Collided is dashing
 
@@ -92,8 +92,8 @@ public class PlayerCollisionCenter : MonoBehaviour {
                     // ExpluseForce
                     ExpulsePlayer(collision, _Rb, expulseDashFactor);
                 }
-                else if ((_PlayerController.DashingState == SkillState.Dashing || _PlayerController.StrenghState == SkillState.Dashing)
-                        && (collidedPlayerController.DashingState != SkillState.Dashing && collidedPlayerController.StrenghState != SkillState.Dashing))
+                else if ((_PlayerController.DashingState == SkillState.Dashing || _PlayerController.StrengthState == SkillState.Dashing)
+                        && (collidedPlayerController.DashingState != SkillState.Dashing && collidedPlayerController.StrengthState != SkillState.Dashing))
                 {
                     // Both are dashing
 

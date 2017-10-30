@@ -7,7 +7,7 @@ using XInputDotNetPure;
 //GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerController>();
 //GamePad.GetState(playerIndex).Buttons.A;
 
-public class EvolutionStrengh : EvolutionComponent
+public class EvolutionStrength : EvolutionComponent
 {
     [SerializeField]float downDashPower = 100;
     [SerializeField] float maxDashChargeDelay = 0.7f;
@@ -20,10 +20,10 @@ public class EvolutionStrengh : EvolutionComponent
     public void ColorChangeAsupr(Color color)
     {
         Transform slimeBody = null;
-        Transform slimeMeshParent = transform.Find("Slime_Test_abilities_02");
+        Transform slimeMeshParent = transform.GetChild((int)PlayerChildren.SlimeMesh);
 
         if (slimeMeshParent != null)
-            slimeBody = slimeMeshParent.Find("corps");
+            slimeBody = slimeMeshParent.GetChild((int)BodyPart.Body);
         if (slimeBody!=null)
         {
             slimeBody.GetComponent<MeshRenderer>().materials[0].color = color;
@@ -33,12 +33,12 @@ public class EvolutionStrengh : EvolutionComponent
     public override void  Start()
     {
         base.Start();
-        SetPower(Powers.Strengh);
+        SetPower(Powers.Strength);
         rb = GetComponent<Rigidbody>();
         playerController.stats.AddBuff(new StatBuff(Stats.StatType.GROUND_SPEED, 0.85f, -1));
     }
 
-    // Prepare caracter for strengh dashing
+    // Prepare caracter for strength dashing
     public void DashStart()
     {
         // stop mouvement
@@ -66,7 +66,7 @@ public class EvolutionStrengh : EvolutionComponent
         if (timer > maxDashChargeDelay)
         {
             LaunchDash();
-            GetComponent<PlayerController>().StrenghState = SkillState.Dashing;
+            GetComponent<PlayerController>().StrengthState = SkillState.Dashing;
         }
     }
 
@@ -103,9 +103,9 @@ public class EvolutionStrengh : EvolutionComponent
     public override void OnCollisionStay(Collision coll)
     {
         base.OnCollisionStay(coll);
-        if (GetComponent<PlayerController>().StrenghState == SkillState.Dashing && playerController.IsGrounded)
+        if (GetComponent<PlayerController>().StrengthState == SkillState.Dashing && playerController.IsGrounded)
         {
-            GetComponent<PlayerController>().StrenghState = SkillState.Ready;
+            GetComponent<PlayerController>().StrengthState = SkillState.Ready;
             ColorChangeAsupr(Color.white);
         }
     }

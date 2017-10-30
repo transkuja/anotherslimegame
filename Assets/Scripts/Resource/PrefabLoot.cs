@@ -5,11 +5,15 @@ using UnityEngine;
 public class PrefabLoot : MonoBehaviour {
 
     [SerializeField]
-    public GameObject prefabCollectable1;
+    public GameObject prefabWingsEvolution1GameObject;
     [SerializeField]
-    public GameObject prefabCollectable2;
+    public GameObject prefabWingsEvolution2GameObject;
     [SerializeField]
-    public GameObject prefabCollectable3;
+    public GameObject prefabPointsGameObject;
+    [SerializeField]
+    public GameObject prefabStrengthEvolution1GameObject;
+    [SerializeField]
+    public GameObject prefabKeyGameObject;
 
     public GameObject prefabKeySprite;
 
@@ -20,12 +24,16 @@ public class PrefabLoot : MonoBehaviour {
     {
         switch (myItemType)
         {
-            case CollectableType.Evolution1:
-                return Instantiate(prefabCollectable1, where, direction, parent);
-            case CollectableType.Evolution2:
-                return Instantiate(prefabCollectable2, where, direction, parent);
+            case CollectableType.WingsEvolution1:
+                return Instantiate(prefabWingsEvolution1GameObject, where, direction, parent);
+            case CollectableType.WingsEvolution2:
+                return Instantiate(prefabWingsEvolution2GameObject, where, direction, parent);
+            case CollectableType.StrengthEvolution1:
+                return Instantiate(prefabStrengthEvolution1GameObject, where, direction, parent);
             case CollectableType.Points:
-                return Instantiate(prefabCollectable3, where, direction, parent);
+                return Instantiate(prefabPointsGameObject, where, direction, parent);
+            case CollectableType.Key:
+                return Instantiate(prefabKeyGameObject, where, direction, parent);
             default:
                 Debug.Log("Unknown Item type");
                 return null;
