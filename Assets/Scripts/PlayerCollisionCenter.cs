@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System; // For math
+using System.Collections;
 
 public class PlayerCollisionCenter : MonoBehaviour {
 
@@ -22,6 +23,8 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
     PlayerController playerController;
     Rigidbody rb;
+    bool onceRepulsion;
+
 
     PlayerController _PlayerController
     {
@@ -70,7 +73,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
             }
             else
             {
-                int repulsionMultiplier = 1;
+                int repulsionMultiplier = -1;
 
                 // At least one is dashing
                 if ( (_PlayerController.DashingState == SkillState.Dashing || _PlayerController.StrengthState == SkillState.Dashing)
@@ -82,7 +85,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
                     DamagePlayer(collision.transform.gameObject.GetComponent<Player>());
 
                     // ExpluseForce
-                    if (_PlayerController.StrengthState == SkillState.Dashing) repulsionMultiplier *= 2;
+                    if (_PlayerController.StrengthState == SkillState.Dashing) repulsionMultiplier *= -2;
                     RepulseRigibody(collision, collision.transform.gameObject.GetComponent<Rigidbody>(), repulsionFactor * repulsionMultiplier);
                 }
                 else if ((_PlayerController.DashingState != SkillState.Dashing && _PlayerController.StrengthState != SkillState.Dashing)
@@ -94,7 +97,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
                     DamagePlayer(_PlayerController.GetComponent<Player>());
 
                     // ExpluseForce
-                    if (collidedPlayerController.StrengthState == SkillState.Dashing) repulsionMultiplier *= 2;
+                    if (collidedPlayerController.StrengthState == SkillState.Dashing) repulsionMultiplier *= -2;
                     RepulseRigibody(collision, _Rb, repulsionFactor * repulsionMultiplier);
                 }
                 else if ((_PlayerController.DashingState == SkillState.Dashing || _PlayerController.StrengthState == SkillState.Dashing)
@@ -108,8 +111,8 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
                     // ExpluseForce
                     // Double the love
-                    if (_PlayerController.StrengthState == SkillState.Dashing) repulsionMultiplier *= 2;
-                    if (collidedPlayerController.StrengthState == SkillState.Dashing) repulsionMultiplier *= 2;
+                    if (_PlayerController.StrengthState == SkillState.Dashing) repulsionMultiplier *= -2;
+                    if (collidedPlayerController.StrengthState == SkillState.Dashing) repulsionMultiplier *= -2;
                     RepulseRigibody(collision, _Rb, repulsionFactor * repulsionMultiplier);
                     RepulseRigibody(collision, collision.transform.gameObject.GetComponent<Rigidbody>(), repulsionFactor * repulsionMultiplier);
                 }
@@ -208,10 +211,25 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
     public void RepulseRigibody(Collision collision, Rigidbody rbPlayerToExpulse, float repulsionFactor)
     {
-        Vector3 direction = collision.contacts[0].point - rb.position;
-        direction.y = 0;
-        direction.Normalize();
+     
+        if (!onceRepulsion)
+        {
+            Vector3 direction = collision.contacts[0].point - rb.position;
+            direction.y = 0;
 
-        rbPlayerToExpulse.AddForce(direction * repulsionFactor, ForceMode.Impulse);
+            direction.Normalize();
+
+            rbPlayerToExpulse.AddForce(direction * repulsionFactor, ForceMode.Impulse);
+            onceRepulsion = true;
+            StartCoroutine(ReactivateCollider());
+        }
+
+    }
+
+    public IEnumerator ReactivateCollider()
+    {
+        yield return new WaitForSeconds(0.5f);
+        onceRepulsion = false;
+        yield return null;
     }
 }
