@@ -96,12 +96,15 @@ public class DebugTools : MonoBehaviour {
                     DebugPlayerSelected.Collectables = new int[(int)CollectableType.Size];
                     if (DebugPlayerSelected.GetComponent<DoubleJump>()) Destroy(DebugPlayerSelected.GetComponent<DoubleJump>());
                     if (DebugPlayerSelected.GetComponent<Hover>()) Destroy(DebugPlayerSelected.GetComponent<Hover>());
+                    if (DebugPlayerSelected.GetComponent<EvolutionStrength>()) Destroy(DebugPlayerSelected.GetComponent<EvolutionStrength>());
+                    DebugPlayerSelected.Rb.velocity = Vector3.zero;
                     Debug.Log("Reset current player! " + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
                 }
 
                 if (Input.GetKeyDown(KeyCode.Alpha9))
                 {
                     Respawner.RespawnProcess(DebugPlayerSelected);
+                    DebugPlayerSelected.Rb.velocity = Vector3.zero;
                     Debug.Log("Reset current player to last respawn point! " + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
                 }
             }
