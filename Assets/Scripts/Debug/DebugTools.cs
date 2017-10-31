@@ -85,8 +85,20 @@ public class DebugTools : MonoBehaviour {
                 if (Input.GetKeyDown(KeyCode.Alpha3))
                 {
                     GameObject go = ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
-                        DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.WingsEvolution2);
-                    Debug.Log("Pop some " + CollectableType.WingsEvolution2 + " on the ground!");
+                        DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.StrengthEvolution1);
+                    Debug.Log("Pop some " + CollectableType.StrengthEvolution1 + " on the ground!");
+                }
+                if (Input.GetKeyDown(KeyCode.Alpha4))
+                {
+                    GameObject go = ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
+                        DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.Points);
+                    Debug.Log("Pop some " + CollectableType.Points + " on the ground!");
+                }
+                if (Input.GetKeyDown(KeyCode.Alpha5))
+                {
+                    GameObject go = ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
+                        DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.Key);
+                    Debug.Log("Pop some " + CollectableType.Key + " on the ground!");
                 }
             }
             else
