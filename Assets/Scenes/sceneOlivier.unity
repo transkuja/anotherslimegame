@@ -1484,6 +1484,8 @@ MonoBehaviour:
   mySpawnType: 0
   myMonsterType: 0
   myItemType: 3
+  shape: 0
+  nbItems: 1
   needSpawn: 1
   forceSpawn: 0
 --- !u!1 &113016301 stripped
@@ -3233,6 +3235,8 @@ MonoBehaviour:
   mySpawnType: 1
   myMonsterType: 0
   myItemType: 0
+  shape: 0
+  nbItems: 1
   needSpawn: 1
   forceSpawn: 0
 --- !u!4 &262221937 stripped
@@ -3567,7 +3571,7 @@ RectTransform:
   - {fileID: 247700937}
   - {fileID: 229305213}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -5623,6 +5627,8 @@ MonoBehaviour:
   mySpawnType: 0
   myMonsterType: 0
   myItemType: 3
+  shape: 0
+  nbItems: 1
   needSpawn: 1
   forceSpawn: 0
 --- !u!1 &552950249 stripped
@@ -7189,6 +7195,8 @@ MonoBehaviour:
   mySpawnType: 0
   myMonsterType: 0
   myItemType: 3
+  shape: 0
+  nbItems: 1
   needSpawn: 1
   forceSpawn: 0
 --- !u!1001 &669419077
@@ -7329,6 +7337,8 @@ MonoBehaviour:
   mySpawnType: 0
   myMonsterType: 0
   myItemType: 3
+  shape: 0
+  nbItems: 1
   needSpawn: 1
   forceSpawn: 0
 --- !u!1001 &672000729
@@ -7368,7 +7378,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4068925896781514, guid: 4ba7cc01b3b1dac4d83c77432a4e1bfd, type: 2}
       propertyPath: m_RootOrder
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4ba7cc01b3b1dac4d83c77432a4e1bfd, type: 2}
@@ -8324,6 +8334,8 @@ MonoBehaviour:
   mySpawnType: 1
   myMonsterType: 0
   myItemType: 0
+  shape: 0
+  nbItems: 1
   needSpawn: 1
   forceSpawn: 0
 --- !u!1 &765040874 stripped
@@ -8893,7 +8905,7 @@ Transform:
   - {fileID: 67626674}
   - {fileID: 1351473510}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &799227728
 Prefab:
@@ -8940,7 +8952,7 @@ Prefab:
     - target: {fileID: 224765862660698004, guid: 865f014c599521b48b8119ab8bd01e68,
         type: 2}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 224765862660698004, guid: 865f014c599521b48b8119ab8bd01e68,
         type: 2}
@@ -9608,7 +9620,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 9d2d953bbe0b121469dcce136b560ba3, type: 3}
       propertyPath: m_RootOrder
-      value: 11
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 9d2d953bbe0b121469dcce136b560ba3, type: 3}
       propertyPath: m_LocalScale.x
@@ -10512,7 +10524,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &916067340
 GameObject:
@@ -10981,6 +10993,8 @@ MonoBehaviour:
   mySpawnType: 1
   myMonsterType: 0
   myItemType: 0
+  shape: 0
+  nbItems: 1
   needSpawn: 1
   forceSpawn: 0
 --- !u!1 &956213395 stripped
@@ -11531,6 +11545,8 @@ MonoBehaviour:
   mySpawnType: 0
   myMonsterType: 0
   myItemType: 3
+  shape: 0
+  nbItems: 1
   needSpawn: 1
   forceSpawn: 0
 --- !u!1 &986790178
@@ -11620,8 +11636,57 @@ MonoBehaviour:
   mySpawnType: 0
   myMonsterType: 0
   myItemType: 3
+  shape: 0
+  nbItems: 1
   needSpawn: 1
   forceSpawn: 0
+--- !u!1001 &987222067
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4355761701438066, guid: beddba8f0180dd9409af84ea5a2d8dc5, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 209.6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4355761701438066, guid: beddba8f0180dd9409af84ea5a2d8dc5, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 4355761701438066, guid: beddba8f0180dd9409af84ea5a2d8dc5, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -5.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4355761701438066, guid: beddba8f0180dd9409af84ea5a2d8dc5, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4355761701438066, guid: beddba8f0180dd9409af84ea5a2d8dc5, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0.45548022
+      objectReference: {fileID: 0}
+    - target: {fileID: 4355761701438066, guid: beddba8f0180dd9409af84ea5a2d8dc5, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0.000000029802322
+      objectReference: {fileID: 0}
+    - target: {fileID: 4355761701438066, guid: beddba8f0180dd9409af84ea5a2d8dc5, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 0.8902459
+      objectReference: {fileID: 0}
+    - target: {fileID: 4355761701438066, guid: beddba8f0180dd9409af84ea5a2d8dc5, type: 2}
+      propertyPath: m_RootOrder
+      value: 13
+      objectReference: {fileID: 0}
+    - target: {fileID: 135460034083117834, guid: beddba8f0180dd9409af84ea5a2d8dc5,
+        type: 2}
+      propertyPath: m_Center.y
+      value: 2
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: beddba8f0180dd9409af84ea5a2d8dc5, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1 &989047466
 GameObject:
   m_ObjectHideFlags: 0
@@ -15066,7 +15131,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 9d2d953bbe0b121469dcce136b560ba3, type: 3}
       propertyPath: m_RootOrder
-      value: 10
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 9d2d953bbe0b121469dcce136b560ba3, type: 3}
       propertyPath: m_LocalScale.x
@@ -16447,6 +16512,8 @@ MonoBehaviour:
   mySpawnType: 0
   myMonsterType: 0
   myItemType: 0
+  shape: 0
+  nbItems: 1
   needSpawn: 1
   forceSpawn: 0
 --- !u!1 &1337605717 stripped
@@ -16980,6 +17047,8 @@ MonoBehaviour:
   mySpawnType: 1
   myMonsterType: 0
   myItemType: 0
+  shape: 0
+  nbItems: 1
   needSpawn: 1
   forceSpawn: 0
 --- !u!4 &1402972871 stripped
@@ -18273,7 +18342,7 @@ Transform:
   - {fileID: 1809405674}
   - {fileID: 1022655239}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1540085201 stripped
 GameObject:
@@ -19071,7 +19140,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 25, y: 15, z: 0}
 --- !u!1 &1617147159 stripped
 GameObject:
@@ -20542,6 +20611,63 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1730662012}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &1732307599
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4929834135803574, guid: e41aa2613601ae84eae26b592fee8a47, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 251.72618
+      objectReference: {fileID: 0}
+    - target: {fileID: 4929834135803574, guid: e41aa2613601ae84eae26b592fee8a47, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 1.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 4929834135803574, guid: e41aa2613601ae84eae26b592fee8a47, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -8.488138
+      objectReference: {fileID: 0}
+    - target: {fileID: 4929834135803574, guid: e41aa2613601ae84eae26b592fee8a47, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4929834135803574, guid: e41aa2613601ae84eae26b592fee8a47, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4929834135803574, guid: e41aa2613601ae84eae26b592fee8a47, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4929834135803574, guid: e41aa2613601ae84eae26b592fee8a47, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4929834135803574, guid: e41aa2613601ae84eae26b592fee8a47, type: 2}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114325959287010788, guid: e41aa2613601ae84eae26b592fee8a47,
+        type: 2}
+      propertyPath: myItemType
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 114325959287010788, guid: e41aa2613601ae84eae26b592fee8a47,
+        type: 2}
+      propertyPath: shape
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114325959287010788, guid: e41aa2613601ae84eae26b592fee8a47,
+        type: 2}
+      propertyPath: nbItems
+      value: 6
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: e41aa2613601ae84eae26b592fee8a47, type: 2}
+  m_IsPrefabParent: 0
 --- !u!1001 &1733528778
 Prefab:
   m_ObjectHideFlags: 0
@@ -20825,6 +20951,8 @@ MonoBehaviour:
   mySpawnType: 0
   myMonsterType: 0
   myItemType: 3
+  shape: 0
+  nbItems: 1
   needSpawn: 1
   forceSpawn: 0
 --- !u!1 &1756878323
@@ -21173,6 +21301,8 @@ MonoBehaviour:
   mySpawnType: 1
   myMonsterType: 0
   myItemType: 0
+  shape: 0
+  nbItems: 1
   needSpawn: 1
   forceSpawn: 0
 --- !u!4 &1790317001 stripped
@@ -21557,7 +21687,7 @@ Prefab:
     - target: {fileID: 224049336276626460, guid: ebd48e33ce16a7c498ce0f86ed08310f,
         type: 2}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 224049336276626460, guid: ebd48e33ce16a7c498ce0f86ed08310f,
         type: 2}
@@ -21612,7 +21742,7 @@ Prefab:
     - target: {fileID: 224253512408005366, guid: ebd48e33ce16a7c498ce0f86ed08310f,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 20
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1829664555950164, guid: ebd48e33ce16a7c498ce0f86ed08310f, type: 2}
       propertyPath: m_IsActive
@@ -26167,6 +26297,8 @@ MonoBehaviour:
   mySpawnType: 0
   myMonsterType: 0
   myItemType: 3
+  shape: 0
+  nbItems: 1
   needSpawn: 1
   forceSpawn: 0
 --- !u!4 &2103826744 stripped
@@ -26260,6 +26392,8 @@ MonoBehaviour:
   mySpawnType: 0
   myMonsterType: 0
   myItemType: 2
+  shape: 0
+  nbItems: 1
   needSpawn: 1
   forceSpawn: 0
 --- !u!1 &2108526463
