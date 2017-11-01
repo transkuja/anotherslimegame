@@ -82,6 +82,8 @@ public class PlayerController : MonoBehaviour {
     public float defaultDumpingValues = 0.2f;
     public float noDumpingValues = 0.0f;
 
+    public bool DEBUG_hasBeenSpawnedFromTool = false;
+
     private void Awake()
     {
         stats.Init();
@@ -131,6 +133,10 @@ public class PlayerController : MonoBehaviour {
             }
 
         }
+
+        if (DEBUG_hasBeenSpawnedFromTool)
+            return;
+
         //player.Rb.velocity = new Vector3(player.Rb.velocity.x, -customGravity, player.Rb.velocity.z);
         // TODO: externaliser pour le comportement multi
         if (!playerIndexSet)

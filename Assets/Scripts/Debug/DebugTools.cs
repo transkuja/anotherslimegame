@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using XInputDotNetPure;
 
 public class DebugTools : MonoBehaviour {
 
@@ -118,6 +119,26 @@ public class DebugTools : MonoBehaviour {
                     Respawner.RespawnProcess(DebugPlayerSelected);
                     DebugPlayerSelected.Rb.velocity = Vector3.zero;
                     Debug.Log("Reset current player to last respawn point! " + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
+                }
+
+                // Pop player
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    GameObject go = Instantiate(GameManager.Instance.PlayerStart.playerPrefab);
+                    go.transform.position = DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f;
+                    go.transform.rotation = Quaternion.identity;
+                    Player currentPlayer = go.GetComponent<Player>();
+                    currentPlayer.respawnPoint = DebugPlayerSelected.respawnPoint;
+
+                    PlayerController playerController = go.GetComponent<PlayerController>();
+                    playerController.DEBUG_hasBeenSpawnedFromTool = true;
+                    playerController.PlayerIndex = (PlayerIndex)5;
+                    playerController.IsUsingAController = true;
+                    playerController.PlayerIndexSet = true;
+
+                    GameManager.Instance.PlayerStart.PlayersReference.Add(go);
+
+                    Debug.Log("Player spawned! " + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
                 }
             }
         }
