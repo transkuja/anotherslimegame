@@ -102,8 +102,12 @@ public class PlayerController : MonoBehaviour {
         dashingCooldownMaxTimer = 0.5f;
         dashingCooldownTimer = dashingCooldownMaxTimer;
         dashingVelocity = 100.0f;
+
+        // Initialize dashing state at Cooldown to prevent controller shit
         dashingState = SkillState.Cooldown;
         brainState = BrainState.Free;
+
+        strengthState = SkillState.Ready;
 
         // Camera Dumping values
         defaultDumpingValues = 0.2f;
