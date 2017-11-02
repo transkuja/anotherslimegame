@@ -52,6 +52,33 @@ public class PlayerCollisionCenter : MonoBehaviour {
         rb = GetComponent<Rigidbody>();
     }
 
+    private void Update()
+    {
+        if (playerController.DashingState == SkillState.Dashing)
+        {
+            int separationMask = LayerMask.GetMask(new string[] { "Player" });
+            Collider[] playersCollided;
+            float sphereCheckRadius = 4.0f;
+
+            playersCollided = Physics.OverlapSphere(transform.position, sphereCheckRadius, separationMask);
+            if (playersCollided != null)
+            {
+                for (int i = 0; i < playersCollided.Length; i++)
+                {
+                    if (playersCollided[i].transform != transform)
+                    {
+                        // Damage Behavior
+                        DamagePlayer(playersCollided[i].GetComponent<Player>());
+
+                        // ExpluseForce
+                        //if (_PlayerController.StrengthState == SkillState.Dashing) repulsionMultiplier *= -2;
+                        RepulseRigibody(playersCollided[i].ClosestPoint(transform.position), playersCollided[i].gameObject.GetComponent<Rigidbody>(), repulsionFactor);
+                    }
+                }
+            }
+        }
+    }
+
     private void OnCollisionEnter(Collision collision)
     {
         // Interaction Joueur / Joueur
@@ -86,7 +113,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
                     // ExpluseForce
                     if (_PlayerController.StrengthState == SkillState.Dashing) repulsionMultiplier *= -2;
-                    RepulseRigibody(collision, collision.transform.gameObject.GetComponent<Rigidbody>(), repulsionFactor * repulsionMultiplier);
+                    //RepulseRigibody(collision, collision.transform.gameObject.GetComponent<Rigidbody>(), repulsionFactor * repulsionMultiplier);
                 }
                 else if ((_PlayerController.DashingState != SkillState.Dashing && _PlayerController.StrengthState != SkillState.Dashing)
                          && (collidedPlayerController.DashingState == SkillState.Dashing && collidedPlayerController.StrengthState != SkillState.Dashing))
@@ -98,7 +125,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
                     // ExpluseForce
                     if (collidedPlayerController.StrengthState == SkillState.Dashing) repulsionMultiplier *= -2;
-                    RepulseRigibody(collision, _Rb, repulsionFactor * repulsionMultiplier);
+                    //RepulseRigibody(collision, _Rb, repulsionFactor * repulsionMultiplier);
                 }
                 else if ((_PlayerController.DashingState == SkillState.Dashing || _PlayerController.StrengthState == SkillState.Dashing)
                         && (collidedPlayerController.DashingState == SkillState.Dashing || collidedPlayerController.StrengthState == SkillState.Dashing))
@@ -113,8 +140,8 @@ public class PlayerCollisionCenter : MonoBehaviour {
                     // Double the love
                     if (_PlayerController.StrengthState == SkillState.Dashing) repulsionMultiplier *= -2;
                     if (collidedPlayerController.StrengthState == SkillState.Dashing) repulsionMultiplier *= -2;
-                    RepulseRigibody(collision, _Rb, repulsionFactor * repulsionMultiplier);
-                    RepulseRigibody(collision, collision.transform.gameObject.GetComponent<Rigidbody>(), repulsionFactor * repulsionMultiplier);
+                    //RepulseRigibody(collision, _Rb, repulsionFactor * repulsionMultiplier);
+                    //RepulseRigibody(collision, collision.transform.gameObject.GetComponent<Rigidbody>(), repulsionFactor * repulsionMultiplier);
                 }
             }
         }
@@ -128,7 +155,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
                     // TMP impredictable
                     collision.gameObject.GetComponent<Rigidbody>().isKinematic = false;
                     collision.gameObject.transform.parent = null;
-                    RepulseRigibody(collision, collision.gameObject.GetComponent<Rigidbody>(), repulsionFactor);
+                    //RepulseRigibody(collision, collision.gameObject.GetComponent<Rigidbody>(), repulsionFactor);
                     //Destroy(collision.gameObject, 4);
                 }
             }
@@ -143,7 +170,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
                     // TMP impredictable
                     collision.gameObject.GetComponent<Rigidbody>().isKinematic = false;
                     collision.gameObject.transform.parent = null;
-                    RepulseRigibody(collision, collision.gameObject.GetComponent<Rigidbody>(), repulsionFactor);
+                    //RepulseRigibody(collision, collision.gameObject.GetComponent<Rigidbody>(), repulsionFactor);
                     //Destroy(collision.gameObject, 4);
                 }
             }
@@ -191,7 +218,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
         if (player.Collectables[typeCollectable] > 0)
         {
-            for (int i = 0; i < Mathf.Clamp((float)Mathf.Floor(player.Collectables[typeCollectable] / Utils.GetDefaultCollectableValue(typeCollectable)), 1, 2); i++)
+            for (int i = 0; i < Mathf.Clamp((float)(Mathf.Floor(player.Collectables[typeCollectable]) / Utils.GetDefaultCollectableValue(typeCollectable)), 1, 2); i++)
             {
                 GameObject go = ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
                 player.transform.position,
@@ -203,18 +230,18 @@ public class PlayerCollisionCenter : MonoBehaviour {
                 go.GetComponent<Collectable>().Dispersion(i);
 
                 go.GetComponent<SphereCollider>().enabled = false;
-                player.UpdateCollectableValue(CollectableType.Points, -(int)go.GetComponent<Collectable>().Value);
+                player.UpdateCollectableValue(CollectableType.Points, -Utils.GetDefaultCollectableValue(typeCollectable));
                 StartCoroutine(go.GetComponent<Collectable>().ReactivateCollider());
             }
         }
     }
 
-    public void RepulseRigibody(Collision collision, Rigidbody rbPlayerToExpulse, float repulsionFactor)
+    public void RepulseRigibody(Vector3 collisionPoint, Rigidbody rbPlayerToExpulse, float repulsionFactor)
     {
      
         if (!onceRepulsion)
         {
-            Vector3 direction = collision.contacts[0].point - rb.position;
+            Vector3 direction = rbPlayerToExpulse.position - collisionPoint;
             direction.y = 0;
 
             direction.Normalize();
@@ -232,4 +259,12 @@ public class PlayerCollisionCenter : MonoBehaviour {
         onceRepulsion = false;
         yield return null;
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = new Color(0, 1, 0, 0.5f);
+        Gizmos.DrawSphere(transform.position, 4.0f);
+    }
+
+   
 }

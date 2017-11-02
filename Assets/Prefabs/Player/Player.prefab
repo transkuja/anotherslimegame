@@ -92,7 +92,7 @@ GameObject:
   - component: {fileID: 64775657094239104}
   - component: {fileID: 114657460145555874}
   - component: {fileID: 114393565218108792}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1038,6 +1038,7 @@ MonoBehaviour:
   dashingVelocity: 0
   defaultDumpingValues: 0.2
   noDumpingValues: 0
+  DEBUG_hasBeenSpawnedFromTool: 0
 --- !u!119 &119241878091508526
 Projector:
   m_ObjectHideFlags: 1
