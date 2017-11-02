@@ -266,5 +266,21 @@ public class PlayerCollisionCenter : MonoBehaviour {
         Gizmos.DrawSphere(transform.position, 4.0f);
     }
 
-   
+    // c'est ça qui faut faire cadeau 
+    //class ForcedJump
+    //{
+    //    bool forcedJumpInitialized = false;
+    //    Vector3 direction;
+    //}
+    //ForcedJump jump;
+    //AnimatorUpdateMode
+    //if (Jump.forcedJumpInit)
+    //    this.Rb.velocity = direction;
+
+
+    void ForcedJump(Vector3 direction, float repulseStrength, Rigidbody target)
+    {
+        if (target.GetComponent<Player>() != null)
+        { }
+    }
 }
