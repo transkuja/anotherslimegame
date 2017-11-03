@@ -82,6 +82,8 @@ public class PlayerController : MonoBehaviour {
     public float defaultDumpingValues = 0.2f;
     public float noDumpingValues = 0.0f;
 
+    public ForcedJump forcedJump;
+
     public bool DEBUG_hasBeenSpawnedFromTool = false;
 
     private void Awake()
@@ -114,6 +116,8 @@ public class PlayerController : MonoBehaviour {
         // Camera Dumping values
         defaultDumpingValues = 0.2f;
         noDumpingValues = 0.0f;
+
+        forcedJump = new ForcedJump();
     }
 
     void FixedUpdate()
@@ -132,6 +136,12 @@ public class PlayerController : MonoBehaviour {
                 isFreeFalling = false;
             }
 
+        }
+
+        if (forcedJump.IsForcedJumpActive)
+        {
+            forcedJump.AddForcedJumpForce(player.Rb);
+            return;
         }
 
         if (DEBUG_hasBeenSpawnedFromTool)
@@ -212,6 +222,8 @@ public class PlayerController : MonoBehaviour {
         {
             if (value == true && GetComponent<JumpManager>() != null)
                 GetComponent<JumpManager>().Stop();
+            if (forcedJump != null && forcedJump.IsForcedJumpActive)
+                forcedJump.Stop();
             isGrounded = value;
         }
     }
@@ -574,7 +586,7 @@ public class PlayerController : MonoBehaviour {
 
     }
 
-    void Jump()
+    public void Jump()
     {
         IsGrounded = false;
         JumpManager jm;

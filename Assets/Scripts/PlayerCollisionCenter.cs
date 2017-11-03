@@ -280,7 +280,11 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
     void ForcedJump(Vector3 direction, float repulseStrength, Rigidbody target)
     {
-        if (target.GetComponent<Player>() != null)
-        { }
+        if (target.GetComponent<PlayerController>() != null)
+        {
+            PlayerController _pc = target.GetComponent<PlayerController>();
+            _pc.forcedJump.StartJump();
+            _pc.Jump();
+        }
     }
 }
