@@ -21,11 +21,6 @@ public class AudioManager : MonoBehaviour
     [SerializeField]
     private float volumeFXs = 1.0f;
 
-    // Very important audio feature, do not remove
-    float duckTimer = 0.2f;
-    int step = 0;
-    bool isDuckChatting = false;
-
     public static AudioManager Instance
     {
         get

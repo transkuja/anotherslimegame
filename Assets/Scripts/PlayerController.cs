@@ -30,12 +30,8 @@ public class PlayerController : MonoBehaviour {
     GamePadState state;
     GamePadState prevState;
 
-    // TMP
-    bool jumpPressed = false;
-    bool jumpButtonWasPressed = false;
     [HideInInspector]public bool canMoveXZ = true;
     [HideInInspector]public bool canJump = true;
-    int currentJumpHeight = 0;
     Player player;
 
     bool isReadyForNextJumpInput = true;
@@ -200,8 +196,6 @@ public class PlayerController : MonoBehaviour {
             // Keyboard
             if (GameManager.CurrentState == GameState.Normal)
             {
-                jumpButtonWasPressed = jumpPressed;
-                jumpPressed = Input.GetKeyDown(KeyCode.Space);
                 HandleMovementWithKeyBoard();
                 HandleJumpWithKeyboard();
             }

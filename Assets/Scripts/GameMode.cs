@@ -18,7 +18,6 @@ public class GameMode {
     public EvolutionMode evolutionMode;
     int nbPlayersMin;
     int nbPlayersMax;
-    List<string> authorizedMaps = new List<string>();
 
     public GameMode(GameModeType _gameModeType, EvolutionMode _evolutionMode, int _nbPlayersMin, int _nbPlayersMax)
     {

@@ -54,7 +54,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
     private void Update()
     {
-        if (playerController.DashingState == SkillState.Dashing)
+        if (playerController.DashingState == SkillState.Dashing || playerController.StrengthState == SkillState.Dashing)
         {
             int separationMask = LayerMask.GetMask(new string[] { "Player" });
             Collider[] playersCollided;
@@ -97,52 +97,6 @@ public class PlayerCollisionCenter : MonoBehaviour {
                 // Could be reduce to thisPlayerController.BrainState == BrainState.Occupied && collidedPlayerController.BrainState == BrainState.Occupied
                 // Can't confirm implications
                 DefaultCollision(collision, collision.transform.gameObject.GetComponent<Player>());
-            }
-            else
-            {
-                int repulsionMultiplier = -1;
-
-                // At least one is dashing
-                if ( (_PlayerController.DashingState == SkillState.Dashing || _PlayerController.StrengthState == SkillState.Dashing)
-                   && (collidedPlayerController.DashingState != SkillState.Dashing && collidedPlayerController.StrengthState != SkillState.Dashing) )
-                {
-                    // ThisPlayer is dashing
-
-                    // Damage Behavior
-                    DamagePlayer(collision.transform.gameObject.GetComponent<Player>());
-
-                    // ExpluseForce
-                    if (_PlayerController.StrengthState == SkillState.Dashing) repulsionMultiplier *= -2;
-                    //RepulseRigibody(collision, collision.transform.gameObject.GetComponent<Rigidbody>(), repulsionFactor * repulsionMultiplier);
-                }
-                else if ((_PlayerController.DashingState != SkillState.Dashing && _PlayerController.StrengthState != SkillState.Dashing)
-                         && (collidedPlayerController.DashingState == SkillState.Dashing && collidedPlayerController.StrengthState != SkillState.Dashing))
-                {
-                    // Collided is dashing
-
-                    // Damage Behavior
-                    DamagePlayer(_PlayerController.GetComponent<Player>());
-
-                    // ExpluseForce
-                    if (collidedPlayerController.StrengthState == SkillState.Dashing) repulsionMultiplier *= -2;
-                    //RepulseRigibody(collision, _Rb, repulsionFactor * repulsionMultiplier);
-                }
-                else if ((_PlayerController.DashingState == SkillState.Dashing || _PlayerController.StrengthState == SkillState.Dashing)
-                        && (collidedPlayerController.DashingState == SkillState.Dashing || collidedPlayerController.StrengthState == SkillState.Dashing))
-                {
-                    // Both are dashing
-
-                    // Damage Behavior
-                    DamagePlayer(collision.transform.gameObject.GetComponent<Player>());
-                    DamagePlayer(_PlayerController.GetComponent<Player>());
-
-                    // ExpluseForce
-                    // Double the love
-                    if (_PlayerController.StrengthState == SkillState.Dashing) repulsionMultiplier *= -2;
-                    if (collidedPlayerController.StrengthState == SkillState.Dashing) repulsionMultiplier *= -2;
-                    //RepulseRigibody(collision, _Rb, repulsionFactor * repulsionMultiplier);
-                    //RepulseRigibody(collision, collision.transform.gameObject.GetComponent<Rigidbody>(), repulsionFactor * repulsionMultiplier);
-                }
             }
         }
 

@@ -4,8 +4,6 @@ using UnityEngine;
 using XInputDotNetPure;
 
 public class DynamicJoystickCameraController : MonoBehaviour {
-    bool isUsingAController = false;
-    bool playerIndexSet = false;
     public PlayerIndex playerIndex;
     GamePadState state;
     GamePadState prevState;

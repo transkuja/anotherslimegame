@@ -27,7 +27,7 @@ public class Collectable : MonoBehaviour
 
     public void Start()
     {
-        Value = Utils.GetDefaultCollectableValue(type);
+        Value = Utils.GetDefaultCollectableValue((int)type);
 
         position[0] = new Vector3(-2, 0, -2);
         position[1] = new Vector3(2, 0, -2);

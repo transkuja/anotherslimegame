@@ -39,12 +39,6 @@ public class Utils {
             || collectableType == CollectableType.StrengthEvolution1;
     }
 
-    [System.Obsolete("Unused method see belew")]
-    public static int GetDefaultCollectableValue(CollectableType collectableType)
-    {
-        return defaultValueCollectable[(int)collectableType];
-    }
-
     public static int GetDefaultCollectableValue(int collectableType)
     {
         return defaultValueCollectable[collectableType];
