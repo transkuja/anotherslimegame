@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Shapes { None, Circle, Line }
+public enum Shapes { None, Circle, Line, Grid }
 public class SpawnManager : MonoBehaviour{
 
     // Spawned Items Location
@@ -67,7 +67,7 @@ public class SpawnManager : MonoBehaviour{
     public void ResetInstance()
     {
         instance.spawnedItemsCountAtTheSameTime = 0;
-        instance.spawnedItemsCountAtTheSameTime = 0;
+        instance.spawnedMonsterCountAtTheSameTime = 0;
     }
 
     public static SpawnManager Instance
@@ -85,17 +85,19 @@ public class SpawnManager : MonoBehaviour{
 
     private void SpawnItem(int idLocation, CollectableType myItemType, bool forceSpawn = false)
     {
-        if(instance.dicSpawnItemsLocations.ContainsKey(idLocation) == false)
+
+        if (instance.dicSpawnItemsLocations.ContainsKey(idLocation) == false)
         {
             Debug.Log("Error  : invalid location");
             return;
         }
-            
-        if(!forceSpawn && SpawnedItemsCount == MAXSPAWNITEMSCOUNTATTHESAMETIME)
+
+        if (!forceSpawn && SpawnedItemsCount == MAXSPAWNITEMSCOUNTATTHESAMETIME)
         {
             Debug.Log("Error  : max item reach");
             return;
         }
+
 
         SpawnedItemsCount++;
         ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
@@ -131,6 +133,65 @@ public class SpawnManager : MonoBehaviour{
         }
     }
 
+    private void SpawnLineShapedItems(int idLocation, int nbItems, CollectableType myItemType, bool forceSpawn = false)
+    {
+        if (instance.dicSpawnItemsLocations.ContainsKey(idLocation) == false)
+        {
+            Debug.Log("Error  : invalid location");
+            return;
+        }
+
+        if (!forceSpawn && SpawnedItemsCount == MAXSPAWNITEMSCOUNTATTHESAMETIME)
+        {
+            Debug.Log("Error  : max item reach");
+            return;
+        }
+        for (int i = 0; i < nbItems; i++)
+        {
+            SpawnedItemsCount++;
+            ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
+                GetVector3ArrayOnLine(instance.dicSpawnItemsLocations[idLocation].transform.position, instance.dicSpawnItemsLocations[idLocation].transform.forward, nbItems)[i],
+                instance.dicSpawnItemsLocations[idLocation].transform.rotation,
+                null,
+                myItemType
+            );
+        }
+    }
+
+    private void SpawnGridShapedItems(int idLocation, int nbItems, CollectableType myItemType, bool forceSpawn = false)
+    {
+        if (instance.dicSpawnItemsLocations.ContainsKey(idLocation) == false)
+        {
+            Debug.Log("Error  : invalid location");
+            return;
+        }
+
+        if (!forceSpawn && SpawnedItemsCount == MAXSPAWNITEMSCOUNTATTHESAMETIME)
+        {
+            Debug.Log("Error  : max item reach");
+            return;
+        }
+
+        // TMP heuristic
+        int ligne = Mathf.RoundToInt(Mathf.Sqrt(nbItems));
+        int colonne = Mathf.FloorToInt(nbItems/ ligne);
+        for (int i = 0; i < colonne; i++)
+        {
+            for (int j = 0; j < ligne; j++)
+            {
+                SpawnedItemsCount++;
+                ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
+                    GetVector3ArrayOnAGrid(instance.dicSpawnItemsLocations[idLocation].transform.position, instance.dicSpawnItemsLocations[idLocation].transform.forward, ligne, colonne)[i,j],
+                    instance.dicSpawnItemsLocations[idLocation].transform.rotation,
+                    null,
+                    myItemType
+                );
+
+            }
+        }
+    }
+
+
 
     private void SpawnMonster(int idLocation, MonsterType myMonsterType, bool forceSpawn = false)
     {
@@ -163,6 +224,7 @@ public class SpawnManager : MonoBehaviour{
 
         if (needSpawn)
         {
+
             switch (shapes)
             {
                 case Shapes.None:
@@ -172,7 +234,10 @@ public class SpawnManager : MonoBehaviour{
                     SpawnCircleShapedItems(lastInsertedKeySpawnItems, nbItems, myItemType, forceSpawn);
                     break;
                 case Shapes.Line:
-                    //SpawnItem(lastInsertedKeySpawnItems, myItemType, forceSpawn);
+                    SpawnLineShapedItems(lastInsertedKeySpawnItems, nbItems, myItemType, forceSpawn);
+                    break;
+                case Shapes.Grid:
+                    SpawnGridShapedItems(lastInsertedKeySpawnItems, nbItems, myItemType, forceSpawn);
                     break;
             }
  
@@ -256,7 +321,7 @@ public class SpawnManager : MonoBehaviour{
 
         for (int i=0; i <nbPoint; i++)
         {
-            toReturn[i] = (i * (direction / nbPoint)) + origin;
+            toReturn[i] = (10 * i * (direction / nbPoint)) + origin;
         }
         return toReturn;
     }
@@ -264,7 +329,7 @@ public class SpawnManager : MonoBehaviour{
 
     public static Vector3[,] GetVector3ArrayOnAGrid(Vector3 origin, Vector3 direction, int nbLine = 1, int nbColonne =1 )
     {
-        Vector3[,] toReturn = new Vector3[nbLine, nbColonne];
+        Vector3[,] toReturn = new Vector3[nbColonne, nbLine];
         Vector3[] line = new Vector3[nbLine]; 
         for (int i = 0; i < nbLine; i++)
         {
@@ -275,10 +340,9 @@ public class SpawnManager : MonoBehaviour{
         {
             for (int j = 0;j < nbLine; j++)
             {
-                toReturn[i,j] = line[j];
+                toReturn[i, j] = line[j] + (10 * i *(new Vector3(1, 0, 0) / nbColonne));
             }
         }
-
         return toReturn;
     }
 
