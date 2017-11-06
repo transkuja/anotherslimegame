@@ -214,10 +214,14 @@ public class PlayerController : MonoBehaviour {
 
         private set
         {
+
             if (value == true && GetComponent<JumpManager>() != null)
                 GetComponent<JumpManager>().Stop();
             if (forcedJump != null && forcedJump.IsForcedJumpActive)
                 forcedJump.Stop();
+            if (value == true)
+                GetComponent<Player>().Anim.SetBool("isExpulsed", false);
+
             isGrounded = value;
         }
     }
@@ -599,7 +603,7 @@ public class PlayerController : MonoBehaviour {
     // TODO : Remi , Export this in camera controls
     public void ChangeDumpingValuesCameraFreeLook(float _newValues)
     {
-        if (SceneManager.GetActiveScene() != SceneManager.GetSceneByBuildIndex(0))
+        if (player.cameraReference != null && player.cameraReference.transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>())
         {
             //Body
             CinemachineTransposer tr;

@@ -21,7 +21,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
     float impactPropagationThreshold;
 
     // Collision with strength on one player
-    [SerializeField] float repulsionFactor = 30;
+    [SerializeField] float repulsionFactor = 2000;
 
     // @<remi
     private List<Player> impactedPlayers = new List<Player>();
@@ -83,8 +83,10 @@ public class PlayerCollisionCenter : MonoBehaviour {
                             DamagePlayer(playersCollided[i].GetComponent<Player>());
 
                             // ExpluseForce
+
                             //if (_PlayerController.StrengthState == SkillState.Dashing) repulsionMultiplier *= -2;
-                            RepulseRigibody(playersCollided[i].ClosestPoint(transform.position), playersCollided[i].GetComponent<Rigidbody>(), repulsionFactor);
+                            ExpulsePlayer(playersCollided[i].ClosestPoint(transform.position), playersCollided[i].GetComponent<Rigidbody>(), repulsionFactor);
+                            //RepulseRigibody(playersCollided[i].ClosestPoint(transform.position), playersCollided[i].GetComponent<Rigidbody>(), repulsionFactor);
                         }                       
                     }
                 }
@@ -202,6 +204,22 @@ public class PlayerCollisionCenter : MonoBehaviour {
         }
     }
 
+    public void ExpulsePlayer(Vector3 collisionPoint, Rigidbody rbPlayerToExpulse, float repulsionFactor)
+    {
+        if (!onceRepulsion)
+        {
+            onceRepulsion = true;
+
+            Vector3 direction = rbPlayerToExpulse.position - collisionPoint;
+            direction.y = 0;
+
+            direction.Normalize();
+
+            ForcedJump(direction, repulsionFactor, rbPlayerToExpulse);
+            StartCoroutine(ReactivateCollider(rbPlayerToExpulse.GetComponent<Player>()));
+        }
+    }
+
     public void RepulseRigibody(Vector3 collisionPoint, Rigidbody rbPlayerToExpulse, float repulsionFactor)
     {
         if (!onceRepulsion)
@@ -223,6 +241,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
         yield return new WaitForSeconds(invicibilityFrame);
         onceRepulsion = false;
         impactedPlayers.Remove(p);
+        p.GetComponent<PlayerController>().BrainState = BrainState.Free;
         yield return null;
     }
 
@@ -248,8 +267,13 @@ public class PlayerCollisionCenter : MonoBehaviour {
     {
         if (target.GetComponent<PlayerController>() != null)
         {
+
             PlayerController _pc = target.GetComponent<PlayerController>();
+            _pc.forcedJump.repulseForce = direction * repulseStrength;
+            // Wtf je sais que c'est aussi fait dans le player Controller mais le comportement est bien meilleur avec cette ligne
+            _pc.forcedJump.AddForcedJumpForce(target);  
             _pc.forcedJump.StartJump();
+            _pc.BrainState = BrainState.Occupied;
             _pc.Jump();
         }
     }
