@@ -189,7 +189,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: ea6d580174f89cf438f4bd9c4c303f7d, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -273,7 +273,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sourceMusic: {fileID: 82241179900713382}
   sourceFX: {fileID: 82199631404650456}
-  musicGame: {fileID: 0}
+  musicGame: {fileID: 8300000, guid: ea6d580174f89cf438f4bd9c4c303f7d, type: 3}
   coinFX: {fileID: 8300000, guid: feb2dbf42d2211f4694d4b25cc50c7ce, type: 3}
   blobSound: {fileID: 0}
   volumeMusic: 0.5

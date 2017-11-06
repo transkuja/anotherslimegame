@@ -7380,6 +7380,11 @@ Prefab:
       propertyPath: m_RootOrder
       value: 9
       objectReference: {fileID: 0}
+    - target: {fileID: 82241179900713382, guid: 4ba7cc01b3b1dac4d83c77432a4e1bfd,
+        type: 2}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: ea6d580174f89cf438f4bd9c4c303f7d, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4ba7cc01b3b1dac4d83c77432a4e1bfd, type: 2}
   m_IsPrefabParent: 0
@@ -14974,7 +14979,6 @@ GameObject:
   - component: {fileID: 1251268300}
   - component: {fileID: 1251268299}
   - component: {fileID: 1251268298}
-  - component: {fileID: 1251268297}
   - component: {fileID: 1251268296}
   m_Layer: 0
   m_Name: Main Camera (1)
@@ -15026,13 +15030,6 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Cinemachine.CinemachineBrain+VcamEvent, Assembly-CSharp-firstpass,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
---- !u!81 &1251268297
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1251268294}
-  m_Enabled: 1
 --- !u!124 &1251268298
 Behaviour:
   m_ObjectHideFlags: 0
@@ -15657,7 +15654,6 @@ GameObject:
   - component: {fileID: 1308615619}
   - component: {fileID: 1308615618}
   - component: {fileID: 1308615617}
-  - component: {fileID: 1308615616}
   - component: {fileID: 1308615615}
   m_Layer: 0
   m_Name: Main Camera (1)
@@ -15709,13 +15705,6 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Cinemachine.CinemachineBrain+VcamEvent, Assembly-CSharp-firstpass,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
---- !u!81 &1308615616
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1308615613}
-  m_Enabled: 1
 --- !u!124 &1308615617
 Behaviour:
   m_ObjectHideFlags: 0
@@ -20434,7 +20423,7 @@ Prefab:
     - target: {fileID: 114325959287010788, guid: e41aa2613601ae84eae26b592fee8a47,
         type: 2}
       propertyPath: nbItems
-      value: 6
+      value: 9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e41aa2613601ae84eae26b592fee8a47, type: 2}
@@ -21902,7 +21891,6 @@ GameObject:
   - component: {fileID: 1824122031}
   - component: {fileID: 1824122030}
   - component: {fileID: 1824122029}
-  - component: {fileID: 1824122028}
   - component: {fileID: 1824122027}
   m_Layer: 0
   m_Name: Main Camera (1)
@@ -21954,13 +21942,6 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: Cinemachine.CinemachineBrain+VcamEvent, Assembly-CSharp-firstpass,
       Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
---- !u!81 &1824122028
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1824122025}
-  m_Enabled: 1
 --- !u!124 &1824122029
 Behaviour:
   m_ObjectHideFlags: 0
