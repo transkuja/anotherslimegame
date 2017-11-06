@@ -154,14 +154,15 @@ public class GameManager : MonoBehaviour {
                 currentState = GameState.Normal;
                 pauseMenuReference.gameObject.SetActive(false);
                 for (int i = 0; i < instance.playerStart.ActivePlayersAtStart; i++)
-                    instance.playerStart.cameraPlayerReferences[i].transform.GetChild(1).GetComponent<Cinemachine.CinemachineBrain>().enabled = true;
+                    instance.playerStart.cameraPlayerReferences[i].transform.GetChild(0).GetComponent<Cinemachine.CinemachineBrain>().enabled = true;
             }
             else if (currentState == GameState.Normal)
             {
                 currentState = GameState.Paused;
                 pauseMenuReference.gameObject.SetActive(true);
+           
                 for (int i = 0; i < instance.playerStart.ActivePlayersAtStart; i++)
-                    instance.playerStart.cameraPlayerReferences[i].transform.GetChild(1).GetComponent<Cinemachine.CinemachineBrain>().enabled = false;
+                    instance.playerStart.cameraPlayerReferences[i].transform.GetChild(0).GetComponent<Cinemachine.CinemachineBrain>().enabled = false;
             }
         }
 
