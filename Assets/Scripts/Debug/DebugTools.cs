@@ -80,25 +80,25 @@ public class DebugTools : MonoBehaviour {
                 if (Input.GetKeyUp(KeyCode.Alpha1))
                 {
                     ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
-                        DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.WingsEvolution1);
+                        DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.WingsEvolution1).GetComponent<Collectable>().Init(0);
                     Debug.Log("Pop some " + CollectableType.WingsEvolution1 + " on the ground!");
                 }
                 if (Input.GetKeyDown(KeyCode.Alpha3))
                 {
                     ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
-                        DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.StrengthEvolution1);
+                        DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.StrengthEvolution1).GetComponent<Collectable>().Init(0);
                     Debug.Log("Pop some " + CollectableType.StrengthEvolution1 + " on the ground!");
                 }
                 if (Input.GetKeyDown(KeyCode.Alpha4))
                 {
                     ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
-                        DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.Points);
+                        DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.Points).GetComponent<Collectable>().Init(0);
                     Debug.Log("Pop some " + CollectableType.Points + " on the ground!");
                 }
                 if (Input.GetKeyDown(KeyCode.Alpha5))
                 {
                     ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
-                        DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.Key);
+                        DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.Key).GetComponent<Collectable>().Init(0);
                     Debug.Log("Pop some " + CollectableType.Key + " on the ground!");
                 }
             }

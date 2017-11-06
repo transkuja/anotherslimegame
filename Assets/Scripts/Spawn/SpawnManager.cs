@@ -105,7 +105,7 @@ public class SpawnManager : MonoBehaviour{
             instance.dicSpawnItemsLocations[idLocation].transform.rotation,
             null,
             myItemType
-        );
+        ).GetComponent<Collectable>().Init(0);
     }
 
     private void SpawnCircleShapedItems(int idLocation, int nbItems, CollectableType myItemType, bool forceSpawn = false)
@@ -129,7 +129,7 @@ public class SpawnManager : MonoBehaviour{
                 instance.dicSpawnItemsLocations[idLocation].transform.rotation,
                 null,
                 myItemType
-            );
+            ).GetComponent<Collectable>().Init(0);
         }
     }
 
@@ -154,7 +154,7 @@ public class SpawnManager : MonoBehaviour{
                 instance.dicSpawnItemsLocations[idLocation].transform.rotation,
                 null,
                 myItemType
-            );
+            ).GetComponent<Collectable>().Init(0);
         }
     }
 
@@ -185,7 +185,7 @@ public class SpawnManager : MonoBehaviour{
                     instance.dicSpawnItemsLocations[idLocation].transform.rotation,
                     null,
                     myItemType
-                );
+                ).GetComponent<Collectable>().Init(0);
 
             }
         }

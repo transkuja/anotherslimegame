@@ -187,7 +187,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
         if (player.Collectables[typeCollectable] > 0)
         {
-            int numberOfCollectablesToDrop = (int)Mathf.Clamp((float)(Mathf.Floor(player.Collectables[typeCollectable]) / Utils.GetDefaultCollectableValue(typeCollectable)), 1, 2);
+            int numberOfCollectablesToDrop = (int)Mathf.Clamp((float)(Mathf.Floor(player.Collectables[typeCollectable]) / Utils.GetDefaultCollectableValue(typeCollectable)), 1, 6);
             for (int i = 0; i < numberOfCollectablesToDrop; i++)
             {
                 player.UpdateCollectableValue(CollectableType.Points, -Utils.GetDefaultCollectableValue(typeCollectable));
@@ -197,9 +197,10 @@ public class PlayerCollisionCenter : MonoBehaviour {
                 player.transform.rotation,
                 null,
                 CollectableType.Points);
+                go.GetComponent<Collectable>().Init(numberOfCollectablesToDrop);
 
                 //Dispersion des collectables
-                go.GetComponent<Collectable>().Dispersion(i, numberOfCollectablesToDrop);
+                go.GetComponent<Collectable>().Dispersion(i);
             }
         }
     }
