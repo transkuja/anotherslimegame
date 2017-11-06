@@ -519,6 +519,9 @@ public class PlayerController : MonoBehaviour {
     {
         if (player.Rb.velocity.y <= 0.2f && !isGrounded)
         {
+
+            //float force = 200f;
+            //float forceOffset = 0.1f;
             if (Physics.SphereCast(transform.position + Vector3.up, 1f, -transform.up, out hitInfo, maxDistanceOffset))
             {
                 if (hitInfo.transform.gameObject.GetComponentInParent<Ground>() != null)
@@ -526,6 +529,20 @@ public class PlayerController : MonoBehaviour {
                     IsGrounded = true;
                 }
             }
+
+            //Ray ray = new Ray(transform.position, Vector3.down);
+            //RaycastHit hit;
+
+            //if (Physics.Raycast(ray, out hit))
+            //{
+            //    MeshDeformer deformer = GetComponentInChildren<MeshDeformer>();
+            //    if (deformer)
+            //    {
+            //        Vector3 point = hit.point;
+            //        point += hit.normal * forceOffset;
+            //        deformer.AddDeformingForce(point, force);
+            //    }
+            //}
         }
         stats.Update();
     }
