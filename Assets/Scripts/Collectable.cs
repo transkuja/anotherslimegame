@@ -153,15 +153,4 @@ public class Collectable : MonoBehaviour
         myIndex = index;
         haveToDisperse = true;
     }
-
-    private void OnDrawGizmos()
-    {
-        for (int i = 0; i < positions.Length; i++)
-        {
-            Gizmos.color = new Color(0, 1, 0, 0.5f);
-            Gizmos.DrawCube(positions[i], new Vector3(1,1,1));
-        }
-
-    }
-
 }
