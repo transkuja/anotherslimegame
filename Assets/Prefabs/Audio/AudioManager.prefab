@@ -167,7 +167,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -189,7 +189,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 91660b291fd5f0e4c9b1fd46275bd51b, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 094f9eba7406e2a47a30d08c0d6634d0, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -247,7 +247,7 @@ AudioSource:
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
-    m_RotationOrder: 4
+    m_RotationOrder: 0
   reverbZoneMixCustomCurve:
     serializedVersion: 2
     m_Curve:
@@ -273,10 +273,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   sourceMusic: {fileID: 82241179900713382}
   sourceFX: {fileID: 82199631404650456}
-  musicGame: {fileID: 8300000, guid: 91660b291fd5f0e4c9b1fd46275bd51b, type: 3}
+  musicGame: {fileID: 8300000, guid: 094f9eba7406e2a47a30d08c0d6634d0, type: 3}
   coinFX: {fileID: 8300000, guid: feb2dbf42d2211f4694d4b25cc50c7ce, type: 3}
   youpiFX: {fileID: 8300000, guid: 5580d9534f26ec047a48a1ccb11f2b53, type: 3}
-  hahahaFX: {fileID: 8300000, guid: 3f04152e7473991479ee5e9c4ab4d8e3, type: 3}
+  hahahaFX: {fileID: 8300000, guid: 105e7b345d78cb946a073d0773ee57c5, type: 3}
   blobSound: {fileID: 0}
   volumeMusic: 0.5
   volumeFXs: 0.5

@@ -7385,6 +7385,31 @@ Prefab:
       propertyPath: m_Pitch
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 82241179900713382, guid: 4ba7cc01b3b1dac4d83c77432a4e1bfd,
+        type: 2}
+      propertyPath: spreadCustomCurve.m_RotationOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 82241179900713382, guid: 4ba7cc01b3b1dac4d83c77432a4e1bfd,
+        type: 2}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 094f9eba7406e2a47a30d08c0d6634d0, type: 3}
+    - target: {fileID: 82199631404650456, guid: 4ba7cc01b3b1dac4d83c77432a4e1bfd,
+        type: 2}
+      propertyPath: spreadCustomCurve.m_RotationOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114614806168286384, guid: 4ba7cc01b3b1dac4d83c77432a4e1bfd,
+        type: 2}
+      propertyPath: hahahaFX
+      value: 
+      objectReference: {fileID: 8300000, guid: 105e7b345d78cb946a073d0773ee57c5, type: 3}
+    - target: {fileID: 114614806168286384, guid: 4ba7cc01b3b1dac4d83c77432a4e1bfd,
+        type: 2}
+      propertyPath: musicGame
+      value: 
+      objectReference: {fileID: 8300000, guid: 094f9eba7406e2a47a30d08c0d6634d0, type: 3}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4ba7cc01b3b1dac4d83c77432a4e1bfd, type: 2}
   m_IsPrefabParent: 0
@@ -21502,7 +21527,7 @@ Prefab:
     - target: {fileID: 224253512408005366, guid: ebd48e33ce16a7c498ce0f86ed08310f,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 1829664555950164, guid: ebd48e33ce16a7c498ce0f86ed08310f, type: 2}
       propertyPath: m_IsActive
