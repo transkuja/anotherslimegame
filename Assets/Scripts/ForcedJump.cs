@@ -23,6 +23,7 @@ public class ForcedJump {
     public void StartJump()
     {
         isForcedJumpActive = true;
+        if (AudioManager.Instance != null && AudioManager.Instance.hahahaFX != null) AudioManager.Instance.PlayOneShot(AudioManager.Instance.hahahaFX);
 
     }
 

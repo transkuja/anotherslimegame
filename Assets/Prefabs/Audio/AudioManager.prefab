@@ -112,7 +112,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
   m_Volume: 1
-  m_Pitch: 1
+  m_Pitch: 2
   Loop: 0
   Mute: 0
   Spatialize: 0
@@ -276,6 +276,7 @@ MonoBehaviour:
   musicGame: {fileID: 8300000, guid: 91660b291fd5f0e4c9b1fd46275bd51b, type: 3}
   coinFX: {fileID: 8300000, guid: feb2dbf42d2211f4694d4b25cc50c7ce, type: 3}
   youpiFX: {fileID: 8300000, guid: d8498492145937f479c9c33b5977504c, type: 3}
+  hahahaFX: {fileID: 8300000, guid: 3f04152e7473991479ee5e9c4ab4d8e3, type: 3}
   blobSound: {fileID: 0}
   volumeMusic: 0.5
   volumeFXs: 0.5
