@@ -91,7 +91,7 @@ public class Collectable : MonoBehaviour
     private void FixedUpdate()
     {
         if (needInitialisation)
-            return;
+            Init(0);
         if (!haveToDisperse && isAttracted)
             Attract();
         if (haveToDisperse)
