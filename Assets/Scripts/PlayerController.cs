@@ -545,12 +545,14 @@ public class PlayerController : MonoBehaviour {
                 if (chargeFactor > 1.0f)
                 {
                     Jump();
+                    if (AudioManager.Instance != null && AudioManager.Instance.youpiFX != null) AudioManager.Instance.PlayOneShot(AudioManager.Instance.youpiFX);
                 }
             }
 
             if (prevState.Buttons.A == ButtonState.Pressed && state.Buttons.A == ButtonState.Released && isReadyForNextJumpInput)
             {
                 Jump();
+                if (AudioManager.Instance != null && AudioManager.Instance.youpiFX != null) AudioManager.Instance.PlayOneShot(AudioManager.Instance.youpiFX);
             }
         }
 

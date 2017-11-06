@@ -10,6 +10,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip musicGame;
 
     public AudioClip coinFX;
+    public AudioClip youpiFX;
     public AudioClip blobSound;
 
     private AudioClip musicToPlay;
