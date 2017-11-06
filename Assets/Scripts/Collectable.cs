@@ -7,11 +7,14 @@ public class Collectable : MonoBehaviour
     CollectableType type;
     private float value;
     bool isAttracted = false;
+    bool haveToDisperse = false;
+
+    public Vector3[] positions;
+    private int myIndex = 0;
+
     uint movementSpeed = 40;
     Player playerTarget;
-
-    public Vector3[] position = new Vector3[4];
-
+    
     public float Value
     {
         get
@@ -28,11 +31,7 @@ public class Collectable : MonoBehaviour
     public void Start()
     {
         Value = Utils.GetDefaultCollectableValue((int)type);
-
-        position[0] = new Vector3(-2, 0, -2);
-        position[1] = new Vector3(2, 0, -2);
-        position[2] = new Vector3(-2, 0, 2);
-        position[3] = new Vector3(2, 0, 2);
+        positions = SpawnManager.GetVector3ArrayOnADividedCircle(transform.position + Vector3.up, 6, 2, SpawnManager.Axis.XZ);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -82,6 +81,8 @@ public class Collectable : MonoBehaviour
     {
         if (isAttracted)
             Attract();
+        if (haveToDisperse)
+            Disperse();
     }
 
     void Attract()
@@ -96,17 +97,33 @@ public class Collectable : MonoBehaviour
         }
     }
 
+    void Disperse()
+    {
+
+        Vector3 direction = (positions[myIndex] - transform.position).normalized;
+
+        GetComponent<Rigidbody>().MovePosition(transform.position + direction * movementSpeed * Time.deltaTime);
+        if (Vector3.Distance(positions[myIndex], transform.position) < GetComponentInChildren<MeshFilter>().mesh.bounds.extents.magnitude)
+        {
+            StartCoroutine(GetComponent<Collectable>().ReactivateCollider());
+        }
+       
+    }
+
     public IEnumerator ReactivateCollider()
     {
         yield return new WaitForSeconds(1.0f);
         GetComponent<SphereCollider>().enabled = true;
+        haveToDisperse = false;
         yield return null;
     }
 
     // if index is need to add a little bit more random
     // should not use the same index twice
-    public Vector3 Dispersion(int index)
+    public void Dispersion(int index, int numToDrop)
     {
-        return position[UnityEngine.Random.Range(0, 3)];
+        GetComponent<SphereCollider>().enabled = false;
+        myIndex = index;
+        haveToDisperse = true;
     }
 }

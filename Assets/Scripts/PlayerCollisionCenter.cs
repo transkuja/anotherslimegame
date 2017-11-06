@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System; // For math
 using System.Collections;
+using System.Collections.Generic; // For List
+
 
 public class PlayerCollisionCenter : MonoBehaviour {
 
@@ -21,11 +23,15 @@ public class PlayerCollisionCenter : MonoBehaviour {
     // Collision with strength on one player
     [SerializeField] float repulsionFactor = 30;
 
-    PlayerController playerController;
-    Rigidbody rb;
+    // @<remi
+    private List<Player> impactedPlayers = new List<Player>();
+    public float invicibilityFrame = 1.0f;
     bool onceRepulsion;
 
 
+    PlayerController playerController;
+    Rigidbody rb;
+    
     PlayerController _PlayerController
     {
         get
@@ -63,16 +69,23 @@ public class PlayerCollisionCenter : MonoBehaviour {
             playersCollided = Physics.OverlapSphere(transform.position, sphereCheckRadius, separationMask);
             if (playersCollided != null)
             {
+
                 for (int i = 0; i < playersCollided.Length; i++)
                 {
                     if (playersCollided[i].transform != transform)
                     {
-                        // Damage Behavior
-                        DamagePlayer(playersCollided[i].GetComponent<Player>());
+                        if (!impactedPlayers.Contains(playersCollided[i].GetComponent<Player>()))
+                        {
+                            // Don't reimpacted the same player twice see invicibilityFrame
+                            impactedPlayers.Add(playersCollided[i].GetComponent<Player>());
 
-                        // ExpluseForce
-                        //if (_PlayerController.StrengthState == SkillState.Dashing) repulsionMultiplier *= -2;
-                        RepulseRigibody(playersCollided[i].ClosestPoint(transform.position), playersCollided[i].gameObject.GetComponent<Rigidbody>(), repulsionFactor);
+                            // Damage Behavior
+                            DamagePlayer(playersCollided[i].GetComponent<Player>());
+
+                            // ExpluseForce
+                            //if (_PlayerController.StrengthState == SkillState.Dashing) repulsionMultiplier *= -2;
+                            RepulseRigibody(playersCollided[i].ClosestPoint(transform.position), playersCollided[i].GetComponent<Rigidbody>(), repulsionFactor);
+                        }                       
                     }
                 }
             }
@@ -172,8 +185,11 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
         if (player.Collectables[typeCollectable] > 0)
         {
-            for (int i = 0; i < Mathf.Clamp((float)(Mathf.Floor(player.Collectables[typeCollectable]) / Utils.GetDefaultCollectableValue(typeCollectable)), 1, 2); i++)
+            int numberOfCollectablesToDrop = (int)Mathf.Clamp((float)(Mathf.Floor(player.Collectables[typeCollectable]) / Utils.GetDefaultCollectableValue(typeCollectable)), 1, 2);
+            for (int i = 0; i < numberOfCollectablesToDrop; i++)
             {
+                player.UpdateCollectableValue(CollectableType.Points, -Utils.GetDefaultCollectableValue(typeCollectable));
+
                 GameObject go = ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
                 player.transform.position,
                 player.transform.rotation,
@@ -181,36 +197,32 @@ public class PlayerCollisionCenter : MonoBehaviour {
                 CollectableType.Points);
 
                 //Dispersion des collectables
-                go.GetComponent<Collectable>().Dispersion(i);
-
-                go.GetComponent<SphereCollider>().enabled = false;
-                player.UpdateCollectableValue(CollectableType.Points, -Utils.GetDefaultCollectableValue(typeCollectable));
-                StartCoroutine(go.GetComponent<Collectable>().ReactivateCollider());
+                go.GetComponent<Collectable>().Dispersion(i, numberOfCollectablesToDrop);
             }
         }
     }
 
     public void RepulseRigibody(Vector3 collisionPoint, Rigidbody rbPlayerToExpulse, float repulsionFactor)
     {
-     
         if (!onceRepulsion)
         {
+            onceRepulsion = true;
+
             Vector3 direction = rbPlayerToExpulse.position - collisionPoint;
             direction.y = 0;
 
             direction.Normalize();
 
             rbPlayerToExpulse.AddForce(direction * repulsionFactor, ForceMode.Impulse);
-            onceRepulsion = true;
             StartCoroutine(ReactivateCollider());
         }
-
     }
 
     public IEnumerator ReactivateCollider()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(invicibilityFrame);
         onceRepulsion = false;
+        impactedPlayers.Clear();
         yield return null;
     }
 
