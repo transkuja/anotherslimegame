@@ -62,6 +62,7 @@ public class PlayerUI : MonoBehaviour {
 
     public void RefreshKeysPlayerUi(Player player, int _newValue)
     {
+        Debug.Log("test");
         if (!linkPlayerKeyToItsUi.ContainsKey(player))
             return;
 
