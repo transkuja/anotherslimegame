@@ -214,15 +214,15 @@ public class PlayerCollisionCenter : MonoBehaviour {
             direction.Normalize();
 
             rbPlayerToExpulse.AddForce(direction * repulsionFactor, ForceMode.Impulse);
-            StartCoroutine(ReactivateCollider());
+            StartCoroutine(ReactivateCollider(rbPlayerToExpulse.GetComponent<Player>()));
         }
     }
 
-    public IEnumerator ReactivateCollider()
+    public IEnumerator ReactivateCollider(Player p)
     {
         yield return new WaitForSeconds(invicibilityFrame);
         onceRepulsion = false;
-        impactedPlayers.Clear();
+        impactedPlayers.Remove(p);
         yield return null;
     }
 
