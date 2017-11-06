@@ -193,7 +193,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
                 player.UpdateCollectableValue(CollectableType.Points, -Utils.GetDefaultCollectableValue(typeCollectable));
 
                 GameObject go = ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
-                player.transform.position,
+                player.transform.position + player.GetComponent<MeshCollider>().bounds.extents,
                 player.transform.rotation,
                 null,
                 CollectableType.Points);

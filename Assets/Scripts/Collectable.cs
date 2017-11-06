@@ -79,7 +79,7 @@ public class Collectable : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (isAttracted)
+        if (!haveToDisperse && isAttracted)
             Attract();
         if (haveToDisperse)
             Disperse();
@@ -99,10 +99,8 @@ public class Collectable : MonoBehaviour
 
     void Disperse()
     {
-
         Vector3 direction = (positions[myIndex] - transform.position).normalized;
-
-        GetComponent<Rigidbody>().MovePosition(transform.position + direction * movementSpeed * Time.deltaTime);
+        GetComponent<Rigidbody>().MovePosition(transform.position + direction * movementSpeed/25 * Time.deltaTime);
         if (Vector3.Distance(positions[myIndex], transform.position) < GetComponentInChildren<MeshFilter>().mesh.bounds.extents.magnitude)
         {
             StartCoroutine(GetComponent<Collectable>().ReactivateCollider());
@@ -126,4 +124,15 @@ public class Collectable : MonoBehaviour
         myIndex = index;
         haveToDisperse = true;
     }
+
+    private void OnDrawGizmos()
+    {
+        for (int i = 0; i < positions.Length; i++)
+        {
+            Gizmos.color = new Color(0, 1, 0, 0.5f);
+            Gizmos.DrawCube(positions[i], new Vector3(1,1,1));
+        }
+
+    }
+
 }
