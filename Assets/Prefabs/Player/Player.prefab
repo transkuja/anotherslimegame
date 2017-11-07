@@ -1020,11 +1020,11 @@ MonoBehaviour:
   stats:
     stats:
     - name: GROUND_SPEED
-      baseStat: 30
-      currentStat: 0
+      baseStat: 20
+      currentStat: 30
     - name: AIR_CONTROL
       baseStat: 20
-      currentStat: 0
+      currentStat: 20
     - name: TURN_SPEED
       baseStat: 0
       currentStat: 0
