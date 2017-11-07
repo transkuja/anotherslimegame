@@ -112,6 +112,10 @@ public class PlayerCollisionCenter : MonoBehaviour {
                 // Could be reduce to thisPlayerController.BrainState == BrainState.Occupied && collidedPlayerController.BrainState == BrainState.Occupied
                 // Can't confirm implications
                 DefaultCollision(collision, collision.transform.gameObject.GetComponent<Player>());
+
+                if (AudioManager.Instance != null && AudioManager.Instance.wahhFx != null)
+                    if (!AudioManager.Instance.sourceFX.isPlaying)
+                        AudioManager.Instance.PlayOneShot(AudioManager.Instance.wahhFx);
             }
         }
 

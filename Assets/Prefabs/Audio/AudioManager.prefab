@@ -277,6 +277,7 @@ MonoBehaviour:
   coinFX: {fileID: 8300000, guid: c2d292425c3a46448aa7804c6cd30c43, type: 3}
   youpiFX: {fileID: 8300000, guid: 5580d9534f26ec047a48a1ccb11f2b53, type: 3}
   hahahaFX: {fileID: 8300000, guid: 105e7b345d78cb946a073d0773ee57c5, type: 3}
+  wahhFx: {fileID: 8300000, guid: 7b87ce59398968b4d98e88255c22a96c, type: 3}
   blobSound: {fileID: 0}
   volumeMusic: 0.5
-  volumeFXs: 0.5
+  volumeFXs: 0.3

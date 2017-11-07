@@ -12,6 +12,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip coinFX;
     public AudioClip youpiFX;
     public AudioClip hahahaFX;
+    public AudioClip wahhFx;
     public AudioClip blobSound;
 
     private AudioClip musicToPlay;
