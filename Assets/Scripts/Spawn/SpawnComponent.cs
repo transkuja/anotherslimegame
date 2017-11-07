@@ -12,6 +12,9 @@ public class SpawnComponent : MonoBehaviour {
 
     public CollectableType myItemType;
 
+    public Shapes shape;
+    public int nbItems = 1;
+
 
     private int mySpawnId;
     
@@ -35,7 +38,7 @@ public class SpawnComponent : MonoBehaviour {
                     Debug.LogError("Are you serious with your shit? Size is not a real collectable type -_-");
                     break;
                 }
-                mySpawnId = SpawnManager.Instance.RegisterSpawnItemLocation(this.transform, myItemType, needSpawn, forceSpawn);
+                mySpawnId = SpawnManager.Instance.RegisterSpawnItemLocation(this.transform, myItemType, needSpawn, forceSpawn, shape, nbItems);
                 break;
             case SpawnType.Monster:
                 mySpawnId = SpawnManager.Instance.RegisterSpawnMonsterLocation(this.transform, myMonsterType, needSpawn, forceSpawn);

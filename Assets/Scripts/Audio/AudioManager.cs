@@ -10,6 +10,9 @@ public class AudioManager : MonoBehaviour
     public AudioClip musicGame;
 
     public AudioClip coinFX;
+    public AudioClip youpiFX;
+    public AudioClip hahahaFX;
+    public AudioClip wahhFx;
     public AudioClip blobSound;
 
     private AudioClip musicToPlay;
@@ -20,11 +23,6 @@ public class AudioManager : MonoBehaviour
     private float volumeMusic = 0.5f;
     [SerializeField]
     private float volumeFXs = 1.0f;
-
-    // Very important audio feature, do not remove
-    float duckTimer = 0.2f;
-    int step = 0;
-    bool isDuckChatting = false;
 
     public static AudioManager Instance
     {

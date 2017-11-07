@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using XInputDotNetPure;
 
 public class DebugTools : MonoBehaviour {
 
@@ -69,24 +70,36 @@ public class DebugTools : MonoBehaviour {
                 }
                 if (Input.GetKeyDown(KeyCode.Alpha4))
                 {
-                    if (DebugPlayerSelected.GetComponent<EvolutionStrengh>() == null)
-                        GameManager.EvolutionManager.AddEvolutionComponent(DebugPlayerSelected.gameObject, GameManager.EvolutionManager.GetEvolutionByPowerName(Powers.Strengh));
-                    Debug.Log("Added Strengh on player " + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
+                    if (DebugPlayerSelected.GetComponent<EvolutionStrength>() == null)
+                        GameManager.EvolutionManager.AddEvolutionComponent(DebugPlayerSelected.gameObject, GameManager.EvolutionManager.GetEvolutionByPowerName(Powers.Strength));
+                    Debug.Log("Added Strength on player " + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
                 }
             }
             else if (Input.GetKey(KeyCode.Alpha2))
             {
                 if (Input.GetKeyUp(KeyCode.Alpha1))
                 {
-                    GameObject go = ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
-                        DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.Evolution1);
-                    Debug.Log("Pop some " + CollectableType.Evolution1 + " on the ground!");
+                    ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
+                        DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.WingsEvolution1).GetComponent<Collectable>().Init(0);
+                    Debug.Log("Pop some " + CollectableType.WingsEvolution1 + " on the ground!");
                 }
                 if (Input.GetKeyDown(KeyCode.Alpha3))
                 {
-                    GameObject go = ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
-                        DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.Evolution2);
-                    Debug.Log("Pop some " + CollectableType.Evolution2 + " on the ground!");
+                    ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
+                        DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.StrengthEvolution1).GetComponent<Collectable>().Init(0);
+                    Debug.Log("Pop some " + CollectableType.StrengthEvolution1 + " on the ground!");
+                }
+                if (Input.GetKeyDown(KeyCode.Alpha4))
+                {
+                    ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
+                        DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.Points).GetComponent<Collectable>().Init(0);
+                    Debug.Log("Pop some " + CollectableType.Points + " on the ground!");
+                }
+                if (Input.GetKeyDown(KeyCode.Alpha5))
+                {
+                    ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
+                        DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.Key).GetComponent<Collectable>().Init(0);
+                    Debug.Log("Pop some " + CollectableType.Key + " on the ground!");
                 }
             }
             else
@@ -96,13 +109,36 @@ public class DebugTools : MonoBehaviour {
                     DebugPlayerSelected.Collectables = new int[(int)CollectableType.Size];
                     if (DebugPlayerSelected.GetComponent<DoubleJump>()) Destroy(DebugPlayerSelected.GetComponent<DoubleJump>());
                     if (DebugPlayerSelected.GetComponent<Hover>()) Destroy(DebugPlayerSelected.GetComponent<Hover>());
+                    if (DebugPlayerSelected.GetComponent<EvolutionStrength>()) Destroy(DebugPlayerSelected.GetComponent<EvolutionStrength>());
+                    DebugPlayerSelected.Rb.velocity = Vector3.zero;
                     Debug.Log("Reset current player! " + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
                 }
 
                 if (Input.GetKeyDown(KeyCode.Alpha9))
                 {
                     Respawner.RespawnProcess(DebugPlayerSelected);
+                    DebugPlayerSelected.Rb.velocity = Vector3.zero;
                     Debug.Log("Reset current player to last respawn point! " + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
+                }
+
+                // Pop player
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    GameObject go = Instantiate(GameManager.Instance.PlayerStart.playerPrefab);
+                    go.transform.position = DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f;
+                    go.transform.rotation = Quaternion.identity;
+                    Player currentPlayer = go.GetComponent<Player>();
+                    currentPlayer.respawnPoint = DebugPlayerSelected.respawnPoint;
+
+                    PlayerController playerController = go.GetComponent<PlayerController>();
+                    playerController.DEBUG_hasBeenSpawnedFromTool = true;
+                    playerController.PlayerIndex = (PlayerIndex)5;
+                    playerController.IsUsingAController = true;
+                    playerController.PlayerIndexSet = true;
+
+                    GameManager.Instance.PlayerStart.PlayersReference.Add(go);
+
+                    Debug.Log("Player spawned! " + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
                 }
             }
         }

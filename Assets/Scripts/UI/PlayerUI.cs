@@ -62,6 +62,9 @@ public class PlayerUI : MonoBehaviour {
 
     public void RefreshKeysPlayerUi(Player player, int _newValue)
     {
+        if (!linkPlayerKeyToItsUi.ContainsKey(player))
+            return;
+
         Transform toRefresh = linkPlayerKeyToItsUi[player].transform;
         for (int i = 0; i < _newValue; i++)
         {
@@ -75,6 +78,9 @@ public class PlayerUI : MonoBehaviour {
 
     public void RefreshPointsPlayerUi(Player player, int _newValue)
     {
+        if (!linkPlayerPointsToItsUi.ContainsKey(player))
+            return;
+
         Transform toRefresh = linkPlayerPointsToItsUi[player].transform;
         toRefresh.GetComponentInChildren<Text>().text = " X " + _newValue;
     }

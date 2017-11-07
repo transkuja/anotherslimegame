@@ -43,7 +43,7 @@ public class Stats  {
     public void Init()
     {
         stats = new Stat[(int)StatType.MAX_STATS];
-        stats[(int)Stats.StatType.GROUND_SPEED].baseStat = 30;
+        stats[(int)Stats.StatType.GROUND_SPEED].baseStat = 28;
         stats[(int)Stats.StatType.AIR_CONTROL].baseStat = 20;
 
         for (int i = 0; i < (int)StatType.MAX_STATS; i++)

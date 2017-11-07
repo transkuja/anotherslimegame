@@ -331,8 +331,8 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: "CTRL + RightShift: Activate/Deactivate\n0: Reset current player\n1 + input:
-    instant evolve\n\t2: Double Jump\n\t3: Hover\n2 + input: drop collectable on ground\n\t1:
-    collectable type 1\n\t3: collectable type 2"
+    instant evolve\n\t2: Double Jump\n\t3: Hover\n\t4: Strength\n2 + input: drop collectable
+    on ground\n\t1: Wings Evolution\n\t3: Strength Evolution\n\t4: Coins\n\t5: Keys"
 --- !u!222 &222013759342050930
 CanvasRenderer:
   m_ObjectHideFlags: 1

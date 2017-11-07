@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public enum PlayerChildren { Evolutions };
+public enum PlayerChildren { SlimeMesh, ShadowProjector };
 public class Player : MonoBehaviour {
 
     Rigidbody rb;

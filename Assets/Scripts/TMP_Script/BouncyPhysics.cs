@@ -23,6 +23,8 @@ public class BouncyPhysics : MonoBehaviour {
                 evolutionMultiplier = (collision.gameObject.GetComponent<Player>().GetComponent<EvolutionComponent>() != null && collision.gameObject.GetComponent<Player>().GetComponent<EvolutionComponent>().Evolution.Id == (int)Powers.DoubleJump) ?  2 :  1;
                 collision.gameObject.GetComponent<Player>().Rb.velocity += Vector3.up * bounceStrength* evolutionMultiplier;
                 collision.gameObject.GetComponent<Player>().CanDoubleJump = true;
+                if (AudioManager.Instance != null && AudioManager.Instance.wahhFx != null)
+                    AudioManager.Instance.PlayOneShot(AudioManager.Instance.wahhFx);
             }
         }
     }

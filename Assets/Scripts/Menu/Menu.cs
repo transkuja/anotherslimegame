@@ -5,10 +5,7 @@ using UnityEngine.UI;
 public class Menu : MonoBehaviour {
     // Controls
     bool playerIndexSet = false;
-    PlayerIndex playerIndex;
     bool isUsingAController = false;
-    GamePadState state;
-    GamePadState prevState;
 
     public GameObject playerStart;
     private bool isSceneSet = false;
@@ -20,7 +17,7 @@ public class Menu : MonoBehaviour {
         if (isSceneSet) return;
 
         // TODO: externaliser pour le comportement multi
-        if (!playerIndexSet || !prevState.IsConnected)
+        if (!playerIndexSet)
         {
             isUsingAController = false;
             for (int i = 0; i < 4; ++i)
@@ -29,8 +26,6 @@ public class Menu : MonoBehaviour {
                 GamePadState testState = GamePad.GetState(testPlayerIndex);
                 if (testState.IsConnected)
                 {
-                    Debug.Log(string.Format("GamePad found {0}", testPlayerIndex));
-                    playerIndex = testPlayerIndex;
                     playerIndexSet = true;
                     isUsingAController = true;
                 }

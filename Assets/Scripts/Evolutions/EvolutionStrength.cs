@@ -7,10 +7,9 @@ using XInputDotNetPure;
 //GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerController>();
 //GamePad.GetState(playerIndex).Buttons.A;
 
-public class EvolutionStrengh : EvolutionComponent
+public class EvolutionStrength : EvolutionComponent
 {
     [SerializeField]float downDashPower = 100;
-    [SerializeField] float expulseDashPower = 60;
     [SerializeField] float maxDashChargeDelay = 0.7f;
     float timer;
     Rigidbody rb;
@@ -21,29 +20,28 @@ public class EvolutionStrengh : EvolutionComponent
     public void ColorChangeAsupr(Color color)
     {
         Transform slimeBody = null;
-        string slimeName = "Slime_0"+( ((int)playerController.playerIndex)+1);
-        Transform slimeMeshParent = transform.Find(slimeName);
+        Transform slimeMeshParent = transform.GetChild((int)PlayerChildren.SlimeMesh);
 
         if (slimeMeshParent != null)
-            slimeBody = slimeMeshParent.Find("Slime_Body");
+            slimeBody = slimeMeshParent.GetChild((int)BodyPart.Body);
         if (slimeBody!=null)
         {
             slimeBody.GetComponent<MeshRenderer>().materials[0].color = color;
         }
     }
 
-
     public override void  Start()
     {
         base.Start();
-        SetPower(Powers.Strengh);
+        SetPower(Powers.Strength);
         rb = GetComponent<Rigidbody>();
         playerController.stats.AddBuff(new StatBuff(Stats.StatType.GROUND_SPEED, 0.85f, -1));
-        Debug.Log("I have Strengh");
     }
+
+    // Prepare caracter for strength dashing
     public void DashStart()
     {
-            // stop mouvement
+        // stop mouvement
         ColorChangeAsupr(Color.red);
         if (rb == null)
         {
@@ -51,54 +49,63 @@ public class EvolutionStrengh : EvolutionComponent
             return;
         }
         rb.velocity = Vector3.zero;
-                // stop jump
+
+        // stop jump
         JumpManager jumpManager = GetComponent<JumpManager>();
         if (jumpManager != null)
         {
             jumpManager.Stop();
         }
         timer = 0;
-        //GetComponent<PlayerController>().StrenghState = SkillState.Charging;
     }
+
+    // Force dash after maxDashChargeDelay
     public void Levitate()
     {
         timer += Time.deltaTime;
         if (timer > maxDashChargeDelay)
         {
             LaunchDash();
-            GetComponent<PlayerController>().StrenghState = SkillState.Dashing;
+            GetComponent<PlayerController>().StrengthState = SkillState.Dashing;
         }
-
     }
+
+    // Apply a speed towards the ground
     public void LaunchDash()
     {
         Vector3 downPush = Vector3.down * downDashPower;
         rb.velocity = downPush; // Override current velocity. 
     }
 
-    public override void OnCollisionEnter(Collision coll)
-    {
-        base.OnCollisionEnter(coll);
-        Rigidbody otherRb;
-        if (GetComponent<PlayerController>().StrenghState == SkillState.Dashing)
-        {
-            if (coll.transform.GetComponent<Player>() != null)
-            {
-                otherRb = coll.transform.GetComponent<Rigidbody>();
-                Vector3 direction = coll.contacts[0].point - rb.position;
-                direction.y = 0;
-                direction.Normalize();
-                otherRb.AddForce(direction * expulseDashPower, ForceMode.Impulse);
-            }
-        }
+    /*
+     *
+     * Cf Player Collision Center
+     */
+    //public override void OnCollisionEnter(Collision coll)
+    //{
+    //    base.OnCollisionEnter(coll);
+    //    Rigidbody otherRb;
+    //    if (GetComponent<PlayerController>().StrenghState == SkillState.Dashing)
+    //    {
+    //        if (coll.transform.GetComponent<Player>() != null)
+    //        {
+    //            otherRb = coll.transform.GetComponent<Rigidbody>();
+    //            Vector3 direction = coll.contacts[0].point - rb.position;
+    //            direction.y = 0;
+    //            direction.Normalize();
+    //            otherRb.AddForce(direction * expulseDashPower, ForceMode.Impulse);
+    //        }
+    //    }
        
-    }
+    //}
+
+    // Specific onCollisionStay
     public override void OnCollisionStay(Collision coll)
     {
         base.OnCollisionStay(coll);
-        if (GetComponent<PlayerController>().StrenghState == SkillState.Dashing && playerController.IsGrounded)
+        if (GetComponent<PlayerController>().StrengthState == SkillState.Dashing && playerController.IsGrounded)
         {
-            GetComponent<PlayerController>().StrenghState = SkillState.Ready;
+            GetComponent<PlayerController>().StrengthState = SkillState.Ready;
             ColorChangeAsupr(Color.white);
         }
     }
