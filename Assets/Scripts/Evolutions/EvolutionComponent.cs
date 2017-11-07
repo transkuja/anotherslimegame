@@ -62,7 +62,7 @@ public class EvolutionComponent : MonoBehaviour {
         }
     }
 
-    private void OnDestroy()
+    protected void OnDestroy()
     {
         GetComponent<Player>().activeEvolutions--;
         transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)evolution.BodyPart).gameObject.SetActive(false);

@@ -59,6 +59,8 @@ MonoBehaviour:
     type: 2}
   prefabStrengthEvolution1GameObject: {fileID: 1524093129247474, guid: 878be16398a7b6d44a98286752bda286,
     type: 2}
+  prefabGhostEvolution1GameObject: {fileID: 1524093129247474, guid: 25255874ce2e292488d526559ab4d43a,
+    type: 2}
   prefabKeyGameObject: {fileID: 1097748654610884, guid: bff4ecca564bc43488610256b97417cb,
     type: 2}
   prefabKeySprite: {fileID: 1883766573907508, guid: 362c8f3bb33972d48be36f9204c699c7,

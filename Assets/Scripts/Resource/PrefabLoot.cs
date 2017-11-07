@@ -13,6 +13,8 @@ public class PrefabLoot : MonoBehaviour {
     [SerializeField]
     public GameObject prefabStrengthEvolution1GameObject;
     [SerializeField]
+    public GameObject prefabGhostEvolution1GameObject;
+    [SerializeField]
     public GameObject prefabKeyGameObject;
 
     public GameObject prefabKeySprite;
@@ -30,6 +32,8 @@ public class PrefabLoot : MonoBehaviour {
                 return Instantiate(prefabWingsEvolution2GameObject, where, direction, parent);
             case CollectableType.StrengthEvolution1:
                 return Instantiate(prefabStrengthEvolution1GameObject, where, direction, parent);
+            case CollectableType.GhostEvolution1:
+                return Instantiate(prefabGhostEvolution1GameObject, where, direction, parent);
             case CollectableType.Points:
                 return Instantiate(prefabPointsGameObject, where, direction, parent);
             case CollectableType.Key:

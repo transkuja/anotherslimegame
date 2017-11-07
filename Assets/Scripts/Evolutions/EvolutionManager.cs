@@ -63,7 +63,7 @@ public class Evolution
 }
 
 public enum BodyPart { Body, Wings, Hammer, Staff, Size }
-public enum Powers { DoubleJump, Hover, Size, Strength }
+public enum Powers { DoubleJump, Hover, Size, Strength, Ghost }
 
 public class EvolutionManager {
 
@@ -71,7 +71,7 @@ public class EvolutionManager {
     Evolution doubleJumpEvolution = new Evolution(Powers.DoubleJump, 5, CollectableType.WingsEvolution1, 20, BodyPart.Wings);
     Evolution hoverEvolution = new Evolution(Powers.Hover, 3, CollectableType.WingsEvolution2, 30, BodyPart.Wings);
     Evolution strengthEvolution = new Evolution(Powers.Strength, 3, CollectableType.WingsEvolution2, 30, BodyPart.Hammer);
-
+    Evolution ghostEvolution = new Evolution(Powers.Ghost, 3, CollectableType.GhostEvolution1, 30, BodyPart.Staff);
     public Evolution GetEvolutionByPowerName(Powers _powerName, bool isPermanent = false)
     {
         Evolution tmpEvolution;
@@ -86,6 +86,9 @@ public class EvolutionManager {
                 break;
             case Powers.Strength:
                 tmpEvolution = strengthEvolution;
+                break;
+            case Powers.Ghost:
+                tmpEvolution = ghostEvolution;
                 break;
             default:
                 Debug.Log("Unknown power, something went wrong");
@@ -109,11 +112,18 @@ public class EvolutionManager {
             case Powers.Hover:
                 if (gameObject.GetComponent<Hover>() != null) gameObject.GetComponent<Hover>().Timer = (isPermanent) ? 0.0f : evolution.duration;
                 else
-                    gameObject.AddComponent<Hover>(); break;
+                    gameObject.AddComponent<Hover>();
+                break;
             case Powers.Strength:
                 if (gameObject.GetComponent<EvolutionStrength>() != null) gameObject.GetComponent<EvolutionStrength>().Timer = (isPermanent) ? 0.0f : evolution.duration;
                 else
-                    gameObject.AddComponent<EvolutionStrength>(); break;
+                    gameObject.AddComponent<EvolutionStrength>();
+                break;
+            case Powers.Ghost:
+                if (gameObject.GetComponent<EvolutionGhost>() != null) gameObject.GetComponent<EvolutionGhost>().Timer = (isPermanent) ? 0.0f : evolution.duration;
+                else
+                    gameObject.AddComponent<EvolutionGhost>();
+                break;
             default:
                 Debug.Log("Unknown power, something went wrong");
                 break;
@@ -133,6 +143,8 @@ public class EvolutionManager {
                 return hoverEvolution;
             case CollectableType.StrengthEvolution1:
                 return strengthEvolution;
+            case CollectableType.GhostEvolution1:
+                return ghostEvolution;
             default:
                 Debug.LogError("Unhandle Evolution");
                 return null;
