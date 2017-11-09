@@ -5254,9 +5254,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buoyancyCentreOffset: {x: 0, y: 0, z: 0}
-  bounceDamp: 0
+  bounceDamp: 1
   waterLevel: 0
-  floatHeight: 0
+  floatHeight: 5
 --- !u!1 &517648536
 GameObject:
   m_ObjectHideFlags: 0
@@ -22870,7 +22870,7 @@ Prefab:
     - target: {fileID: 224253512408005366, guid: ebd48e33ce16a7c498ce0f86ed08310f,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 1829664555950164, guid: ebd48e33ce16a7c498ce0f86ed08310f, type: 2}
       propertyPath: m_IsActive
@@ -22935,7 +22935,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4756922043918338, guid: d35b4cf660131064298fb319f3e4e30c, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 262.3
+      value: 225.3
       objectReference: {fileID: 0}
     - target: {fileID: 4756922043918338, guid: d35b4cf660131064298fb319f3e4e30c, type: 2}
       propertyPath: m_LocalPosition.y
@@ -22943,7 +22943,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4756922043918338, guid: d35b4cf660131064298fb319f3e4e30c, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -165.4
       objectReference: {fileID: 0}
     - target: {fileID: 4756922043918338, guid: d35b4cf660131064298fb319f3e4e30c, type: 2}
       propertyPath: m_LocalRotation.x

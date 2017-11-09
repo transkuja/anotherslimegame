@@ -19,8 +19,8 @@ public class WaterComponent : MonoBehaviour {
 
             if (forceFactor > 0f)
             {
-                Vector3 uplift = -Physics.gravity * (forceFactor - GetComponent<Rigidbody>().velocity.y * bounceDamp);
-                GetComponent<Rigidbody>().AddForceAtPosition(uplift, actionPoint);
+                Vector3 uplift = -Physics.gravity * (forceFactor - rigidbody.velocity.y * bounceDamp);
+                rigidbody.AddForceAtPosition(uplift, actionPoint);
             }
         }
     }
