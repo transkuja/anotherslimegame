@@ -25,11 +25,6 @@ public class JumpManager : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         pc = GetComponent<PlayerController>();
-        if (curJump == null && jumpTab!=null && jumpTab.Length>1)
-        {
-            curJump = jumpTab[0];
-        }
-      
     }
     public void Start()
     {
@@ -90,5 +85,18 @@ public class JumpManager : MonoBehaviour
         Debug.Log("Error Gravity : Player has no basicJump : gravity set to 90");
         return -90;
     }
-   
+    public float GetJumpHeight()
+    {
+        if (jumpTab != null)
+            return jumpTab[(int)JumpEnum.Basic].upParabola.Height;
+        else return 0;
+    }
+    public void SetJumpHeight(float height,float maxGroundSpeed)
+    {
+        if (jumpTab != null)
+        {
+            jumpTab[(int)JumpEnum.Basic].upParabola.Height = height;
+            jumpTab[(int)JumpEnum.Basic].upParabola.ComputeValues(maxGroundSpeed);
+        }
+    }
 }

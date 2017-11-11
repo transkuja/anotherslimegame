@@ -74,6 +74,12 @@ public class DebugTools : MonoBehaviour {
                         GameManager.EvolutionManager.AddEvolutionComponent(DebugPlayerSelected.gameObject, GameManager.EvolutionManager.GetEvolutionByPowerName(Powers.Strength));
                     Debug.Log("Added Strength on player " + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
                 }
+                if (Input.GetKeyDown(KeyCode.Alpha5))
+                {
+                    if (DebugPlayerSelected.GetComponent<EvolutionAgile>() == null)
+                        GameManager.EvolutionManager.AddEvolutionComponent(DebugPlayerSelected.gameObject, GameManager.EvolutionManager.GetEvolutionByPowerName(Powers.Agile));
+                    Debug.Log("Added Agile on player " + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
+                }
             }
             else if (Input.GetKey(KeyCode.Alpha2))
             {
@@ -110,6 +116,7 @@ public class DebugTools : MonoBehaviour {
                     if (DebugPlayerSelected.GetComponent<DoubleJump>()) Destroy(DebugPlayerSelected.GetComponent<DoubleJump>());
                     if (DebugPlayerSelected.GetComponent<Hover>()) Destroy(DebugPlayerSelected.GetComponent<Hover>());
                     if (DebugPlayerSelected.GetComponent<EvolutionStrength>()) Destroy(DebugPlayerSelected.GetComponent<EvolutionStrength>());
+                    if (DebugPlayerSelected.GetComponent<EvolutionAgile>()) Destroy(DebugPlayerSelected.GetComponent<EvolutionAgile>());
                     DebugPlayerSelected.Rb.velocity = Vector3.zero;
                     Debug.Log("Reset current player! " + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
                 }

@@ -63,7 +63,7 @@ public class Evolution
 }
 
 public enum BodyPart { Body, Wings, Hammer, Staff, Size }
-public enum Powers { DoubleJump, Hover, Size, Strength }
+public enum Powers { DoubleJump, Hover, Size, Strength, Agile }
 
 public class EvolutionManager {
 
@@ -71,6 +71,7 @@ public class EvolutionManager {
     Evolution doubleJumpEvolution = new Evolution(Powers.DoubleJump, 5, CollectableType.WingsEvolution1, 20, BodyPart.Wings);
     Evolution hoverEvolution = new Evolution(Powers.Hover, 3, CollectableType.WingsEvolution2, 30, BodyPart.Wings);
     Evolution strengthEvolution = new Evolution(Powers.Strength, 3, CollectableType.WingsEvolution2, 30, BodyPart.Hammer);
+    Evolution agileEvolution = new Evolution(Powers.Agile, 3, CollectableType.WingsEvolution2, 30, BodyPart.Wings);
 
     public Evolution GetEvolutionByPowerName(Powers _powerName, bool isPermanent = false)
     {
@@ -86,6 +87,9 @@ public class EvolutionManager {
                 break;
             case Powers.Strength:
                 tmpEvolution = strengthEvolution;
+                break;
+                case Powers.Agile:
+                tmpEvolution = agileEvolution;
                 break;
             default:
                 Debug.Log("Unknown power, something went wrong");
@@ -114,6 +118,10 @@ public class EvolutionManager {
                 if (gameObject.GetComponent<EvolutionStrength>() != null) gameObject.GetComponent<EvolutionStrength>().Timer = (isPermanent) ? 0.0f : evolution.duration;
                 else
                     gameObject.AddComponent<EvolutionStrength>(); break;
+            case Powers.Agile:
+                if (gameObject.GetComponent<EvolutionAgile>() != null) gameObject.GetComponent<EvolutionAgile>().Timer = (isPermanent) ? 0.0f : evolution.duration;
+                else
+                    gameObject.AddComponent<EvolutionAgile>(); break;
             default:
                 Debug.Log("Unknown power, something went wrong");
                 break;

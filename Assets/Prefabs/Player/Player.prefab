@@ -1040,7 +1040,7 @@ MonoBehaviour:
   stats:
     stats:
     - name: GROUND_SPEED
-      baseStat: 20
+      baseStat: 28
       currentStat: 30
     - name: AIR_CONTROL
       baseStat: 20

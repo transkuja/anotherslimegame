@@ -76,15 +76,14 @@ public class Jump  {
             minJumpParabola.ComputeValues(playerMaxGroundSpeed);
         }
     }
+
+
     public void InitJump(Rigidbody rb,float _playerMaxGroundSpeed)
     {
         controllerRb = rb;
         playerMaxGroundSpeed = _playerMaxGroundSpeed;
         if (upParabola != null)
         {
-            upParabola.ComputeValues(playerMaxGroundSpeed);
-            //Debug.Log("upForce :" + upParabola.V0);
-
             rb.velocity = new Vector3(rb.velocity.x, upParabola.V0, rb.velocity.z);
             rb.useGravity = false;
         }
@@ -96,12 +95,11 @@ public class Jump  {
         {
             //Debug.Log("SwitchMinimalJump");
             curParabola = minJumpParabola;
-            minJumpParabola.ComputeValues(playerMaxGroundSpeed);
         }
     }
     public void AtPeakOfJump()
     {
-        Debug.Log("heightAtPeak : " + controllerRb.position.y);
+        //Debug.Log("heightAtPeak : " + controllerRb.position.y);
         if (isContinue)
         {
             curParabola = upParabola;
@@ -111,13 +109,9 @@ public class Jump  {
         {
             //Debug.Log("Parabola Falling");
             curParabola = fallingParabola;
-            fallingParabola.ComputeValues(playerMaxGroundSpeed);
         }
     }
     Vector3 lastVelocity;
-
-
-
     public void JumpFixedUpdate()
     {
             // on applique la gravité personnalisé pour saut.
