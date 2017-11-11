@@ -84,7 +84,7 @@ public class PlayerController : MonoBehaviour {
 
     private void Awake()
     {
-        stats.Init();
+        stats.Init(this);
         JumpManager jumpManager = GetComponent<JumpManager>();
         if (jumpManager != null)
             customGravity = jumpManager.GetGravity(stats.Get(Stats.StatType.GROUND_SPEED));

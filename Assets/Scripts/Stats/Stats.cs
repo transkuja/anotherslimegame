@@ -24,12 +24,12 @@ public class Stats  {
     public struct Stat
     {
         [HideInInspector]public string name; // ne sert qu'a l'affichage dans l'éditor si une autre solution existe je suis chaud
-        public float baseStat;
-        [HideInInspector]public float currentStat;
+        [SerializeField] public float baseStat;
+        [SerializeField] public float currentStat;
     }
     private List<StatBuff> buffList;
     [SerializeField] private Stat[] stats = new Stat[(int)StatType.MAX_STATS]; // tableau contenant toutes les stats du joueur
-
+    PlayerController playerController;
 
     public Stats()
     {
@@ -40,18 +40,28 @@ public class Stats  {
         }
         buffList = new List<StatBuff>();
     }
-    public void Init()
+    public void Init(PlayerController _playerController)
     {
-        stats = new Stat[(int)StatType.MAX_STATS];
-        stats[(int)Stats.StatType.GROUND_SPEED].baseStat = 28;
-        stats[(int)Stats.StatType.AIR_CONTROL].baseStat = 20;
-
+            // Si erreur dans les données du prefab, on recrée : 
+        if (stats == null || stats.Length < (int)StatType.MAX_STATS)
+        {
+            stats = new Stat[(int)StatType.MAX_STATS];
+            stats[(int)Stats.StatType.GROUND_SPEED].baseStat = 28;
+            stats[(int)Stats.StatType.AIR_CONTROL].baseStat = 20;
+        }
+           // ON récupère la hauter du saut : 
+        JumpManager jp = _playerController.GetComponent<JumpManager>();
+        if (jp != null) 
+        {
+            stats[(int)Stats.StatType.JUMP_HEIGHT].baseStat = jp.GetJumpHeight();
+        }
+            // On actualise les nom et les current stats : 
         for (int i = 0; i < (int)StatType.MAX_STATS; i++)
         {
             stats[i].name = ((StatType)i).ToString();
             stats[i].currentStat = stats[i].baseStat;
         }
-
+        playerController = _playerController;
         buffList = new List<StatBuff>();
     }
 
@@ -108,8 +118,25 @@ public class Stats  {
         }
         stats[(int)stat].currentStat = newStatValue;
 
-        if (stat == StatType.JUMP_HEIGHT)
+        JumpManager jp = playerController.GetComponent<JumpManager>();
+        switch (stat)
         {
+            case StatType.GROUND_SPEED:
+                if (jp!=null)
+                {
+                    if (jp.jumpTab!=null)
+                        jp.jumpTab[(int)JumpManager.JumpEnum.Basic].InitValues(stats[(int)stat].currentStat);
+                }
+                break;
+            case StatType.JUMP_HEIGHT:
+                if (jp != null)
+                {
+                    if (jp.jumpTab != null)
+                        jp.SetJumpHeight(stats[(int)StatType.JUMP_HEIGHT].currentStat, stats[(int)StatType.GROUND_SPEED].currentStat);
+                }
+                break;
+            default:
+                break;
         }
     }
     public void Update()

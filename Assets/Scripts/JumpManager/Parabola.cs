@@ -20,27 +20,40 @@ public class Parabola {
     public float V0 { get { return v0; } }
     public float CurGravity { get { return curGravity; } }
 
+#region gettersSetters
     public float Xz_h
     {   get{return xz_h;}}
+    public float Height
+    {
+        get
+        {
+            return height;
+        }
 
+        set
+        {
+            height = value;
+        }
+    }
     public Parabola()
     {
-        height = 5;
+        Height = 5;
         xz_speed = 1;
         xz_h = 5;
         ComputeValues(10);
     }
-        // Enregistre la speed maximale du joueur, la force à appliquer pour sauter.
+#endregion
+    // Enregistre la speed maximale du joueur, la force à appliquer pour sauter.
     public void ComputeValues(float maxSpeed)
     {
-        if (maxSpeed <=0 || height<=0 || xz_h<=0)
+        if (maxSpeed <=0 || Height<=0 || xz_h<=0)
         {
             Debug.Log("Error Jump non paramétré");
             return;
         }
         xz_speed = maxSpeed;
-        v0 = (2 * height * xz_speed) / xz_h;
-        curGravity = (-2 * height * xz_speed * xz_speed) / (xz_h * xz_h);
+        v0 = (2 * Height * xz_speed) / xz_h;
+        curGravity = (-2 * Height * xz_speed * xz_speed) / (xz_h * xz_h);
     }
    
     public float getPosition(float t)

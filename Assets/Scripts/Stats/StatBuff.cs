@@ -35,6 +35,7 @@ public class StatBuff  {
     }
     /// <summary>
     /// Create Stat modification
+    /// -1 for infinity duration
     /// </summary>
     /// <param name="statType"> stat type </param>
     /// <param name="value"></param>
