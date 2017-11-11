@@ -38,14 +38,14 @@ public class JumpManager : MonoBehaviour
         pc.isGravityEnabled = false;
     }
 
-    public void Jump(float playerMaxGroundSpeed, JumpEnum type)
+    public void Jump(JumpEnum type)
     {
         SetGravity();
         if (jumpTab != null && jumpTab.Length >= (int)type) 
             curJump = jumpTab[(int) type];
 
         if (curJump != null)
-            curJump.InitJump(rb, playerMaxGroundSpeed);
+            curJump.InitJump(rb);
     }
 
     public void FixedUpdate()
@@ -68,14 +68,13 @@ public class JumpManager : MonoBehaviour
         if (curJump != null && rb.velocity.y >0)
             curJump.SwitchMinimalJump();
     }
-   public float GetGravity(float playerMaxGroundSpeed)
+   public float GetGravity()
     {
         if (jumpTab!=null)
         {
             Jump basicJump = jumpTab[(int)JumpEnum.Basic];
             if (basicJump != null)
             {
-                basicJump.InitValues(playerMaxGroundSpeed);
                 if (basicJump.HasFallingParabola)
                     return -basicJump.FallingParabola.CurGravity;
                 else

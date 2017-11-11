@@ -29,6 +29,7 @@ public class Stats  {
     }
     private List<StatBuff> buffList;
     [SerializeField] private Stat[] stats = new Stat[(int)StatType.MAX_STATS]; // tableau contenant toutes les stats du joueur
+
     PlayerController playerController;
 
     public Stats()
