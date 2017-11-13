@@ -1,6 +1,7 @@
 ﻿using XInputDotNetPure;
 using UnityEngine;
 using System;
+using System.Collections;
 using UnityEngine.SceneManagement;
 using Cinemachine;
 
@@ -11,6 +12,10 @@ public class PlayerState  {
     protected ptrStateFct curUpdateFct;
     protected ptrStateFct curFixedUpdateFct;
     protected PlayerController playerController;
+
+    public float maxCoolDown = 0;
+    public bool stateAvailable = true;
+
     #region getterSetters
 
     public ptrStateFct CurActionFct
@@ -48,6 +53,8 @@ public class PlayerState  {
     }
     public virtual void OnEnd()
     {
+        stateAvailable = false;
+        playerController.StartCoroutine(StateCooldown(maxCoolDown));
     }
    
     public virtual void OnUpdate()
@@ -65,10 +72,15 @@ public class PlayerState  {
     {
 
     }
+    public  IEnumerator StateCooldown(float maxCoolDown)
+    {
+        yield return new WaitForSeconds(maxCoolDown);
+        stateAvailable = true;
+        yield return null;
+    }
     // Fonction utiles pour tout état : 
     // peut être à deplacer dans un composant qui gère les evolutions.
-
-   
+  
     public virtual void HandleMovementWithController()
     {
         Vector3 initialVelocity = HandleSpeedWithController();
@@ -99,12 +111,6 @@ public class PlayerState  {
         }
         return initialVelocity;
     }
-    
-    public virtual void Dash()
-    {
-
-    }
-   
     public virtual void HandleGravity()
     {
         if (playerController.isGravityEnabled)
@@ -115,6 +121,7 @@ public class PlayerState  {
     }
     public virtual void OnJumpPressed()
     {
+        // obligé de faire un check ici( jump--> dash--> jump--> dash-->jump ...)
         if (playerController.jumpState.nbJumpMade < playerController.stats.Get(Stats.StatType.JUMP_NB))
             playerController.PlayerState = playerController.jumpState;
     }

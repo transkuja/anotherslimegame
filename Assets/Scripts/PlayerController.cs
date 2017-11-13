@@ -1,6 +1,7 @@
 ﻿using XInputDotNetPure;
 using UnityEngine;
 using System;
+using System.Collections;
 using UnityEngine.SceneManagement;
 using Cinemachine;
 
@@ -49,6 +50,7 @@ public class PlayerController : MonoBehaviour {
 #endif
     #region GetterSetters
 
+   
     /// StateManagment
     public PlayerState PlayerState
     {
@@ -58,6 +60,8 @@ public class PlayerController : MonoBehaviour {
         }
         set
         {
+            if (!value.stateAvailable)
+                return;
             if (PlayerState!=null)
             {
                 PlayerState.OnEnd();

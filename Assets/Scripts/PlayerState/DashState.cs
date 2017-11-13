@@ -10,6 +10,7 @@ public class DashState : PlayerState
     float dashingVelocity;
     public DashState(PlayerController _playerController) : base(_playerController)
     {
+        maxCoolDown = 0.5f;
     }
     public override void OnBegin()
     {
