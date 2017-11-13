@@ -8,6 +8,8 @@ public class JumpState : PlayerState
 {
 
     bool hasJumpButtonBeenReleased;
+    public int nbJumpMade = 0;
+
     public JumpState(PlayerController _playerController) : base(_playerController)
     {
         curUpdateFct = OnJump;
@@ -28,7 +30,7 @@ public class JumpState : PlayerState
     {
         if (playerController.IsGrounded)
         {
-            playerController.PlayerState = new FreeState(playerController);
+            playerController.PlayerState = playerController.freeState;
         }
     }
 
@@ -46,16 +48,16 @@ public class JumpState : PlayerState
         else
             Debug.LogError("No jump manager attached to player!");
         playerController.chargeFactor = 0;
-        playerController.NbJump++;
+        nbJumpMade++;
     }
 
-
+   
     public override void OnJumpPressed()
     {
-        if (playerController.NbJump < playerController.stats.Get(Stats.StatType.JUMP_NB) && hasJumpButtonBeenReleased)
+        if (nbJumpMade < playerController.stats.Get(Stats.StatType.JUMP_NB) && hasJumpButtonBeenReleased)
         {
             hasJumpButtonBeenReleased = false;
-            if (playerController.NbJump > 1)
+            if (nbJumpMade > 1)
             {
                 if (AudioManager.Instance != null && AudioManager.Instance.youpiFX != null)
                     AudioManager.Instance.PlayOneShot(AudioManager.Instance.youpiFX);

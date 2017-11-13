@@ -34,7 +34,7 @@ public class DashState : PlayerState
         dashingTimer -= Time.fixedDeltaTime;
         if (dashingTimer <= 0.0f)
         {
-            playerController.PlayerState = new FreeState(playerController);
+            playerController.PlayerState = playerController.freeState;
         }
     }
         // override le movement pour l'interdire : 

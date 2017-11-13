@@ -31,7 +31,11 @@ public class PlayerController : MonoBehaviour {
     // jump
     public float chargeFactor = 0.0f;
     [Range(5, 1000)] float jumpChargeSpeed = 15.0f;
-    private int nbJump = 0;
+
+    // All PlayerStateCreation once and for all.
+    public JumpState jumpState;
+    public DashState dashState;
+    public FreeState freeState;
 
 
     [SerializeField]public Stats stats;
@@ -59,10 +63,10 @@ public class PlayerController : MonoBehaviour {
                 PlayerState.OnEnd();
             }
             playerState = value;
+            PlayerState.OnBegin();
 #if UNITY_EDITOR
             curStateName = value.ToString();
 #endif
-            PlayerState.OnBegin();
         }
     }
     public bool IsGrounded
@@ -76,7 +80,7 @@ public class PlayerController : MonoBehaviour {
         {
             if (value == true)
             {
-                NbJump = 0;
+                jumpState.nbJumpMade = 0;
                 if( GetComponent<JumpManager>() != null)
                     GetComponent<JumpManager>().Stop();
             }
@@ -187,31 +191,23 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    public int NbJump
-    {
-        get
-        {
-            return nbJump;
-        }
-
-        set
-        {
-            nbJump = value;
-        }
-    }
+    
 
     #endregion
 
     private void Awake()
     {
         stats.Init(this);
+        jumpState = new JumpState(this);
+        dashState = new DashState(this);
+        freeState = new FreeState(this);
     }
 
     void Start () {
         Player = GetComponent<Player>();
         if (Player == null)
             Debug.Log("Player should not be null");
-        PlayerState = new FreeState(this);
+        PlayerState = freeState;
 	}
 	
 	// Update is called once per frame

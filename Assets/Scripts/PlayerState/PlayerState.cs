@@ -115,10 +115,11 @@ public class PlayerState  {
     }
     public virtual void OnJumpPressed()
     {
-        playerController.PlayerState = new JumpState(playerController);
+        if (playerController.jumpState.nbJumpMade < playerController.stats.Get(Stats.StatType.JUMP_NB))
+            playerController.PlayerState = playerController.jumpState;
     }
     public virtual void OnDashPressed()
     {
-        playerController.PlayerState = new DashState(playerController);
+        playerController.PlayerState = playerController.dashState;
     }
 }
