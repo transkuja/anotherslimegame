@@ -99,6 +99,12 @@ public class PlayerState  {
         }
         return initialVelocity;
     }
+    
+    public virtual void Dash()
+    {
+
+    }
+   
     public virtual void HandleGravity()
     {
         if (playerController.isGravityEnabled)
@@ -107,9 +113,12 @@ public class PlayerState  {
             playerController.Player.Rb.AddForce(gravity * Vector3.down, ForceMode.Acceleration);
         }
     }
-    public virtual void Jump()
+    public virtual void OnJumpPressed()
     {
         playerController.PlayerState = new JumpState(playerController);
-        playerController.Jump();
+    }
+    public virtual void OnDashPressed()
+    {
+        playerController.PlayerState = new DashState(playerController);
     }
 }

@@ -7,7 +7,6 @@ using Cinemachine;
 public class JumpState : PlayerState
 {
 
-    int nbJump;
     bool hasJumpButtonBeenReleased;
     public JumpState(PlayerController _playerController) : base(_playerController)
     {
@@ -18,9 +17,9 @@ public class JumpState : PlayerState
     {
         base.OnBegin();
         hasJumpButtonBeenReleased = false;
-        nbJump = 1;
+        LauchJump();
     }
-
+   
     public override void OnEnd()
     {
         base.OnEnd();
@@ -38,20 +37,30 @@ public class JumpState : PlayerState
     {
         base.DrawGizmo();
     }
-    public override void Jump()
+     public void LauchJump()
     {
-       
+        playerController.IsGrounded = false;
+        JumpManager jm;
+        if (jm = playerController.GetComponent<JumpManager>())
+            jm.Jump(JumpManager.JumpEnum.Basic);
+        else
+            Debug.LogError("No jump manager attached to player!");
+        playerController.chargeFactor = 0;
+        playerController.NbJump++;
+    }
 
-        if (nbJump < playerController.stats.Get(Stats.StatType.JUMP_NB) && hasJumpButtonBeenReleased)
+
+    public override void OnJumpPressed()
+    {
+        if (playerController.NbJump < playerController.stats.Get(Stats.StatType.JUMP_NB) && hasJumpButtonBeenReleased)
         {
-            nbJump++;
             hasJumpButtonBeenReleased = false;
-            if (nbJump > 1)
+            if (playerController.NbJump > 1)
             {
                 if (AudioManager.Instance != null && AudioManager.Instance.youpiFX != null)
                     AudioManager.Instance.PlayOneShot(AudioManager.Instance.youpiFX);
             }
-            playerController.Jump();
+            LauchJump();
         }
         if (playerController.State.Buttons.A == ButtonState.Released)
             hasJumpButtonBeenReleased = true;

@@ -4,6 +4,9 @@ using System;
 using UnityEngine.SceneManagement;
 using Cinemachine;
 
+
+    // Gère les input selon l'input appelle des action codée dans une playerState.
+
 public class PlayerController : MonoBehaviour {
     
         // Component : 
@@ -26,8 +29,10 @@ public class PlayerController : MonoBehaviour {
     float maxDistanceOffset = 2.0f;
 
     // jump
-    float chargeFactor = 0.0f;
+    public float chargeFactor = 0.0f;
     [Range(5, 1000)] float jumpChargeSpeed = 15.0f;
+    private int nbJump = 0;
+
 
     [SerializeField]public Stats stats;
     [SerializeField]bool isGrounded = true;
@@ -67,10 +72,14 @@ public class PlayerController : MonoBehaviour {
             return isGrounded;
         }
 
-        private set
+        set
         {
-            if (value == true && GetComponent<JumpManager>() != null)
-                GetComponent<JumpManager>().Stop();
+            if (value == true)
+            {
+                NbJump = 0;
+                if( GetComponent<JumpManager>() != null)
+                    GetComponent<JumpManager>().Stop();
+            }
             isGrounded = value;
         }
     }
@@ -178,6 +187,19 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    public int NbJump
+    {
+        get
+        {
+            return nbJump;
+        }
+
+        set
+        {
+            nbJump = value;
+        }
+    }
+
     #endregion
 
     private void Awake()
@@ -230,7 +252,9 @@ public class PlayerController : MonoBehaviour {
             if (GameManager.CurrentState == GameState.Normal)
             {
                 HandleJumpWithController();
-                HandleMovementWithController();
+                PlayerState.HandleMovementWithController();
+                HandleDashWithController();
+
                 if (GameManager.CurrentGameMode.evolutionMode == EvolutionMode.GrabCollectableAndActivate)
                     HandleEvolutionsWithController();
             }
@@ -288,10 +312,7 @@ public class PlayerController : MonoBehaviour {
         }
        
     }
-    public void HandleMovementWithController()
-    {
-        PlayerState.HandleMovementWithController();
-    }
+    
     private void HandleJumpWithController()
     {
         // Charge jump if A button is pressed for a "long" time and only if on the ground
@@ -303,26 +324,20 @@ public class PlayerController : MonoBehaviour {
                 // Force max charge jump if the charge reach maximum charge
                 if (chargeFactor > 1.0f)
                 {
-                    playerState.Jump();
+                    playerState.OnJumpPressed();
                 }
             }
             else if (prevState.Buttons.A == ButtonState.Pressed && state.Buttons.A == ButtonState.Released)
             {
-                playerState.Jump();
+                playerState.OnJumpPressed();
             }
         }
     }
-
-    public void Jump()
+    public virtual void HandleDashWithController()
     {
-        IsGrounded = false;
-        JumpManager jm;
-        if (jm = GetComponent<JumpManager>())
-            jm.Jump(JumpManager.JumpEnum.Basic);
-        else
-            Debug.LogError("No jump manager attached to player!");
-        chargeFactor = 0;
+        if (PrevState.Buttons.X == ButtonState.Released && State.Buttons.X == ButtonState.Pressed)
+        {
+            playerState.OnDashPressed();
+        }
     }
-
-
 }
