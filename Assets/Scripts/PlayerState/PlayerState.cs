@@ -81,24 +81,7 @@ public class PlayerState  {
     // Fonction utiles pour tout état : 
     // peut être à deplacer dans un composant qui gère les evolutions.
   
-    public virtual void HandleMovementWithController()
-    {
-        Vector3 initialVelocity = HandleSpeedWithController();
-     
-        Vector3 camVectorForward = new Vector3(playerController.Player.cameraReference.transform.GetChild(0).forward.x, 0.0f, playerController.Player.cameraReference.transform.GetChild(0).forward.z);
-        camVectorForward.Normalize();
-
-        Vector3 velocityVec = initialVelocity.z * camVectorForward + Vector3.up * playerController.Player.Rb.velocity.y;
-        if (playerController.IsGrounded)
-            velocityVec += initialVelocity.x * playerController.Player.cameraReference.transform.GetChild(0).right;
-
-        playerController.Player.Rb.velocity = velocityVec;
-        playerController.transform.LookAt(playerController.transform.position + new Vector3(velocityVec.x, 0.0f, velocityVec.z) + initialVelocity.x * playerController.Player.cameraReference.transform.GetChild(0).right);
-
-        // TMP Animation
-        playerController.Player.Anim.SetFloat("MouvementSpeed", Mathf.Abs(playerController.State.ThumbSticks.Left.X) > Mathf.Abs(playerController.State.ThumbSticks.Left.Y) ? Mathf.Abs(playerController.State.ThumbSticks.Left.X) : Mathf.Abs(playerController.State.ThumbSticks.Left.Y));
-        playerController.Player.Anim.SetBool("isWalking", ((Mathf.Abs(playerController.State.ThumbSticks.Left.X) > 0.02f) || Mathf.Abs(playerController.State.ThumbSticks.Left.Y) > 0.02f) && playerController.Player.GetComponent<PlayerController>().IsGrounded);
-    }
+   
     public virtual Vector3 HandleSpeedWithController()
     {
         Vector3 initialVelocity = new Vector3(playerController.State.ThumbSticks.Left.X, 0.0f, playerController.State.ThumbSticks.Left.Y);
@@ -110,6 +93,19 @@ public class PlayerState  {
             initialVelocity /= 2;
         }
         return initialVelocity;
+    }
+    public virtual void Move(Vector3 initialVelocity)
+    {
+        Vector3 camVectorForward = new Vector3(playerController.Player.cameraReference.transform.GetChild(0).forward.x, 0.0f, playerController.Player.cameraReference.transform.GetChild(0).forward.z);
+        camVectorForward.Normalize();
+
+        Vector3 velocityVec = initialVelocity.z * camVectorForward + Vector3.up * playerController.Player.Rb.velocity.y;
+        if (playerController.IsGrounded)
+            velocityVec += initialVelocity.x * playerController.Player.cameraReference.transform.GetChild(0).right;
+
+        playerController.Player.Rb.velocity = velocityVec;
+        playerController.transform.LookAt(playerController.transform.position + new Vector3(velocityVec.x, 0.0f, velocityVec.z) + initialVelocity.x * playerController.Player.cameraReference.transform.GetChild(0).right);
+
     }
     public virtual void HandleGravity()
     {

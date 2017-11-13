@@ -42,7 +42,7 @@ public class DashState : PlayerState
     public override void HandleGravity()
     {
     }
-    public override void HandleMovementWithController()
+    public override void Move(Vector3 initialVelocity)
     {
     }
 

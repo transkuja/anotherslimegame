@@ -216,14 +216,13 @@ public class PlayerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
         if(PlayerState != null)
             PlayerState.OnUpdate();
+        HandleBouncing();
     }
     private void FixedUpdate()
     {
         PlayerState.HandleGravity();
-
         if (DEBUG_hasBeenSpawnedFromTool)
             return;
         if (!playerIndexSet)
@@ -252,7 +251,7 @@ public class PlayerController : MonoBehaviour {
             if (GameManager.CurrentState == GameState.Normal)
             {
                 HandleJumpWithController();
-                PlayerState.HandleMovementWithController();
+                HandleMovementWithController();
                 HandleDashWithController();
 
                 if (GameManager.CurrentGameMode.evolutionMode == EvolutionMode.GrabCollectableAndActivate)
@@ -312,7 +311,15 @@ public class PlayerController : MonoBehaviour {
         }
        
     }
-    
+    public virtual void HandleMovementWithController()
+    {
+        Vector3 initialVelocity = PlayerState.HandleSpeedWithController();
+
+        PlayerState.Move(initialVelocity);
+        // TMP Animation
+        Player.Anim.SetFloat("MouvementSpeed", Mathf.Abs(State.ThumbSticks.Left.X) > Mathf.Abs(State.ThumbSticks.Left.Y) ? Mathf.Abs(State.ThumbSticks.Left.X) : Mathf.Abs(State.ThumbSticks.Left.Y));
+        Player.Anim.SetBool("isWalking", ((Mathf.Abs(State.ThumbSticks.Left.X) > 0.02f) || Mathf.Abs(State.ThumbSticks.Left.Y) > 0.02f) && Player.GetComponent<PlayerController>().IsGrounded);
+    }
     private void HandleJumpWithController()
     {
         // Charge jump if A button is pressed for a "long" time and only if on the ground
@@ -338,6 +345,24 @@ public class PlayerController : MonoBehaviour {
         if (PrevState.Buttons.X == ButtonState.Released && State.Buttons.X == ButtonState.Pressed)
         {
             playerState.OnDashPressed();
+        }
+    }
+    public void HandleBouncing()
+    {
+        Ray ray = new Ray(transform.position, Vector3.down);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit))
+        {
+            float force = 200f;
+            float forceOffset = 0.1f;
+            MeshDeformer deformer = GetComponentInChildren<MeshDeformer>();
+            if (deformer)
+            {
+                Vector3 point = hit.point;
+                point += hit.normal * forceOffset;
+                deformer.AddDeformingForce(point, -force);
+                deformer.AddDeformingForce(point, +force / 5);
+            }
         }
     }
 }
