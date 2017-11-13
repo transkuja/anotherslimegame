@@ -67,11 +67,15 @@ public class PlayerState  {
         if (CurFixedUpdateFct != null)
             CurFixedUpdateFct();
     }
+    public virtual void CollisionEnter(Collision collision)
+    {}
+    public virtual void CollisionStay(Collision collision)
+    {}
+    public virtual void CollisionExit(Collision collision)
+    {}
   
     public virtual void DrawGizmo()
-    {
-
-    }
+    {}
     public  IEnumerator StateCooldown(float maxCoolDown)
     {
         yield return new WaitForSeconds(maxCoolDown);

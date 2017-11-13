@@ -37,6 +37,7 @@ public class PlayerController : MonoBehaviour {
     public JumpState jumpState;
     public DashState dashState;
     public FreeState freeState;
+    public ExpulsedState expulsedState;
 
 
     [SerializeField]public Stats stats;
@@ -60,7 +61,9 @@ public class PlayerController : MonoBehaviour {
         }
         set
         {
-            if (!value.stateAvailable)
+            if (value == null)
+                Debug.Log("State not created");
+            else if (!value.stateAvailable)
                 return;
             if (PlayerState!=null)
             {
@@ -205,6 +208,7 @@ public class PlayerController : MonoBehaviour {
         jumpState = new JumpState(this);
         dashState = new DashState(this);
         freeState = new FreeState(this);
+        expulsedState = new ExpulsedState(this);
     }
 
     void Start () {
@@ -222,7 +226,9 @@ public class PlayerController : MonoBehaviour {
     }
     private void FixedUpdate()
     {
-        PlayerState.HandleGravity();
+
+    
+
         if (DEBUG_hasBeenSpawnedFromTool)
             return;
         if (!playerIndexSet)
@@ -242,6 +248,11 @@ public class PlayerController : MonoBehaviour {
                 }
             }
         }
+
+        PlayerState.HandleGravity();
+      
+
+
         if (isUsingAController)
         {
             // TODO: optimize?
@@ -269,8 +280,8 @@ public class PlayerController : MonoBehaviour {
                 if (Input.GetKeyDown(KeyCode.Escape))
                     GameManager.ChangeState(GameState.Paused);
         }
-            // handle stateFunction
-     if (PlayerState != null)
+        // handle stateFunction
+        if (PlayerState != null)
             PlayerState.OnFixedUpdate();
 
         // Handle Grounded
@@ -286,8 +297,19 @@ public class PlayerController : MonoBehaviour {
             }
         }
     }
-
-            // Pour continuer à alleger, ajouter un composant qui s'occupe des evolution ?
+    public void OnCollisionEnter(Collision collision)
+    {
+        PlayerState.CollisionEnter( collision);
+    }
+    public void OnCollisionStay(Collision collision)
+    {
+        PlayerState.CollisionStay(collision);
+    }
+    public void OnCollisionExit(Collision collision)
+    {
+        PlayerState.CollisionExit(collision);
+    }
+    // Pour continuer à alleger, ajouter un composant qui s'occupe des evolution ?
     public void HandleEvolutionsWithController()
     {
         if (prevState.Buttons.LeftShoulder == ButtonState.Released && state.Buttons.LeftShoulder == ButtonState.Pressed)
