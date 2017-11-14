@@ -1,0 +1,190 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1001 &100100000
+Prefab:
+  m_ObjectHideFlags: 1
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications: []
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 0}
+  m_RootGameObject: {fileID: 1941538329449862}
+  m_IsPrefabParent: 1
+--- !u!1 &1552613979914514
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4447207574604864}
+  - component: {fileID: 33289651120844012}
+  - component: {fileID: 65819453768258944}
+  - component: {fileID: 23841151325510920}
+  - component: {fileID: 114544776889222974}
+  - component: {fileID: 114270606158368388}
+  m_Layer: 0
+  m_Name: Platform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1941538329449862
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4882931348711378}
+  m_Layer: 0
+  m_Name: TroupeauDeSanglier
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4447207574604864
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1552613979914514}
+  m_LocalRotation: {x: 0.5, y: 0.5, z: -0.5, w: 0.5}
+  m_LocalPosition: {x: 171.26, y: -4.9, z: -157.9}
+  m_LocalScale: {x: 4, y: 5, z: 4}
+  m_Children: []
+  m_Father: {fileID: 4882931348711378}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 90, y: -90, z: -180}
+--- !u!4 &4882931348711378
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1941538329449862}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 85.5, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 4447207574604864}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!23 &23841151325510920
+MeshRenderer:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1552613979914514}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_Materials:
+  - {fileID: 2100000, guid: 066b9c9e493989147b6d418e7478b828, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 1
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!33 &33289651120844012
+MeshFilter:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1552613979914514}
+  m_Mesh: {fileID: 4300000, guid: ec983331376797641886946b0dfb14fb, type: 3}
+--- !u!65 &65819453768258944
+BoxCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1552613979914514}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &114270606158368388
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1552613979914514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74ad014d0cfa97b459b3097427b23062, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageOn: 3
+  damage: 30
+--- !u!114 &114544776889222974
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1552613979914514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03b7096c0b5a8b94590ba4f31b2394d0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  drawGizmos: 0
+  drawLinesOnly: 0
+  drawShapesOnly: 0
+  resetPlatform: 0
+  isBouncy: 0
+  bouncyMask:
+    serializedVersion: 2
+    m_Bits: 0
+  bounceStrength: 25
+  isSlippery: 0
+  isMoving: 1
+  movingAxis: {x: 1, y: 0, z: 0}
+  movingSpeed: 1
+  movingDistance: 110
+  isAPingPongMovement: 1
+  movementWhenPlayerJumpsOn: 0
+  backToOriginOnPlayerExit: 0
+  backToOriginOnPlayerJumpOn: 0
+  delayBeforeMovement: 1.69
+  isRotating: 0
+  preserveUp: 0
+  newRotationCenter: {x: 0, y: 0, z: 0}
+  baseRotation:
+    rotateAroundLocalAxis: 0
+    rotateAxis: {x: 0, y: 0, z: 0}
+    rotateSpeed: 10
+  isDualRotationEnabled: 0
+  secondRotation:
+    rotateAroundLocalAxis: 0
+    rotateAxis: {x: 0, y: 0, z: 0}
+    rotateSpeed: 10
+  hasADelayedRotation: 0
+  delayBeforeTransition: 1
+  transitionTime: 1
+  delayBeforeTransitionReturn: 1
+  transitionTimeReturn: 1
+  rotateAxisLocal: {x: 0, y: 0, z: 0}
+  rotationAngle: 0
+  isATeleporter: 0
+  teleporterTarget: {fileID: 0}
