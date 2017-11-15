@@ -80,6 +80,12 @@ public class DebugTools : MonoBehaviour {
                         GameManager.EvolutionManager.AddEvolutionComponent(DebugPlayerSelected.gameObject, GameManager.EvolutionManager.GetEvolutionByPowerName(Powers.Agile));
                     Debug.Log("Added Agile on player " + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
                 }
+                if (Input.GetKeyDown(KeyCode.Alpha6))
+                {
+                    if (DebugPlayerSelected.GetComponent<EvolutionPlatformist>() == null)
+                        GameManager.EvolutionManager.AddEvolutionComponent(DebugPlayerSelected.gameObject, GameManager.EvolutionManager.GetEvolutionByPowerName(Powers.Platformist));
+                    Debug.Log("Added Platformist on player " + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
+                }
             }
             else if (Input.GetKey(KeyCode.Alpha2))
             {
@@ -117,6 +123,7 @@ public class DebugTools : MonoBehaviour {
                     if (DebugPlayerSelected.GetComponent<Hover>()) Destroy(DebugPlayerSelected.GetComponent<Hover>());
                     if (DebugPlayerSelected.GetComponent<EvolutionStrength>()) Destroy(DebugPlayerSelected.GetComponent<EvolutionStrength>());
                     if (DebugPlayerSelected.GetComponent<EvolutionAgile>()) Destroy(DebugPlayerSelected.GetComponent<EvolutionAgile>());
+                    if (DebugPlayerSelected.GetComponent<EvolutionPlatformist>()) Destroy(DebugPlayerSelected.GetComponent<EvolutionPlatformist>());
                     DebugPlayerSelected.Rb.velocity = Vector3.zero;
                     Debug.Log("Reset current player! " + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
                 }
@@ -147,6 +154,16 @@ public class DebugTools : MonoBehaviour {
 
                     Debug.Log("Player spawned! " + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
                 }
+
+                // Reload all powers
+                if (Input.GetKeyDown(KeyCode.LeftAlt))
+                {
+                    if (DebugPlayerSelected.GetComponent<EvolutionPlatformist>())
+                        DebugPlayerSelected.GetComponent<EvolutionPlatformist>().Charges = 3;
+
+                    Debug.Log("Powers reloaded for player " + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
+                }
+
             }
         }
         

@@ -4,4 +4,4 @@ using UnityEngine;
 
 public class EnumUtils : MonoBehaviour {}
 
-public enum CollectableType { WingsEvolution1, WingsEvolution2, StrengthEvolution1, Points, Key, Size };
+public enum CollectableType { WingsEvolution1, WingsEvolution2, StrengthEvolution1, PlatformistEvolution1, AgileEvolution1, Points, Key, Size };

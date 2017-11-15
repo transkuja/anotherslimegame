@@ -30,6 +30,10 @@ public class PrefabLoot : MonoBehaviour {
                 return Instantiate(prefabWingsEvolution2GameObject, where, direction, parent);
             case CollectableType.StrengthEvolution1:
                 return Instantiate(prefabStrengthEvolution1GameObject, where, direction, parent);
+            case CollectableType.PlatformistEvolution1:
+                return Instantiate(prefabStrengthEvolution1GameObject, where, direction, parent);
+            case CollectableType.AgileEvolution1:
+                return Instantiate(prefabStrengthEvolution1GameObject, where, direction, parent);
             case CollectableType.Points:
                 return Instantiate(prefabPointsGameObject, where, direction, parent);
             case CollectableType.Key:

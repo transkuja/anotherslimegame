@@ -63,7 +63,7 @@ public class Evolution
 }
 
 public enum BodyPart { Body, Wings, Hammer, Staff, Size }
-public enum Powers { DoubleJump, Hover, Size, Strength, Agile }
+public enum Powers { DoubleJump, Hover, Strength, Platformist, Agile, Size }
 
 public class EvolutionManager {
 
@@ -72,6 +72,8 @@ public class EvolutionManager {
     Evolution hoverEvolution = new Evolution(Powers.Hover, 3, CollectableType.WingsEvolution2, 30, BodyPart.Wings);
     Evolution strengthEvolution = new Evolution(Powers.Strength, 3, CollectableType.WingsEvolution2, 30, BodyPart.Hammer);
     Evolution agileEvolution = new Evolution(Powers.Agile, 3, CollectableType.WingsEvolution2, 30, BodyPart.Wings);
+    // TODO: assign a new bodypart for the platformist evolution
+    Evolution platformistEvolution = new Evolution(Powers.Platformist, 3, CollectableType.PlatformistEvolution1, 30, BodyPart.Hammer);
 
     public Evolution GetEvolutionByPowerName(Powers _powerName, bool isPermanent = false)
     {
@@ -90,6 +92,9 @@ public class EvolutionManager {
                 break;
                 case Powers.Agile:
                 tmpEvolution = agileEvolution;
+                break;
+            case Powers.Platformist:
+                tmpEvolution = platformistEvolution;
                 break;
             default:
                 Debug.Log("Unknown power, something went wrong");
@@ -122,6 +127,10 @@ public class EvolutionManager {
                 if (gameObject.GetComponent<EvolutionAgile>() != null) gameObject.GetComponent<EvolutionAgile>().Timer = (isPermanent) ? 0.0f : evolution.duration;
                 else
                     gameObject.AddComponent<EvolutionAgile>(); break;
+            case Powers.Platformist:
+                if (gameObject.GetComponent<EvolutionPlatformist>() != null) gameObject.GetComponent<EvolutionPlatformist>().Timer = (isPermanent) ? 0.0f : evolution.duration;
+                else
+                    gameObject.AddComponent<EvolutionPlatformist>(); break;
             default:
                 Debug.Log("Unknown power, something went wrong");
                 break;
@@ -141,6 +150,8 @@ public class EvolutionManager {
                 return hoverEvolution;
             case CollectableType.StrengthEvolution1:
                 return strengthEvolution;
+            case CollectableType.PlatformistEvolution1:
+                return platformistEvolution;
             default:
                 Debug.LogError("Unhandle Evolution");
                 return null;

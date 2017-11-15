@@ -66,6 +66,7 @@ public class PlayerController : MonoBehaviour {
     private BrainState brainState;
     private SkillState dashingState;
     private SkillState strengthState;
+    private SkillState platformistState;
 
     // Dashing variables // Redefine in start()
     public float dashingTimer;
@@ -81,6 +82,11 @@ public class PlayerController : MonoBehaviour {
     public ForcedJump forcedJump;
 
     public bool DEBUG_hasBeenSpawnedFromTool = false;
+
+    // Platformist variables
+    float timerRightTriggerPressed = 0.0f;
+    bool rightTriggerHasBeenPressed = false;
+    bool waitForRightTriggerRelease = false;
 
     private void Awake()
     {
@@ -184,6 +190,8 @@ public class PlayerController : MonoBehaviour {
                 // Strength
                 if (GetComponent<EvolutionStrength>() != null)
                     StrengthControllerState();
+                if (GetComponent<EvolutionPlatformist>() != null)
+                    PlatformistControllerState();
             }
             // TODO: Externalize "state" to handle pause in PauseMenu? //  Remi : Can't manage GamePade(IndexPlayer) Instead, copy not working
             if (SceneManager.GetActiveScene() != SceneManager.GetSceneByBuildIndex(0))
@@ -341,6 +349,19 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    public SkillState PlatformistState
+    {
+        get
+        {
+            return platformistState;
+        }
+
+        set
+        {
+            platformistState = value;
+        }
+    }
+
     private void DashControllerState()
     {
         switch (dashingState)
@@ -412,6 +433,57 @@ public class PlayerController : MonoBehaviour {
             case SkillState.Dashing:
                 break;
             case SkillState.Cooldown:
+                break;
+            default: break;
+        }
+    }
+
+    private void PlatformistControllerState()
+    {
+        // /!\ WARNING: code conflictuel si on combine les évolutions
+        switch (platformistState)
+        {
+            case SkillState.Ready:
+                if (brainState == BrainState.Occupied) return;
+
+                if (prevState.Triggers.Right < 0.1f && state.Triggers.Right > 0.1f)
+                {
+                    rightTriggerHasBeenPressed = true;
+                }
+
+                if (rightTriggerHasBeenPressed && state.Triggers.Right > 0.1f)
+                    timerRightTriggerPressed += Time.deltaTime;
+
+                if (timerRightTriggerPressed > 1.5f)
+                {
+                    // Show pattern + buttons to swap
+                    // Tant qu'on a pas relaché la gachette
+                    GetComponent<EvolutionPlatformist>().IndexSelection(prevState, state);
+                    waitForRightTriggerRelease = true;
+                }
+
+                if (prevState.Triggers.Right > 0.1f && state.Triggers.Right < 0.1f)
+                {
+                    rightTriggerHasBeenPressed = false;
+                    waitForRightTriggerRelease = false;
+
+                    if (timerRightTriggerPressed > 1.5f)
+                        GetComponent<EvolutionPlatformist>().CreatePatternPlatforms();
+                    else
+                        GetComponent<EvolutionPlatformist>().CreatePlatform(state);
+
+                    timerRightTriggerPressed = 0.0f;
+                    PlatformistState = SkillState.Cooldown;
+                }
+
+
+                break;
+            case SkillState.Charging:
+                break;
+            case SkillState.Dashing:
+                break;
+            case SkillState.Cooldown:
+                GetComponent<EvolutionPlatformist>().TimerPlatform += Time.deltaTime; 
                 break;
             default: break;
         }
