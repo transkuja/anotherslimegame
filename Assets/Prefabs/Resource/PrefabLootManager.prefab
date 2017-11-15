@@ -51,13 +51,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc55060df128ebc4d962d99e634beec8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefabWingsEvolution1GameObject: {fileID: 1524093129247474, guid: c785602d26f1c9c40b1ae87ad4c331d7,
-    type: 2}
-  prefabWingsEvolution2GameObject: {fileID: 1524093129247474, guid: 3efa28f33f0585a429972d29aa620733,
-    type: 2}
   prefabPointsGameObject: {fileID: 1097748654610884, guid: 192da9fc314c1a34499a8e48ed50a415,
     type: 2}
   prefabStrengthEvolution1GameObject: {fileID: 1524093129247474, guid: 878be16398a7b6d44a98286752bda286,
+    type: 2}
+  prefabAgileEvolution1GameObject: {fileID: 1524093129247474, guid: 878be16398a7b6d44a98286752bda286,
+    type: 2}
+  prefabPlatformistEvolution1GameObject: {fileID: 1524093129247474, guid: 3efa28f33f0585a429972d29aa620733,
+    type: 2}
+  prefabGhostEvolution1GameObject: {fileID: 1524093129247474, guid: 11403667a2bb6524e9a539c54061a704,
     type: 2}
   prefabKeyGameObject: {fileID: 1097748654610884, guid: bff4ecca564bc43488610256b97417cb,
     type: 2}

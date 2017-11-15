@@ -100,7 +100,6 @@ public class PlatformGameplay : MonoBehaviour {
 
 
     // Private variables
-    Transform originPosition;
     Vector3 lerpOriginPosition;
     Vector3 lerpNewPosition;
     float moveLerpValue = 0.0f;
@@ -161,7 +160,6 @@ public class PlatformGameplay : MonoBehaviour {
             else
                 baseRotation.rotateAxis.Normalize();
         }
-        originPosition = transform;
         lerpOriginPosition = transform.position;
         lerpNewPosition = transform.position + movingDistance * movingAxis;
         delayTimer = delayBeforeMovement;

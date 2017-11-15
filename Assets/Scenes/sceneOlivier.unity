@@ -1483,7 +1483,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mySpawnType: 0
   myMonsterType: 0
-  myItemType: 5
+  myItemType: 4
   shape: 0
   nbItems: 1
   needSpawn: 1
@@ -3532,7 +3532,7 @@ Prefab:
     - target: {fileID: 114325959287010788, guid: e41aa2613601ae84eae26b592fee8a47,
         type: 2}
       propertyPath: myItemType
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e41aa2613601ae84eae26b592fee8a47, type: 2}
@@ -5071,7 +5071,7 @@ Prefab:
     - target: {fileID: 114325959287010788, guid: e41aa2613601ae84eae26b592fee8a47,
         type: 2}
       propertyPath: myItemType
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1171027467426076, guid: e41aa2613601ae84eae26b592fee8a47, type: 2}
       propertyPath: m_Name
@@ -5409,7 +5409,7 @@ Prefab:
     - target: {fileID: 114325959287010788, guid: e41aa2613601ae84eae26b592fee8a47,
         type: 2}
       propertyPath: myItemType
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1171027467426076, guid: e41aa2613601ae84eae26b592fee8a47, type: 2}
       propertyPath: m_Name
@@ -5925,7 +5925,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mySpawnType: 0
   myMonsterType: 0
-  myItemType: 5
+  myItemType: 4
   shape: 0
   nbItems: 1
   needSpawn: 1
@@ -7493,7 +7493,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mySpawnType: 0
   myMonsterType: 0
-  myItemType: 5
+  myItemType: 4
   shape: 0
   nbItems: 1
   needSpawn: 1
@@ -7585,7 +7585,7 @@ Prefab:
     - target: {fileID: 114945617786315038, guid: bff4ecca564bc43488610256b97417cb,
         type: 2}
       propertyPath: type
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bff4ecca564bc43488610256b97417cb, type: 2}
@@ -7681,7 +7681,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mySpawnType: 0
   myMonsterType: 0
-  myItemType: 5
+  myItemType: 4
   shape: 0
   nbItems: 1
   needSpawn: 1
@@ -8277,7 +8277,7 @@ Prefab:
     - target: {fileID: 114325959287010788, guid: e41aa2613601ae84eae26b592fee8a47,
         type: 2}
       propertyPath: myItemType
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1171027467426076, guid: e41aa2613601ae84eae26b592fee8a47, type: 2}
       propertyPath: m_Name
@@ -8337,7 +8337,7 @@ Prefab:
     - target: {fileID: 114945617786315038, guid: bff4ecca564bc43488610256b97417cb,
         type: 2}
       propertyPath: type
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bff4ecca564bc43488610256b97417cb, type: 2}
@@ -12093,7 +12093,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mySpawnType: 0
   myMonsterType: 0
-  myItemType: 5
+  myItemType: 4
   shape: 0
   nbItems: 1
   needSpawn: 1
@@ -12184,7 +12184,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mySpawnType: 0
   myMonsterType: 0
-  myItemType: 5
+  myItemType: 4
   shape: 0
   nbItems: 1
   needSpawn: 1
@@ -12534,7 +12534,7 @@ Prefab:
     - target: {fileID: 114325959287010788, guid: e41aa2613601ae84eae26b592fee8a47,
         type: 2}
       propertyPath: myItemType
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1171027467426076, guid: e41aa2613601ae84eae26b592fee8a47, type: 2}
       propertyPath: m_Name
@@ -13177,7 +13177,7 @@ Prefab:
     - target: {fileID: 114325959287010788, guid: e41aa2613601ae84eae26b592fee8a47,
         type: 2}
       propertyPath: myItemType
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1171027467426076, guid: e41aa2613601ae84eae26b592fee8a47, type: 2}
       propertyPath: m_Name
@@ -15298,7 +15298,7 @@ Prefab:
     - target: {fileID: 114945617786315038, guid: bff4ecca564bc43488610256b97417cb,
         type: 2}
       propertyPath: type
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bff4ecca564bc43488610256b97417cb, type: 2}
@@ -15455,7 +15455,7 @@ Prefab:
     - target: {fileID: 114325959287010788, guid: e41aa2613601ae84eae26b592fee8a47,
         type: 2}
       propertyPath: myItemType
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1171027467426076, guid: e41aa2613601ae84eae26b592fee8a47, type: 2}
       propertyPath: m_Name
@@ -15942,7 +15942,7 @@ Prefab:
     - target: {fileID: 114325959287010788, guid: e41aa2613601ae84eae26b592fee8a47,
         type: 2}
       propertyPath: myItemType
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1171027467426076, guid: e41aa2613601ae84eae26b592fee8a47, type: 2}
       propertyPath: m_Name
@@ -17818,7 +17818,7 @@ Prefab:
     - target: {fileID: 114325959287010788, guid: e41aa2613601ae84eae26b592fee8a47,
         type: 2}
       propertyPath: myItemType
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1171027467426076, guid: e41aa2613601ae84eae26b592fee8a47, type: 2}
       propertyPath: m_Name
@@ -21703,7 +21703,7 @@ Prefab:
     - target: {fileID: 114325959287010788, guid: e41aa2613601ae84eae26b592fee8a47,
         type: 2}
       propertyPath: myItemType
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 114325959287010788, guid: e41aa2613601ae84eae26b592fee8a47,
         type: 2}
@@ -22100,7 +22100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mySpawnType: 0
   myMonsterType: 0
-  myItemType: 5
+  myItemType: 4
   shape: 0
   nbItems: 1
   needSpawn: 1
@@ -24611,7 +24611,7 @@ Prefab:
     - target: {fileID: 114325959287010788, guid: e41aa2613601ae84eae26b592fee8a47,
         type: 2}
       propertyPath: myItemType
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: e41aa2613601ae84eae26b592fee8a47, type: 2}
@@ -27180,7 +27180,7 @@ Prefab:
     - target: {fileID: 114945617786315038, guid: bff4ecca564bc43488610256b97417cb,
         type: 2}
       propertyPath: type
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bff4ecca564bc43488610256b97417cb, type: 2}
@@ -27362,7 +27362,7 @@ Prefab:
     - target: {fileID: 114325959287010788, guid: e41aa2613601ae84eae26b592fee8a47,
         type: 2}
       propertyPath: myItemType
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1171027467426076, guid: e41aa2613601ae84eae26b592fee8a47, type: 2}
       propertyPath: m_Name
@@ -27678,7 +27678,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mySpawnType: 0
   myMonsterType: 0
-  myItemType: 5
+  myItemType: 4
   shape: 0
   nbItems: 1
   needSpawn: 1
@@ -27974,7 +27974,7 @@ Prefab:
     - target: {fileID: 114945617786315038, guid: bff4ecca564bc43488610256b97417cb,
         type: 2}
       propertyPath: type
-      value: 6
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: bff4ecca564bc43488610256b97417cb, type: 2}
@@ -28294,7 +28294,7 @@ Prefab:
     - target: {fileID: 114325959287010788, guid: e41aa2613601ae84eae26b592fee8a47,
         type: 2}
       propertyPath: myItemType
-      value: 5
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 1171027467426076, guid: e41aa2613601ae84eae26b592fee8a47, type: 2}
       propertyPath: m_Name

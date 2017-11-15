@@ -57,7 +57,6 @@ public class Collectable : MonoBehaviour
             // Grab everything not linked to evolution (points)
             if (!Utils.IsAnEvolutionCollectable(type))
             {
-                Debug.Log("bite");
                 if (player.Collectables[(int)type] < Utils.GetMaxValueForCollectable(type))
                 {
                     if (AudioManager.Instance != null && AudioManager.Instance.coinFX!=null) AudioManager.Instance.PlayOneShot(AudioManager.Instance.coinFX);
@@ -68,8 +67,6 @@ public class Collectable : MonoBehaviour
             }
             else
             {
-                Debug.Log("bite");
-
                 if (GameManager.CurrentGameMode.evolutionMode != EvolutionMode.GrabEvolution)
                 {
                     if (player.Collectables[(int)type] < Utils.GetMaxValueForCollectable(type))

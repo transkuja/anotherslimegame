@@ -38,11 +38,10 @@ public class Utils {
      */
     public static bool IsAnEvolutionCollectable(CollectableType collectableType)
     {
-        return collectableType == CollectableType.WingsEvolution1
-            || collectableType == CollectableType.WingsEvolution2
-            || collectableType == CollectableType.StrengthEvolution1
+        return collectableType == CollectableType.StrengthEvolution1
             || collectableType == CollectableType.PlatformistEvolution1
-            || collectableType == CollectableType.AgileEvolution1;
+            || collectableType == CollectableType.AgileEvolution1
+            || collectableType == CollectableType.GhostEvolution1;
     }
 
     public static int GetDefaultCollectableValue(int collectableType)

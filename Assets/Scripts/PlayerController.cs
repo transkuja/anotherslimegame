@@ -86,7 +86,6 @@ public class PlayerController : MonoBehaviour {
     // Platformist variables
     float timerRightTriggerPressed = 0.0f;
     bool rightTriggerHasBeenPressed = false;
-    bool waitForRightTriggerRelease = false;
 
     private void Awake()
     {
@@ -459,13 +458,11 @@ public class PlayerController : MonoBehaviour {
                     // Show pattern + buttons to swap
                     // Tant qu'on a pas relaché la gachette
                     GetComponent<EvolutionPlatformist>().IndexSelection(prevState, state);
-                    waitForRightTriggerRelease = true;
                 }
 
                 if (prevState.Triggers.Right > 0.1f && state.Triggers.Right < 0.1f)
                 {
                     rightTriggerHasBeenPressed = false;
-                    waitForRightTriggerRelease = false;
 
                     if (timerRightTriggerPressed > 1.5f)
                         GetComponent<EvolutionPlatformist>().CreatePatternPlatforms();
