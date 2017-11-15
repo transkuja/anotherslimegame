@@ -5930,6 +5930,53 @@ MonoBehaviour:
   nbItems: 1
   needSpawn: 1
   forceSpawn: 0
+--- !u!1001 &552403822
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 798374728}
+    m_Modifications:
+    - target: {fileID: 4974393275560718, guid: 814c03a5b1c523b49972dee6287cc8ff, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4974393275560718, guid: 814c03a5b1c523b49972dee6287cc8ff, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4974393275560718, guid: 814c03a5b1c523b49972dee6287cc8ff, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4974393275560718, guid: 814c03a5b1c523b49972dee6287cc8ff, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4974393275560718, guid: 814c03a5b1c523b49972dee6287cc8ff, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4974393275560718, guid: 814c03a5b1c523b49972dee6287cc8ff, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4974393275560718, guid: 814c03a5b1c523b49972dee6287cc8ff, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4974393275560718, guid: 814c03a5b1c523b49972dee6287cc8ff, type: 2}
+      propertyPath: m_RootOrder
+      value: 4
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_ParentPrefab: {fileID: 100100000, guid: 814c03a5b1c523b49972dee6287cc8ff, type: 2}
+  m_IsPrefabParent: 0
+--- !u!4 &552403823 stripped
+Transform:
+  m_PrefabParentObject: {fileID: 4974393275560718, guid: 814c03a5b1c523b49972dee6287cc8ff,
+    type: 2}
+  m_PrefabInternal: {fileID: 552403822}
 --- !u!1 &552950249 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 1795357319584398, guid: dbd768b858e938a40b6665a13e1a7c5d,
@@ -9415,6 +9462,7 @@ Transform:
   - {fileID: 440965018}
   - {fileID: 67626674}
   - {fileID: 1351473510}
+  - {fileID: 552403823}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -22892,7 +22940,7 @@ Prefab:
     - target: {fileID: 224253512408005366, guid: ebd48e33ce16a7c498ce0f86ed08310f,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 20
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1829664555950164, guid: ebd48e33ce16a7c498ce0f86ed08310f, type: 2}
       propertyPath: m_IsActive
