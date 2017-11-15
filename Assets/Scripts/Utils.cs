@@ -5,22 +5,20 @@ public class Utils {
 
     static int[] mapTypeMaxValue =
         {
-            100,           // CollectableType Evolution1 (Wings 1)
-            50,            // CollectableType Evolution2 (Wings 2)
             50,            // CollectableType Evolution3 (Strength)
             50,            // CollectableType Evolution3 (Platformist)
             50,            // CollectableType Evolution4 (Agile)
+            50,            // CollectableType Evolution4 (Ghost)
             9999,          // Max points
             3              // Max Keys
         };
 
     static int[] defaultValueCollectable =
     {
-        30,                // CollectableType Evolution1 (Wings 1)
-        30,                // CollectableType Evolution2 (Wings 2)
         30,                // CollectableType Evolution3 (Strength)
         50,                // CollectableType Evolution4 (Platformist)
         50,                // CollectableType Evolution4 (Agile)
+        50,                // CollectableType Evolution4 (Ghost)
         30,                // points
         1                  // Key
     };
