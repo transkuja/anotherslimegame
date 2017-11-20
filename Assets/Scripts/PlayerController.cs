@@ -296,15 +296,6 @@ public class PlayerController : MonoBehaviour
             PlayerState.OnUpdate();
         if (rb.velocity.y < 0.2f && !IsGrounded)
             HandleBouncing();
-
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            ChangeDampingValuesCameraFreeLook(0.0f);
-        }
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            ChangeDampingValuesCameraFreeLook(.20f);
-        }
     }
     private void FixedUpdate()
     {
