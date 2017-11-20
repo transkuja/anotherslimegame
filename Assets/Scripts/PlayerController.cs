@@ -96,7 +96,17 @@ public class PlayerController : MonoBehaviour
                 jumpState.nbJumpMade = 0;
                 if (GetComponent<JumpManager>() != null)
                     GetComponent<JumpManager>().Stop();
+                GetComponent<Player>().Anim.SetBool("isExpulsed", false);
+                ChangeDampingValuesCameraFreeLook(0.2f);
             }
+            else
+            {
+                ChangeDampingValuesCameraFreeLook(0);
+
+                Debug.Log("false");
+                
+            }
+
             isGrounded = value;
         }
     }
@@ -241,13 +251,18 @@ public class PlayerController : MonoBehaviour
                 if (timerRightTriggerPressed > 1.5f)
                     GetComponent<EvolutionPlatformist>().CreatePatternPlatforms();
                 else
+                {
+                    //if (GetComponent<EvolutionPlatformist>().TimerPlatform >= 0.0f)
                     GetComponent<EvolutionPlatformist>().CreatePlatform(state);
+
+                }
+
 
                 timerRightTriggerPressed = 0.0f;
             }
 
-            GetComponent<EvolutionPlatformist>().TimerPlatform += Time.deltaTime;
 
+            GetComponent<EvolutionPlatformist>().TimerPlatform += Time.deltaTime;
         }
     }
 
@@ -282,6 +297,15 @@ public class PlayerController : MonoBehaviour
             PlayerState.OnUpdate();
         if (rb.velocity.y < 0.2f && !IsGrounded)
             HandleBouncing();
+
+        if (Input.GetKeyDown(KeyCode.D))
+        {
+            ChangeDampingValuesCameraFreeLook(0.0f);
+        }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            ChangeDampingValuesCameraFreeLook(.20f);
+        }
     }
     private void FixedUpdate()
     {
@@ -307,7 +331,11 @@ public class PlayerController : MonoBehaviour
 
         PlayerState.HandleGravity();
 
+        //if (PlayerState == expulsioh)
+        //{
+        //    setFloat (isgrounded)
 
+        //}
 
         if (isUsingAController)
         {
@@ -396,9 +424,9 @@ public class PlayerController : MonoBehaviour
 
         PlayerState.Move(initialVelocity);
         // TMP Animation
-        Player.Anim.SetFloat("MouvementSpeed", Mathf.Abs(State.ThumbSticks.Left.X) > Mathf.Abs(State.ThumbSticks.Left.Y) ? Mathf.Abs(State.ThumbSticks.Left.X) : Mathf.Abs(State.ThumbSticks.Left.Y));
-        Player.Anim.SetBool("isWalking", ((Mathf.Abs(State.ThumbSticks.Left.X) > 0.02f) || Mathf.Abs(State.ThumbSticks.Left.Y) > 0.02f) && Player.GetComponent<PlayerController>().IsGrounded);
+        playerState.HandleControllerAnim();
     }
+   
     private void HandleJumpWithController()
     {
         // Charge jump if A button is pressed for a "long" time and only if on the ground
@@ -444,4 +472,28 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
+
+    // TODO : Remi , Export this in camera controls
+    public void ChangeDampingValuesCameraFreeLook(float _newValues)
+    {
+        if (player.cameraReference != null && player.cameraReference.transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>())
+        {
+            //Body
+            CinemachineTransposer tr;
+            tr = ((CinemachineTransposer)(player.cameraReference.transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().GetRig(0).GetCinemachineComponent(CinemachineCore.Stage.Body)));
+            tr.m_XDamping = _newValues;
+            tr.m_YDamping = _newValues;
+            tr.m_ZDamping = _newValues;
+
+            tr = ((CinemachineTransposer)(player.cameraReference.transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().GetRig(1).GetCinemachineComponent(CinemachineCore.Stage.Body)));
+            tr.m_XDamping = _newValues;
+            tr.m_YDamping = _newValues;
+            tr.m_ZDamping = _newValues;
+
+            tr = ((CinemachineTransposer)(player.cameraReference.transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().GetRig(2).GetCinemachineComponent(CinemachineCore.Stage.Body)));
+            tr.m_XDamping = _newValues;
+            tr.m_YDamping = _newValues;
+            tr.m_ZDamping = _newValues;
+        }
+    }
 }

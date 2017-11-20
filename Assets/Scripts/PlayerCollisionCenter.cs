@@ -70,10 +70,10 @@ public class PlayerCollisionCenter : MonoBehaviour {
             playersCollided = Physics.OverlapSphere(transform.position, sphereCheckRadius, separationMask);
             if (playersCollided != null)
             {
-
                 for (int i = 0; i < playersCollided.Length; i++)
                 {
-                    if (playersCollided[i].transform != transform)
+                    Vector3 playerToTarget = playersCollided[i].transform.position - transform.position;
+                    if (playersCollided[i].transform != transform && Vector3.Angle(playerToTarget, transform.forward) < 45) // Verification en cone
                     {
                         if (!impactedPlayers.Contains(playersCollided[i].GetComponent<Player>()))
                         {
@@ -277,7 +277,6 @@ public class PlayerCollisionCenter : MonoBehaviour {
             PlayerController _pcTarget = target.GetComponent<PlayerController>();
             // pour le moment je laisse la state saut géré l'expulsion pour intégrer plus vite
             //mais à terme il faut le changer. On applique une force. C'est pas un état de saut.
-            Debug.Log("Activate");
             _pcTarget.jumpState.nbJumpMade = 0;
             _pcTarget.PlayerState.OnJumpPressed();
             _pcTarget.PlayerState.PushPlayer(direction* repulseStrength);

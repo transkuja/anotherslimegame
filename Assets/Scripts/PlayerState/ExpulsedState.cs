@@ -16,7 +16,8 @@ public class ExpulsedState : PlayerState
         if (AudioManager.Instance != null && AudioManager.Instance.hahahaFX != null) AudioManager.Instance.PlayOneShot(AudioManager.Instance.hahahaFX);
         curFixedUpdateFct = OnExpulseState;
         timer = 0;
-        //playerController.GetComponent<JumpManager>().Stop();
+        playerController.GetComponent<Player>().Anim.SetBool("isExpulsed", true);
+        playerController.GetComponent<Player>().Anim.SetFloat("MouvementSpeed", 2);
     }
     public void OnExpulseState()
     {
@@ -28,6 +29,7 @@ public class ExpulsedState : PlayerState
     }
     public override void OnEnd()
     {
+        playerController.GetComponent<Player>().Anim.SetBool("isExpulsed", false);
         base.OnEnd();
     }
     public override void Move(Vector3 initialVelocity)
@@ -38,6 +40,12 @@ public class ExpulsedState : PlayerState
         //playerController.Rb.velocity = force;
     }
     public override void OnJumpPressed()
+    {
+    }
+    public override void HandleControllerAnim()
+    {
+    }
+    public override void OnDashPressed()
     {
     }
 }

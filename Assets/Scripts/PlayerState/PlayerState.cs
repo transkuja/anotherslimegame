@@ -131,8 +131,12 @@ public class PlayerState  {
     }
     public virtual void PushPlayer(Vector3 force)
     {
-        Debug.Log("push in free mode+ "+ force);
         playerController.PlayerState = playerController.expulsedState;
         playerController.Rb.velocity = new Vector3(force.x, playerController.Rb.velocity.y, force.z);
+    }
+    public virtual void HandleControllerAnim()
+    {
+        playerController.Player.Anim.SetFloat("MouvementSpeed", Mathf.Abs(playerController.State.ThumbSticks.Left.X) > Mathf.Abs(playerController.State.ThumbSticks.Left.Y) ? Mathf.Abs(playerController.State.ThumbSticks.Left.X) +0.2f : Mathf.Abs(playerController.State.ThumbSticks.Left.Y)+0.2f);
+        playerController.Player.Anim.SetBool("isWalking", ((Mathf.Abs(playerController.State.ThumbSticks.Left.X) > 0.02f) || Mathf.Abs(playerController.State.ThumbSticks.Left.Y) > 0.02f) && playerController.IsGrounded);
     }
 }
