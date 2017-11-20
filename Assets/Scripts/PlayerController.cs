@@ -103,7 +103,6 @@ public class PlayerController : MonoBehaviour
             {
                 ChangeDampingValuesCameraFreeLook(0);
 
-                Debug.Log("false");
                 
             }
 
