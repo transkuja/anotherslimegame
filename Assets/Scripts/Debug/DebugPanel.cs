@@ -34,8 +34,8 @@ public class DebugPanel : MonoBehaviour {
     {
         Player player = DebugTools.DebugPlayerSelected;
         evolutionsText.text = "";
-        evolutionsText.text += Powers.DoubleJump + ": " + ((player.GetComponent<DoubleJump>() != null) ? player.GetComponent<DoubleJump>().Timer.ToString("0.0") + "s" : "Inactive") + "\n";
-        evolutionsText.text += Powers.Hover + ": " + ((player.GetComponent<Hover>() != null) ? player.GetComponent<Hover>().Timer.ToString("0.0") + "s" : "Inactive") + "\n";
+        evolutionsText.text += Powers.Platformist + ": " + ((player.GetComponent<EvolutionPlatformist>() != null) ? player.GetComponent<EvolutionPlatformist>().Timer.ToString("0.0") + "s" : "Inactive") + "\n";
+        evolutionsText.text += Powers.Strength + ": " + ((player.GetComponent<EvolutionStrength>() != null) ? player.GetComponent<EvolutionStrength>().Timer.ToString("0.0") + "s" : "Inactive") + "\n";
     }
 
     void UpdateCollectableText()
@@ -53,5 +53,10 @@ public class DebugPanel : MonoBehaviour {
         playerInfoText.text += "Player index: " + (int)playerController.PlayerIndex + "\n";
         playerInfoText.text += "Use a controller: " + playerController.IsUsingAController + "\n";
         playerInfoText.text += "Is grounded: " + playerController.IsGrounded + "\n";
+        if (playerController.GetComponent<EvolutionPlatformist>())
+        {
+            playerInfoText.text += "Charges: " + playerController.GetComponent<EvolutionPlatformist>().Charges + "\n";
+            playerInfoText.text += "Pattern index: " + playerController.GetComponent<EvolutionPlatformist>().indexPattern + "\n";
+        }
     }
 }

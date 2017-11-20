@@ -4,22 +4,19 @@ using UnityEngine;
 public class Collectable : MonoBehaviour
 {
     [SerializeField]
-    CollectableType type;
-    private float value;
-    bool isAttracted = false;
-    bool haveToDisperse = false;
-
-    [SerializeField]
+    public CollectableType type;
     public bool needInitialisation = true;
 
-    private Vector3[] positionsIntermediaire;
-    private Vector3[] positions;
+    private Vector3 direction;
     private int myIndex = 0;
-    private bool positionIntermediaireAtteintes = false; 
 
     uint movementSpeed = 40;
+    private float value;
+    public bool haveToDisperse = false;
+
+    bool isAttracted = false;
     Player playerTarget;
-    
+
     public float Value
     {
         get
@@ -33,33 +30,42 @@ public class Collectable : MonoBehaviour
         }
     }
 
-    public void Init(int numPiecesToDrop)
+    public void Init(int jessaipa)
     {
         Value = Utils.GetDefaultCollectableValue((int)type);
-        if (numPiecesToDrop > 0)
-        {
-            positionsIntermediaire = SpawnManager.GetVector3ArrayOnADividedCircle(transform.position + 3 * Vector3.up, 3, numPiecesToDrop, SpawnManager.Axis.XZ);
-            positions = SpawnManager.GetVector3ArrayOnADividedCircle(transform.position, 6, numPiecesToDrop, SpawnManager.Axis.XZ);
-    
-        }
         needInitialisation = false;
     }
 
-    private void OnTriggerEnter(Collider other)
+    public void Disperse(int index, Vector3 direction)
     {
-        PickUp(other.GetComponent<Player>());
+        haveToDisperse = true;
+        GetComponentInChildren<SphereCollider>().enabled = false;
+        myIndex = index;
+        haveToDisperse = true;
+        Value = Utils.GetDefaultCollectableValue((int)type);
+        GetComponent<Rigidbody>().AddForce(direction*7.5f, ForceMode.Impulse);
+        StartCoroutine(GetComponent<Collectable>().ReactivateCollider());
+        needInitialisation = false;
     }
 
-    private void PickUp(Player player)
+    private void FixedUpdate()
+    {
+        if (needInitialisation)
+            Init(0);
+        if (!haveToDisperse && isAttracted)
+            Attract();
+    }
+
+    public void PickUp(Player player)
     {
         if (player && !isAttracted)
         {
             // Grab everything not linked to evolution (points)
-            if (!Utils.IsAnEvolutionCollectable(type))
+            if (!Utils.IsAnEvolutionCollectable(GetComponent <Collectable>().type))
             {
-                if (player.Collectables[(int)type] < Utils.GetMaxValueForCollectable(type))
+                if (player.Collectables[(int)GetComponent<Collectable>().type] < Utils.GetMaxValueForCollectable(GetComponent<Collectable>().type))
                 {
-                    if (AudioManager.Instance != null && AudioManager.Instance.coinFX!=null) AudioManager.Instance.PlayOneShot(AudioManager.Instance.coinFX);
+                    if (AudioManager.Instance != null && AudioManager.Instance.coinFX != null) AudioManager.Instance.PlayOneShot(AudioManager.Instance.coinFX);
                     isAttracted = true;
                     playerTarget = player;
                     return;
@@ -69,7 +75,7 @@ public class Collectable : MonoBehaviour
             {
                 if (GameManager.CurrentGameMode.evolutionMode != EvolutionMode.GrabEvolution)
                 {
-                    if (player.Collectables[(int)type] < Utils.GetMaxValueForCollectable(type))
+                    if (player.Collectables[(int)GetComponent<Collectable>().type] < Utils.GetMaxValueForCollectable(GetComponent<Collectable>().type))
                     {
                         isAttracted = true;
                         playerTarget = player;
@@ -85,72 +91,26 @@ public class Collectable : MonoBehaviour
                 }
             }
 
-        }    
+        }
     }
 
-    private void FixedUpdate()
-    {
-        if (needInitialisation)
-            Init(0);
-        if (!haveToDisperse && isAttracted)
-            Attract();
-        if (haveToDisperse)
-            Disperse();
-    }
-
-    void Attract()
+    public void Attract()
     {
         Vector3 direction = (playerTarget.transform.position - transform.position).normalized;
-   
+
         GetComponent<Rigidbody>().MovePosition(transform.position + direction * movementSpeed * Time.deltaTime);
-        if (Vector3.Distance(playerTarget.transform.position, transform.position) < GetComponentInChildren<MeshFilter>().mesh.bounds.extents.magnitude)
+        if (Vector3.Distance(playerTarget.transform.position, transform.position) < GetComponent<MeshFilter>().mesh.bounds.extents.magnitude)
         {
-            playerTarget.UpdateCollectableValue(type, (int)value);
+            playerTarget.UpdateCollectableValue(GetComponent<Collectable>().type, (int)GetComponent<Collectable>().Value);
             Destroy(this.gameObject);
         }
     }
 
-    void Disperse()
-    {
-        // Parabola homemade
-        // Don't handle collisions
-        if (!positionIntermediaireAtteintes)
-        {
-            Vector3 direction = (positionsIntermediaire[myIndex] - transform.position).normalized;
-            GetComponent<Rigidbody>().MovePosition(transform.position + direction * movementSpeed / 4 * Time.deltaTime);
-            if (Vector3.Distance(positionsIntermediaire[myIndex], transform.position) < GetComponentInChildren<MeshFilter>().mesh.bounds.extents.magnitude)
-            {
-                positionIntermediaireAtteintes = true;
-            }
-        }
-        else
-        {
-            Vector3 direction = (positions[myIndex] - transform.position).normalized;
-
-            GetComponent<Rigidbody>().MovePosition(transform.position + direction * movementSpeed / 4 * Time.deltaTime);
-            if (Vector3.Distance(positions[myIndex], transform.position) < GetComponentInChildren<MeshFilter>().mesh.bounds.extents.magnitude)
-            {
-                StartCoroutine(GetComponent<Collectable>().ReactivateCollider());
-            }
-        }
-       
-    }
-
     public IEnumerator ReactivateCollider()
     {
-        yield return new WaitForSeconds(1.0f);
-        GetComponent<SphereCollider>().enabled = true;
+        yield return new WaitForSeconds(2.0f);
+        GetComponentInChildren<SphereCollider>().enabled = true;
         haveToDisperse = false;
-        positionIntermediaireAtteintes = false;
         yield return null;
-    }
-
-    // if index is need to add a little bit more random
-    // should not use the same index twice
-    public void Dispersion(int index)
-    {
-        GetComponent<SphereCollider>().enabled = false;
-        myIndex = index;
-        haveToDisperse = true;
     }
 }

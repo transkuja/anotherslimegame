@@ -25,7 +25,7 @@ public class PlayerControlleurEditorAsuppr : Editor
         {
             playerController.stats = new Stats();
         }
-        playerController.stats.Init();
+        playerController.stats.Init(playerController);
 
     }
 }

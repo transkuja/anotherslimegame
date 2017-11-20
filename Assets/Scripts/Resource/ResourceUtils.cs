@@ -15,6 +15,7 @@ public class ResourceUtils : MonoBehaviour {
 
             refPrefabMonster = GetComponentInChildren<PrefabMonster>();
             refPrefabLoot = GetComponentInChildren<PrefabLoot>();
+            refPrefabPlatform = GetComponentInChildren<PrefabPlatform>();
 
             DontDestroyOnLoad(Instance);
         }
@@ -30,6 +31,10 @@ public class ResourceUtils : MonoBehaviour {
 
     [HideInInspector]
     public PrefabLoot refPrefabLoot;
+
+    [HideInInspector]
+    public PrefabPlatform refPrefabPlatform;
+
 
     public static ResourceUtils Instance
     {

@@ -9,14 +9,28 @@ public class SpikeTrap : MonoBehaviour {
     int damage;
 	void OnTriggerEnter(Collider col)
     {
-        if(col.GetComponentInParent<Player>())
+        if (col.GetComponentInParent<Player>())
         {
             Player p = col.GetComponentInParent<Player>();
             p.CanDoubleJump = true;
             p.UpdateCollectableValue(damageOn, -damage);
 
-            PlayerController pController = p.GetComponent<PlayerController>(); 
+            PlayerController pController = p.GetComponent<PlayerController>();
             p.GetComponent<JumpManager>().Jump(pController.stats.Get(Stats.StatType.GROUND_SPEED), JumpManager.JumpEnum.Basic);
         }
     }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.GetComponentInParent<Player>())
+        {
+            Player p = collision.gameObject.GetComponentInParent<Player>();
+            p.CanDoubleJump = true;
+
+            PlayerController pController = p.GetComponent<PlayerController>();
+            pController.GetComponent<PlayerCollisionCenter>().DamagePlayer(pController.GetComponent<Player>());
+            pController.GetComponent<PlayerCollisionCenter>().ExpulsePlayer(collision.collider.ClosestPoint(transform.position), pController.GetComponent<Rigidbody>(), 900);
+        }
+    }
 }
+ 
