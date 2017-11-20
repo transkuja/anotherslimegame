@@ -11,8 +11,13 @@ public class TrappedPlatform : MonoBehaviour {
 
     PlatformGameplay gameplay;
 
+    bool isTrapEnabled = false;
+
     private void OnCollisionEnter(Collision collision)
     {
+        if (isTrapEnabled)
+            return;
+
         // Check if collision is with player from above and not the owner
         Player collisionPlayer = collision.gameObject.GetComponent<Player>();
         if (collisionPlayer != null
@@ -38,16 +43,23 @@ public class TrappedPlatform : MonoBehaviour {
         switch(trapRand)
         {
             case TrapType.MoveHorizontal:
+                MoveHorizontal();
                 break;
             case TrapType.MoveBackward:
+                MoveBackward();
                 break;
             case TrapType.MoveDown:
+                MoveDown();
                 break;
             case TrapType.RotateAroundY:
+                RotateAroundY();
                 break;
             case TrapType.Flip:
+                Flip();
                 break;
         }
+
+        isTrapEnabled = true;
     }
 
     void MoveHorizontal()
@@ -70,11 +82,14 @@ public class TrappedPlatform : MonoBehaviour {
 
     void RotateAroundY()
     {
-
+        gameplay.baseRotation.rotateAxis = Vector3.up;
+        gameplay.isRotating = true;
     }
 
     void Flip()
     {
-
+        gameplay.hasADelayedRotation = true;
+        gameplay.rotateAxisLocal = Random.Range(0, 2) == 0 ? Vector3.right : Vector3.forward;
+        gameplay.isRotating = true;
     }
 }

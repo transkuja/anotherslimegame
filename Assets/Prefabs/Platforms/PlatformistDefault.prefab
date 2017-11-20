@@ -136,23 +136,23 @@ MonoBehaviour:
   backToOriginOnPlayerJumpOn: 0
   delayBeforeMovement: 0
   isRotating: 0
-  preserveUp: 0
+  preserveUp: 1
   newRotationCenter: {x: 0, y: 0, z: 0}
   baseRotation:
-    rotateAroundLocalAxis: 0
+    rotateAroundLocalAxis: 1
     rotateAxis: {x: 0, y: 0, z: 0}
-    rotateSpeed: 10
+    rotateSpeed: 100
   isDualRotationEnabled: 0
   secondRotation:
     rotateAroundLocalAxis: 0
     rotateAxis: {x: 0, y: 0, z: 0}
     rotateSpeed: 10
   hasADelayedRotation: 0
-  delayBeforeTransition: 1
-  transitionTime: 1
+  delayBeforeTransition: 1.5
+  transitionTime: 30
   delayBeforeTransitionReturn: 1
-  transitionTimeReturn: 1
+  transitionTimeReturn: 30
   rotateAxisLocal: {x: 0, y: 0, z: 0}
-  rotationAngle: 0
+  rotationAngle: 1
   isATeleporter: 0
   teleporterTarget: {fileID: 0}
