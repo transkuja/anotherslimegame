@@ -78,10 +78,9 @@ public class Jump  {
     }
 
 
-    public void InitJump(Rigidbody rb,float _playerMaxGroundSpeed)
+    public void InitJump(Rigidbody rb)
     {
         controllerRb = rb;
-        playerMaxGroundSpeed = _playerMaxGroundSpeed;
         if (upParabola != null)
         {
             rb.velocity = new Vector3(rb.velocity.x, upParabola.V0, rb.velocity.z);

@@ -87,8 +87,8 @@ GameObject:
   - component: {fileID: 4355761701438066}
   - component: {fileID: 33866403011423262}
   - component: {fileID: 23971229265065996}
-  - component: {fileID: 114878306231690940}
   - component: {fileID: 114151656722686244}
+  - component: {fileID: 114750532149336302}
   - component: {fileID: 54138837213083474}
   - component: {fileID: 64775657094239104}
   - component: {fileID: 114657460145555874}
@@ -484,7 +484,6 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -500,7 +499,6 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -518,7 +516,6 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -534,7 +531,6 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -552,7 +548,6 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -568,7 +563,6 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -586,7 +580,6 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -602,7 +595,6 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -620,7 +612,6 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -636,7 +627,6 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -654,7 +644,6 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -670,7 +659,6 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -688,7 +676,6 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -704,7 +691,6 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -722,7 +708,6 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -738,7 +723,6 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -756,7 +740,6 @@ MeshRenderer:
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -772,7 +755,6 @@ MeshRenderer:
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -790,7 +772,6 @@ MeshRenderer:
   m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
@@ -806,7 +787,6 @@ MeshRenderer:
   m_PreserveUVs: 1
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
-  m_StitchLightmapSeams: 0
   m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
@@ -899,7 +879,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 1
+  m_CollisionDetection: 2
 --- !u!64 &64775657094239104
 MeshCollider:
   m_ObjectHideFlags: 1
@@ -972,7 +952,7 @@ MonoBehaviour:
   bounceDetectionThreshold: 0.2
   impactForce: 0
   impactPropagationThreshold: 0
-  repulsionFactor: 60
+  repulsionFactor: 2000
   invicibilityFrame: 1
 --- !u!114 &114411315779472610
 MonoBehaviour:
@@ -1023,7 +1003,7 @@ MonoBehaviour:
     minJumpParabola:
       height: 0
       xz_h: 0
---- !u!114 &114878306231690940
+--- !u!114 &114750532149336302
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -1031,20 +1011,20 @@ MonoBehaviour:
   m_GameObject: {fileID: 1220672195264224}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 54c362ab20e0e3d48917d6cc5b2e53e0, type: 3}
+  m_Script: {fileID: 11500000, guid: 4900e727033888b44b2342887c5e264b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   playerIndex: 0
-  canMoveXZ: 1
-  canJump: 1
+  isGravityEnabled: 1
+  chargeFactor: 0
   stats:
     stats:
     - name: GROUND_SPEED
       baseStat: 28
-      currentStat: 30
+      currentStat: 0
     - name: AIR_CONTROL
       baseStat: 20
-      currentStat: 20
+      currentStat: 0
     - name: TURN_SPEED
       baseStat: 0
       currentStat: 0
@@ -1052,7 +1032,7 @@ MonoBehaviour:
       baseStat: 0
       currentStat: 0
     - name: JUMP_NB
-      baseStat: 0
+      baseStat: 2
       currentStat: 0
     - name: DASH_FORCE
       baseStat: 0
@@ -1060,20 +1040,10 @@ MonoBehaviour:
     - name: DASH_RESISTANCE
       baseStat: 0
       currentStat: 0
-  jumpChargeSpeed: 19.2
-  customGravity: 90
-  airForce: 0
-  isFreeFalling: 0
-  canDoubleJump: 1
-  isGravityEnabled: 1
-  dashingTimer: 0
-  dashingMaxTimer: 0
-  dashingCooldownTimer: 0
-  dashingCooldownMaxTimer: 0
-  dashingVelocity: 0
-  defaultDumpingValues: 0.2
-  noDumpingValues: 0
+  isGrounded: 1
   DEBUG_hasBeenSpawnedFromTool: 0
+  canDoubleJump: 1
+  curStateName: 
 --- !u!119 &119241878091508526
 Projector:
   m_ObjectHideFlags: 1

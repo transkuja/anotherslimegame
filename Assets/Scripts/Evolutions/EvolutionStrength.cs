@@ -66,7 +66,7 @@ public class EvolutionStrength : EvolutionComponent
         if (timer > maxDashChargeDelay)
         {
             LaunchDash();
-            GetComponent<PlayerController>().StrengthState = SkillState.Dashing;
+            //GetComponent<PlayerController>().StrengthState = SkillState.Dashing;
         }
     }
 
@@ -103,10 +103,10 @@ public class EvolutionStrength : EvolutionComponent
     public override void OnCollisionStay(Collision coll)
     {
         base.OnCollisionStay(coll);
-        if (GetComponent<PlayerController>().StrengthState == SkillState.Dashing && playerController.IsGrounded)
-        {
-            GetComponent<PlayerController>().StrengthState = SkillState.Ready;
-            ColorChangeAsupr(Color.white);
-        }
+        //if (GetComponent<PlayerController>().StrengthState == SkillState.Dashing && playerController.IsGrounded)
+        //{
+        //    GetComponent<PlayerController>().StrengthState = SkillState.Ready;
+        //    ColorChangeAsupr(Color.white);
+        //}
     }
 }

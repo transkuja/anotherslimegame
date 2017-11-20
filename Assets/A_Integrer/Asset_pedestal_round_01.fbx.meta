@@ -1,12 +1,5 @@
 fileFormatVersion: 2
-<<<<<<< refs/remotes/origin/master
 guid: 1be038fcf3c2b1d468a4dbe495720df1
-timeCreated: 1509379850
-=======
-guid: 41fddc3c55487534caa3d64c00f0b115
-timeCreated: 1511189820
->>>>>>> J'ai fait des trucs pour changer
-licenseType: Free
 ModelImporter:
   serializedVersion: 21
   fileIDToRecycleName:
