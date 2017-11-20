@@ -53,6 +53,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabPointsGameObject: {fileID: 1097748654610884, guid: 192da9fc314c1a34499a8e48ed50a415,
     type: 2}
+  prefabPointsDroppedGameObject: {fileID: 1104432995744758, guid: a0cf229eeaa5fa446a9bb3f05902e375,
+    type: 2}
   prefabStrengthEvolution1GameObject: {fileID: 1524093129247474, guid: 878be16398a7b6d44a98286752bda286,
     type: 2}
   prefabAgileEvolution1GameObject: {fileID: 1524093129247474, guid: 878be16398a7b6d44a98286752bda286,

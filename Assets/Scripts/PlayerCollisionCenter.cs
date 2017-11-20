@@ -192,26 +192,26 @@ public class PlayerCollisionCenter : MonoBehaviour {
         if (player.Collectables[typeCollectable] > 0)
         {
             int numberOfCollectablesToDrop = (int)Mathf.Clamp((float)(Mathf.Floor(player.Collectables[typeCollectable]) / Utils.GetDefaultCollectableValue(typeCollectable)), 1, 6);
+            Vector3[] positions = SpawnManager.GetVector3ArrayOnADividedCircle(transform.position, player.GetComponent<MeshCollider>().bounds.extents.magnitude, numberOfCollectablesToDrop, SpawnManager.Axis.XZ);
             for (int i = 0; i < numberOfCollectablesToDrop; i++)
             {
                 player.UpdateCollectableValue(CollectableType.Points, -Utils.GetDefaultCollectableValue(typeCollectable));
 
                 GameObject go = ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
-                player.transform.position + player.GetComponent<MeshCollider>().bounds.extents,
+                positions[i] + Vector3.up*0.5f,
                 player.transform.rotation,
                 null,
-                CollectableType.Points);
-                go.GetComponent<Collectable>().Init(numberOfCollectablesToDrop);
+                CollectableType.Points,
+                true);
 
-                //Dispersion des collectables
-                go.GetComponent<Collectable>().Dispersion(i);
+                go.GetComponent<Collectable>().Disperse(i, (positions[i] - transform.position + Vector3.up*1.5f).normalized);
             }
         }
     }
 
     public void ExpulsePlayer(Vector3 collisionPoint, Rigidbody rbPlayerToExpulse, float repulsionFactor)
     {
-        if (!onceRepulsion)
+        if (!onceRepulsion && rbPlayerToExpulse.GetComponent<PlayerController>())
         {
             onceRepulsion = true;
 
@@ -227,7 +227,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
     public void RepulseRigibody(Vector3 collisionPoint, Rigidbody rbPlayerToExpulse, float repulsionFactor)
     {
-        if (!onceRepulsion)
+        if (!onceRepulsion && rbPlayerToExpulse.GetComponent<PlayerController>())
         {
             onceRepulsion = true;
 

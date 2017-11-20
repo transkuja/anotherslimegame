@@ -64,6 +64,7 @@ public class PlayerController : MonoBehaviour {
 
     // Dashing variables
     private BrainState brainState;
+    [SerializeField]
     private SkillState dashingState;
     private SkillState strengthState;
     private SkillState platformistState;
