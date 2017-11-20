@@ -70,6 +70,32 @@ public class EvolutionPlatformist : EvolutionComponent {
         }
     }
 
+    public float CooldownCharge
+    {
+        get
+        {
+            return cooldownCharge;
+        }
+
+        set
+        {
+            cooldownCharge = value;
+        }
+    }
+
+    public float PlatformLifetime
+    {
+        get
+        {
+            return platformLifetime;
+        }
+
+        set
+        {
+            platformLifetime = value;
+        }
+    }
+
     public override void Update()
     {
         base.Update();

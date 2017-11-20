@@ -86,6 +86,18 @@ public class DebugTools : MonoBehaviour {
                         GameManager.EvolutionManager.AddEvolutionComponent(DebugPlayerSelected.gameObject, GameManager.EvolutionManager.GetEvolutionByPowerName(Powers.Ghost));
                     Debug.Log("Added Ghost on player (dev needed here) " + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
                 }
+                // Debug platformist
+                if (Input.GetKeyDown(KeyCode.Alpha6))
+                {
+                    EvolutionPlatformist evolution = DebugPlayerSelected.GetComponent<EvolutionPlatformist>();
+                    if (evolution == null)
+                        GameManager.EvolutionManager.AddEvolutionComponent(DebugPlayerSelected.gameObject, GameManager.EvolutionManager.GetEvolutionByPowerName(Powers.Platformist));
+
+                    evolution.CooldownCharge = 1.0f;
+                    evolution.PlatformLifetime = 300.0f;
+
+                    Debug.Log("Added Platformist on player " + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
+                }
             }
 
             // Spawn a collectable

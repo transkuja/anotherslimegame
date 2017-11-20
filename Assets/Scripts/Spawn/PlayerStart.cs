@@ -46,9 +46,9 @@ public class PlayerStart : MonoBehaviour {
 
             timeSinceStageIsSet = 0.0f;
         }
-}
+    }
 
-public Transform GetPlayerStart(uint playerIndex)
+    public Transform GetPlayerStart(uint playerIndex)
     {
         return playerStart[playerIndex];
     }
