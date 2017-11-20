@@ -25,8 +25,9 @@ public class PlatformGameplay : MonoBehaviour {
     float bounceStrength = 25.0f;
 
     [Header("Movement")]
+    [SerializeField]
     [Tooltip("Defines if the platform will move or not")]
-    public bool isMoving = false;
+    bool isMoving = false;
     [Tooltip("The axis on which the platform moves (the vector will be normalized)")]
     public Vector3 movingAxis = Vector3.zero;
     [Tooltip("The platform velocity")]
@@ -98,6 +99,8 @@ public class PlatformGameplay : MonoBehaviour {
 
 
     // Private variables
+    bool isMovingPrivate = false;
+    bool wasMovingPreviousFrame = false;
     Vector3 lerpOriginPosition;
     Vector3 lerpNewPosition;
     float moveLerpValue = 0.0f;
@@ -125,6 +128,24 @@ public class PlatformGameplay : MonoBehaviour {
     bool drawLineOnlyPrevState;
     bool drawShapesOnlyPrevState;
 
+    public bool IsMoving
+    {
+        get
+        {
+            return isMovingPrivate;
+        }
+
+        set
+        {
+            if (value)
+            {
+                movingAxis.Normalize();
+                lerpNewPosition = lerpOriginPosition + movingDistance * movingAxis;
+            }
+            isMovingPrivate = value;
+        }
+    }
+
     void Start() {
         platformOriginPosition = transform.position;
         platformOriginRotation = transform.rotation;
@@ -135,7 +156,7 @@ public class PlatformGameplay : MonoBehaviour {
             if (teleporterTarget == null)
                 Debug.LogWarning("The platform is flagged as a teleporter but no target has been defined!");
         }
-        if (isMoving)
+        if (isMovingPrivate)
         {
             if (movingAxis == Vector3.zero)
             {
@@ -165,12 +186,21 @@ public class PlatformGameplay : MonoBehaviour {
     }
 
     void Update() {
+
+        if (isMoving && !wasMovingPreviousFrame)
+            RefreshMovingBehaviour();
         if (resetPlatform)
             ResetPlatformToOrigin();
 
         HandlePlatformMove();
         HandleTeleportation();
         HandlePlatformRotation();
+        wasMovingPreviousFrame = isMoving;
+    }
+
+    void RefreshMovingBehaviour()
+    {
+        IsMoving = isMoving;
     }
 
     void MovingProcess()
@@ -335,12 +365,21 @@ public class PlatformGameplay : MonoBehaviour {
     {
         transform.position = platformOriginPosition;
         transform.rotation = platformOriginRotation;
+        moveLerpValue = 0.0f;
+        isInPong = false;
+        hasPlayerJumpedOn = false;
+        hasPlayerJumpedOff = false;
+        hasJumpAgainWhenDestReached = false;
+        hasPlatformReachedDestination = false;
+        isOnPlatform = false;
+
+        RefreshMovingBehaviour();
         resetPlatform = false;
     }
 
     void HandlePlatformMove()
     {
-        if (isMoving)
+        if (isMovingPrivate)
         {
 
             if (movementWhenPlayerJumpsOn)
