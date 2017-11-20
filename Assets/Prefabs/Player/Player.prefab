@@ -879,7 +879,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 112
-  m_CollisionDetection: 1
+  m_CollisionDetection: 2
 --- !u!64 &64775657094239104
 MeshCollider:
   m_ObjectHideFlags: 1
@@ -948,6 +948,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: edeb7f77259ffc54f8bac63f5f5ad463, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bounceStrength: 25
+  bounceDetectionThreshold: 0.2
+  impactForce: 0
+  impactPropagationThreshold: 0
+  repulsionFactor: 2000
+  invicibilityFrame: 1
 --- !u!114 &114411315779472610
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1010,6 +1016,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerIndex: 0
   isGravityEnabled: 1
+  chargeFactor: 0
   stats:
     stats:
     - name: GROUND_SPEED

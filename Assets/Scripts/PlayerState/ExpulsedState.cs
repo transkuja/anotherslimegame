@@ -5,7 +5,7 @@ using UnityEngine;
 public class ExpulsedState : PlayerState
 {
 
-    public Vector3 repulseForce = Vector3.zero;
+    public float timer;
 
     public ExpulsedState(PlayerController _playerController) : base(_playerController)
     {
@@ -15,22 +15,29 @@ public class ExpulsedState : PlayerState
         base.OnBegin();
         if (AudioManager.Instance != null && AudioManager.Instance.hahahaFX != null) AudioManager.Instance.PlayOneShot(AudioManager.Instance.hahahaFX);
         curFixedUpdateFct = OnExpulseState;
-        Debug.Log("EnterExpulseState");
+        timer = 0;
+        //playerController.GetComponent<JumpManager>().Stop();
     }
     public void OnExpulseState()
     {
-        //Rigidbody _rb = playerController.Player.Rb;
-        //_rb.velocity += repulseForce;
-        //_rb.GetComponent<Player>().Anim.SetFloat("MouvementSpeed", 3);
-        //_rb.GetComponent<Player>().Anim.SetBool("isExpulsed", _rb.GetComponent<PlayerController>().IsGrounded);
+        timer += Time.deltaTime;
+        if (timer > 1)
+        {
+            playerController.PlayerState = playerController.freeState;
+        }
     }
     public override void OnEnd()
     {
         base.OnEnd();
-        Debug.Log("Out of Expulse");
-        repulseForce = Vector3.zero;
     }
     public override void Move(Vector3 initialVelocity)
+    {
+    }
+    public override void PushPlayer(Vector3 force)
+    {
+        //playerController.Rb.velocity = force;
+    }
+    public override void OnJumpPressed()
     {
     }
 }

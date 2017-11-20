@@ -56,7 +56,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
     {
         playerController = GetComponent<PlayerController>();
         rb = GetComponent<Rigidbody>();
-        repulsionFactor = 10;
+        repulsionFactor = 35;
     }
 
     private void Update()
@@ -77,12 +77,13 @@ public class PlayerCollisionCenter : MonoBehaviour {
                     {
                         if (!impactedPlayers.Contains(playersCollided[i].GetComponent<Player>()))
                         {
+                            Physics.IgnoreCollision(playersCollided[i].GetComponent<Collider>(), GetComponent<Collider>(), true);
                             // Don't reimpacted the same player twice see invicibilityFrame
                             impactedPlayers.Add(playersCollided[i].GetComponent<Player>());
 
                             // Damage Behavior
                             DamagePlayer(playersCollided[i].GetComponent<Player>());
-
+                            //Physics.IgnoreCollision()
                             // ExpluseForce
 
                             //if (_PlayerController.StrengthState == SkillState.Dashing) repulsionMultiplier *= -2;
@@ -98,55 +99,55 @@ public class PlayerCollisionCenter : MonoBehaviour {
     private void OnCollisionEnter(Collision collision)
     {
         // Interaction Joueur / Joueur
-        //if (collision.gameObject.GetComponent<Player>())
-        //{
-        //    PlayerController collidedPlayerController = collision.transform.gameObject.GetComponent<PlayerController>();
+        if (collision.gameObject.GetComponent<Player>())
+        {
+            PlayerController collidedPlayerController = collision.transform.gameObject.GetComponent<PlayerController>();
 
-        //    if (collidedPlayerController == null) return;
+            if (collidedPlayerController == null) return;
 
-        //    if ( ! (_PlayerController.PlayerState is DashState) 
-        //        &&!(collidedPlayerController.PlayerState is DashState))
-        //    {
-        //        // Default interaction no one is dashing of using an abilty
-        //        // Could be reduce to thisPlayerController.BrainState == BrainState.Occupied && collidedPlayerController.BrainState == BrainState.Occupied
-        //        // Can't confirm implications
-        //        DefaultCollision(collision, collision.transform.gameObject.GetComponent<Player>());
+            if (!(_PlayerController.PlayerState is DashState)
+                && !(collidedPlayerController.PlayerState is DashState))
+            {
+                // Default interaction no one is dashing of using an abilty
+                // Could be reduce to thisPlayerController.BrainState == BrainState.Occupied && collidedPlayerController.BrainState == BrainState.Occupied
+                // Can't confirm implications
+                DefaultCollision(collision, collision.transform.gameObject.GetComponent<Player>());
 
-        //        if (AudioManager.Instance != null && AudioManager.Instance.wahhFx != null)
-        //            if (!AudioManager.Instance.sourceFX.isPlaying)
-        //                AudioManager.Instance.PlayOneShot(AudioManager.Instance.wahhFx);
-        //    }
-        //}
+                if (AudioManager.Instance != null && AudioManager.Instance.wahhFx != null)
+                    if (!AudioManager.Instance.sourceFX.isPlaying)
+                        AudioManager.Instance.PlayOneShot(AudioManager.Instance.wahhFx);
+            }
+        }
 
-        //if (collision.gameObject.tag == "HardBreakable")
-        //{
-        //    //if (GetComponent<EvolutionStrength>() != null && (GetComponent<PlayerController>().StrengthState == SkillState.Dashing || GetComponent<PlayerController>().DashingState == SkillState.Dashing))
-        //    {
-        //        if (collision.gameObject.GetComponent<Rigidbody>() != null)
-        //        {
-        //            // TMP impredictable
-        //            collision.gameObject.GetComponent<Rigidbody>().isKinematic = false;
-        //            collision.gameObject.transform.parent = null;
-        //            //RepulseRigibody(collision, collision.gameObject.GetComponent<Rigidbody>(), repulsionFactor);
-        //            //Destroy(collision.gameObject, 4);
-        //        }
-        //    }
-        //}
+        if (collision.gameObject.tag == "HardBreakable")
+        {
+            if (playerController.PlayerState is DashState && playerController.GetComponent<EvolutionStrength>())
+            {
+                if (collision.gameObject.GetComponent<Rigidbody>() != null)
+                {
+                    // TMP impredictable
+                    collision.gameObject.GetComponent<Rigidbody>().isKinematic = false;
+                    collision.gameObject.transform.parent = null;
+                    RepulseRigibody(collision.contacts[0].point, collision.gameObject.GetComponent<Rigidbody>(), repulsionFactor);
+                    //Destroy(collision.gameObject, 4);
+                }
+            }
+        }
 
-        //if (collision.gameObject.tag == "Breakable")
-        //{
-        //    if (GetComponent<PlayerController>().StrengthState == SkillState.Dashing || GetComponent<PlayerController>().DashingState == SkillState.Dashing)
-        //    {
-        //        if (collision.gameObject.GetComponent<Rigidbody>() != null)
-        //        {
-        //            // TMP impredictable
-        //            collision.gameObject.GetComponent<Rigidbody>().isKinematic = false;
-        //            collision.gameObject.transform.parent = null;
-        //            //RepulseRigibody(collision, collision.gameObject.GetComponent<Rigidbody>(), repulsionFactor);
-        //            //Destroy(collision.gameObject, 4);
-        //        }
-        //    }
-        //}
+        if (collision.gameObject.tag == "Breakable")
+        {
+            if (playerController.PlayerState is DashState && playerController.GetComponent<EvolutionStrength>())
+            {
+                if (collision.gameObject.GetComponent<Rigidbody>() != null)
+                {
+                    // TMP impredictable
+                    collision.gameObject.GetComponent<Rigidbody>().isKinematic = false;
+                    collision.gameObject.transform.parent = null;
+                    RepulseRigibody(collision.contacts[0].point, collision.gameObject.GetComponent<Rigidbody>(), repulsionFactor);
+                    //Destroy(collision.gameObject, 4);
+                }
+            }
+        }
     }
 
     public void DefaultCollision(Collision collision, Player playerImpacted)
@@ -210,18 +211,12 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
     public void ExpulsePlayer(Vector3 collisionPoint, Rigidbody rbPlayerToExpulse, float repulsionFactor)
     {
-        if (!onceRepulsion)
-        {
-            onceRepulsion = true;
+        Vector3 direction = rbPlayerToExpulse.position - collisionPoint;
+        direction.y = 0;
 
-            Vector3 direction = rbPlayerToExpulse.position - collisionPoint;
-            direction.y = 0;
-
-            direction.Normalize();
-
-            ForcedJump(direction, repulsionFactor, rbPlayerToExpulse);
-            StartCoroutine(ReactivateCollider(rbPlayerToExpulse.GetComponent<Player>()));
-        }
+        direction.Normalize();
+        ForcedJump(direction, repulsionFactor, rbPlayerToExpulse);
+        StartCoroutine(ReactivateCollider(rbPlayerToExpulse.GetComponent<Player>()));
     }
 
     public void RepulseRigibody(Vector3 collisionPoint, Rigidbody rbPlayerToExpulse, float repulsionFactor)
@@ -236,18 +231,26 @@ public class PlayerCollisionCenter : MonoBehaviour {
             direction.Normalize();
 
             rbPlayerToExpulse.AddForce(direction * repulsionFactor, ForceMode.Impulse);
-            StartCoroutine(ReactivateCollider(rbPlayerToExpulse.GetComponent<Player>()));
+            StartCoroutine(ReactivateCollider());
         }
     }
 
     public IEnumerator ReactivateCollider(Player p)
     {
         yield return new WaitForSeconds(invicibilityFrame);
-        onceRepulsion = false;
         impactedPlayers.Remove(p);
+        Physics.IgnoreCollision(p.GetComponent<Collider>(), GetComponent<Collider>(),false);
         //p.GetComponent<PlayerController>().BrainState = BrainState.Free;
         yield return null;
     }
+    public IEnumerator ReactivateCollider()
+    {
+        yield return new WaitForSeconds(invicibilityFrame);
+        onceRepulsion = false;
+        //p.GetComponent<PlayerController>().BrainState = BrainState.Free;
+        yield return null;
+    }
+
 
     private void OnDrawGizmos()
     {
@@ -271,21 +274,13 @@ public class PlayerCollisionCenter : MonoBehaviour {
     {
         if (target.GetComponent<PlayerController>() != null)
         {
-            PlayerController _pc = target.GetComponent<PlayerController>();
-                // pour le moment je laisse la state saut géré l'expulsion pour intégrer plus vite
-                //mais à terme il faut le changer. On applique une force. C'est pas un état de saut.
-            _pc.jumpState.nbJumpMade = 0; 
-            _pc.PlayerState.OnJumpPressed();
-            _pc.PlayerState = _pc.expulsedState;
-            _pc.expulsedState.repulseForce = direction * repulseStrength;
-            Debug.Log("_pc.expulsedState.repulseForce :"+ _pc.expulsedState.repulseForce);
-            //target.velocity += _pc.expulsedState.repulseForce;
-            //_pc.forcedJump.repulseForce = direction * repulseStrength;
-            //// Wtf je sais que c'est aussi fait dans le player Controller mais le comportement est bien meilleur avec cette ligne
-            //_pc.forcedJump.AddForcedJumpForce(target);
-            //_pc.forcedJump.StartJump();
-            //_pc.BrainState = BrainState.Occupied;
-            //_pc.Jump();
+            PlayerController _pcTarget = target.GetComponent<PlayerController>();
+            // pour le moment je laisse la state saut géré l'expulsion pour intégrer plus vite
+            //mais à terme il faut le changer. On applique une force. C'est pas un état de saut.
+            Debug.Log("Activate");
+            _pcTarget.jumpState.nbJumpMade = 0;
+            _pcTarget.PlayerState.OnJumpPressed();
+            _pcTarget.PlayerState.PushPlayer(direction* repulseStrength);
         }
     }
 }

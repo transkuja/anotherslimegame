@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour {
         // Component : 
     private PlayerState playerState;
     private JumpManager jumpManager;
+    private Rigidbody rb;
     Player player;
 
     // gamePad
@@ -198,7 +199,20 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
-    
+    public Rigidbody Rb
+    {
+        get
+        {
+            return rb;
+        }
+
+        set
+        {
+            rb = value;
+        }
+    }
+
+
 
     #endregion
 
@@ -213,6 +227,7 @@ public class PlayerController : MonoBehaviour {
 
     void Start () {
         Player = GetComponent<Player>();
+        Rb = GetComponent<Rigidbody>();
         if (Player == null)
             Debug.Log("Player should not be null");
         PlayerState = freeState;
@@ -222,13 +237,11 @@ public class PlayerController : MonoBehaviour {
 	void Update () {
         if(PlayerState != null)
             PlayerState.OnUpdate();
-        HandleBouncing();
+        if (rb.velocity.y <0.2f && !IsGrounded)
+            HandleBouncing();
     }
     private void FixedUpdate()
     {
-
-    
-
         if (DEBUG_hasBeenSpawnedFromTool)
             return;
         if (!playerIndexSet)

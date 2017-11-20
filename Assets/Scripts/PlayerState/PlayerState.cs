@@ -129,4 +129,10 @@ public class PlayerState  {
     {
         playerController.PlayerState = playerController.dashState;
     }
+    public virtual void PushPlayer(Vector3 force)
+    {
+        Debug.Log("push in free mode+ "+ force);
+        playerController.PlayerState = playerController.expulsedState;
+        playerController.Rb.velocity = new Vector3(force.x, playerController.Rb.velocity.y, force.z);
+    }
 }
