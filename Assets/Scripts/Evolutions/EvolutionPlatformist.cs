@@ -97,6 +97,9 @@ public class EvolutionPlatformist : EvolutionComponent {
             {
                 platform.GetComponent<PlatformGameplay>().isBouncy = true;
             }
+            TrappedPlatform trappedComponent = platform.GetComponent<TrappedPlatform>();
+            if (trappedComponent)
+                trappedComponent.owner = GetComponent<Player>();
         }
     }
 

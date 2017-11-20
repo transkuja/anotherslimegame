@@ -23,8 +23,6 @@ public class PlatformGameplay : MonoBehaviour {
     [SerializeField]
     [Range(10.0f, 2000.0f)]
     float bounceStrength = 25.0f;
-    [Tooltip("Will make the player slide on the platform")]
-    public bool isSlippery;
 
     [Header("Movement")]
     [Tooltip("Defines if the platform will move or not")]
@@ -132,10 +130,6 @@ public class PlatformGameplay : MonoBehaviour {
         platformOriginRotation = transform.rotation;
         platformOriginScale = transform.localScale;
 
-        if (isSlippery)
-        {
-            // isSlippery start process
-        }
         if (isATeleporter)
         {
             if (teleporterTarget == null)
