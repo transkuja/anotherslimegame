@@ -1,15 +1,17 @@
 fileFormatVersion: 2
-guid: 610e8d308276dbd4bb2c612742ebaa61
-timeCreated: 1508449391
+guid: 027095db23f6b394a8b5b4aab389eb2b
+timeCreated: 1511190051
 licenseType: Free
 ModelImporter:
   serializedVersion: 21
   fileIDToRecycleName:
-    100000: //RootNode
-    400000: //RootNode
-    2300000: //RootNode
-    3300000: //RootNode
-    4300000: Mushroom_01
+    100000: Asset_large_wall_window_moon_01
+    100002: //RootNode
+    400000: Asset_large_wall_window_moon_01
+    400002: //RootNode
+    2300000: Asset_large_wall_window_moon_01
+    3300000: Asset_large_wall_window_moon_01
+    4300000: Asset_large_wall_window_moon_01
     9500000: //RootNode
   materials:
     importMaterials: 1

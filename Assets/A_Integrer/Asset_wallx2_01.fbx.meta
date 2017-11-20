@@ -1,15 +1,17 @@
 fileFormatVersion: 2
-guid: 666a46331c706c34196b8577b338f92e
-timeCreated: 1508449391
+guid: aff8af960a68dd847bed351418070669
+timeCreated: 1511190052
 licenseType: Free
 ModelImporter:
   serializedVersion: 21
   fileIDToRecycleName:
-    100000: //RootNode
-    400000: //RootNode
-    2300000: //RootNode
-    3300000: //RootNode
-    4300000: Bowl_Arena
+    100000: Asset_large_Wall_01
+    100002: //RootNode
+    400000: Asset_large_Wall_01
+    400002: //RootNode
+    2300000: Asset_large_Wall_01
+    3300000: Asset_large_Wall_01
+    4300000: Asset_large_Wall_01
     9500000: //RootNode
   materials:
     importMaterials: 1

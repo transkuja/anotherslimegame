@@ -1,15 +1,17 @@
 fileFormatVersion: 2
-guid: 43691d254dbaf1241920f002673eaeb1
-timeCreated: 1508449391
+guid: 69253d2a6fcecc343a465c14f2c3461c
+timeCreated: 1511190051
 licenseType: Free
 ModelImporter:
   serializedVersion: 21
   fileIDToRecycleName:
-    100000: //RootNode
-    400000: //RootNode
-    2300000: //RootNode
-    3300000: //RootNode
-    4300000: Leaf_01
+    100000: Asset_wall_window_center_01
+    100002: //RootNode
+    400000: Asset_wall_window_center_01
+    400002: //RootNode
+    2300000: Asset_wall_window_center_01
+    3300000: Asset_wall_window_center_01
+    4300000: Asset_wall_window_center_01
     9500000: //RootNode
   materials:
     importMaterials: 1

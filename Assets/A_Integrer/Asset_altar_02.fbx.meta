@@ -1,6 +1,11 @@
 fileFormatVersion: 2
+<<<<<<< refs/remotes/origin/master
 guid: 9f428449f895c5a43bca07e03946f613
 timeCreated: 1509379851
+=======
+guid: 13af134940d82ed41b29f55689e921f0
+timeCreated: 1511189819
+>>>>>>> J'ai fait des trucs pour changer
 licenseType: Free
 ModelImporter:
   serializedVersion: 21

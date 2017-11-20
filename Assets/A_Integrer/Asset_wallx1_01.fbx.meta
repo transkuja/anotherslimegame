@@ -1,52 +1,17 @@
 fileFormatVersion: 2
-<<<<<<< refs/remotes/origin/master
-guid: f9997896c1ef3bb44bc3967f4c7f00bf
-timeCreated: 1509379851
-=======
-guid: ec308d9d4ccc91e41830ebc2ccd0f027
-timeCreated: 1511189821
->>>>>>> J'ai fait des trucs pour changer
+guid: 97093da7d667d1740b61dfdc7ba4b0cd
+timeCreated: 1511190052
 licenseType: Free
 ModelImporter:
   serializedVersion: 21
   fileIDToRecycleName:
-    100000: //RootNode
-    100002: pCube4
-    100004: pCube6
-    100006: pCube7
-    100008: pCylinder3
-    100010: pCylinder4
-    100012: pCylinder5
-    100014: pPipe2
-    400000: //RootNode
-    400002: pCube4
-    400004: pCube6
-    400006: pCube7
-    400008: pCylinder3
-    400010: pCylinder4
-    400012: pCylinder5
-    400014: pPipe2
-    2300000: pCube4
-    2300002: pCube6
-    2300004: pCube7
-    2300006: pCylinder3
-    2300008: pCylinder4
-    2300010: pCylinder5
-    2300012: pPipe2
-    3300000: pCube4
-    3300002: pCube6
-    3300004: pCube7
-    3300006: pCylinder3
-    3300008: pCylinder4
-    3300010: pCylinder5
-    3300012: pPipe2
-    4300000: pCube7
-    4300002: pCube6
-    4300004: pCube4
-    4300006: pCylinder5
-    4300008: pCylinder4
-    4300010: pPipe2
-    4300012: pCylinder3
+    100000: Asset_small_wall_01
+    100002: //RootNode
+    400000: Asset_small_wall_01
+    400002: //RootNode
+    2300000: Asset_small_wall_01
+    3300000: Asset_small_wall_01
+    4300000: Asset_small_wall_01
     9500000: //RootNode
   materials:
     importMaterials: 1
