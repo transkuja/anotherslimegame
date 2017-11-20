@@ -126,16 +126,15 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   bounceStrength: 50
-  isSlippery: 0
   isMoving: 0
   movingAxis: {x: 0, y: 2, z: 0}
-  movingSpeed: 0.5
-  movingDistance: 10
-  isAPingPongMovement: 0
+  movingSpeed: 1.5
+  movingDistance: 5
+  isAPingPongMovement: 1
   movementWhenPlayerJumpsOn: 0
   backToOriginOnPlayerExit: 0
   backToOriginOnPlayerJumpOn: 0
-  delayBeforeMovement: 1.69
+  delayBeforeMovement: 0
   isRotating: 0
   preserveUp: 0
   newRotationCenter: {x: 0, y: 0, z: 0}
