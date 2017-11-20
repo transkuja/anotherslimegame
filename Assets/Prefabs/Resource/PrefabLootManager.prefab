@@ -55,7 +55,7 @@ MonoBehaviour:
     type: 2}
   prefabPointsDroppedGameObject: {fileID: 1104432995744758, guid: a0cf229eeaa5fa446a9bb3f05902e375,
     type: 2}
-  prefabStrengthEvolution1GameObject: {fileID: 1524093129247474, guid: 878be16398a7b6d44a98286752bda286,
+  prefabStrengthEvolution1GameObject: {fileID: 1524093129247474, guid: c785602d26f1c9c40b1ae87ad4c331d7,
     type: 2}
   prefabAgileEvolution1GameObject: {fileID: 1524093129247474, guid: 878be16398a7b6d44a98286752bda286,
     type: 2}
