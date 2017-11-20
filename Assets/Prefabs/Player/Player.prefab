@@ -893,7 +893,7 @@ MeshCollider:
   m_Convex: 1
   m_InflateMesh: 1
   m_SkinWidth: 0.06
-  m_Mesh: {fileID: 4300000, guid: c06eddb649b83af4b88bba2418daae1b, type: 3}
+  m_Mesh: {fileID: 4300000, guid: bf9583c45372aff44a17d167c3377efb, type: 3}
 --- !u!95 &95720439856541364
 Animator:
   serializedVersion: 3
@@ -1040,7 +1040,20 @@ MonoBehaviour:
     - name: DASH_RESISTANCE
       baseStat: 0
       currentStat: 0
-  isGrounded: 1
+  jumpChargeSpeed: 19.2
+  customGravity: 90
+  airForce: 0
+  isFreeFalling: 0
+  canDoubleJump: 1
+  isGravityEnabled: 1
+  dashingState: 0
+  dashingTimer: 0
+  dashingMaxTimer: 0
+  dashingCooldownTimer: 0
+  dashingCooldownMaxTimer: 0
+  dashingVelocity: 0
+  defaultDumpingValues: 0.2
+  noDumpingValues: 0
   DEBUG_hasBeenSpawnedFromTool: 0
   canDoubleJump: 1
   curStateName: 
