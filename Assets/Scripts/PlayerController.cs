@@ -375,6 +375,19 @@ public class PlayerController : MonoBehaviour
     public void OnCollisionEnter(Collision collision)
     {
         PlayerState.CollisionEnter(collision);
+        float force = 20f;
+        //float forceOffset = 0.1f;
+        MeshDeformer deformer = GetComponentInChildren<MeshDeformer>();
+        if (deformer)
+        {
+            float vel = collision.relativeVelocity.magnitude / collision.contacts.Length;
+            for (int i = 0; i < collision.contacts.Length; i++)
+            {
+                Vector3 point = collision.contacts[i].point;
+                deformer.AddDeformingForce(point, vel * force);
+            }
+        }
+
     }
     public void OnCollisionStay(Collision collision)
     {
@@ -446,6 +459,7 @@ public class PlayerController : MonoBehaviour
     }
     public void HandleBouncing()
     {
+        /*
         Ray ray = new Ray(transform.position, Vector3.down);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit))
@@ -458,10 +472,11 @@ public class PlayerController : MonoBehaviour
                 Vector3 point = hit.point;
                 point += hit.normal * forceOffset;
                 deformer.AddDeformingForce(point, -force);
-                deformer.AddDeformingForce(point, +force / 5);
+                deformer.AddDeformingForce(point, force / 5);
             }
-        }
+        }*/
     }
+
 
     // TODO : Remi , Export this in camera controls
     public void ChangeDampingValuesCameraFreeLook(float _newValues)
@@ -485,5 +500,6 @@ public class PlayerController : MonoBehaviour
             tr.m_YDamping = _newValues;
             tr.m_ZDamping = _newValues;
         }
-    }
+    }
+
 }

@@ -966,7 +966,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   springForce: 200
-  damping: 3
+  damping: 10
 --- !u!114 &114657460145555874
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1040,20 +1040,7 @@ MonoBehaviour:
     - name: DASH_RESISTANCE
       baseStat: 0
       currentStat: 0
-  jumpChargeSpeed: 19.2
-  customGravity: 90
-  airForce: 0
-  isFreeFalling: 0
-  canDoubleJump: 1
-  isGravityEnabled: 1
-  dashingState: 0
-  dashingTimer: 0
-  dashingMaxTimer: 0
-  dashingCooldownTimer: 0
-  dashingCooldownMaxTimer: 0
-  dashingVelocity: 0
-  defaultDumpingValues: 0.2
-  noDumpingValues: 0
+  isGrounded: 1
   DEBUG_hasBeenSpawnedFromTool: 0
   canDoubleJump: 1
   curStateName: 
