@@ -459,12 +459,12 @@ public class PlayerController : MonoBehaviour
     }
     public void HandleBouncing()
     {
-        /*
+        
         Ray ray = new Ray(transform.position, Vector3.down);
         RaycastHit hit;
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.SphereCast(ray, 1.0f, out hit))
         {
-            float force = 200f;
+            float force = 2000f;
             float forceOffset = 0.1f;
             MeshDeformer deformer = GetComponentInChildren<MeshDeformer>();
             if (deformer)
@@ -474,7 +474,7 @@ public class PlayerController : MonoBehaviour
                 deformer.AddDeformingForce(point, -force);
                 deformer.AddDeformingForce(point, force / 5);
             }
-        }*/
+        }
     }
 
 

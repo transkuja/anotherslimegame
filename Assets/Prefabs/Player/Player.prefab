@@ -90,9 +90,9 @@ GameObject:
   - component: {fileID: 114151656722686244}
   - component: {fileID: 114750532149336302}
   - component: {fileID: 54138837213083474}
-  - component: {fileID: 64775657094239104}
   - component: {fileID: 114657460145555874}
   - component: {fileID: 114393565218108792}
+  - component: {fileID: 135115296513887572}
   m_Layer: 12
   m_Name: Player
   m_TagString: Untagged
@@ -880,20 +880,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 2
---- !u!64 &64775657094239104
-MeshCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1220672195264224}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Convex: 1
-  m_InflateMesh: 1
-  m_SkinWidth: 0.06
-  m_Mesh: {fileID: 4300000, guid: bf9583c45372aff44a17d167c3377efb, type: 3}
 --- !u!95 &95720439856541364
 Animator:
   serializedVersion: 3
@@ -965,7 +951,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5893a1b22e1124140b5e910f5754c937, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  springForce: 70
+  springForce: 300
   damping: 20
 --- !u!114 &114657460145555874
 MonoBehaviour:
@@ -1062,3 +1048,15 @@ Projector:
   m_IgnoreLayers:
     serializedVersion: 2
     m_Bits: 0
+--- !u!135 &135115296513887572
+SphereCollider:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1220672195264224}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.64
+  m_Center: {x: -0.000008583069, y: 0.57, z: 0}
