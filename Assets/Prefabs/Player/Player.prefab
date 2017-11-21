@@ -965,8 +965,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5893a1b22e1124140b5e910f5754c937, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  springForce: 200
-  damping: 10
+  springForce: 70
+  damping: 20
 --- !u!114 &114657460145555874
 MonoBehaviour:
   m_ObjectHideFlags: 1
