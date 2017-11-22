@@ -187,7 +187,8 @@ public class PlatformGameplay : MonoBehaviour {
 
     void Update() {
 
-        if (isMoving && !wasMovingPreviousFrame)
+        if (isMoving && !wasMovingPreviousFrame 
+                || !isMoving && wasMovingPreviousFrame)
             RefreshMovingBehaviour();
         if (resetPlatform)
             ResetPlatformToOrigin();
