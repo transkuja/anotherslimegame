@@ -1021,7 +1021,7 @@ MonoBehaviour:
       baseStat: 2
       currentStat: 0
     - name: DASH_FORCE
-      baseStat: 0
+      baseStat: 100
       currentStat: 0
     - name: DASH_RESISTANCE
       baseStat: 0

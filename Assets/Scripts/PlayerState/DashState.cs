@@ -31,7 +31,7 @@ public class DashState : PlayerState
     {
         base.OnBegin();
         playerController.GetComponent<JumpManager>().Stop();
-        dashingVelocity = 100;
+        dashingVelocity = playerController.stats.Get(Stats.StatType.DASH_FORCE);
         dashingMaxTimer = 0.15f;
         dashingTimer = dashingMaxTimer;
         playerController.isGravityEnabled = false;
