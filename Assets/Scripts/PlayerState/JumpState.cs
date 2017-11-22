@@ -19,7 +19,7 @@ public class JumpState : PlayerState
     {
         base.OnBegin();
         hasJumpButtonBeenReleased = false;
-        LauchJump();
+        LaunchJump();
     }
    
     public override void OnEnd()
@@ -39,7 +39,8 @@ public class JumpState : PlayerState
     {
         base.DrawGizmo();
     }
-     public void LauchJump()
+
+    public void LaunchJump()
     {
         playerController.IsGrounded = false;
         JumpManager jm;
@@ -62,7 +63,7 @@ public class JumpState : PlayerState
                 if (AudioManager.Instance != null && AudioManager.Instance.youpiFX != null)
                     AudioManager.Instance.PlayOneShot(AudioManager.Instance.youpiFX);
             }
-            LauchJump();
+            LaunchJump();
         }
         if (playerController.State.Buttons.A == ButtonState.Released)
             hasJumpButtonBeenReleased = true;
