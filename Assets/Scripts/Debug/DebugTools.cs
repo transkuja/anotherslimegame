@@ -40,6 +40,36 @@ public class DebugTools : MonoBehaviour {
         {
             debugPlayerSelected = GameObject.FindObjectOfType<Player>();
         }
+
+    }
+
+    void UpdateDebugPanel()
+    {
+        DebugPanel debugPanelComponent = debugPanel.GetComponent<DebugPanel>();
+        debugPanelComponent.ResetInfoText();
+
+        debugPanelComponent.AddToDebugPanelInfos("Ctrl", "RShift", "Activation/Deactivation");
+
+        debugPanelComponent.AddToDebugPanelInfos("0", "", "Reset player");
+        debugPanelComponent.AddToDebugPanelInfos("9", "", "Respawn player");
+        debugPanelComponent.AddToDebugPanelInfos("Space", "", "Spawn a player");
+        debugPanelComponent.AddToDebugPanelInfos("P", "", "Possess a spawned player");
+        debugPanelComponent.AddToDebugPanelInfos("LeftAlt", "", "Reload all powers");
+
+        debugPanelComponent.AddToDebugPanelInfos("", "", "Add evolution");
+        debugPanelComponent.AddToDebugPanelInfos("1", "2", "Strength");
+        debugPanelComponent.AddToDebugPanelInfos("1", "3", "Agile");
+        debugPanelComponent.AddToDebugPanelInfos("1", "4", "Platformist");
+        debugPanelComponent.AddToDebugPanelInfos("1", "5", "Ghost");
+        debugPanelComponent.AddToDebugPanelInfos("1", "6", "Platformist debug");
+
+        debugPanelComponent.AddToDebugPanelInfos("", "", "Spawn a collectable");
+        debugPanelComponent.AddToDebugPanelInfos("2", "1", CollectableType.Points.ToString());
+        debugPanelComponent.AddToDebugPanelInfos("2", "3", CollectableType.Key.ToString());
+        debugPanelComponent.AddToDebugPanelInfos("2", "4", CollectableType.StrengthEvolution1.ToString());
+        debugPanelComponent.AddToDebugPanelInfos("2", "5", CollectableType.PlatformistEvolution1.ToString());
+        debugPanelComponent.AddToDebugPanelInfos("2", "6", CollectableType.AgileEvolution1.ToString());
+        debugPanelComponent.AddToDebugPanelInfos("2", "7", CollectableType.GhostEvolution1.ToString());
     }
 
     void Update () {
@@ -49,6 +79,7 @@ public class DebugTools : MonoBehaviour {
         {
             isDebugModeActive = !isDebugModeActive;
             debugPanel.gameObject.SetActive(isDebugModeActive);
+            UpdateDebugPanel();
             if (isDebugModeActive)
                 Debug.Log("DEBUG MODE ACTIVATED!");
             else
@@ -107,19 +138,19 @@ public class DebugTools : MonoBehaviour {
                 {
                     ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
                         DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.Points).GetComponent<Collectable>().Init(0);
-                    Debug.Log("Pop some " + CollectableType.StrengthEvolution1 + " on the ground!");
+                    Debug.Log("Pop some " + CollectableType.Points + " on the ground!");
                 }
                 if (Input.GetKeyDown(KeyCode.Alpha3))
                 {
                     ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
                         DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.Key).GetComponent<Collectable>().Init(0);
-                    Debug.Log("Pop some " + CollectableType.Points + " on the ground!");
+                    Debug.Log("Pop some " + CollectableType.Key + " on the ground!");
                 }
                 if (Input.GetKeyDown(KeyCode.Alpha4))
                 {
                     ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
                         DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.StrengthEvolution1).GetComponent<Collectable>().Init(0);
-                    Debug.Log("Pop some " + CollectableType.Key + " on the ground!");
+                    Debug.Log("Pop some " + CollectableType.StrengthEvolution1 + " on the ground!");
                 }
                 if (Input.GetKeyDown(KeyCode.Alpha5))
                 {
