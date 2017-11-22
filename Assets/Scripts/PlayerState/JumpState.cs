@@ -55,15 +55,24 @@ public class JumpState : PlayerState
    
     public override void OnJumpPressed()
     {
-        if (nbJumpMade < playerController.stats.Get(Stats.StatType.JUMP_NB) && hasJumpButtonBeenReleased)
+        // obligé de faire un check ici( jump--> dash--> jump--> dash-->jump ...)
+        
+        if (hasJumpButtonBeenReleased)
         {
             hasJumpButtonBeenReleased = false;
-            if (nbJumpMade > 1)
+            if (!playerController.wallJumpState.WallJumpTest())
             {
-                if (AudioManager.Instance != null && AudioManager.Instance.youpiFX != null)
-                    AudioManager.Instance.PlayOneShot(AudioManager.Instance.youpiFX);
+                if (nbJumpMade < playerController.stats.Get(Stats.StatType.JUMP_NB))
+                {
+                    if (nbJumpMade > 1)
+                    {
+                        if (AudioManager.Instance != null && AudioManager.Instance.youpiFX != null)
+                            AudioManager.Instance.PlayOneShot(AudioManager.Instance.youpiFX);
+                    }
+
+                    LaunchJump();
+                }
             }
-            LaunchJump();
         }
         if (playerController.State.Buttons.A == ButtonState.Released)
             hasJumpButtonBeenReleased = true;

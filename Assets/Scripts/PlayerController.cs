@@ -41,6 +41,7 @@ public class PlayerController : MonoBehaviour
 
     // All PlayerStateCreation once and for all.
     public JumpState jumpState;
+    public WalljumpState wallJumpState;
     public DashState dashState;
     public FreeState freeState;
     public DashDownState downDashState;
@@ -295,6 +296,7 @@ public class PlayerController : MonoBehaviour
     {
         stats.Init(this);
         jumpState = new JumpState(this);
+        wallJumpState = new WalljumpState(this);
         dashState = new DashState(this);
         freeState = new FreeState(this);
         expulsedState = new ExpulsedState(this);
@@ -311,7 +313,7 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Player should not be null");
         PlayerState = freeState;
     }
-
+   
     // Update is called once per frame
     void Update()
     {
