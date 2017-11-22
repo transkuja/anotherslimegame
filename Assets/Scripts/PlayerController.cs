@@ -46,6 +46,7 @@ public class PlayerController : MonoBehaviour
     public DashDownState downDashState;
     public ExpulsedState expulsedState;
     public PlatformistChargedState platformistChargedState;
+    public RestrainedByGhostState restrainedByGhostState;
 
     [SerializeField] public Stats stats;
     [SerializeField] bool isGrounded = true;
@@ -226,6 +227,15 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    private void GhostController()
+    {
+        if (GetComponent<EvolutionGhost>())
+        {
+            if(IsGrounded && state.Buttons.B == ButtonState.Pressed)
+                GetComponent<EvolutionGhost>().HandleTrail(state);
+        }
+    }
+
     private void PlatformistController()
     {
         // /!\ WARNING: code conflictuel si on combine les évolutions
@@ -286,6 +296,7 @@ public class PlayerController : MonoBehaviour
         expulsedState = new ExpulsedState(this);
         downDashState = new DashDownState(this);
         platformistChargedState = new PlatformistChargedState(this);
+        restrainedByGhostState = new RestrainedByGhostState(this);
     }
 
     void Start()
@@ -347,6 +358,7 @@ public class PlayerController : MonoBehaviour
                 HandleMovementWithController();
                 HandleDashWithController();
                 PlatformistController();
+                GhostController();
 
                 if (GameManager.CurrentGameMode.evolutionMode == EvolutionMode.GrabCollectableAndActivate)
                     HandleEvolutionsWithController();

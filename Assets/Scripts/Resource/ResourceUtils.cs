@@ -8,7 +8,6 @@ public class ResourceUtils : MonoBehaviour {
  
     public void Awake()
     {
-
         if (instance == null)
         {
             instance = this;
@@ -16,6 +15,7 @@ public class ResourceUtils : MonoBehaviour {
             refPrefabMonster = GetComponentInChildren<PrefabMonster>();
             refPrefabLoot = GetComponentInChildren<PrefabLoot>();
             refPrefabPlatform = GetComponentInChildren<PrefabPlatform>();
+            refPrefabGhost = GetComponentInChildren<PrefabGhost>();
 
             DontDestroyOnLoad(Instance);
         }
@@ -34,6 +34,9 @@ public class ResourceUtils : MonoBehaviour {
 
     [HideInInspector]
     public PrefabPlatform refPrefabPlatform;
+
+    [HideInInspector]
+    public PrefabGhost refPrefabGhost;
 
 
     public static ResourceUtils Instance

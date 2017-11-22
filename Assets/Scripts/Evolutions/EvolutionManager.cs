@@ -118,7 +118,9 @@ public class EvolutionManager {
                 else
                     gameObject.AddComponent<EvolutionPlatformist>(); break;
             case Powers.Ghost:
-                // Fill when Seb will have merged
+                if (gameObject.GetComponent<EvolutionGhost>() != null) gameObject.GetComponent<EvolutionGhost>().Timer = (isPermanent) ? 0.0f : evolution.duration;
+                else
+                    gameObject.AddComponent<EvolutionGhost>(); break;
             default:
                 Debug.Log("Unknown power, something went wrong");
                 break;
