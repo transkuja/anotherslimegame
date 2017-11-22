@@ -44,7 +44,7 @@ public class PlayerController : MonoBehaviour
     public DashState dashState;
     public FreeState freeState;
     public ExpulsedState expulsedState;
-
+    public PlatformistChargedState platformistChargedState;
 
     [SerializeField] public Stats stats;
     [SerializeField] bool isGrounded = true;
@@ -240,15 +240,20 @@ public class PlayerController : MonoBehaviour
             {
                 // Show pattern + buttons to swap
                 // Tant qu'on a pas relaché la gachette
+                PlayerState = platformistChargedState;
                 GetComponent<EvolutionPlatformist>().IndexSelection(prevState, state);
             }
 
             if (prevState.Triggers.Right > 0.1f && state.Triggers.Right < 0.1f)
             {
+                PlayerState = freeState;
+
                 rightTriggerHasBeenPressed = false;
 
                 if (timerRightTriggerPressed > 1.5f)
+                {
                     GetComponent<EvolutionPlatformist>().CreatePatternPlatforms();
+                }
                 else
                 {
                     //if (GetComponent<EvolutionPlatformist>().TimerPlatform >= 0.0f)
@@ -278,6 +283,7 @@ public class PlayerController : MonoBehaviour
         dashState = new DashState(this);
         freeState = new FreeState(this);
         expulsedState = new ExpulsedState(this);
+        platformistChargedState = new PlatformistChargedState(this);
     }
 
     void Start()
