@@ -1,33 +1,37 @@
-==========================================================================
-Deadline lundi prochain:
-- Level Design Phase 1 (running)
-	- Dupliquer l'entrance (3x la taille de l'entrance semble pas mal)
-	- Disposer des plateformes et des coins (coin coin)
-	- Mettre un spawn d'évolution
-[MATHIEU] - Dash
-[SEB] - Ajouter une ombre sous le personnage
-[OLIVIER] - Evolution Super Force
-==========================================================================
-==========================================================================
-Must have lundi prochain:
 - Mouvement de caméra au démarrage qui montre le LD Phase 1 et la position des évolutions
+
+- Faire un LD avec les assets des graphs
+	- Recalibrer le saut en fct du LD
+	- Faire des caméras propres pour le LD (si y a des passages étroits par ex)
+
+- Revoir et refaire l'écran de victoire
+
 [REMI] - Le temps doit être géré de façon global (avec stock de la valeur d'arrivée dans le joueur uniquement)
+	- Fait?
+
 - Pièges
 	- Pics
 	- Trou
 	- Whatever
 
-[ANTHONY]- Rotating platforms
-- Bouncy platforms
-==========================================================================
-
-RàF (reste à faire, pas rien à foutre)
-- Slippery platforms
 - Evolution Agilité
-- Evolution Platformist
-- Evolution "Mage"
-[REMI]- Améliorer le HUB de sélection de niveaux (afficher à quoi correspond chaque porte + charger le gamemode en conséquence)
+	- Ajouter le wall jump
+	- Finie à part le wall jump?
 
-Very Pas Important pour l'instant:
-[ANTHONY]- Revoir les règles de "Fin de partie"
-[REMI]- Affichage des canards pété (une des clés du joueur 2 apparait en dehors de l'écran)
+- Evolution Platformist
+	- Voir fichier PlatformistEvolution.txt
+
+- Evolution Ghost
+	- Finie?
+
+- /!\ Tests Xbox
+
+- UI Multijoueur: où sont les autres? où est la sortie? (la sortie ça peut être un "guide" et non de l'UI)
+
+- Comportement du monstre (et intégration de l'asset du mob rose)
+
+[ANTHONY]- Revoir les règles de "Fin de partie" => ok
+		- Les implémenter
+
+[REMI]- Une des clés du joueur 2 apparait en dehors de l'écran
+
