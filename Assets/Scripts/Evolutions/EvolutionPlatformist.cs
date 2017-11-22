@@ -150,6 +150,10 @@ public class EvolutionPlatformist : EvolutionComponent {
                     + Vector3.up * summonHeight * (pattern.heightStep * i + 1);
                 platforms[i].transform.rotation = transform.rotation;
                 Destroy(platforms[i], platformLifetime);
+
+                TrappedPlatform trappedComponent = platforms[i].GetComponent<TrappedPlatform>();
+                if (trappedComponent)
+                    trappedComponent.owner = GetComponent<Player>();
             }
             Charges = 0;
         }
