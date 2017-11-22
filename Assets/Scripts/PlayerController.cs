@@ -252,7 +252,7 @@ public class PlayerController : MonoBehaviour
 
                 if (timerRightTriggerPressed > 1.5f)
                 {
-                    GetComponent<EvolutionPlatformist>().CreatePatternPlatforms();
+                    GetComponent<EvolutionPlatformist>().CreatePlatforms();
                 }
                 else
                 {
