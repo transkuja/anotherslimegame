@@ -1,15 +1,17 @@
 fileFormatVersion: 2
-guid: 923acf7b6bebacf4d92285d7e8aff2e7
-timeCreated: 1511360810
+guid: 5f71ed3a48386e944b70eb373b8b282f
+timeCreated: 1511360809
 licenseType: Free
 ModelImporter:
   serializedVersion: 21
   fileIDToRecycleName:
-    100000: //RootNode
-    400000: //RootNode
-    2300000: //RootNode
-    3300000: //RootNode
-    4300000: Floor_x1_01
+    100000: Asset_colonne_x4_01
+    100002: //RootNode
+    400000: Asset_colonne_x4_01
+    400002: //RootNode
+    2300000: Asset_colonne_x4_01
+    3300000: Asset_colonne_x4_01
+    4300000: Asset_colonne_x4_01
     9500000: //RootNode
   materials:
     importMaterials: 1

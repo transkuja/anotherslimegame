@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 923acf7b6bebacf4d92285d7e8aff2e7
+guid: c0f415b10610a6e4989c58b1c580b304
 timeCreated: 1511360810
 licenseType: Free
 ModelImporter:
@@ -9,7 +9,7 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Floor_x1_01
+    4300000: Asset_platform_round_x2_01
     9500000: //RootNode
   materials:
     importMaterials: 1
