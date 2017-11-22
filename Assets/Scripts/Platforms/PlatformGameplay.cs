@@ -30,6 +30,8 @@ public class PlatformGameplay : MonoBehaviour {
     bool isMoving = false;
     [Tooltip("The axis on which the platform moves (the vector will be normalized)")]
     public Vector3 movingAxis = Vector3.zero;
+    [Tooltip("If true, the moving axis specified is in world space. Else, the moving axis is rotated depending on platform rotation")]
+    public bool isAWorldAxis = false;
     [Tooltip("The platform velocity")]
     public float movingSpeed = 0.0f;
     [Tooltip("The distance the platform should travel")]
@@ -140,7 +142,7 @@ public class PlatformGameplay : MonoBehaviour {
             if (value)
             {
                 movingAxis.Normalize();
-                lerpNewPosition = lerpOriginPosition + movingDistance * (transform.rotation * movingAxis);
+                lerpNewPosition = lerpOriginPosition + movingDistance * ((isAWorldAxis) ? movingAxis : (transform.rotation * movingAxis));
             }
             isMovingPrivate = value;
         }
@@ -176,7 +178,7 @@ public class PlatformGameplay : MonoBehaviour {
                 baseRotation.rotateAxis.Normalize();
         }
         lerpOriginPosition = transform.position;
-        lerpNewPosition = transform.position + movingDistance * (transform.rotation * movingAxis);
+        lerpNewPosition = transform.position + movingDistance * ((isAWorldAxis) ? movingAxis : (transform.rotation * movingAxis));
         delayTimer = delayBeforeMovement;
         if (GetComponent<Ground>() == null && tag != "Ground")
         {
