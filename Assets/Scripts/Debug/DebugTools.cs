@@ -89,10 +89,10 @@ public class DebugTools : MonoBehaviour {
                 // Debug platformist
                 if (Input.GetKeyDown(KeyCode.Alpha6))
                 {
-                    EvolutionPlatformist evolution = DebugPlayerSelected.GetComponent<EvolutionPlatformist>();
-                    if (evolution == null)
+                    if (DebugPlayerSelected.GetComponent<EvolutionPlatformist>() == null)
                         GameManager.EvolutionManager.AddEvolutionComponent(DebugPlayerSelected.gameObject, GameManager.EvolutionManager.GetEvolutionByPowerName(Powers.Platformist));
 
+                    EvolutionPlatformist evolution = DebugPlayerSelected.GetComponent<EvolutionPlatformist>();
                     evolution.CooldownCharge = 1.0f;
                     evolution.PlatformLifetime = 300.0f;
 
