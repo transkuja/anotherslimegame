@@ -49,9 +49,9 @@ public class DebugPanel : MonoBehaviour {
     {
         Player player = DebugTools.DebugPlayerSelected;
         evolutionsText.text = "";
-        evolutionsText.text += Powers.Platformist + ": " + ((player.GetComponent<EvolutionPlatformist>() != null) ? player.GetComponent<EvolutionPlatformist>().Timer.ToString("0.0") + "s" : "Inactive") + "\n";
-        evolutionsText.text += Powers.Strength + ": " + ((player.GetComponent<EvolutionStrength>() != null) ? player.GetComponent<EvolutionStrength>().Timer.ToString("0.0") + "s" : "Inactive") + "\n";
-        evolutionsText.text += Powers.Agile + ": " + ((player.GetComponent<EvolutionAgile>() != null) ? player.GetComponent<EvolutionAgile>().Timer.ToString("0.0") + "s" : "Inactive") + "\n";
+        evolutionsText.text += Powers.Platformist + ": " + ((player.GetComponent<EvolutionPlatformist>() != null) ? ((player.GetComponent<EvolutionPlatformist>().Timer == 0.0f) ? "Active" : player.GetComponent<EvolutionPlatformist>().Timer.ToString("0.0") + "s") : "Inactive") + "\n";
+        evolutionsText.text += Powers.Strength + ": " + ((player.GetComponent<EvolutionStrength>() != null) ? ((player.GetComponent<EvolutionStrength>().Timer == 0.0f) ? "Active" : player.GetComponent<EvolutionPlatformist>().Timer.ToString("0.0") + "s") : "Inactive") + "\n";
+        evolutionsText.text += Powers.Agile + ": " + ((player.GetComponent<EvolutionAgile>() != null) ? ((player.GetComponent<EvolutionAgile>().Timer == 0.0f) ? "Active" : player.GetComponent<EvolutionPlatformist>().Timer.ToString("0.0") + "s") : "Inactive") + "\n";
         //evolutionsText.text += Powers.Ghost + ": " + ((player.GetComponent<EvolutionGhost>() != null) ? player.GetComponent<EvolutionStrength>().Timer.ToString("0.0") + "s" : "Inactive") + "\n";
     }
 
