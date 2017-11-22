@@ -55,6 +55,7 @@ public class DebugTools : MonoBehaviour {
         debugPanelComponent.AddToDebugPanelInfos("Space", "", "Spawn a player");
         debugPanelComponent.AddToDebugPanelInfos("P", "", "Possess a spawned player");
         debugPanelComponent.AddToDebugPanelInfos("LeftAlt", "", "Reload all powers");
+        debugPanelComponent.AddToDebugPanelInfos("N", "", "Switch to next player debug info");
 
         debugPanelComponent.AddToDebugPanelInfos("", "", "Add evolution");
         debugPanelComponent.AddToDebugPanelInfos("1", "2", "Strength");
@@ -289,6 +290,25 @@ public class DebugTools : MonoBehaviour {
                         DebugPlayerSelected.GetComponent<EvolutionPlatformist>().Charges = 3;
 
                     Debug.Log("Powers reloaded for player " + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
+                }
+
+                // Change debug player selected
+                if (Input.GetKeyDown(KeyCode.N))
+                {
+                    int currentIndex = 0;
+                    List<GameObject> playersReference = GameManager.Instance.PlayerStart.PlayersReference;
+                    for (int i = 0; i < playersReference.Count; i++)
+                    {
+                        if (DebugPlayerSelected.gameObject == playersReference[i])
+                        {
+                            currentIndex = i;
+                            break;
+                        }
+                    }
+
+                    debugPlayerSelected = playersReference[(currentIndex + 1) % playersReference.Count].GetComponent<Player>();
+
+                    Debug.Log("Switch to player index: " + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
                 }
 
             }
