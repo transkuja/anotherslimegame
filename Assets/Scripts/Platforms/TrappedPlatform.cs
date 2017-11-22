@@ -12,6 +12,8 @@ public class TrappedPlatform : MonoBehaviour {
     PlatformGameplay gameplay;
 
     bool isTrapEnabled = false;
+    bool canMoveRight = true;
+    bool canMoveLeft = true;
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -39,8 +41,29 @@ public class TrappedPlatform : MonoBehaviour {
             return;
         }
 
-        TrapType trapRand = (TrapType)Random.Range(0, (int)TrapType.Size);      
-        switch(trapRand)
+        TrapType trapRand = (TrapType)Random.Range(0, (int)TrapType.Size);
+        List<TrapType> usedIndex = new List<TrapType>();
+        int nbAttempts = 0;
+
+        while (!TrapViabilityCheck(trapRand) || nbAttempts == 10)
+        {
+            usedIndex.Add(trapRand);
+            bool isInList = true;
+            while (isInList)
+            {
+                trapRand = (TrapType)Random.Range(0, (int)TrapType.Size);
+                foreach (TrapType checkedType in usedIndex)
+                {
+                    if (checkedType != trapRand)
+                        isInList = false;
+                }
+            }
+            nbAttempts++;
+        }
+
+        if (nbAttempts == 10) trapRand = TrapType.Flip;
+
+        switch (trapRand)
         {
             case TrapType.MoveHorizontal:
                 MoveHorizontal();
@@ -60,6 +83,29 @@ public class TrappedPlatform : MonoBehaviour {
         }
 
         isTrapEnabled = true;
+    }
+
+    bool TrapViabilityCheck(TrapType _trap)
+    {
+        switch (_trap)
+        {
+            case TrapType.MoveHorizontal:
+                if (Physics.Raycast(new Ray(transform.position, transform.rotation * Vector3.right), gameplay.movingDistance))
+                    canMoveRight = false;
+                if (Physics.Raycast(new Ray(transform.position, transform.rotation * Vector3.left), gameplay.movingDistance))
+                    canMoveLeft = false;
+                return canMoveRight || canMoveLeft;
+            case TrapType.MoveBackward:
+                if (Physics.Raycast(new Ray(transform.position, transform.rotation * Vector3.back), gameplay.movingDistance))
+                    return false;
+                break;
+            case TrapType.MoveDown:
+                if (Physics.Raycast(new Ray(transform.position, transform.rotation * Vector3.down), gameplay.movingDistance))
+                    return false;
+                break;
+        }
+
+        return true;
     }
 
     void MoveHorizontal()

@@ -1,5 +1,3 @@
 Axes d'amélioration:
-	- le platform gameplay doit être débuggé pour que la translation soit propre
 	- s'assurer qu'on ne fait pas pop une plateforme sur une existante (recalage)
 	- affichage des touches pour changer le pattern
-	- pièges "intelligents": ne pas rentrer dans les murs/sol
