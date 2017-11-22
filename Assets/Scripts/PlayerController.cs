@@ -43,6 +43,7 @@ public class PlayerController : MonoBehaviour
     public JumpState jumpState;
     public DashState dashState;
     public FreeState freeState;
+    public DashDownState downDashState;
     public ExpulsedState expulsedState;
     public PlatformistChargedState platformistChargedState;
 
@@ -283,6 +284,7 @@ public class PlayerController : MonoBehaviour
         dashState = new DashState(this);
         freeState = new FreeState(this);
         expulsedState = new ExpulsedState(this);
+        downDashState = new DashDownState(this);
         platformistChargedState = new PlatformistChargedState(this);
     }
 
@@ -462,6 +464,11 @@ public class PlayerController : MonoBehaviour
         {
             playerState.OnDashPressed();
         }
+        if (GetComponent<EvolutionStrength>() != null)
+            if (PrevState.Buttons.Y == ButtonState.Released && State.Buttons.Y == ButtonState.Pressed)
+            {
+                playerState.OnDownDashPressed();
+            }
     }
     public void HandleBouncing()
     {

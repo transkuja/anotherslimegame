@@ -44,16 +44,6 @@ public class DashState : PlayerState
         base.OnEnd();
     }
 
-   
-
-    // override le movement pour l'interdire : 
-    public override void HandleGravity()
-    {
-    }
-    public override void Move(Vector3 initialVelocity)
-    {
-    }
-
     public virtual void OnDashState()
     {
         playerController.Player.Rb.velocity = playerController.transform.forward * dashingVelocity;
@@ -63,7 +53,19 @@ public class DashState : PlayerState
             playerController.PlayerState = playerController.freeState;
         }
     }
-    
+   
+
+    // override des actions : 
+    public override void HandleGravity()
+    {
+    }
+    public override void Move(Vector3 initialVelocity)
+    {
+    }
+
+    public override void OnDownDashPressed()
+    {
+    }
 
     public override void CollisionEnter(Collision collision)
     {

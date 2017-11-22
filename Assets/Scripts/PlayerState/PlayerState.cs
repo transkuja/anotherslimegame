@@ -129,6 +129,10 @@ public class PlayerState  {
     {
         playerController.PlayerState = playerController.dashState;
     }
+    public virtual void OnDownDashPressed()
+    {
+        playerController.PlayerState = playerController.downDashState; ;
+    }
     public virtual void PushPlayer(Vector3 force)
     {
         playerController.PlayerState = playerController.expulsedState;
