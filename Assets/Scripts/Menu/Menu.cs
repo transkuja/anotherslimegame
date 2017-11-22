@@ -16,39 +16,28 @@ public class Menu : MonoBehaviour {
     {
         if (isSceneSet) return;
 
-        // TODO: externaliser pour le comportement multi
-        if (!playerIndexSet)
+        //// TODO: externaliser pour le comportement multi
+        //if (!playerIndexSet)
+        //{
+        //    isUsingAController = false;
+        //    for (int i = 0; i < 4; ++i)
+        //    {
+        //        PlayerIndex testPlayerIndex = (PlayerIndex)i;
+        //        GamePadState testState = GamePad.GetState(testPlayerIndex);
+        //        if (testState.IsConnected)
+        //        {
+        //            playerIndexSet = true;
+        //            isUsingAController = true;
+        //        }
+        //    }
+        //}
+
+
+        if (Input.anyKey)
         {
-            isUsingAController = false;
-            for (int i = 0; i < 4; ++i)
-            {
-                PlayerIndex testPlayerIndex = (PlayerIndex)i;
-                GamePadState testState = GamePad.GetState(testPlayerIndex);
-                if (testState.IsConnected)
-                {
-                    playerIndexSet = true;
-                    isUsingAController = true;
-                }
-            }
+            SetScene();
         }
 
-        if (isUsingAController)
-        {
-            for (int i = 0; i < 20; i++)
-            {
-                if (Input.GetKeyDown("joystick 1 button " + i.ToString()))
-                {
-                    SetScene();
-                }
-            }
-        }
-        else
-        {
-            if (Input.anyKey)
-            {
-                SetScene();
-            }
-        }
     }
 
     public void ToogleCountdownText(bool visible)
