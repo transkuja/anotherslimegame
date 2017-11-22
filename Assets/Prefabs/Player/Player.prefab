@@ -979,12 +979,12 @@ MonoBehaviour:
       xz_h: 0
   - name: Basic
     upParabola:
-      height: 8
-      xz_h: 12
+      height: 6
+      xz_h: 6
     hasFallingParabola: 1
     fallingParabola:
-      height: 8
-      xz_h: 20
+      height: 6
+      xz_h: 14
     isContinue: 0
     minJumpParabola:
       height: 0
