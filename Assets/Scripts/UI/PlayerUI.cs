@@ -20,7 +20,6 @@ public class PlayerUI : MonoBehaviour {
         for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
         {
             GameObject playerUi = Instantiate(prefabPlayerUI[i], transform);
-         
             // Generate UI key
             for (int j = 0; j < Utils.GetMaxValueForCollectable(CollectableType.Key); j++)
             {
@@ -30,7 +29,7 @@ public class PlayerUI : MonoBehaviour {
             linkPlayerKeyToItsUi.Add(GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<Player>(), playerUi.transform.GetChild((int)PlayerUiChildren.Keys).gameObject);
 
             // Generate UI points
-            GameObject pointSprite = Instantiate(ResourceUtils.Instance.refPrefabLoot.prefabPointSprite, playerUi.transform.GetChild((int)PlayerUiChildren.Points).transform); ;
+            GameObject pointSprite = Instantiate(ResourceUtils.Instance.refPrefabLoot.prefabPointSprite, playerUi.transform.GetChild((int)PlayerUiChildren.Points).transform);
             switch (i){
                 case 0: // Player 1
                     // Do nothing default value are ok
