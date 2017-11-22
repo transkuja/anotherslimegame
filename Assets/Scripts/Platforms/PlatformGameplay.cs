@@ -140,7 +140,7 @@ public class PlatformGameplay : MonoBehaviour {
             if (value)
             {
                 movingAxis.Normalize();
-                lerpNewPosition = lerpOriginPosition + movingDistance * movingAxis;
+                lerpNewPosition = lerpOriginPosition + movingDistance * (transform.rotation * movingAxis);
             }
             isMovingPrivate = value;
         }
@@ -176,7 +176,7 @@ public class PlatformGameplay : MonoBehaviour {
                 baseRotation.rotateAxis.Normalize();
         }
         lerpOriginPosition = transform.position;
-        lerpNewPosition = transform.position + movingDistance * movingAxis;
+        lerpNewPosition = transform.position + movingDistance * (transform.rotation * movingAxis);
         delayTimer = delayBeforeMovement;
         if (GetComponent<Ground>() == null && tag != "Ground")
         {
