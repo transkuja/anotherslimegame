@@ -1,17 +1,17 @@
 fileFormatVersion: 2
-guid: 30a90bdef9a86bf45b79db44bb0393af
-timeCreated: 1511357331
+guid: d96b8e97dc7a31e4ebb17927d8934e2b
+timeCreated: 1511363345
 licenseType: Free
 ModelImporter:
   serializedVersion: 21
   fileIDToRecycleName:
-    100000: Asset_Step_01
+    100000: Asset_Step_x1_01
     100002: //RootNode
-    400000: Asset_Step_01
+    400000: Asset_Step_x1_01
     400002: //RootNode
-    2300000: Asset_Step_01
-    3300000: Asset_Step_01
-    4300000: Asset_Step_01
+    2300000: Asset_Step_x1_01
+    3300000: Asset_Step_x1_01
+    4300000: Asset_Step_x1_01
     9500000: //RootNode
   materials:
     importMaterials: 1
