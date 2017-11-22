@@ -9,16 +9,20 @@ public class MeshDeformer : MonoBehaviour {
 	Mesh deformingMesh;
 	Vector3[] originalVertices, displacedVertices;
 	Vector3[] vertexVelocities;
-
-	float uniformScale = 1f;
+    float originalMediumHeight;
+    float uniformScale = 1f;
 
 	void Start () {
 		deformingMesh = GetComponent<MeshFilter>().mesh;
 		originalVertices = deformingMesh.vertices;
 		displacedVertices = new Vector3[originalVertices.Length];
-		for (int i = 0; i < originalVertices.Length; i++) {
+        originalMediumHeight = 0f;
+        for (int i = 0; i < originalVertices.Length; i++) {
 			displacedVertices[i] = originalVertices[i];
-		}
+            originalMediumHeight += originalVertices[i].y;
+        }
+        originalMediumHeight /= originalVertices.Length;
+        //originalMediumHeight = (originalHighestHeight + originalLowestHeight) / 2.0f;
 		vertexVelocities = new Vector3[originalVertices.Length];
 	}
 
@@ -27,7 +31,8 @@ public class MeshDeformer : MonoBehaviour {
 		for (int i = 0; i < displacedVertices.Length; i++) {
 			UpdateVertex(i);
 		}
-		deformingMesh.vertices = displacedVertices;
+        UpdateMeshHeight();
+        deformingMesh.vertices = displacedVertices;
 		deformingMesh.RecalculateNormals();
 	}
 
@@ -55,4 +60,19 @@ public class MeshDeformer : MonoBehaviour {
 		float velocity = attenuatedForce * Time.deltaTime;
 		vertexVelocities[i] += pointToVertex.normalized * velocity;
 	}
+
+    void UpdateMeshHeight()
+    {
+        float mediumHeight = 0f;
+        for (int i = 0; i < displacedVertices.Length; i++)
+        {
+            mediumHeight += displacedVertices[i].y;
+        }
+        mediumHeight /= displacedVertices.Length;
+        float heightDisp = originalMediumHeight - mediumHeight;
+        for (int i = 0; i < displacedVertices.Length; i++)
+        {
+            displacedVertices[i].y = displacedVertices[i].y + heightDisp;
+        }
+    }
 }

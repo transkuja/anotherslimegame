@@ -1,0 +1,3 @@
+Axes d'amélioration:
+	- s'assurer qu'on ne fait pas pop une plateforme sur une existante (recalage)
+	- affichage des touches pour changer le pattern

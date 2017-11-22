@@ -12,6 +12,9 @@ public class DebugTools : MonoBehaviour {
 
     private static Player debugPlayerSelected;
 
+    private Player debugSpawnedPlayer;
+    bool possessASpawnedPlayer = false;
+
     public static Player DebugPlayerSelected
     {
         get
@@ -40,6 +43,7 @@ public class DebugTools : MonoBehaviour {
     }
 
     void Update () {
+        // Activation/Deactivation debug mode
         if (Input.GetKey(KeyCode.LeftControl)
             && Input.GetKeyDown(KeyCode.RightShift))
         {
@@ -54,6 +58,7 @@ public class DebugTools : MonoBehaviour {
         if (isDebugModeActive)
         {
             // TODO Antho: Handle evolution mode switch
+            // Add evolution to current player
             if (Input.GetKey(KeyCode.Alpha1))
             {
                 if (Input.GetKeyDown(KeyCode.Alpha2))
@@ -81,7 +86,21 @@ public class DebugTools : MonoBehaviour {
                         GameManager.EvolutionManager.AddEvolutionComponent(DebugPlayerSelected.gameObject, GameManager.EvolutionManager.GetEvolutionByPowerName(Powers.Ghost));
                     Debug.Log("Added Ghost on player (dev needed here) " + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
                 }
+                // Debug platformist
+                if (Input.GetKeyDown(KeyCode.Alpha6))
+                {
+                    if (DebugPlayerSelected.GetComponent<EvolutionPlatformist>() == null)
+                        GameManager.EvolutionManager.AddEvolutionComponent(DebugPlayerSelected.gameObject, GameManager.EvolutionManager.GetEvolutionByPowerName(Powers.Platformist));
+
+                    EvolutionPlatformist evolution = DebugPlayerSelected.GetComponent<EvolutionPlatformist>();
+                    evolution.CooldownCharge = 1.0f;
+                    evolution.PlatformLifetime = 300.0f;
+
+                    Debug.Log("Added Platformist on player " + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
+                }
             }
+
+            // Spawn a collectable
             else if (Input.GetKey(KeyCode.Alpha2))
             {
                 if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -124,6 +143,7 @@ public class DebugTools : MonoBehaviour {
             }
             else
             {
+                // Reset player
                 if (Input.GetKeyDown(KeyCode.Alpha0))
                 {
                     DebugPlayerSelected.Collectables = new int[(int)CollectableType.Size];
@@ -135,6 +155,7 @@ public class DebugTools : MonoBehaviour {
                     Debug.Log("Reset current player! " + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
                 }
 
+                // Respawn player
                 if (Input.GetKeyDown(KeyCode.Alpha9))
                 {
                     Respawner.RespawnProcess(DebugPlayerSelected);
@@ -158,8 +179,76 @@ public class DebugTools : MonoBehaviour {
                     playerController.PlayerIndexSet = true;
 
                     GameManager.Instance.PlayerStart.PlayersReference.Add(go);
+                    debugSpawnedPlayer = go.GetComponent<Player>();
 
                     Debug.Log("Player spawned! " + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
+                }
+
+                if (Input.GetKeyDown(KeyCode.P))
+                {
+                    if (debugSpawnedPlayer == null)
+                    {
+                        Debug.Log("No spawned player to possess");
+                        return;
+                    }
+
+                    if (!possessASpawnedPlayer)
+                    {
+                        PlayerController playerControllerOne = DebugPlayerSelected.GetComponent<PlayerController>();
+                        playerControllerOne.DEBUG_hasBeenSpawnedFromTool = true;
+                        playerControllerOne.PlayerIndex = (PlayerIndex)5;
+
+                        GameObject tmpCamRef = DebugPlayerSelected.cameraReference;
+                        DebugPlayerSelected.cameraReference = debugSpawnedPlayer.cameraReference;
+                        debugSpawnedPlayer.cameraReference = tmpCamRef;
+
+                        if (DebugPlayerSelected.cameraReference != null)
+                        {
+                            DebugPlayerSelected.cameraReference.transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().LookAt = DebugPlayerSelected.transform;
+                            DebugPlayerSelected.cameraReference.transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().Follow = DebugPlayerSelected.transform;
+                        }
+                        if (debugSpawnedPlayer.cameraReference != null)
+                        {
+                            debugSpawnedPlayer.cameraReference.transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().LookAt = debugSpawnedPlayer.transform;
+                            debugSpawnedPlayer.cameraReference.transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().Follow = debugSpawnedPlayer.transform;
+                        }
+
+                        PlayerController playerControllerSpwn = debugSpawnedPlayer.GetComponent<PlayerController>();
+                        playerControllerSpwn.DEBUG_hasBeenSpawnedFromTool = false;
+                        playerControllerSpwn.PlayerIndex = (PlayerIndex)0;
+
+                        Debug.Log("Possess player one! ");
+                    }
+                    else
+                    {
+                        PlayerController playerControllerSpwn = debugSpawnedPlayer.GetComponent<PlayerController>();
+                        playerControllerSpwn.DEBUG_hasBeenSpawnedFromTool = true; 
+                        playerControllerSpwn.PlayerIndex = (PlayerIndex)5;
+
+                        GameObject tmpCamRef = DebugPlayerSelected.cameraReference;
+                        DebugPlayerSelected.cameraReference = debugSpawnedPlayer.cameraReference;
+                        debugSpawnedPlayer.cameraReference = tmpCamRef;
+
+                        if (DebugPlayerSelected.cameraReference != null)
+                        {
+                            DebugPlayerSelected.cameraReference.transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().LookAt = DebugPlayerSelected.transform;
+                            DebugPlayerSelected.cameraReference.transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().Follow = DebugPlayerSelected.transform;
+                        }
+                        if (debugSpawnedPlayer.cameraReference != null)
+                        {
+                            debugSpawnedPlayer.cameraReference.transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().LookAt = debugSpawnedPlayer.transform;
+                            debugSpawnedPlayer.cameraReference.transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().Follow = debugSpawnedPlayer.transform;
+                        }
+
+                        PlayerController playerControllerOne = DebugPlayerSelected.GetComponent<PlayerController>();
+                        playerControllerOne.DEBUG_hasBeenSpawnedFromTool = false;
+                        playerControllerOne.PlayerIndex = (PlayerIndex)0;
+
+                        Debug.Log("Possess a spawned player! ");
+                    }
+
+                    possessASpawnedPlayer = !possessASpawnedPlayer;
+
                 }
 
                 // Reload all powers

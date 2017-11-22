@@ -53,3 +53,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefabPlatformistDefault: {fileID: 1587574285175958, guid: 582d09e2cd94ad5478c2844c181f9888,
     type: 2}
+  prefabPlatformistShowPattern: {fileID: 1115780985942158, guid: 9ff54d0fd980fe849a1abd918f5e414d,
+    type: 2}

@@ -1,2 +1,3 @@
 IsMoving suivant une suite de transform
 Fix les rotations (le joueur ne doit pas rester sur la plateforme si elle se retourne)
+
