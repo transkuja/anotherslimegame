@@ -7,7 +7,7 @@ public class TrappedPlatform : MonoBehaviour {
     public Player owner;
 
     // The chance of the platform being trapped is 1 out of inverseTrapChance
-    int inverseTrapChance = 2;
+    int inverseTrapChance = 1;
 
     PlatformGameplay gameplay;
 
@@ -25,7 +25,7 @@ public class TrappedPlatform : MonoBehaviour {
             && owner != collisionPlayer)
         {
             // Trap launch
-            if (Random.Range(0, inverseTrapChance) == 0)
+            if (inverseTrapChance == 1 || Random.Range(0, inverseTrapChance) == 0)
                 ActivateTrap();
         }
     }

@@ -8,9 +8,10 @@ public class PlatformistChargedState : PlayerState
     {
     }
 
-    public override Vector3 HandleSpeedWithController()
+    public override void Move(Vector3 initialVelocity)
     {
-        return Vector3.zero;
+        base.Move(initialVelocity);
+        playerController.Player.Rb.velocity = Vector3.zero;
     }
 
     public override void OnJumpPressed()
