@@ -32,6 +32,10 @@ public class EvolutionPlatformist : EvolutionComponent {
     public float summonHeight = 2.0f;
     public float summonDistance = 5.0f;
 
+
+    // Private variables
+    List<GameObject> showPattern;
+
     public override void Start()
     {
         base.Start();
@@ -145,6 +149,41 @@ public class EvolutionPlatformist : EvolutionComponent {
         }
     }
 
+    void CreateStairPattern()
+    {
+        ClearShowPattern();
+
+        showPattern = new List<GameObject>();
+
+        if (Charges > 0)
+        {
+            for (int i = 0; i < Charges; i++)
+            {
+                GameObject platform = Instantiate(ResourceUtils.Instance.refPrefabPlatform.prefabPlatformistShowPattern);
+                platform.transform.position = transform.position + transform.forward * summonDistance * (i + 1) + Vector3.up * summonHeight * (i + 1);
+                platform.transform.rotation = transform.rotation;
+                showPattern.Add(platform);
+            }
+        }
+    }
+
+    void CreateBridgePattern()
+    {
+        ClearShowPattern();
+
+        showPattern = new List<GameObject>();
+        if (Charges > 0)
+        {
+            for (int i = 0; i < Charges; i++)
+            {
+                GameObject platform = Instantiate(ResourceUtils.Instance.refPrefabPlatform.prefabPlatformistShowPattern);
+                platform.transform.position = transform.position + transform.forward * summonDistance * (2 * i + 1) + Vector3.up * summonHeight;
+                platform.transform.rotation = transform.rotation;
+                showPattern.Add(platform);
+            }
+        }
+    }
+
     void CreateBridgePlatforms()
     {
         if (Charges > 0)
@@ -163,15 +202,36 @@ public class EvolutionPlatformist : EvolutionComponent {
 
     public void CreatePatternPlatforms()
     {
+        ClearShowPattern();
         if (indexPattern == 0) CreateBridgePlatforms();
         if (indexPattern == 1) CreateStairPlatforms();
+    }
+
+    void ShowPattern()
+    {
+        if (indexPattern == 0) CreateBridgePattern();
+        if (indexPattern == 1) CreateStairPattern();
+    }
+
+    void ClearShowPattern()
+    {
+        if (showPattern != null && showPattern.Count > 0)
+        {
+            foreach (GameObject go in showPattern) Destroy(go);
+        }
     }
 
     public void IndexSelection(GamePadState receivedPrevState, GamePadState receivedState)
     {
         if (receivedPrevState.Buttons.LeftShoulder == ButtonState.Released && receivedState.Buttons.LeftShoulder == ButtonState.Pressed)
+        {
             indexPattern = (indexPattern + moduloIndexPattern - 1) % moduloIndexPattern;
+        }
         if (receivedPrevState.Buttons.RightShoulder == ButtonState.Released && receivedState.Buttons.RightShoulder == ButtonState.Pressed)
+        {
             indexPattern = (indexPattern + 1) % moduloIndexPattern;
+        }
+
+        ShowPattern();
     }
 }

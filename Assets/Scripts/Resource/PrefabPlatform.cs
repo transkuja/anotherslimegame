@@ -6,4 +6,7 @@ public class PrefabPlatform : MonoBehaviour {
 
     [SerializeField]
     public GameObject prefabPlatformistDefault;
+    [SerializeField]
+    public GameObject prefabPlatformistShowPattern;
+
 }
