@@ -1,2 +1,5 @@
 IsMoving suivant une suite de transform
 Fix les rotations (le joueur ne doit pas rester sur la plateforme si elle se retourne)
+
+Décocher ismoving doit faire s'arrêter la plateforme (new bug)
+Le ismoving doit prendre en compte la rotation courante de la plateforme
