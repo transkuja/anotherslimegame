@@ -315,7 +315,10 @@ public class PlayerController : MonoBehaviour
             PlayerState.OnUpdate();
         if (rb.velocity.y < 0.2f && !IsGrounded)
             HandleBouncing();
+        if (rb.velocity.y > 0.05f && !isGrounded)
+            HandleJumpDeformer();
     }
+
     private void FixedUpdate()
     {
         if (DEBUG_hasBeenSpawnedFromTool)
@@ -501,7 +504,19 @@ public class PlayerController : MonoBehaviour
             }
         }
     }
-
+    public void HandleJumpDeformer()
+    {
+        float force = 900f;
+        float forceOffset = 0.1f;
+        MeshDeformer deformer = GetComponentInChildren<MeshDeformer>();
+        if (deformer)
+        {
+            Vector3 point = transform.position- transform.up;
+            point += transform.up * forceOffset;
+            deformer.AddDeformingForce(point, -force/3.0f);
+            deformer.AddDeformingForce(point, force / 5.0f);
+        }
+    }
 
     // TODO : Remi , Export this in camera controls
     public void ChangeDampingValuesCameraFreeLook(float _newValues)
