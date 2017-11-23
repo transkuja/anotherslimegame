@@ -113,10 +113,9 @@ public class DebugTools : MonoBehaviour {
                 }
                 if (Input.GetKeyDown(KeyCode.Alpha5))
                 {
-                    // Should be ghost
-                    if (DebugPlayerSelected.GetComponent<EvolutionPlatformist>() == null)
+                    if (DebugPlayerSelected.GetComponent<EvolutionGhost>() == null)
                         GameManager.EvolutionManager.AddEvolutionComponent(DebugPlayerSelected.gameObject, GameManager.EvolutionManager.GetEvolutionByPowerName(Powers.Ghost));
-                    Debug.Log("Added Ghost on player (dev needed here) " + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
+                    Debug.Log("Added Ghost on player" + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
                 }
                 // Debug platformist
                 if (Input.GetKeyDown(KeyCode.Alpha6))

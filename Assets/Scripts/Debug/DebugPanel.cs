@@ -52,7 +52,7 @@ public class DebugPanel : MonoBehaviour {
         evolutionsText.text += Powers.Platformist + ": " + ((player.GetComponent<EvolutionPlatformist>() != null) ? ((player.GetComponent<EvolutionPlatformist>().Timer == 0.0f) ? "Active" : player.GetComponent<EvolutionPlatformist>().Timer.ToString("0.0") + "s") : "Inactive") + "\n";
         evolutionsText.text += Powers.Strength + ": " + ((player.GetComponent<EvolutionStrength>() != null) ? ((player.GetComponent<EvolutionStrength>().Timer == 0.0f) ? "Active" : player.GetComponent<EvolutionPlatformist>().Timer.ToString("0.0") + "s") : "Inactive") + "\n";
         evolutionsText.text += Powers.Agile + ": " + ((player.GetComponent<EvolutionAgile>() != null) ? ((player.GetComponent<EvolutionAgile>().Timer == 0.0f) ? "Active" : player.GetComponent<EvolutionPlatformist>().Timer.ToString("0.0") + "s") : "Inactive") + "\n";
-        //evolutionsText.text += Powers.Ghost + ": " + ((player.GetComponent<EvolutionGhost>() != null) ? player.GetComponent<EvolutionStrength>().Timer.ToString("0.0") + "s" : "Inactive") + "\n";
+        evolutionsText.text += Powers.Ghost + ": " + ((player.GetComponent<EvolutionGhost>() != null) ? player.GetComponent<EvolutionGhost>().Timer.ToString("0.0") + "s" : "Inactive") + "\n";
     }
 
     void UpdateCollectableText()
@@ -76,6 +76,12 @@ public class DebugPanel : MonoBehaviour {
         {
             playerInfoText.text += "Charges: " + playerController.GetComponent<EvolutionPlatformist>().Charges + "\n";
             playerInfoText.text += "Pattern index: " + playerController.GetComponent<EvolutionPlatformist>().indexPattern + "\n";
+        }
+        if(playerController.GetComponent<EvolutionGhost>())
+        {
+            EvolutionGhost ghost = playerController.GetComponent<EvolutionGhost>();
+            playerInfoText.text += "Charge: " + (ghost.CurrentEmissionTimeLeft/ ghost.MaxEmissionTime * 100.0f).ToString("0") + "%\n";
+            playerInfoText.text += "Usable: " + !ghost.HitZero + "\n";
         }
     }
 

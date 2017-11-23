@@ -231,7 +231,7 @@ public class PlayerController : MonoBehaviour
     {
         if (GetComponent<EvolutionGhost>())
         {
-            if(IsGrounded && state.Buttons.B == ButtonState.Pressed)
+            if(IsGrounded)
                 GetComponent<EvolutionGhost>().HandleTrail(state);
         }
     }
