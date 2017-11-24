@@ -270,6 +270,7 @@ public class PlatformGameplay : MonoBehaviour {
                 if (player != null)
                 {
                     player.transform.SetParent(null);
+                    player.transform.localScale = Vector3.one;
                     player.transform.position = teleporterTarget.position;
                     player.transform.rotation = teleporterTarget.rotation;
                     isOnPlatform = false;
@@ -440,6 +441,7 @@ public class PlatformGameplay : MonoBehaviour {
         {
             hasPlayerJumpedOff = true;
             collision.transform.SetParent(null);
+            collision.transform.localScale = Vector3.one;
             isOnPlatform = false;
         }
     }
@@ -450,7 +452,9 @@ public class PlatformGameplay : MonoBehaviour {
         {
             for (int i = 0; i < transform.childCount; i++)
             {
-                transform.GetChild(i).SetParent(null);
+                Transform tr = transform.GetChild(i);
+                tr.SetParent(null);
+                tr.localScale = Vector3.one;
             }
         }
     }
