@@ -27,23 +27,31 @@ public class MeshDeformer : MonoBehaviour {
 	}
 
 	void Update () {
-		uniformScale = transform.localScale.x;
-		for (int i = 0; i < displacedVertices.Length; i++) {
-			UpdateVertex(i);
-		}
+
+        uniformScale = transform.localScale.x;
+        for (int i = 0; i < displacedVertices.Length; i++)
+        {
+            UpdateVertex(i);
+        }
         UpdateMeshHeight();
         deformingMesh.vertices = displacedVertices;
-		deformingMesh.RecalculateNormals();
+        deformingMesh.RecalculateNormals();
+
+   
 	}
 
 	void UpdateVertex (int i) {
 		Vector3 velocity = vertexVelocities[i];
-		Vector3 displacement = displacedVertices[i] - originalVertices[i];
-		displacement *= uniformScale;
-		velocity -= displacement * springForce * Time.deltaTime;
-		velocity *= 1f - damping * Time.deltaTime;
-		vertexVelocities[i] = velocity;
-		displacedVertices[i] += velocity * (Time.deltaTime / uniformScale);
+        if(velocity.magnitude> 0.001f)
+        {
+            Vector3 displacement = displacedVertices[i] - originalVertices[i];
+            displacement *= uniformScale;
+            velocity -= displacement * springForce * Time.deltaTime;
+            velocity *= 1f - damping * Time.deltaTime;
+            vertexVelocities[i] = velocity;
+            displacedVertices[i] += velocity * (Time.deltaTime / uniformScale);
+        }
+
 	}
 
 	public void AddDeformingForce (Vector3 point, float force) {
