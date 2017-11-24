@@ -81,11 +81,10 @@ public class DebugTools : MonoBehaviour {
             && Input.GetKeyDown(KeyCode.RightShift))
         {
             isDebugModeActive = !isDebugModeActive;
+            debugPanel.gameObject.SetActive(isDebugModeActive);
+
             if (!hasUpdatedDebugPanel)
-            {
-                debugPanel.gameObject.SetActive(isDebugModeActive);
                 UpdateDebugPanel();
-            }
 
             if (isDebugModeActive)
                 Debug.Log("DEBUG MODE ACTIVATED!");
