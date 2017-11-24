@@ -20,40 +20,34 @@ public class MeshDeformer : MonoBehaviour {
         for (int i = 0; i < originalVertices.Length; i++) {
 			displacedVertices[i] = originalVertices[i];
             originalMediumHeight += originalVertices[i].y;
-        }
+	        }
         originalMediumHeight /= originalVertices.Length;
         //originalMediumHeight = (originalHighestHeight + originalLowestHeight) / 2.0f;
 		vertexVelocities = new Vector3[originalVertices.Length];
 	}
-
-	void Update () {
-
-        uniformScale = transform.localScale.x;
-        for (int i = 0; i < displacedVertices.Length; i++)
-        {
-            UpdateVertex(i);
-        }
+	
+	void FixedUpdate () {
+		uniformScale = transform.localScale.x;
+		for (int i = 0; i < displacedVertices.Length; i++) {
+            if(vertexVelocities[i].magnitude > 0.01f)
+			    UpdateVertex(i);
+		}
         UpdateMeshHeight();
         deformingMesh.vertices = displacedVertices;
-        deformingMesh.RecalculateNormals();
-
-   
+		deformingMesh.RecalculateNormals();
 	}
 
 	void UpdateVertex (int i) {
 		Vector3 velocity = vertexVelocities[i];
-        if(velocity.magnitude> 0.001f)
-        {
-            Vector3 displacement = displacedVertices[i] - originalVertices[i];
-            displacement *= uniformScale;
-            velocity -= displacement * springForce * Time.deltaTime;
-            velocity *= 1f - damping * Time.deltaTime;
-            vertexVelocities[i] = velocity;
-            displacedVertices[i] += velocity * (Time.deltaTime / uniformScale);
-        }
-
+        Vector3 displacement = displacedVertices[i] - originalVertices[i];
+        displacement *= uniformScale;
+        velocity -= displacement * springForce * Time.deltaTime;
+        velocity *= 1f - damping * Time.deltaTime;
+		velocity = Vector3.ClampMagnitude(velocity, 20.0f);
+        vertexVelocities[i] = velocity;
+        displacedVertices[i] += velocity * (Time.deltaTime / uniformScale);
 	}
-
+	
 	public void AddDeformingForce (Vector3 point, float force) {
 		point = transform.InverseTransformPoint(point);
 		for (int i = 0; i < displacedVertices.Length; i++) {
