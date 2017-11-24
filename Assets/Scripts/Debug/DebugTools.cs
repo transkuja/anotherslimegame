@@ -14,6 +14,7 @@ public class DebugTools : MonoBehaviour {
 
     private Player debugSpawnedPlayer;
     bool possessASpawnedPlayer = false;
+    bool hasUpdatedDebugPanel = false;
 
     public static Player DebugPlayerSelected
     {
@@ -71,6 +72,7 @@ public class DebugTools : MonoBehaviour {
         debugPanelComponent.AddToDebugPanelInfos("2", "5", CollectableType.PlatformistEvolution1.ToString());
         debugPanelComponent.AddToDebugPanelInfos("2", "6", CollectableType.AgileEvolution1.ToString());
         debugPanelComponent.AddToDebugPanelInfos("2", "7", CollectableType.GhostEvolution1.ToString());
+        hasUpdatedDebugPanel = true;
     }
 
     void Update () {
@@ -79,8 +81,12 @@ public class DebugTools : MonoBehaviour {
             && Input.GetKeyDown(KeyCode.RightShift))
         {
             isDebugModeActive = !isDebugModeActive;
-            debugPanel.gameObject.SetActive(isDebugModeActive);
-            UpdateDebugPanel();
+            if (!hasUpdatedDebugPanel)
+            {
+                debugPanel.gameObject.SetActive(isDebugModeActive);
+                UpdateDebugPanel();
+            }
+
             if (isDebugModeActive)
                 Debug.Log("DEBUG MODE ACTIVATED!");
             else

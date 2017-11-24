@@ -24,7 +24,7 @@ public class EvolutionPlatformist : EvolutionComponent {
     float timerBeforeCharge = 0.0f;
 
     float platformLifetime = 3.0f;
-    public int indexPattern = 0;
+    int indexPattern = 0;
     public int moduloIndexPattern = 2;
 
     // Shitty implementation, I have a better implementation in mind
@@ -100,6 +100,19 @@ public class EvolutionPlatformist : EvolutionComponent {
         }
     }
 
+    public int IndexPattern
+    {
+        get
+        {
+            return indexPattern;
+        }
+
+        set
+        {
+            indexPattern = value;
+        }
+    }
+
     public override void Update()
     {
         base.Update();
@@ -140,7 +153,7 @@ public class EvolutionPlatformist : EvolutionComponent {
         if (Charges > 0)
         {
             GameObject[] platforms = new GameObject[Charges];
-            PlatformistPattern pattern = PlatformistPatternFactory.GetPatternFromIndex(indexPattern);
+            PlatformistPattern pattern = PlatformistPatternFactory.GetPatternFromIndex(IndexPattern);
 
             for (int i = 0; i < Charges; i++)
             {
@@ -167,7 +180,7 @@ public class EvolutionPlatformist : EvolutionComponent {
 
         if (Charges > 0)
         {
-            PlatformistPattern pattern = PlatformistPatternFactory.GetPatternFromIndex(indexPattern);
+            PlatformistPattern pattern = PlatformistPatternFactory.GetPatternFromIndex(IndexPattern);
 
             for (int i = 0; i < Charges; i++)
             {
@@ -193,11 +206,11 @@ public class EvolutionPlatformist : EvolutionComponent {
     {
         if (receivedPrevState.Buttons.LeftShoulder == ButtonState.Released && receivedState.Buttons.LeftShoulder == ButtonState.Pressed)
         {
-            indexPattern = (indexPattern + moduloIndexPattern - 1) % moduloIndexPattern;
+            IndexPattern = (IndexPattern + moduloIndexPattern - 1) % moduloIndexPattern;
         }
         if (receivedPrevState.Buttons.RightShoulder == ButtonState.Released && receivedState.Buttons.RightShoulder == ButtonState.Pressed)
         {
-            indexPattern = (indexPattern + 1) % moduloIndexPattern;
+            IndexPattern = (IndexPattern + 1) % moduloIndexPattern;
         }
 
         ShowPattern();

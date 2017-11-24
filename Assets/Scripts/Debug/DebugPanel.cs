@@ -75,7 +75,7 @@ public class DebugPanel : MonoBehaviour {
         if (playerController.GetComponent<EvolutionPlatformist>())
         {
             playerInfoText.text += "Charges: " + playerController.GetComponent<EvolutionPlatformist>().Charges + "\n";
-            playerInfoText.text += "Pattern index: " + playerController.GetComponent<EvolutionPlatformist>().indexPattern + "\n";
+            playerInfoText.text += "Pattern index: " + playerController.GetComponent<EvolutionPlatformist>().IndexPattern + "\n";
         }
         if(playerController.GetComponent<EvolutionGhost>())
         {
