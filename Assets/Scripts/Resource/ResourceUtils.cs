@@ -56,5 +56,4 @@ public class ResourceUtils : MonoBehaviour {
             instance = value;
         }
     }
-
 }

@@ -15,7 +15,6 @@ public class SpawnComponent : MonoBehaviour {
     public Shapes shape;
     public int nbItems = 1;
 
-
     private int mySpawnId;
     
     [Tooltip("Spawn a spawnable in registry")]
@@ -40,13 +39,13 @@ public class SpawnComponent : MonoBehaviour {
                     Debug.LogError("Are you serious with your shit? Size is not a real collectable type -_-");
                     break;
                 }
-                mySpawnId = SpawnManager.Instance.RegisterSpawnItemLocation(this.transform, myItemType, needSpawn, forceSpawn, shape, nbItems, circleRadius);
+                mySpawnId = SpawnManager.Instance.RegisterSpawnItemLocation(transform, myItemType, needSpawn, forceSpawn, shape, nbItems, circleRadius);
                 break;
             case SpawnType.Monster:
-                mySpawnId = SpawnManager.Instance.RegisterSpawnMonsterLocation(this.transform, myMonsterType, needSpawn, forceSpawn);
+                mySpawnId = SpawnManager.Instance.RegisterSpawnMonsterLocation(transform, myMonsterType, needSpawn, forceSpawn);
                 break;
             case SpawnType.Iles:
-                mySpawnId = SpawnManager.Instance.RegisterSpawnItemLocation(this.transform, myItemType, needSpawn, forceSpawn, shape, nbItems, circleRadius);
+                mySpawnId = SpawnManager.Instance.RegisterSpawnIleLocation(transform, needSpawn, forceSpawn);
                 break;
             default:
                 Debug.Log("Unknowned Spawn Type");
@@ -63,6 +62,9 @@ public class SpawnComponent : MonoBehaviour {
                 break;
             case SpawnType.Monster:
                 SpawnManager.Instance.UnregisterSpawnMonsterLocation(mySpawnId);
+                break;
+            case SpawnType.Iles:
+                SpawnManager.Instance.UnregisterSpawnIleLocation(mySpawnId);
                 break;
             default:
                 Debug.Log("Unknowned Spawn Type");

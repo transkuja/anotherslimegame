@@ -30,6 +30,8 @@ public class SpawnManager : MonoBehaviour{
     private int spawnedIlesCountAtTheSameTime = 0;
     private const int MAXSPAWNILESSCOUNTATTHESAMETIME = 4;
 
+    private List<CollectableType> evolutionsLeftToSpawn = new List<CollectableType>();
+
     private static SpawnManager instance;
 
     public int SpawnedMonsterCount
@@ -78,6 +80,11 @@ public class SpawnManager : MonoBehaviour{
         instance.spawnedItemsCountAtTheSameTime = 0;
         instance.spawnedMonsterCountAtTheSameTime = 0;
         instance.spawnedIlesCountAtTheSameTime = 0;
+        instance.evolutionsLeftToSpawn.Add(CollectableType.AgileEvolution1);
+        instance.evolutionsLeftToSpawn.Add(CollectableType.PlatformistEvolution1);
+        instance.evolutionsLeftToSpawn.Add(CollectableType.StrengthEvolution1);
+        instance.evolutionsLeftToSpawn.Add(CollectableType.GhostEvolution1);
+        Utils.Shuffle(instance.evolutionsLeftToSpawn);
     }
 
     public static SpawnManager Instance
@@ -274,7 +281,7 @@ public class SpawnManager : MonoBehaviour{
 
         if (needSpawn)
         {
-            SpawnIle(lastInsertedKeySpawnItems, forceSpawn);
+            SpawnIle(lastInsertedKeySpawnIles, forceSpawn);
         }
 
         return lastInsertedKeySpawnIles++;
@@ -295,13 +302,43 @@ public class SpawnManager : MonoBehaviour{
         }
 
         SpawnedIlesCountAtTheSameTime++;
-        ResourceUtils.Instance.refPrefabIle.SpawnIleInstance(
-            instance.dicSpawnMonstersLocations[idLocation].transform.position,
-            instance.dicSpawnMonstersLocations[idLocation].transform.rotation,
+        GameObject spawnedIsland = ResourceUtils.Instance.refPrefabIle.SpawnIleInstance(
+            instance.dicSpawnIlesLocations[idLocation].transform.position,
+            instance.dicSpawnIlesLocations[idLocation].transform.rotation,
             null
         );
+
+        Transform evolutionSpawn = spawnedIsland.transform.GetChild(0);
+        if (!evolutionSpawn.name.Contains("Evolution"))
+        {
+            Debug.LogWarning("WARNING: Spawn evolution on island has been removed or renamed or moved or Seb lied.");
+            return;
+        }
+
+        CollectableType evolutionType = GetNextEvolutionType();
+        if (evolutionType == CollectableType.Size)
+            return;
+
+        ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
+            evolutionSpawn.position,
+            evolutionSpawn.rotation,
+            null,
+            evolutionType
+        ).GetComponent<Collectable>().Init(0);
     }
 
+    CollectableType GetNextEvolutionType()
+    {
+        if (instance.evolutionsLeftToSpawn == null || instance.evolutionsLeftToSpawn.Count == 0)
+        {
+            Debug.LogWarning("The four evolutions have already been spawned.");
+            return CollectableType.Size;
+        }
+
+        CollectableType evolutionType = instance.evolutionsLeftToSpawn[0];
+        instance.evolutionsLeftToSpawn.RemoveAt(0);
+        return evolutionType;
+    }
 
     // call on destroy on a spawn item
     public void UnregisterSpawnItemLocation(int idToUnregister)
