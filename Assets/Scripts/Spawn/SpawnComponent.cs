@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum SpawnType { Item, Monster }
+public enum SpawnType { Item, Monster, Iles }
 public class SpawnComponent : MonoBehaviour {
 
     [SerializeField]
@@ -44,6 +44,9 @@ public class SpawnComponent : MonoBehaviour {
                 break;
             case SpawnType.Monster:
                 mySpawnId = SpawnManager.Instance.RegisterSpawnMonsterLocation(this.transform, myMonsterType, needSpawn, forceSpawn);
+                break;
+            case SpawnType.Iles:
+                mySpawnId = SpawnManager.Instance.RegisterSpawnItemLocation(this.transform, myItemType, needSpawn, forceSpawn, shape, nbItems, circleRadius);
                 break;
             default:
                 Debug.Log("Unknowned Spawn Type");

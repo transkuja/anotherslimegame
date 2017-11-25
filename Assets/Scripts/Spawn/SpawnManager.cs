@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,6 +14,10 @@ public class SpawnManager : MonoBehaviour{
     public Dictionary<int, Transform> dicSpawnMonstersLocations = new Dictionary<int, Transform>();
     private int lastInsertedKeySpawnMonsters = 0;
 
+    // Spawned Iles Locations
+    public Dictionary<int, Transform> dicSpawnIlesLocations = new Dictionary<int, Transform>();
+    private int lastInsertedKeySpawnIles = 0;
+
     // Frame control on item
     private int spawnedItemsCountAtTheSameTime = 0;
     private const int MAXSPAWNITEMSCOUNTATTHESAMETIME = 1000;
@@ -20,6 +25,10 @@ public class SpawnManager : MonoBehaviour{
     // Frame control on monster
     private int spawnedMonsterCountAtTheSameTime = 0;
     private const int MAXSPAWNMONSTERSCOUNTATTHESAMETIME = 20;
+
+    // Frame control on iles
+    private int spawnedIlesCountAtTheSameTime = 0;
+    private const int MAXSPAWNILESSCOUNTATTHESAMETIME = 4;
 
     private static SpawnManager instance;
 
@@ -68,6 +77,7 @@ public class SpawnManager : MonoBehaviour{
     {
         instance.spawnedItemsCountAtTheSameTime = 0;
         instance.spawnedMonsterCountAtTheSameTime = 0;
+        instance.spawnedIlesCountAtTheSameTime = 0;
     }
 
     public static SpawnManager Instance
@@ -80,6 +90,19 @@ public class SpawnManager : MonoBehaviour{
         set
         {
             instance = value;
+        }
+    }
+
+    public int SpawnedIlesCountAtTheSameTime
+    {
+        get
+        {
+            return spawnedIlesCountAtTheSameTime;
+        }
+
+        set
+        {
+            spawnedIlesCountAtTheSameTime = value;
         }
     }
 
@@ -245,6 +268,40 @@ public class SpawnManager : MonoBehaviour{
 
         return lastInsertedKeySpawnItems++;
     }
+    public int RegisterSpawnIleLocation(Transform mySpawnLocation, bool needSpawn = false, bool forceSpawn = false)
+    {
+        instance.dicSpawnIlesLocations.Add(lastInsertedKeySpawnIles, mySpawnLocation);
+
+        if (needSpawn)
+        {
+            SpawnIle(lastInsertedKeySpawnItems, forceSpawn);
+        }
+
+        return lastInsertedKeySpawnIles++;
+    }
+
+    private void SpawnIle(int idLocation, bool forceSpawn)
+    {
+        if (instance.dicSpawnIlesLocations.ContainsKey(idLocation) == false)
+        {
+            Debug.Log("Error : invalid location");
+            return;
+        }
+
+        if (!forceSpawn && SpawnedIlesCountAtTheSameTime == MAXSPAWNILESSCOUNTATTHESAMETIME)
+        {
+            Debug.Log("Error  : max monster reach");
+            return;
+        }
+
+        SpawnedIlesCountAtTheSameTime++;
+        ResourceUtils.Instance.refPrefabIle.SpawnIleInstance(
+            instance.dicSpawnMonstersLocations[idLocation].transform.position,
+            instance.dicSpawnMonstersLocations[idLocation].transform.rotation,
+            null
+        );
+    }
+
 
     // call on destroy on a spawn item
     public void UnregisterSpawnItemLocation(int idToUnregister)
@@ -271,6 +328,12 @@ public class SpawnManager : MonoBehaviour{
     public void UnregisterSpawnMonsterLocation(int idToUnregister)
     {
         instance.dicSpawnMonstersLocations.Remove(idToUnregister);
+    }
+
+    // call on destroy on a spawn ile
+    public void UnregisterSpawnIleLocation(int idToUnregister)
+    {
+        instance.dicSpawnIlesLocations.Remove(idToUnregister);
     }
 
     public enum Axis { XY, XZ, YZ };
@@ -325,7 +388,6 @@ public class SpawnManager : MonoBehaviour{
         }
         return toReturn;
     }
-
 
     public static Vector3[,] GetVector3ArrayOnAGrid(Vector3 origin, Vector3 direction, int nbLine = 1, int nbColonne =1 )
     {
