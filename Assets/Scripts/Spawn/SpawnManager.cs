@@ -15,7 +15,7 @@ public class SpawnManager : MonoBehaviour{
 
     // Frame control on item
     private int spawnedItemsCountAtTheSameTime = 0;
-    private const int MAXSPAWNITEMSCOUNTATTHESAMETIME = 100;
+    private const int MAXSPAWNITEMSCOUNTATTHESAMETIME = 1000;
 
     // Frame control on monster
     private int spawnedMonsterCountAtTheSameTime = 0;
@@ -108,7 +108,7 @@ public class SpawnManager : MonoBehaviour{
         ).GetComponent<Collectable>().Init(0);
     }
 
-    private void SpawnCircleShapedItems(int idLocation, int nbItems, CollectableType myItemType, bool forceSpawn = false)
+    private void SpawnCircleShapedItems(int idLocation, int nbItems, CollectableType myItemType, bool forceSpawn = false, float circleRadius = 1.0f)
     {
         if (instance.dicSpawnItemsLocations.ContainsKey(idLocation) == false)
         {
@@ -125,7 +125,7 @@ public class SpawnManager : MonoBehaviour{
         {
             SpawnedItemsCount++;
             ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
-                GetVector3ArrayOnADividedCircle(instance.dicSpawnItemsLocations[idLocation].transform.position, 2, nbItems, Axis.XZ)[i],
+                GetVector3ArrayOnADividedCircle(instance.dicSpawnItemsLocations[idLocation].transform.position, circleRadius, nbItems, Axis.XZ)[i],
                 instance.dicSpawnItemsLocations[idLocation].transform.rotation,
                 null,
                 myItemType
@@ -218,7 +218,7 @@ public class SpawnManager : MonoBehaviour{
 
     // add a transformation to spawn manager, retrieve the id where the spawn location was inserted
     // call before everything
-    public int RegisterSpawnItemLocation(Transform mySpawnLocation, CollectableType myItemType, bool needSpawn = false, bool forceSpawn = false, Shapes shapes = Shapes.None, int nbItems = 1)
+    public int RegisterSpawnItemLocation(Transform mySpawnLocation, CollectableType myItemType, bool needSpawn = false, bool forceSpawn = false, Shapes shapes = Shapes.None, int nbItems = 1, float circleRadius = 1.0f)
     {
         instance.dicSpawnItemsLocations.Add(lastInsertedKeySpawnItems, mySpawnLocation);
 
@@ -231,7 +231,7 @@ public class SpawnManager : MonoBehaviour{
                     SpawnItem(lastInsertedKeySpawnItems, myItemType, forceSpawn);
                     break;
                 case Shapes.Circle:
-                    SpawnCircleShapedItems(lastInsertedKeySpawnItems, nbItems, myItemType, forceSpawn);
+                    SpawnCircleShapedItems(lastInsertedKeySpawnItems, nbItems, myItemType, forceSpawn, circleRadius);
                     break;
                 case Shapes.Line:
                     SpawnLineShapedItems(lastInsertedKeySpawnItems, nbItems, myItemType, forceSpawn);

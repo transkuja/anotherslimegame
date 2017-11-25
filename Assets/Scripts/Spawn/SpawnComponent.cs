@@ -24,6 +24,8 @@ public class SpawnComponent : MonoBehaviour {
     [Tooltip("Force spawn despite reaching the max spawn unit at the same time")]
     public bool forceSpawn = false;
 
+    public float circleRadius = 1.0f;
+
 	// Use this for initialization
 	void Start () {
 
@@ -38,7 +40,7 @@ public class SpawnComponent : MonoBehaviour {
                     Debug.LogError("Are you serious with your shit? Size is not a real collectable type -_-");
                     break;
                 }
-                mySpawnId = SpawnManager.Instance.RegisterSpawnItemLocation(this.transform, myItemType, needSpawn, forceSpawn, shape, nbItems);
+                mySpawnId = SpawnManager.Instance.RegisterSpawnItemLocation(this.transform, myItemType, needSpawn, forceSpawn, shape, nbItems, circleRadius);
                 break;
             case SpawnType.Monster:
                 mySpawnId = SpawnManager.Instance.RegisterSpawnMonsterLocation(this.transform, myMonsterType, needSpawn, forceSpawn);
