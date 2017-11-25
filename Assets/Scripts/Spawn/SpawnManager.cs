@@ -133,7 +133,7 @@ public class SpawnManager : MonoBehaviour{
         ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
             instance.dicSpawnItemsLocations[idLocation].transform.position,
             instance.dicSpawnItemsLocations[idLocation].transform.rotation,
-            null,
+            instance.dicSpawnItemsLocations[idLocation].transform,
             myItemType
         ).GetComponent<Collectable>().Init(0);
     }
@@ -157,7 +157,7 @@ public class SpawnManager : MonoBehaviour{
             ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
                 GetVector3ArrayOnADividedCircle(instance.dicSpawnItemsLocations[idLocation].transform.position, circleRadius, nbItems, Axis.XZ)[i],
                 instance.dicSpawnItemsLocations[idLocation].transform.rotation,
-                null,
+                instance.dicSpawnItemsLocations[idLocation].transform,
                 myItemType
             ).GetComponent<Collectable>().Init(0);
         }
@@ -182,7 +182,7 @@ public class SpawnManager : MonoBehaviour{
             ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
                 GetVector3ArrayOnLine(instance.dicSpawnItemsLocations[idLocation].transform.position, instance.dicSpawnItemsLocations[idLocation].transform.forward, nbItems)[i],
                 instance.dicSpawnItemsLocations[idLocation].transform.rotation,
-                null,
+                instance.dicSpawnItemsLocations[idLocation].transform,
                 myItemType
             ).GetComponent<Collectable>().Init(0);
         }
@@ -213,7 +213,7 @@ public class SpawnManager : MonoBehaviour{
                 ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
                     GetVector3ArrayOnAGrid(instance.dicSpawnItemsLocations[idLocation].transform.position, instance.dicSpawnItemsLocations[idLocation].transform.forward, ligne, colonne)[i,j],
                     instance.dicSpawnItemsLocations[idLocation].transform.rotation,
-                    null,
+                    instance.dicSpawnItemsLocations[idLocation].transform,
                     myItemType
                 ).GetComponent<Collectable>().Init(0);
 
@@ -241,7 +241,7 @@ public class SpawnManager : MonoBehaviour{
         ResourceUtils.Instance.refPrefabMonster.SpawnMonsterInstance(
             instance.dicSpawnMonstersLocations[idLocation].transform.position,
             instance.dicSpawnMonstersLocations[idLocation].transform.rotation,
-            null,
+            instance.dicSpawnMonstersLocations[idLocation].transform,
             myMonsterType
         );
     }
@@ -305,7 +305,7 @@ public class SpawnManager : MonoBehaviour{
         GameObject spawnedIsland = ResourceUtils.Instance.refPrefabIle.SpawnIleInstance(
             instance.dicSpawnIlesLocations[idLocation].transform.position,
             instance.dicSpawnIlesLocations[idLocation].transform.rotation,
-            null
+            instance.dicSpawnIlesLocations[idLocation].transform
         );
 
         Transform evolutionSpawn = spawnedIsland.transform.GetChild(0);
@@ -322,7 +322,7 @@ public class SpawnManager : MonoBehaviour{
         ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
             evolutionSpawn.position,
             evolutionSpawn.rotation,
-            null,
+            evolutionSpawn,
             evolutionType
         ).GetComponent<Collectable>().Init(0);
     }
