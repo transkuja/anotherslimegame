@@ -25,6 +25,8 @@ public class SpawnComponent : MonoBehaviour {
 
     public float circleRadius = 1.0f;
 
+    public GameObject associatedShelter;
+
 	// Use this for initialization
 	void Start () {
 
@@ -45,7 +47,7 @@ public class SpawnComponent : MonoBehaviour {
                 mySpawnId = SpawnManager.Instance.RegisterSpawnMonsterLocation(transform, myMonsterType, needSpawn, forceSpawn);
                 break;
             case SpawnType.Iles:
-                mySpawnId = SpawnManager.Instance.RegisterSpawnIleLocation(transform, needSpawn, forceSpawn);
+                mySpawnId = SpawnManager.Instance.RegisterSpawnIleLocation(transform, associatedShelter, needSpawn, forceSpawn);
                 break;
             default:
                 Debug.Log("Unknowned Spawn Type");

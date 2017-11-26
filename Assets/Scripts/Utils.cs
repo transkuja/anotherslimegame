@@ -48,6 +48,13 @@ public static class Utils {
         return defaultValueCollectable[collectableType];
     }
 
+    public static bool CheckEvolutionAndCollectableTypeCompatibility(CollectableType _collectableType, EvolutionComponent _currentComponent)
+    {
+        return (_collectableType == CollectableType.AgileEvolution1 && _currentComponent is EvolutionAgile)
+            || (_collectableType == CollectableType.PlatformistEvolution1 && _currentComponent is EvolutionPlatformist)
+            || (_collectableType == CollectableType.GhostEvolution1 && _currentComponent is EvolutionGhost)
+            || (_collectableType == CollectableType.StrengthEvolution1 && _currentComponent is EvolutionStrength);
+    }
 
     public static void Shuffle<T>(this IList<T> list)
     {
@@ -65,5 +72,4 @@ public static class Utils {
             list[n] = value;
         }
     }
-
 }

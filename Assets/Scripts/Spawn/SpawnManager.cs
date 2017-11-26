@@ -3,6 +3,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
+public class Tampax
+{
+    [SerializeField]
+    public CollectableType evolutionType;
+    [SerializeField]
+    public Transform gameplayRoomStarter;
+}
+
 public enum Shapes { None, Circle, Line, Grid }
 public class SpawnManager : MonoBehaviour{
 
@@ -31,6 +40,9 @@ public class SpawnManager : MonoBehaviour{
     private const int MAXSPAWNILESSCOUNTATTHESAMETIME = 4;
 
     private List<CollectableType> evolutionsLeftToSpawn = new List<CollectableType>();
+
+    // Gameplay room starters
+    public List<Tampax> gameplayRoomStarters = new List<Tampax>();
 
     private static SpawnManager instance;
 
@@ -275,19 +287,19 @@ public class SpawnManager : MonoBehaviour{
 
         return lastInsertedKeySpawnItems++;
     }
-    public int RegisterSpawnIleLocation(Transform mySpawnLocation, bool needSpawn = false, bool forceSpawn = false)
+    public int RegisterSpawnIleLocation(Transform mySpawnLocation, GameObject associatedShelter, bool needSpawn = false, bool forceSpawn = false)
     {
         instance.dicSpawnIlesLocations.Add(lastInsertedKeySpawnIles, mySpawnLocation);
 
         if (needSpawn)
         {
-            SpawnIle(lastInsertedKeySpawnIles, forceSpawn);
+            SpawnIle(lastInsertedKeySpawnIles, associatedShelter, forceSpawn);
         }
 
         return lastInsertedKeySpawnIles++;
     }
 
-    private void SpawnIle(int idLocation, bool forceSpawn)
+    private void SpawnIle(int idLocation, GameObject associatedShelter, bool forceSpawn)
     {
         if (instance.dicSpawnIlesLocations.ContainsKey(idLocation) == false)
         {
@@ -325,6 +337,16 @@ public class SpawnManager : MonoBehaviour{
             evolutionSpawn,
             evolutionType
         ).GetComponent<Collectable>().Init(0);
+
+        InitTeleporter initTeleporterComponent = associatedShelter.GetComponentInChildren<InitTeleporter>();
+        initTeleporterComponent.evolutionType = evolutionType;
+
+        Utils.Shuffle(gameplayRoomStarters);
+        foreach (Tampax tmp in gameplayRoomStarters)
+        {
+            if (tmp.evolutionType == evolutionType)
+                associatedShelter.GetComponentInChildren<PlatformGameplay>().teleporterTarget = tmp.gameplayRoomStarter;
+        }
     }
 
     CollectableType GetNextEvolutionType()

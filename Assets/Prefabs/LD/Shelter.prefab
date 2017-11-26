@@ -40,6 +40,7 @@ GameObject:
   - component: {fileID: 64418940645523406}
   - component: {fileID: 114899885374060202}
   - component: {fileID: 114987029991294246}
+  - component: {fileID: 114708454401191886}
   m_Layer: 0
   m_Name: Asset_platform_round_x2_01
   m_TagString: Untagged
@@ -123,7 +124,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1317827403417382}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 29.730469, y: -0.019971848, z: -18.500004}
+  m_LocalPosition: {x: 29.730469, y: -0.03994608, z: -14.800001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4265071536169416}
@@ -363,6 +364,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e7f7179629ce0f4fb6fa6e110ad8997, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114708454401191886
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1317827403417382}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e64c8ca2129db64d9bc33244fc769de, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  evolutionType: 0
 --- !u!114 &114899885374060202
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -392,7 +405,7 @@ MonoBehaviour:
   movementWhenPlayerJumpsOn: 0
   backToOriginOnPlayerExit: 0
   backToOriginOnPlayerJumpOn: 0
-  delayBeforeMovement: 0
+  delayBeforeMovement: 2
   isRotating: 0
   preserveUp: 0
   newRotationCenter: {x: 0, y: 0, z: 0}
