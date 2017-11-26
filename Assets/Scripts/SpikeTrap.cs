@@ -7,6 +7,9 @@ public class SpikeTrap : MonoBehaviour {
     CollectableType damageOn = CollectableType.Points;
     [SerializeField]
     int damage;
+
+    public bool respawnPlayer = false;
+
 	void OnTriggerEnter(Collider col)
     {
         if (col.GetComponentInParent<Player>())
@@ -25,6 +28,12 @@ public class SpikeTrap : MonoBehaviour {
         if (collision.gameObject.GetComponentInParent<Player>())
         {
             Player p = collision.gameObject.GetComponentInParent<Player>();
+            if (respawnPlayer)
+            {
+                Respawner.RespawnProcess(p);
+                return;
+            }
+
             p.CanDoubleJump = true;
 
             PlayerController pController = p.GetComponent<PlayerController>();
