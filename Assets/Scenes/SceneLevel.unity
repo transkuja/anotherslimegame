@@ -816,6 +816,7 @@ GameObject:
   - component: {fileID: 262918773}
   - component: {fileID: 262918772}
   - component: {fileID: 262918771}
+  - component: {fileID: 262918775}
   m_Layer: 0
   m_Name: Main Camera (1)
   m_TagString: Untagged
@@ -916,6 +917,18 @@ Camera:
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
   m_StereoMirrorMode: 0
+--- !u!114 &262918775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 262918769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f3899fd5815f2f4e95d6b0dbafbcd74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isImmerge: 0
 --- !u!1 &263845278
 GameObject:
   m_ObjectHideFlags: 3
@@ -2339,6 +2352,7 @@ GameObject:
   - component: {fileID: 700605898}
   - component: {fileID: 700605897}
   - component: {fileID: 700605896}
+  - component: {fileID: 700605901}
   m_Layer: 0
   m_Name: Main Camera (1)
   m_TagString: MainCamera
@@ -2446,6 +2460,18 @@ Camera:
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
   m_StereoMirrorMode: 0
+--- !u!114 &700605901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 700605894}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f3899fd5815f2f4e95d6b0dbafbcd74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isImmerge: 0
 --- !u!1 &754160614
 GameObject:
   m_ObjectHideFlags: 0
@@ -2935,7 +2961,7 @@ Prefab:
     - target: {fileID: 224253512408005366, guid: ebd48e33ce16a7c498ce0f86ed08310f,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 20
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1829664555950164, guid: ebd48e33ce16a7c498ce0f86ed08310f, type: 2}
       propertyPath: m_IsActive
@@ -4322,6 +4348,7 @@ GameObject:
   - component: {fileID: 1184897943}
   - component: {fileID: 1184897942}
   - component: {fileID: 1184897941}
+  - component: {fileID: 1184897945}
   m_Layer: 0
   m_Name: Main Camera (1)
   m_TagString: Untagged
@@ -4422,6 +4449,18 @@ Camera:
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
   m_StereoMirrorMode: 0
+--- !u!114 &1184897945
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1184897939}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f3899fd5815f2f4e95d6b0dbafbcd74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isImmerge: 0
 --- !u!1 &1209086851
 GameObject:
   m_ObjectHideFlags: 0
@@ -6869,6 +6908,7 @@ GameObject:
   - component: {fileID: 1968085617}
   - component: {fileID: 1968085616}
   - component: {fileID: 1968085615}
+  - component: {fileID: 1968085619}
   m_Layer: 0
   m_Name: Main Camera (1)
   m_TagString: Untagged
@@ -6969,6 +7009,18 @@ Camera:
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
   m_StereoMirrorMode: 0
+--- !u!114 &1968085619
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1968085613}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f3899fd5815f2f4e95d6b0dbafbcd74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isImmerge: 0
 --- !u!1001 &1968881560
 Prefab:
   m_ObjectHideFlags: 0
