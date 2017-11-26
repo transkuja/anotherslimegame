@@ -9,7 +9,7 @@ public class Tampax
     [SerializeField]
     public CollectableType evolutionType;
     [SerializeField]
-    public Transform gameplayRoomStarter;
+    public GameObject gameplayRoomStarter;
 }
 
 public enum Shapes { None, Circle, Line, Grid }
@@ -344,9 +344,25 @@ public class SpawnManager : MonoBehaviour{
         Utils.Shuffle(gameplayRoomStarters);
         foreach (Tampax tmp in gameplayRoomStarters)
         {
-            if (tmp.evolutionType == evolutionType)
-                associatedShelter.GetComponentInChildren<PlatformGameplay>().teleporterTarget = tmp.gameplayRoomStarter;
+            if(tmp.gameplayRoomStarter != null)
+            {
+                if (tmp.evolutionType == evolutionType)
+                {
+                    associatedShelter.GetComponentInChildren<PlatformGameplay>().teleporterTarget = tmp.gameplayRoomStarter.transform;
+
+                    // Bind the target to return to origin
+
+                    tmp.gameplayRoomStarter.GetComponent<PlatformGameplay>().teleporterTarget = associatedShelter.GetComponentInChildren<PlatformGameplay>().transform;
+                    tmp.gameplayRoomStarter.GetComponent<InitTeleporter>().evolutionType = evolutionType;
+                }
+            } 
+            else
+            {
+                Debug.LogWarning("Tampax not fully defined -> spawn manager");
+            }
         }
+   
+
     }
 
     CollectableType GetNextEvolutionType()

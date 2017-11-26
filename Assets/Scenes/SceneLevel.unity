@@ -3066,7 +3066,7 @@ Prefab:
     - target: {fileID: 114084228880738910, guid: 18e0c0df585d61742a20a3ff6fe60066,
         type: 2}
       propertyPath: gameplayRoomStarters.Array.data[1].evolutionType
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114084228880738910, guid: 18e0c0df585d61742a20a3ff6fe60066,
         type: 2}
