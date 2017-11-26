@@ -344,6 +344,7 @@ public class SpawnManager : MonoBehaviour{
         Utils.Shuffle(gameplayRoomStarters);
         foreach (Tampax tmp in gameplayRoomStarters)
         {
+            Debug.Log(tmp.gameplayRoomStarter);
             if(tmp.gameplayRoomStarter != null)
             {
                 if (tmp.evolutionType == evolutionType)
