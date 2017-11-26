@@ -121,7 +121,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
         if (collision.gameObject.tag == "HardBreakable")
         {
-            if (playerController.PlayerState is DashState && playerController.GetComponent<EvolutionStrength>())
+            if ((playerController.PlayerState is DashState || playerController.PlayerState is DashDownState) && playerController.GetComponent<EvolutionStrength>())
             {
                 if (collision.gameObject.GetComponent<Rigidbody>() != null)
                 {
@@ -136,7 +136,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
         if (collision.gameObject.tag == "Breakable")
         {
-            if (playerController.PlayerState is DashState && playerController.GetComponent<EvolutionStrength>())
+            if ((playerController.PlayerState is DashState || playerController.PlayerState is DashDownState) && playerController.GetComponent<EvolutionStrength>())
             {
                 if (collision.gameObject.GetComponent<Rigidbody>() != null)
                 {
