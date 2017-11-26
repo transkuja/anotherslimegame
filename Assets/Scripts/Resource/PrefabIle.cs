@@ -13,11 +13,22 @@ public class PrefabIle : MonoBehaviour
 
     [Header("Islands")]
     public GameObject prefabIle1GameObject;
+    public GameObject prefabIle2GameObject;
+
+    private List<GameObject> islands = new List<GameObject>();
+
+    public void Awake()
+    {
+        islands.Add(prefabIle1GameObject);
+        islands.Add(prefabIle2GameObject);
+
+    }
 
     public GameObject SpawnIleInstance(Vector3 where, Quaternion direction, Transform parent, bool useAlternativePrefab = false)
     {
-        // USe random
-        return Instantiate(prefabIle1GameObject, where, direction, parent);
+        // Randomize islands spawn
+        Utils.Shuffle(islands);
+        return Instantiate(islands[0], where, direction, parent);
 
     }
 
