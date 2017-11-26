@@ -193,3 +193,5 @@ MonoBehaviour:
   tolerance: 0.25
   waterResistance: 0.4
   WaterToActivateAtRuntime: {fileID: 1152676377090286}
+  WaterParticleSystemToInstantiate: {fileID: 1579420724544850, guid: 45dc1cb05f7c53147bc546da4f1d8c9f,
+    type: 2}

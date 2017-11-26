@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public enum PlayerChildren { SlimeMesh, ShadowProjector };
+public enum PlayerChildren { SlimeMesh, ShadowProjector, WaterEffect, Canvas };
 public class Player : MonoBehaviour {
 
     Rigidbody rb;

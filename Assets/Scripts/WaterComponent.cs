@@ -17,19 +17,41 @@ public class WaterComponent : MonoBehaviour {
 
     public GameObject WaterToActivateAtRuntime;
 
+    public GameObject WaterParticleSystemToInstantiate;
+
+
+
+    //The scene's default fog settings
+    private bool defaultFog ;
+    private Color defaultFogColor;
+    private float defaultFogDensity;
+    private Material defaultSkybox;
+    private Material noSkybox;
+
+
     public void Start()
     {
         WaterToActivateAtRuntime.SetActive(true);
+
+        defaultFog = RenderSettings.fog;
+        defaultFogColor = RenderSettings.fogColor;
+        defaultFogDensity = RenderSettings.fogDensity;
+        defaultSkybox = RenderSettings.skybox;
+
     }
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.GetComponent<Rigidbody>() != null)
         {
-            if(other.transform.childCount == 3 && other.transform.GetChild(2).GetComponent<ParticleRenderer>())
+            if (other.transform.GetChild((int)PlayerChildren.WaterEffect).GetComponent<ParticleSystem>())
+            {          
                 // SEB C'est pour toi
-            other.transform.GetChild(2).gameObject.SetActive(true);
-
+                Instantiate(WaterParticleSystemToInstantiate, other.transform.position + (Vector3.up *2), other.transform.rotation, null);
+                other.transform.GetChild((int)PlayerChildren.WaterEffect).gameObject.SetActive(true);
+            }
+     
+          
             if (waterResistance != 0)
             {
                 movestatbuff = new StatBuff(Stats.StatType.GROUND_SPEED, waterResistance, -1);
@@ -42,14 +64,11 @@ public class WaterComponent : MonoBehaviour {
                 jumpstatbuff = new StatBuff(Stats.StatType.JUMP_HEIGHT, waterResistance, -1);
                 other.GetComponent<PlayerController>().stats.AddBuff(jumpstatbuff);
             }
-
-
         }
     }
 
     private void OnTriggerStay(Collider other)
     {
-
         if (other.GetComponent<Rigidbody>() != null)
         {
             Rigidbody rigidbody = other.GetComponent<Rigidbody>();
@@ -73,20 +92,33 @@ public class WaterComponent : MonoBehaviour {
                 }
             }
 
+            // TODO ; per camera ? 
+            if (other.GetComponent<Player>().cameraReference.transform.GetChild(0).position.y < WaterToActivateAtRuntime.transform.position.y)
+            {
+                RenderSettings.fog = true;
+                RenderSettings.fogColor = new Color(0, 0.4f, 0.7f, 0.6f);
+                RenderSettings.fogDensity = 0.04f;
+                RenderSettings.skybox = noSkybox;
 
-      
+                other.GetComponent<Player>().cameraReference.transform.GetChild(0).GetComponent<Camera>().renderSet
+            }
+            else
+            { 
+                RenderSettings.fog = defaultFog;
+                RenderSettings.fogColor = defaultFogColor;
+                RenderSettings.fogDensity = defaultFogDensity;
+                RenderSettings.skybox = defaultSkybox;
+            }
         }
-
     }
 
     private void OnTriggerExit(Collider other)
     {
-
-
-        if (other.transform.childCount == 3 && other.transform.GetChild(2).GetComponent<ParticleRenderer>())
+        if (other.transform.GetChild((int)PlayerChildren.WaterEffect).GetComponent<ParticleSystem>())
+        {
             // SEB C'est pour toi
-            other.transform.GetChild(2).gameObject.SetActive(false);
-
+            other.transform.GetChild((int)PlayerChildren.WaterEffect).gameObject.SetActive(false);
+        }
 
         if (waterResistance != 0)
         {
@@ -95,5 +127,10 @@ public class WaterComponent : MonoBehaviour {
             other.GetComponent<PlayerController>().stats.RemoveBuff(dashstatbuff);
             other.GetComponent<PlayerController>().stats.RemoveBuff(jumpstatbuff);
         }
+
+        RenderSettings.fog = defaultFog;
+        RenderSettings.fogColor = defaultFogColor;
+        RenderSettings.fogDensity = defaultFogDensity;
+        RenderSettings.skybox = defaultSkybox;
     }
 }
