@@ -15,6 +15,13 @@ public class WaterComponent : MonoBehaviour {
     public float tolerance;
     public float waterResistance;
 
+    public GameObject WaterToActivateAtRuntime;
+
+    public void Start()
+    {
+        WaterToActivateAtRuntime.SetActive(true);
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.GetComponent<Rigidbody>() != null)
