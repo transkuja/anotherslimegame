@@ -21,22 +21,11 @@ public class WaterComponent : MonoBehaviour {
 
 
 
-    //The scene's default fog settings
-    private bool defaultFog ;
-    private Color defaultFogColor;
-    private float defaultFogDensity;
-    private Material defaultSkybox;
-    private Material noSkybox;
-
 
     public void Start()
     {
         WaterToActivateAtRuntime.SetActive(true);
 
-        defaultFog = RenderSettings.fog;
-        defaultFogColor = RenderSettings.fogColor;
-        defaultFogDensity = RenderSettings.fogDensity;
-        defaultSkybox = RenderSettings.skybox;
 
     }
 
@@ -93,44 +82,44 @@ public class WaterComponent : MonoBehaviour {
             }
 
             // TODO ; per camera ? 
-            if (other.GetComponent<Player>().cameraReference.transform.GetChild(0).position.y < WaterToActivateAtRuntime.transform.position.y)
-            {
-                RenderSettings.fog = true;
-                RenderSettings.fogColor = new Color(0, 0.4f, 0.7f, 0.6f);
-                RenderSettings.fogDensity = 0.04f;
-                RenderSettings.skybox = noSkybox;
 
-                other.GetComponent<Player>().cameraReference.transform.GetChild(0).GetComponent<Camera>().renderSet
+            WaterImmersionCamera waterImmersionCamera = other.GetComponent<Player>().cameraReference.transform.GetChild(0).GetComponent<WaterImmersionCamera>();
+            if (waterImmersionCamera)
+            {
+                if (other.GetComponent<Player>().cameraReference.transform.GetChild(0).position.y < WaterToActivateAtRuntime.transform.position.y)
+                {
+                    waterImmersionCamera.isImmerge = true;
+                }
+                else
+                {
+                    waterImmersionCamera.isImmerge = false;
+                }
             }
-            else
-            { 
-                RenderSettings.fog = defaultFog;
-                RenderSettings.fogColor = defaultFogColor;
-                RenderSettings.fogDensity = defaultFogDensity;
-                RenderSettings.skybox = defaultSkybox;
-            }
+       
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.transform.GetChild((int)PlayerChildren.WaterEffect).GetComponent<ParticleSystem>())
+        if (other.GetComponent<Rigidbody>() != null)
         {
-            // SEB C'est pour toi
-            other.transform.GetChild((int)PlayerChildren.WaterEffect).gameObject.SetActive(false);
-        }
+            if (other.transform.GetChild((int)PlayerChildren.WaterEffect).GetComponent<ParticleSystem>())
+            {
+                // SEB C'est pour toi
+                other.transform.GetChild((int)PlayerChildren.WaterEffect).gameObject.SetActive(false);
+            }
 
-        if (waterResistance != 0)
-        {
-            // TODO : Need a contains buff ?
-            other.GetComponent<PlayerController>().stats.RemoveBuff(movestatbuff);
-            other.GetComponent<PlayerController>().stats.RemoveBuff(dashstatbuff);
-            other.GetComponent<PlayerController>().stats.RemoveBuff(jumpstatbuff);
-        }
+            if (waterResistance != 0)
+            {
+                // TODO : Need a contains buff ?
+                other.GetComponent<PlayerController>().stats.RemoveBuff(movestatbuff);
+                other.GetComponent<PlayerController>().stats.RemoveBuff(dashstatbuff);
+                other.GetComponent<PlayerController>().stats.RemoveBuff(jumpstatbuff);
+            }
 
-        RenderSettings.fog = defaultFog;
-        RenderSettings.fogColor = defaultFogColor;
-        RenderSettings.fogDensity = defaultFogDensity;
-        RenderSettings.skybox = defaultSkybox;
+            WaterImmersionCamera waterImmersionCamera = other.GetComponent<Player>().cameraReference.transform.GetChild(0).GetComponent<WaterImmersionCamera>();
+            if(waterImmersionCamera)
+                waterImmersionCamera.isImmerge = false;
+        }
     }
 }
