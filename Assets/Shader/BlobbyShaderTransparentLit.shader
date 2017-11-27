@@ -20,10 +20,10 @@ Shader "Transparent/BlobbyShaderTransparentLit"
 	}
 	SubShader
 	{
-		Tags { "Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Transparent" }
-		LOD 300
+		Tags { "IgnoreProjector"="True" "RenderType"="Opaque" }
+		LOD 200
 		CGPROGRAM
-		#pragma surface surf Lambert alpha:fade vertex:vert
+		#pragma surface surf Lambert vertex:vert
 		#include "UnityCG.cginc"
 		sampler2D _MainTex;
 		sampler2D _BumpMap;
@@ -36,6 +36,7 @@ Shader "Transparent/BlobbyShaderTransparentLit"
 		struct Input {
 			float2 uv_MainTex;
 			float2 uv_BumpMap;
+			float4 color : COLOR;
 		};
 
 		void vert(inout appdata_full v)
@@ -50,6 +51,7 @@ Shader "Transparent/BlobbyShaderTransparentLit"
 		void surf(Input IN, inout SurfaceOutput o) {
 			fixed4 c = tex2D(_MainTex, IN.uv_MainTex) * _Color;
 			o.Albedo = c.rgb;
+			o.Albedo *= IN.color.rgb;
 			o.Alpha = c.a;
 			o.Normal = UnpackNormal(tex2D(_BumpMap, IN.uv_BumpMap));
 		}
@@ -119,4 +121,5 @@ Shader "Transparent/BlobbyShaderTransparentLit"
 		//	ENDCG
 		//}
 	}
+	Fallback "VertexLit"
 }
