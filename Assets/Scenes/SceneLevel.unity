@@ -9556,11 +9556,12 @@ MonoBehaviour:
   referenceTransform: {fileID: 732459568}
   prefabsGameplayPlateformsExterior:
   - {fileID: 1923234639706388, guid: c81e9289c4b57ad4aabeaeb13c07a390, type: 2}
-  prefabsGameplayPlateformsInterior: []
+  prefabsGameplayPlateformsInterior:
+  - {fileID: 1913246925286400, guid: 2a8342f82890061449f9fa22b9b683ee, type: 2}
   initialHeight: 0
   heightStep: 10
-  necessaryFloorsExt: 7
-  necessaryFloorsInt: 2
+  necessaryFloorsExt: 6
+  necessaryFloorsInt: 1
 --- !u!1001 &1103452701
 Prefab:
   m_ObjectHideFlags: 0
@@ -12375,6 +12376,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 20414541}
     m_Modifications:
+    - target: {fileID: 114530602451997462, guid: cde301d29f0b9934a8db2cc024229deb,
+        type: 2}
+      propertyPath: torchLights.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4127276997081552, guid: cde301d29f0b9934a8db2cc024229deb, type: 2}
       propertyPath: m_LocalPosition.x
       value: -0.32263112
@@ -12412,6 +12418,24 @@ Prefab:
       propertyPath: debugPanel
       value: 
       objectReference: {fileID: 439435934}
+    - target: {fileID: 114530602451997462, guid: cde301d29f0b9934a8db2cc024229deb,
+        type: 2}
+      propertyPath: torchLights.Array.data[0]
+      value: 
+      objectReference: {fileID: 1576290915005138, guid: e4807c81a02947441bf03b69cae5c72b,
+        type: 2}
+    - target: {fileID: 114530602451997462, guid: cde301d29f0b9934a8db2cc024229deb,
+        type: 2}
+      propertyPath: torchLights.Array.data[1]
+      value: 
+      objectReference: {fileID: 1051851071853060, guid: 496320d3603b77846921621265b9004f,
+        type: 2}
+    - target: {fileID: 114530602451997462, guid: cde301d29f0b9934a8db2cc024229deb,
+        type: 2}
+      propertyPath: torchLights.Array.data[2]
+      value: 
+      objectReference: {fileID: 1340373696085358, guid: 5ef3c6a87008a544980e171ddc2f6b9d,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cde301d29f0b9934a8db2cc024229deb, type: 2}
   m_IsPrefabParent: 0
