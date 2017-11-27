@@ -17,6 +17,7 @@ public class ResourceUtils : MonoBehaviour {
             refPrefabPlatform = GetComponentInChildren<PrefabPlatform>();
             refPrefabGhost = GetComponentInChildren<PrefabGhost>();
             refPrefabIle = GetComponentInChildren<PrefabIle>();
+            refMainTowerGameplayManager = GetComponentInChildren<MainTowerGameplayManager>();
 
             DontDestroyOnLoad(Instance);
         }
@@ -43,6 +44,8 @@ public class ResourceUtils : MonoBehaviour {
     [HideInInspector]
     public PrefabGhost refPrefabGhost;
 
+    [HideInInspector]
+    public MainTowerGameplayManager refMainTowerGameplayManager;
 
     public static ResourceUtils Instance
     {
