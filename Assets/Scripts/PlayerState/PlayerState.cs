@@ -121,17 +121,12 @@ public class PlayerState  {
     }
     public virtual void OnJumpPressed()
     {
-<<<<<<< refs/remotes/origin/master
-        // obligé de faire un check ici( jump--> dash--> jump--> dash-->jump ...)
-        if (playerController.jumpState.nbJumpMade < playerController.stats.Get(Stats.StatType.JUMP_NB))
-            playerController.PlayerState = playerController.jumpState;
-=======
+
         if (!playerController.wallJumpState.WallJumpTest())
         {
             if (playerController.jumpState.nbJumpMade < playerController.stats.Get(Stats.StatType.JUMP_NB))
                 playerController.PlayerState = playerController.jumpState;
         }
->>>>>>> WallJump WIP
     }
     public virtual void OnDashPressed()
     {

@@ -21,8 +21,13 @@ TagManager:
   - CameraP4
   - Player
   - Collectable
+<<<<<<< Updated upstream
   - GhostPlayer
   - GhostGoThrough
+=======
+  - Ground
+  - 
+>>>>>>> Stashed changes
   - 
   - 
   - 
