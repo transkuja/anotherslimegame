@@ -19,7 +19,8 @@ public class DynamicJoystickCameraController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-        
+#if UNITY_EDITOR
+
         if (GameManager.Instance.PlayerStart.PlayersReference[(int)playerIndex].GetComponent<PlayerController>().IsUsingAController)
         {
             prevState = state;
@@ -36,9 +37,9 @@ public class DynamicJoystickCameraController : MonoBehaviour {
             freelookCamera.m_YAxis.m_InputAxisValue = Mathf.Abs(state.ThumbSticks.Right.Y) > 0.1f ? state.ThumbSticks.Right.Y : 0;
             //Need a more complex function ?
             if (GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerController>().IsGrounded)
-                freelookCamera.m_XAxis.m_InputAxisValue += Mathf.Abs(state.ThumbSticks.Left.X) > 0.1f ? -state.ThumbSticks.Left.X* Mathf.Lerp(0.5f, 1.0f, Mathf.Abs(state.ThumbSticks.Left.X))/2.0f : 0;
+                freelookCamera.m_XAxis.m_InputAxisValue += Mathf.Abs(state.ThumbSticks.Left.X) > 0.1f ? -state.ThumbSticks.Left.X * Mathf.Lerp(0.5f, 1.0f, Mathf.Abs(state.ThumbSticks.Left.X)) / 2.0f : 0;
             else
-                freelookCamera.m_XAxis.m_InputAxisValue += Mathf.Abs(state.ThumbSticks.Left.X) > 0.1f ? (-state.ThumbSticks.Left.X * Mathf.Lerp(0.5f, 1.0f, Mathf.Abs(state.ThumbSticks.Left.X)))/2.0f : 0;
+                freelookCamera.m_XAxis.m_InputAxisValue += Mathf.Abs(state.ThumbSticks.Left.X) > 0.1f ? (-state.ThumbSticks.Left.X * Mathf.Lerp(0.5f, 1.0f, Mathf.Abs(state.ThumbSticks.Left.X))) / 2.0f : 0;
 
             /*if(freelockCamera.LookAt.GetComponent<Rigidbody>().velocity.magnitude >0.01f)
             {
@@ -58,6 +59,7 @@ public class DynamicJoystickCameraController : MonoBehaviour {
                 freelookCamera.m_YAxis.m_InputAxisName = "Mouse Y";
             }
 
-        }
+        } 
+#endif
     }
 }

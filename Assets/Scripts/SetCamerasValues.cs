@@ -8,17 +8,20 @@ using Cinemachine;
 
 [ExecuteInEditMode]
 public class SetCamerasValues : MonoBehaviour {
+#if UNITY_EDITOR
+
     CinemachineFreeLook[] cameras;
     CinemachineCollider[] colliders;
     [SerializeField]
     bool ReApply = true;
-	void Start () {
+    void Start()
+    {
         ReApply = true;
     }
 
     private void Update()
     {
-        if(ReApply)
+        if (ReApply)
         {
             SetValues();
             ReApply = false;
@@ -27,7 +30,7 @@ public class SetCamerasValues : MonoBehaviour {
 
     public void SetValues()
     {
-        for(int i = 0; i < transform.childCount; i++)
+        for (int i = 0; i < transform.childCount; i++)
         {
             cameras = transform.GetChild(i).GetComponentsInChildren<CinemachineFreeLook>();
 
@@ -107,4 +110,5 @@ public class SetCamerasValues : MonoBehaviour {
         Debug.Log("Camera damping values set");
     }
 
+#endif
 }
