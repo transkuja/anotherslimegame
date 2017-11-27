@@ -46,39 +46,36 @@ public class SetCamerasValues : MonoBehaviour {
                 cam.m_XAxis.m_DecelTime = .15f;
 
                 //Orbits
-                cam.m_Orbits[0].m_Height = 4.5f;
-                cam.m_Orbits[0].m_Radius = 6.0f;
+                cam.m_Orbits[0].m_Height = 7.0f;
+                cam.m_Orbits[0].m_Radius = 9.0f;
 
                 cam.m_Orbits[1].m_Height = 2.5f;
                 cam.m_Orbits[1].m_Radius = 7.0f;
 
-                cam.m_Orbits[2].m_Height = 0.4f;
+                cam.m_Orbits[2].m_Height = -0.2f;
                 cam.m_Orbits[2].m_Radius = 6.0f;
 
                 //Lens
-                LensSettings lens = cam.GetRig(0).m_Lens;
-                lens.FieldOfView = 85f;
+                cam.GetRig(0).m_Lens.FieldOfView = 85f;
 
-                lens = cam.GetRig(1).m_Lens;
-                lens.FieldOfView = 85f;
+                cam.GetRig(1).m_Lens.FieldOfView = 90f;
 
-                lens = cam.GetRig(2).m_Lens;
-                lens.FieldOfView = 80f;
+                cam.GetRig(2).m_Lens.FieldOfView = 80f;
 
                 //Aim
                 CinemachineComposer cp;
                 cp = ((CinemachineComposer)(cam.GetRig(0).GetCinemachineComponent(CinemachineCore.Stage.Aim)));
-                cp.m_TrackedObjectOffset = new Vector3(0f, .5f, 0f);
+                cp.m_TrackedObjectOffset = new Vector3(0f, 2.0f, 0f);
                 cp.m_ScreenX = .5f;
                 cp.m_ScreenY = .55f;
 
                 cp = ((CinemachineComposer)(cam.GetRig(1).GetCinemachineComponent(CinemachineCore.Stage.Aim)));
-                cp.m_TrackedObjectOffset = new Vector3(0f, .5f, 0f);
+                cp.m_TrackedObjectOffset = new Vector3(0f,.5f, 0f);
                 cp.m_ScreenX = .5f;
                 cp.m_ScreenY = .55f;
 
                 cp = ((CinemachineComposer)(cam.GetRig(2).GetCinemachineComponent(CinemachineCore.Stage.Aim)));
-                cp.m_TrackedObjectOffset = new Vector3(0f, .5f, 0f);
+                cp.m_TrackedObjectOffset = new Vector3(0f, 3.0f, 0f);
                 cp.m_ScreenX = .5f;
                 cp.m_ScreenY = .6f;
 
@@ -107,7 +104,7 @@ public class SetCamerasValues : MonoBehaviour {
                 col.m_Damping = .4f;
             }
         }
-        Debug.Log("Camera damping values set");
+        Debug.Log("Camera values set");
     }
 
 #endif
