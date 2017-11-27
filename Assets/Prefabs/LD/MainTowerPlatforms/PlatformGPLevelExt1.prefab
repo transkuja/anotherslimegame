@@ -2050,7 +2050,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   bounceStrength: 25
-  isMoving: 1
+  isMoving: 0
   movingAxis: {x: 0, y: 2, z: 0}
   isAWorldAxis: 0
   movingSpeed: 0.5
@@ -2247,7 +2247,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   bounceStrength: 25
-  isMoving: 1
+  isMoving: 0
   movingAxis: {x: 0, y: 2, z: 0}
   isAWorldAxis: 0
   movingSpeed: 0.5
@@ -2342,7 +2342,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   bounceStrength: 25
-  isMoving: 1
+  isMoving: 0
   movingAxis: {x: 0, y: 2, z: 0}
   isAWorldAxis: 0
   movingSpeed: 0.5
@@ -2444,7 +2444,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   bounceStrength: 25
-  isMoving: 1
+  isMoving: 0
   movingAxis: {x: 0, y: 2, z: 0}
   isAWorldAxis: 0
   movingSpeed: 0.5
@@ -2495,7 +2495,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   bounceStrength: 25
-  isMoving: 1
+  isMoving: 0
   movingAxis: {x: 0, y: 2, z: 0}
   isAWorldAxis: 0
   movingSpeed: 0.5
@@ -2568,7 +2568,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   bounceStrength: 25
-  isMoving: 1
+  isMoving: 0
   movingAxis: {x: 0, y: 2, z: 0}
   isAWorldAxis: 0
   movingSpeed: 0.5
@@ -2619,7 +2619,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   bounceStrength: 25
-  isMoving: 1
+  isMoving: 0
   movingAxis: {x: 0, y: 2, z: 0}
   isAWorldAxis: 0
   movingSpeed: 0.5
@@ -2732,7 +2732,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   bounceStrength: 25
-  isMoving: 1
+  isMoving: 0
   movingAxis: {x: 0, y: 2, z: 0}
   isAWorldAxis: 0
   movingSpeed: 0.5
@@ -2878,7 +2878,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   bounceStrength: 25
-  isMoving: 1
+  isMoving: 0
   movingAxis: {x: 0, y: 2, z: 0}
   isAWorldAxis: 0
   movingSpeed: 0.5
@@ -2929,7 +2929,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   bounceStrength: 25
-  isMoving: 1
+  isMoving: 0
   movingAxis: {x: 0, y: 2, z: 0}
   isAWorldAxis: 0
   movingSpeed: 0.5
@@ -2980,7 +2980,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   bounceStrength: 25
-  isMoving: 1
+  isMoving: 0
   movingAxis: {x: 0, y: 2, z: 0}
   isAWorldAxis: 0
   movingSpeed: 0.5
@@ -3064,7 +3064,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   bounceStrength: 25
-  isMoving: 1
+  isMoving: 0
   movingAxis: {x: 0, y: 2, z: 0}
   isAWorldAxis: 0
   movingSpeed: 0.5
