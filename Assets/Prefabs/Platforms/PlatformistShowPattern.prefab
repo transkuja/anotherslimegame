@@ -20,7 +20,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4100016166570530}
   - component: {fileID: 33293649988111328}
-  - component: {fileID: 65658590973810628}
   - component: {fileID: 23903479479737204}
   - component: {fileID: 114196334887111616}
   - component: {fileID: 114247805850950418}
@@ -84,18 +83,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1115780985942158}
   m_Mesh: {fileID: 4300000, guid: ec983331376797641886946b0dfb14fb, type: 3}
---- !u!65 &65658590973810628
-BoxCollider:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1115780985942158}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &114040592611240494
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -130,6 +117,7 @@ MonoBehaviour:
   bounceStrength: 50
   isMoving: 0
   movingAxis: {x: 0, y: 2, z: 0}
+  isAWorldAxis: 0
   movingSpeed: 1.5
   movingDistance: 5
   isAPingPongMovement: 1
