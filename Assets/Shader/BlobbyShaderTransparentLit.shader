@@ -20,7 +20,7 @@ Shader "Transparent/BlobbyShaderTransparentLit"
 	}
 	SubShader
 	{
-		Tags { "IgnoreProjector"="True" "RenderType"="Opaque" }
+		Tags { "Queue"="Transparent" "IgnoreProjector"="True" "RenderType"="Opaque" }
 		LOD 200
 		CGPROGRAM
 		#pragma surface surf Lambert vertex:vert
