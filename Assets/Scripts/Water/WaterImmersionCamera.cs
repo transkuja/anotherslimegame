@@ -21,6 +21,17 @@ public class WaterImmersionCamera : MonoBehaviour {
         defaultFogColor = RenderSettings.fogColor;
         defaultFogDensity = RenderSettings.fogDensity;
         defaultSkybox = RenderSettings.skybox;
+
+        // Preload rendersettings to avoid framerate loss at first immersion
+        RenderSettings.fog = true;
+        RenderSettings.fogColor = new Color(0, 0.4f, 0.7f, 0.6f);
+        RenderSettings.fogDensity = 0.04f;
+        RenderSettings.skybox = noSkybox;
+
+        RenderSettings.fog = defaultFog;
+        RenderSettings.fogColor = defaultFogColor;
+        RenderSettings.fogDensity = defaultFogDensity;
+        RenderSettings.skybox = defaultSkybox;
     }
 
     // Update is called once per frame
