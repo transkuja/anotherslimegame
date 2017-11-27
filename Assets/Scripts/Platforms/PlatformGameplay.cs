@@ -283,7 +283,8 @@ public class PlatformGameplay : MonoBehaviour {
                 delayTimer -= Time.deltaTime;
 
                 // Remi Lerp the emissive color of the platform
-                GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.Lerp(Color.black, Color.red, delayBeforeMovement - delayTimer));
+                if (GetComponent<MeshRenderer>())
+                    GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.Lerp(Color.black, Color.red, delayBeforeMovement - delayTimer));
             }
         }
         else
@@ -446,7 +447,7 @@ public class PlatformGameplay : MonoBehaviour {
             collision.transform.SetParent(null);
             collision.transform.localScale = Vector3.one;
 
-            if (isOnPlatform)
+            if (GetComponent<MeshRenderer>())
             {
                 // Remi Change to color of the emissive of the plateform
                 delayTimer = delayBeforeMovement;
