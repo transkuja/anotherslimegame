@@ -29,15 +29,6 @@ public class RestrainedByGhostState : PlayerState
 
     public override void Move(Vector3 initialVelocity)
     {
-        // This shouldn't be necessary
-        //if(GhostTrail.DicPlayersInTriggers != null && GhostTrail.DicPlayersInTriggers.ContainsKey(playerController.GetComponent<PlayerController>()))
-        //{
-        //    if(GhostTrail.DicPlayersInTriggers[playerController.GetComponent<PlayerController>()] <= 0)
-        //    {
-        //        playerController.PlayerState = playerController.freeState;
-        //    }
-        //}
-        
         playerController.Player.Rb.velocity = playerController.transform.forward * playerController.stats.Get(Stats.StatType.GROUND_SPEED) + Vector3.up * playerController.Player.Rb.velocity.y;
     }
 

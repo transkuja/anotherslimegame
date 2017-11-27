@@ -20,7 +20,6 @@ public class GameManager : MonoBehaviour {
             {
                 instance = new GameObject("GameManager").AddComponent<GameManager>();
                 DontDestroyOnLoad(instance);
-                Init();
             }
             return instance;
         }
@@ -127,12 +126,6 @@ public class GameManager : MonoBehaviour {
             return playerUI;
         }
     }
-
-    public static void Init()
-    {   //Eventually needs to be done at every scene load
-        GhostTrail.DicPlayersInTriggers = new System.Collections.Generic.Dictionary<PlayerController, int>();
-    }
-
     public void RegisterPlayerStart(PlayerStart _ps)
     {
         playerStart = _ps;
