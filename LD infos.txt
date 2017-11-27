@@ -1,0 +1,3 @@
+Max diff y = 10
+Max diff xz = 50
+Distance pas trop mal pour un saut = 17
