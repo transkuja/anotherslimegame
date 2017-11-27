@@ -60,18 +60,19 @@ public class JumpState : PlayerState
         if (hasJumpButtonBeenReleased)
         {
             hasJumpButtonBeenReleased = false;
-            if (!playerController.wallJumpState.WallJumpTest())
+            if (playerController.wallJumpState.WallJumpTest())
             {
-                if (nbJumpMade < playerController.stats.Get(Stats.StatType.JUMP_NB))
+                playerController.PlayerState = playerController.wallJumpState;
+            }
+            else if (nbJumpMade < playerController.stats.Get(Stats.StatType.JUMP_NB))
+            {
+                if (nbJumpMade > 1)
                 {
-                    if (nbJumpMade > 1)
-                    {
-                        if (AudioManager.Instance != null && AudioManager.Instance.youpiFX != null)
-                            AudioManager.Instance.PlayOneShot(AudioManager.Instance.youpiFX);
-                    }
-
-                    LaunchJump();
+                    if (AudioManager.Instance != null && AudioManager.Instance.youpiFX != null)
+                        AudioManager.Instance.PlayOneShot(AudioManager.Instance.youpiFX);
                 }
+
+                LaunchJump();
             }
         }
         if (playerController.State.Buttons.A == ButtonState.Released)
