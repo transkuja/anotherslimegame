@@ -1082,7 +1082,7 @@ MeshCollider:
   m_Convex: 1
   m_InflateMesh: 0
   m_SkinWidth: 0.01
-  m_Mesh: {fileID: 0}
+  m_Mesh: {fileID: 4300000, guid: 923acf7b6bebacf4d92285d7e8aff2e7, type: 3}
 --- !u!64 &64210680240393430
 MeshCollider:
   m_ObjectHideFlags: 1
@@ -1096,7 +1096,7 @@ MeshCollider:
   m_Convex: 1
   m_InflateMesh: 0
   m_SkinWidth: 0.01
-  m_Mesh: {fileID: 0}
+  m_Mesh: {fileID: 4300000, guid: 923acf7b6bebacf4d92285d7e8aff2e7, type: 3}
 --- !u!64 &64251329856158674
 MeshCollider:
   m_ObjectHideFlags: 1
@@ -1110,7 +1110,7 @@ MeshCollider:
   m_Convex: 1
   m_InflateMesh: 0
   m_SkinWidth: 0.01
-  m_Mesh: {fileID: 0}
+  m_Mesh: {fileID: 4300000, guid: 923acf7b6bebacf4d92285d7e8aff2e7, type: 3}
 --- !u!64 &64413310783666468
 MeshCollider:
   m_ObjectHideFlags: 1
@@ -1124,7 +1124,7 @@ MeshCollider:
   m_Convex: 1
   m_InflateMesh: 0
   m_SkinWidth: 0.01
-  m_Mesh: {fileID: 0}
+  m_Mesh: {fileID: 4300000, guid: 923acf7b6bebacf4d92285d7e8aff2e7, type: 3}
 --- !u!64 &64578067719120032
 MeshCollider:
   m_ObjectHideFlags: 1
@@ -1138,7 +1138,7 @@ MeshCollider:
   m_Convex: 1
   m_InflateMesh: 0
   m_SkinWidth: 0.01
-  m_Mesh: {fileID: 0}
+  m_Mesh: {fileID: 4300000, guid: 923acf7b6bebacf4d92285d7e8aff2e7, type: 3}
 --- !u!64 &64718348013914724
 MeshCollider:
   m_ObjectHideFlags: 1
@@ -1152,7 +1152,7 @@ MeshCollider:
   m_Convex: 1
   m_InflateMesh: 0
   m_SkinWidth: 0.01
-  m_Mesh: {fileID: 0}
+  m_Mesh: {fileID: 4300000, guid: 923acf7b6bebacf4d92285d7e8aff2e7, type: 3}
 --- !u!64 &64783551749583804
 MeshCollider:
   m_ObjectHideFlags: 1
@@ -1166,7 +1166,7 @@ MeshCollider:
   m_Convex: 1
   m_InflateMesh: 0
   m_SkinWidth: 0.01
-  m_Mesh: {fileID: 0}
+  m_Mesh: {fileID: 4300000, guid: 923acf7b6bebacf4d92285d7e8aff2e7, type: 3}
 --- !u!64 &64869104291117214
 MeshCollider:
   m_ObjectHideFlags: 1
@@ -1180,7 +1180,7 @@ MeshCollider:
   m_Convex: 1
   m_InflateMesh: 0
   m_SkinWidth: 0.01
-  m_Mesh: {fileID: 0}
+  m_Mesh: {fileID: 4300000, guid: 923acf7b6bebacf4d92285d7e8aff2e7, type: 3}
 --- !u!64 &64894982034538138
 MeshCollider:
   m_ObjectHideFlags: 1
@@ -1194,7 +1194,7 @@ MeshCollider:
   m_Convex: 1
   m_InflateMesh: 0
   m_SkinWidth: 0.01
-  m_Mesh: {fileID: 0}
+  m_Mesh: {fileID: 4300000, guid: 923acf7b6bebacf4d92285d7e8aff2e7, type: 3}
 --- !u!64 &64972059786653736
 MeshCollider:
   m_ObjectHideFlags: 1
@@ -1208,7 +1208,7 @@ MeshCollider:
   m_Convex: 0
   m_InflateMesh: 0
   m_SkinWidth: 0.01
-  m_Mesh: {fileID: 0}
+  m_Mesh: {fileID: 4300000, guid: ef06c7167f8767a4d8d578fdb71ee3b8, type: 3}
 --- !u!95 &95056087832550550
 Animator:
   serializedVersion: 3
@@ -1415,7 +1415,7 @@ MonoBehaviour:
   baseRotation:
     rotateAroundLocalAxis: 1
     rotateAxis: {x: 0, y: 1, z: 0}
-    rotateSpeed: 20
+    rotateSpeed: 80
   isDualRotationEnabled: 0
   secondRotation:
     rotateAroundLocalAxis: 0
