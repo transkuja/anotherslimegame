@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
@@ -15,6 +13,8 @@ public class Tampax
 public enum Shapes { None, Circle, Line, Grid }
 public class SpawnManager : MonoBehaviour{
 
+    private static SpawnManager instance;
+
     // Spawned Items Location
     public Dictionary<int, Transform> dicSpawnItemsLocations = new Dictionary<int, Transform>();
     private int lastInsertedKeySpawnItems = 0;
@@ -23,9 +23,19 @@ public class SpawnManager : MonoBehaviour{
     public Dictionary<int, Transform> dicSpawnMonstersLocations = new Dictionary<int, Transform>();
     private int lastInsertedKeySpawnMonsters = 0;
 
-    // Spawned Iles Locations
-    public Dictionary<int, Transform> dicSpawnIlesLocations = new Dictionary<int, Transform>();
-    private int lastInsertedKeySpawnIles = 0;
+    // Spawned Islands Locations
+    public Dictionary<int, Transform> dicSpawnEvolutionIslandLocations = new Dictionary<int, Transform>();
+    private int lastInsertedKeySpawnEvolutionIsland = 0;
+
+    // List of all evolutions in the level
+    private List<CollectableType> evolutionsLeftToSpawn = new List<CollectableType>();
+
+    // Gameplay room starters
+    public List<Tampax> gameplayRoomStarters = new List<Tampax>();
+
+    // Spawned Points Locations
+    public Dictionary<int, Transform> dicSpawnPointsIslandLocations = new Dictionary<int, Transform>();
+    private int lastInsertedKeySpawnPointsIsland = 0;
 
     // Frame control on item
     private int spawnedItemsCountAtTheSameTime = 0;
@@ -36,15 +46,26 @@ public class SpawnManager : MonoBehaviour{
     private const int MAXSPAWNMONSTERSCOUNTATTHESAMETIME = 20;
 
     // Frame control on iles
-    private int spawnedIlesCountAtTheSameTime = 0;
-    private const int MAXSPAWNILESSCOUNTATTHESAMETIME = 4;
+    private int spawnedEvolutionIslandCountAtTheSameTime = 0;
+    private const int MAXSPAWNEVOLUTIONISLANDSCOUNTATTHESAMETIME = 4;
 
-    private List<CollectableType> evolutionsLeftToSpawn = new List<CollectableType>();
+    // Frame control on iles
+    private int spawnedPointIslandCountAtTheSameTime = 0;
+    private const int MAXSPAWNPOINTSISLANDSCOUNTATTHESAMETIME = 10;
 
-    // Gameplay room starters
-    public List<Tampax> gameplayRoomStarters = new List<Tampax>();
+    #region Accessors
+    public static SpawnManager Instance
+    {
+        get
+        {
+            return instance;
+        }
 
-    private static SpawnManager instance;
+        set
+        {
+            instance = value;
+        }
+    }
 
     public int SpawnedMonsterCount
     {
@@ -72,9 +93,35 @@ public class SpawnManager : MonoBehaviour{
         }
     }
 
+    public int SpawnedEvolutionIslandCount
+    {
+        get
+        {
+            return spawnedEvolutionIslandCountAtTheSameTime;
+        }
+
+        set
+        {
+            spawnedEvolutionIslandCountAtTheSameTime = value;
+        }
+    }
+
+    public int SpawnedPointIslandCount
+    {
+        get
+        {
+            return spawnedPointIslandCountAtTheSameTime;
+        }
+
+        set
+        {
+            spawnedPointIslandCountAtTheSameTime = value;
+        }
+    }
+    #endregion
+
     public void Awake()
     {
-
         if (instance == null)
         {
             instance = this;
@@ -91,7 +138,7 @@ public class SpawnManager : MonoBehaviour{
     {
         instance.spawnedItemsCountAtTheSameTime = 0;
         instance.spawnedMonsterCountAtTheSameTime = 0;
-        instance.spawnedIlesCountAtTheSameTime = 0;
+        instance.spawnedEvolutionIslandCountAtTheSameTime = 0;
         instance.evolutionsLeftToSpawn.Add(CollectableType.AgileEvolution1);
         instance.evolutionsLeftToSpawn.Add(CollectableType.PlatformistEvolution1);
         instance.evolutionsLeftToSpawn.Add(CollectableType.StrengthEvolution1);
@@ -99,32 +146,7 @@ public class SpawnManager : MonoBehaviour{
         Utils.Shuffle(instance.evolutionsLeftToSpawn);
     }
 
-    public static SpawnManager Instance
-    {
-        get
-        {
-            return instance;
-        }
-
-        set
-        {
-            instance = value;
-        }
-    }
-
-    public int SpawnedIlesCountAtTheSameTime
-    {
-        get
-        {
-            return spawnedIlesCountAtTheSameTime;
-        }
-
-        set
-        {
-            spawnedIlesCountAtTheSameTime = value;
-        }
-    }
-
+    #region Items
     private void SpawnItem(int idLocation, CollectableType myItemType, bool forceSpawn = false)
     {
 
@@ -233,8 +255,45 @@ public class SpawnManager : MonoBehaviour{
         }
     }
 
+    // add a transformation to spawn manager, retrieve the id where the spawn location was inserted
+    // call before everything
+    public int RegisterSpawnItemLocation(Transform mySpawnLocation, CollectableType myItemType, bool needSpawn = false, bool forceSpawn = false, Shapes shapes = Shapes.None, int nbItems = 1, float circleRadius = 1.0f)
+    {
+        instance.dicSpawnItemsLocations.Add(lastInsertedKeySpawnItems, mySpawnLocation);
 
+        if (needSpawn)
+        {
 
+            switch (shapes)
+            {
+                case Shapes.None:
+                    SpawnItem(lastInsertedKeySpawnItems, myItemType, forceSpawn);
+                    break;
+                case Shapes.Circle:
+                    SpawnCircleShapedItems(lastInsertedKeySpawnItems, nbItems, myItemType, forceSpawn, circleRadius);
+                    break;
+                case Shapes.Line:
+                    SpawnLineShapedItems(lastInsertedKeySpawnItems, nbItems, myItemType, forceSpawn);
+                    break;
+                case Shapes.Grid:
+                    SpawnGridShapedItems(lastInsertedKeySpawnItems, nbItems, myItemType, forceSpawn);
+                    break;
+            }
+
+        }
+
+        return lastInsertedKeySpawnItems++;
+    }
+
+    // call on destroy on a spawn item
+    public void UnregisterSpawnItemLocation(int idToUnregister)
+    {
+        instance.dicSpawnItemsLocations.Remove(idToUnregister);
+    }
+
+    #endregion
+
+    #region Monsters
     private void SpawnMonster(int idLocation, MonsterType myMonsterType, bool forceSpawn = false)
     {
         if (instance.dicSpawnMonstersLocations.ContainsKey(idLocation) == false)
@@ -260,64 +319,63 @@ public class SpawnManager : MonoBehaviour{
 
     // add a transformation to spawn manager, retrieve the id where the spawn location was inserted
     // call before everything
-    public int RegisterSpawnItemLocation(Transform mySpawnLocation, CollectableType myItemType, bool needSpawn = false, bool forceSpawn = false, Shapes shapes = Shapes.None, int nbItems = 1, float circleRadius = 1.0f)
+    public int RegisterSpawnMonsterLocation(Transform mySpawnLocation, MonsterType myMonsterType, bool needSpawn = false, bool forceSpawn = false)
     {
-        instance.dicSpawnItemsLocations.Add(lastInsertedKeySpawnItems, mySpawnLocation);
+        instance.dicSpawnMonstersLocations.Add(lastInsertedKeySpawnMonsters, mySpawnLocation);
 
         if (needSpawn)
         {
-
-            switch (shapes)
-            {
-                case Shapes.None:
-                    SpawnItem(lastInsertedKeySpawnItems, myItemType, forceSpawn);
-                    break;
-                case Shapes.Circle:
-                    SpawnCircleShapedItems(lastInsertedKeySpawnItems, nbItems, myItemType, forceSpawn, circleRadius);
-                    break;
-                case Shapes.Line:
-                    SpawnLineShapedItems(lastInsertedKeySpawnItems, nbItems, myItemType, forceSpawn);
-                    break;
-                case Shapes.Grid:
-                    SpawnGridShapedItems(lastInsertedKeySpawnItems, nbItems, myItemType, forceSpawn);
-                    break;
-            }
- 
+            SpawnMonster(lastInsertedKeySpawnMonsters, myMonsterType, forceSpawn);
         }
 
-        return lastInsertedKeySpawnItems++;
+        return lastInsertedKeySpawnMonsters++;
     }
-    public int RegisterSpawnIleLocation(Transform mySpawnLocation, GameObject associatedShelter, bool needSpawn = false, bool forceSpawn = false)
+
+    // call on destroy on a spawn monster
+    public void UnregisterSpawnMonsterLocation(int idToUnregister)
     {
-        instance.dicSpawnIlesLocations.Add(lastInsertedKeySpawnIles, mySpawnLocation);
+        instance.dicSpawnMonstersLocations.Remove(idToUnregister);
+    }
+    #endregion
+
+    #region Evolution Islands
+    public int RegisterSpawnEvolutionIslandLocation(Transform mySpawnLocation, GameObject associatedShelter, bool needSpawn = false, bool forceSpawn = false)
+    {
+        instance.dicSpawnEvolutionIslandLocations.Add(lastInsertedKeySpawnEvolutionIsland, mySpawnLocation);
 
         if (needSpawn)
         {
-            SpawnIle(lastInsertedKeySpawnIles, associatedShelter, forceSpawn);
+            SpawnEvolutionIsland(lastInsertedKeySpawnEvolutionIsland, associatedShelter, forceSpawn);
         }
 
-        return lastInsertedKeySpawnIles++;
+        return lastInsertedKeySpawnEvolutionIsland++;
     }
 
-    private void SpawnIle(int idLocation, GameObject associatedShelter, bool forceSpawn)
+    // call on destroy on a spawn ile
+    public void UnregisterSpawnEvolutionIslandLocation(int idToUnregister)
     {
-        if (instance.dicSpawnIlesLocations.ContainsKey(idLocation) == false)
+        instance.dicSpawnEvolutionIslandLocations.Remove(idToUnregister);
+    }
+
+    private void SpawnEvolutionIsland(int idLocation, GameObject associatedShelter, bool forceSpawn)
+    {
+        if (instance.dicSpawnEvolutionIslandLocations.ContainsKey(idLocation) == false)
         {
             Debug.Log("Error : invalid location");
             return;
         }
 
-        if (!forceSpawn && SpawnedIlesCountAtTheSameTime == MAXSPAWNILESSCOUNTATTHESAMETIME)
+        if (!forceSpawn && SpawnedEvolutionIslandCount == MAXSPAWNEVOLUTIONISLANDSCOUNTATTHESAMETIME)
         {
             Debug.Log("Error  : max monster reach");
             return;
         }
 
-        SpawnedIlesCountAtTheSameTime++;
-        GameObject spawnedIsland = ResourceUtils.Instance.refPrefabIle.SpawnIleInstance(
-            instance.dicSpawnIlesLocations[idLocation].transform.position,
-            instance.dicSpawnIlesLocations[idLocation].transform.rotation,
-            instance.dicSpawnIlesLocations[idLocation].transform
+        SpawnedEvolutionIslandCount++;
+        GameObject spawnedIsland = ResourceUtils.Instance.refPrefabIle.SpawnEvolutionIslandInstance(
+            instance.dicSpawnEvolutionIslandLocations[idLocation].transform.position,
+            instance.dicSpawnEvolutionIslandLocations[idLocation].transform.rotation,
+            instance.dicSpawnEvolutionIslandLocations[idLocation].transform
         );
 
         Transform evolutionSpawn = spawnedIsland.transform.GetChild(0);
@@ -361,8 +419,6 @@ public class SpawnManager : MonoBehaviour{
                 Debug.LogWarning("Tampax not fully defined -> spawn manager");
             }
         }
-   
-
     }
 
     CollectableType GetNextEvolutionType()
@@ -378,39 +434,53 @@ public class SpawnManager : MonoBehaviour{
         return evolutionType;
     }
 
-    // call on destroy on a spawn item
-    public void UnregisterSpawnItemLocation(int idToUnregister)
-    {
-        instance.dicSpawnItemsLocations.Remove(idToUnregister);
-    }
 
+    #endregion
 
-    // add a transformation to spawn manager, retrieve the id where the spawn location was inserted
-    // call before everything
-    public int RegisterSpawnMonsterLocation(Transform mySpawnLocation, MonsterType myMonsterType, bool needSpawn = false, bool forceSpawn = false)
+    #region Points Islands
+    public int RegisterSpawnPointsIslandLocation(Transform mySpawnLocation, bool needSpawn = false, bool forceSpawn = false)
     {
-        instance.dicSpawnMonstersLocations.Add(lastInsertedKeySpawnMonsters, mySpawnLocation);
+        instance.dicSpawnPointsIslandLocations.Add(lastInsertedKeySpawnPointsIsland, mySpawnLocation);
 
         if (needSpawn)
         {
-            SpawnMonster(lastInsertedKeySpawnMonsters, myMonsterType, forceSpawn);
+            SpawnPointIsland(lastInsertedKeySpawnPointsIsland, forceSpawn);
         }
 
-        return lastInsertedKeySpawnMonsters++;
-    }
-
-    // call on destroy on a spawn monster
-    public void UnregisterSpawnMonsterLocation(int idToUnregister)
-    {
-        instance.dicSpawnMonstersLocations.Remove(idToUnregister);
+        return lastInsertedKeySpawnPointsIsland++;
     }
 
     // call on destroy on a spawn ile
-    public void UnregisterSpawnIleLocation(int idToUnregister)
+    public void UnregisterSpawnPointsIslandLocation(int idToUnregister)
     {
-        instance.dicSpawnIlesLocations.Remove(idToUnregister);
+        instance.dicSpawnPointsIslandLocations.Remove(idToUnregister);
     }
 
+    private void SpawnPointIsland(int idLocation, bool forceSpawn)
+    {
+        if (instance.dicSpawnPointsIslandLocations.ContainsKey(idLocation) == false)
+        {
+            Debug.Log("Error : invalid location");
+            return;
+        }
+
+        if (!forceSpawn && SpawnedPointIslandCount == MAXSPAWNPOINTSISLANDSCOUNTATTHESAMETIME)
+        {
+            Debug.Log("Error  : max points island reach");
+            return;
+        }
+
+        SpawnedPointIslandCount++;
+        ResourceUtils.Instance.refPrefabIle.SpawnPointIslandInstance(
+            instance.dicSpawnPointsIslandLocations[idLocation].transform.position,
+            instance.dicSpawnPointsIslandLocations[idLocation].transform.rotation,
+            instance.dicSpawnPointsIslandLocations[idLocation].transform
+        );
+    }
+    #endregion
+
+    // Problably should be moved to Utils
+    #region Utils
     public enum Axis { XY, XZ, YZ };
     public static Vector3[] GetVector3ArrayOnADividedCircle(Vector3 center, float radius, int divider, Axis baseAXis)
     {
@@ -487,5 +557,5 @@ public class SpawnManager : MonoBehaviour{
     {
         return (360.0f / divider) * index;
     }
-
+    #endregion  
 }

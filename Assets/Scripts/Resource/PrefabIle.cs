@@ -11,25 +11,32 @@ public class PrefabIle : MonoBehaviour
     public GameObject agileRuneShelter;
     public GameObject strengthRuneShelter;
 
-    [Header("Islands")]
+    [Header("Evolution Islands")]
     public GameObject prefabIle1GameObject;
     public GameObject prefabIle2GameObject;
 
-    private List<GameObject> islands = new List<GameObject>();
+
+    [Header("Point Islands")]
+    public GameObject prefabPointIsland1GameObject;
+
+
+    private List<GameObject> evolutionIslands = new List<GameObject>();
+    private List<GameObject> pointsIslands = new List<GameObject>();
+
 
     public void Awake()
     {
-        islands.Add(prefabIle1GameObject);
-        islands.Add(prefabIle2GameObject);
+        evolutionIslands.Add(prefabIle1GameObject);
+        evolutionIslands.Add(prefabIle2GameObject);
 
+        pointsIslands.Add(prefabPointIsland1GameObject);
     }
 
-    public GameObject SpawnIleInstance(Vector3 where, Quaternion direction, Transform parent, bool useAlternativePrefab = false)
+    public GameObject SpawnEvolutionIslandInstance(Vector3 where, Quaternion direction, Transform parent)
     {
         // Randomize islands spawn
-        Utils.Shuffle(islands);
-        return Instantiate(islands[0], where, direction, parent);
-
+        Utils.Shuffle(evolutionIslands);
+        return Instantiate(evolutionIslands[0], where, direction, parent);
     }
 
     public GameObject SpawnRuneShelterInstance(Vector3 where, Quaternion direction, Transform parent, CollectableType myItemType)
@@ -45,8 +52,15 @@ public class PrefabIle : MonoBehaviour
             case CollectableType.GhostEvolution1:
                 return Instantiate(ghostRuneShelter, where, direction, parent);
             default:
-                Debug.Log("Unknown Item type");
+                Debug.Log("Unknown Shelter type");
                 return null;
         }
+    }
+
+    public GameObject SpawnPointIslandInstance(Vector3 where, Quaternion direction, Transform parent)
+    {
+        // Randomize islands spawn
+        Utils.Shuffle(pointsIslands);
+        return Instantiate(pointsIslands[0], where, direction, parent);
     }
 }

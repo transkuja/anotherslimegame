@@ -47,7 +47,7 @@ public class SpawnComponent : MonoBehaviour {
                 mySpawnId = SpawnManager.Instance.RegisterSpawnMonsterLocation(transform, myMonsterType, needSpawn, forceSpawn);
                 break;
             case SpawnType.Iles:
-                mySpawnId = SpawnManager.Instance.RegisterSpawnIleLocation(transform, associatedShelter, needSpawn, forceSpawn);
+                mySpawnId = SpawnManager.Instance.RegisterSpawnEvolutionIslandLocation(transform, associatedShelter, needSpawn, forceSpawn);
                 break;
             default:
                 Debug.Log("Unknowned Spawn Type");
@@ -66,7 +66,7 @@ public class SpawnComponent : MonoBehaviour {
                 SpawnManager.Instance.UnregisterSpawnMonsterLocation(mySpawnId);
                 break;
             case SpawnType.Iles:
-                SpawnManager.Instance.UnregisterSpawnIleLocation(mySpawnId);
+                SpawnManager.Instance.UnregisterSpawnEvolutionIslandLocation(mySpawnId);
                 break;
             default:
                 Debug.Log("Unknowned Spawn Type");

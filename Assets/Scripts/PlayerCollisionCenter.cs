@@ -180,7 +180,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
         switch (GameManager.CurrentGameMode.gameModeType)
         {
             case GameModeType.Escape:
-                typeCollectable = (int)CollectableType.Points; break;
+                typeCollectable = (int)CollectableType.Key; break;
             case GameModeType.Arena:
                 typeCollectable = (int)CollectableType.Points; break;
             default:
@@ -195,13 +195,13 @@ public class PlayerCollisionCenter : MonoBehaviour {
             Vector3[] positions = SpawnManager.GetVector3ArrayOnADividedCircle(transform.position, player.GetComponent<SphereCollider>().bounds.extents.magnitude, numberOfCollectablesToDrop, SpawnManager.Axis.XZ);
             for (int i = 0; i < numberOfCollectablesToDrop; i++)
             {
-                player.UpdateCollectableValue(CollectableType.Points, -Utils.GetDefaultCollectableValue(typeCollectable));
+                player.UpdateCollectableValue((CollectableType)typeCollectable, -Utils.GetDefaultCollectableValue(typeCollectable));
 
                 GameObject go = ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
                 positions[i] + Vector3.up*0.5f,
                 player.transform.rotation,
                 null,
-                CollectableType.Points,
+                (CollectableType)typeCollectable,
                 true);
 
                 go.GetComponent<Collectable>().Disperse(i, (positions[i] - transform.position + Vector3.up*1.5f).normalized);
@@ -240,17 +240,25 @@ public class PlayerCollisionCenter : MonoBehaviour {
         yield return new WaitForSeconds(invicibilityFrame);
         impactedPlayers.Remove(p);
         Physics.IgnoreCollision(p.GetComponent<Collider>(), GetComponent<Collider>(),false);
-        //p.GetComponent<PlayerController>().BrainState = BrainState.Free;
         yield return null;
     }
     public IEnumerator ReactivateCollider()
     {
         yield return new WaitForSeconds(invicibilityFrame);
         onceRepulsion = false;
-        //p.GetComponent<PlayerController>().BrainState = BrainState.Free;
         yield return null;
     }
 
+    void ForcedJump(Vector3 direction, float repulseStrength, Rigidbody target)
+    {
+        if (target.GetComponent<PlayerController>() != null)
+        {
+            PlayerController _pcTarget = target.GetComponent<PlayerController>();
+            _pcTarget.jumpState.nbJumpMade = 0;
+            _pcTarget.PlayerState.OnJumpPressed();
+            _pcTarget.PlayerState.PushPlayer(direction* repulseStrength);
+        }
+    }
 
     private void OnDrawGizmos()
     {
@@ -258,28 +266,4 @@ public class PlayerCollisionCenter : MonoBehaviour {
         Gizmos.DrawSphere(transform.position, 4.0f);
     }
 
-    // c'est ça qui faut faire cadeau 
-    //class ForcedJump
-    //{
-    //    bool forcedJumpInitialized = false;
-    //    Vector3 direction;
-    //}
-    //ForcedJump jump;
-    //AnimatorUpdateMode
-    //if (Jump.forcedJumpInit)
-    //    this.Rb.velocity = direction;
-
-
-    void ForcedJump(Vector3 direction, float repulseStrength, Rigidbody target)
-    {
-        if (target.GetComponent<PlayerController>() != null)
-        {
-            PlayerController _pcTarget = target.GetComponent<PlayerController>();
-            // pour le moment je laisse la state saut géré l'expulsion pour intégrer plus vite
-            //mais à terme il faut le changer. On applique une force. C'est pas un état de saut.
-            _pcTarget.jumpState.nbJumpMade = 0;
-            _pcTarget.PlayerState.OnJumpPressed();
-            _pcTarget.PlayerState.PushPlayer(direction* repulseStrength);
-        }
-    }
 }

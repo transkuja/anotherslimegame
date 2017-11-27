@@ -8,7 +8,6 @@ public class Collectable : MonoBehaviour
     public bool needInitialisation = true;
 
     private Vector3 direction;
-    private int myIndex = 0;
 
     uint movementSpeed = 40;
     private float value;
@@ -40,7 +39,6 @@ public class Collectable : MonoBehaviour
     {
         haveToDisperse = true;
         GetComponentInChildren<SphereCollider>().enabled = false;
-        myIndex = index;
         haveToDisperse = true;
         Value = Utils.GetDefaultCollectableValue((int)type);
         GetComponent<Rigidbody>().AddForce(direction*7.5f, ForceMode.Impulse);

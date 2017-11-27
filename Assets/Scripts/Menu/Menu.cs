@@ -4,8 +4,6 @@ using UnityEngine.UI;
 
 public class Menu : MonoBehaviour {
     // Controls
-    bool playerIndexSet = false;
-    bool isUsingAController = false;
 
     public GameObject playerStart;
     private bool isSceneSet = false;
@@ -16,28 +14,10 @@ public class Menu : MonoBehaviour {
     {
         if (isSceneSet) return;
 
-        //// TODO: externaliser pour le comportement multi
-        //if (!playerIndexSet)
-        //{
-        //    isUsingAController = false;
-        //    for (int i = 0; i < 4; ++i)
-        //    {
-        //        PlayerIndex testPlayerIndex = (PlayerIndex)i;
-        //        GamePadState testState = GamePad.GetState(testPlayerIndex);
-        //        if (testState.IsConnected)
-        //        {
-        //            playerIndexSet = true;
-        //            isUsingAController = true;
-        //        }
-        //    }
-        //}
-
-
         if (Input.anyKey)
         {
             SetScene();
         }
-
     }
 
     public void ToogleCountdownText(bool visible)
