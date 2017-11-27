@@ -35,3 +35,5 @@
 
 [REMI]- Une des clés du joueur 2 apparait en dehors de l'écran
 
+[ANTHONY] - LD extérieur main tower
+[ANTHONY] - Finir LD intérieur main tower (des balcons jusqu'au toit)
