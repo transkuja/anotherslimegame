@@ -6,6 +6,9 @@ using System.Collections.Generic; // For List
 
 public class PlayerCollisionCenter : MonoBehaviour {
 
+    [SerializeField]
+    bool drawGizmos = true;
+
     // PlayerBouncyPhysics
     [SerializeField]
     [Range(10.0f, 2000.0f)]
@@ -262,8 +265,11 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = new Color(0, 1, 0, 0.5f);
-        Gizmos.DrawSphere(transform.position, 4.0f);
+        if (drawGizmos)
+        {
+            Gizmos.color = new Color(0, 1, 0, 0.5f);
+            Gizmos.DrawSphere(transform.position, 4.0f);
+        }
     }
 
 }
