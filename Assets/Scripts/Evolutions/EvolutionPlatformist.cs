@@ -22,6 +22,7 @@ public class EvolutionPlatformist : EvolutionComponent {
     // Cooldown before getting another charge
     float cooldownCharge = 10.0f;
     float timerBeforeCharge = 0.0f;
+    float chargeTime = 0.8f;
 
     float platformLifetime = 3.0f;
     int indexPattern = 0;
@@ -110,6 +111,14 @@ public class EvolutionPlatformist : EvolutionComponent {
         set
         {
             indexPattern = value;
+        }
+    }
+
+    public float ChargeTime
+    {
+        get
+        {
+            return chargeTime;
         }
     }
 

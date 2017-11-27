@@ -241,18 +241,20 @@ public class PlayerController : MonoBehaviour
         // /!\ WARNING: code conflictuel si on combine les évolutions
         if (GetComponent<EvolutionPlatformist>())
         {
+            EvolutionPlatformist platformistComponent = GetComponent<EvolutionPlatformist>();
+
             if (prevState.Triggers.Right < 0.1f && state.Triggers.Right > 0.1f)
                 rightTriggerHasBeenPressed = true;
 
             if (rightTriggerHasBeenPressed && state.Triggers.Right > 0.1f)
                 timerRightTriggerPressed += Time.deltaTime;
 
-            if (timerRightTriggerPressed > 1.5f)
+            if (timerRightTriggerPressed > platformistComponent.ChargeTime)
             {
                 // Show pattern + buttons to swap
                 // Tant qu'on a pas relaché la gachette
                 PlayerState = platformistChargedState;
-                GetComponent<EvolutionPlatformist>().IndexSelection(prevState, state);
+                platformistComponent.IndexSelection(prevState, state);
             }
 
             if (prevState.Triggers.Right > 0.1f && state.Triggers.Right < 0.1f)
@@ -261,14 +263,14 @@ public class PlayerController : MonoBehaviour
 
                 rightTriggerHasBeenPressed = false;
 
-                if (timerRightTriggerPressed > 1.5f)
+                if (timerRightTriggerPressed > platformistComponent.ChargeTime)
                 {
-                    GetComponent<EvolutionPlatformist>().CreatePlatforms();
+                    platformistComponent.CreatePlatforms();
                 }
                 else
                 {
                     //if (GetComponent<EvolutionPlatformist>().TimerPlatform >= 0.0f)
-                    GetComponent<EvolutionPlatformist>().CreatePlatform(state);
+                    platformistComponent.CreatePlatform(state);
 
                 }
 
