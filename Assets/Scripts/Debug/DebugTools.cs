@@ -10,6 +10,9 @@ public class DebugTools : MonoBehaviour {
     [SerializeField]
     Transform debugPanel;
 
+    [SerializeField]
+    Transform teleportPlayerToThisPosition;
+
     private static Player debugPlayerSelected;
 
     private Player debugSpawnedPlayer;
@@ -57,6 +60,7 @@ public class DebugTools : MonoBehaviour {
         debugPanelComponent.AddToDebugPanelInfos("P", "", "Possess a spawned player");
         debugPanelComponent.AddToDebugPanelInfos("LeftAlt", "", "Reload all powers");
         debugPanelComponent.AddToDebugPanelInfos("N", "", "Switch to next player debug info");
+        debugPanelComponent.AddToDebugPanelInfos("T", "", "Teleport the player (transform must be specified)");
 
         debugPanelComponent.AddToDebugPanelInfos("", "", "Add evolution");
         debugPanelComponent.AddToDebugPanelInfos("1", "2", "Strength");
@@ -313,6 +317,17 @@ public class DebugTools : MonoBehaviour {
                     debugPlayerSelected = playersReference[(currentIndex + 1) % playersReference.Count].GetComponent<Player>();
 
                     Debug.Log("Switch to player index: " + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
+                }
+
+                if (Input.GetKeyDown(KeyCode.T))
+                {
+                    if (teleportPlayerToThisPosition == null)
+                    {
+                        Debug.LogWarning("No transform specified for teleportation.");
+                        return;
+                    }
+                    DebugPlayerSelected.transform.position = teleportPlayerToThisPosition.position;
+                    DebugPlayerSelected.transform.rotation = teleportPlayerToThisPosition.rotation;
                 }
 
             }
