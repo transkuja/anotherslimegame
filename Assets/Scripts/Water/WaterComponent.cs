@@ -81,21 +81,22 @@ public class WaterComponent : MonoBehaviour {
                 }
             }
 
-            // TODO ; per camera ? 
-
-            WaterImmersionCamera waterImmersionCamera = other.GetComponent<Player>().cameraReference.transform.GetChild(0).GetComponent<WaterImmersionCamera>();
-            if (waterImmersionCamera)
+            if (other.GetComponent<Player>().cameraReference)
             {
-                if (other.GetComponent<Player>().cameraReference.transform.GetChild(0).position.y < WaterToActivateAtRuntime.transform.position.y)
+                WaterImmersionCamera waterImmersionCamera = other.GetComponent<Player>().cameraReference.transform.GetChild(0).GetComponent<WaterImmersionCamera>();
+                if (waterImmersionCamera)
                 {
-                    waterImmersionCamera.isImmerge = true;
+                    if (other.GetComponent<Player>().cameraReference.transform.GetChild(0).position.y < WaterToActivateAtRuntime.transform.position.y)
+                    {
+                        waterImmersionCamera.isImmerge = true;
+                    }
+                    else
+                    {
+                        waterImmersionCamera.isImmerge = false;
+                    }
                 }
-                else
-                {
-                    waterImmersionCamera.isImmerge = false;
-                }
+
             }
-       
         }
     }
 

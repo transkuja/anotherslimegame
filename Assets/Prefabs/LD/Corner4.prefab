@@ -24,7 +24,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!1 &1814105120947148
 GameObject:
@@ -51,7 +51,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1377889104115910}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -98.7, y: 27.3, z: -16.5}
+  m_LocalPosition: {x: -99.8, y: 21.38, z: -32.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4976314545659768}
@@ -88,7 +88,7 @@ TerrainCollider:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1814105120947148}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: bc6c1a47bc58b4f48a465c62719411ee, type: 2}
   m_Enabled: 1
   m_TerrainData: {fileID: 15600000, guid: 383a6ae83747e6e4faf355b353e6cac2, type: 2}
   m_EnableTreeColliders: 1
