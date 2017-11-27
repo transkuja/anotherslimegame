@@ -29,7 +29,9 @@ public class DashDownState : PlayerState
     }
     public override void OnEnd()
     {
+        if (playerController.IsGrounded) nbDashDownMade = 0;
         base.OnEnd();
+
     }
     public void Levitate()
     {
@@ -44,13 +46,12 @@ public class DashDownState : PlayerState
     // Apply a speed towards the ground
     public void LaunchDash()
     {
-        if (nbDashDownMade < 1)
+        Vector3 downPush = Vector3.down * downDashPower;
+        playerController.Rb.velocity = downPush; // Override current velocity. 
+        timer += Time.deltaTime;
+        if (playerController.IsGrounded || timer > 2)
         {
-            Vector3 downPush = Vector3.down * downDashPower;
-            playerController.Rb.velocity = downPush; // Override current velocity. 
-            timer += Time.deltaTime;
-            if (playerController.IsGrounded || timer > 2)
-                playerController.PlayerState = playerController.freeState;
+            playerController.PlayerState = playerController.freeState;
         }
     }
     public override void HandleGravity()

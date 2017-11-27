@@ -129,8 +129,9 @@ public class PlayerState  {
     {
         if (playerController.dashState.nbDashMade < 1)
         {
-            playerController.dashState.nbDashMade++;
             playerController.PlayerState = playerController.dashState;
+            if ( playerController.jumpState.nbJumpMade > 0) 
+                playerController.dashState.nbDashMade++;
         }
 
     }
@@ -138,8 +139,9 @@ public class PlayerState  {
     {
         if (playerController.downDashState.nbDashDownMade < 1)
         {
-            playerController.downDashState.nbDashDownMade++;
             playerController.PlayerState = playerController.downDashState;
+            if (playerController.jumpState.nbJumpMade > 0)
+                playerController.downDashState.nbDashDownMade++;
         }
     }
     public virtual void PushPlayer(Vector3 force)

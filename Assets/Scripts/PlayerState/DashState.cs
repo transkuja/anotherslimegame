@@ -43,6 +43,7 @@ public class DashState : PlayerState
     public override void OnEnd()
     {
         playerController.isGravityEnabled = true;
+        if (playerController.IsGrounded) nbDashMade = 0;
         base.OnEnd();
     }
 
@@ -53,6 +54,7 @@ public class DashState : PlayerState
         if (dashingTimer <= 0.0f)
         {
             playerController.PlayerState = playerController.freeState;
+ 
         }
     }
    
