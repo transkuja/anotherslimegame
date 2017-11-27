@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 114721393872451352}
   - component: {fileID: 114674218163796342}
   - component: {fileID: 114325865220295370}
+  - component: {fileID: 114790664766698760}
   m_Layer: 0
   m_Name: PlatformistDefault
   m_TagString: Untagged
@@ -107,6 +108,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0bb96e375ff9a143bccb333d3f8a58a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  owner: {fileID: 0}
 --- !u!114 &114674218163796342
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -140,6 +142,7 @@ MonoBehaviour:
   bounceStrength: 50
   isMoving: 0
   movingAxis: {x: 0, y: 2, z: 0}
+  isAWorldAxis: 0
   movingSpeed: 1.5
   movingDistance: 5
   isAPingPongMovement: 1
@@ -168,3 +171,14 @@ MonoBehaviour:
   rotationAngle: 1
   isATeleporter: 0
   teleporterTarget: {fileID: 0}
+--- !u!114 &114790664766698760
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1587574285175958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e571f11189d02804e8dff7bc8679cab9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

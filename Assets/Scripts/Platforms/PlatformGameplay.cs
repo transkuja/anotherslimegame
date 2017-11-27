@@ -455,19 +455,6 @@ public class PlatformGameplay : MonoBehaviour {
         }
     }
 
-    private void OnDestroy()
-    {
-        if (transform.childCount > 0)
-        {
-            for (int i = 0; i < transform.childCount; i++)
-            {
-                Transform tr = transform.GetChild(i);
-                tr.SetParent(null);
-                tr.localScale = Vector3.one;
-            }
-        }
-    }
-
     private void OnDrawGizmos()
     {
         if (drawGizmos)

@@ -143,7 +143,8 @@ public class EvolutionPlatformist : EvolutionComponent {
             GameObject platform = Instantiate(ResourceUtils.Instance.refPrefabPlatform.prefabPlatformistDefault);
             platform.transform.position = transform.position + transform.forward * summonDistance + Vector3.up * summonHeight;
             platform.transform.rotation = transform.rotation;
-            Destroy(platform, platformLifetime);
+            platform.transform.GetComponent<AutoDestroyPlatform>().Init(platformLifetime);
+
             Charges--;
             if (receivedInput.Buttons.LeftShoulder == ButtonState.Pressed)
             {
@@ -171,7 +172,7 @@ public class EvolutionPlatformist : EvolutionComponent {
                     + transform.forward * pattern.summonDistance * (pattern.distanceStep * i + 1) 
                     + Vector3.up * summonHeight * (pattern.heightStep * i + 1);
                 platforms[i].transform.rotation = transform.rotation;
-                Destroy(platforms[i], platformLifetime);
+                platforms[i].transform.GetComponent<AutoDestroyPlatform>().Init(platformLifetime);
 
                 TrappedPlatform trappedComponent = platforms[i].GetComponent<TrappedPlatform>();
                 if (trappedComponent)
