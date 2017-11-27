@@ -2,6 +2,7 @@
 using UnityEngine.SceneManagement;
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class PlayerStart : MonoBehaviour {
 
@@ -30,7 +31,8 @@ public class PlayerStart : MonoBehaviour {
         }
     }
 
-    void Start () {
+    void Start()
+    {
         colorPlayer = new Color[4];
         colorPlayer[0] = Color.red;
         colorPlayer[1] = Color.blue;
@@ -50,6 +52,21 @@ public class PlayerStart : MonoBehaviour {
             InitializePlayersUI();
 
             timeSinceStageIsSet = 0.0f;
+        }
+        int j = 0;
+        for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
+        {
+
+            if( j == i)
+            {
+                GameManager.Instance.PlayerStart.PlayersReference[i].transform.GetChild(3).GetChild(j).gameObject.SetActive(false);
+                j++;
+
+            } else
+            {
+                GameManager.Instance.PlayerStart.PlayersReference[i].transform.GetChild(3).GetChild(i).gameObject.GetComponentInChildren<Text>().text = GameManager.Instance.PlayerStart.PlayersReference[i].name;
+            }
+
         }
     }
 
