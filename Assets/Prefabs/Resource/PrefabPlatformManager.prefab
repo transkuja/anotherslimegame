@@ -55,3 +55,13 @@ MonoBehaviour:
     type: 2}
   prefabPlatformistShowPattern: {fileID: 1115780985942158, guid: 9ff54d0fd980fe849a1abd918f5e414d,
     type: 2}
+  prefabSquarePlatform: {fileID: 1400356523215886, guid: a6bff48cb7f098f45b1350fac624ca65,
+    type: 2}
+  prefabSquarePlatformX2: {fileID: 1100559176071312, guid: c3812b6cbc0f6944985b88d0df55f277,
+    type: 2}
+  prefabCircularPlatform: {fileID: 1078880306565428, guid: 11cf0b1187bb1a84db31c4901bff7ea4,
+    type: 2}
+  prefabCircularPlatformX2: {fileID: 1973821735405146, guid: 0df3c0c1bd24e414d854e4bbc527bc39,
+    type: 2}
+  prefabCrossPlatform: {fileID: 1551826911088464, guid: d0b7889728e011c459ab836059d20444,
+    type: 2}
