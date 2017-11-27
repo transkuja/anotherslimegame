@@ -17,6 +17,11 @@ public class Player : MonoBehaviour {
     Animator anim;
     public bool hasBeenTeleported = false;
 
+    [SerializeField]
+    Vector3[] keysInitialPosition;
+    [SerializeField]
+    Quaternion[] keysInitialRotation;
+
     public Rigidbody Rb
     {
         get
@@ -73,6 +78,15 @@ public class Player : MonoBehaviour {
         }
     }
 
+    void Start()
+    {
+        rb = GetComponent<Rigidbody>();
+        collectables = new int[(int)CollectableType.Size];
+
+        keysInitialPosition = new Vector3[Utils.GetMaxValueForCollectable(CollectableType.Key)];
+        keysInitialRotation = new Quaternion[Utils.GetMaxValueForCollectable(CollectableType.Key)];
+    }
+
     public void UpdateCollectableValue(CollectableType type, int pickedValue)
     {
         collectables[(int)type] = Mathf.Clamp(collectables[(int)type] + pickedValue, 0, Utils.GetMaxValueForCollectable(type));
@@ -85,6 +99,14 @@ public class Player : MonoBehaviour {
             return;
 
         EvolutionCheck(type);
+    }
+
+    public void AddKeyInitialPosition(Transform _tr)
+    {
+        int currentlyHold = collectables[(int)CollectableType.Key];
+
+        keysInitialPosition[currentlyHold - 1] = _tr.position;
+        keysInitialRotation[currentlyHold - 1] = _tr.rotation;
     }
 
     void EvolutionCheck(CollectableType type)
@@ -121,11 +143,6 @@ public class Player : MonoBehaviour {
     private void PermanentEvolution(Evolution evolution)
     {
         GameManager.EvolutionManager.AddEvolutionComponent(gameObject, evolution, true);
-    }
-
-    void Start () {
-        rb = GetComponent<Rigidbody>();
-        collectables = new int[(int)CollectableType.Size];
     }
 
 }
