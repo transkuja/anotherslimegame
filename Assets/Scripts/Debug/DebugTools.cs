@@ -11,7 +11,8 @@ public class DebugTools : MonoBehaviour {
     Transform debugPanel;
 
     [SerializeField]
-    Transform teleportPlayerToThisPosition;
+    List<Transform> teleportPlayerPositionsList;
+    int currentTeleportIndex = 0;
 
     [SerializeField]
     List<GameObject> torchLights;
@@ -326,13 +327,14 @@ public class DebugTools : MonoBehaviour {
 
                 if (Input.GetKeyDown(KeyCode.T))
                 {
-                    if (teleportPlayerToThisPosition == null)
+                    if (teleportPlayerPositionsList == null || teleportPlayerPositionsList.Count == 0)
                     {
                         Debug.LogWarning("No transform specified for teleportation.");
                         return;
                     }
-                    DebugPlayerSelected.transform.position = teleportPlayerToThisPosition.position;
-                    DebugPlayerSelected.transform.rotation = teleportPlayerToThisPosition.rotation;
+                    DebugPlayerSelected.transform.position = teleportPlayerPositionsList[currentTeleportIndex].position;
+                    DebugPlayerSelected.transform.rotation = teleportPlayerPositionsList[currentTeleportIndex].rotation;
+                    currentTeleportIndex = (currentTeleportIndex + 1)% teleportPlayerPositionsList.Count;
                 }
 
                 if (Input.GetKeyDown(KeyCode.L))

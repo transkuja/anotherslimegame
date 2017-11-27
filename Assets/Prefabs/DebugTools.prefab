@@ -42,6 +42,21 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!1 &1714534583825112
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 4984927730214894}
+  m_Layer: 0
+  m_Name: TeleportMainTowerInside
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!4 &4127276997081552
 Transform:
   m_ObjectHideFlags: 1
@@ -53,6 +68,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4382732413695154}
+  - {fileID: 4984927730214894}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -69,6 +85,19 @@ Transform:
   m_Father: {fileID: 4127276997081552}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4984927730214894
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1714534583825112}
+  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: -9968.324, y: 30.96, z: 8.91}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4127276997081552}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!114 &114530602451997462
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -81,7 +110,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   debugPanel: {fileID: 0}
-  teleportPlayerToThisPosition: {fileID: 4382732413695154}
+  teleportPlayerPositionsList:
+  - {fileID: 4382732413695154}
+  - {fileID: 4984927730214894}
   torchLights:
   - {fileID: 1576290915005138, guid: e4807c81a02947441bf03b69cae5c72b, type: 2}
   - {fileID: 1051851071853060, guid: 496320d3603b77846921621265b9004f, type: 2}
