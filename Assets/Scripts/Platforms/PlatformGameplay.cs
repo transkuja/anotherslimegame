@@ -148,6 +148,14 @@ public class PlatformGameplay : MonoBehaviour {
         }
     }
 
+    public float DelayTimer
+    {
+        get
+        {
+            return delayTimer;
+        }
+    }
+
     void Start() {
         platformOriginPosition = transform.position;
         platformOriginRotation = transform.rotation;
@@ -281,10 +289,6 @@ public class PlatformGameplay : MonoBehaviour {
             else
             {
                 delayTimer -= Time.deltaTime;
-
-                // Remi Lerp the emissive color of the platform
-                if (GetComponent<MeshRenderer>())
-                    GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.Lerp(Color.black, Color.red, delayBeforeMovement - delayTimer));
             }
         }
         else
@@ -446,13 +450,6 @@ public class PlatformGameplay : MonoBehaviour {
             hasPlayerJumpedOff = true;
             collision.transform.SetParent(null);
             collision.transform.localScale = Vector3.one;
-
-            if (GetComponent<MeshRenderer>())
-            {
-                // Remi Change to color of the emissive of the plateform
-                delayTimer = delayBeforeMovement;
-                GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.black);
-            }
             isOnPlatform = false;
         }
     }
