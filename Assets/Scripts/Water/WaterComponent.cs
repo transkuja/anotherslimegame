@@ -31,7 +31,7 @@ public class WaterComponent : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<Rigidbody>() != null)
+        if (other.GetComponent<Rigidbody>() != null && other.GetComponent<Player>())
         {
             if (other.transform.GetChild((int)PlayerChildren.WaterEffect).GetComponent<ParticleSystem>())
             {          
@@ -57,8 +57,8 @@ public class WaterComponent : MonoBehaviour {
     }
 
     private void OnTriggerStay(Collider other)
-    {
-        if (other.GetComponent<Rigidbody>() != null)
+    {   
+        if (other.GetComponent<Rigidbody>() != null && other.GetComponent<Player>())
         {
             Rigidbody rigidbody = other.GetComponent<Rigidbody>();
 
@@ -102,7 +102,7 @@ public class WaterComponent : MonoBehaviour {
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.GetComponent<Rigidbody>() != null)
+        if (other.GetComponent<Rigidbody>() != null && other.GetComponent<Player>())
         {
             if (other.transform.GetChild((int)PlayerChildren.WaterEffect).GetComponent<ParticleSystem>())
             {

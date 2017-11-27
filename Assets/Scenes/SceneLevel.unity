@@ -43,7 +43,7 @@ RenderSettings:
 LightmapSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 11
-  m_GIWorkflowMode: 0
+  m_GIWorkflowMode: 1
   m_GISettings:
     serializedVersion: 2
     m_BounceScale: 1
@@ -1223,6 +1223,36 @@ Prefab:
 Transform:
   m_PrefabParentObject: {fileID: 400002, guid: 41acf2d1197496646b09f845aecec7d1, type: 3}
   m_PrefabInternal: {fileID: 80078799}
+--- !u!1 &82519377
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 82519378}
+  m_Layer: 0
+  m_Name: PointsIslands
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &82519378
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 82519377}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 20, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1276106378}
+  - {fileID: 780674755}
+  m_Father: {fileID: 785902793}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &85351567 stripped
 Transform:
   m_PrefabParentObject: {fileID: 4005632489846816, guid: 7446e04f01adc7340a373a703bd3a598,
@@ -5601,7 +5631,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4005632489846816, guid: 7446e04f01adc7340a373a703bd3a598, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -93.25
+      value: -97.8
       objectReference: {fileID: 0}
     - target: {fileID: 4005632489846816, guid: 7446e04f01adc7340a373a703bd3a598, type: 2}
       propertyPath: m_LocalPosition.y
@@ -5609,7 +5639,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4005632489846816, guid: 7446e04f01adc7340a373a703bd3a598, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -18.2
+      value: -36.7
       objectReference: {fileID: 0}
     - target: {fileID: 4005632489846816, guid: 7446e04f01adc7340a373a703bd3a598, type: 2}
       propertyPath: m_LocalRotation.x
@@ -6964,6 +6994,63 @@ Prefab:
 Transform:
   m_PrefabParentObject: {fileID: 400002, guid: 41acf2d1197496646b09f845aecec7d1, type: 3}
   m_PrefabInternal: {fileID: 770162787}
+--- !u!1 &780674754
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 780674755}
+  - component: {fileID: 780674757}
+  - component: {fileID: 780674756}
+  m_Layer: 0
+  m_Name: SpawnPointIsland (2)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &780674755
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 780674754}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 51, y: 0, z: 132}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 82519378}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &780674756
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 780674754}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &780674757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 780674754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4376582f4dcfa048ad48864d527f8be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mySpawnType: 3
+  myMonsterType: 0
+  myItemType: 0
+  shape: 0
+  nbItems: 1
+  needSpawn: 1
+  forceSpawn: 0
+  circleRadius: 1
+  associatedShelter: {fileID: 509769040}
 --- !u!1001 &784055946
 Prefab:
   m_ObjectHideFlags: 0
@@ -7072,6 +7159,7 @@ Transform:
   - {fileID: 2141117261}
   - {fileID: 732459568}
   - {fileID: 1348083847}
+  - {fileID: 82519378}
   m_Father: {fileID: 1908038060}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7428,7 +7516,7 @@ Prefab:
     - target: {fileID: 224253512408005366, guid: ebd48e33ce16a7c498ce0f86ed08310f,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 1829664555950164, guid: ebd48e33ce16a7c498ce0f86ed08310f, type: 2}
       propertyPath: m_IsActive
@@ -11130,6 +11218,63 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac0b09e7857660247b1477e93731de29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1276106377
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 1276106378}
+  - component: {fileID: 1276106380}
+  - component: {fileID: 1276106379}
+  m_Layer: 0
+  m_Name: SpawnPointIsland
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1276106378
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1276106377}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -136.4, y: 0, z: -60.8}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 82519378}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &1276106379
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1276106377}
+  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1276106380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1276106377}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4376582f4dcfa048ad48864d527f8be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mySpawnType: 3
+  myMonsterType: 0
+  myItemType: 0
+  shape: 0
+  nbItems: 1
+  needSpawn: 1
+  forceSpawn: 0
+  circleRadius: 1
+  associatedShelter: {fileID: 509769040}
 --- !u!1001 &1276819967
 Prefab:
   m_ObjectHideFlags: 0
@@ -14382,6 +14527,12 @@ Prefab:
       propertyPath: strengthRuneShelter
       value: 
       objectReference: {fileID: 114922157}
+    - target: {fileID: 114143720737523708, guid: 6cf1e79ce70197244808839d78cb0532,
+        type: 2}
+      propertyPath: prefabPointIsland1GameObject
+      value: 
+      objectReference: {fileID: 1345602158224994, guid: bf8dfd5822b2f794d89f5c7c97c7c616,
+        type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6cf1e79ce70197244808839d78cb0532, type: 2}
   m_IsPrefabParent: 0
