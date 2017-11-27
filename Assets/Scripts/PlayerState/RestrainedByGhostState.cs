@@ -38,7 +38,7 @@ public class RestrainedByGhostState : PlayerState
         //    }
         //}
         
-        playerController.GetComponent<Rigidbody>().velocity = playerController.transform.forward * playerController.stats.Get(Stats.StatType.GROUND_SPEED) + Vector3.down;
+        playerController.Player.Rb.velocity = playerController.transform.forward * playerController.stats.Get(Stats.StatType.GROUND_SPEED) + Vector3.up * playerController.Player.Rb.velocity.y;
     }
 
     public override void OnJumpPressed()
