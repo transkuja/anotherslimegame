@@ -31,8 +31,10 @@ public class SpawnComponent : MonoBehaviour {
 	void Start () {
 
         // TODO: shitty tool to see where we put spawners (need a tool?)
-        Destroy(GetComponent<MeshRenderer>());
-        Destroy(GetComponent<MeshFilter>());
+        if(GetComponent<MeshRenderer>())
+            Destroy(GetComponent<MeshRenderer>());
+        if (GetComponent<MeshFilter>())
+            Destroy(GetComponent<MeshFilter>());
 
         switch (mySpawnType) {
             case SpawnType.Item:
