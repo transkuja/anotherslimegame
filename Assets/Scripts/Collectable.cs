@@ -29,7 +29,7 @@ public class Collectable : MonoBehaviour
         }
     }
 
-    public void Init(int jessaipa)
+    public void Init()
     {
         Value = Utils.GetDefaultCollectableValue((int)type);
         needInitialisation = false;
@@ -49,7 +49,7 @@ public class Collectable : MonoBehaviour
     private void FixedUpdate()
     {
         if (needInitialisation)
-            Init(0);
+            Init();
         if (!haveToDisperse && isAttracted)
             Attract();
     }

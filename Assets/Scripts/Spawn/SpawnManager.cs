@@ -169,7 +169,7 @@ public class SpawnManager : MonoBehaviour{
             instance.dicSpawnItemsLocations[idLocation].transform.rotation,
             instance.dicSpawnItemsLocations[idLocation].transform,
             myItemType
-        ).GetComponent<Collectable>().Init(0);
+        ).GetComponent<Collectable>().Init();
     }
 
     private void SpawnCircleShapedItems(int idLocation, int nbItems, CollectableType myItemType, bool forceSpawn = false, float circleRadius = 1.0f)
@@ -193,7 +193,7 @@ public class SpawnManager : MonoBehaviour{
                 instance.dicSpawnItemsLocations[idLocation].transform.rotation,
                 instance.dicSpawnItemsLocations[idLocation].transform,
                 myItemType
-            ).GetComponent<Collectable>().Init(0);
+            ).GetComponent<Collectable>().Init();
         }
     }
 
@@ -218,7 +218,7 @@ public class SpawnManager : MonoBehaviour{
                 instance.dicSpawnItemsLocations[idLocation].transform.rotation,
                 instance.dicSpawnItemsLocations[idLocation].transform,
                 myItemType
-            ).GetComponent<Collectable>().Init(0);
+            ).GetComponent<Collectable>().Init();
         }
     }
 
@@ -249,7 +249,7 @@ public class SpawnManager : MonoBehaviour{
                     instance.dicSpawnItemsLocations[idLocation].transform.rotation,
                     instance.dicSpawnItemsLocations[idLocation].transform,
                     myItemType
-                ).GetComponent<Collectable>().Init(0);
+                ).GetComponent<Collectable>().Init();
 
             }
         }
@@ -394,7 +394,7 @@ public class SpawnManager : MonoBehaviour{
             evolutionSpawn.rotation,
             evolutionSpawn,
             evolutionType
-        ).GetComponent<Collectable>().Init(0);
+        ).GetComponent<Collectable>().Init();
 
         InitTeleporter initTeleporterComponent = associatedShelter.GetComponentInChildren<InitTeleporter>();
         initTeleporterComponent.evolutionType = evolutionType;

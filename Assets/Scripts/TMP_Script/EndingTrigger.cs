@@ -20,7 +20,7 @@ public class EndingTrigger : MonoBehaviour {
                     other.GetComponent<Player>().KeysInitialRotation[i], 
                     null, 
                     CollectableType.Key)
-                .GetComponent<Collectable>().Init(0);
+                .GetComponent<Collectable>().Init();
             }
 
             GameManager.Instance.ScoreScreenReference.rank++;

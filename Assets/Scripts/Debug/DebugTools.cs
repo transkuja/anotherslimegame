@@ -152,37 +152,37 @@ public class DebugTools : MonoBehaviour {
                 if (Input.GetKeyDown(KeyCode.Alpha1))
                 {
                     ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
-                        DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.Points).GetComponent<Collectable>().Init(0);
+                        DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.Points).GetComponent<Collectable>().Init();
                     Debug.Log("Pop some " + CollectableType.Points + " on the ground!");
                 }
                 if (Input.GetKeyDown(KeyCode.Alpha3))
                 {
                     ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
-                        DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.Key).GetComponent<Collectable>().Init(0);
+                        DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.Key).GetComponent<Collectable>().Init();
                     Debug.Log("Pop some " + CollectableType.Key + " on the ground!");
                 }
                 if (Input.GetKeyDown(KeyCode.Alpha4))
                 {
                     ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
-                        DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.StrengthEvolution1).GetComponent<Collectable>().Init(0);
+                        DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.StrengthEvolution1).GetComponent<Collectable>().Init();
                     Debug.Log("Pop some " + CollectableType.StrengthEvolution1 + " on the ground!");
                 }
                 if (Input.GetKeyDown(KeyCode.Alpha5))
                 {
                     ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
-                        DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.PlatformistEvolution1).GetComponent<Collectable>().Init(0);
+                        DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.PlatformistEvolution1).GetComponent<Collectable>().Init();
                     Debug.Log("Pop some " + CollectableType.PlatformistEvolution1 + " on the ground!");
                 }
                 if (Input.GetKeyDown(KeyCode.Alpha6))
                 {
                     ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
-                        DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.AgileEvolution1).GetComponent<Collectable>().Init(0);
+                        DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.AgileEvolution1).GetComponent<Collectable>().Init();
                     Debug.Log("Pop some " + CollectableType.AgileEvolution1 + " on the ground!");
                 }
                 if (Input.GetKeyDown(KeyCode.Alpha7))
                 {
                     ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
-                        DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.GhostEvolution1).GetComponent<Collectable>().Init(0);
+                        DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.GhostEvolution1).GetComponent<Collectable>().Init();
                     Debug.Log("Pop some " + CollectableType.GhostEvolution1 + " on the ground!");
                 }
 
