@@ -22,12 +22,10 @@ public class WalljumpState : PlayerState
         if (jm = playerController.GetComponent<JumpManager>())
             jm.Jump(JumpManager.JumpEnum.Basic);
         playerController.Rb.AddForce(pushDirection.normalized * pushForce);
-        Debug.Log("Start walljump");
         //playerController.Rb.velocity = ;
     }
     public override void OnEnd()
     {
-        Debug.Log("Exit");
         base.OnEnd();
     }
     public void PushedFromWall()
@@ -54,7 +52,7 @@ public class WalljumpState : PlayerState
                     for (int i = 0; i < collTab.Length; i++)
                     {
                         // il faudra vérifier quel est le mur le plus proche. 
-                        Vector3 contact = collTab[i].ClosestPoint(playerController.transform.position);
+                        Vector3 contact = collTab[i].ClosestPointOnBounds(playerController.transform.position);
                         Vector3 normal = (playerController.transform.position - contact).normalized;
                         if (Vector3.Angle(Vector3.up, normal) > 65 || normal == Vector3.zero) // a partir de quel moment le mur est trop incliné, (marche dessus plutot que sauter)
                         {

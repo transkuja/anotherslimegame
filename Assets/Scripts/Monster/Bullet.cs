@@ -9,9 +9,10 @@ public class Bullet : MonoBehaviour {
     bool isLaunched;
     float bulletDistance;
     float timerDist;
-    public void Init()
+    public void Init(GameObject launcher)
     {
         isLaunched = false;
+        Physics.IgnoreCollision(launcher.GetComponent<Collider>(), this.GetComponent<Collider>());
     }
     public void Lauch(Vector3 _direction,float _speed,float _bulletDistance)
     {
@@ -37,11 +38,30 @@ public class Bullet : MonoBehaviour {
     private void OnTriggerEnter(Collider other)
     {
         PlayerCollisionCenter playerCollision = other.GetComponent<PlayerCollisionCenter>();
+        PlayerController playerController = other.GetComponent<PlayerController>();
         if (playerCollision != null)
         {
-            playerCollision.DamagePlayer(other.GetComponent<Player>());
-            playerCollision.ExpulsePlayer(other.ClosestPoint(transform.position), other.GetComponent<Rigidbody>(), 50);
+            if (playerCollision.GetComponent<EvolutionStrength>()!=null && playerController.PlayerState == playerController.dashState)
+            {
+                direction = (transform.position - other.ClosestPointOnBounds(transform.position)).normalized;
+                if (direction == Vector3.zero)
+                    direction = other.transform.forward;
+                speed *= 2;
+                timerDist = 0;
+                Physics.IgnoreCollision(other, this.GetComponent<Collider>());
+            }
+            else
+            {
+                playerCollision.DamagePlayer(other.GetComponent<Player>());
+                playerCollision.ExpulsePlayer(other.ClosestPoint(transform.position), other.GetComponent<Rigidbody>(), 50);
+                Destroy(this.gameObject);
+            }
         }
-        Destroy(this.gameObject);
+        
+    }
+    private Vector3 Bounce(Vector3 objectPosition, Vector3 impactPoint)
+    {
+        Vector3 velocity = objectPosition- impactPoint;
+        return velocity.normalized;
     }
 }

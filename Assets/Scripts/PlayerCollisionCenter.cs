@@ -183,7 +183,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
         switch (GameManager.CurrentGameMode.gameModeType)
         {
             case GameModeType.Escape:
-                typeCollectable = (int)CollectableType.Key; break;
+                typeCollectable = (int)CollectableType.Points; break;
             case GameModeType.Arena:
                 typeCollectable = (int)CollectableType.Points; break;
             default:
