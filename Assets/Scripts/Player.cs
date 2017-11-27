@@ -78,6 +78,22 @@ public class Player : MonoBehaviour {
         }
     }
 
+    public Vector3[] KeysInitialPosition
+    {
+        get
+        {
+            return keysInitialPosition;
+        }
+    }
+
+    public Quaternion[] KeysInitialRotation
+    {
+        get
+        {
+            return keysInitialRotation;
+        }
+    }
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();

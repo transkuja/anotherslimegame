@@ -13,6 +13,16 @@ public class EndingTrigger : MonoBehaviour {
             // Making the player to stop in the air 
             other.GetComponent<Rigidbody>().Sleep(); // Quelque part là, il y a un sleep
 
+            for (int i = 0; i < Utils.GetMaxValueForCollectable(CollectableType.Key); i++)
+            {
+                ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
+                    other.GetComponent<Player>().KeysInitialPosition[i], 
+                    other.GetComponent<Player>().KeysInitialRotation[i], 
+                    null, 
+                    CollectableType.Key)
+                .GetComponent<Collectable>().Init(0);
+            }
+
             GameManager.Instance.ScoreScreenReference.rank++;
             GameManager.Instance.ScoreScreenReference.RefreshScores(other.GetComponent<Player>());
         }
