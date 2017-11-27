@@ -8,6 +8,9 @@ public class DashDownState : PlayerState
     float timer;
     float maxDashChargeDelay;
     float downDashPower;
+
+    public int nbDashDownMade = 0;
+        
     public DashDownState(PlayerController _playerController) : base(_playerController)
     {
     }
@@ -41,11 +44,14 @@ public class DashDownState : PlayerState
     // Apply a speed towards the ground
     public void LaunchDash()
     {
-        Vector3 downPush = Vector3.down * downDashPower;
-        playerController.Rb.velocity = downPush; // Override current velocity. 
-        timer += Time.deltaTime;
-        if (playerController.IsGrounded|| timer >2)
-            playerController.PlayerState = playerController.freeState;
+        if (nbDashDownMade < 1)
+        {
+            Vector3 downPush = Vector3.down * downDashPower;
+            playerController.Rb.velocity = downPush; // Override current velocity. 
+            timer += Time.deltaTime;
+            if (playerController.IsGrounded || timer > 2)
+                playerController.PlayerState = playerController.freeState;
+        }
     }
     public override void HandleGravity()
     {

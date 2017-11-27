@@ -96,6 +96,8 @@ public class PlayerController : MonoBehaviour
             if (value == true)
             {
                 jumpState.nbJumpMade = 0;
+                downDashState.nbDashDownMade = 0;
+                dashState.nbDashMade = 0;
                 if (GetComponent<JumpManager>() != null)
                     GetComponent<JumpManager>().Stop();
                 GetComponent<Player>().Anim.SetBool("isExpulsed", false);

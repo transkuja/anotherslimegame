@@ -23,6 +23,8 @@ public class DashState : PlayerState
     [Range(0.0f, 40.0f)]
     float impactPropagationThreshold;
 
+    public int nbDashMade = 0;
+
     public DashState(PlayerController _playerController) : base(_playerController)
     {
         maxCoolDown = 0.5f;
@@ -45,7 +47,7 @@ public class DashState : PlayerState
     }
 
     public virtual void OnDashState()
-    {
+{
         playerController.Player.Rb.velocity = playerController.transform.forward * dashingVelocity;
         dashingTimer -= Time.fixedDeltaTime;
         if (dashingTimer <= 0.0f)

@@ -127,11 +127,20 @@ public class PlayerState  {
     }
     public virtual void OnDashPressed()
     {
-        playerController.PlayerState = playerController.dashState;
+        if (playerController.dashState.nbDashMade < 1)
+        {
+            playerController.dashState.nbDashMade++;
+            playerController.PlayerState = playerController.dashState;
+        }
+
     }
     public virtual void OnDownDashPressed()
     {
-        playerController.PlayerState = playerController.downDashState; ;
+        if (playerController.downDashState.nbDashDownMade < 1)
+        {
+            playerController.downDashState.nbDashDownMade++;
+            playerController.PlayerState = playerController.downDashState;
+        }
     }
     public virtual void PushPlayer(Vector3 force)
     {
