@@ -65,7 +65,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1765821310005578}
   m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -10064.082, y: 29.94739, z: -12.3}
+  m_LocalPosition: {x: -10064.082, y: 39.15, z: 2.29}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4253791964526458}
@@ -143,6 +143,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 1839196443154138, guid: d0e2a23a1fef99e42b7fe6364c8999cb,
     type: 2}
-  bulletPerRafales: 1
-  chargeDelay: 0.5
-  rafalesChargeDelay: 0.5
+  bulletPerRafales: 3
+  chargeDelay: 0.3
+  rafalesChargeDelay: 1
+  bulletDistance: 50
+  bulletSpeed: 20

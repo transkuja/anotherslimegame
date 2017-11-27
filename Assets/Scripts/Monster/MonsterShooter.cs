@@ -17,8 +17,6 @@ public class MonsterShooter : MonoBehaviour {
     [SerializeField] private float bulletDistance;
     [SerializeField] private float bulletSpeed;
 
-
-
     private float timer;
     private float curBullet;
     Transform bulletSpawn;
@@ -45,6 +43,7 @@ public class MonsterShooter : MonoBehaviour {
         {
             timer = 0;
             CurAction = Shoot;
+            MonsterActivation();
         }
     }
   
@@ -69,20 +68,40 @@ public class MonsterShooter : MonoBehaviour {
         bullet.Init();
         bullet.Lauch(transform.forward, bulletSpeed, bulletDistance);
     }
+
+    void MonsterActivation()
+    {
+        bool playerIsNear = false;
+        for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
+        {
+            float distance = Vector3.Distance(GameManager.Instance.PlayerStart.PlayersReference[i].transform.position, transform.position);
+            if (distance < 100)
+            {
+                playerIsNear = true;
+                break;
+            }
+           
+        }
+        if (playerIsNear)
+            OnBegin();
+        else
+            CurAction = null;
+    }
+
     // Use this for initialization
     private void Awake()
     {
         bulletSpawn = transform.Find("BulletSpawn");
     }
     void Start () {
-        OnBegin();
-		
 	}
 	
 	// Update is called once per frame
 	void Update () {
-
+        
         if (CurAction!=null)
             CurAction();
+        else
+            MonsterActivation();
     }
 }
