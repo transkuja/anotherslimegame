@@ -100,7 +100,8 @@ public class Collectable : MonoBehaviour
         if (Vector3.Distance(playerTarget.transform.position, transform.position) < GetComponent<BoxCollider>().bounds.extents.magnitude)
         {
             playerTarget.UpdateCollectableValue(GetComponent<Collectable>().type, (int)GetComponent<Collectable>().Value);
-            playerTarget.AddKeyInitialPosition(transform);
+            if (GetComponent<Collectable>().type == CollectableType.Key)
+                playerTarget.AddKeyInitialPosition(transform);
             Destroy(this.gameObject);
         }
     }
