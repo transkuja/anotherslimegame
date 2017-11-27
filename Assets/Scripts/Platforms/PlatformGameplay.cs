@@ -281,6 +281,7 @@ public class PlatformGameplay : MonoBehaviour {
                     player.transform.localScale = Vector3.one;
                     player.transform.position = teleporterTarget.position;
                     player.transform.rotation = teleporterTarget.rotation;
+                    player.hasBeenTeleported = true;
                     isOnPlatform = false;
                 }
                 if (delayBeforeMovement > 0.0f)

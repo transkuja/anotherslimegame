@@ -8,6 +8,13 @@ public class InitTeleporter : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision)
     {
+        // Arrived at destination
+        if (collision.transform.GetComponent<Player>() != null && collision.transform.GetComponent<Player>().hasBeenTeleported)
+        {
+            collision.transform.GetComponent<Player>().hasBeenTeleported = false;
+            return;
+        }
+
         // TODO; dev here the day we want multiple evolution component behaviour
         if (Utils.CheckEvolutionAndCollectableTypeCompatibility(evolutionType, collision.transform.GetComponent<EvolutionComponent>()))
         {

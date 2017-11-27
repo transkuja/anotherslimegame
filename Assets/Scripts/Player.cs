@@ -15,6 +15,7 @@ public class Player : MonoBehaviour {
     public GameObject cameraReference;
 
     Animator anim;
+    public bool hasBeenTeleported = false;
 
     public Rigidbody Rb
     {
