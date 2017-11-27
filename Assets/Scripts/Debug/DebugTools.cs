@@ -13,11 +13,15 @@ public class DebugTools : MonoBehaviour {
     [SerializeField]
     Transform teleportPlayerToThisPosition;
 
+    [SerializeField]
+    List<GameObject> torchLights;
+
     private static Player debugPlayerSelected;
 
     private Player debugSpawnedPlayer;
     bool possessASpawnedPlayer = false;
     bool hasUpdatedDebugPanel = false;
+    bool lightsEnabled = false;
 
     public static Player DebugPlayerSelected
     {
@@ -61,6 +65,7 @@ public class DebugTools : MonoBehaviour {
         debugPanelComponent.AddToDebugPanelInfos("LeftAlt", "", "Reload all powers");
         debugPanelComponent.AddToDebugPanelInfos("N", "", "Switch to next player debug info");
         debugPanelComponent.AddToDebugPanelInfos("T", "", "Teleport the player (transform must be specified)");
+        debugPanelComponent.AddToDebugPanelInfos("L", "", "Enable torchlights on player");
 
         debugPanelComponent.AddToDebugPanelInfos("", "", "Add evolution");
         debugPanelComponent.AddToDebugPanelInfos("1", "2", "Strength");
@@ -328,6 +333,33 @@ public class DebugTools : MonoBehaviour {
                     }
                     DebugPlayerSelected.transform.position = teleportPlayerToThisPosition.position;
                     DebugPlayerSelected.transform.rotation = teleportPlayerToThisPosition.rotation;
+                }
+
+                if (Input.GetKeyDown(KeyCode.L))
+                {
+                    if (torchLights == null || torchLights.Count == 0)
+                    {
+                        Debug.LogWarning("No torchlight prefabs specified");
+                        return;
+                    }
+
+                    if (!lightsEnabled)
+                    {
+                        foreach (GameObject torch in torchLights)
+                        {
+                            GameObject go = Instantiate(torch, DebugPlayerSelected.transform);
+                            go.transform.localPosition = torch.transform.localPosition;
+                            go.transform.localRotation = torch.transform.localRotation;
+                        }
+                    }
+                    else
+                    {
+                        Light[] lights = DebugPlayerSelected.GetComponentsInChildren<Light>();
+                        for (int i = 0; i < lights.Length; i++)
+                            Destroy(lights[i].gameObject);
+                    }
+
+                    lightsEnabled = !lightsEnabled;
                 }
 
             }

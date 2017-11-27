@@ -82,3 +82,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   debugPanel: {fileID: 0}
   teleportPlayerToThisPosition: {fileID: 4382732413695154}
+  torchLights:
+  - {fileID: 1576290915005138, guid: e4807c81a02947441bf03b69cae5c72b, type: 2}
+  - {fileID: 1051851071853060, guid: 496320d3603b77846921621265b9004f, type: 2}
+  - {fileID: 1340373696085358, guid: 5ef3c6a87008a544980e171ddc2f6b9d, type: 2}

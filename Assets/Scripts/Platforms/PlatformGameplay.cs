@@ -282,7 +282,7 @@ public class PlatformGameplay : MonoBehaviour {
             {
                 delayTimer -= Time.deltaTime;
 
-                // Remi Lerp the emmisive color of the plateform
+                // Remi Lerp the emissive color of the platform
                 GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.Lerp(Color.black, Color.red, delayBeforeMovement - delayTimer));
             }
         }
