@@ -156,8 +156,10 @@ public class PlayerStart : MonoBehaviour {
                 cameraPlayerReferences[i].transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().Follow = go.transform;
                 cameraPlayerReferences[i].transform.GetChild(1).GetComponent<DynamicJoystickCameraController>().playerIndex = (PlayerIndex)i;
             }
+      
             go.GetComponent<Player>().cameraReference = cameraPlayerReferences[i];
             cameraPlayerReferences[i].SetActive(true);
+  
         }
     }
 

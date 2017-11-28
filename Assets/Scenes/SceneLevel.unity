@@ -565,56 +565,6 @@ Prefab:
 Transform:
   m_PrefabParentObject: {fileID: 400002, guid: 41acf2d1197496646b09f845aecec7d1, type: 3}
   m_PrefabInternal: {fileID: 27015265}
---- !u!1001 &32881436
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4869119871776472, guid: 1a356938c0b646e47b7d2a298301c1e7, type: 2}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4869119871776472, guid: 1a356938c0b646e47b7d2a298301c1e7, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4869119871776472, guid: 1a356938c0b646e47b7d2a298301c1e7, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4869119871776472, guid: 1a356938c0b646e47b7d2a298301c1e7, type: 2}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4869119871776472, guid: 1a356938c0b646e47b7d2a298301c1e7, type: 2}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4869119871776472, guid: 1a356938c0b646e47b7d2a298301c1e7, type: 2}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4869119871776472, guid: 1a356938c0b646e47b7d2a298301c1e7, type: 2}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4869119871776472, guid: 1a356938c0b646e47b7d2a298301c1e7, type: 2}
-      propertyPath: m_RootOrder
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 4327391418833904, guid: 1a356938c0b646e47b7d2a298301c1e7, type: 2}
-      propertyPath: m_LocalPosition.y
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4327391418833904, guid: 1a356938c0b646e47b7d2a298301c1e7, type: 2}
-      propertyPath: m_LocalPosition.z
-      value: 1.5
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 1a356938c0b646e47b7d2a298301c1e7, type: 2}
-  m_IsPrefabParent: 0
 --- !u!1001 &36912830
 Prefab:
   m_ObjectHideFlags: 0
@@ -1295,7 +1245,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 82519377}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 20, z: 0}
+  m_LocalPosition: {x: 0, y: 20.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1276106378}
@@ -1794,7 +1744,7 @@ MonoBehaviour:
     FieldOfView: 40
     OrthographicSize: 10
     NearClipPlane: 0.1
-    FarClipPlane: 5000
+    FarClipPlane: 1000
     Dutch: 0
   m_ComponentOwner: {fileID: 2125004095}
 --- !u!1001 &213125821
@@ -2872,7 +2822,7 @@ MonoBehaviour:
     FieldOfView: 85
     OrthographicSize: 10
     NearClipPlane: 0.1
-    FarClipPlane: 5000
+    FarClipPlane: 1000
     Dutch: 0
   m_ComponentOwner: {fileID: 1691935791}
 --- !u!1 &300728640
@@ -4385,7 +4335,7 @@ MonoBehaviour:
     FieldOfView: 40
     OrthographicSize: 10
     NearClipPlane: 0.1
-    FarClipPlane: 5000
+    FarClipPlane: 1000
     Dutch: 0
   m_ComponentOwner: {fileID: 1119120147}
 --- !u!1001 &527477101
@@ -4590,7 +4540,7 @@ MonoBehaviour:
     FieldOfView: 40
     OrthographicSize: 10
     NearClipPlane: 0.1
-    FarClipPlane: 5000
+    FarClipPlane: 1000
     Dutch: 0
   m_ComponentOwner: {fileID: 766888014}
 --- !u!1001 &534750513
@@ -5465,7 +5415,7 @@ MonoBehaviour:
     FieldOfView: 40
     OrthographicSize: 10
     NearClipPlane: 0.1
-    FarClipPlane: 5000
+    FarClipPlane: 1000
     Dutch: 0
   m_ComponentOwner: {fileID: 669596299}
 --- !u!1001 &651661816
@@ -5886,7 +5836,7 @@ MonoBehaviour:
     FieldOfView: 40
     OrthographicSize: 10
     NearClipPlane: 0.1
-    FarClipPlane: 5000
+    FarClipPlane: 1000
     Dutch: 0
   m_ComponentOwner: {fileID: 1555345365}
 --- !u!1001 &681227063
@@ -7619,7 +7569,7 @@ Prefab:
     - target: {fileID: 224253512408005366, guid: ebd48e33ce16a7c498ce0f86ed08310f,
         type: 2}
       propertyPath: m_SizeDelta.y
-      value: 0
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 1829664555950164, guid: ebd48e33ce16a7c498ce0f86ed08310f, type: 2}
       propertyPath: m_IsActive
@@ -9907,7 +9857,7 @@ MonoBehaviour:
     FieldOfView: 90
     OrthographicSize: 10
     NearClipPlane: 0.1
-    FarClipPlane: 5000
+    FarClipPlane: 1000
     Dutch: 0
   m_ComponentOwner: {fileID: 2006728108}
 --- !u!1 &1164402210
@@ -15029,7 +14979,7 @@ MonoBehaviour:
     FieldOfView: 90
     OrthographicSize: 10
     NearClipPlane: 0.1
-    FarClipPlane: 5000
+    FarClipPlane: 1000
     Dutch: 0
   m_ComponentOwner: {fileID: 53267751}
 --- !u!1001 &1927539153
@@ -15682,7 +15632,7 @@ MonoBehaviour:
     FieldOfView: 40
     OrthographicSize: 10
     NearClipPlane: 0.1
-    FarClipPlane: 5000
+    FarClipPlane: 1000
     Dutch: 0
   m_ComponentOwner: {fileID: 110069132}
 --- !u!1 &1979848833
@@ -16943,6 +16893,10 @@ Prefab:
     - target: {fileID: 4694473088803278, guid: 91ebcee17c0f9c247ab29346acd39051, type: 2}
       propertyPath: m_RootOrder
       value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1658057747531766, guid: 91ebcee17c0f9c247ab29346acd39051, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 91ebcee17c0f9c247ab29346acd39051, type: 2}
