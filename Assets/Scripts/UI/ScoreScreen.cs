@@ -39,7 +39,7 @@ public class ScoreScreen : MonoBehaviour {
 
     public void RefreshScores(Player player)
     {
-        float time = GameManager.Instance.PlayerStart.timeSinceStageIsSet;
+        float time = Time.timeSinceLevelLoad;
         int minutes = Mathf.FloorToInt(time / 60);
         int seconds = (int)time % 60;
      

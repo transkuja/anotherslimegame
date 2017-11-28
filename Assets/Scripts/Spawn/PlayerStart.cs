@@ -13,7 +13,6 @@ public class PlayerStart : MonoBehaviour {
 
     List<GameObject> playersReference = new List<GameObject>();
     Color[] colorPlayer;
-    public float timeSinceStageIsSet = 0.0f;
 
     public List<GameObject> PlayersReference
     {
@@ -50,8 +49,6 @@ public class PlayerStart : MonoBehaviour {
         {
             InitializeScorePanel();
             InitializePlayersUI();
-
-            timeSinceStageIsSet = 0.0f;
         }
         int j = 0;
         for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
@@ -173,12 +170,5 @@ public class PlayerStart : MonoBehaviour {
     void InitializePlayersUI()
     {
         GameManager.Instance.PlayerUI.Init();
-    }
-
-    public void FixedUpdate()
-    {
-        timeSinceStageIsSet += Time.fixedDeltaTime;
-        // TODO rethink this.
-        if (timeSinceStageIsSet > 1000000) timeSinceStageIsSet = 0.0f;
     }
 }
