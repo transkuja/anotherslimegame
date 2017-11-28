@@ -1,4 +1,4 @@
-﻿using XInputDotNetPure;
+﻿using UWPAndXInput;
 using UnityEngine;
 using UnityEngine.UI;
 

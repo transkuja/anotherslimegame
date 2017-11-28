@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using XInputDotNetPure;
+using UWPAndXInput;
 
 public class EvolutionGhost : EvolutionComponent
 {

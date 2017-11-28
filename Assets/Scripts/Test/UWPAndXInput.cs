@@ -22,7 +22,7 @@ namespace UWPAndXInput
                 state = FillGamePadStateStruct(Gamepad.Gamepads[(int)playerIndex].GetCurrentReading());
             }
             catch {
-            state.IsConnected = false;
+                state.IsConnected = false;
             }
 #else
             state = FillGamePadStateStruct(XInputDotNetPure.GamePad.GetState((XInputDotNetPure.PlayerIndex)playerIndex));

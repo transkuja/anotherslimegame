@@ -1,4 +1,4 @@
-﻿using XInputDotNetPure;
+﻿using UWPAndXInput;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 using System.Collections.Generic;
