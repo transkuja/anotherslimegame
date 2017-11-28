@@ -409,15 +409,10 @@ public class SpawnManager : MonoBehaviour{
                     associatedShelter.GetComponentInChildren<PlatformGameplay>().teleporterTarget = tmp.gameplayRoomStarter.transform;
 
                     // Bind the target to return to origin
-
                     tmp.gameplayRoomStarter.GetComponent<PlatformGameplay>().teleporterTarget = associatedShelter.GetComponentInChildren<PlatformGameplay>().transform;
                     tmp.gameplayRoomStarter.GetComponent<InitTeleporter>().evolutionType = evolutionType;
                 }
             } 
-            else
-            {
-                Debug.LogWarning("Tampax not fully defined -> spawn manager");
-            }
         }
     }
 

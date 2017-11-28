@@ -50,20 +50,19 @@ public class PlayerStart : MonoBehaviour {
             InitializeScorePanel();
             InitializePlayersUI();
         }
-        int j = 0;
+
+        // Pour chaque joueur
         for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
         {
-
-            if( j == i)
+            // Pour chaque canvas
+            for (int j = 0; j < GameManager.Instance.PlayerStart.PlayersReference.Count; j++)
             {
-                GameManager.Instance.PlayerStart.PlayersReference[i].transform.GetChild(3).GetChild(j).gameObject.SetActive(false);
-                j++;
-
-            } else
-            {
-                GameManager.Instance.PlayerStart.PlayersReference[i].transform.GetChild(3).GetChild(i).gameObject.GetComponentInChildren<Text>().text = GameManager.Instance.PlayerStart.PlayersReference[i].name;
+                if (j != i)
+                {
+                    GameManager.Instance.PlayerStart.PlayersReference[i].transform.GetChild((int)PlayerChildren.Canvas).GetChild(j).gameObject.GetComponentInChildren<Text>().text = GameManager.Instance.PlayerStart.PlayersReference[i].name;
+                    GameManager.Instance.PlayerStart.PlayersReference[i].transform.GetChild((int)PlayerChildren.Canvas).GetChild(j).gameObject.SetActive(true);
+                }
             }
-
         }
     }
 
@@ -143,7 +142,7 @@ public class PlayerStart : MonoBehaviour {
             cameraPlayerReferences[0].transform.GetChild(0).GetComponent<Camera>().rect = new Rect(0, 0.5f, 0.5f, 0.5f);
             cameraPlayerReferences[1].transform.GetChild(0).GetComponent<Camera>().rect = new Rect(0.5f, 0.5f, 0.5f, 0.5f);
         }
-        
+
         for (int i = 0; i < activePlayersAtStart; i++)
         {
             GameObject go = PlayersReference[i];
@@ -153,7 +152,7 @@ public class PlayerStart : MonoBehaviour {
             }
             else
             {
-                cameraPlayerReferences[i].transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().LookAt = go.transform;
+                cameraPlayerReferences[i].transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().LookAt = go.transform.GetChild((int)PlayerChildren.CameraTarget);
                 cameraPlayerReferences[i].transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().Follow = go.transform;
                 cameraPlayerReferences[i].transform.GetChild(1).GetComponent<DynamicJoystickCameraController>().playerIndex = (PlayerIndex)i;
             }
