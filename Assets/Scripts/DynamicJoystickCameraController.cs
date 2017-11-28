@@ -17,14 +17,14 @@ public class DynamicJoystickCameraController : MonoBehaviour {
     // Use this for initialization
     void Start () {
         freelookCamera = GetComponent<Cinemachine.CinemachineFreeLook>();
-        startHighOffset = ((CinemachineComposer)freelookCamera.GetRig(0).GetCinemachineComponent(CinemachineCore.Stage.Aim)).m_TrackedObjectOffset;
-        startMidOffset = ((CinemachineComposer)freelookCamera.GetRig(1).GetCinemachineComponent(CinemachineCore.Stage.Aim)).m_TrackedObjectOffset;
-        startLowOffset = ((CinemachineComposer)freelookCamera.GetRig(2).GetCinemachineComponent(CinemachineCore.Stage.Aim)).m_TrackedObjectOffset;
+        startHighOffset = (freelookCamera.GetRig(0).GetCinemachineComponent<CinemachineComposer>()).m_TrackedObjectOffset;
+        startMidOffset = (freelookCamera.GetRig(1).GetCinemachineComponent<CinemachineComposer>()).m_TrackedObjectOffset;
+        startLowOffset = (freelookCamera.GetRig(2).GetCinemachineComponent<CinemachineComposer>()).m_TrackedObjectOffset;
     }
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
 
         if (GameManager.Instance.PlayerStart.PlayersReference[(int)playerIndex].GetComponent<PlayerController>().IsUsingAController)
         {
@@ -71,6 +71,6 @@ public class DynamicJoystickCameraController : MonoBehaviour {
             }
 
         } 
-#endif
+//#endif
     }
 }

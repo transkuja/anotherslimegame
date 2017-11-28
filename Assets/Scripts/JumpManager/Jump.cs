@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEditor;
 
 /* Inspiré de "Math for Game Programmers: Building a Better Jump"
  *  https://www.youtube.com/watch?v=hG9SzQxaCm8                  */
