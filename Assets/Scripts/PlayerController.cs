@@ -10,7 +10,6 @@ using Cinemachine;
 
 public class PlayerController : MonoBehaviour
 {
-
     // Component : 
     private PlayerState playerState;
     private JumpManager jumpManager;
@@ -38,6 +37,9 @@ public class PlayerController : MonoBehaviour
     // plateformisttmp
     bool rightTriggerHasBeenPressed = false;
     float timerRightTriggerPressed = 0.0f;
+
+    // Deformer
+    private MeshDeformer deformer;
 
     // All PlayerStateCreation once and for all.
     public JumpState jumpState;
@@ -307,6 +309,7 @@ public class PlayerController : MonoBehaviour
     {
         Player = GetComponent<Player>();
         Rb = GetComponent<Rigidbody>();
+        deformer = GetComponentInChildren<MeshDeformer>();
         if (Player == null)
             Debug.Log("Player should not be null");
         PlayerState = freeState;
@@ -347,12 +350,6 @@ public class PlayerController : MonoBehaviour
 
         PlayerState.HandleGravity();
 
-        //if (PlayerState == expulsioh)
-        //{
-        //    setFloat (isgrounded)
-
-        //}
-
         if (isUsingAController)
         {
             // TODO: optimize?
@@ -375,13 +372,13 @@ public class PlayerController : MonoBehaviour
                 if (prevState.Buttons.Start == ButtonState.Released && state.Buttons.Start == ButtonState.Pressed)
                     GameManager.ChangeState(GameState.Paused);
         }
-        else
-        {
-            // keyboardStuff
-            if (SceneManager.GetActiveScene() != SceneManager.GetSceneByBuildIndex(0))
-                if (Input.GetKeyDown(KeyCode.Escape))
-                    GameManager.ChangeState(GameState.Paused);
-        }
+        //else
+        //{
+        //    // keyboardStuff
+        //    if (SceneManager.GetActiveScene() != SceneManager.GetSceneByBuildIndex(0))
+        //        if (Input.GetKeyDown(KeyCode.Escape))
+        //            GameManager.ChangeState(GameState.Paused);
+        //}
         // handle stateFunction
         if (PlayerState != null)
             PlayerState.OnFixedUpdate();
@@ -404,7 +401,7 @@ public class PlayerController : MonoBehaviour
         PlayerState.CollisionEnter(collision);
         float force = 20f;
         //float forceOffset = 0.1f;
-        MeshDeformer deformer = GetComponentInChildren<MeshDeformer>();
+     
         if (deformer)
         {
             float vel = collision.relativeVelocity.magnitude / collision.contacts.Length;
@@ -491,14 +488,13 @@ public class PlayerController : MonoBehaviour
     }
     public void HandleBouncing()
     {
-        
+       
         Ray ray = new Ray(transform.position, Vector3.down);
         RaycastHit hit;
         if (Physics.SphereCast(ray, 1.0f, out hit))
         {
             float force = 2000f;
             float forceOffset = 0.1f;
-            MeshDeformer deformer = GetComponentInChildren<MeshDeformer>();
             if (deformer)
             {
                 Vector3 point = hit.point;

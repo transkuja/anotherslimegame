@@ -19,14 +19,9 @@ public class WaterComponent : MonoBehaviour {
 
     public GameObject WaterParticleSystemToInstantiate;
 
-
-
-
     public void Start()
     {
         WaterToActivateAtRuntime.SetActive(true);
-
-
     }
 
     private void OnTriggerEnter(Collider other)
