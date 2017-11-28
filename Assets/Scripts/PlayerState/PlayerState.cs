@@ -1,4 +1,4 @@
-﻿using XInputDotNetPure;
+﻿using UWPAndXInput;
 using UnityEngine;
 using System;
 using System.Collections;
@@ -96,6 +96,7 @@ public class PlayerState  {
         {
             initialVelocity /= 2;
         }
+
         return initialVelocity;
     }
     public virtual void Move(Vector3 initialVelocity)
@@ -104,6 +105,7 @@ public class PlayerState  {
         camVectorForward.Normalize();
 
         Vector3 velocityVec = initialVelocity.z * camVectorForward + Vector3.up * playerController.Player.Rb.velocity.y;
+        // MENU peter a cause de cette condition tu sais pourquoi c'est la antho ? sinon je peux faire une exception pour le menu
         if (playerController.IsGrounded)
             velocityVec += initialVelocity.x * playerController.Player.cameraReference.transform.GetChild(0).right;
 

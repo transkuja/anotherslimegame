@@ -1,4 +1,4 @@
-﻿using XInputDotNetPure;
+﻿using UWPAndXInput;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 using System.Collections.Generic;
@@ -84,7 +84,9 @@ public class PlayerStart : MonoBehaviour {
             GamePadState testState = GamePad.GetState(testPlayerIndex);
             if (testState.IsConnected)
             {
+#if UNITY_EDITOR
                 Debug.Log(string.Format("GamePad found {0}", testPlayerIndex));
+#endif
                 activePlayersAtStart++;
             }
         }

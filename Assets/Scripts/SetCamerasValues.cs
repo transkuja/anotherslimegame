@@ -64,34 +64,34 @@ public class SetCamerasValues : MonoBehaviour {
 
                 //Aim
                 CinemachineComposer cp;
-                cp = ((CinemachineComposer)(cam.GetRig(0).GetCinemachineComponent(CinemachineCore.Stage.Aim)));
+                cp = ((cam.GetRig(0).GetCinemachineComponent<CinemachineComposer>()));
                 cp.m_TrackedObjectOffset = new Vector3(0f, 2.0f, 0f);
                 cp.m_ScreenX = .5f;
                 cp.m_ScreenY = .55f;
 
-                cp = ((CinemachineComposer)(cam.GetRig(1).GetCinemachineComponent(CinemachineCore.Stage.Aim)));
+                cp = ((cam.GetRig(1).GetCinemachineComponent<CinemachineComposer>()));
                 cp.m_TrackedObjectOffset = new Vector3(0f,.5f, 0f);
                 cp.m_ScreenX = .5f;
                 cp.m_ScreenY = .55f;
 
-                cp = ((CinemachineComposer)(cam.GetRig(2).GetCinemachineComponent(CinemachineCore.Stage.Aim)));
+                cp = ((cam.GetRig(2).GetCinemachineComponent<CinemachineComposer>()));
                 cp.m_TrackedObjectOffset = new Vector3(0f, 3.0f, 0f);
                 cp.m_ScreenX = .5f;
                 cp.m_ScreenY = .6f;
 
                 //Body
                 CinemachineTransposer tr;
-                tr = ((CinemachineTransposer)(cam.GetRig(0).GetCinemachineComponent(CinemachineCore.Stage.Body)));
+                tr = ((cam.GetRig(0).GetCinemachineComponent<CinemachineTransposer>()));
                 tr.m_XDamping = .2f;
                 tr.m_YDamping = .2f;
                 tr.m_ZDamping = .2f;
 
-                tr = ((CinemachineTransposer)(cam.GetRig(1).GetCinemachineComponent(CinemachineCore.Stage.Body)));
+                tr = ((cam.GetRig(1).GetCinemachineComponent<CinemachineTransposer>()));
                 tr.m_XDamping = .2f;
                 tr.m_YDamping = .2f;
                 tr.m_ZDamping = .2f;
 
-                tr = ((CinemachineTransposer)(cam.GetRig(2).GetCinemachineComponent(CinemachineCore.Stage.Body)));
+                tr = ((cam.GetRig(2).GetCinemachineComponent<CinemachineTransposer>()));
                 tr.m_XDamping = .2f;
                 tr.m_YDamping = .2f;
                 tr.m_ZDamping = .2f;
