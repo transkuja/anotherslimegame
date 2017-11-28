@@ -163,7 +163,7 @@ namespace UWPAndXInput
 
         public static GamePadState GetState(PlayerIndex playerIndex, GamePadDeadZone deadZone)
         {
-            Debug.Log("WARNING: GetState(Playerindex, GamePadDeadZone) not yet supported for UWP");
+            Debug.LogWarning("WARNING: GetState(Playerindex, GamePadDeadZone) not yet supported for UWP");
             GamePadState empty = new GamePadState();
             empty.IsConnected = false;
 #if WINDOWS_UWP
