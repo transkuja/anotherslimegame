@@ -17,8 +17,8 @@ namespace UWPAndXInput
         public static GamePadState GetState(PlayerIndex playerIndex)
         {
             GamePadState state = new GamePadState();
+
 #if WINDOWS_UWP
-            Debug.Log("state");
             try {
                 state = FillGamePadStateStruct(Gamepad.Gamepads[(int)playerIndex].GetCurrentReading());
             }
@@ -56,11 +56,26 @@ namespace UWPAndXInput
 
             state.Triggers.Left = (float)_state.LeftTrigger;
             state.Triggers.Right = (float)_state.RightTrigger;
-            state.ThumbSticks.Left.X = (float)_state.LeftThumbstickX;
-            state.ThumbSticks.Left.Y = (float)_state.LeftThumbstickY;
-            state.ThumbSticks.Right.X = (float)_state.RightThumbstickX;
-            state.ThumbSticks.Right.Y = (float)_state.RightThumbstickY;
 
+            if((float)_state.LeftThumbstickX > 0.19f || (float)_state.LeftThumbstickX < -0.19f)
+                state.ThumbSticks.Left.X = (float)_state.LeftThumbstickX;
+            else
+                state.ThumbSticks.Left.X = 0.0f;
+
+             if((float)_state.LeftThumbstickY > 0.19f || (float)_state.LeftThumbstickY < -0.19f)
+                state.ThumbSticks.Left.Y = (float)_state.LeftThumbstickY;
+            else
+                state.ThumbSticks.Left.Y = 0.0f;
+            if((float)_state.RightThumbstickX > 0.19f || (float)_state.RightThumbstickX < -0.19f)
+                state.ThumbSticks.Right.X = (float)_state.RightThumbstickX;
+            else
+                state.ThumbSticks.Right.X = 0.0f;
+
+            if((float)_state.RightThumbstickY > 0.19f || (float)_state.RightThumbstickY < -0.19f)
+                state.ThumbSticks.Right.Y = (float)_state.RightThumbstickY;
+            else 
+                state.ThumbSticks.Right.Y = 0.0f;
+			
             switch(_state.Buttons)
             {
                 case GamepadButtons.A:

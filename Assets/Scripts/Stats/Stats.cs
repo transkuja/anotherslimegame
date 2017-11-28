@@ -98,14 +98,18 @@ public class Stats  {
             buffList = new List<StatBuff>();
         buffList.Add(buff);
         UpdateStat(buff.StatType);
+#if UNITY_EDITOR
         Debug.Log("Buff Added");
+#endif
     }
     public void RemoveBuff(StatBuff buff)
     {
         StatType stat = buff.StatType;
         buffList.Remove(buff);
         UpdateStat(stat);
+#if UNITY_EDITOR
         Debug.Log("Buff Removed");
+#endif
     }
     private void UpdateStat(StatType stat)
     {

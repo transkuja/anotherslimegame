@@ -96,6 +96,7 @@ public class PlayerState  {
         {
             initialVelocity /= 2;
         }
+
         return initialVelocity;
     }
     public virtual void Move(Vector3 initialVelocity)
