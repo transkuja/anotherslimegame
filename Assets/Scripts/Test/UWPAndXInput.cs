@@ -16,8 +16,9 @@ namespace UWPAndXInput
 
         public static GamePadState GetState(PlayerIndex playerIndex)
         {
-            GamePadState state;
+            GamePadState state = new GamePadState();
 #if WINDOWS_UWP
+            Debug.Log("state");
             try {
                 state = FillGamePadStateStruct(Gamepad.Gamepads[(int)playerIndex].GetCurrentReading());
             }
@@ -35,15 +36,17 @@ namespace UWPAndXInput
         {
             //To Complete
 
-            GamePadState state;
+            GamePadState state = new GamePadState();
 
             state.Buttons.A = ButtonState.Released;
             state.Buttons.B = ButtonState.Released;
             state.Buttons.X = ButtonState.Released;
             state.Buttons.Y = ButtonState.Released;
-            state.Buttons.DPad.Down = ButtonState.Released;
-            state.Buttons.DPad.Right = ButtonState.Released;
-            state.Buttons.DPad.Up = ButtonState.Released;
+
+            state.DPad.Down = ButtonState.Released;
+            state.DPad.Right = ButtonState.Released;
+            state.DPad.Up = ButtonState.Released;
+
             state.Buttons.LeftShoulder = ButtonState.Released;
             state.Buttons.LeftStick = ButtonState.Released;
             state.Buttons.RightShoulder = ButtonState.Released;
@@ -51,12 +54,12 @@ namespace UWPAndXInput
             state.Buttons.Back  = ButtonState.Released;
             state.Buttons.Start = ButtonState.Released;
 
-            state.Triggers.Left = _state.LeftTrigger;
-            state.Triggers.Right = _state.RightTrigger;
-            state.ThumbSticks.Left.X = _state.LeftThumbstickX;
-            state.ThumbSticks.Left.Y = _state.LeftThumbstickY;
-            state.ThumbSticks.Right.X = _state.RightThumbstickX;
-            state.ThumbSticks.Right.Y = _state.RightThumbstickY;
+            state.Triggers.Left = (float)_state.LeftTrigger;
+            state.Triggers.Right = (float)_state.RightTrigger;
+            state.ThumbSticks.Left.X = (float)_state.LeftThumbstickX;
+            state.ThumbSticks.Left.Y = (float)_state.LeftThumbstickY;
+            state.ThumbSticks.Right.X = (float)_state.RightThumbstickX;
+            state.ThumbSticks.Right.Y = (float)_state.RightThumbstickY;
 
             switch(_state.Buttons)
             {
@@ -73,16 +76,16 @@ namespace UWPAndXInput
                     state.Buttons.Y = ButtonState.Pressed;
                     break;
                 case GamepadButtons.DPadDown :
-                    state.Buttons.DPad.Down = ButtonState.Pressed;
+                    state.DPad.Down = ButtonState.Pressed;
                     break;
                 case GamepadButtons.DPadLeft :
-                    state.Buttons.DPad.Left = ButtonState.Pressed;
+                    state.DPad.Left = ButtonState.Pressed;
                     break;
                 case GamepadButtons.DPadRight :
-                    state.Buttons.DPad.Right = ButtonState.Pressed;
+                    state.DPad.Right = ButtonState.Pressed;
                     break;
                 case GamepadButtons.DPadUp :
-                    state.Buttons.DPad.Up = ButtonState.Pressed;
+                    state.DPad.Up = ButtonState.Pressed;
                     break;
                 case GamepadButtons.LeftShoulder :
                     state.Buttons.LeftShoulder = ButtonState.Pressed;
@@ -116,33 +119,6 @@ namespace UWPAndXInput
             }
         
             state.IsConnected = true;
-
-        /*
-            state.Buttons.Back = (ButtonState)_state.Buttons.Back;
-            state.Buttons.Start = (ButtonState)_state.Buttons.Start;
-            state.Buttons.Guide = (ButtonState)_state.Buttons.Guide;
-
-            state.Buttons.LeftShoulder = (ButtonState)_state.Buttons.LeftShoulder;
-            state.Buttons.RightShoulder = (ButtonState)_state.Buttons.RightShoulder;
-
-            state.Buttons.LeftStick = (ButtonState)_state.Buttons.LeftStick;
-            state.Buttons.RightStick = (ButtonState)_state.Buttons.RightStick;
-
-            state.DPad.Down = (ButtonState)_state.DPad.Down;
-            state.DPad.Up = (ButtonState)_state.DPad.Up;
-            state.DPad.Left = (ButtonState)_state.DPad.Left;
-            state.DPad.Right = (ButtonState)_state.DPad.Right;
-
-            state.Triggers.Left = _state.Triggers.Left;
-            state.Triggers.Right = _state.Triggers.Right;
-
-            state.ThumbSticks.Left.X = _state.ThumbSticks.Left.X;
-            state.ThumbSticks.Left.Y = _state.ThumbSticks.Left.Y;
-            state.ThumbSticks.Right.X = _state.ThumbSticks.Right.X;
-            state.ThumbSticks.Right.Y = _state.ThumbSticks.Right.Y;
-
-            state.IsConnected = _state.IsConnected;
-            state.PacketNumber = _state.PacketNumber;*/
 
             return state;
         }
@@ -188,8 +164,10 @@ namespace UWPAndXInput
         public static GamePadState GetState(PlayerIndex playerIndex, GamePadDeadZone deadZone)
         {
             Debug.Log("WARNING: GetState(Playerindex, GamePadDeadZone) not yet supported for UWP");
+            GamePadState empty = new GamePadState();
+            empty.IsConnected = false;
 #if WINDOWS_UWP
-            return null;
+            return empty;
 #else
             return FillGamePadStateStruct(XInputDotNetPure.GamePad.GetState((XInputDotNetPure.PlayerIndex)playerIndex, (XInputDotNetPure.GamePadDeadZone)deadZone));
 #endif
@@ -198,8 +176,10 @@ namespace UWPAndXInput
         public static void SetVibration(PlayerIndex playerIndex, float leftMotor, float rightMotor)
         {
 #if WINDOWS_UWP
-            Gamepad.Gamepads[(int)playerIndex].Vibration.LeftMotor = leftMotor;
-            Gamepad.Gamepads[(int)playerIndex].Vibration.RightMotor = rightMotor;
+            GamepadVibration vibration = new GamepadVibration();
+            vibration.LeftMotor = leftMotor;
+            vibration.RightMotor = rightMotor;
+            Gamepad.Gamepads[(int)playerIndex].Vibration = vibration;
 #else
             XInputDotNetPure.GamePad.SetVibration((XInputDotNetPure.PlayerIndex)playerIndex, leftMotor, rightMotor);
 #endif
