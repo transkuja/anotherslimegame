@@ -120,7 +120,6 @@ public class Collectable : MonoBehaviour
     public IEnumerator ReactivateCollider()
     {
         yield return new WaitForSeconds(2.0f);
-        GetComponentInChildren<SphereCollider>().enabled = true;
         haveToDisperse = false;
         yield return null;
     }
