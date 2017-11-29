@@ -7,9 +7,10 @@ using UnityEngine.UI;
 public class DebugPanel : MonoBehaviour {
     enum DebugPanelChildren { EvolutionsState, CollectablesState, PlayerInfo, Infos };
 
-    Transform evolutions;
-    Transform collectables;
-    Transform playerInfo;
+    public Transform evolutions;
+    public Transform collectables;
+    public Transform playerInfo;
+    public Transform helpPanel;
     Text evolutionsText;
     Text collectablesText;
     Text playerInfoText;
@@ -19,6 +20,8 @@ public class DebugPanel : MonoBehaviour {
         evolutions = transform.GetChild((int)DebugPanelChildren.EvolutionsState);
         collectables = transform.GetChild((int)DebugPanelChildren.CollectablesState);
         playerInfo = transform.GetChild((int)DebugPanelChildren.PlayerInfo);
+        helpPanel = transform.GetChild((int)DebugPanelChildren.Infos);
+
         evolutionsText = evolutions.GetComponent<Text>();
         collectablesText = collectables.GetComponent<Text>();
         playerInfoText = playerInfo.GetComponent<Text>();
@@ -50,9 +53,9 @@ public class DebugPanel : MonoBehaviour {
         Player player = DebugTools.DebugPlayerSelected;
         evolutionsText.text = "";
         evolutionsText.text += Powers.Platformist + ": " + ((player.GetComponent<EvolutionPlatformist>() != null) ? ((player.GetComponent<EvolutionPlatformist>().Timer == 0.0f) ? "Active" : player.GetComponent<EvolutionPlatformist>().Timer.ToString("0.0") + "s") : "Inactive") + "\n";
-        evolutionsText.text += Powers.Strength + ": " + ((player.GetComponent<EvolutionStrength>() != null) ? ((player.GetComponent<EvolutionStrength>().Timer == 0.0f) ? "Active" : player.GetComponent<EvolutionPlatformist>().Timer.ToString("0.0") + "s") : "Inactive") + "\n";
-        evolutionsText.text += Powers.Agile + ": " + ((player.GetComponent<EvolutionAgile>() != null) ? ((player.GetComponent<EvolutionAgile>().Timer == 0.0f) ? "Active" : player.GetComponent<EvolutionPlatformist>().Timer.ToString("0.0") + "s") : "Inactive") + "\n";
-        evolutionsText.text += Powers.Ghost + ": " + ((player.GetComponent<EvolutionGhost>() != null) ? player.GetComponent<EvolutionGhost>().Timer.ToString("0.0") + "s" : "Inactive") + "\n";
+        evolutionsText.text += Powers.Strength + ": " + ((player.GetComponent<EvolutionStrength>() != null) ? ((player.GetComponent<EvolutionStrength>().Timer == 0.0f) ? "Active" : player.GetComponent<EvolutionStrength>().Timer.ToString("0.0") + "s") : "Inactive") + "\n";
+        evolutionsText.text += Powers.Agile + ": " + ((player.GetComponent<EvolutionAgile>() != null) ? ((player.GetComponent<EvolutionAgile>().Timer == 0.0f) ? "Active" : player.GetComponent<EvolutionAgile>().Timer.ToString("0.0") + "s") : "Inactive") + "\n";
+        evolutionsText.text += Powers.Ghost + ": " + ((player.GetComponent<EvolutionGhost>() != null) ? ((player.GetComponent<EvolutionGhost>().Timer == 0.0f) ? "Active" : player.GetComponent<EvolutionGhost>().Timer.ToString("0.0") + "s") : "Inactive") + "\n";
     }
 
     void UpdateCollectableText()

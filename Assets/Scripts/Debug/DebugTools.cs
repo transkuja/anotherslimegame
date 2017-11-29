@@ -4,7 +4,6 @@ using UnityEngine;
 using UWPAndXInput;
 
 public class DebugTools : MonoBehaviour {
-
     private static bool isDebugModeActive = false;
 
     [SerializeField]
@@ -23,6 +22,10 @@ public class DebugTools : MonoBehaviour {
     bool possessASpawnedPlayer = false;
     bool hasUpdatedDebugPanel = false;
     bool lightsEnabled = false;
+
+    bool hasReleasedHelpButton = false;
+    float timerShowHelp = 5.0f;
+    float currentTimerShowHelp = 0.0f;
 
     public static Player DebugPlayerSelected
     {
@@ -58,6 +61,7 @@ public class DebugTools : MonoBehaviour {
         debugPanelComponent.ResetInfoText();
 
         debugPanelComponent.AddToDebugPanelInfos("Ctrl", "RShift", "Activation/Deactivation");
+        debugPanelComponent.AddToDebugPanelInfos("U", "I", "Show debug UI");
 
         debugPanelComponent.AddToDebugPanelInfos("0", "", "Reset player");
         debugPanelComponent.AddToDebugPanelInfos("9", "", "Respawn player");
@@ -196,7 +200,7 @@ public class DebugTools : MonoBehaviour {
                     if (DebugPlayerSelected.GetComponent<EvolutionStrength>()) Destroy(DebugPlayerSelected.GetComponent<EvolutionStrength>());
                     if (DebugPlayerSelected.GetComponent<EvolutionAgile>()) Destroy(DebugPlayerSelected.GetComponent<EvolutionAgile>());
                     if (DebugPlayerSelected.GetComponent<EvolutionPlatformist>()) Destroy(DebugPlayerSelected.GetComponent<EvolutionPlatformist>());
-                       // TODO: add ghost evolution
+                    // TODO: add ghost evolution
                     DebugPlayerSelected.Rb.velocity = Vector3.zero;
                     Debug.Log("Reset current player! " + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
                 }
@@ -268,7 +272,7 @@ public class DebugTools : MonoBehaviour {
                     else
                     {
                         PlayerController playerControllerSpwn = debugSpawnedPlayer.GetComponent<PlayerController>();
-                        playerControllerSpwn.DEBUG_hasBeenSpawnedFromTool = true; 
+                        playerControllerSpwn.DEBUG_hasBeenSpawnedFromTool = true;
                         playerControllerSpwn.PlayerIndex = (PlayerIndex)5;
 
                         GameObject tmpCamRef = DebugPlayerSelected.cameraReference;
@@ -334,7 +338,7 @@ public class DebugTools : MonoBehaviour {
                     }
                     DebugPlayerSelected.transform.position = teleportPlayerPositionsList[currentTeleportIndex].position;
                     DebugPlayerSelected.transform.rotation = teleportPlayerPositionsList[currentTeleportIndex].rotation;
-                    currentTeleportIndex = (currentTeleportIndex + 1)% teleportPlayerPositionsList.Count;
+                    currentTeleportIndex = (currentTeleportIndex + 1) % teleportPlayerPositionsList.Count;
                 }
 
                 if (Input.GetKeyDown(KeyCode.L))
@@ -364,6 +368,36 @@ public class DebugTools : MonoBehaviour {
                     lightsEnabled = !lightsEnabled;
                 }
 
+                if (Input.GetKey(KeyCode.U)
+                    && Input.GetKeyDown(KeyCode.I))
+                {
+                    bool changeState = !debugPanel.GetComponent<DebugPanel>().evolutions.gameObject.activeInHierarchy;
+
+                    debugPanel.GetComponent<DebugPanel>().evolutions.gameObject.SetActive(changeState);
+                    debugPanel.GetComponent<DebugPanel>().collectables.gameObject.SetActive(changeState);
+                    debugPanel.GetComponent<DebugPanel>().playerInfo.gameObject.SetActive(changeState);
+                }
+
+                if (Input.GetKey(KeyCode.H))
+                {
+                    debugPanel.GetComponent<DebugPanel>().helpPanel.gameObject.SetActive(true);
+                }
+
+                if (Input.GetKeyUp(KeyCode.H))
+                {
+                    hasReleasedHelpButton = true;
+                }
+            }
+        }
+
+        if (hasReleasedHelpButton)
+        {
+            currentTimerShowHelp += Time.deltaTime;
+            if (currentTimerShowHelp > timerShowHelp)
+            {
+                debugPanel.GetComponent<DebugPanel>().helpPanel.gameObject.SetActive(false);
+                hasReleasedHelpButton = false;
+                currentTimerShowHelp = 0.0f;
             }
         }
         
