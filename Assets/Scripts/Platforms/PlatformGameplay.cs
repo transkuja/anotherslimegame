@@ -45,7 +45,9 @@ public class PlatformGameplay : MonoBehaviour {
     [Tooltip("The platform will return to its original position when the player jumps on it")]
     public bool backToOriginOnPlayerJumpOn = false;
     [Tooltip("The delay before the movement starts")]
-    public float delayBeforeMovement = 0.0f;
+    public float delayBeforeMovementStarts = 0.0f;
+    [Tooltip("The delay before the movement starts again")]
+    public float delayBetweenMovements = 0.0f;
 
     [System.Serializable]
     public class Rotation
@@ -189,7 +191,7 @@ public class PlatformGameplay : MonoBehaviour {
         }
         lerpOriginPosition = transform.position;
         lerpNewPosition = transform.position + movingDistance * ((isAWorldAxis) ? movingAxis : (transform.rotation * movingAxis));
-        delayTimer = delayBeforeMovement;
+        delayTimer = delayBetweenMovements;
         if (GetComponent<Ground>() == null && tag != "Ground")
         {
             Debug.LogWarning("There's nothing indicating that the platform is part of the ground. Adding Ground component.");
@@ -242,31 +244,38 @@ public class PlatformGameplay : MonoBehaviour {
         }
 
         // Movement process
-        if (delayTimer < 0.0f)
+        if (delayBeforeMovementStarts < 0.0f)
         {
-            transform.position = Vector3.Lerp(lerpOriginPosition, lerpNewPosition, moveLerpValue);
-            moveLerpValue += Time.deltaTime * movingSpeed * ((!isInPong) ? 1 : -1);
-            if ((Vector3.Distance(transform.position, lerpNewPosition) < 0.1f && !isInPong)
-                || (Vector3.Distance(transform.position, lerpOriginPosition) < 0.1f && isInPong))
+            if (delayTimer < 0.0f)
             {
-                hasPlatformReachedDestination = true;
-                hasJumpAgainWhenDestReached = false;
-                isInPong = !isInPong;
-                if (delayBeforeMovement > 0.0f)
-                    delayTimer = delayBeforeMovement;
-                moveLerpValue = (isInPong) ? 1.0f : 0.0f;
+                transform.position = Vector3.Lerp(lerpOriginPosition, lerpNewPosition, moveLerpValue);
+                moveLerpValue += Time.deltaTime * movingSpeed * ((!isInPong) ? 1 : -1);
+                if ((Vector3.Distance(transform.position, lerpNewPosition) < 0.1f && !isInPong)
+                    || (Vector3.Distance(transform.position, lerpOriginPosition) < 0.1f && isInPong))
+                {
+                    hasPlatformReachedDestination = true;
+                    hasJumpAgainWhenDestReached = false;
+                    isInPong = !isInPong;
+                    if (delayBetweenMovements > 0.0f)
+                        delayTimer = delayBetweenMovements;
+                    moveLerpValue = (isInPong) ? 1.0f : 0.0f;
 
-                // If no pong behaviour is specified, do not reset hasPlayerJumpedOn to ping pong indefinitely after activation
-                if (!isInPong && (backToOriginOnPlayerExit || backToOriginOnPlayerJumpOn))
-                    hasPlayerJumpedOn = false;
+                    // If no pong behaviour is specified, do not reset hasPlayerJumpedOn to ping pong indefinitely after activation
+                    if (!isInPong && (backToOriginOnPlayerExit || backToOriginOnPlayerJumpOn))
+                        hasPlayerJumpedOn = false;
+                }
+                else
+                    hasPlatformReachedDestination = false;
+
             }
             else
-                hasPlatformReachedDestination = false;
-
+            {
+                delayTimer -= Time.deltaTime;
+            }
         }
         else
         {
-            delayTimer -= Time.deltaTime;
+            delayBeforeMovementStarts -= Time.deltaTime;
         }
     }
 
@@ -286,8 +295,8 @@ public class PlatformGameplay : MonoBehaviour {
                     player.hasBeenTeleported = true;
                     isOnPlatform = false;
                 }
-                if (delayBeforeMovement > 0.0f)
-                    delayTimer = delayBeforeMovement;
+                if (delayBetweenMovements > 0.0f)
+                    delayTimer = delayBetweenMovements;
             }
             else
             {
@@ -295,7 +304,7 @@ public class PlatformGameplay : MonoBehaviour {
             }
         }
         else
-            delayTimer = delayBeforeMovement;
+            delayTimer = delayBetweenMovements;
     }
 
     void RotationProcess()
@@ -309,7 +318,7 @@ public class PlatformGameplay : MonoBehaviour {
                 Quaternion beforeRotation = transform.rotation;
                 transform.RotateAround((newRotationCenterTr != null) ? newRotationCenterTr.position : platformOriginPosition + newRotationCenter, baseRotation.rotateAxis, Time.deltaTime * baseRotation.rotateSpeed);
                 if (preserveUp)
-                    transform.rotation = new Quaternion(beforeRotation.x, transform.rotation.y, beforeRotation.z, beforeRotation.w);
+                    transform.rotation = Quaternion.Euler(beforeRotation.x, transform.rotation.y, beforeRotation.z);
 
             }
             

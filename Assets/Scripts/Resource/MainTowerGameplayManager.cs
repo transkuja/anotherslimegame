@@ -11,7 +11,7 @@ public class MainTowerGameplayManager : MonoBehaviour {
     public List<GameObject> prefabsGameplayPlateformsInterior;
 
     public int initialHeight = 30;
-    public int heightStep = 10;
+    public int heightStep = 25;
     public int necessaryFloorsExt = 4;
     public int necessaryFloorsInt = 2;
     
@@ -31,9 +31,14 @@ public class MainTowerGameplayManager : MonoBehaviour {
         {
             for (int i = 0; i < necessaryFloorsExt; i++)
             {
-                GameObject go = Instantiate(prefabsGameplayPlateformsExterior[Random.Range(0, prefabsGameplayPlateformsExterior.Count)], referenceTransform);
+                if (i == 2) i++;
+                GameObject go;
+                if (i < prefabsGameplayPlateformsExterior.Count)
+                    go = Instantiate(prefabsGameplayPlateformsExterior[i], referenceTransform);
+                else
+                    go = Instantiate(prefabsGameplayPlateformsExterior[Random.Range(0, prefabsGameplayPlateformsExterior.Count)], referenceTransform);
+
                 go.transform.localPosition = new Vector3(0, initialHeight + i * heightStep, 0);
-                go.transform.localRotation = Quaternion.identity;
             }
         }
 

@@ -28,7 +28,7 @@ public class InitTeleporter : MonoBehaviour {
         if (isTeleporterActive)
         {
             PlatformGameplay gameplayComponent = GetComponent<PlatformGameplay>();
-            float lerpValue = (gameplayComponent.delayBeforeMovement - gameplayComponent.DelayTimer) / gameplayComponent.delayBeforeMovement;
+            float lerpValue = (gameplayComponent.delayBetweenMovements - gameplayComponent.DelayTimer) / gameplayComponent.delayBetweenMovements;
             GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.Lerp(Color.black, Color.red, lerpValue));
             if (lerpValue == 1.0f)
             {
