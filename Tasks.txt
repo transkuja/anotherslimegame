@@ -1,10 +1,41 @@
-- Mouvement de caméra au démarrage qui montre le LD Phase 1 et la position des évolutions
-
+Prio proto:
 - Faire un LD avec les assets des graphs
 	- Recalibrer le saut en fct du LD
 	- Faire des caméras propres pour le LD (si y a des passages étroits par ex)
 
 - Revoir et refaire l'écran de victoire
+
+[ANTHONY]- Revoir les règles de "Fin de partie" => ok
+		- Les implémenter
+
+[REMI]- Une des clés du joueur 2 apparait en dehors de l'écran
+
+- UI Multijoueur: où sont les autres? où est la sortie? (la sortie ça peut être un "guide" et non de l'UI)
+
+[ANTHONY] - LD extérieur main tower
+[ANTHONY] - Finir LD intérieur main tower (des balcons jusqu'au toit)
+
+
+- Particules effect sur le dash (dans la zone de trigger)
+
+- Feedback impacts (particules, 'time stop', etc.)
+
+- Evolution Agilité
+	- Ajouter le wall jump
+	- Finie à part le wall jump?
+
+- Evolution Platformist
+	- Voir fichier PlatformistEvolution.txt (en partie)
+
+- Evolution Ghost
+	- Finie?
+
+
+
+Secondaire:
+
+- Mouvement de caméra au démarrage qui montre le LD Phase 1 et la position des évolutions
+
 
 [REMI] - Le temps doit être géré de façon global (avec stock de la valeur d'arrivée dans le joueur uniquement)
 	- Fait?
@@ -14,32 +45,5 @@
 	- Trou
 	- Whatever
 
-- Evolution Agilité
-	- Ajouter le wall jump
-	- Finie à part le wall jump?
-
-- Evolution Platformist
-	- Voir fichier PlatformistEvolution.txt
-
-- Evolution Ghost
-	- Finie?
-
-- /!\ Tests Xbox
-
-- UI Multijoueur: où sont les autres? où est la sortie? (la sortie ça peut être un "guide" et non de l'UI)
-
-- Comportement du monstre (et intégration de l'asset du mob rose)
-
-[ANTHONY]- Revoir les règles de "Fin de partie" => ok
-		- Les implémenter
-
-[REMI]- Une des clés du joueur 2 apparait en dehors de l'écran
-
-[ANTHONY] - LD extérieur main tower
-[ANTHONY] - Finir LD intérieur main tower (des balcons jusqu'au toit)
 
 - Gestion de l'eau en fonction des évolutions (comportement de base: doit flotter)
-
-- Particules effect sur le dash (dans la zone de trigger)
-
-- Feedback impacts (particules, 'time stop', etc.)
