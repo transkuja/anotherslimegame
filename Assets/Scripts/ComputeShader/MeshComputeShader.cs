@@ -19,12 +19,13 @@ public class MeshComputeShader : MonoBehaviour {
 
     void RunShader()
     {
+     
         buffer = new ComputeBuffer(data.Length, 12);
         buffer.SetData(data);
         shader.SetFloat("time", Time.time);
         shader.SetFloat("speed", speed);
-        shader.SetFloat("time", scale);
-        shader.SetFloat("time", data.Length);
+        shader.SetFloat("scale", scale);
+        shader.SetInt("size", data.Length);
 
         kernel = shader.FindKernel("CSMain");
         shader.SetBuffer(kernel, "dataBuffer", buffer);

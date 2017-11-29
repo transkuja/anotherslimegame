@@ -9,9 +9,9 @@ float speed;
 float scale;
 float size;
 
+
 [numthreads(1024,1,1)]
 void CSMain (uint3 id : SV_DispatchThreadID)
 {
-
 	dataBuffer[id.x] = float3(0,sin(time*speed + dataBuffer[id.x].x + dataBuffer[id.x].y + dataBuffer[id.x].z)*scale, 0);
 }
