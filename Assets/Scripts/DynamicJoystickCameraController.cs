@@ -39,8 +39,7 @@ public class DynamicJoystickCameraController : MonoBehaviour {
                 once = false;
             }
 
-
-            if (prevState.Triggers.Left < 0.1f && state.Triggers.Left > 0.1f)
+            if (prevState.Buttons.RightStick == ButtonState.Released && state.Buttons.RightStick == ButtonState.Pressed)
             {
                 timer = 0.0f;
                 freelookCamera.m_RecenterToTargetHeading.m_enabled = true;
