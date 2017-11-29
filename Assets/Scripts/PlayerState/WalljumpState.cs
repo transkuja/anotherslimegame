@@ -46,7 +46,7 @@ public class WalljumpState : PlayerState
                 Collider[] collTab;
 
                 LayerMask layer = LayerMask.GetMask(new string[] { "Default" });
-                collTab = Physics.OverlapSphere(playerController.transform.position, 2.5f, layer);
+                collTab = Physics.OverlapSphere(playerController.transform.position, 2.0f, layer);
                 if (collTab != null)
                 {
                     for (int i = 0; i < collTab.Length; i++)
