@@ -272,4 +272,49 @@ public class PlayerCollisionCenter : MonoBehaviour {
         }
     }
 
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.GetComponent<WaterComponent>() != null)
+        {
+            WaterComponent waterComponent = other.GetComponent<WaterComponent>();
+            // Niveau de floattabilté, fonction de la hauteur du joueur
+            Vector3 actionPoint = other.transform.position + other.transform.TransformDirection(waterComponent.buoyancyCentreOffset);
+
+            float forceFactor = 1f - ((actionPoint.y - waterComponent.waterLevel) / waterComponent.floatHeight);
+            Vector3 gravity = Vector3.up * GetComponent<JumpManager>().GetGravity() * waterComponent.compensationGravity;
+
+            if (transform.position.y > waterComponent.waterLevel - waterComponent.tolerance && !playerController.IsGrounded)
+            {
+                playerController.IsGrounded = true;
+            }
+            else
+            {
+                if (forceFactor > 0f)
+                {
+                    Vector3 uplift = gravity * ((forceFactor - rb.velocity.y) * waterComponent.bounceDamp);
+
+
+                    rb.AddForceAtPosition(uplift, actionPoint);
+                }
+            }
+
+            if (GetComponent<Player>().cameraReference)
+            {
+                GameObject cameraRef = GetComponent<Player>().cameraReference;
+                WaterImmersionCamera waterImmersionCamera = cameraRef.transform.GetChild(0).GetComponent<WaterImmersionCamera>();
+                if (waterImmersionCamera)
+                {
+                    if (cameraRef.transform.GetChild(0).position.y < waterComponent.WaterToActivateAtRuntime.transform.position.y)
+                    {
+                        waterImmersionCamera.isImmerge = true;
+                    }
+                    else
+                    {
+                        waterImmersionCamera.isImmerge = false;
+                    }
+                }
+
+            }
+        }
+    }
 }

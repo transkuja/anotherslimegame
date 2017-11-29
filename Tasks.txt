@@ -37,3 +37,9 @@
 
 [ANTHONY] - LD extérieur main tower
 [ANTHONY] - Finir LD intérieur main tower (des balcons jusqu'au toit)
+
+- Gestion de l'eau en fonction des évolutions (comportement de base: doit flotter)
+
+- Particules effect sur le dash (dans la zone de trigger)
+
+- Feedback impacts (particules, 'time stop', etc.)
