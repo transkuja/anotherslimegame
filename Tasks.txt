@@ -1,3 +1,4 @@
+=================================================================================================================================
 Prio proto:
 - Faire un LD avec les assets des graphs
 	- Recalibrer le saut en fct du LD
@@ -34,7 +35,15 @@ Prio proto:
 
 - Ajouter des clés auxquelles on accède en payant des "points"
 
+- Room Strength
 
+- Room Agility
+
+- Room Ghost
+
+- Room 2-Players
+
+=================================================================================================================================
 Secondaire:
 
 - Mouvement de caméra au démarrage qui montre le LD Phase 1 et la position des évolutions
