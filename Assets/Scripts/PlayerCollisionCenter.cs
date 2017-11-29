@@ -30,6 +30,13 @@ public class PlayerCollisionCenter : MonoBehaviour {
     private List<Player> impactedPlayers = new List<Player>();
     public float invicibilityFrame = 1.0f;
     bool onceRepulsion;
+    int separationMask;
+    Collider[] playersCollided;
+    float sphereCheckRadius;
+ 
+    int separationMask2;
+    Collider[] collectablesCollided;
+    float sphereCheckRadiusCollectables;
 
 
     PlayerController playerController;
@@ -60,16 +67,18 @@ public class PlayerCollisionCenter : MonoBehaviour {
         playerController = GetComponent<PlayerController>();
         rb = GetComponent<Rigidbody>();
         repulsionFactor = 35;
+
+        separationMask = LayerMask.GetMask(new string[] { "Player" });
+        sphereCheckRadius = 5.0f;
+
+        separationMask2 = LayerMask.GetMask(new string[] { "Collectable" });
+        sphereCheckRadiusCollectables = 3.0f;
     }
 
     private void Update()
     {
         if (playerController.PlayerState is DashState)
         {
-            int separationMask = LayerMask.GetMask(new string[] { "Player" });
-            Collider[] playersCollided;
-            float sphereCheckRadius = 5.0f;
-
             playersCollided = Physics.OverlapSphere(transform.position, sphereCheckRadius, separationMask);
             if (playersCollided != null)
             {
@@ -93,6 +102,25 @@ public class PlayerCollisionCenter : MonoBehaviour {
                             ExpulsePlayer(playersCollided[i].ClosestPoint(transform.position), playersCollided[i].GetComponent<Rigidbody>(), repulsionFactor);
                             //RepulseRigibody(playersCollided[i].ClosestPoint(transform.position), playersCollided[i].GetComponent<Rigidbody>(), repulsionFactor);
                         }
+                    }
+                }
+            }
+        }
+
+        collectablesCollided = Physics.OverlapSphere(transform.position, sphereCheckRadius, separationMask2);
+        if (collectablesCollided != null)
+        {
+            for (int i = 0; i < collectablesCollided.Length; i++)
+            {
+                Vector3 collectableToTarget = collectablesCollided[i].transform.position - transform.position;
+
+                if (collectablesCollided[i].transform != transform && Vector3.Angle(collectableToTarget, transform.forward) < 45) // Verification en cone
+                {
+                    Collectable c = collectablesCollided[i].GetComponent<Collectable>();
+                    if (!c.IsAttracted)
+                    {
+                        Physics.IgnoreCollision(collectablesCollided[i].GetComponent<Collider>(), GetComponent<Collider>(), true);
+                        c.PickUp(GetComponent<Player>());
                     }
                 }
             }

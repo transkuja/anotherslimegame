@@ -29,6 +29,19 @@ public class Collectable : MonoBehaviour
         }
     }
 
+    public bool IsAttracted
+    {
+        get
+        {
+            return isAttracted;
+        }
+
+        set
+        {
+            isAttracted = value;
+        }
+    }
+
     public void Init()
     {
         Value = Utils.GetDefaultCollectableValue((int)type);
@@ -46,17 +59,17 @@ public class Collectable : MonoBehaviour
         needInitialisation = false;
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         if (needInitialisation)
             Init();
-        if (!haveToDisperse && isAttracted)
+        if (!haveToDisperse && IsAttracted)
             Attract();
     }
 
     public void PickUp(Player player)
     {
-        if (player && !isAttracted)
+        if (player && !IsAttracted)
         {
             // Grab everything not linked to evolution (points)
             if (!Utils.IsAnEvolutionCollectable(GetComponent <Collectable>().type))
@@ -64,7 +77,7 @@ public class Collectable : MonoBehaviour
                 if (player.Collectables[(int)GetComponent<Collectable>().type] < Utils.GetMaxValueForCollectable(GetComponent<Collectable>().type))
                 {
                     if (AudioManager.Instance != null && AudioManager.Instance.coinFX != null) AudioManager.Instance.PlayOneShot(AudioManager.Instance.coinFX);
-                    isAttracted = true;
+                    IsAttracted = true;
                     playerTarget = player;
                     return;
                 }
@@ -75,7 +88,7 @@ public class Collectable : MonoBehaviour
                 {
                     if (player.Collectables[(int)GetComponent<Collectable>().type] < Utils.GetMaxValueForCollectable(GetComponent<Collectable>().type))
                     {
-                        isAttracted = true;
+                        IsAttracted = true;
                         playerTarget = player;
                     }
                 }
@@ -83,7 +96,7 @@ public class Collectable : MonoBehaviour
                 {
                     if (player.activeEvolutions == 0)
                     {
-                        isAttracted = true;
+                        IsAttracted = true;
                         playerTarget = player;
                     }
                 }
