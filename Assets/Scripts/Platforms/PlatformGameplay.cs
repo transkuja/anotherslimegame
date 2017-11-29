@@ -64,6 +64,8 @@ public class PlatformGameplay : MonoBehaviour {
     // TODO: rename this
     [Tooltip("Enable to freeze local rotation around XZ while performing other any rotations")]
     public bool preserveUp = false;
+    [Tooltip("Moves the center of rotation, if none specified, will use newRotationCenter")]
+    public Transform newRotationCenterTr;
     [Tooltip("Moves the center of rotation")]
     public Vector3 newRotationCenter = Vector3.zero;
     public Rotation baseRotation;
@@ -305,7 +307,7 @@ public class PlatformGameplay : MonoBehaviour {
             else
             {
                 Quaternion beforeRotation = transform.rotation;
-                transform.RotateAround(platformOriginPosition + newRotationCenter, baseRotation.rotateAxis, Time.deltaTime * baseRotation.rotateSpeed);
+                transform.RotateAround((newRotationCenterTr != null) ? newRotationCenterTr.position : platformOriginPosition + newRotationCenter, baseRotation.rotateAxis, Time.deltaTime * baseRotation.rotateSpeed);
                 if (preserveUp)
                     transform.rotation = new Quaternion(beforeRotation.x, transform.rotation.y, beforeRotation.z, beforeRotation.w);
 
@@ -470,7 +472,7 @@ public class PlatformGameplay : MonoBehaviour {
                 if (meshFilter != null)
                 {
                     // /!\ platformOriginRotation returns an error when we stop play mode
-                    Gizmos.DrawWireMesh(GetComponent<MeshFilter>().sharedMesh, platformOriginPosition, Quaternion.identity, platformOriginScale);
+                    Gizmos.DrawWireMesh(meshFilter.sharedMesh, platformOriginPosition, Quaternion.identity, platformOriginScale);
                 }
                 else
                     Gizmos.DrawCube(platformOriginPosition, Vector3.one);
@@ -485,9 +487,9 @@ public class PlatformGameplay : MonoBehaviour {
             {
                 Gizmos.color = Color.cyan;
                 if (!drawShapesOnly)
-                    Gizmos.DrawRay(transform.position, platformOriginPosition + newRotationCenter - transform.position);
+                    Gizmos.DrawRay(transform.position, ((newRotationCenterTr != null) ? newRotationCenterTr.position : platformOriginPosition + newRotationCenter) - transform.position);
                 if (!drawLinesOnly)
-                    Gizmos.DrawSphere(platformOriginPosition + newRotationCenter, 1.0f);
+                    Gizmos.DrawSphere(((newRotationCenterTr != null) ? newRotationCenterTr.position : platformOriginPosition + newRotationCenter), 1.0f);
             }
         }
     }
