@@ -7,18 +7,23 @@ public class TheButton : MonoBehaviour {
 
     public GameObject water;
 
-    [Range(0.1f, 0.5f)]
-    public float speed = 0.5f;
+    [Range(0.01f, 0.5f)]
+    public float speed = 0.01f;
 
     [Header("height + water.position")]
     public float heightToReach = 32;
 
     private bool moveWater = false;
     private Vector3 positionToReach;
+    Vector3 lerpStartValue;
+
+    float lerpValue;
 
     public void Start()
     {
         positionToReach = water.transform.position + heightToReach * Vector3.up;
+        lerpValue = 0.0f;
+        lerpStartValue = water.transform.position;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -38,8 +43,9 @@ public class TheButton : MonoBehaviour {
     {
         if (moveWater)
         {
-            water.transform.position = Vector3.Lerp(water.transform.position, positionToReach, speed * Time.deltaTime);
-            if (Vector3.Distance(water.transform.position, positionToReach) < 0.1f)
+            lerpValue += speed * Time.deltaTime;
+            water.transform.position = Vector3.Lerp(lerpStartValue, positionToReach, lerpValue);
+            if (lerpValue >= 1.0f)
             {
                 moveWater = false;
                 for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
