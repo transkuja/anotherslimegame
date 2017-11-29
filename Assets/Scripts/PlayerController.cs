@@ -372,13 +372,9 @@ public class PlayerController : MonoBehaviour
                 if (prevState.Buttons.Start == ButtonState.Released && state.Buttons.Start == ButtonState.Pressed)
                     GameManager.ChangeState(GameState.Paused);
         }
-        //else
-        //{
-        //    // keyboardStuff
-        //    if (SceneManager.GetActiveScene() != SceneManager.GetSceneByBuildIndex(0))
-        //        if (Input.GetKeyDown(KeyCode.Escape))
-        //            GameManager.ChangeState(GameState.Paused);
-        //}
+
+
+
         // handle stateFunction
         if (PlayerState != null)
             PlayerState.OnFixedUpdate();

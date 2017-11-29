@@ -13,6 +13,8 @@ public class DynamicJoystickCameraController : MonoBehaviour {
     Vector3 startHighOffset;
     bool once = false;
 
+    private float timer = 0.0f;
+
     Cinemachine.CinemachineFreeLook freelookCamera;
     // Use this for initialization
     void Start () {
@@ -24,7 +26,6 @@ public class DynamicJoystickCameraController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void FixedUpdate () {
-//#if UNITY_EDITOR
 
         if (GameManager.Instance.PlayerStart.PlayersReference[(int)playerIndex].GetComponent<PlayerController>().IsUsingAController)
         {
@@ -38,9 +39,42 @@ public class DynamicJoystickCameraController : MonoBehaviour {
                 once = false;
             }
 
-            freelookCamera.m_XAxis.m_InputAxisValue = Mathf.Abs(state.ThumbSticks.Right.X) > 0.1f ? -state.ThumbSticks.Right.X : 0;
-            freelookCamera.m_YAxis.m_InputAxisValue = Mathf.Abs(state.ThumbSticks.Right.Y) > 0.1f ? state.ThumbSticks.Right.Y : 0;
-            //Need a more complex function ?
+
+            if (prevState.Triggers.Left < 0.1f && state.Triggers.Left > 0.1f)
+            {
+                timer = 0.0f;
+                freelookCamera.m_RecenterToTargetHeading.m_enabled = true;
+            }
+            if(freelookCamera.m_RecenterToTargetHeading.m_enabled)
+            {
+                timer += Time.deltaTime;
+                if (timer >= freelookCamera.m_RecenterToTargetHeading.m_RecenterWaitTime + freelookCamera.m_RecenterToTargetHeading.m_RecenteringTime)
+                {
+                    freelookCamera.m_RecenterToTargetHeading.m_enabled = false;
+                }
+            }
+
+            //freelookCamera.m_XAxis.m_InputAxisValue = Mathf.Abs(state.ThumbSticks.Right.X) > 0.1f ? state.ThumbSticks.Right.X : 0;
+            //freelookCamera.m_YAxis.m_InputAxisValue = Mathf.Abs(state.ThumbSticks.Right.Y) > 0.1f ? state.ThumbSticks.Right.Y : 0;
+            if (Mathf.Abs(state.ThumbSticks.Right.X ) > 0.1f)
+            {
+                freelookCamera.m_XAxis.m_InputAxisValue = -state.ThumbSticks.Right.X;
+                freelookCamera.m_RecenterToTargetHeading.m_enabled = false;
+            }
+            else
+                freelookCamera.m_XAxis.m_InputAxisValue = 0;
+
+            if (Mathf.Abs(state.ThumbSticks.Right.Y) > 0.1f)
+            {
+                freelookCamera.m_YAxis.m_InputAxisValue = state.ThumbSticks.Right.Y;
+                freelookCamera.m_RecenterToTargetHeading.m_enabled = false;
+
+            }
+            else
+                freelookCamera.m_YAxis.m_InputAxisValue = 0;
+
+
+            ////Need a more complex function ?
             //if (GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerController>().IsGrounded)
             freelookCamera.m_XAxis.m_InputAxisValue += Mathf.Abs(state.ThumbSticks.Left.X) > 0.1f ? (freelookCamera.m_XAxis.m_InvertAxis?-1:1) * state.ThumbSticks.Left.X* Mathf.Lerp(0.5f, 1.0f, Mathf.Abs(state.ThumbSticks.Left.X))/2.0f : 0;
             //else
@@ -71,6 +105,5 @@ public class DynamicJoystickCameraController : MonoBehaviour {
             }
 
         } 
-//#endif
     }
 }
