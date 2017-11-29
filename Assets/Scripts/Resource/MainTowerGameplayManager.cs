@@ -43,11 +43,11 @@ public class MainTowerGameplayManager : MonoBehaviour {
         }
         else
         {
-            for (int i = 0; i < necessaryFloorsInt; i++)
+            for (int i = 0; i < prefabsGameplayPlateformsInterior.Count; i++)
             {
-                GameObject go = Instantiate(prefabsGameplayPlateformsInterior[Random.Range(0, prefabsGameplayPlateformsInterior.Count)], referenceTransform);
-                go.transform.localPosition = new Vector3(0, initialHeight + i * heightStep, 0);
-                go.transform.localRotation = Quaternion.identity;
+                GameObject go = Instantiate(prefabsGameplayPlateformsInterior[i], referenceTransform);
+                //go.transform.localPosition = new Vector3(0, initialHeight + i * heightStep, 0);
+                //go.transform.localRotation = Quaternion.identity;
             }
         }
     }
