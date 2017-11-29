@@ -68,7 +68,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
         {
             int separationMask = LayerMask.GetMask(new string[] { "Player" });
             Collider[] playersCollided;
-            float sphereCheckRadius = 4.0f;
+            float sphereCheckRadius = 5.0f;
 
             playersCollided = Physics.OverlapSphere(transform.position, sphereCheckRadius, separationMask);
             if (playersCollided != null)
@@ -268,7 +268,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
         if (drawGizmos)
         {
             Gizmos.color = new Color(0, 1, 0, 0.5f);
-            Gizmos.DrawSphere(transform.position, 4.0f);
+            Gizmos.DrawSphere(transform.position, 5.0f);
         }
     }
 

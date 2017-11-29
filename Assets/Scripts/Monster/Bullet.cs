@@ -6,17 +6,17 @@ public class Bullet : MonoBehaviour {
 
     Vector3 direction;
     float speed;
-    bool isLaunched;
+    bool isFired;
     float bulletDistance;
     float timerDist;
     public void Init(GameObject launcher)
     {
-        isLaunched = false;
+        isFired = false;
         Physics.IgnoreCollision(launcher.GetComponent<Collider>(), this.GetComponent<Collider>());
     }
-    public void Lauch(Vector3 _direction,float _speed,float _bulletDistance)
+    public void Fire(Vector3 _direction,float _speed,float _bulletDistance)
     {
-        isLaunched = true;
+        isFired = true;
         direction = _direction;
         speed = _speed;
         bulletDistance = _bulletDistance;
@@ -25,7 +25,7 @@ public class Bullet : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (isLaunched)
+        if (isFired)
         {
             transform.position += direction * speed * Time.deltaTime;
             timerDist += speed * Time.deltaTime;
