@@ -39,12 +39,20 @@ public class TheButton : MonoBehaviour {
         if (moveWater)
         {
             water.transform.position = Vector3.Lerp(water.transform.position, positionToReach, speed * Time.deltaTime);
-            if(  Vector3.Distance (water.transform.position, positionToReach) < 0.1f)
+            if (Vector3.Distance(water.transform.position, positionToReach) < 0.1f)
             {
                 moveWater = false;
+                for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
+                    GamePad.SetVibration((PlayerIndex)i, 0, 0);
             }
         }
 
        
+    }
+
+    private void OnDestroy()
+    {
+        for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
+            GamePad.SetVibration((PlayerIndex)i, 0, 0);
     }
 }
