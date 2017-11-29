@@ -3,6 +3,8 @@ Prio proto:
 	- Recalibrer le saut en fct du LD
 	- Faire des caméras propres pour le LD (si y a des passages étroits par ex)
 
+- Revoir les 3C (surtout la caméra)
+
 - Revoir et refaire l'écran de victoire
 
 [ANTHONY]- Revoir les règles de "Fin de partie" => ok
@@ -30,6 +32,7 @@ Prio proto:
 - Evolution Ghost
 	- Finie?
 
+- Ajouter des clés auxquelles on accède en payant des "points"
 
 
 Secondaire:
