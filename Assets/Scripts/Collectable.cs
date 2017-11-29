@@ -51,8 +51,6 @@ public class Collectable : MonoBehaviour
     public void Disperse(int index, Vector3 direction)
     {
         haveToDisperse = true;
-        GetComponentInChildren<SphereCollider>().enabled = false;
-        haveToDisperse = true;
         Value = Utils.GetDefaultCollectableValue((int)type);
         GetComponent<Rigidbody>().AddForce(direction*7.5f, ForceMode.Impulse);
         StartCoroutine(GetComponent<Collectable>().ReactivateCollider());

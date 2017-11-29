@@ -125,11 +125,6 @@ public class SpawnManager : MonoBehaviour{
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(Instance);
-        }
-        else
-        {
-            Destroy(this.gameObject);
         }
         ResetInstance();
     }

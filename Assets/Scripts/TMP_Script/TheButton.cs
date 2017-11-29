@@ -33,9 +33,6 @@ public class TheButton : MonoBehaviour {
             GetComponent<BoxCollider>().enabled = false;
             GetComponent<Animator>().SetBool("test", true);
             moveWater = true;
-            for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++){
-                GamePad.SetVibration((PlayerIndex)i, 1, 1);
-            }
         }
     }
 
@@ -45,6 +42,10 @@ public class TheButton : MonoBehaviour {
         {
             lerpValue += speed * Time.deltaTime;
             water.transform.position = Vector3.Lerp(lerpStartValue, positionToReach, lerpValue);
+            for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
+            {
+                GamePad.SetVibration((PlayerIndex)i, Mathf.Lerp(0, 1, lerpValue), Mathf.Lerp(0, 1, lerpValue));
+            }
             if (lerpValue >= 1.0f)
             {
                 moveWater = false;
@@ -54,11 +55,5 @@ public class TheButton : MonoBehaviour {
         }
 
        
-    }
-
-    private void OnDestroy()
-    {
-        for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
-            GamePad.SetVibration((PlayerIndex)i, 0, 0);
     }
 }
