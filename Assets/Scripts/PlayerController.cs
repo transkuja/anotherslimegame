@@ -314,7 +314,7 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Player should not be null");
         PlayerState = freeState;
     }
-   
+
     // Update is called once per frame
     void Update()
     {
@@ -323,11 +323,7 @@ public class PlayerController : MonoBehaviour
         if (rb.velocity.y < 0.2f && !IsGrounded)
             HandleBouncing();
         if (rb.velocity.y > 0.05f && !isGrounded)
-            HandleJumpDeformer();
-    }
-
-    private void FixedUpdate()
-    {
+            HandleJumpDeformer();       
         if (DEBUG_hasBeenSpawnedFromTool)
             return;
         if (!playerIndexSet)
@@ -446,6 +442,7 @@ public class PlayerController : MonoBehaviour
         Vector3 initialVelocity = PlayerState.HandleSpeedWithController();
 
         PlayerState.Move(initialVelocity);
+
         // TMP Animation
         playerState.HandleControllerAnim();
     }
