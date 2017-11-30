@@ -86,7 +86,6 @@ public class DeformerComputeShader : MonoBehaviour {
     }
 
     // Update is called once per frame
-    void FixedUpdate()
     void Update()
     {
         //if (vertexVelocities[i].magnitude > 0.01f)
