@@ -22,6 +22,8 @@ public class Player : MonoBehaviour {
     [SerializeField]
     Quaternion[] keysInitialRotation;
 
+    public bool isEdgeAssistActive = true;
+
     public Rigidbody Rb
     {
         get

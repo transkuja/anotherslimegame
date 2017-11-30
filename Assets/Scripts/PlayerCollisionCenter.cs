@@ -41,6 +41,15 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
     PlayerController playerController;
     Rigidbody rb;
+    Player player;
+
+    // Edge climbing twerk values
+    [Header("Edge climbing twerk values")]
+    public float forwardAngleDetection = 15;
+    public float maxHeightDetection = 0.85f;
+    public float recalageForward = 0.0f;
+    public float recalageUp = 0.25f;
+    public float heightAngleForActivation = -15;
 
     PlayerController _PlayerController
     {
@@ -59,6 +68,16 @@ public class PlayerCollisionCenter : MonoBehaviour {
             if (rb == null)
                 rb = GetComponent<Rigidbody>();
             return rb;
+        }
+    }
+
+    public Player PlayerComponent
+    {
+        get
+        {
+            if (player == null)
+                player = GetComponent<Player>();
+            return player;
         }
     }
 
@@ -176,6 +195,22 @@ public class PlayerCollisionCenter : MonoBehaviour {
                     collision.gameObject.transform.parent = null;
                     RepulseRigibody(collision.contacts[0].point, collision.gameObject.GetComponent<Rigidbody>(), repulsionFactor);
                     //Destroy(collision.gameObject, 4);
+                }
+            }
+        }
+
+        if (PlayerComponent.isEdgeAssistActive)
+        {
+            if (collision.gameObject.GetComponent<PlatformGameplay>())
+            {
+                float heightAngleDetection = Vector3.Dot(collision.contacts[0].normal, Vector3.up);
+                if (Vector3.Dot(collision.transform.position - transform.position, transform.forward) < forwardAngleDetection 
+                    && collision.transform.position.y - transform.position.y > maxHeightDetection
+                    && heightAngleDetection < 0 && heightAngleDetection > heightAngleForActivation)
+                {
+                    Debug.Log(collision.transform.position.y - transform.position.y);
+                    //playerController.
+                    transform.position = collision.transform.GetComponent<Collider>().ClosestPoint(transform.position) + recalageForward * transform.forward + recalageUp * transform.up;
                 }
             }
         }
