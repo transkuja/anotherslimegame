@@ -6,7 +6,7 @@ public class DeformerComputeShader : MonoBehaviour {
     public float springForce = 20f;
     public float damping = 5f;
 
-    private Mesh m;
+    private Mesh deformingMesh;
 
     int kernel;
     Vector3 vertex;
@@ -41,8 +41,6 @@ public class DeformerComputeShader : MonoBehaviour {
         shader.SetFloat("springForce", springForce);
         shader.SetFloat("damping", damping);
 
-        shader.SetInt("size", originalVertices.Length);
-
         kernel = shader.FindKernel("Deformer");
         shader.SetBuffer(kernel, "originalVertices", buffer);
         shader.SetBuffer(kernel, "displacedVertices", buffer2);
@@ -55,19 +53,8 @@ public class DeformerComputeShader : MonoBehaviour {
         buffer3.GetData(vertexVelocities);
 
         UpdateMeshHeight();
-
-
-        vertices = new Vector3[originalVertices.Length];
-        for (int i = 0; i < originalVertices.Length; i++)
-        {
-            vertex = originalVertices[i];
-            vertex.y += displacedVertices[i].y;
-            vertex.x += displacedVertices[i].x;
-            vertices[i] = vertex;
-        }
-        //UpdateMeshHeight();
-        m.vertices = vertices;
-        m.RecalculateNormals();
+        deformingMesh.vertices = displacedVertices;
+        deformingMesh.RecalculateNormals();
 
 
         buffer.Dispose();
@@ -81,18 +68,20 @@ public class DeformerComputeShader : MonoBehaviour {
     // Use this for initialization
     void Start()
     {
-        m = GetComponent<MeshFilter>().mesh;
-        originalVertices = m.vertices;
+        deformingMesh = GetComponent<MeshFilter>().mesh;
+        originalVertices = deformingMesh.vertices;
         vertexVelocities = new Vector3[originalVertices.Length];
         displacedVertices = new Vector3[originalVertices.Length];
 
         originalMediumHeight = 0f;
         for (int i = 0; i < originalVertices.Length; i++)
         {
-            //displacedVertices[i] = originalVertices[i];
+            displacedVertices[i] = originalVertices[i];
             originalMediumHeight += originalVertices[i].y;
         }
         originalMediumHeight /= originalVertices.Length;
+        //originalMediumHeight = (originalHighestHeight + originalLowestHeight) / 2.0f;
+
     }
 
     // Update is called once per frame

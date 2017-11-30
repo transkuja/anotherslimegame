@@ -397,7 +397,7 @@ public class PlayerController : MonoBehaviour
         PlayerState.CollisionEnter(collision);
         //float force = 20f;
         ////float forceOffset = 0.1f;
-     
+
         //if (deformer)
         //{
         //    float vel = collision.relativeVelocity.magnitude / collision.contacts.Length;
