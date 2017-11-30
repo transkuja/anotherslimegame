@@ -39,7 +39,8 @@ public class PlayerController : MonoBehaviour
     float timerRightTriggerPressed = 0.0f;
 
     // Deformer
-    private DeformerComputeShader deformer;
+    private MeshDeformer deformer;
+    //private DeformerComputeShader deformer;
 
     // All PlayerStateCreation once and for all.
     public JumpState jumpState;
@@ -309,7 +310,8 @@ public class PlayerController : MonoBehaviour
     {
         Player = GetComponent<Player>();
         Rb = GetComponent<Rigidbody>();
-        deformer = GetComponentInChildren<DeformerComputeShader>();
+        deformer = GetComponentInChildren<MeshDeformer>();
+        //deformer = GetComponentInChildren<DeformerComputeShader>();
         if (Player == null)
             Debug.Log("Player should not be null");
         PlayerState = freeState;
@@ -391,18 +393,18 @@ public class PlayerController : MonoBehaviour
     public void OnCollisionEnter(Collision collision)
     {
         PlayerState.CollisionEnter(collision);
-        //float force = 20f;
+        float force = 20f;
         ////float forceOffset = 0.1f;
 
-        //if (deformer)
-        //{
-        //    float vel = collision.relativeVelocity.magnitude / collision.contacts.Length;
-        //    for (int i = 0; i < collision.contacts.Length; i++)
-        //    {
-        //        Vector3 point = collision.contacts[i].point;
-        //        deformer.AddDeformingForce(point, vel * force);
-        //    }
-        //}
+        if (deformer)
+        {
+            float vel = collision.relativeVelocity.magnitude / collision.contacts.Length;
+            for (int i = 0; i < collision.contacts.Length; i++)
+            {
+                Vector3 point = collision.contacts[i].point;
+                deformer.AddDeformingForce(point, vel * force);
+            }
+        }
 
     }
     public void OnCollisionStay(Collision collision)

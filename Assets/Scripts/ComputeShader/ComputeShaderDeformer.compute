@@ -19,14 +19,6 @@ void Deformer(uint3 id : SV_DispatchThreadID)
 	displacement *= uniformScale;
 	velocity -= displacement * springForce * time;
 	velocity *= 1.0f - damping * time;
-
-	//if (transform.position.sqrMagnitude > maxRange * maxRange)
-	//	transform.position = transform.position.normalized * maxRange;
-
-	//velocity = (velocity.sqrMagnitude > 20.0f * 20.0f) ? velocity.normalized * 20.0f : velocity;
-
-	// normalize(x) normalize(velocity)
-	normalize(velocity);
 	//velocity = clampMagnitude(velocity, 20.0f);
 	vertexVelocities[id.x] = velocity;
 	displacedVertices[id.x] += velocity * (time / uniformScale);
