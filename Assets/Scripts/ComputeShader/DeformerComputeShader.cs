@@ -36,6 +36,7 @@ public class DeformerComputeShader : MonoBehaviour {
         uniformScale = transform.localScale.x;
 
         shader.SetFloat("time", Time.time);
+        shader.SetFloat("time", Time.deltaTime);
 
         shader.SetFloat("uniformScale", uniformScale);
         shader.SetFloat("springForce", springForce);
@@ -86,6 +87,7 @@ public class DeformerComputeShader : MonoBehaviour {
 
     // Update is called once per frame
     void FixedUpdate()
+    void Update()
     {
         //if (vertexVelocities[i].magnitude > 0.01f)
             RunShader();
@@ -106,7 +108,8 @@ public class DeformerComputeShader : MonoBehaviour {
         pointToVertex *= uniformScale;
         float attenuatedForce = force / (1f + pointToVertex.sqrMagnitude);
         float velocity = attenuatedForce * Time.deltaTime;
-        vertexVelocities[i] += pointToVertex.normalized * velocity;
+        if (velocity > 0.01f)
+            vertexVelocities[i] += pointToVertex.normalized * velocity;
     }
 
     void UpdateMeshHeight()

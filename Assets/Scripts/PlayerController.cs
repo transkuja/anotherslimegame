@@ -39,8 +39,8 @@ public class PlayerController : MonoBehaviour
     float timerRightTriggerPressed = 0.0f;
 
     // Deformer
-    private MeshDeformer deformer;
-    //private DeformerComputeShader deformer;
+    //private MeshDeformer deformer;
+    private DeformerComputeShader deformer;
 
     // All PlayerStateCreation once and for all.
     public JumpState jumpState;
@@ -310,8 +310,8 @@ public class PlayerController : MonoBehaviour
     {
         Player = GetComponent<Player>();
         Rb = GetComponent<Rigidbody>();
-        deformer = GetComponentInChildren<MeshDeformer>();
-        //deformer = GetComponentInChildren<DeformerComputeShader>();
+        //deformer = GetComponentInChildren<MeshDeformer>();
+        deformer = GetComponentInChildren<DeformerComputeShader>();
         if (Player == null)
             Debug.Log("Player should not be null");
         PlayerState = freeState;
@@ -395,6 +395,7 @@ public class PlayerController : MonoBehaviour
         PlayerState.CollisionEnter(collision);
         float force = 20f;
         ////float forceOffset = 0.1f;
+
 
         if (deformer)
         {
