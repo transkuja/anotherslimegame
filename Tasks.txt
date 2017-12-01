@@ -23,10 +23,6 @@ Prio proto:
 
 - Feedback impacts (particules, 'time stop', etc.)
 
-- Evolution Agilité
-	- Ajouter le wall jump
-	- Finie à part le wall jump?
-
 - Evolution Platformist
 	- Voir fichier PlatformistEvolution.txt (en partie)
 
@@ -37,11 +33,11 @@ Prio proto:
 
 - Room Strength
 
-- Room Agility
-
 - Room Ghost
 
 - Room 2-Players
+
+- Ajouter un feedback visuel sur les shelters
 
 =================================================================================================================================
 Secondaire:
