@@ -11,7 +11,9 @@ public class DynamicJoystickCameraController : MonoBehaviour {
     Vector3 startLowOffset;
     Vector3 startMidOffset;
     Vector3 startHighOffset;
-    bool once = false;
+
+    public float cameraXAdjuster = 0.4f;
+    public float cameraYAdjuster = 0.4f;
 
     private float timer = 0.0f;
 
@@ -36,7 +38,6 @@ public class DynamicJoystickCameraController : MonoBehaviour {
             {
                 freelookCamera.m_XAxis.m_InputAxisName = string.Empty;
                 freelookCamera.m_YAxis.m_InputAxisName = string.Empty;
-                once = false;
             }
 
             if (prevState.Buttons.RightStick == ButtonState.Released && state.Buttons.RightStick == ButtonState.Pressed)
@@ -57,7 +58,7 @@ public class DynamicJoystickCameraController : MonoBehaviour {
             //freelookCamera.m_YAxis.m_InputAxisValue = Mathf.Abs(state.ThumbSticks.Right.Y) > 0.1f ? state.ThumbSticks.Right.Y : 0;
             if (Mathf.Abs(state.ThumbSticks.Right.X ) > 0.1f)
             {
-                freelookCamera.m_XAxis.m_InputAxisValue = -state.ThumbSticks.Right.X;
+                freelookCamera.m_XAxis.m_InputAxisValue = -state.ThumbSticks.Right.X * cameraXAdjuster;
                 freelookCamera.m_RecenterToTargetHeading.m_enabled = false;
             }
             else
@@ -65,7 +66,7 @@ public class DynamicJoystickCameraController : MonoBehaviour {
 
             if (Mathf.Abs(state.ThumbSticks.Right.Y) > 0.1f)
             {
-                freelookCamera.m_YAxis.m_InputAxisValue = state.ThumbSticks.Right.Y;
+                freelookCamera.m_YAxis.m_InputAxisValue = state.ThumbSticks.Right.Y * cameraYAdjuster;
                 freelookCamera.m_RecenterToTargetHeading.m_enabled = false;
 
             }
@@ -94,15 +95,5 @@ public class DynamicJoystickCameraController : MonoBehaviour {
                 freelockCamera.m_RecenterToTargetHeading.m_enabled = false;
             }*/
         }
-        else
-        {
-            if (!once)
-            {
-                once = true;
-                freelookCamera.m_XAxis.m_InputAxisName = "Mouse X";
-                freelookCamera.m_YAxis.m_InputAxisName = "Mouse Y";
-            }
-
-        } 
     }
 }
