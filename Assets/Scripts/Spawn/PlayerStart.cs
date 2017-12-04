@@ -10,6 +10,7 @@ public class PlayerStart : MonoBehaviour {
     public GameObject playerPrefab;
     public GameObject[] cameraPlayerReferences;
     uint activePlayersAtStart = 0;
+    public bool DEBUG_playWithFourPlayers = true;
 
     List<GameObject> playersReference = new List<GameObject>();
     Color[] colorPlayer;
@@ -74,6 +75,13 @@ public class PlayerStart : MonoBehaviour {
 
     void CheckNumberOfActivePlayers()
     {
+#if UNITY_EDITOR
+        if (DEBUG_playWithFourPlayers)
+        {
+            activePlayersAtStart = 4;
+            return;
+        }
+#endif
         for (int i = 0; i < 4; ++i)
         {
             PlayerIndex testPlayerIndex = (PlayerIndex)i;
