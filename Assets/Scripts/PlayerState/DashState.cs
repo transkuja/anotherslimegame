@@ -38,12 +38,15 @@ public class DashState : PlayerState
         dashingTimer = dashingMaxTimer;
         playerController.isGravityEnabled = false;
         CurFixedUpdateFct = OnDashState;
+
+        //playerController.ChangeDampingValuesCameraFreeLook(0.9f);
     }
 
     public override void OnEnd()
     {
         playerController.isGravityEnabled = true;
         if (playerController.IsGrounded) nbDashMade = 0;
+        //playerController.ChangeDampingValuesCameraFreeLook(0.0f);
         base.OnEnd();
     }
 

@@ -105,11 +105,6 @@ public class PlayerController : MonoBehaviour
                 if (GetComponent<JumpManager>() != null)
                     GetComponent<JumpManager>().Stop();
                 GetComponent<Player>().Anim.SetBool("isExpulsed", false);
-                //ChangeDampingValuesCameraFreeLook(0.2f);
-            }
-            else
-            {
-                //ChangeDampingValuesCameraFreeLook(0);
             }
 
             isGrounded = value;
@@ -515,27 +510,27 @@ public class PlayerController : MonoBehaviour
     }
 
     // TODO : Remi , Export this in camera controls
-    //public void ChangeDampingValuesCameraFreeLook(float _newValues)
-    //{
-    //    if (player.cameraReference != null && player.cameraReference.transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>())
-    //    {
-    //        //Body
-    //        CinemachineTransposer tr;
-    //        tr = ((CinemachineTransposer)(player.cameraReference.transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().GetRig(0).GetCinemachineComponent(CinemachineCore.Stage.Body)));
-    //        tr.m_XDamping = _newValues;
-    //        tr.m_YDamping = _newValues;
-    //        tr.m_ZDamping = _newValues;
+    public void ChangeDampingValuesCameraFreeLook(float _newValues)
+    {
+        if (player.cameraReference != null && player.cameraReference.transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>())
+        {
+            //Body
+            CinemachineTransposer tr;
+            tr = (player.cameraReference.transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().GetRig(0).GetCinemachineComponent<CinemachineTransposer>());
+            tr.m_XDamping = _newValues;
+            tr.m_YDamping = _newValues;
+            tr.m_ZDamping = _newValues;
 
-    //        tr = ((CinemachineTransposer)(player.cameraReference.transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().GetRig(1).GetCinemachineComponent(CinemachineCore.Stage.Body)));
-    //        tr.m_XDamping = _newValues;
-    //        tr.m_YDamping = _newValues;
-    //        tr.m_ZDamping = _newValues;
+            tr = (player.cameraReference.transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().GetRig(1).GetCinemachineComponent<CinemachineTransposer>());
+            tr.m_XDamping = _newValues;
+            tr.m_YDamping = _newValues;
+            tr.m_ZDamping = _newValues;
 
-    //        tr = ((CinemachineTransposer)(player.cameraReference.transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().GetRig(2).GetCinemachineComponent(CinemachineCore.Stage.Body)));
-    //        tr.m_XDamping = _newValues;
-    //        tr.m_YDamping = _newValues;
-    //        tr.m_ZDamping = _newValues;
-    //    }
-    //}
+            tr = (player.cameraReference.transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().GetRig(2).GetCinemachineComponent<CinemachineTransposer>());
+            tr.m_XDamping = _newValues;
+            tr.m_YDamping = _newValues;
+            tr.m_ZDamping = _newValues;
+        }
+    }
 
 }
