@@ -46,55 +46,55 @@ public class SetCamerasValues : MonoBehaviour {
                 cam.m_XAxis.m_DecelTime = .15f;
 
                 //Orbits
-                cam.m_Orbits[0].m_Height = 7.0f;
-                cam.m_Orbits[0].m_Radius = 9.0f;
+                cam.m_Orbits[0].m_Height = 9.0f;
+                cam.m_Orbits[0].m_Radius = 5.0f;
 
-                cam.m_Orbits[1].m_Height = 2.5f;
-                cam.m_Orbits[1].m_Radius = 7.0f;
+                cam.m_Orbits[1].m_Height = 5.0f;
+                cam.m_Orbits[1].m_Radius = 6.5f;
 
-                cam.m_Orbits[2].m_Height = -0.2f;
-                cam.m_Orbits[2].m_Radius = 6.0f;
+                cam.m_Orbits[2].m_Height = 1.0f;
+                cam.m_Orbits[2].m_Radius = 5.0f;
 
                 //Lens
-                cam.GetRig(0).m_Lens.FieldOfView = 85f;
+                cam.GetRig(0).m_Lens.FieldOfView = 95.0f;
 
-                cam.GetRig(1).m_Lens.FieldOfView = 90f;
+                cam.GetRig(1).m_Lens.FieldOfView = 87.5f;
 
-                cam.GetRig(2).m_Lens.FieldOfView = 80f;
+                cam.GetRig(2).m_Lens.FieldOfView = 80.0f;
 
                 //Aim
                 CinemachineComposer cp;
                 cp = ((cam.GetRig(0).GetCinemachineComponent<CinemachineComposer>()));
-                cp.m_TrackedObjectOffset = new Vector3(0f, 2.0f, 0f);
+                cp.m_TrackedObjectOffset = new Vector3(0f, -2.0f, 0f);
                 cp.m_ScreenX = .5f;
                 cp.m_ScreenY = .55f;
 
                 cp = ((cam.GetRig(1).GetCinemachineComponent<CinemachineComposer>()));
-                cp.m_TrackedObjectOffset = new Vector3(0f,.5f, 0f);
+                cp.m_TrackedObjectOffset = new Vector3(0f, -1.0f, 0f);
                 cp.m_ScreenX = .5f;
                 cp.m_ScreenY = .55f;
 
                 cp = ((cam.GetRig(2).GetCinemachineComponent<CinemachineComposer>()));
-                cp.m_TrackedObjectOffset = new Vector3(0f, 3.0f, 0f);
+                cp.m_TrackedObjectOffset = new Vector3(0f, -0.15f, 0f);
                 cp.m_ScreenX = .5f;
                 cp.m_ScreenY = .6f;
 
                 //Body
                 CinemachineTransposer tr;
                 tr = ((cam.GetRig(0).GetCinemachineComponent<CinemachineTransposer>()));
-                tr.m_XDamping = .2f;
-                tr.m_YDamping = .2f;
-                tr.m_ZDamping = .2f;
+                tr.m_XDamping = 0.0f;
+                tr.m_YDamping = 0.0f;
+                tr.m_ZDamping = 0.0f;
 
                 tr = ((cam.GetRig(1).GetCinemachineComponent<CinemachineTransposer>()));
-                tr.m_XDamping = .2f;
-                tr.m_YDamping = .2f;
-                tr.m_ZDamping = .2f;
+                tr.m_XDamping = 0.0f;
+                tr.m_YDamping = 0.0f;
+                tr.m_ZDamping = 0.0f;
 
                 tr = ((cam.GetRig(2).GetCinemachineComponent<CinemachineTransposer>()));
-                tr.m_XDamping = .2f;
-                tr.m_YDamping = .2f;
-                tr.m_ZDamping = .2f;
+                tr.m_XDamping = 0.0f;
+                tr.m_YDamping = 0.0f;
+                tr.m_ZDamping = 0.0f;
             }
             colliders = transform.GetChild(i).GetComponentsInChildren<CinemachineCollider>();
             foreach (CinemachineCollider col in colliders)
