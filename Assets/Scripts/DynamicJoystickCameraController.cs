@@ -20,6 +20,11 @@ public class DynamicJoystickCameraController : MonoBehaviour {
     Cinemachine.CinemachineFreeLook freelookCamera;
 
     bool needToTendToMiddleRig = false;
+    float lerpOldValue;
+    float lerpValue;
+
+    [Range(0.1f, 2.0f)]
+    public float lerpTendToMiddleRigSpeed = 0.85f;
 
     void Start () {
         freelookCamera = GetComponent<Cinemachine.CinemachineFreeLook>();
@@ -76,6 +81,8 @@ public class DynamicJoystickCameraController : MonoBehaviour {
             if (Mathf.Abs(state.ThumbSticks.Left.Y) > 0.1f)
             {
                 needToTendToMiddleRig = true;
+                lerpOldValue = freelookCamera.m_YAxis.Value;
+                lerpValue = 0.0f;
             }
             TendToMiddleRig();
         }
@@ -83,9 +90,12 @@ public class DynamicJoystickCameraController : MonoBehaviour {
 
     public void TendToMiddleRig()
     {
-        if (needToTendToMiddleRig)
+        if (needToTendToMiddleRig && lerpValue < 1.0f)
         {
-            freelookCamera.m_YAxis.Value = 0.5f;
+            lerpValue += Time.deltaTime * lerpTendToMiddleRigSpeed;
+            freelookCamera.m_YAxis.Value = Mathf.Lerp(lerpOldValue, 0.5f, lerpValue);
+            if (lerpValue > 1.0f)
+                needToTendToMiddleRig = false;
         }
     }
 }
