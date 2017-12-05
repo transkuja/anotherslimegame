@@ -378,12 +378,18 @@ public class PlayerController : MonoBehaviour
         if (player.Rb.velocity.y <= 0.2f && !isGrounded)
         {
             RaycastHit hitInfo;
+            // Need to be removed
             if (Physics.SphereCast(transform.position + Vector3.up, 1f, -transform.up, out hitInfo, maxDistanceOffset))
             {
                 if (hitInfo.transform.gameObject.GetComponentInParent<Ground>() != null)
                 {
                     IsGrounded = true;
                 }
+            }
+            // test
+            if (Physics.SphereCast(transform.position + Vector3.up, 1f, -transform.up, out hitInfo, maxDistanceOffset, 1 << LayerMask.NameToLayer("Ground")))
+            {
+                IsGrounded = true;
             }
         }
     }
