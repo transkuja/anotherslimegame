@@ -7,6 +7,7 @@ public class StatBuff  {
     private Stats.StatType statType;
     private float value;
     private float timer;
+    private string id;
 
     public Stats.StatType StatType
     {
@@ -25,6 +26,13 @@ public class StatBuff  {
         get{return timer;}
         set{timer = value;}
     }
+
+    public string Id
+    {
+        get{return id;}
+        set{id = value;}
+    }
+
     public float UpdateTimer()
     {
         if (timer !=-1) // Infinity
@@ -41,10 +49,11 @@ public class StatBuff  {
     /// <param name="value"></param>
     /// <param name="timer">-1 for infinity </param>
     /// 
-    public StatBuff(Stats.StatType _statType, float _value,float _delay)
+    public StatBuff(Stats.StatType _statType, float _value,float _delay,string _id = null)
     {
          statType = _statType;
          value = _value;
          timer = _delay;
+         id = _id;
     }
 }

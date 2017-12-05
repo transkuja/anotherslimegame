@@ -96,10 +96,16 @@ public class Stats  {
     {
         if (buffList == null)
             buffList = new List<StatBuff>();
+
+        if (buff.Id != null)
+            for (int i = 0;i < buffList.Count;i++)
+                if (buffList[i].Id != null && buffList[i].Id == buff.Id)
+                    return; // buf already added
+
         buffList.Add(buff);
         UpdateStat(buff.StatType);
 #if UNITY_EDITOR
-        Debug.Log("Buff Added");
+        Debug.Log("Buff Added ");
 #endif
     }
     public void RemoveBuff(StatBuff buff)
