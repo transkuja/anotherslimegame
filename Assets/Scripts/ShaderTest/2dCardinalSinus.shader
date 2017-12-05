@@ -3,7 +3,7 @@
 //http://docs.unity3d.com/Manual/SL-SurfaceShaderLightingExamples.html
 //http://docs.unity3d.com/Manual/SL-VertexProgramInputs.html
 
-Shader "Custom/SurfaceShader" {
+Shader "Custom/2dCardinalSinus" {
 	Properties {
 		_MainTex ("Diffuse RGBA", 2D) = "white" {}
 		_BumpMap ("Normal map", 2D) = "bump" {} //couleur "bump" par défaut

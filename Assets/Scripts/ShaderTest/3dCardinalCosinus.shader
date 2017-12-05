@@ -26,6 +26,7 @@ Shader "Custom/Cosinus3d" {
 		float3 _ImpactPos[5];
 		float _ImpactMag[5];
 		float _ImpactTimer[5];
+		float3 _ImpactNormal[5];
 		
 
 		
@@ -79,10 +80,11 @@ Shader "Custom/Cosinus3d" {
 					float VertexforceMag = slimeRay - distance;
 					float3 direction = v.vertex.xyz / length(v.vertex);
 
-					float z = cos((distance * 7) + _ImpactTimer[i] * 5 - 3.14/2);
-					z /= (1 + (distance * distance) + _ImpactTimer[i] * _ImpactTimer[i] * _ImpactTimer[i] * 10);
+					float z = cos((distance * 10) + _ImpactTimer[i] * 5 - 3.14/2);
+					z /= (1 + (5*distance *5* distance) + _ImpactTimer[i] * _ImpactTimer[i] * _ImpactTimer[i] * 10);
 					z = lerp(0, z, _ImpactTimer[i]);
-					v.vertex.xyz += -direction * z ;
+					//v.vertex.xyz += -direction * z *0.5f;
+					v.vertex.xyz += -_ImpactNormal[i] * z *0.5f;
 				}
 			}
 		
