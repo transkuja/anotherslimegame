@@ -51,6 +51,7 @@ public class PlayerController : MonoBehaviour
     public ExpulsedState expulsedState;
     public PlatformistChargedState platformistChargedState;
     public RestrainedByGhostState restrainedByGhostState;
+    public FrozenState frozenState;
 
     [SerializeField] public Stats stats;
     [SerializeField] bool isGrounded = true;
@@ -299,6 +300,7 @@ public class PlayerController : MonoBehaviour
         downDashState = new DashDownState(this);
         platformistChargedState = new PlatformistChargedState(this);
         restrainedByGhostState = new RestrainedByGhostState(this);
+        frozenState = new FrozenState(this);
     }
 
     void Start()

@@ -14,10 +14,11 @@ public class AudioManager : MonoBehaviour
     public AudioClip hahahaFX;
     public AudioClip wahhFx;
     public AudioClip blobSound;
+    public AudioClip punchFx;
 
     private AudioClip musicToPlay;
     private AudioClip previousMusic;
-
+    
 
     [SerializeField]
     private float volumeMusic = 0.5f;

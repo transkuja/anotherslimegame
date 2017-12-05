@@ -28,6 +28,9 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
     // @<remi
     private List<Player> impactedPlayers = new List<Player>();
+    private List<Vector3> impactedPlayersOldVelocities = new List<Vector3>();
+    private Vector3 velocityOnImpact;
+
     public float invicibilityFrame = 1.0f;
     bool onceRepulsion;
     int separationMask;
@@ -50,6 +53,10 @@ public class PlayerCollisionCenter : MonoBehaviour {
     public float recalageForward = 0.0f;
     public float recalageUp = 0.25f;
     public float heightAngleForActivation = -15;
+
+    bool hasCollidedWithAPlayer = false;
+    public float timerStopOnDashCollision = 0.3f;
+    float currentTimerStop = 0.0f;
 
     PlayerController _PlayerController
     {
@@ -112,14 +119,18 @@ public class PlayerCollisionCenter : MonoBehaviour {
                             // Don't reimpacted the same player twice see invicibilityFrame
                             impactedPlayers.Add(playersCollided[i].GetComponent<Player>());
 
-                            // Damage Behavior
-                            DamagePlayer(playersCollided[i].GetComponent<Player>());
-                            //Physics.IgnoreCollision()
-                            // ExpluseForce
+                            hasCollidedWithAPlayer = true;
+                            currentTimerStop = timerStopOnDashCollision;
 
-                            //if (_PlayerController.StrengthState == SkillState.Dashing) repulsionMultiplier *= -2;
-                            ExpulsePlayer(playersCollided[i].ClosestPoint(transform.position), playersCollided[i].GetComponent<Rigidbody>(), repulsionFactor);
-                            //RepulseRigibody(playersCollided[i].ClosestPoint(transform.position), playersCollided[i].GetComponent<Rigidbody>(), repulsionFactor);
+                            playerController.PlayerState = playerController.frozenState;
+                            playersCollided[i].GetComponent<PlayerController>().PlayerState = playersCollided[i].GetComponent<PlayerController>().frozenState;
+                            velocityOnImpact = playerController.Rb.velocity;
+                            playerController.Rb.velocity = Vector3.zero;
+                            impactedPlayersOldVelocities.Add(playersCollided[i].GetComponent<Rigidbody>().velocity);
+                            playersCollided[i].GetComponent<Rigidbody>().velocity = Vector3.zero;
+
+                            if (AudioManager.Instance != null && AudioManager.Instance.punchFx != null)
+                                AudioManager.Instance.PlayOneShot(AudioManager.Instance.punchFx);
                         }
                     }
                 }
@@ -142,6 +153,21 @@ public class PlayerCollisionCenter : MonoBehaviour {
                         c.PickUp(GetComponent<Player>());
                     }
                 }
+            }
+        }
+
+        if (hasCollidedWithAPlayer)
+        {
+            currentTimerStop -= Time.deltaTime;
+            if (currentTimerStop <= 0.0f)
+            {
+                playerController.PlayerState = playerController.freeState;
+                for (int i = 0; i < impactedPlayers.Count; i++)
+                {
+                    impactedPlayers[i].GetComponent<PlayerController>().PlayerState = impactedPlayers[i].GetComponent<PlayerController>().freeState;
+                    ImpactHandling(impactedPlayers[i]);
+                }
+                hasCollidedWithAPlayer = false;
             }
         }
     }
@@ -214,6 +240,20 @@ public class PlayerCollisionCenter : MonoBehaviour {
                 }
             }
         }
+    }
+
+    public void ImpactHandling(Player playerImpacted)
+    {
+
+        // Damage Behavior
+        DamagePlayer(playerImpacted);
+        //Physics.IgnoreCollision()
+        // ExpluseForce
+
+        //if (_PlayerController.StrengthState == SkillState.Dashing) repulsionMultiplier *= -2;
+        ExpulsePlayer(playerImpacted.GetComponent<Collider>().ClosestPoint(transform.position), playerImpacted.Rb, repulsionFactor);
+        //RepulseRigibody(playersCollided[i].ClosestPoint(transform.position), playersCollided[i].GetComponent<Rigidbody>(), repulsionFactor);
+
     }
 
     public void DefaultCollision(Collision collision, Player playerImpacted)
