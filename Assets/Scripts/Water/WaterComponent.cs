@@ -22,6 +22,10 @@ public class WaterComponent : MonoBehaviour {
     public void Start()
     {
         WaterToActivateAtRuntime.SetActive(true);
+
+        movestatbuff = new StatBuff(Stats.StatType.GROUND_SPEED, waterResistance, -1, "water_move_debuff");
+        dashstatbuff = new StatBuff(Stats.StatType.DASH_FORCE, waterResistance, -1, "water_dash_debuff");
+        jumpstatbuff = new StatBuff(Stats.StatType.JUMP_HEIGHT, waterResistance, -1, "water_jump_debuff");
     }
 
     private void OnTriggerEnter(Collider other)
@@ -38,14 +42,9 @@ public class WaterComponent : MonoBehaviour {
             
             if (waterResistance != 0)
             {
-                movestatbuff = new StatBuff(Stats.StatType.GROUND_SPEED, waterResistance, -1);
+
                 other.GetComponent<PlayerController>().stats.AddBuff(movestatbuff);
-
-                dashstatbuff = new StatBuff(Stats.StatType.DASH_FORCE, waterResistance, -1);
                 other.GetComponent<PlayerController>().stats.AddBuff(dashstatbuff);
-
-
-                jumpstatbuff = new StatBuff(Stats.StatType.JUMP_HEIGHT, waterResistance, -1);
                 other.GetComponent<PlayerController>().stats.AddBuff(jumpstatbuff);
             }
         }
