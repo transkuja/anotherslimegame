@@ -11,19 +11,21 @@ public class TheButton : MonoBehaviour {
     public float speed = 0.01f;
 
     [Header("height + water.position")]
-    public float heightToReach = 32;
+    public float heightToReach = 30;
 
     private bool moveWater = false;
     private Vector3 positionToReach;
     Vector3 lerpStartValue;
 
     float lerpValue;
+    float lerpVibrationValue;
 
     public void Start()
     {
         positionToReach = water.transform.position + heightToReach * Vector3.up;
         lerpValue = 0.0f;
         lerpStartValue = water.transform.position;
+        lerpVibrationValue = 0.0f;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -41,14 +43,18 @@ public class TheButton : MonoBehaviour {
         if (moveWater)
         {
             lerpValue += speed * Time.deltaTime;
+            lerpVibrationValue += Time.deltaTime;
             water.transform.position = Vector3.Lerp(lerpStartValue, positionToReach, lerpValue);
             for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
             {
-                GamePad.SetVibration((PlayerIndex)i, Mathf.Lerp(0, 1, lerpValue), Mathf.Lerp(0, 1, lerpValue));
+                GamePad.SetVibration((PlayerIndex)i, Mathf.Lerp(0, 1, lerpValue), Mathf.Lerp(0, 1, lerpVibrationValue));
             }
             if (lerpValue >= 1.0f)
             {
                 moveWater = false;
+            }
+            if (lerpVibrationValue >= 1.0f)
+            {
                 for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
                     GamePad.SetVibration((PlayerIndex)i, 0, 0);
             }
