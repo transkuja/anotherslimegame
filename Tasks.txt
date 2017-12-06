@@ -1,35 +1,12 @@
-=================================================================================================================================
-Prio proto:
-- Faire un LD avec les assets des graphs
-	- Recalibrer le saut en fct du LD
-	- Faire des caméras propres pour le LD (si y a des passages étroits par ex)
-
-- Revoir les 3C (surtout la caméra)
-
-- Revoir et refaire l'écran de victoire
-
-[ANTHONY]- Revoir les règles de "Fin de partie" => ok
-		- Les implémenter
-
-[REMI]- Une des clés du joueur 2 apparait en dehors de l'écran
-
-- UI Multijoueur: où sont les autres? où est la sortie? (la sortie ça peut être un "guide" et non de l'UI)
-
-[ANTHONY] - LD extérieur main tower
-[ANTHONY] - Finir LD intérieur main tower (des balcons jusqu'au toit)
-
-
-- Particules effect sur le dash (dans la zone de trigger)
-
-- Feedback impacts (particules, 'time stop', etc.)
-
-- Evolution Platformist
-	- Voir fichier PlatformistEvolution.txt (en partie)
-
-- Evolution Ghost
-	- Finie?
-
-- Ajouter des clés auxquelles on accède en payant des "points"
+==========================
+||			||
+||	Prio proto	||
+||			||
+==========================
+=========================
+	Level Design
+========================
+- Faire des caméras propres pour le LD (autour de la main tower, dans les rooms?)
 
 - Room Strength
 
@@ -37,7 +14,39 @@ Prio proto:
 
 - Room 2-Players
 
+- Intégrer des clés auxquelles on accède en payant des "points" dans le niveau
+
+[ANTHONY] - LD extérieur main tower => refaire avec des platforms x2
+
+========================
+	Gameplay
+========================
+- Ajouter des clés auxquelles on accède en payant des "points"
+
+[ANTHONY] - Revoir les 3C (surtout la caméra) => ok?
+[ANTHONY]- Revoir les règles de "Fin de partie" => ok
+		- Les implémenter
+[ANTHONY] - Evolution Platformist
+		- GD: charge obligatoire + eventuellement recalage
+
+========================
+	Feedbacks
+========================
+- Revoir et refaire l'écran de victoire
+- UI Multijoueur: où sont les autres? où est la sortie? (la sortie ça peut être un "guide" et non de l'UI)
 - Ajouter un feedback visuel sur les shelters
+
+[SEB] - Particules effect sur le dash (dans la zone de trigger)
+[SEB] - Feedback impacts (particules, 'time stop', etc.)
+[SEB] - Evolution Ghost
+	- Finie?
+
+========================
+	Bugs
+========================
+[REMI]- Une des clés du joueur 2 apparait en dehors de l'écran
+
+
 
 =================================================================================================================================
 Secondaire:
