@@ -100,6 +100,8 @@ public class DebugTools : MonoBehaviour {
             if (!hasUpdatedDebugPanel)
                 UpdateDebugPanel();
 
+            SwitchPlayer(true);
+
             if (isDebugModeActive)
                 Debug.Log("DEBUG MODE ACTIVATED!");
             else
@@ -313,18 +315,7 @@ public class DebugTools : MonoBehaviour {
                 // Change debug player selected
                 if (Input.GetKeyDown(KeyCode.N))
                 {
-                    int currentIndex = 0;
-                    List<GameObject> playersReference = GameManager.Instance.PlayerStart.PlayersReference;
-                    for (int i = 0; i < playersReference.Count; i++)
-                    {
-                        if (DebugPlayerSelected.gameObject == playersReference[i])
-                        {
-                            currentIndex = i;
-                            break;
-                        }
-                    }
-
-                    debugPlayerSelected = playersReference[(currentIndex + 1) % playersReference.Count].GetComponent<Player>();
+                    SwitchPlayer();
 
                     Debug.Log("Switch to player index: " + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
                 }
@@ -401,5 +392,28 @@ public class DebugTools : MonoBehaviour {
             }
         }
         
+    }
+
+    private static void SwitchPlayer(bool forcedToFirst = false)
+    {
+        List<GameObject> playersReference = GameManager.Instance.PlayerStart.PlayersReference;
+
+        if (forcedToFirst)
+        {
+            debugPlayerSelected = playersReference[0].GetComponent<Player>();
+            return;
+        }
+
+        int currentIndex = 0;
+        for (int i = 0; i < playersReference.Count; i++)
+        {
+            if (DebugPlayerSelected.gameObject == playersReference[i])
+            {
+                currentIndex = i;
+                break;
+            }
+        }
+
+        debugPlayerSelected = playersReference[(currentIndex + 1) % playersReference.Count].GetComponent<Player>();
     }
 }
