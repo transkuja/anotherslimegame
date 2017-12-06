@@ -48,11 +48,11 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
     // Edge climbing twerk values
     [Header("Edge climbing twerk values")]
-    public float forwardAngleDetection = 15;
-    public float maxHeightDetection = 0.85f;
+    public float forwardAngleDetection = 80;
+    public float maxHeightDetection = 0.8f;
     public float recalageForward = 0.0f;
     public float recalageUp = 0.25f;
-    public float heightAngleForActivation = -15;
+    public float heightAngleForActivation = 25;
 
     bool hasCollidedWithAPlayer = false;
     public float timerStopOnDashCollision = 0.3f;
@@ -229,13 +229,13 @@ public class PlayerCollisionCenter : MonoBehaviour {
         {
             if (collision.gameObject.GetComponent<PlatformGameplay>())
             {
-                float heightAngleDetection = Vector3.Dot(collision.contacts[0].normal, Vector3.up);
-                if (Vector3.Dot(collision.transform.position - transform.position, transform.forward) < forwardAngleDetection 
+                float heightAngleDetection = Vector3.Angle(-collision.contacts[0].normal, Vector3.up);
+
+                if (Vector3.Angle(-collision.contacts[0].normal, transform.forward) < forwardAngleDetection 
                     && collision.transform.position.y - transform.position.y > maxHeightDetection
-                    && heightAngleDetection < 0 && heightAngleDetection > heightAngleForActivation)
+                    && heightAngleDetection < heightAngleForActivation)
                 {
                     Debug.Log(collision.transform.position.y - transform.position.y);
-                    //playerController.
                     transform.position = collision.transform.GetComponent<Collider>().ClosestPoint(transform.position) + recalageForward * transform.forward + recalageUp * transform.up;
                 }
             }
