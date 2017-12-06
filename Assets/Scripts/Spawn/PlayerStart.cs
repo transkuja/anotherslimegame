@@ -65,6 +65,10 @@ public class PlayerStart : MonoBehaviour {
                 }
             }
         }
+
+#if UNITY_EDITOR
+        ResourceUtils.Instance.debugTools.ActivateDebugMode();
+#endif
     }
 
     public Transform GetPlayerStart(uint playerIndex)

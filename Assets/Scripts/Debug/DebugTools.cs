@@ -47,12 +47,6 @@ public class DebugTools : MonoBehaviour {
             Debug.LogWarning("DebugPanel is not linked on DebugTools, autolink with Find ...");
             debugPanel = GameObject.Find("DebugPanel").transform;
         }
-
-        if (debugPlayerSelected == null)
-        {
-            debugPlayerSelected = GameObject.FindObjectOfType<Player>();
-        }
-
     }
 
     void UpdateDebugPanel()
@@ -94,18 +88,7 @@ public class DebugTools : MonoBehaviour {
         if (Input.GetKey(KeyCode.LeftControl)
             && Input.GetKeyDown(KeyCode.RightShift))
         {
-            isDebugModeActive = !isDebugModeActive;
-            debugPanel.gameObject.SetActive(isDebugModeActive);
-
-            if (!hasUpdatedDebugPanel)
-                UpdateDebugPanel();
-
-            SwitchPlayer(true);
-
-            if (isDebugModeActive)
-                Debug.Log("DEBUG MODE ACTIVATED!");
-            else
-                Debug.Log("DEBUG MODE DEACTIVATED!");
+            ActivateDebugMode();
         }
 
         if (isDebugModeActive)
@@ -392,6 +375,22 @@ public class DebugTools : MonoBehaviour {
             }
         }
         
+    }
+
+    public void ActivateDebugMode()
+    {
+        isDebugModeActive = !isDebugModeActive;
+        debugPanel.gameObject.SetActive(isDebugModeActive);
+
+        if (!hasUpdatedDebugPanel)
+            UpdateDebugPanel();
+
+        SwitchPlayer(true);
+
+        if (isDebugModeActive)
+            Debug.Log("DEBUG MODE ACTIVATED!");
+        else
+            Debug.Log("DEBUG MODE DEACTIVATED!");
     }
 
     private static void SwitchPlayer(bool forcedToFirst = false)
