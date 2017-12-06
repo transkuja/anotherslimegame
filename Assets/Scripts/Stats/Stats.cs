@@ -105,7 +105,7 @@ public class Stats  {
         buffList.Add(buff);
         UpdateStat(buff.StatType);
 #if UNITY_EDITOR
-        Debug.Log("Buff Added ");
+        //Debug.Log("Buff Added ");
 #endif
     }
     public void RemoveBuff(StatBuff buff)
@@ -114,7 +114,7 @@ public class Stats  {
         buffList.Remove(buff);
         UpdateStat(stat);
 #if UNITY_EDITOR
-        Debug.Log("Buff Removed");
+        //Debug.Log("Buff Removed");
 #endif
     }
     private void UpdateStat(StatType stat)
