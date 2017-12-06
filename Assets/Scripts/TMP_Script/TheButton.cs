@@ -18,14 +18,12 @@ public class TheButton : MonoBehaviour {
     Vector3 lerpStartValue;
 
     float lerpValue;
-    float lerpVibrationValue;
 
     public void Start()
     {
         positionToReach = water.transform.position + heightToReach * Vector3.up;
         lerpValue = 0.0f;
         lerpStartValue = water.transform.position;
-        lerpVibrationValue = 0.0f;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -43,23 +41,29 @@ public class TheButton : MonoBehaviour {
         if (moveWater)
         {
             lerpValue += speed * Time.deltaTime;
-            lerpVibrationValue += Time.deltaTime;
             water.transform.position = Vector3.Lerp(lerpStartValue, positionToReach, lerpValue);
-            for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
-            {
-                GamePad.SetVibration((PlayerIndex)i, Mathf.Lerp(0, 1, lerpValue), Mathf.Lerp(0, 1, lerpVibrationValue));
-            }
+      
             if (lerpValue >= 1.0f)
             {
                 moveWater = false;
-            }
-            if (lerpVibrationValue >= 1.0f)
-            {
                 for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
                     GamePad.SetVibration((PlayerIndex)i, 0, 0);
+            }
+            else
+            {
+                for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
+                {
+                    GamePad.SetVibration((PlayerIndex)i, Mathf.Lerp(0, 0.5f, lerpValue), Mathf.Lerp(0, 0.5f, lerpValue));
+                }
             }
         }
 
        
+    }
+
+    public void OnDisable()
+    {
+        for (int i = 0; i < 4; i++)
+            GamePad.SetVibration((PlayerIndex)i, 0, 0);
     }
 }
