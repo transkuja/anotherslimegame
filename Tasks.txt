@@ -16,12 +16,12 @@
 
 - Intégrer des clés auxquelles on accède en payant des "points" dans le niveau
 
-[ANTHONY] - LD extérieur main tower => refaire avec des platforms x2
-
 ========================
 	Gameplay
 ========================
 - Ajouter des clés auxquelles on accède en payant des "points"
+- Ajouter des breakables
+
 
 [ANTHONY] - Revoir les 3C (surtout la caméra) => ok?
 [ANTHONY]- Revoir les règles de "Fin de partie" => ok
@@ -36,11 +36,13 @@
 - UI Multijoueur: où sont les autres? où est la sortie? (la sortie ça peut être un "guide" et non de l'UI)
 - Ajouter un feedback visuel sur les shelters
 	===> Manque un feedback pour le ghost
+- Mouvement de caméra au démarrage qui montre:
+	- la position des évolutions puis,
+	- les shelters, une rune, puis,
+	- la fin
 
 [SEB] - Particules effect sur le dash (dans la zone de trigger)
 [SEB] - Feedback impacts (particules, 'time stop', etc.)
-[SEB] - Evolution Ghost
-	- Finie?
 
 ========================
 	Bugs
@@ -51,8 +53,6 @@
 
 =================================================================================================================================
 Secondaire:
-
-- Mouvement de caméra au démarrage qui montre le LD Phase 1 et la position des évolutions
 
 
 [REMI] - Le temps doit être géré de façon global (avec stock de la valeur d'arrivée dans le joueur uniquement)
