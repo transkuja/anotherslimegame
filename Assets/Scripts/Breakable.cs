@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class Breakable : MonoBehaviour {
 
-    public int minFragments;
-    public int maxFragments;
+    public int minFragments = 2;
+    public int maxFragments = 5;
+    public int minCollectableDropOnBreak = 1;
+    public int maxCollectableDropOnBreak = 5;
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -31,6 +33,25 @@ public class Breakable : MonoBehaviour {
                 fragment.transform.localPosition = Vector3.up * 0.5f;
                 fragment.SetActive(true);
             }
+
+            DropCollectableOnGround();
+        }
+    }
+
+    void DropCollectableOnGround()
+    {
+        int numberOfCollectablesToDrop = Random.Range(minCollectableDropOnBreak, maxCollectableDropOnBreak);
+        Vector3[] positions = SpawnManager.GetVector3ArrayOnADividedCircle(transform.position, 1.0f, numberOfCollectablesToDrop, SpawnManager.Axis.XZ);
+        for (int i = 0; i < numberOfCollectablesToDrop; i++)
+        {
+            GameObject go = ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
+            positions[i] + Vector3.up * 0.5f,
+            Quaternion.identity,
+            null,
+            CollectableType.Points,
+            true);
+
+            go.GetComponent<Collectable>().Disperse(i, (positions[i] - transform.position + Vector3.up * 1.5f).normalized);
         }
     }
 }
