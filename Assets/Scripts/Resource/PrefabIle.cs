@@ -19,6 +19,11 @@ public class PrefabIle : MonoBehaviour
     [Header("Point Islands")]
     public GameObject prefabPointIsland1GameObject;
 
+    [Header("Shelter Feedbacks")]
+    public GameObject prefabShelterPlatformistFeedback;
+    public GameObject prefabShelterStrengthFeedback;
+    public GameObject prefabShelterAgilityFeedback;
+    public GameObject prefabShelterGhostFeedback;
 
     private List<GameObject> evolutionIslands = new List<GameObject>();
     private List<GameObject> pointsIslands = new List<GameObject>();
