@@ -35,6 +35,9 @@ public class TrappedPlatform : MonoBehaviour {
     void ActivateTrap()
     {
         gameplay = GetComponent<PlatformGameplay>();
+        Material mat = GetComponentInChildren<MeshRenderer>().material;
+        mat.SetColor("_EmissionColor", Color.red);
+
         if (gameplay == null)
         {
             Debug.LogWarning("Platform gameplay component is null and shouldn't");
