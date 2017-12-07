@@ -137,6 +137,7 @@ public class PlayerState  {
         if (playerController.dashState.nbDashMade < 1)
         {
             playerController.PlayerState = playerController.dashState;
+            playerController.dashParticles.GetComponent<ParticleSystem>().Play();
             if ( playerController.jumpState.nbJumpMade > 0) 
                 playerController.dashState.nbDashMade++;
         }

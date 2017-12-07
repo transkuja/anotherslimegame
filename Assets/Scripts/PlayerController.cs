@@ -44,6 +44,7 @@ public class PlayerController : MonoBehaviour
 
     // Particles
     [SerializeField] GameObject dustTrailParticles;
+    public GameObject dashParticles;
 
     // All PlayerStateCreation once and for all.
     public JumpState jumpState;
