@@ -20,11 +20,11 @@ public class EvolutionPlatformist : EvolutionComponent {
     uint maxCharges = 3;
 
     // Cooldown before getting another charge
-    float cooldownCharge = 10.0f;
+    float cooldownCharge = 7.0f;
     float timerBeforeCharge = 0.0f;
-    float chargeTime = 0.8f;
+    float chargeTime = 0.3f;
 
-    float platformLifetime = 3.0f;
+    float platformLifetime = 6.0f;
     int indexPattern = 0;
     public int moduloIndexPattern = 2;
 

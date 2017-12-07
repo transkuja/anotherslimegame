@@ -267,13 +267,6 @@ public class PlayerController : MonoBehaviour
                 {
                     platformistComponent.CreatePlatforms();
                 }
-                else
-                {
-                    //if (GetComponent<EvolutionPlatformist>().TimerPlatform >= 0.0f)
-                    platformistComponent.CreatePlatform(state);
-
-                }
-
 
                 timerRightTriggerPressed = 0.0f;
             }
