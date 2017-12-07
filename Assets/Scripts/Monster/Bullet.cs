@@ -59,7 +59,8 @@ public class Bullet : MonoBehaviour {
                 go.transform.position = transform.position + Vector3.up * 0.5f + centerToTargetCenter / 2.0f;
                 go.transform.rotation = Quaternion.LookRotation(centerToTargetCenter, Vector3.up);
                 Destroy(go, 10.0f);
-
+                if (AudioManager.Instance != null && AudioManager.Instance.punchFx != null)
+                    AudioManager.Instance.PlayOneShot(AudioManager.Instance.punchFx);
                 playerCollision.DamagePlayer(other.GetComponent<Player>());
                 playerCollision.ExpulsePlayer(other.ClosestPoint(transform.position), other.GetComponent<Rigidbody>(), 50);
                 Destroy(this.gameObject);
