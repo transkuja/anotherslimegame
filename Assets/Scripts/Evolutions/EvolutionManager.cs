@@ -68,9 +68,8 @@ public class EvolutionManager {
     // Evolution database handled in code
     Evolution strengthEvolution = new Evolution(Powers.Strength, 3, CollectableType.StrengthEvolution1, 30, BodyPart.Hammer);
     Evolution agileEvolution = new Evolution(Powers.Agile, 3, CollectableType.AgileEvolution1, 30, BodyPart.Wings);
-    // TODO: assign a new bodypart for the platformist evolution
-    Evolution platformistEvolution = new Evolution(Powers.Platformist, 3, CollectableType.PlatformistEvolution1, 30, BodyPart.Hammer);
-    // TODO: assign a new bodypart for the platformist evolution
+    Evolution platformistEvolution = new Evolution(Powers.Platformist, 3, CollectableType.PlatformistEvolution1, 30, BodyPart.Staff);
+    // TODO: assign a new bodypart for the ghost evolution
     Evolution ghostEvolution = new Evolution(Powers.Ghost, 3, CollectableType.GhostEvolution1, 30, BodyPart.Hammer);
 
     public Evolution GetEvolutionByPowerName(Powers _powerName, bool isPermanent = false)
