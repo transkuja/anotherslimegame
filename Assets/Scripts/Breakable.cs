@@ -19,6 +19,18 @@ public class Breakable : MonoBehaviour {
            )
         {
             // impact
+            // TODO: may externalize this behaviour to avoid duplication
+            Vector3 playerToTarget = transform.position - collision.transform.position;
+            Vector3 playerCenterToTargetCenter = (transform.position + Vector3.up * 0.5f) - (collision.transform.position + Vector3.up * 0.5f);
+            GameObject go = Instantiate(ResourceUtils.Instance.particleSystemManager.impactFeedback, transform);
+
+            go.transform.position = transform.position + Vector3.up * 0.5f + playerCenterToTargetCenter / 2.0f;
+            go.transform.rotation = Quaternion.LookRotation(playerToTarget, Vector3.up);
+            Destroy(go, 10.0f); // TODO: use a pool instead of instantiate/destroy in chain
+            if (AudioManager.Instance != null && AudioManager.Instance.punchFx != null)
+                AudioManager.Instance.PlayOneShot(AudioManager.Instance.punchFx);
+
+
             if (GetComponent<MeshRenderer>()) GetComponent<MeshRenderer>().enabled = false;
             else if (GetComponentInChildren<MeshRenderer>()) GetComponentInChildren<MeshRenderer>().enabled = false;
             if (GetComponent<Collider>()) GetComponent<Collider>().enabled = false;
@@ -35,6 +47,8 @@ public class Breakable : MonoBehaviour {
             }
 
             DropCollectableOnGround();
+            if (AudioManager.Instance != null && AudioManager.Instance.breakFx != null)
+                AudioManager.Instance.PlayOneShot(AudioManager.Instance.breakFx);
         }
     }
 

@@ -15,6 +15,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip wahhFx;
     public AudioClip blobSound;
     public AudioClip punchFx;
+    public AudioClip breakFx;
 
     private AudioClip musicToPlay;
     private AudioClip previousMusic;

@@ -20,6 +20,7 @@ public class ResourceUtils : MonoBehaviour {
             refMainTowerGameplayManager = GetComponentInChildren<MainTowerGameplayManager>();
             debugTools = GetComponentInChildren<DebugTools>();
             poolManager = GetComponentInChildren<PoolManager>();
+            particleSystemManager = GetComponentInChildren<ParticleSystemManager>();
 
             DontDestroyOnLoad(Instance);
         }
@@ -57,6 +58,9 @@ public class ResourceUtils : MonoBehaviour {
 
     [HideInInspector]
     public PoolManager poolManager;
+
+    [HideInInspector]
+    public ParticleSystemManager particleSystemManager;
 
     public static ResourceUtils Instance
     {

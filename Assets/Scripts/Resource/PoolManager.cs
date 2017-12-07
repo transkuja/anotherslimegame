@@ -48,7 +48,6 @@ public class PoolManager : MonoBehaviour {
     [SerializeField]
     public Pool breakablePiecesPool;
 
-	// Use this for initialization
 	void Start () {
         GameObject poolParent = new GameObject("BreakablePiecesPool");
 
