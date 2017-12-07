@@ -68,4 +68,21 @@ public class PrefabIle : MonoBehaviour
         Utils.Shuffle(pointsIslands);
         return Instantiate(pointsIslands[0], where, direction, parent);
     }
+
+    public GameObject GetShelterFeedbackFromEvolutionName(CollectableType evolutionType)
+    {
+        switch (evolutionType)
+        {
+            case CollectableType.AgileEvolution1:
+                return prefabShelterAgilityFeedback;
+            case CollectableType.PlatformistEvolution1:
+                return prefabShelterPlatformistFeedback;
+            case CollectableType.StrengthEvolution1:
+                return prefabShelterStrengthFeedback;
+            case CollectableType.GhostEvolution1:
+                return prefabShelterGhostFeedback;
+            default:
+                return null;
+        }
+    }
 }

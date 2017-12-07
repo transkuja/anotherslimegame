@@ -406,6 +406,12 @@ public class SpawnManager : MonoBehaviour{
                     // Bind the target to return to origin
                     tmp.gameplayRoomStarter.GetComponent<PlatformGameplay>().teleporterTarget = associatedShelter.GetComponentInChildren<PlatformGameplay>().transform;
                     tmp.gameplayRoomStarter.GetComponent<InitTeleporter>().evolutionType = evolutionType;
+                    GameObject shelterFeedbackToSpawn = ResourceUtils.Instance.refPrefabIle.GetShelterFeedbackFromEvolutionName(evolutionType);
+                    if (shelterFeedbackToSpawn != null)
+                    {
+                        GameObject shelterFeedback = Instantiate(shelterFeedbackToSpawn, associatedShelter.GetComponentInChildren<PlatformGameplay>().transform);
+                        shelterFeedback.transform.localPosition = Vector3.up * 3.0f;
+                    }
                 }
             } 
         }
