@@ -15,12 +15,13 @@
 - Room 2-Players
 
 - Intégrer des clés auxquelles on accède en payant des "points" dans le niveau
+- Ajouter des breakables dans le LD
 
 ========================
 	Gameplay
 ========================
 - Ajouter des clés auxquelles on accède en payant des "points"
-- Ajouter des breakables
+
 
 
 [ANTHONY] - Revoir les 3C (surtout la caméra) => ok?
