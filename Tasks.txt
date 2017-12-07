@@ -27,7 +27,7 @@
 [ANTHONY]- Revoir les règles de "Fin de partie" => ok
 		- Les implémenter
 [ANTHONY] - Evolution Platformist
-		- GD: charge obligatoire + eventuellement recalage
+		=> Manque eventuellement recalage
 
 ========================
 	Feedbacks
@@ -35,6 +35,7 @@
 - Revoir et refaire l'écran de victoire
 - UI Multijoueur: où sont les autres? où est la sortie? (la sortie ça peut être un "guide" et non de l'UI)
 - Ajouter un feedback visuel sur les shelters
+	===> Manque un feedback pour le ghost
 
 [SEB] - Particules effect sur le dash (dans la zone de trigger)
 [SEB] - Feedback impacts (particules, 'time stop', etc.)
