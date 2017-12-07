@@ -112,6 +112,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
                 for (int i = 0; i < playersCollided.Length; i++)
                 {
                     Vector3 playerToTarget = playersCollided[i].transform.position - transform.position;
+                    Vector3 playerCenterToTargetCenter = (playersCollided[i].transform.position + Vector3.up * 0.5f) - (transform.position + Vector3.up * 0.5f);
                     if (playersCollided[i].transform != transform && Vector3.Angle(playerToTarget, transform.forward) < 45) // Verification en cone
                     {
                         if (!impactedPlayers.Contains(playersCollided[i].GetComponent<Player>()))
@@ -120,7 +121,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
                             // Don't reimpacted the same player twice see invicibilityFrame
                             impactedPlayers.Add(playersCollided[i].GetComponent<Player>());
                             GameObject go = Instantiate(hitParticles);
-                            go.transform.position = transform.position + playerToTarget / 2.0f;
+                            go.transform.position = transform.position+Vector3.up*0.5f + playerCenterToTargetCenter / 2.0f;
                             go.transform.rotation = Quaternion.LookRotation(playerToTarget, Vector3.up);
                             Destroy(go, 10.0f);
                             hasCollidedWithAPlayer = true;

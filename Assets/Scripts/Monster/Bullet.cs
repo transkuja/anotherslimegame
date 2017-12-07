@@ -9,6 +9,8 @@ public class Bullet : MonoBehaviour {
     bool isFired;
     float bulletDistance;
     float timerDist;
+    [SerializeField]
+    GameObject hitParticles;
     public void Init(GameObject launcher)
     {
         isFired = false;
@@ -52,6 +54,12 @@ public class Bullet : MonoBehaviour {
             }
             else
             {
+                Vector3 centerToTargetCenter = other.transform.position+Vector3.up*0.5f - transform.position;
+                GameObject go = Instantiate(hitParticles);
+                go.transform.position = transform.position + Vector3.up * 0.5f + centerToTargetCenter / 2.0f;
+                go.transform.rotation = Quaternion.LookRotation(centerToTargetCenter, Vector3.up);
+                Destroy(go, 10.0f);
+
                 playerCollision.DamagePlayer(other.GetComponent<Player>());
                 playerCollision.ExpulsePlayer(other.ClosestPoint(transform.position), other.GetComponent<Rigidbody>(), 50);
                 Destroy(this.gameObject);

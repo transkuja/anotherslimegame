@@ -42,6 +42,9 @@ public class PlayerController : MonoBehaviour
     private MeshDeformer deformer;
     //private DeformerComputeShader deformer;
 
+    // Particles
+    [SerializeField] GameObject dustTrailParticles;
+
     // All PlayerStateCreation once and for all.
     public JumpState jumpState;
     public WalljumpState wallJumpState;
@@ -106,6 +109,18 @@ public class PlayerController : MonoBehaviour
                 if (GetComponent<JumpManager>() != null)
                     GetComponent<JumpManager>().Stop();
                 GetComponent<Player>().Anim.SetBool("isExpulsed", false);
+                if (dustTrailParticles && dustTrailParticles.GetComponent<ParticleSystem>() != null)
+                {
+                    dustTrailParticles.GetComponent<ParticleSystem>().Play();
+                }
+            }
+            else
+            {
+                if (dustTrailParticles && dustTrailParticles.GetComponent<ParticleSystem>() != null)
+                {
+                    dustTrailParticles.GetComponent<ParticleSystem>().Stop();
+                }
+                    
             }
 
             isGrounded = value;
