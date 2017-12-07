@@ -8,7 +8,8 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
     [SerializeField]
     bool drawGizmos = true;
-
+    [SerializeField]
+    GameObject hitParticles;
     // PlayerBouncyPhysics
     [SerializeField]
     [Range(10.0f, 2000.0f)]
@@ -118,7 +119,10 @@ public class PlayerCollisionCenter : MonoBehaviour {
                             Physics.IgnoreCollision(playersCollided[i].GetComponent<Collider>(), GetComponent<Collider>(), true);
                             // Don't reimpacted the same player twice see invicibilityFrame
                             impactedPlayers.Add(playersCollided[i].GetComponent<Player>());
-
+                            GameObject go = Instantiate(hitParticles);
+                            go.transform.position = transform.position + playerToTarget / 2.0f;
+                            go.transform.rotation = Quaternion.LookRotation(playerToTarget, Vector3.up);
+                            Destroy(go, 10.0f);
                             hasCollidedWithAPlayer = true;
                             currentTimerStop = timerStopOnDashCollision;
 
