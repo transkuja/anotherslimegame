@@ -28,6 +28,9 @@ public class ResourceUtils : MonoBehaviour {
         }
     }
 
+    // TODO: move it, may have nothing to do here
+    [Tooltip("Emissive color for bounciness")]
+    public Color bounceEmissiveColor;
 
     [HideInInspector]
     public PrefabMonster refPrefabMonster;

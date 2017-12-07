@@ -197,6 +197,12 @@ public class PlatformGameplay : MonoBehaviour {
             Debug.LogWarning("There's nothing indicating that the platform is part of the ground. Adding Ground component.");
             gameObject.AddComponent<Ground>();
         }
+
+        if (isBouncy)
+        {
+            Material mat = GetComponentInChildren<MeshRenderer>().material;
+            mat.SetColor("_EmissionColor", ResourceUtils.Instance.bounceEmissiveColor);
+        }
     }
 
     void Update() {
