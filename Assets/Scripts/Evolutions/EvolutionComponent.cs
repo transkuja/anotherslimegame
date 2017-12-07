@@ -13,6 +13,8 @@ public class EvolutionComponent : MonoBehaviour {
     protected bool isSpecialActionPushed = false;
     protected bool isSpecialActionReleased = false;
 
+    GameObject affectedPart;
+
     public virtual void Start()
     {
         
@@ -45,7 +47,14 @@ public class EvolutionComponent : MonoBehaviour {
     {
         GetComponent<Player>().activeEvolutions++;
         evolution = GameManager.EvolutionManager.GetEvolutionByPowerName(powerName, (GameManager.CurrentGameMode.evolutionMode == EvolutionMode.GrabEvolution));
-        transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)evolution.BodyPart).gameObject.SetActive(true);
+
+        affectedPart = transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)evolution.BodyPart).gameObject;
+        if (evolution.BodyPart == BodyPart.Hammer)
+            affectedPart.transform.SetParent(transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild(0).GetChild(0).GetChild(0));
+        else if (evolution.BodyPart == BodyPart.Staff)
+            affectedPart.transform.SetParent(transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild(0).GetChild(0).GetChild(1));
+        affectedPart.SetActive(true);
+
         Timer = evolution.duration;
         playerController = GetComponent<PlayerController>();
     }
@@ -65,8 +74,11 @@ public class EvolutionComponent : MonoBehaviour {
     protected void OnDestroy()
     {
         GetComponent<Player>().activeEvolutions--;
-        transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)evolution.BodyPart).gameObject.SetActive(false);
+        affectedPart.transform.SetParent(transform.GetChild((int)PlayerChildren.SlimeMesh));
+        affectedPart.transform.SetSiblingIndex((int)evolution.BodyPart);
+        affectedPart.SetActive(false);
     }
+
     public virtual void OnCollisionEnter(Collision coll)
     {
 
