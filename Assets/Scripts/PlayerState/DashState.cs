@@ -32,6 +32,8 @@ public class DashState : PlayerState
     public override void OnBegin()
     {
         base.OnBegin();
+        if (playerController.dashParticles && playerController.dashParticles.GetComponent<ParticleSystem>())
+            playerController.dashParticles.GetComponent<ParticleSystem>().Play();
         playerController.GetComponent<JumpManager>().Stop();
         dashingVelocity = playerController.stats.Get(Stats.StatType.DASH_FORCE);
         dashingMaxTimer = 0.15f;

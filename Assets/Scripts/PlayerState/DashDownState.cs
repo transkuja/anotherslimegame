@@ -46,6 +46,8 @@ public class DashDownState : PlayerState
     // Apply a speed towards the ground
     public void LaunchDash()
     {
+        if(playerController.dashParticles && playerController.dashParticles.GetComponent<ParticleSystem>())
+            playerController.dashParticles.GetComponent<ParticleSystem>().Play();
         Vector3 downPush = Vector3.down * downDashPower;
         playerController.Rb.velocity = downPush; // Override current velocity. 
         timer += Time.deltaTime;
