@@ -5,6 +5,7 @@ using UnityEngine;
 [System.Serializable]
 public class Pool
 {
+    Transform poolParent;
     public List<GameObject> prefabs;
     public int poolSize = 50;
     List<GameObject> itemPool;
@@ -21,22 +22,37 @@ public class Pool
         }
     }
 
-    public GameObject GetItem()
+    public Transform PoolParent
     {
-        for (int i = 0; i < ItemPool.Count; i++)
+        get
         {
-            if (!ItemPool[i].activeInHierarchy)
-                return itemPool[i];
+            return poolParent;
         }
 
-         // Ugly, the parent should be defined by a component PoolParent or directly link in the pool
-        return CreateRandomPoolItem(itemPool[0].transform.parent); ;
+        set
+        {
+            poolParent = value;
+        }
     }
 
-    public GameObject CreateRandomPoolItem(Transform _poolParent)
+    public GameObject GetItem()
     {
-        GameObject item = GameObject.Instantiate(prefabs[Random.Range(0, prefabs.Count)], _poolParent);
+        GameObject returnGameObject;
+        if (poolParent.childCount == 0)
+            returnGameObject = CreateRandomPoolItem();
+        else
+            returnGameObject = poolParent.GetChild(0).gameObject;
+
+        returnGameObject.transform.SetParent(null);
+
+        return returnGameObject;
+    }
+
+    public GameObject CreateRandomPoolItem()
+    {
+        GameObject item = GameObject.Instantiate(prefabs[Random.Range(0, prefabs.Count)], poolParent);
         item.AddComponent<PoolChild>();
+        item.GetComponent<PoolChild>().poolParent = poolParent;
         item.SetActive(false);
         ItemPool.Add(item);
         return item;
@@ -50,10 +66,11 @@ public class PoolManager : MonoBehaviour {
 
 	void Start () {
         GameObject poolParent = new GameObject("BreakablePiecesPool");
+        breakablePiecesPool.PoolParent = poolParent.transform;
 
         for (int i = 0; i < breakablePiecesPool.poolSize; i++)
         {
-            breakablePiecesPool.CreateRandomPoolItem(poolParent.transform);
+            breakablePiecesPool.CreateRandomPoolItem();
         }
 	}
 
