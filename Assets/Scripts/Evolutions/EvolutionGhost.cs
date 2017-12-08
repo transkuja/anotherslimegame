@@ -175,7 +175,7 @@ public class EvolutionGhost : EvolutionComponent
                 if (timeSinceLastTrailComponentSpawned >= TrailComponentSpawnIntervalTime)
                 {
                     
-                    Ray ray = new Ray(transform.position, Vector3.down);
+                    Ray ray = new Ray(transform.position+Vector3.up*.5f, Vector3.down);
                     RaycastHit hit;
                     if(Physics.Raycast(ray, out hit, 1.0f))
                     {
