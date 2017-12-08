@@ -39,9 +39,16 @@ public class InitTeleporter : MonoBehaviour {
             if (lerpValue >= 1.0f)
             {
                 isTeleporterActive = false;
-                GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", startColor);
+                Invoke("ResetPlatform", 0.1f);
             }
         }
+    }
+
+    void ResetPlatform()
+    {
+        GetComponent<PlatformGameplay>().isATeleporter = false;
+        if (GetComponent<MeshRenderer>())
+            GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", startColor);
     }
 
     private void OnCollisionExit(Collision collision)
