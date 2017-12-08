@@ -50,7 +50,7 @@ public class Pool
         return returnGameObject;
     }
 
-    public GameObject GetItem(Transform _newParent, Vector3 _newPosition, Quaternion _newRotation, bool activeObjectOnRetrieval = false)
+    public GameObject GetItem(Transform _newParent, Vector3 _newPosition, Quaternion _newRotation, bool activeObjectOnRetrieval = false, bool spawnInWorldspace = false)
     {
         GameObject returnGameObject;
         if (poolParent.childCount == 0)
@@ -59,8 +59,16 @@ public class Pool
             returnGameObject = poolParent.GetChild(0).gameObject;
 
         returnGameObject.transform.SetParent(_newParent);
-        returnGameObject.transform.localPosition = _newPosition;
-        returnGameObject.transform.localRotation = _newRotation;
+        if (spawnInWorldspace)
+        {
+            returnGameObject.transform.position = _newPosition;
+            returnGameObject.transform.rotation = _newRotation;
+        }
+        else
+        {
+            returnGameObject.transform.localPosition = _newPosition;
+            returnGameObject.transform.localRotation = _newRotation;
+        }
 
         if (activeObjectOnRetrieval) returnGameObject.SetActive(true);
         return returnGameObject;
@@ -70,8 +78,7 @@ public class Pool
     public GameObject CreateRandomPoolItem()
     {
         GameObject item = GameObject.Instantiate(prefabs[Random.Range(0, prefabs.Count)], poolParent);
-        item.AddComponent<PoolChild>();
-        item.GetComponent<PoolChild>().pool = this;
+        item.AddComponent<PoolChild>().Pool = this;
         item.SetActive(false);
         ItemPool.Add(item);
         return item;
@@ -82,6 +89,7 @@ public class PoolManager : MonoBehaviour {
 
     public Pool breakablePiecesPool;
     public Pool collectablePointsPool;
+    public Pool monsterShotsPool;
 
     void Start () {
         /* =============================================================================== */
@@ -100,6 +108,13 @@ public class PoolManager : MonoBehaviour {
             collectablePointsPool.CreateRandomPoolItem();
         /* =============================================================================== */
 
+        /* =============================================================================== */
+        GameObject monsterShotsPoolParent = new GameObject("MonsterShotsPool");
+        monsterShotsPool.PoolParent = monsterShotsPoolParent.transform;
+
+        for (int i = 0; i < monsterShotsPool.poolSize; i++)
+            monsterShotsPool.CreateRandomPoolItem();
+        /* =============================================================================== */
     }
 
 }

@@ -31,9 +31,10 @@ public class Bullet : MonoBehaviour {
         {
             transform.position += direction * speed * Time.deltaTime;
             timerDist += speed * Time.deltaTime;
+            // TODO @Olivier, set timer on poolManager directly
             if (timerDist> bulletDistance)
             {
-                Destroy(this.gameObject);
+                GetComponent<PoolChild>().ReturnToPool();
             }
         }
 	}
@@ -63,7 +64,7 @@ public class Bullet : MonoBehaviour {
                     AudioManager.Instance.PlayOneShot(AudioManager.Instance.punchFx);
                 playerCollision.DamagePlayer(other.GetComponent<Player>());
                 playerCollision.ExpulsePlayer(other.ClosestPoint(transform.position), other.GetComponent<Rigidbody>(), 50);
-                Destroy(this.gameObject);
+                GetComponent<PoolChild>().ReturnToPool();
             }
         }
         
