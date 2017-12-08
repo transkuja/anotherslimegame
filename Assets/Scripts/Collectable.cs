@@ -113,7 +113,11 @@ public class Collectable : MonoBehaviour
             if (GetComponent<Collectable>().type == CollectableType.Key)
                 playerTarget.AddKeyInitialPosition(transform);
             if (AudioManager.Instance != null && AudioManager.Instance.coinFX != null) AudioManager.Instance.PlayOneShot(AudioManager.Instance.coinFX);
-            Destroy(this.gameObject);
+
+            if (GetComponent<PoolChild>())
+                GetComponent<PoolChild>().ReturnToPool();
+            else
+                Destroy(this.gameObject);
         }
     }
 

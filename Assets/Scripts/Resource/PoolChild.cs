@@ -4,22 +4,30 @@ using UnityEngine;
 
 public class PoolChild : MonoBehaviour {
 
-    public Transform poolParent;
-
-    float timerReturnToPool = 15.0f; // SHould be defined by the parent TODO
+    public Pool pool;
     float currentTimer = 0.0f;
+    bool noReturn = false;
 
     private void OnEnable()
     {
-        currentTimer = timerReturnToPool;
+        currentTimer = pool.timerReturnToPool;
+        if (currentTimer == -1) noReturn = true;
     }
 
     void Update () {
+        if (noReturn)
+            return;
+
         currentTimer -= Time.deltaTime;
         if (currentTimer < 0.0f)
         {
-            transform.SetParent(poolParent);
-            gameObject.SetActive(false);
+            ReturnToPool();
         }
 	}
+
+    public void ReturnToPool()
+    {
+        transform.SetParent(pool.PoolParent);
+        gameObject.SetActive(false);
+    }
 }
