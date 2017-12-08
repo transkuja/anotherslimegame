@@ -49,8 +49,8 @@
 	Bugs
 ========================
 [REMI]- Une des clés du joueur 2 apparait en dehors de l'écran
-- Le son des pièces devrait être joué au moment ou la pièce disparaît, pas à l'attraction
 - IsGrounded reste à true quand on marche vers le vide sans sauter
+- Infinite jump si on reste appuyé sur la touche
 
 
 =================================================================================================================================

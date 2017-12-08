@@ -74,7 +74,6 @@ public class Collectable : MonoBehaviour
             {
                 if (player.Collectables[(int)GetComponent<Collectable>().type] < Utils.GetMaxValueForCollectable(GetComponent<Collectable>().type))
                 {
-                    if (AudioManager.Instance != null && AudioManager.Instance.coinFX != null) AudioManager.Instance.PlayOneShot(AudioManager.Instance.coinFX);
                     IsAttracted = true;
                     playerTarget = player;
                     return;
@@ -113,6 +112,7 @@ public class Collectable : MonoBehaviour
             playerTarget.UpdateCollectableValue(GetComponent<Collectable>().type, (int)GetComponent<Collectable>().Value);
             if (GetComponent<Collectable>().type == CollectableType.Key)
                 playerTarget.AddKeyInitialPosition(transform);
+            if (AudioManager.Instance != null && AudioManager.Instance.coinFX != null) AudioManager.Instance.PlayOneShot(AudioManager.Instance.coinFX);
             Destroy(this.gameObject);
         }
     }
