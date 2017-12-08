@@ -23,6 +23,7 @@ public class Player : MonoBehaviour {
     Quaternion[] keysInitialRotation;
 
     public bool isEdgeAssistActive = true;
+    PlayerController playerController;
 
     public Rigidbody Rb
     {
@@ -96,6 +97,17 @@ public class Player : MonoBehaviour {
         }
     }
 
+    public PlayerController PlayerController
+    {
+        get
+        {
+            if (playerController == null)
+                playerController = GetComponent<PlayerController>();
+            return playerController;
+        }
+
+    }
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -163,4 +175,13 @@ public class Player : MonoBehaviour {
         GameManager.EvolutionManager.AddEvolutionComponent(gameObject, evolution, true);
     }
 
+    private void Update()
+    {
+        if (Rb.velocity.y < -2.0f && PlayerController != null && PlayerController.IsGrounded)
+        {
+            if (!Physics.Raycast(transform.position, Vector3.down, 5.0f))
+                PlayerController.IsGrounded = false;
+        }
+
+    }
 }
