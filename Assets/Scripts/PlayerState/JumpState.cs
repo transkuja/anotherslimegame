@@ -48,7 +48,7 @@ public class JumpState : PlayerState
             jm.Jump(JumpManager.JumpEnum.Basic);
         else
             Debug.LogError("No jump manager attached to player!");
-        playerController.chargeFactor = 0;
+
         nbJumpMade++;
     }
 

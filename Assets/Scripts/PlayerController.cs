@@ -104,7 +104,7 @@ public class PlayerController : MonoBehaviour
         {
             if (value == true)
             {
-                jumpState.nbJumpMade = 0;
+                jumpState.nbJumpMade = 20; // Very high value, reset when releasing button AND being grounded
                 downDashState.nbDashDownMade = 0;
                 dashState.nbDashMade = 0;
                 if (GetComponent<JumpManager>() != null)
@@ -467,7 +467,7 @@ public class PlayerController : MonoBehaviour
         // Charge jump if A button is pressed for a "long" time and only if on the ground
         //if (isGrounded)
         {
-            if (state.Buttons.A == ButtonState.Pressed)
+            if (state.Buttons.A == ButtonState.Pressed && chargeFactor < 1.0f)
             {
                 chargeFactor += jumpChargeSpeed * Time.unscaledDeltaTime;
                 // Force max charge jump if the charge reach maximum charge
@@ -479,6 +479,12 @@ public class PlayerController : MonoBehaviour
             else if (prevState.Buttons.A == ButtonState.Pressed && state.Buttons.A == ButtonState.Released)
             {
                 playerState.OnJumpPressed();
+            }
+
+            if (state.Buttons.A == ButtonState.Released)
+            {
+                if (IsGrounded) jumpState.nbJumpMade = 0;
+                if (chargeFactor > 1.0f) chargeFactor = 0.0f;
             }
         }
     }
