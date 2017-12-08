@@ -12,6 +12,8 @@ public class DynamicJoystickCameraController : MonoBehaviour {
     Vector3 startMidOffset;
     Vector3 startHighOffset;
 
+    public bool TurnCameraWithLThumb = true;
+
     public float cameraXAdjuster = 0.4f;
     public float cameraYAdjuster = 0.4f;
 
@@ -74,9 +76,9 @@ public class DynamicJoystickCameraController : MonoBehaviour {
             else
                 freelookCamera.m_YAxis.m_InputAxisValue = 0;
 
-
-            ////Need a more complex function ?
-            freelookCamera.m_XAxis.m_InputAxisValue += Mathf.Abs(state.ThumbSticks.Left.X) > 0.1f ? (freelookCamera.m_XAxis.m_InvertAxis?-1:1) * state.ThumbSticks.Left.X* Mathf.Lerp(0.5f, 1.0f, Mathf.Abs(state.ThumbSticks.Left.X))/2.0f : 0;
+            if(TurnCameraWithLThumb)
+                ////Need a more complex function ?
+                freelookCamera.m_XAxis.m_InputAxisValue += Mathf.Abs(state.ThumbSticks.Left.X) > 0.1f ? (freelookCamera.m_XAxis.m_InvertAxis?-1:1) * state.ThumbSticks.Left.X* Mathf.Lerp(0.5f, 1.0f, Mathf.Abs(state.ThumbSticks.Left.X))/2.0f : 0;
 
             if (Mathf.Abs(state.ThumbSticks.Left.Y) > 0.1f)
             {
