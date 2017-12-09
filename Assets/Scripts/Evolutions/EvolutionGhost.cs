@@ -9,8 +9,6 @@ public class EvolutionGhost : EvolutionComponent
 
     float currentEmissionTimeLeft = 2.0f;
 
-    float trailComponentLifeTime = 10.0f;
-
     float trailComponentSpawnIntervalTime = 0.1f;
 
     float emissionTimeRegenRate = 0.5f;
@@ -51,19 +49,6 @@ public class EvolutionGhost : EvolutionComponent
         set
         {
             currentEmissionTimeLeft = value;
-        }
-    }
-
-    public float TrailComponentLifeTime
-    {
-        get
-        {
-            return trailComponentLifeTime;
-        }
-
-        set
-        {
-            trailComponentLifeTime = value;
         }
     }
 
@@ -182,19 +167,19 @@ public class EvolutionGhost : EvolutionComponent
                 {
                     
                     Ray ray = new Ray(transform.position+Vector3.up*.5f, Vector3.down);
-                    RaycastHit hit;
-                    if(Physics.Raycast(ray, out hit, 1.0f))
+                    RaycastHit hit = new RaycastHit();
+                    if(Physics.Raycast(ray, out hit, 1.0f, ~(1 << LayerMask.NameToLayer("GhostTrail"))))
                     {
-                        GameObject trailPane = Instantiate(ResourceUtils.Instance.refPrefabGhost.prefabGhostTrailPane);
-                        trailPane.transform.position = hit.point + Vector3.up*0.01f;
+                        GameObject trailPane = ResourceUtils.Instance.poolManager.ghostTrailPool.GetItem(null, hit.point + Vector3.up * 0.01f, Quaternion.identity, true, true);
                         float scale = Random.Range(0.8f, 1.2f);
                         trailPane.transform.localScale *= scale;
                         timeSinceLastTrailComponentSpawned = 0.0f;
+                        Debug.Log(hit.collider.name);
+                        Debug.Log(LayerMask.NameToLayer("GhostTrail"));
                         if (hit.collider.GetComponent<PlatformGameplay>())
                             trailPane.transform.SetParent(hit.collider.transform);
                         trailPane.GetComponent<GhostTrail>().owner = GetComponent<PlayerController>();
                         trailPane.transform.rotation = Quaternion.LookRotation(transform.forward, hit.normal);
-                        Destroy(trailPane, trailComponentLifeTime);
                     }
                     
                 }
