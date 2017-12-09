@@ -177,7 +177,7 @@ public class Player : MonoBehaviour {
 
     private void Update()
     {
-        if (Rb.velocity.y < -2.0f && PlayerController != null && PlayerController.IsGrounded)
+        if (Rb.velocity.y < 0.0f && PlayerController != null && PlayerController.IsGrounded)
         {
             if (!Physics.Raycast(transform.position + Vector3.up * 0.5f, Vector3.down, 5.0f))
                 PlayerController.IsGrounded = false;
