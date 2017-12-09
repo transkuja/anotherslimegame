@@ -15,6 +15,7 @@ public class EvolutionComponent : MonoBehaviour {
     protected bool isSpecialActionReleased = false;
 
     GameObject affectedPart;
+    GameObject activeTutoText;
 
     public virtual void Start()
     {
@@ -87,6 +88,10 @@ public class EvolutionComponent : MonoBehaviour {
                                         + Vector3.up * ((GameManager.Instance.PlayerStart.PlayersReference.Count > 2) ? 40.0f : 80.0f);
 
         tutoText.GetComponent<Text>().text = _text;
+        if (activeTutoText != null)
+            activeTutoText.SetActive(false);
+
+        activeTutoText = tutoText;
         Destroy(tutoText, 5.0f);
     }
 

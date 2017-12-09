@@ -33,6 +33,7 @@ public class EvolutionPlatformist : EvolutionComponent {
     public float summonHeight = 2.0f;
     public float summonDistance = 5.0f;
 
+    bool hasPlayedSecondTuto = false;
 
     // Private variables
     List<GameObject> showPattern;
@@ -45,6 +46,10 @@ public class EvolutionPlatformist : EvolutionComponent {
         {
             GetComponent<Player>().evolutionTutoShown[(int)Powers.Platformist] = true;
             PopTutoText("Hold RT to create platforms");
+        }
+        else
+        {
+            hasPlayedSecondTuto = true;
         }
     }
 
@@ -206,6 +211,12 @@ public class EvolutionPlatformist : EvolutionComponent {
                 platform.transform.rotation = transform.rotation;
                 showPattern.Add(platform);
             }
+        }
+
+        if (!hasPlayedSecondTuto)
+        {
+            hasPlayedSecondTuto = true;
+            PopTutoText("Press RB to change platforms' pattern");
         }
     }
 
