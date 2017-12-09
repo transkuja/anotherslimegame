@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UWPAndXInput;
+using UnityEngine.UI
+    ;
 
 
 public class EvolutionComponent : MonoBehaviour {
@@ -77,6 +78,16 @@ public class EvolutionComponent : MonoBehaviour {
         affectedPart.transform.SetParent(transform.GetChild((int)PlayerChildren.SlimeMesh));
         affectedPart.transform.SetSiblingIndex((int)evolution.BodyPart);
         affectedPart.SetActive(false);
+    }
+
+    protected void PopTutoText(string _text)
+    {
+        GameObject tutoText = Instantiate(ResourceUtils.Instance.refPrefabLoot.prefabTutoText, GameManager.UiReference.transform);
+        tutoText.transform.position = GetComponent<Player>().cameraReference.GetComponentInChildren<Camera>().WorldToScreenPoint(transform.position) 
+                                        + Vector3.up * ((GameManager.Instance.PlayerStart.PlayersReference.Count > 2) ? 40.0f : 80.0f);
+
+        tutoText.GetComponent<Text>().text = _text;
+        Destroy(tutoText, 5.0f);
     }
 
     public virtual void OnCollisionEnter(Collision coll)

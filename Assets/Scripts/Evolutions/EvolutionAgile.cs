@@ -12,5 +12,11 @@ public class EvolutionAgile : EvolutionComponent {
         playerController.stats.AddBuff(new StatBuff(Stats.StatType.AIR_CONTROL, 1.2f, -1));
         playerController.stats.AddBuff(new StatBuff(Stats.StatType.JUMP_HEIGHT, 1.2f, -1));
         Debug.Log("Start AgileEvolution");
+
+        if (!GetComponent<Player>().evolutionTutoShown[(int)Powers.Agile])
+        {
+
+            GetComponent<Player>().evolutionTutoShown[(int)Powers.Agile] = true;
+        }
     }
 }

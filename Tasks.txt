@@ -49,7 +49,6 @@
 	Bugs
 ========================
 [REMI]- Une des clés du joueur 2 apparait en dehors de l'écran
-- IsGrounded reste à true quand on marche vers le vide sans sauter
 
 
 =================================================================================================================================

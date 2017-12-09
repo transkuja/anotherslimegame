@@ -41,6 +41,11 @@ public class EvolutionPlatformist : EvolutionComponent {
     {
         base.Start();
         SetPower(Powers.Platformist);
+        if (!GetComponent<Player>().evolutionTutoShown[(int)Powers.Platformist])
+        {
+            GetComponent<Player>().evolutionTutoShown[(int)Powers.Platformist] = true;
+            PopTutoText("Hold RT to create platforms");
+        }
     }
 
     public float TimerPlatform
