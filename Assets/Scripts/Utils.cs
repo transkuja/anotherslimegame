@@ -58,6 +58,20 @@ public static class Utils {
 
     public static void Shuffle<T>(this IList<T> list)
     {
+        System.Random _random = new System.Random();
+
+        T value;
+        int n = list.Count;
+        for (int i = 0; i < n; i++)
+        {
+            // NextDouble returns a random number between 0 and 1.
+            // ... It is equivalent to Math.random() in Java.
+            int r = i + (int)(_random.NextDouble() * (n - i));
+            value = list[r];
+            list[r] = list[i];
+            list[i] = value;
+        }
+
         //RNGCryptoServiceProvider provider = new RNGCryptoServiceProvider();
         //int n = list.Count;
         //while (n > 1)
