@@ -109,6 +109,7 @@ public class EvolutionGhost : EvolutionComponent
     public override void Start()
     {
         base.Start();
+        SetPower(Powers.Ghost);
         gameObject.layer = LayerMask.NameToLayer("GhostPlayer");
     }
 
