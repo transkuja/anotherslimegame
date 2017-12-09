@@ -29,28 +29,31 @@ public class PlayerUI : MonoBehaviour {
             linkPlayerKeyToItsUi.Add(GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<Player>(), playerUi.transform.GetChild((int)PlayerUiChildren.Keys).gameObject);
 
             // Generate UI points
-            GameObject pointSprite = Instantiate(ResourceUtils.Instance.refPrefabLoot.prefabPointSprite, playerUi.transform.GetChild((int)PlayerUiChildren.Points).transform);
             switch (i){
                 case 0: // Player 1
-                    // Do nothing default value are ok
+                        // Do nothing default value are ok
+                    Instantiate(ResourceUtils.Instance.refPrefabLoot.prefabPointSpriteLeft, playerUi.transform.GetChild((int)PlayerUiChildren.Points).transform);
                     break;
                 case 1: // Player 2
                     // TODO : need to be twerk, currently width of points -10
-                    pointSprite.transform.localPosition = new Vector3(-170, 0);
+                    //pointSprite.transform.localPosition = new Vector3(-170, 0);
+                    Instantiate(ResourceUtils.Instance.refPrefabLoot.prefabPointSpriteRight, playerUi.transform.GetChild((int)PlayerUiChildren.Points).transform);
                     break;
                 case 2: // Player 3
                     // Do nothing default value are ok
+                    Instantiate(ResourceUtils.Instance.refPrefabLoot.prefabPointSpriteLeft, playerUi.transform.GetChild((int)PlayerUiChildren.Points).transform);
                     break;
                 case 3: // Player 4
                         // TODO : need to be twerk, currently width of points -10
-                    pointSprite.transform.localPosition = new Vector3(-170, 0);
+                        //pointSprite.transform.localPosition = new Vector3(-170, 0);
+                    Instantiate(ResourceUtils.Instance.refPrefabLoot.prefabPointSpriteRight, playerUi.transform.GetChild((int)PlayerUiChildren.Points).transform);
                     break;
                 default :
                     Debug.Log("bug Point UI.....");
                     break;
             }
 
-            pointSprite.SetActive(true);
+            //pointSprite.SetActive(true);
             linkPlayerPointsToItsUi.Add(GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<Player>(), playerUi.transform.GetChild((int)PlayerUiChildren.Points).gameObject);
 
             // Initialize points

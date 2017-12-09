@@ -19,10 +19,11 @@ public class PrefabLoot : MonoBehaviour {
     [SerializeField]
     public GameObject prefabKeyGameObject;
 
+
+    [Header("UI")]
     public GameObject prefabKeySprite;
-
-
-    public GameObject prefabPointSprite;
+    public GameObject prefabPointSpriteRight;
+    public GameObject prefabPointSpriteLeft;
 
     public GameObject SpawnCollectableInstance(Vector3 where, Quaternion direction, Transform parent, CollectableType myItemType, bool useAlternativePrefab = false)
     {
