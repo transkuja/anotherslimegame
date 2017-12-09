@@ -22,7 +22,7 @@ public class AnimText : MonoBehaviour {
                                                 text.transform.localScale.y + ((scaleIncreasing) ? Time.deltaTime : -Time.deltaTime)/4,
                                                 1);
         outline.effectColor = outlineColor;
-        Debug.Log(alphaIncreasing);
+
         if (outlineColor.a > 0.3f) alphaIncreasing = false;
         else if (outlineColor.a < 0.01f) alphaIncreasing = true;
         if (text.transform.localScale.x > 1.05f) scaleIncreasing = false;
