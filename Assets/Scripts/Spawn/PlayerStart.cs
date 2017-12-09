@@ -53,18 +53,18 @@ public class PlayerStart : MonoBehaviour {
         }
 
         // Pour chaque joueur
-        for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
-        {
-            // Pour chaque canvas
-            for (int j = 0; j < GameManager.Instance.PlayerStart.PlayersReference.Count; j++)
-            {
-                if (j != i)
-                {
-                    GameManager.Instance.PlayerStart.PlayersReference[i].transform.GetChild((int)PlayerChildren.Canvas).GetChild(j).gameObject.GetComponentInChildren<Text>().text = GameManager.Instance.PlayerStart.PlayersReference[i].name;
-                    GameManager.Instance.PlayerStart.PlayersReference[i].transform.GetChild((int)PlayerChildren.Canvas).GetChild(j).gameObject.SetActive(true);
-                }
-            }
-        }
+        //for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
+        //{
+        //    // Pour chaque canvas
+        //    for (int j = 0; j < GameManager.Instance.PlayerStart.PlayersReference.Count; j++)
+        //    {
+        //        if (j != i)
+        //        {
+        //            GameManager.Instance.PlayerStart.PlayersReference[i].transform.GetChild((int)PlayerChildren.Canvas).GetChild(j).gameObject.GetComponentInChildren<Text>().text = GameManager.Instance.PlayerStart.PlayersReference[i].name;
+        //            GameManager.Instance.PlayerStart.PlayersReference[i].transform.GetChild((int)PlayerChildren.Canvas).GetChild(j).gameObject.SetActive(true);
+        //        }
+        //    }
+        //}
 
 #if UNITY_EDITOR
         ResourceUtils.Instance.debugTools.ActivateDebugMode();
