@@ -240,7 +240,6 @@ public class PlayerCollisionCenter : MonoBehaviour {
                     && collision.transform.position.y - transform.position.y > maxHeightDetection
                     && heightAngleDetection < heightAngleForActivation)
                 {
-                    Debug.Log(collision.transform.position.y - transform.position.y);
                     transform.position = collision.transform.GetComponent<Collider>().ClosestPoint(transform.position) + recalageForward * transform.forward + recalageUp * transform.up;
                 }
             }
