@@ -14,7 +14,7 @@ public class PrefabIle : MonoBehaviour
     [Header("Evolution Islands")]
     public GameObject prefabIle1GameObject;
     public GameObject prefabIle2GameObject;
-
+    public GameObject prefabIle3GameObject;
 
     [Header("Point Islands")]
     public GameObject prefabPointIsland1GameObject;
@@ -33,6 +33,7 @@ public class PrefabIle : MonoBehaviour
     {
         evolutionIslands.Add(prefabIle1GameObject);
         evolutionIslands.Add(prefabIle2GameObject);
+        evolutionIslands.Add(prefabIle3GameObject);
 
         pointsIslands.Add(prefabPointIsland1GameObject);
     }
