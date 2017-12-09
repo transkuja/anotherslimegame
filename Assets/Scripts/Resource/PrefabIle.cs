@@ -15,6 +15,7 @@ public class PrefabIle : MonoBehaviour
     public GameObject prefabIle1GameObject;
     public GameObject prefabIle2GameObject;
     public GameObject prefabIle3GameObject;
+    public GameObject prefabIle4GameObject;
 
     [Header("Point Islands")]
     public GameObject prefabPointIsland1GameObject;
@@ -34,6 +35,7 @@ public class PrefabIle : MonoBehaviour
         evolutionIslands.Add(prefabIle1GameObject);
         evolutionIslands.Add(prefabIle2GameObject);
         evolutionIslands.Add(prefabIle3GameObject);
+        evolutionIslands.Add(prefabIle4GameObject);
 
         pointsIslands.Add(prefabPointIsland1GameObject);
     }
@@ -42,7 +44,9 @@ public class PrefabIle : MonoBehaviour
     {
         // Randomize islands spawn
         Utils.Shuffle(evolutionIslands);
-        return Instantiate(evolutionIslands[0], where, direction, parent);
+        GameObject go = Instantiate(evolutionIslands[0], where, direction, parent);
+        evolutionIslands.RemoveAt(0);
+        return go;
     }
 
     public GameObject SpawnRuneShelterInstance(Vector3 where, Quaternion direction, Transform parent, CollectableType myItemType)
