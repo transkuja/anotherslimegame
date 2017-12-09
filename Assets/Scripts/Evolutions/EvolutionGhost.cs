@@ -167,7 +167,7 @@ public class EvolutionGhost : EvolutionComponent
         if (!hitZero)
         {
             
-            if(state.Buttons.B == ButtonState.Pressed)
+            if(state.Triggers.Left > 0.1f)
             {
                 timeBeforeLastButtonPress = 0.0f;
                 isButtonPressedAndDidNotHitZero = true;
