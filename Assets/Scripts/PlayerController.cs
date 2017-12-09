@@ -255,9 +255,11 @@ public class PlayerController : MonoBehaviour
     private void PlatformistController()
     {
         // /!\ WARNING: code conflictuel si on combine les évolutions
-        if (GetComponent<EvolutionPlatformist>())
+        EvolutionPlatformist platformistComponent = GetComponent<EvolutionPlatformist>();
+        if (platformistComponent != null)
         {
-            EvolutionPlatformist platformistComponent = GetComponent<EvolutionPlatformist>();
+            if (platformistComponent.Charges == 0)
+                return;
 
             if (prevState.Triggers.Right < 0.1f && state.Triggers.Right > 0.1f)
                 rightTriggerHasBeenPressed = true;
@@ -288,7 +290,7 @@ public class PlayerController : MonoBehaviour
             }
 
 
-            GetComponent<EvolutionPlatformist>().TimerPlatform += Time.deltaTime;
+            platformistComponent.TimerPlatform += Time.deltaTime;
         }
     }
 
