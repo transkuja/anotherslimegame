@@ -185,7 +185,7 @@ public class DebugTools : MonoBehaviour {
                     if (DebugPlayerSelected.GetComponent<EvolutionStrength>()) Destroy(DebugPlayerSelected.GetComponent<EvolutionStrength>());
                     if (DebugPlayerSelected.GetComponent<EvolutionAgile>()) Destroy(DebugPlayerSelected.GetComponent<EvolutionAgile>());
                     if (DebugPlayerSelected.GetComponent<EvolutionPlatformist>()) Destroy(DebugPlayerSelected.GetComponent<EvolutionPlatformist>());
-                    // TODO: add ghost evolution
+                    if (DebugPlayerSelected.GetComponent<EvolutionGhost>()) Destroy(DebugPlayerSelected.GetComponent<EvolutionGhost>());
                     DebugPlayerSelected.Rb.velocity = Vector3.zero;
                     Debug.Log("Reset current player! " + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
                 }

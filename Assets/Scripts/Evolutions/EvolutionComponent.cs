@@ -85,7 +85,7 @@ public class EvolutionComponent : MonoBehaviour {
     {
         GameObject tutoText = Instantiate(ResourceUtils.Instance.refPrefabLoot.prefabTutoText, GameManager.UiReference.transform);
         tutoText.transform.position = GetComponent<Player>().cameraReference.GetComponentInChildren<Camera>().WorldToScreenPoint(transform.position) 
-                                        + Vector3.up * ((GameManager.Instance.PlayerStart.PlayersReference.Count > 2) ? 40.0f : 80.0f);
+                                        + Vector3.up * ((GameManager.Instance.PlayerStart.PlayersReference.Count > 2) ? 80.0f : 160.0f);
 
         tutoText.GetComponent<Text>().text = _text;
         if (activeTutoText != null)
