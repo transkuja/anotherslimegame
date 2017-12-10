@@ -18,11 +18,13 @@ public class TheButton : MonoBehaviour {
     Vector3 lerpStartValue;
 
     float lerpValue;
+    float lastValue;
 
     public void Start()
     {
         positionToReach = water.transform.position + heightToReach * Vector3.up;
         lerpValue = 0.0f;
+        lastValue = 0.0f;
         lerpStartValue = water.transform.position;
     }
 
@@ -47,13 +49,15 @@ public class TheButton : MonoBehaviour {
             {
                 moveWater = false;
                 for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
-                    GamePad.SetVibration((PlayerIndex)i, 0, 0);
+                    GamePad.SubVibration((PlayerIndex)i, lastValue, lastValue);
             }
             else
             {
                 for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
                 {
-                    GamePad.SetVibration((PlayerIndex)i, Mathf.Lerp(0, 0.5f, lerpValue), Mathf.Lerp(0, 0.5f, lerpValue));
+                    GamePad.SubVibration((PlayerIndex)i, lastValue, lastValue);
+                    lastValue = Mathf.Lerp(0, 0.5f, lerpValue);
+                    GamePad.AddVibration((PlayerIndex)i, lastValue, lastValue);
                 }
             }
         }

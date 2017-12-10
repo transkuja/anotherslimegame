@@ -7,6 +7,17 @@ using Windows.Gaming.Input;
 
 namespace UWPAndXInput
 {
+    
+    public static class GamePadVibration
+    {
+        public struct VibrationValues
+        {
+            public float leftMotor;
+            public float rightMotor;
+        }
+
+        public static VibrationValues[] Vibrations = new VibrationValues[4];
+    }
     public class GamePad
     {
         public GamePad()
@@ -171,7 +182,6 @@ namespace UWPAndXInput
 
             state.IsConnected = _state.IsConnected;
             state.PacketNumber = _state.PacketNumber;
-
             return state;
         }
 #endif
@@ -190,6 +200,8 @@ namespace UWPAndXInput
 
         public static void SetVibration(PlayerIndex playerIndex, float leftMotor, float rightMotor)
         {
+            if ((int)playerIndex < 0 || (int)playerIndex > 3)
+                return;
 #if WINDOWS_UWP
             GamepadVibration vibration = new GamepadVibration();
             vibration.LeftMotor = leftMotor;
@@ -198,6 +210,31 @@ namespace UWPAndXInput
 #else
             XInputDotNetPure.GamePad.SetVibration((XInputDotNetPure.PlayerIndex)playerIndex, leftMotor, rightMotor);
 #endif
+            GamePadVibration.Vibrations[(int)playerIndex].leftMotor = leftMotor;
+            GamePadVibration.Vibrations[(int)playerIndex].rightMotor = rightMotor;
+        }
+
+        public static void AddVibration(PlayerIndex playerIndex, float leftMotor, float rightMotor)
+        {
+            SetVibration(playerIndex,
+                         GamePadVibration.Vibrations[(int)playerIndex].leftMotor + leftMotor,
+                         GamePadVibration.Vibrations[(int)playerIndex].rightMotor + rightMotor);
+        }
+
+        public static void SubVibration(PlayerIndex playerIndex, float leftMotor, float rightMotor)
+        {
+            SetVibration(playerIndex,
+                         GamePadVibration.Vibrations[(int)playerIndex].leftMotor - leftMotor,
+                         GamePadVibration.Vibrations[(int)playerIndex].rightMotor - rightMotor);
+        }
+
+        public static IEnumerator VibrateForSeconds(PlayerIndex playerIndex, float leftMotor, float rightMotor, float seconds)
+        {
+            if ((int)playerIndex < 0 || (int)playerIndex > 3)
+                yield break;
+            AddVibration(playerIndex, leftMotor, rightMotor);
+            yield return new WaitForSeconds(seconds);
+            SubVibration(playerIndex, leftMotor, rightMotor);
         }
     }
 

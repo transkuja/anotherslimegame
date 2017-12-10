@@ -134,6 +134,11 @@ public class PlayerCollisionCenter : MonoBehaviour {
                             impactedPlayersOldVelocities.Add(playersCollided[i].GetComponent<Rigidbody>().velocity);
                             playersCollided[i].GetComponent<Rigidbody>().velocity = Vector3.zero;
 
+                            //Set vibrations
+                            Debug.Log("Vibrate1");
+                            StartCoroutine(UWPAndXInput.GamePad.VibrateForSeconds(playerController.playerIndex, 0.5f, 0.5f, .15f));
+                            StartCoroutine(UWPAndXInput.GamePad.VibrateForSeconds(playersCollided[i].GetComponent<PlayerController>().playerIndex, 0.5f, 0.5f, .15f));
+
                             if (AudioManager.Instance != null && AudioManager.Instance.punchFx != null)
                                 AudioManager.Instance.PlayOneShot(AudioManager.Instance.punchFx);
                         }
@@ -255,6 +260,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
         // ExpluseForce
 
         //if (_PlayerController.StrengthState == SkillState.Dashing) repulsionMultiplier *= -2;
+        
         ExpulsePlayer(playerImpacted.GetComponent<Collider>().ClosestPoint(transform.position), playerImpacted.Rb, repulsionFactor);
         //RepulseRigibody(playersCollided[i].ClosestPoint(transform.position), playersCollided[i].GetComponent<Rigidbody>(), repulsionFactor);
 
