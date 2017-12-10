@@ -62,6 +62,7 @@ public class Bullet : MonoBehaviour {
                 Destroy(go, 10.0f);
                 if (AudioManager.Instance != null && AudioManager.Instance.punchFx != null)
                     AudioManager.Instance.PlayOneShot(AudioManager.Instance.punchFx);
+                UWPAndXInput.GamePad.VibrateForSeconds(playerController.playerIndex, 0.9f, 0.9f, .2f);
                 playerCollision.DamagePlayer(other.GetComponent<Player>());
                 playerCollision.ExpulsePlayer(other.ClosestPoint(transform.position), other.GetComponent<Rigidbody>(), 50);
                 GetComponent<PoolChild>().ReturnToPool();

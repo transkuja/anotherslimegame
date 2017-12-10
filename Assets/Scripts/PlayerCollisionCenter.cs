@@ -135,9 +135,8 @@ public class PlayerCollisionCenter : MonoBehaviour {
                             playersCollided[i].GetComponent<Rigidbody>().velocity = Vector3.zero;
 
                             //Set vibrations
-                            Debug.Log("Vibrate1");
-                            StartCoroutine(UWPAndXInput.GamePad.VibrateForSeconds(playerController.playerIndex, 0.8f, 0.8f, .1f));
-                            StartCoroutine(UWPAndXInput.GamePad.VibrateForSeconds(playersCollided[i].GetComponent<PlayerController>().playerIndex, 0.8f, 0.8f, .1f));
+                            UWPAndXInput.GamePad.VibrateForSeconds(playerController.playerIndex, 0.8f, 0.8f, .1f);
+                            UWPAndXInput.GamePad.VibrateForSeconds(playersCollided[i].GetComponent<PlayerController>().playerIndex, 0.8f, 0.8f, .1f);
 
                             if (AudioManager.Instance != null && AudioManager.Instance.punchFx != null)
                                 AudioManager.Instance.PlayOneShot(AudioManager.Instance.punchFx);

@@ -17,6 +17,17 @@ namespace UWPAndXInput
         }
 
         public static VibrationValues[] Vibrations = new VibrationValues[4];
+
+        static CoroutinePlayer coroutinePlayer;
+        public static CoroutinePlayer CoroutinePlayer
+        {
+            get
+            {
+                if (coroutinePlayer == null)
+                    coroutinePlayer = new GameObject("CoroutinePlayer", typeof(CoroutinePlayer)).GetComponent<CoroutinePlayer>();
+                return coroutinePlayer;
+            }
+        }
     }
     public class GamePad
     {
@@ -234,7 +245,12 @@ namespace UWPAndXInput
                          GamePadVibration.Vibrations[(int)playerIndex].rightMotor - rightMotor);
         }
 
-        public static IEnumerator VibrateForSeconds(PlayerIndex playerIndex, float leftMotor, float rightMotor, float seconds)
+        public static void VibrateForSeconds(PlayerIndex playerIndex, float leftMotor, float rightMotor, float seconds)
+        {
+            GamePadVibration.CoroutinePlayer.StartCoroutine(vibrateForSeconds(playerIndex, leftMotor, rightMotor, seconds));
+        }
+
+        static IEnumerator vibrateForSeconds(PlayerIndex playerIndex, float leftMotor, float rightMotor, float seconds)
         {
             if ((int)playerIndex < 0 || (int)playerIndex > 3)
                 yield break;
