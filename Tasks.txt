@@ -43,13 +43,13 @@
 	- la fin
 
 [SEB] - Particules effect sur le dash (dans la zone de trigger)
-[SEB] - Feedback impacts (particules, 'time stop', etc.)
 
 ========================
 	Bugs
 ========================
 [REMI]- Une des clés du joueur 2 apparait en dehors de l'écran
-
+- Un joueur qui dash d'autres joueurs peut parfois se retrouver lui même en FrozenState (et il ne peut pas en sortir)
+- Certains des points qu'un joueur fait tomber en se prenant des dégâts sont parfois automatiquement attiré vers lui, même s'il a été repoussé très loin et qu'un autre joueur est censé les attirer. (Comme si le Attract était appellé au spawn et avant le blocage du ramassage pendant 1 sec)
 
 =================================================================================================================================
 Secondaire:
