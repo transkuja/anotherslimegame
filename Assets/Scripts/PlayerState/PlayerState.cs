@@ -144,7 +144,7 @@ public class PlayerState  {
     }
     public virtual void OnDownDashPressed()
     {
-        if (playerController.downDashState.nbDashDownMade < 1)
+        if (playerController.downDashState.nbDashDownMade < 1 && !playerController.IsGrounded)
         {
             playerController.PlayerState = playerController.downDashState;
             if (playerController.jumpState.nbJumpMade > 0)

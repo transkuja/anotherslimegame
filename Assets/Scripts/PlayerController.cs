@@ -392,16 +392,21 @@ public class PlayerController : MonoBehaviour
             // Need to be removed
             if (Physics.SphereCast(transform.position + Vector3.up, 1f, -transform.up, out hitInfo, maxDistanceOffset))
             {
-                if (hitInfo.transform.gameObject.GetComponentInParent<Ground>() != null)
+                if (hitInfo.transform.GetComponentInParent<Ground>() != null || hitInfo.transform.gameObject.layer == LayerMask.NameToLayer("Ground"))
                 {
                     IsGrounded = true;
                 }
             }
-            // test
-            if (Physics.SphereCast(transform.position + Vector3.up, 1f, -transform.up, out hitInfo, maxDistanceOffset, 1 << LayerMask.NameToLayer("Ground")))
-            {
-                IsGrounded = true;
-            }
+            //// test
+            //if (Physics.SphereCast(transform.position + Vector3.up, 1f, -transform.up, out hitInfo, maxDistanceOffset, 1 << LayerMask.NameToLayer("Ground")))
+            //{
+            //    IsGrounded = true;
+            //}
+        }
+        if (Rb.velocity.y < 0.0f && IsGrounded)
+        {
+            if (!Physics.Raycast(transform.position + Vector3.up * 0.5f, Vector3.down, 5.0f))
+                IsGrounded = false;
         }
     }
     public void OnCollisionEnter(Collision collision)
