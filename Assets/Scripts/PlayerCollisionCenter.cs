@@ -206,6 +206,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
         if (collision.gameObject.tag == "HardBreakable")
         {
+            // marche pas pour dash down ( on est déjà sortis de DashDownState quand on touche le sol)(j'ai mis une cheville dans DashDownState en attendant
             if ((playerController.PlayerState is DashState || playerController.PlayerState is DashDownState) && playerController.GetComponent<EvolutionStrength>())
             {
                 if (collision.gameObject.GetComponent<Rigidbody>() != null)

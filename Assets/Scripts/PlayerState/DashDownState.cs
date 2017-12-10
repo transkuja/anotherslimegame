@@ -38,16 +38,17 @@ public class DashDownState : PlayerState
         timer += Time.deltaTime;
         if (timer > maxDashChargeDelay || playerController.State.Buttons.Y == ButtonState.Released)
         {
-            curUpdateFct = LaunchDash;
+            curUpdateFct = OnDash;
             timer = 0;
+            if (playerController.dashParticles && playerController.dashParticles.GetComponent<ParticleSystem>())
+                playerController.dashParticles.GetComponent<ParticleSystem>().Play();
         }
     }
+    // TMP debug pour que ça marche , A refaire en moins lourd
 
     // Apply a speed towards the ground
-    public void LaunchDash()
+    public void OnDash()
     {
-        if(playerController.dashParticles && playerController.dashParticles.GetComponent<ParticleSystem>())
-            playerController.dashParticles.GetComponent<ParticleSystem>().Play();
         Vector3 downPush = Vector3.down * downDashPower;
         playerController.Rb.velocity = downPush; // Override current velocity. 
         timer += Time.deltaTime;
@@ -55,6 +56,20 @@ public class DashDownState : PlayerState
         {
             playerController.PlayerState = playerController.freeState;
         }
+
+        // TMP debug pour que ça marche , A refaire en moins lourd
+        Collider[] coll = Physics.OverlapSphere(playerController.transform.position - Vector3.up, 2f);
+        if (coll!=null)
+        for (int i = 0;i < coll.Length;i++)
+        {
+            if (coll[i].CompareTag("HardBreakable"))
+                {
+                    coll[i].gameObject.GetComponent<Rigidbody>().isKinematic = false;
+                    coll[i].gameObject.transform.parent = null;
+                    coll[i].GetComponent<Rigidbody>().velocity = playerController.Rb.velocity*1.2f;
+                }
+        }
+
     }
     public override void HandleGravity()
     {
