@@ -3,7 +3,11 @@ using System.Collections.Generic;
 using UWPAndXInput;
 using UnityEngine;
 
+
+public enum WaterState { Clear, WaterIsMovingTop, WaterIsMovingBottom}
+
 public class TheButton : MonoBehaviour {
+
 
     public GameObject water;
 
@@ -13,12 +17,15 @@ public class TheButton : MonoBehaviour {
     [Header("height + water.position")]
     public float heightToReach = 30;
 
-    private bool moveWater = false;
     private Vector3 positionToReach;
-    Vector3 lerpStartValue;
+    private Vector3 lerpStartValue;
+    private float lerpValue;
+    private float lastValue;
+   
+    public float timerResetMax = 20.0f;
+    private float timerReset = 0.0f;
 
-    float lerpValue;
-    float lastValue;
+    public WaterState waterState = WaterState.Clear;
 
     public void Start()
     {
@@ -34,40 +41,65 @@ public class TheButton : MonoBehaviour {
         {
             GetComponent<BoxCollider>().enabled = false;
             GetComponent<Animator>().SetBool("test", true);
-            moveWater = true;
+            waterState = WaterState.WaterIsMovingTop;
         }
     }
 
     public void Update()
     {
-        if (moveWater)
+        switch (waterState)
         {
-            lerpValue += speed * Time.deltaTime;
-            water.transform.position = Vector3.Lerp(lerpStartValue, positionToReach, lerpValue);
-      
-            if (lerpValue >= 1.0f)
-            {
-                moveWater = false;
-                for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
-                    GamePad.SubVibration((PlayerIndex)i, lastValue, lastValue);
-            }
-            else
-            {
-                for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
+            case WaterState.WaterIsMovingTop:
+                MoveWater(lerpStartValue, positionToReach);
+                if (lerpValue >= 1.0f)
                 {
-                    GamePad.SubVibration((PlayerIndex)i, lastValue, lastValue);
-                    lastValue = Mathf.Lerp(0, 0.5f, lerpValue);
-                    GamePad.AddVibration((PlayerIndex)i, lastValue, lastValue);
+                    timerReset += Time.deltaTime;
+                    if (timerReset >= timerResetMax)
+                    {
+                        timerReset = 0.0f;
+                        lerpValue = 0.0f;
+                        waterState = WaterState.WaterIsMovingBottom;
+                    }
                 }
-            }
+                break;
+            case WaterState.WaterIsMovingBottom:
+                MoveWater(positionToReach, lerpStartValue);
+                if (lerpValue >= 1.0f)
+                {
+                    GetComponent<Animator>().SetBool("test", false);
+                    waterState = WaterState.Clear;
+                }
+                break;
+            case WaterState.Clear:
+                break;
         }
 
-       
     }
 
     public void OnDisable()
     {
         for (int i = 0; i < 4; i++)
             GamePad.SetVibration((PlayerIndex)i, 0, 0);
+    }
+
+    public void MoveWater(Vector3 positionOrigin, Vector3 positionToReach)
+    {
+        lerpValue += speed * Time.deltaTime;
+        water.transform.position = Vector3.Lerp(positionOrigin, positionToReach, lerpValue);
+
+        if (lerpValue >= 1.0f)
+        {
+            for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
+                GamePad.SubVibration((PlayerIndex)i, lastValue, lastValue);
+        }
+        else
+        {
+            for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
+            {
+                GamePad.SubVibration((PlayerIndex)i, lastValue, lastValue);
+                lastValue = Mathf.Lerp(0, 0.5f, lerpValue);
+                GamePad.AddVibration((PlayerIndex)i, lastValue, lastValue);
+            }
+        }
     }
 }
