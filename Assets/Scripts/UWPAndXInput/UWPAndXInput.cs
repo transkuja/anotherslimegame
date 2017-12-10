@@ -202,6 +202,12 @@ namespace UWPAndXInput
         {
             if ((int)playerIndex < 0 || (int)playerIndex > 3)
                 return;
+
+            if (leftMotor < 0f)
+                leftMotor = 0f;
+
+            if (rightMotor < 0f)
+                rightMotor = 0f;
 #if WINDOWS_UWP
             GamepadVibration vibration = new GamepadVibration();
             vibration.LeftMotor = leftMotor;
