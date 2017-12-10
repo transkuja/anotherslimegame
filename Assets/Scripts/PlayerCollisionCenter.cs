@@ -360,7 +360,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
         yield return null;
     }
 
-    void ForcedJump(Vector3 direction, float repulseStrength, Rigidbody target)
+    public void ForcedJump(Vector3 direction, float repulseStrength, Rigidbody target)
     {
         if (target.GetComponent<PlayerController>() != null)
         {

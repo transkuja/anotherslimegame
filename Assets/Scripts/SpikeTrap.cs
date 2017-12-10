@@ -9,6 +9,7 @@ public class SpikeTrap : MonoBehaviour {
     int damage;
 
     public bool respawnPlayer = false;
+    public bool istest = false;
 
 	void OnTriggerEnter(Collider col)
     {
@@ -32,9 +33,18 @@ public class SpikeTrap : MonoBehaviour {
                 return;
             }
 
+            PlayerController pController = p.GetComponent<PlayerController>();
+            if (istest)
+            {
+                Vector3 direction = transform.forward;
+                pController.GetComponent<PlayerCollisionCenter>().ForcedJump(direction, 200, pController.GetComponent<Rigidbody>());
+                StartCoroutine(pController.GetComponent<PlayerCollisionCenter>().ReactivateCollider(pController.GetComponent<Rigidbody>().GetComponent<Player>()));
+                return;
+            }
+
             p.CanDoubleJump = true;
 
-            PlayerController pController = p.GetComponent<PlayerController>();
+ 
             pController.GetComponent<PlayerCollisionCenter>().DamagePlayer(pController.GetComponent<Player>());
             pController.GetComponent<PlayerCollisionCenter>().ExpulsePlayer(collision.collider.ClosestPoint(transform.position), pController.GetComponent<Rigidbody>(), 900);
         }
