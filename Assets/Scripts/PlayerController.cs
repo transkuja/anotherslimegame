@@ -386,7 +386,7 @@ public class PlayerController : MonoBehaviour
             PlayerState.OnFixedUpdate();
 
         // Handle Grounded
-        if (player.Rb.velocity.y <= 0.2f && !isGrounded)
+        if (player.Rb.velocity.y <= 0.0f && !isGrounded)
         {
             RaycastHit hitInfo;
             // Need to be removed
