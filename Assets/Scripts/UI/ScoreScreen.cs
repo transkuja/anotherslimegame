@@ -65,7 +65,8 @@ public class ScoreScreen : MonoBehaviour {
 
         player.rank = rank;
 
-        player.Anim.SetBool("hasFinished", true);
+        if (rank != 4)
+            player.Anim.SetBool("hasFinished", true);
         nbrOfPlayersAtTheEnd++;
         CheckEndGame();
     }
