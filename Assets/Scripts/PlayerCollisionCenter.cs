@@ -3,6 +3,7 @@ using System; // For math
 using System.Collections;
 using System.Collections.Generic; // For List
 
+using Random = UnityEngine.Random;
 
 public class PlayerCollisionCenter : MonoBehaviour {
 
@@ -165,7 +166,8 @@ public class PlayerCollisionCenter : MonoBehaviour {
                     if (!c.IsAttracted)
                     {
                         Physics.IgnoreCollision(collectablesCollided[i].GetComponent<Collider>(), GetComponent<Collider>(), true);
-                        c.GetComponent<Animator>().enabled = false;
+                        if(c.GetComponent<Animator>())
+                            c.GetComponent<Animator>().enabled = false;
                         c.PickUp(GetComponent<Player>());
                     }
                 }
@@ -299,18 +301,26 @@ public class PlayerCollisionCenter : MonoBehaviour {
     public void DamagePlayer(Player player)
     {
         // Damage Behavior
-        int typeCollectable = -1;
-        switch (GameManager.CurrentGameMode.gameModeType)
-        {
-            case GameModeType.Escape:
-                typeCollectable = (int)CollectableType.Points; break;
-            case GameModeType.Arena:
-                typeCollectable = (int)CollectableType.Points; break;
-            default:
-                break;
-        }
+        int typeCollectable = (int)CollectableType.Points;
+        //switch (GameManager.CurrentGameMode.gameModeType)
+        //{
+        //    case GameModeType.Escape:
+        //        typeCollectable = (int)CollectableType.Points; break;
+        //    case GameModeType.Arena:
+        //        typeCollectable = (int)CollectableType.Points; break;
+        //    default:
+        //        break;
+        //}
 
-        if (typeCollectable == -1) return;
+        //if (typeCollectable == -1) return;
+
+        if (player.Collectables[(int)CollectableType.Key] > 0)
+        {
+            int random = Random.Range(1, Utils.GetMaxValueForCollectable(CollectableType.Key)+1);
+            if(random > Utils.GetMaxValueForCollectable(CollectableType.Key) - player.Collectables[(int)CollectableType.Key])
+                typeCollectable = (int)CollectableType.Key;
+        } 
+
 
         if (player.Collectables[typeCollectable] > 0)
         {
