@@ -508,27 +508,29 @@ public class PlayerController : MonoBehaviour
     {
         // Charge jump if A button is pressed for a "long" time and only if on the ground
         //if (isGrounded)
+
+
+        if (state.Buttons.A == ButtonState.Pressed && chargeFactor < 1.0f)
         {
-            if (state.Buttons.A == ButtonState.Pressed && chargeFactor < 1.0f)
-            {
-                chargeFactor += jumpChargeSpeed * Time.unscaledDeltaTime;
-                // Force max charge jump if the charge reach maximum charge
-                if (chargeFactor > 1.0f)
-                {
-                    playerState.OnJumpPressed();
-                }
-            }
-            else if (prevState.Buttons.A == ButtonState.Pressed && state.Buttons.A == ButtonState.Released)
+            chargeFactor += jumpChargeSpeed * Time.unscaledDeltaTime;
+            // Force max charge jump if the charge reach maximum charge
+            if (chargeFactor > 1.0f)
             {
                 playerState.OnJumpPressed();
             }
-
-            if (state.Buttons.A == ButtonState.Released)
-            {
-                if (IsGrounded) jumpState.nbJumpMade = 0;
-                if (chargeFactor > 1.0f) chargeFactor = 0.0f;
-            }
         }
+        else if (prevState.Buttons.A == ButtonState.Pressed && state.Buttons.A == ButtonState.Released)
+        {
+            playerState.OnJumpPressed();
+        }
+
+
+        if (state.Buttons.A == ButtonState.Released)
+        {
+            if (IsGrounded) jumpState.nbJumpMade = 0;
+            chargeFactor = 0.0f;
+        }
+
     }
     public virtual void HandleDashWithController()
     {
