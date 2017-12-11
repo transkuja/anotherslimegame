@@ -15,7 +15,6 @@ public class EvolutionComponent : MonoBehaviour {
     protected bool isSpecialActionReleased = false;
 
     GameObject affectedPart;
-    GameObject activeTutoText;
 
     public virtual void Start()
     {
@@ -88,20 +87,6 @@ public class EvolutionComponent : MonoBehaviour {
         affectedPart.transform.SetParent(transform.GetChild((int)PlayerChildren.SlimeMesh));
         affectedPart.transform.SetSiblingIndex((int)evolution.BodyPart);
         affectedPart.SetActive(false);
-    }
-
-    protected void PopTutoText(string _text)
-    {
-        GameObject tutoText = Instantiate(ResourceUtils.Instance.refPrefabLoot.prefabTutoText, GameManager.UiReference.transform);
-        tutoText.transform.position = GetComponent<Player>().cameraReference.GetComponentInChildren<Camera>().WorldToScreenPoint(transform.position) 
-                                        + Vector3.up * ((GameManager.Instance.PlayerStart.PlayersReference.Count > 2) ? 80.0f : 160.0f);
-
-        tutoText.GetComponent<Text>().text = _text;
-        if (activeTutoText != null)
-            activeTutoText.SetActive(false);
-
-        activeTutoText = tutoText;
-        Destroy(tutoText, 5.0f);
     }
 
     public virtual void OnCollisionEnter(Collision coll)

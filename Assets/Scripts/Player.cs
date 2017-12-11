@@ -25,7 +25,9 @@ public class Player : MonoBehaviour {
     public bool isEdgeAssistActive = true;
     PlayerController playerController;
 
-    public bool[] evolutionTutoShown = new bool[(int)Powers.Size];
+    public bool[] evolutionTutoShown = new bool[(int)Powers.Size + 1];
+
+    public GameObject activeTutoText;
 
     public Rigidbody Rb
     {

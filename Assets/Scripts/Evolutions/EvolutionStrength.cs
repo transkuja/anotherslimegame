@@ -11,11 +11,11 @@ public class EvolutionStrength : EvolutionComponent
         base.Start();
         SetPower(Powers.Strength);
         playerController.stats.AddBuff(new StatBuff(Stats.StatType.GROUND_SPEED, 0.85f, -1));
-
-        if (!GetComponent<Player>().evolutionTutoShown[(int)Powers.Strength])
+        Player playerComponent = GetComponent<Player>();
+        if (!playerComponent.evolutionTutoShown[(int)Powers.Strength])
         {
-            GetComponent<Player>().evolutionTutoShown[(int)Powers.Strength] = true;
-            PopTutoText("Press Y in the air");
+            playerComponent.evolutionTutoShown[(int)Powers.Strength] = true;
+            Utils.PopTutoText("Press Y in the air", playerComponent);
         }
     }
 }

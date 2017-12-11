@@ -128,6 +128,12 @@ public class CostArea : MonoBehaviour {
 
         if (playerComponent != null)
         {
+            // TODO: rename bool array
+            if (!playerComponent.Player.evolutionTutoShown[(int)Powers.Size])
+            {
+                playerComponent.Player.evolutionTutoShown[(int)Powers.Size] = true;
+                Utils.PopTutoText("Press B to buy the reward", playerComponent.Player);
+            }
             if (playerComponent.PrevState.Buttons.B == ButtonState.Pressed && playerComponent.State.Buttons.B == ButtonState.Released)
             {
                 if (Pay(playerComponent))

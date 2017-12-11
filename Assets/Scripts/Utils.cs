@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Security.Cryptography;
+using UnityEngine;
+using UnityEngine.UI;
 
 public static class Utils {
 
@@ -85,5 +87,19 @@ public static class Utils {
         //    list[k] = list[n];
         //    list[n] = value;
         //}
+    }
+
+    public static void PopTutoText(string _text, Player _player)
+    {
+        GameObject tutoText = GameObject.Instantiate(ResourceUtils.Instance.refPrefabLoot.prefabTutoText, GameManager.UiReference.transform);
+        tutoText.transform.position = _player.cameraReference.GetComponentInChildren<Camera>().WorldToScreenPoint(_player.transform.position)
+                                        + Vector3.up * ((GameManager.Instance.PlayerStart.PlayersReference.Count > 2) ? 80.0f : 160.0f);
+
+        tutoText.GetComponent<Text>().text = _text;
+        if (_player.activeTutoText != null)
+            _player.activeTutoText.SetActive(false);
+
+        _player.activeTutoText = tutoText;
+        GameObject.Destroy(tutoText, 5.0f);
     }
 }

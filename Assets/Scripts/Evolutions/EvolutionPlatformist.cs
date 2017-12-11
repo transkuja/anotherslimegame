@@ -42,10 +42,12 @@ public class EvolutionPlatformist : EvolutionComponent {
     {
         base.Start();
         SetPower(Powers.Platformist);
-        if (!GetComponent<Player>().evolutionTutoShown[(int)Powers.Platformist])
+        Player playerComponent = GetComponent<Player>();
+
+        if (!playerComponent.evolutionTutoShown[(int)Powers.Platformist])
         {
-            GetComponent<Player>().evolutionTutoShown[(int)Powers.Platformist] = true;
-            PopTutoText("Hold RT to create platforms");
+            playerComponent.evolutionTutoShown[(int)Powers.Platformist] = true;
+            Utils.PopTutoText("Hold RT to create platforms", playerComponent);
         }
         else
         {
@@ -216,7 +218,7 @@ public class EvolutionPlatformist : EvolutionComponent {
         if (!hasPlayedSecondTuto)
         {
             hasPlayedSecondTuto = true;
-            PopTutoText("Press RB to change platforms' pattern");
+            Utils.PopTutoText("Press RB to change platforms' pattern", GetComponent<Player>());
         }
     }
 
