@@ -8,7 +8,7 @@
 ========================
 - Faire des caméras propres pour le LD (autour de la main tower, dans les rooms?)
 
-- Refaire room Strength avec des murs
+- integrer Room Strengh et Agile avec les nouvelles textures
 
 - Room Ghost
 
