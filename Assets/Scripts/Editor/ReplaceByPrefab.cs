@@ -5,10 +5,6 @@ using UnityEditor;
 
 public class ReplaceByPrefab : EditorWindow {
 
-    string myString = "Hello World";
-    bool groupEnabled;
-    bool myBool = true;
-    float myFloat = 1.23f;
     GameObject prefabModel;
     // Add menu named "My Window" to the Window menu
     [MenuItem("Window/ReplacePrefab")]
