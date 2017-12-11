@@ -6,7 +6,7 @@ public class PlayerScore : MonoBehaviour {
     public void SetScore(int _playerIndex, string _time, string _points)
     {
         Transform scorePanel = transform.GetChild(1);
-        scorePanel.GetChild((int)ScorePanel.PlayerIndex).GetComponent<Text>().text = "J" + (_playerIndex + 1);
+        scorePanel.GetChild((int)ScorePanel.PlayerIndex).GetComponent<Text>().text = "P" + (_playerIndex + 1);
         scorePanel.GetChild((int)ScorePanel.Time).GetComponent<Text>().text = _time;
         scorePanel.GetChild((int)ScorePanel.Points).GetComponent<Text>().text = _points + "pts";
 
