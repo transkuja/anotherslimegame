@@ -29,6 +29,7 @@ public class Player : MonoBehaviour {
     public bool costAreaTutoShown = false;
 
     public GameObject activeTutoText;
+    private bool hasFinishedTheRun = false;
 
     public Rigidbody Rb
     {
@@ -111,6 +112,39 @@ public class Player : MonoBehaviour {
             return playerController;
         }
 
+    }
+
+    public bool HasFinishedTheRun
+    {
+        get
+        {
+            return hasFinishedTheRun;
+        }
+
+        set
+        {
+            if (value == true)
+            {
+
+                playerController.enabled = false;
+
+                // Making the player to stop in the air 
+                rb.Sleep(); // Quelque part là, il y a un sleep
+
+                // TODO: REACTIVATE INSTEAD OF INSTANTIATE (keys must not be destroyed too)
+                for (int i = 0; i < Utils.GetMaxValueForCollectable(CollectableType.Key); i++)
+                {
+                    ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
+                        KeysInitialPosition[i],
+                        KeysInitialRotation[i],
+                        null,
+                        CollectableType.Key)
+                    .GetComponent<Collectable>().Init();
+                }
+            }
+
+            hasFinishedTheRun = value;
+        }
     }
 
     void Start()

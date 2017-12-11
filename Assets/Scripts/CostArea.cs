@@ -244,22 +244,7 @@ public class CostArea : MonoBehaviour {
     ////////////////////////////////////// EVENTS //////////////////////////////////////////
     void HasFinishedProcess(Player _player)
     {
-        _player.PlayerController.enabled = false;
-
-        // Making the player to stop in the air 
-        _player.Rb.Sleep(); // Quelque part là, il y a un sleep
-
-        // TODO: REACTIVATE INSTEAD OF INSTANTIATE (keys must not be destroyed too)
-        for (int i = 0; i < Utils.GetMaxValueForCollectable(CollectableType.Key); i++)
-        {
-            ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
-                _player.KeysInitialPosition[i],
-                _player.KeysInitialRotation[i],
-                null,
-                CollectableType.Key)
-            .GetComponent<Collectable>().Init();
-        }
-
+        _player.HasFinishedTheRun = true;
         GameManager.Instance.ScoreScreenReference.RefreshScores(_player);
     }
 }

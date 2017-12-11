@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-
+using System.Collections.Generic;
 
 public enum GameState { Normal, Paused, ForcedPause }
 public class GameManager : MonoBehaviour {
@@ -11,7 +11,15 @@ public class GameManager : MonoBehaviour {
     private static GameState currentState = GameState.Normal;
     private PlayerStart playerStart;
     private PlayerUI playerUI;
+
+    // WARNING, should be reset on load scene
     public bool isTimeOver = false;
+
+    float gameFinalTimer = 10.0f;
+    // WARNING, should be reset on load scene
+    float currentGameFinalTimer;
+    // WARNING, should be reset on load scene
+    bool finalTimerInitialized = false;
 
     public static GameManager Instance
     {
@@ -177,6 +185,40 @@ public class GameManager : MonoBehaviour {
                     instance.playerStart.cameraPlayerReferences[i].transform.GetChild(1).GetComponent<Cinemachine.CinemachineBrain>().enabled = true;
             }
         }
+    }
+
+    private void Update()
+    {
+        if (finalTimerInitialized)
+        {
+            currentGameFinalTimer -= Time.deltaTime;
+            if (currentGameFinalTimer < 0.0f)
+            {
+                isTimeOver = true;
+                List<Player> remainingPlayers = new List<Player>();
+                for (int i = 0; i < playerStart.PlayersReference.Count; i++)
+                {
+                    Player _curPlayer = playerStart.PlayersReference[i].GetComponent<Player>();
+                    if (!_curPlayer.HasFinishedTheRun)
+                    {
+                        _curPlayer.HasFinishedTheRun = true;
+                        if (remainingPlayers[remainingPlayers.Count - 1].Collectables[(int)CollectableType.Points] > _curPlayer.Collectables[(int)CollectableType.Points])
+                        {
+                            remainingPlayers.Insert(remainingPlayers.Count - 1, _curPlayer);
+                        }
+                        else
+                            remainingPlayers.Add(_curPlayer);
+                    }
+                }
+                scoreScreenReference.RefreshScoresTimeOver(remainingPlayers.ToArray());
+            }
+        }
+    }
+
+    public void LaunchFinalTimer()
+    {
+        currentGameFinalTimer = gameFinalTimer;
+        finalTimerInitialized = true;
     }
 
     [SerializeField] float maxMovementSpeed = 35.0f;

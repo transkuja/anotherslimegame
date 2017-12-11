@@ -44,6 +44,11 @@ public class ScoreScreen : MonoBehaviour {
         int seconds = (int)time % 60;
         rank++;
 
+        if (rank == 1)
+        {
+            GameManager.Instance.LaunchFinalTimer();
+        }
+
         String timeStr = string.Format("{0:00} : {1:00}", minutes, seconds);
 
         transform.GetChild(rank - 1).GetComponent<PlayerScore>().SetScore(
@@ -57,6 +62,16 @@ public class ScoreScreen : MonoBehaviour {
         player.Anim.SetBool("hasFinished", true);
         nbrOfPlayersAtTheEnd++;
         CheckEndGame();
+    }
+
+    public void RefreshScoresTimeOver(Player[] _remainingPlayers)
+    {
+        for (int i = 0; i < _remainingPlayers.Length; i++)
+        {
+            rank++;
+            RefreshScores(_remainingPlayers[i]);
+        }
+
     }
 
     void CheckEndGame()
