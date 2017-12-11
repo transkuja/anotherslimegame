@@ -59,6 +59,9 @@ public class PlayerCollisionCenter : MonoBehaviour {
     public float timerStopOnDashCollision = 0.3f;
     float currentTimerStop = 0.0f;
 
+    WaterComponent waterComponentEntered;
+    float waterLevel;
+    float waterTolerance;
     public float waterUpliftStrength;
     [Range(0.01f, 1.0f)]
     public float modulateWaterForceFactor;
@@ -383,26 +386,38 @@ public class PlayerCollisionCenter : MonoBehaviour {
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.GetComponent<WaterComponent>())
+        {
+            waterComponentEntered = other.GetComponent<WaterComponent>();
+            waterLevel = other.transform.position.y;
+            waterTolerance = GetComponent<SphereCollider>().radius;
+        }
+
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.GetComponent<WaterComponent>())
+            waterComponentEntered = null;
+    }
+
     private void OnTriggerStay(Collider other)
     {
-        WaterComponent waterComponent = other.GetComponent<WaterComponent>();
-
-        if (waterComponent != null)
+        if (waterComponentEntered != null)
         {
-            float waterLevel = other.transform.position.y;
-            float tolerance = GetComponent<SphereCollider>().radius;
-
             float forceFactor = 1f - transform.position.y + waterLevel;
             playerController.jumpState.nbJumpMade = 0;
 
-            if (transform.position.y > waterLevel - tolerance)
+            if (transform.position.y > waterLevel - waterTolerance)
             {
                 playerController.isGravityEnabled = true;
             }
             // Sous l'eau
             else
             {
-                if (transform.position.y < waterLevel - 2 * tolerance)
+                if (transform.position.y < waterLevel - 2 * waterTolerance)
                 {
                     playerController.isGravityEnabled = false;
 
@@ -414,13 +429,12 @@ public class PlayerCollisionCenter : MonoBehaviour {
                 }
             }
 
-            if (GetComponent<Player>().cameraReference)
+            if (PlayerComponent.cameraReference)
             {
-                GameObject cameraRef = GetComponent<Player>().cameraReference;
-                WaterImmersionCamera waterImmersionCamera = cameraRef.transform.GetChild(0).GetComponent<WaterImmersionCamera>();
+                WaterImmersionCamera waterImmersionCamera = PlayerComponent.cameraReference.transform.GetChild(0).GetComponent<WaterImmersionCamera>();
                 if (waterImmersionCamera)
                 {
-                    if (cameraRef.transform.GetChild(0).position.y < waterComponent.WaterToActivateAtRuntime.transform.position.y)
+                    if (PlayerComponent.cameraReference.transform.GetChild(0).position.y < waterLevel)
                     {
                         waterImmersionCamera.isImmerge = true;
                     }
