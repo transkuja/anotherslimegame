@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PrefabGhost : MonoBehaviour {
 
-    [SerializeField]
     public GameObject prefabGhostTrailPane;
+
+    public Material GhostMaterial;
 }

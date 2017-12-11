@@ -5,6 +5,8 @@ using UWPAndXInput;
 
 public class EvolutionGhost : EvolutionComponent
 {
+    Material baseMat;
+
     float maxEmissionTime = 2.0f;
 
     float currentEmissionTimeLeft = 2.0f;
@@ -89,6 +91,27 @@ public class EvolutionGhost : EvolutionComponent
         {
             hitZero = value;
         }
+    }
+
+    public void SetGhostVisual()
+    {
+        baseMat = transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)BodyPart.Body).GetComponent<MeshRenderer>().material;
+        transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)BodyPart.Body).GetComponent<MeshRenderer>().material = ResourceUtils.Instance.refPrefabGhost.GhostMaterial;
+        transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)BodyPart.Body).GetChild(0).GetChild(0).GetComponent<MeshRenderer>().material = ResourceUtils.Instance.refPrefabGhost.GhostMaterial;
+        transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)BodyPart.Body).GetChild(0).GetChild(1).GetComponent<MeshRenderer>().material = ResourceUtils.Instance.refPrefabGhost.GhostMaterial;
+        transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)BodyPart.Body).GetChild(1).GetChild(0).GetComponent<MeshRenderer>().material = ResourceUtils.Instance.refPrefabGhost.GhostMaterial;
+        transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)BodyPart.Body).GetChild(1).GetChild(1).GetComponent<MeshRenderer>().material = ResourceUtils.Instance.refPrefabGhost.GhostMaterial;
+        transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)BodyPart.Body).GetChild(2).GetComponent<ParticleSystem>().Play();
+    }
+
+    public void RemoveGhostVisual()
+    {
+        transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)BodyPart.Body).GetComponent<MeshRenderer>().material = baseMat;
+        transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)BodyPart.Body).GetChild(0).GetChild(0).GetComponent<MeshRenderer>().material = baseMat;
+        transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)BodyPart.Body).GetChild(0).GetChild(1).GetComponent<MeshRenderer>().material = baseMat;
+        transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)BodyPart.Body).GetChild(1).GetChild(0).GetComponent<MeshRenderer>().material = baseMat;
+        transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)BodyPart.Body).GetChild(1).GetChild(1).GetComponent<MeshRenderer>().material = baseMat;
+        transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)BodyPart.Body).GetChild(2).GetComponent<ParticleSystem>().Stop();
     }
 
     public override void Start()
