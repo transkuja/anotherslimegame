@@ -152,19 +152,20 @@ public class PlayerCollisionCenter : MonoBehaviour {
             }
         }
 
-        collectablesCollided = Physics.OverlapSphere(transform.position, sphereCheckRadius, separationMask2);
+        collectablesCollided = Physics.OverlapSphere(transform.position, sphereCheckRadiusCollectables, separationMask2);
         if (collectablesCollided != null)
         {
             for (int i = 0; i < collectablesCollided.Length; i++)
             {
                 Vector3 collectableToTarget = collectablesCollided[i].transform.position - transform.position;
 
-                if (collectablesCollided[i].transform != transform && Vector3.Angle(collectableToTarget, transform.forward) < 45) // Verification en cone
+                if (collectablesCollided[i].transform != transform) // Verification en cone
                 {
                     Collectable c = collectablesCollided[i].GetComponent<Collectable>();
                     if (!c.IsAttracted)
                     {
                         Physics.IgnoreCollision(collectablesCollided[i].GetComponent<Collider>(), GetComponent<Collider>(), true);
+                        c.GetComponent<Animator>().enabled = false;
                         c.PickUp(GetComponent<Player>());
                     }
                 }
