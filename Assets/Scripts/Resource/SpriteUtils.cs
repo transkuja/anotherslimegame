@@ -22,4 +22,14 @@ public class SpriteUtils : MonoBehaviour {
     [SerializeField]
     Sprite victoryNumber4;
 
+    [Header("Texture Panneau sur les iles")]
+    [SerializeField]
+    public Texture Hammer;
+    [SerializeField]
+    public Texture Ghost;
+    [SerializeField]
+    public Texture Agile;
+    [SerializeField]
+    public Texture Platformist;
+
 }

@@ -376,9 +376,11 @@ public class SpawnManager : MonoBehaviour{
         Transform evolutionSpawn = spawnedIsland.transform.GetChild(0);
         if (!evolutionSpawn.name.Contains("Evolution"))
         {
-            Debug.LogWarning("WARNING: Spawn evolution on island has been removed or renamed or moved or Seb lied.");
+            Debug.LogWarning("WARNING: EvolutionSpawn should be first on island");
             return;
         }
+
+
 
         CollectableType evolutionType = GetNextEvolutionType();
         if (evolutionType == CollectableType.Size)
@@ -390,6 +392,33 @@ public class SpawnManager : MonoBehaviour{
             evolutionSpawn,
             evolutionType
         ).GetComponent<Collectable>().Init();
+
+        MeshRenderer panneau = spawnedIsland.transform.GetChild(1).GetComponent<MeshRenderer>();
+
+        if (!panneau.name.Contains("Panneau")) {
+            Debug.LogWarning("WARNING: Panneau should be first on island");
+            return;
+        }
+
+        switch (evolutionType)
+        {
+            case CollectableType.StrengthEvolution1:
+                panneau.material.SetTexture("_MainTex", ResourceUtils.Instance.spriteUtils.Hammer);
+
+                break;
+            case CollectableType.AgileEvolution1:
+                panneau.material.SetTexture("_MainTex", ResourceUtils.Instance.spriteUtils.Agile);
+
+                break;
+            case CollectableType.GhostEvolution1:
+                panneau.material.SetTexture("_MainTex", ResourceUtils.Instance.spriteUtils.Ghost);
+
+                break;
+            case CollectableType.PlatformistEvolution1:
+                panneau.material.SetTexture("_MainTex", ResourceUtils.Instance.spriteUtils.Platformist);
+
+                break;
+        }
 
         InitTeleporter initTeleporterComponent = associatedShelter.GetComponentInChildren<InitTeleporter>();
         initTeleporterComponent.evolutionType = evolutionType;

@@ -21,6 +21,7 @@ public class ResourceUtils : MonoBehaviour {
             debugTools = GetComponentInChildren<DebugTools>();
             poolManager = GetComponentInChildren<PoolManager>();
             particleSystemManager = GetComponentInChildren<ParticleSystemManager>();
+            spriteUtils = GetComponentInChildren<SpriteUtils>();
 
             DontDestroyOnLoad(Instance);
         }
@@ -61,6 +62,9 @@ public class ResourceUtils : MonoBehaviour {
 
     [HideInInspector]
     public ParticleSystemManager particleSystemManager;
+
+    [HideInInspector]
+    public SpriteUtils spriteUtils;
 
     public static ResourceUtils Instance
     {

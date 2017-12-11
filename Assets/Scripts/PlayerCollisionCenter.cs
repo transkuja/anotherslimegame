@@ -158,7 +158,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
         {
             for (int i = 0; i < collectablesCollided.Length; i++)
             {
-                Vector3 collectableToTarget = collectablesCollided[i].transform.position - transform.position;
+                //Vector3 collectableToTarget = collectablesCollided[i].transform.position - transform.position;
 
                 if (collectablesCollided[i].transform != transform) // Verification en cone
                 {
