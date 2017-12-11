@@ -386,19 +386,23 @@ public class SpawnManager : MonoBehaviour{
         if (evolutionType == CollectableType.Size)
             return;
 
-        ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
+        GameObject go = ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
             evolutionSpawn.position,
             evolutionSpawn.rotation,
             evolutionSpawn,
             evolutionType
-        ).GetComponent<Collectable>().Init();
+        );
+        go.GetComponent<Collectable>().Init();
+
 
         MeshRenderer panneau = spawnedIsland.transform.GetChild(1).GetComponent<MeshRenderer>();
 
-        if (!panneau.name.Contains("Panneau")) {
-            Debug.LogWarning("WARNING: Panneau should be first on island");
+        if (panneau == null || (panneau != null && !panneau.name.Contains("Panneau"))) {
+            Debug.LogWarning("WARNING: Panneau should be second on island");
             return;
         }
+
+        go.GetComponent<Collectable>().panneau = panneau.gameObject;
 
         switch (evolutionType)
         {

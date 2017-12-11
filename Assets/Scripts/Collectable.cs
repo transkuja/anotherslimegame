@@ -16,6 +16,8 @@ public class Collectable : MonoBehaviour
     bool isAttracted = false;
     Player playerTarget;
 
+    public GameObject panneau;
+
     public float Value
     {
         get
@@ -74,6 +76,7 @@ public class Collectable : MonoBehaviour
             {
                 if (player.Collectables[(int)GetComponent<Collectable>().type] < Utils.GetMaxValueForCollectable(GetComponent<Collectable>().type))
                 {
+                    
                     IsAttracted = true;
                     playerTarget = player;
                     return;
@@ -93,6 +96,8 @@ public class Collectable : MonoBehaviour
                 {
                     if (player.activeEvolutions == 0)
                     {
+                        if (panneau != null)
+                            panneau.SetActive(false);
                         IsAttracted = true;
                         playerTarget = player;
                     }
