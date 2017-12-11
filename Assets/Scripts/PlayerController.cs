@@ -67,6 +67,8 @@ public class PlayerController : MonoBehaviour
     float raycastOffsetPlayer;
     Ray[] raycastRays = new Ray[4];
 
+    public bool IsUnderWater = false;
+
 #if UNITY_EDITOR
     [SerializeField] public string curStateName; // debug purpose only
 #endif
@@ -452,7 +454,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (!collision.transform.GetComponent<Player>())
+        if (!collision.transform.GetComponent<Player>() && !IsUnderWater)
         {
             if (Physics.Raycast(transform.position + Vector3.up * 0.5f + raycastOffsetPlayer * transform.forward, Vector3.down, raycastDist)
                     || Physics.Raycast(transform.position + Vector3.up * 0.5f - raycastOffsetPlayer * transform.forward, Vector3.down, raycastDist)

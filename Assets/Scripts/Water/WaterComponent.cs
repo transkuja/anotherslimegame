@@ -3,16 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class WaterComponent : MonoBehaviour {
-    public Vector3 buoyancyCentreOffset;
-    public float bounceDamp;
-    public float waterLevel;
-    public float bounceAmplitude;
-    public float compensationGravity;
 
     StatBuff movestatbuff;
     StatBuff dashstatbuff;
     StatBuff jumpstatbuff;
-    public float tolerance;
     public float waterResistance;
 
     public GameObject WaterToActivateAtRuntime;
@@ -32,6 +26,7 @@ public class WaterComponent : MonoBehaviour {
     {
         if (other.GetComponent<Rigidbody>() != null && other.GetComponent<Player>())
         {
+            PlayerController playerController = other.GetComponent<PlayerController>();
             if (other.transform.GetChild((int)PlayerChildren.WaterEffect).GetComponent<ParticleSystem>())
             {          
                 // SEB C'est pour toi
@@ -43,10 +38,12 @@ public class WaterComponent : MonoBehaviour {
             if (waterResistance != 0)
             {
 
-                other.GetComponent<PlayerController>().stats.AddBuff(movestatbuff);
-                other.GetComponent<PlayerController>().stats.AddBuff(dashstatbuff);
-                other.GetComponent<PlayerController>().stats.AddBuff(jumpstatbuff);
+                playerController.stats.AddBuff(movestatbuff);
+                playerController.stats.AddBuff(dashstatbuff);
+                playerController.stats.AddBuff(jumpstatbuff);
             }
+
+            playerController.IsUnderWater = true;
         }
     }
 
@@ -54,6 +51,7 @@ public class WaterComponent : MonoBehaviour {
     {
         if (other.GetComponent<Rigidbody>() != null && other.GetComponent<Player>())
         {
+            PlayerController playerController = other.GetComponent<PlayerController>();
             if (other.transform.GetChild((int)PlayerChildren.WaterEffect).GetComponent<ParticleSystem>())
             {
                 // SEB C'est pour toi
@@ -63,14 +61,18 @@ public class WaterComponent : MonoBehaviour {
             if (waterResistance != 0)
             {
                 // TODO : Need a contains buff ?
-                other.GetComponent<PlayerController>().stats.RemoveBuff(movestatbuff);
-                other.GetComponent<PlayerController>().stats.RemoveBuff(dashstatbuff);
-                other.GetComponent<PlayerController>().stats.RemoveBuff(jumpstatbuff);
+                playerController.stats.RemoveBuff(movestatbuff);
+                playerController.stats.RemoveBuff(dashstatbuff);
+                playerController.stats.RemoveBuff(jumpstatbuff);
             }
 
             WaterImmersionCamera waterImmersionCamera = other.GetComponent<Player>().cameraReference.transform.GetChild(0).GetComponent<WaterImmersionCamera>();
             if(waterImmersionCamera)
                 waterImmersionCamera.isImmerge = false;
+
+            playerController.isGravityEnabled = true;
+            playerController.IsUnderWater = false;
         }
     }
+
 }

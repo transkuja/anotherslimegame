@@ -59,6 +59,9 @@ public class PlayerCollisionCenter : MonoBehaviour {
     public float timerStopOnDashCollision = 0.3f;
     float currentTimerStop = 0.0f;
 
+    public float waterUpliftStrength;
+    [Range(0.01f, 1.0f)]
+    public float modulateWaterForceFactor;
     PlayerController _PlayerController
     {
         get
@@ -382,37 +385,33 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
     private void OnTriggerStay(Collider other)
     {
-        if (other.GetComponent<WaterComponent>() != null)
+        WaterComponent waterComponent = other.GetComponent<WaterComponent>();
+
+        if (waterComponent != null)
         {
-            WaterComponent waterComponent = other.GetComponent<WaterComponent>();
-            float waterLevel = other.transform.localPosition.y;
-            float tolerance = GetComponentInChildren<SphereCollider>().radius * 4.0f;
-            // Niveau de floattabilté, fonction de la hauteur du joueur
+            float waterLevel = other.transform.position.y;
+            float tolerance = GetComponent<SphereCollider>().radius;
 
+            float forceFactor = 1f - transform.position.y + waterLevel;
+            playerController.jumpState.nbJumpMade = 0;
 
-            float forceFactor = 1f - ((transform.position.y - waterLevel) / waterComponent.bounceAmplitude);
-            //Vector3 gravity = Vector3.up * GetComponent<JumpManager>().GetGravity() * 5;
-            // Vector3 gravity = Vector3.up * 90;
-
-            Debug.Log(waterLevel - tolerance);
-            Debug.Log(transform.position.y);
             if (transform.position.y > waterLevel - tolerance)
             {
-                playerController.jumpState.nbJumpMade = 0;
                 playerController.isGravityEnabled = true;
             }
+            // Sous l'eau
             else
             {
-                playerController.isGravityEnabled = false;
-
-                if (forceFactor > 0f)
+                if (transform.position.y < waterLevel - 2 * tolerance)
                 {
+                    playerController.isGravityEnabled = false;
 
-                    Vector3 uplift = ((forceFactor - rb.velocity.y) * waterComponent.bounceDamp) * Vector3.up;
-
-                    rb.AddForceAtPosition(uplift, transform.position);
+                    if (forceFactor > 0f)
+                    {
+                        Vector3 uplift = ((forceFactor - rb.velocity.y * modulateWaterForceFactor)) * Vector3.up * waterUpliftStrength;
+                        rb.AddForceAtPosition(uplift, transform.position);
+                    }
                 }
- 
             }
 
             if (GetComponent<Player>().cameraReference)
