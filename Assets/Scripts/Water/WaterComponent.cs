@@ -6,7 +6,7 @@ public class WaterComponent : MonoBehaviour {
     public Vector3 buoyancyCentreOffset;
     public float bounceDamp;
     public float waterLevel;
-    public float floatHeight;
+    public float bounceAmplitude;
     public float compensationGravity;
 
     StatBuff movestatbuff;

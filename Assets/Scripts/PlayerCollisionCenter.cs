@@ -385,15 +385,18 @@ public class PlayerCollisionCenter : MonoBehaviour {
         if (other.GetComponent<WaterComponent>() != null)
         {
             WaterComponent waterComponent = other.GetComponent<WaterComponent>();
+            float waterLevel = other.transform.localPosition.y;
+            float tolerance = GetComponentInChildren<SphereCollider>().radius*2;
             // Niveau de floattabilté, fonction de la hauteur du joueur
-            Vector3 actionPoint = other.transform.position + other.transform.TransformDirection(waterComponent.buoyancyCentreOffset);
 
-            float forceFactor = 1f - ((actionPoint.y - waterComponent.waterLevel) / waterComponent.floatHeight);
-            Vector3 gravity = Vector3.up * GetComponent<JumpManager>().GetGravity() * waterComponent.compensationGravity;
 
-            if (transform.position.y > waterComponent.waterLevel - waterComponent.tolerance && !playerController.IsGrounded)
+            float forceFactor = 1f - ((transform.position.y - waterLevel) / waterComponent.bounceAmplitude);
+            //Vector3 gravity = Vector3.up * GetComponent<JumpManager>().GetGravity() * waterComponent.compensationGravity;
+            Vector3 gravity = Vector3.up * 50;
+
+            if (transform.position.y > waterComponent.waterLevel - tolerance)
             {
-                playerController.IsGrounded = true;
+                playerController.jumpState.nbJumpMade = 0;
             }
             else
             {
@@ -402,7 +405,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
                     Vector3 uplift = gravity * ((forceFactor - rb.velocity.y) * waterComponent.bounceDamp);
 
 
-                    rb.AddForceAtPosition(uplift, actionPoint);
+                    rb.AddForceAtPosition(uplift, transform.position);
                 }
             }
 
