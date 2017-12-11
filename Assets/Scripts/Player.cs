@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public enum PlayerChildren { SlimeMesh, ShadowProjector, WaterEffect, CameraTarget, DustTrailParticles, DashParticles };
+public enum PlayerChildren { SlimeMesh, ShadowProjector, BubbleParticles, SplashParticles, CameraTarget, DustTrailParticles, DashParticles };
 public class Player : MonoBehaviour {
 
     Rigidbody rb;

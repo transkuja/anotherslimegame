@@ -27,11 +27,10 @@ public class WaterComponent : MonoBehaviour {
         if (other.GetComponent<Rigidbody>() != null && other.GetComponent<Player>())
         {
             PlayerController playerController = other.GetComponent<PlayerController>();
-            if (other.transform.GetChild((int)PlayerChildren.WaterEffect).GetComponent<ParticleSystem>())
-            {          
-                // SEB C'est pour toi
-                Instantiate(WaterParticleSystemToInstantiate, other.transform.position + (Vector3.up *2), other.transform.rotation, null);
-                other.transform.GetChild((int)PlayerChildren.WaterEffect).gameObject.SetActive(true);
+            if (other.transform.GetChild((int)PlayerChildren.BubbleParticles).GetComponent<ParticleSystem>() && other.transform.GetChild((int)PlayerChildren.SplashParticles).GetComponent<ParticleSystem>())
+            {
+                other.transform.GetChild((int)PlayerChildren.BubbleParticles).GetComponent<ParticleSystem>().Play();
+                other.transform.GetChild((int)PlayerChildren.SplashParticles).GetComponent<ParticleSystem>().Play();
             }
      
             
@@ -52,10 +51,10 @@ public class WaterComponent : MonoBehaviour {
         if (other.GetComponent<Rigidbody>() != null && other.GetComponent<Player>())
         {
             PlayerController playerController = other.GetComponent<PlayerController>();
-            if (other.transform.GetChild((int)PlayerChildren.WaterEffect).GetComponent<ParticleSystem>())
+            if (other.transform.GetChild((int)PlayerChildren.BubbleParticles).GetComponent<ParticleSystem>())
             {
                 // SEB C'est pour toi
-                other.transform.GetChild((int)PlayerChildren.WaterEffect).gameObject.SetActive(false);
+                other.transform.GetChild((int)PlayerChildren.BubbleParticles).GetComponent<ParticleSystem>().Stop();
             }
 
             if (waterResistance != 0)
