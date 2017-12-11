@@ -25,7 +25,9 @@
 ========================
 [ANTHONY] - Ajouter des zones de cout
 
-[ANTHONY] - Revoir les 3C (surtout la caméra) => ok? => faire des tests pour le saut (low priority)
+[ANTHONY] - Revoir les 3C (surtout la caméra) => ok?
+		=> /!\ fix camera lock /!\
+		=> faire des tests pour le saut (low priority)
 [ANTHONY]- Revoir les règles de "Fin de partie" => ok
 		- Les implémenter
 [ANTHONY] - Evolution Platformist
