@@ -42,7 +42,8 @@ public class DynamicJoystickCameraController : MonoBehaviour {
             prevState = state;
             state = GamePad.GetState(playerIndex);
 
-            if (prevState.Buttons.RightStick == ButtonState.Released && state.Buttons.RightStick == ButtonState.Pressed)
+            if ((prevState.Buttons.RightStick == ButtonState.Released && state.Buttons.RightStick == ButtonState.Pressed) 
+                || (prevState.Buttons.LeftShoulder == ButtonState.Released && state.Buttons.LeftShoulder == ButtonState.Pressed))
             {
                 timer = 0.0f;
                 freelookCamera.m_RecenterToTargetHeading.m_enabled = true;
