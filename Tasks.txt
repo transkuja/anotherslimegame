@@ -8,23 +8,24 @@
 ========================
 - Faire des caméras propres pour le LD (autour de la main tower, dans les rooms?)
 
-- Room Strength
+- Refaire room Strength avec des murs
 
 - Room Ghost
 
 - Room 2-Players
 
-- Intégrer des clés auxquelles on accède en payant des "points" dans le niveau
 - Ajouter des breakables dans le LD
+
+[ANTHONY] - Refaire l'extérieur de la main tower en "statique"
+
+[Rémi] - Reduire la taille du niveau
 
 ========================
 	Gameplay
 ========================
-- Ajouter des clés auxquelles on accède en payant des "points"
+[ANTHONY] - Ajouter des zones de cout
 
-
-
-[ANTHONY] - Revoir les 3C (surtout la caméra) => ok?
+[ANTHONY] - Revoir les 3C (surtout la caméra) => ok? => faire des tests pour le saut (low priority)
 [ANTHONY]- Revoir les règles de "Fin de partie" => ok
 		- Les implémenter
 [ANTHONY] - Evolution Platformist
@@ -37,13 +38,17 @@
 - UI Multijoueur: où sont les autres? où est la sortie? (la sortie ça peut être un "guide" et non de l'UI)
 - Ajouter un feedback visuel sur les shelters
 	===> Manque un feedback pour le ghost
-- Mouvement de caméra au démarrage qui montre:
-	- la position des évolutions puis,
-	- les shelters, une rune, puis,
-	- la fin
+
+[Anthony]- Mouvement de caméra au démarrage qui montre:
+		- la position des évolutions puis,
+		- les shelters, une rune, puis,
+		- la fin
 
 [SEB] - Particules effect sur le dash (dans la zone de trigger)
 
+[SEB]- Particules dash down
+
+[SEB]- Halo zones de cout
 ========================
 	Bugs
 ========================
