@@ -174,8 +174,6 @@ public class EvolutionGhost : EvolutionComponent
                         float scale = Random.Range(0.8f, 1.2f);
                         trailPane.transform.localScale *= scale;
                         timeSinceLastTrailComponentSpawned = 0.0f;
-                        Debug.Log(hit.collider.name);
-                        Debug.Log(LayerMask.NameToLayer("GhostTrail"));
                         if (hit.collider.GetComponent<PlatformGameplay>())
                             trailPane.transform.SetParent(hit.collider.transform);
                         trailPane.GetComponent<GhostTrail>().owner = GetComponent<PlayerController>();
