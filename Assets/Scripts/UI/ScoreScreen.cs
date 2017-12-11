@@ -54,7 +54,7 @@ public class ScoreScreen : MonoBehaviour {
         transform.GetChild(rank - 1).GetComponent<PlayerScore>().SetScore(
             (int)player.PlayerController.PlayerIndex, 
             timeStr, 
-            (player.Collectables[(int)CollectableType.Points] * valueCoins).ToString()
+            (player.Collectables[(int)CollectableType.Points]).ToString()
         );
 
         transform.GetChild(rank - 1).gameObject.SetActive(true);
@@ -67,11 +67,7 @@ public class ScoreScreen : MonoBehaviour {
     public void RefreshScoresTimeOver(Player[] _remainingPlayers)
     {
         for (int i = 0; i < _remainingPlayers.Length; i++)
-        {
-            rank++;
             RefreshScores(_remainingPlayers[i]);
-        }
-
     }
 
     void CheckEndGame()

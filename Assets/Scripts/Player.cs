@@ -126,10 +126,10 @@ public class Player : MonoBehaviour {
             if (value == true)
             {
 
-                playerController.enabled = false;
+                PlayerController.enabled = false;
 
                 // Making the player to stop in the air 
-                rb.Sleep(); // Quelque part là, il y a un sleep
+                Rb.Sleep(); // Quelque part là, il y a un sleep
 
                 // TODO: REACTIVATE INSTEAD OF INSTANTIATE (keys must not be destroyed too)
                 for (int i = 0; i < Utils.GetMaxValueForCollectable(CollectableType.Key); i++)

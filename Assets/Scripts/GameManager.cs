@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour {
     // WARNING, should be reset on load scene
     public bool isTimeOver = false;
 
-    float gameFinalTimer = 10.0f;
+    float gameFinalTimer = 2.0f;
     // WARNING, should be reset on load scene
     float currentGameFinalTimer;
     // WARNING, should be reset on load scene
@@ -194,6 +194,7 @@ public class GameManager : MonoBehaviour {
             currentGameFinalTimer -= Time.deltaTime;
             if (currentGameFinalTimer < 0.0f)
             {
+                finalTimerInitialized = false;
                 isTimeOver = true;
                 List<Player> remainingPlayers = new List<Player>();
                 for (int i = 0; i < playerStart.PlayersReference.Count; i++)
@@ -201,16 +202,22 @@ public class GameManager : MonoBehaviour {
                     Player _curPlayer = playerStart.PlayersReference[i].GetComponent<Player>();
                     if (!_curPlayer.HasFinishedTheRun)
                     {
-                        _curPlayer.HasFinishedTheRun = true;
-                        if (remainingPlayers[remainingPlayers.Count - 1].Collectables[(int)CollectableType.Points] > _curPlayer.Collectables[(int)CollectableType.Points])
+                        if (remainingPlayers.Count == 0 
+                            || remainingPlayers[remainingPlayers.Count - 1].Collectables[(int)CollectableType.Points] < _curPlayer.Collectables[(int)CollectableType.Points])
                         {
-                            remainingPlayers.Insert(remainingPlayers.Count - 1, _curPlayer);
+                            remainingPlayers.Add(_curPlayer);
                         }
                         else
-                            remainingPlayers.Add(_curPlayer);
+                            remainingPlayers.Insert(remainingPlayers.Count - 1, _curPlayer);
+
                     }
                 }
                 scoreScreenReference.RefreshScoresTimeOver(remainingPlayers.ToArray());
+            }
+            else
+            {
+                // TODO: handle this not every frame but each second
+                uiReference.TimerNeedUpdate(currentGameFinalTimer);
             }
         }
     }
@@ -219,6 +226,7 @@ public class GameManager : MonoBehaviour {
     {
         currentGameFinalTimer = gameFinalTimer;
         finalTimerInitialized = true;
+        uiReference.TimerNeedUpdate(currentGameFinalTimer);
     }
 
     [SerializeField] float maxMovementSpeed = 35.0f;
