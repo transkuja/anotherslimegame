@@ -386,27 +386,33 @@ public class PlayerCollisionCenter : MonoBehaviour {
         {
             WaterComponent waterComponent = other.GetComponent<WaterComponent>();
             float waterLevel = other.transform.localPosition.y;
-            float tolerance = GetComponentInChildren<SphereCollider>().radius*2;
+            float tolerance = GetComponentInChildren<SphereCollider>().radius * 4.0f;
             // Niveau de floattabilté, fonction de la hauteur du joueur
 
 
             float forceFactor = 1f - ((transform.position.y - waterLevel) / waterComponent.bounceAmplitude);
-            //Vector3 gravity = Vector3.up * GetComponent<JumpManager>().GetGravity() * waterComponent.compensationGravity;
-            Vector3 gravity = Vector3.up * 50;
+            //Vector3 gravity = Vector3.up * GetComponent<JumpManager>().GetGravity() * 5;
+            // Vector3 gravity = Vector3.up * 90;
 
-            if (transform.position.y > waterComponent.waterLevel - tolerance)
+            Debug.Log(waterLevel - tolerance);
+            Debug.Log(transform.position.y);
+            if (transform.position.y > waterLevel - tolerance)
             {
                 playerController.jumpState.nbJumpMade = 0;
+                playerController.isGravityEnabled = true;
             }
             else
             {
+                playerController.isGravityEnabled = false;
+
                 if (forceFactor > 0f)
                 {
-                    Vector3 uplift = gravity * ((forceFactor - rb.velocity.y) * waterComponent.bounceDamp);
 
+                    Vector3 uplift = ((forceFactor - rb.velocity.y) * waterComponent.bounceDamp) * Vector3.up;
 
                     rb.AddForceAtPosition(uplift, transform.position);
                 }
+ 
             }
 
             if (GetComponent<Player>().cameraReference)
