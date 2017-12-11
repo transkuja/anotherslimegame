@@ -67,10 +67,12 @@ public class TheButton : MonoBehaviour {
                 if (lerpValue >= 1.0f)
                 {
                     GetComponent<Animator>().SetBool("test", false);
+                    GetComponent<BoxCollider>().enabled = true;
                     waterState = WaterState.Clear;
                 }
                 break;
             case WaterState.Clear:
+
                 break;
         }
 
