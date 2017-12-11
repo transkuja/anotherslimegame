@@ -10,99 +10,405 @@ using UnityEngine.UI;
  */
 public class FollowPlayer : MonoBehaviour
 {
-    public Canvas canvasText;
-
     public Text textPlayer1;
     public Text textPlayer2;
     public Text textPlayer3;
-    public Text textPlayer4;
+
 
     public int count;
     public float fieldOfView;
-	// Use this for initialization
-	void Start ()
+    public float distancePlayer1Text1;
+    public float distancePlayer1Text2;
+    public float distancePlayer1Text3;
+
+    public float distancePlayer2Text1;
+    public float distancePlayer2Text2;
+    public float distancePlayer2Text3;
+
+    public float distancePlayer3Text1;
+    public float distancePlayer3Text2;
+    public float distancePlayer3Text3;
+
+    public float distancePlayer4Text1;
+    public float distancePlayer4Text2;
+    public float distancePlayer4Text3;
+
+    public Dictionary<int, float> distancePlayers = new Dictionary<int, float>();
+    private Text[] textPlayer = new Text[3];
+
+public string layerName;
+    // Use this for initialization
+    void Start()
     {
         count = GameManager.Instance.PlayerStart.PlayersReference.Count;
-        fieldOfView = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().fieldOfView;
-        if(count == 4)
+        layerName = LayerMask.LayerToName(textPlayer1.gameObject.layer);
+        //fieldOfView = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().fieldOfView;
+        fieldOfView = 95.0f;
+        //for (int i = 0; i < transform.childCount; i++)
+        //    textPlayer[i] = transform.GetChild(i).GetComponent<Text>();
+
+        //int j = 0;
+        //for (int i = 0; i < count; i++)
+        //{
+
+        //    if (i != transform.parent.GetSiblingIndex())
+        //    {
+        //        textPlayer[j].text = GameManager.Instance.PlayerStart.PlayersReference[i].name;
+        //        textPlayer[j].transform.position = GameManager.Instance.PlayerStart.PlayersReference[i].transform.position + new Vector3(0, 3, 0);
+        //        j++;
+        //    }
+        //}
+
+        switch (layerName)
         {
-            textPlayer1.text = GameManager.Instance.PlayerStart.PlayersReference[0].name;
-            textPlayer1.transform.position = GameManager.Instance.PlayerStart.PlayersReference[0].transform.position + new Vector3(0,3,0);
+            case "CameraP1":
+                switch (count)
+                {
+                    case 4:
+                        textPlayer1.text = GameManager.Instance.PlayerStart.PlayersReference[1].name;
+                        textPlayer1.transform.position = GameManager.Instance.PlayerStart.PlayersReference[1].transform.position + new Vector3(0, 3, 0);
 
-            textPlayer2.text = GameManager.Instance.PlayerStart.PlayersReference[1].name;
-            textPlayer2.transform.position = GameManager.Instance.PlayerStart.PlayersReference[1].transform.position + new Vector3(0, 3, 0);
+                        textPlayer2.text = GameManager.Instance.PlayerStart.PlayersReference[2].name;
+                        textPlayer2.transform.position = GameManager.Instance.PlayerStart.PlayersReference[2].transform.position + new Vector3(0, 3, 0);
 
-            textPlayer3.text = GameManager.Instance.PlayerStart.PlayersReference[2].name;
-            textPlayer3.transform.position = GameManager.Instance.PlayerStart.PlayersReference[2].transform.position + new Vector3(0, 3, 0);
+                        textPlayer3.text = GameManager.Instance.PlayerStart.PlayersReference[3].name;
+                        textPlayer3.transform.position = GameManager.Instance.PlayerStart.PlayersReference[3].transform.position + new Vector3(0, 3, 0);
+                        break;
+                    case 3:
+                        textPlayer1.text = GameManager.Instance.PlayerStart.PlayersReference[1].name;
+                        textPlayer1.transform.position = GameManager.Instance.PlayerStart.PlayersReference[1].transform.position + new Vector3(0, 3, 0);
 
-            textPlayer4.text = GameManager.Instance.PlayerStart.PlayersReference[3].name;
-            textPlayer4.transform.position = GameManager.Instance.PlayerStart.PlayersReference[3].transform.position + new Vector3(0, 3, 0);
+                        textPlayer2.text = GameManager.Instance.PlayerStart.PlayersReference[2].name;
+                        textPlayer2.transform.position = GameManager.Instance.PlayerStart.PlayersReference[2].transform.position + new Vector3(0, 3, 0);
+                        break;
+                    case 2:
+                        textPlayer1.text = GameManager.Instance.PlayerStart.PlayersReference[1].name;
+                        textPlayer1.transform.position = GameManager.Instance.PlayerStart.PlayersReference[1].transform.position + new Vector3(0, 3, 0);
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case "CameraP2":
+                switch (count)
+                {
+                    case 4:
+                        textPlayer1.text = GameManager.Instance.PlayerStart.PlayersReference[0].name;
+                        textPlayer1.transform.position = GameManager.Instance.PlayerStart.PlayersReference[0].transform.position + new Vector3(0, 3, 0);
 
-        }
-        else if(count == 3)
-        {
-            textPlayer1.text = GameManager.Instance.PlayerStart.PlayersReference[0].name;
-            textPlayer1.transform.position = GameManager.Instance.PlayerStart.PlayersReference[0].transform.position + new Vector3(0, 3, 0);
+                        textPlayer2.text = GameManager.Instance.PlayerStart.PlayersReference[2].name;
+                        textPlayer2.transform.position = GameManager.Instance.PlayerStart.PlayersReference[2].transform.position + new Vector3(0, 3, 0);
 
-            textPlayer2.text = GameManager.Instance.PlayerStart.PlayersReference[1].name;
-            textPlayer2.transform.position = GameManager.Instance.PlayerStart.PlayersReference[1].transform.position + new Vector3(0, 3, 0);
+                        textPlayer3.text = GameManager.Instance.PlayerStart.PlayersReference[3].name;
+                        textPlayer3.transform.position = GameManager.Instance.PlayerStart.PlayersReference[3].transform.position + new Vector3(0, 3, 0);
+                        break;
+                    case 3:
+                        textPlayer1.text = GameManager.Instance.PlayerStart.PlayersReference[0].name;
+                        textPlayer1.transform.position = GameManager.Instance.PlayerStart.PlayersReference[0].transform.position + new Vector3(0, 3, 0);
 
-            textPlayer3.text = GameManager.Instance.PlayerStart.PlayersReference[2].name;
-            textPlayer3.transform.position = GameManager.Instance.PlayerStart.PlayersReference[2].transform.position + new Vector3(0, 3, 0);
-        }
-        else if(count == 2)
-        {
-            textPlayer1.text = GameManager.Instance.PlayerStart.PlayersReference[0].name;
-            textPlayer1.transform.position = GameManager.Instance.PlayerStart.PlayersReference[0].transform.position + new Vector3(0, 3, 0);
+                        textPlayer2.text = GameManager.Instance.PlayerStart.PlayersReference[2].name;
+                        textPlayer2.transform.position = GameManager.Instance.PlayerStart.PlayersReference[2].transform.position + new Vector3(0, 3, 0);
+                        break;
+                    case 2:
+                        textPlayer1.text = GameManager.Instance.PlayerStart.PlayersReference[0].name;
+                        textPlayer1.transform.position = GameManager.Instance.PlayerStart.PlayersReference[0].transform.position + new Vector3(0, 3, 0);
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case "CameraP3":
+                switch (count)
+                {
+                    case 4:
+                        textPlayer1.text = GameManager.Instance.PlayerStart.PlayersReference[0].name;
+                        textPlayer1.transform.position = GameManager.Instance.PlayerStart.PlayersReference[0].transform.position + new Vector3(0, 3, 0);
 
-            textPlayer2.text = GameManager.Instance.PlayerStart.PlayersReference[1].name;
-            textPlayer2.transform.position = GameManager.Instance.PlayerStart.PlayersReference[1].transform.position + new Vector3(0, 3, 0);
+                        textPlayer2.text = GameManager.Instance.PlayerStart.PlayersReference[1].name;
+                        textPlayer2.transform.position = GameManager.Instance.PlayerStart.PlayersReference[1].transform.position + new Vector3(0, 3, 0);
+
+                        textPlayer3.text = GameManager.Instance.PlayerStart.PlayersReference[3].name;
+                        textPlayer3.transform.position = GameManager.Instance.PlayerStart.PlayersReference[3].transform.position + new Vector3(0, 3, 0);
+                        break;
+                    case 3:
+                        textPlayer1.text = GameManager.Instance.PlayerStart.PlayersReference[0].name;
+                        textPlayer1.transform.position = GameManager.Instance.PlayerStart.PlayersReference[0].transform.position + new Vector3(0, 3, 0);
+
+                        textPlayer2.text = GameManager.Instance.PlayerStart.PlayersReference[1].name;
+                        textPlayer2.transform.position = GameManager.Instance.PlayerStart.PlayersReference[1].transform.position + new Vector3(0, 3, 0);
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case "CameraP4":
+                textPlayer1.text = GameManager.Instance.PlayerStart.PlayersReference[0].name;
+                textPlayer1.transform.position = GameManager.Instance.PlayerStart.PlayersReference[0].transform.position + new Vector3(0, 3, 0);
+
+                textPlayer2.text = GameManager.Instance.PlayerStart.PlayersReference[1].name;
+                textPlayer2.transform.position = GameManager.Instance.PlayerStart.PlayersReference[1].transform.position + new Vector3(0, 3, 0);
+
+                textPlayer3.text = GameManager.Instance.PlayerStart.PlayersReference[2].name;
+                textPlayer3.transform.position = GameManager.Instance.PlayerStart.PlayersReference[2].transform.position + new Vector3(0, 3, 0);
+                break;
+            default:
+                break;
         }
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+    // Update is called once per frame
+    void Update()
     {
-        /*if ()
-        {*/
-            if (count == 4)
-            {
-                textPlayer1.text = GameManager.Instance.PlayerStart.PlayersReference[0].name;
-                textPlayer1.transform.position = GameManager.Instance.PlayerStart.PlayersReference[0].transform.position + new Vector3(0, 3, 0);
+    //    distancePlayer1Text1 = GameManager.Instance.PlayerStart.PlayersReference[0].transform.position.z - textPlayer1.transform.position.z;
+    //    distancePlayer1Text2 = GameManager.Instance.PlayerStart.PlayersReference[0].transform.position.z - textPlayer2.transform.position.z;
+    //    distancePlayer1Text3 = GameManager.Instance.PlayerStart.PlayersReference[0].transform.position.z - textPlayer3.transform.position.z;
 
-                textPlayer2.text = GameManager.Instance.PlayerStart.PlayersReference[1].name;
-                textPlayer2.transform.position = GameManager.Instance.PlayerStart.PlayersReference[1].transform.position + new Vector3(0, 3, 0);
+    //    distancePlayer2Text1 = GameManager.Instance.PlayerStart.PlayersReference[1].transform.position.z - textPlayer1.transform.position.z;
+    //    distancePlayer2Text2 = GameManager.Instance.PlayerStart.PlayersReference[1].transform.position.z - textPlayer2.transform.position.z;
+    //    distancePlayer2Text3 = GameManager.Instance.PlayerStart.PlayersReference[1].transform.position.z - textPlayer3.transform.position.z;
 
-                textPlayer3.text = GameManager.Instance.PlayerStart.PlayersReference[2].name;
-                textPlayer3.transform.position = GameManager.Instance.PlayerStart.PlayersReference[2].transform.position + new Vector3(0, 3, 0);
+    //    distancePlayer3Text1 = GameManager.Instance.PlayerStart.PlayersReference[2].transform.position.z - textPlayer1.transform.position.z;
+    //    distancePlayer3Text2 = GameManager.Instance.PlayerStart.PlayersReference[2].transform.position.z - textPlayer2.transform.position.z;
+    //    distancePlayer3Text3 = GameManager.Instance.PlayerStart.PlayersReference[2].transform.position.z - textPlayer3.transform.position.z;
 
-                textPlayer4.text = GameManager.Instance.PlayerStart.PlayersReference[3].name;
-                textPlayer4.transform.position = GameManager.Instance.PlayerStart.PlayersReference[3].transform.position + new Vector3(0, 3, 0);
+    //    distancePlayer4Text1 = GameManager.Instance.PlayerStart.PlayersReference[3].transform.position.z - textPlayer1.transform.position.z;
+    //    distancePlayer4Text2 = GameManager.Instance.PlayerStart.PlayersReference[3].transform.position.z - textPlayer2.transform.position.z;
+    //    distancePlayer4Text3 = GameManager.Instance.PlayerStart.PlayersReference[3].transform.position.z - textPlayer3.transform.position.z;
+    //    switch (layerName)
+    //    {
+    //        //JOUEUR 1
+    //        case "CameraP1":
+    //            switch (count)
+    //            {
+    //                case 4:
+    //                    if (distancePlayer1Text1 <= fieldOfView)
+    //                    {
+    //                        textPlayer1.gameObject.SetActive(true);
+    //                        textPlayer1.transform.position = GameManager.Instance.PlayerStart.PlayersReference[1].transform.position + new Vector3(0, 3, 0);
+    //                    }
+    //                    else
+    //                    {
+    //                        textPlayer1.gameObject.SetActive(false);
+    //                    }
 
-            }
-            else if (count == 3)
-            {
-                textPlayer1.text = GameManager.Instance.PlayerStart.PlayersReference[0].name;
-                textPlayer1.transform.position = GameManager.Instance.PlayerStart.PlayersReference[0].transform.position + new Vector3(0, 3, 0);
+    //                    if (distancePlayer1Text2 <= fieldOfView)
+    //                    {
+    //                        textPlayer2.transform.position = GameManager.Instance.PlayerStart.PlayersReference[2].transform.position + new Vector3(0, 3, 0);
+    //                    }
+    //                    else
+    //                    {
+    //                        textPlayer2.gameObject.SetActive(false);
+    //                    }
 
-                textPlayer2.text = GameManager.Instance.PlayerStart.PlayersReference[1].name;
-                textPlayer2.transform.position = GameManager.Instance.PlayerStart.PlayersReference[1].transform.position + new Vector3(0, 3, 0);
+    //                    if (distancePlayer1Text3 <= fieldOfView)
+    //                    {
+    //                        textPlayer3.transform.position = GameManager.Instance.PlayerStart.PlayersReference[3].transform.position + new Vector3(0, 3, 0);
+    //                    }
+    //                    else
+    //                    {
+    //                        textPlayer3.gameObject.SetActive(false);
+    //                    }
+    //                    break;
+    //                case 3:
+    //                    if (distancePlayer1Text1 <= fieldOfView)
+    //                    {
+    //                        textPlayer1.gameObject.SetActive(true);
+    //                        textPlayer1.transform.position = GameManager.Instance.PlayerStart.PlayersReference[1].transform.position + new Vector3(0, 3, 0);
+    //                    }
+    //                    else
+    //                    {
+    //                        textPlayer1.gameObject.SetActive(false);
+    //                    }
 
-                textPlayer3.text = GameManager.Instance.PlayerStart.PlayersReference[2].name;
-                textPlayer3.transform.position = GameManager.Instance.PlayerStart.PlayersReference[2].transform.position + new Vector3(0, 3, 0);
-            }
-            else if (count == 2)
-            {
-                textPlayer1.text = GameManager.Instance.PlayerStart.PlayersReference[0].name;
-                textPlayer1.transform.position = GameManager.Instance.PlayerStart.PlayersReference[0].transform.position + new Vector3(0, 3, 0);
+    //                    if (distancePlayer1Text2 <= fieldOfView)
+    //                    {
+    //                        textPlayer2.transform.position = GameManager.Instance.PlayerStart.PlayersReference[2].transform.position + new Vector3(0, 3, 0);
+    //                    }
+    //                    else
+    //                    {
+    //                        textPlayer2.gameObject.SetActive(false);
+    //                    }
+    //                    break;
+    //                case 2:
+    //                    if (distancePlayer1Text1 <= fieldOfView)
+    //                    {
+    //                        textPlayer1.gameObject.SetActive(true);
+    //                        textPlayer1.transform.position = GameManager.Instance.PlayerStart.PlayersReference[1].transform.position + new Vector3(0, 3, 0);
+    //                    }
+    //                    else
+    //                    {
+    //                        textPlayer1.gameObject.SetActive(false);
+    //                    }
+    //                    break;
+    //                default:
+    //                    break;
+    //            }
+    //            break;
 
-                textPlayer2.text = GameManager.Instance.PlayerStart.PlayersReference[1].name;
-                textPlayer2.transform.position = GameManager.Instance.PlayerStart.PlayersReference[1].transform.position + new Vector3(0, 3, 0);
-            }
-       // }
-        /*else
-        {
-            //GameManager.Instance.PlayerStart.PlayersReference[i].transform.GetChild((int)PlayerChildren.Canvas).GetChild(i).gameObject.SetActive(false);
-        }*/
+    //            //JOUEUR 2 
+    //        case "CameraP2":
+    //            switch (count)
+    //            {
+    //                case 4:
+    //                    if (distancePlayer2Text1 <= fieldOfView)
+    //                    {
+    //                        textPlayer1.text = GameManager.Instance.PlayerStart.PlayersReference[0].name;
+    //                        textPlayer1.transform.position = GameManager.Instance.PlayerStart.PlayersReference[0].transform.position + new Vector3(0, 3, 0);
+    //                    }
+    //                    else
+    //                    {
+    //                        textPlayer1.gameObject.SetActive(false);
+    //                    }
+
+    //                    if (distancePlayer2Text2 <= fieldOfView)
+    //                    {
+    //                        textPlayer2.text = GameManager.Instance.PlayerStart.PlayersReference[2].name;
+    //                        textPlayer2.transform.position = GameManager.Instance.PlayerStart.PlayersReference[2].transform.position + new Vector3(0, 3, 0);
+    //                    }
+    //                    else
+    //                    {
+    //                        textPlayer2.gameObject.SetActive(false);
+    //                    }
+
+    //                    if (distancePlayer2Text3 <= fieldOfView)
+    //                    {
+    //                        textPlayer3.text = GameManager.Instance.PlayerStart.PlayersReference[3].name;
+    //                        textPlayer3.transform.position = GameManager.Instance.PlayerStart.PlayersReference[3].transform.position + new Vector3(0, 3, 0);
+    //                    }
+    //                    else
+    //                    {
+    //                        textPlayer3.gameObject.SetActive(false);
+    //                    }
+    //                    break;
+    //                case 3:
+    //                    if (distancePlayer2Text1 <= fieldOfView)
+    //                    {
+    //                        textPlayer1.text = GameManager.Instance.PlayerStart.PlayersReference[0].name;
+    //                        textPlayer1.transform.position = GameManager.Instance.PlayerStart.PlayersReference[0].transform.position + new Vector3(0, 3, 0);
+    //                    }
+    //                    else
+    //                    {
+    //                        textPlayer1.gameObject.SetActive(false);
+    //                    }
+
+    //                    if (distancePlayer2Text2 <= fieldOfView)
+    //                    {
+    //                        textPlayer2.text = GameManager.Instance.PlayerStart.PlayersReference[2].name;
+    //                        textPlayer2.transform.position = GameManager.Instance.PlayerStart.PlayersReference[2].transform.position + new Vector3(0, 3, 0);
+    //                    }
+    //                    else
+    //                    {
+    //                        textPlayer2.gameObject.SetActive(false);
+    //                    }
+    //                    break;
+    //                case 2:
+    //                    if (distancePlayer2Text1 <= fieldOfView)
+    //                    {
+    //                        textPlayer1.text = GameManager.Instance.PlayerStart.PlayersReference[0].name;
+    //                        textPlayer1.transform.position = GameManager.Instance.PlayerStart.PlayersReference[0].transform.position + new Vector3(0, 3, 0);
+    //                    }
+    //                    else
+    //                    {
+    //                        textPlayer1.gameObject.SetActive(false);
+    //                    }
+    //                    break;
+    //                default:
+    //                    break;
+    //            }
+    //            break;
+    //            //JOUEUR 3
+    //        case "CameraP3":
+    //            switch (count)
+    //            {
+    //                case 4:
+    //                    if (distancePlayer3Text1 <= fieldOfView)
+    //                    {
+    //                        textPlayer1.text = GameManager.Instance.PlayerStart.PlayersReference[0].name;
+    //                        textPlayer1.transform.position = GameManager.Instance.PlayerStart.PlayersReference[0].transform.position + new Vector3(0, 3, 0);
+    //                    }
+    //                    else
+    //                    {
+    //                        textPlayer1.gameObject.SetActive(false);
+    //                    }
+
+    //                    if (distancePlayer3Text2 <= fieldOfView)
+    //                    {
+    //                        textPlayer2.text = GameManager.Instance.PlayerStart.PlayersReference[1].name;
+    //                        textPlayer2.transform.position = GameManager.Instance.PlayerStart.PlayersReference[1].transform.position + new Vector3(0, 3, 0);
+    //                    }
+    //                    else
+    //                    {
+    //                        textPlayer2.gameObject.SetActive(false);
+    //                    }
+
+    //                    if (distancePlayer3Text3 <= fieldOfView)
+    //                    {
+    //                        textPlayer3.text = GameManager.Instance.PlayerStart.PlayersReference[3].name;
+    //                        textPlayer3.transform.position = GameManager.Instance.PlayerStart.PlayersReference[3].transform.position + new Vector3(0, 3, 0);
+    //                    }
+    //                    else
+    //                    {
+    //                        textPlayer3.gameObject.SetActive(false);
+    //                    }
+    //                    break;
+    //                case 3:
+    //                    if (distancePlayer3Text1 <= fieldOfView)
+    //                    {
+    //                        textPlayer1.text = GameManager.Instance.PlayerStart.PlayersReference[0].name;
+    //                        textPlayer1.transform.position = GameManager.Instance.PlayerStart.PlayersReference[0].transform.position + new Vector3(0, 3, 0);
+    //                    }
+    //                    else
+    //                    {
+    //                        textPlayer1.gameObject.SetActive(false);
+    //                    }
+
+    //                    if (distancePlayer3Text2 <= fieldOfView)
+    //                    {
+    //                        textPlayer2.text = GameManager.Instance.PlayerStart.PlayersReference[1].name;
+    //                        textPlayer2.transform.position = GameManager.Instance.PlayerStart.PlayersReference[1].transform.position + new Vector3(0, 3, 0);
+    //                    }
+    //                    else
+    //                    {
+    //                        textPlayer2.gameObject.SetActive(false);
+    //                    }
+    //                    break;
+    //                default:
+    //                    break;
+    //            }
+    //            break;
+    //            //JOUEUR 4
+    //        case "CameraP4":
+    //            if (distancePlayer4Text1 <= fieldOfView)
+    //            {
+    //                textPlayer1.text = GameManager.Instance.PlayerStart.PlayersReference[0].name;
+    //                textPlayer1.transform.position = GameManager.Instance.PlayerStart.PlayersReference[0].transform.position + new Vector3(0, 3, 0);
+    //            }
+    //            else
+    //            {
+    //                textPlayer1.gameObject.SetActive(false);
+    //            }
+
+    //            if (distancePlayer4Text2 <= fieldOfView)
+    //            {
+    //                textPlayer2.text = GameManager.Instance.PlayerStart.PlayersReference[1].name;
+    //                textPlayer2.transform.position = GameManager.Instance.PlayerStart.PlayersReference[1].transform.position + new Vector3(0, 3, 0);
+    //            }
+    //            else
+    //            {
+    //                textPlayer2.gameObject.SetActive(false);
+    //            }
+    //            if (distancePlayer4Text3 <= fieldOfView)
+    //            {
+    //                textPlayer3.text = GameManager.Instance.PlayerStart.PlayersReference[2].name;
+    //                textPlayer3.transform.position = GameManager.Instance.PlayerStart.PlayersReference[2].transform.position + new Vector3(0, 3, 0);
+    //            }
+    //            else
+    //            {
+    //                textPlayer3.gameObject.SetActive(false);
+    //            }
+    //            break;
+    //        default:
+    //            break;
+    //    }
     }
 }
