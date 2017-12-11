@@ -63,6 +63,10 @@ public class PlayerController : MonoBehaviour
 
     public bool canDoubleJump = true; // A Priori c'es du legacy, mais j'ai pas toutpigé.
 
+    public float raycastDist = 0.75f;
+    float raycastOffsetPlayer;
+    Ray[] raycastRays = new Ray[4];
+
 #if UNITY_EDITOR
     [SerializeField] public string curStateName; // debug purpose only
 #endif
@@ -323,7 +327,14 @@ public class PlayerController : MonoBehaviour
         if (Player == null)
             Debug.Log("Player should not be null");
         PlayerState = freeState;
+        raycastOffsetPlayer = GetComponent<SphereCollider>().radius;
+
+        raycastRays[0] = new Ray();
+        raycastRays[0] = new Ray();
+        raycastRays[0] = new Ray();
+        raycastRays[0] = new Ray();
     }
+
 
     // Update is called once per frame
     void Update()
@@ -333,7 +344,7 @@ public class PlayerController : MonoBehaviour
         if (rb.velocity.y < 0.2f && !IsGrounded)
             HandleBouncing();
         if (rb.velocity.y > 0.05f && !isGrounded)
-            HandleJumpDeformer();       
+            HandleJumpDeformer();
         if (DEBUG_hasBeenSpawnedFromTool)
             return;
         if (!playerIndexSet)
@@ -386,29 +397,45 @@ public class PlayerController : MonoBehaviour
             PlayerState.OnFixedUpdate();
 
         // Handle Grounded
-        if (player.Rb.velocity.y <= 0.0f && !isGrounded)
-        {
-            RaycastHit hitInfo;
-            // Need to be removed
-            if (Physics.SphereCast(transform.position + Vector3.up, 1f, -transform.up, out hitInfo, maxDistanceOffset))
-            {
-                if (hitInfo.transform.GetComponentInParent<Ground>() != null || hitInfo.transform.gameObject.layer == LayerMask.NameToLayer("Ground"))
-                {
-                    IsGrounded = true;
-                }
-            }
-            //// test
-            //if (Physics.SphereCast(transform.position + Vector3.up, 1f, -transform.up, out hitInfo, maxDistanceOffset, 1 << LayerMask.NameToLayer("Ground")))
-            //{
-            //    IsGrounded = true;
-            //}
-        }
+        //if (player.Rb.velocity.y < 0.01f && !isGrounded)
+        //{
+        //    RaycastHit hitInfo;
+        //    // Need to be removed
+        //    if (Physics.SphereCast(transform.position + Vector3.up, 1f, -transform.up, out hitInfo, maxDistanceOffset))
+        //    {
+        //        if (hitInfo.transform.GetComponentInParent<Ground>() != null || hitInfo.transform.gameObject.layer == LayerMask.NameToLayer("Ground"))
+        //        {
+        //            IsGrounded = true;
+        //        }
+        //    }
+        //    //// test
+        //    //if (Physics.SphereCast(transform.position + Vector3.up, 1f, -transform.up, out hitInfo, maxDistanceOffset, 1 << LayerMask.NameToLayer("Ground")))
+        //    //{
+        //    //    IsGrounded = true;
+        //    //}
+        //}
         if (Rb.velocity.y < 0.0f && IsGrounded)
         {
-            if (!Physics.Raycast(transform.position + Vector3.up * 0.5f, Vector3.down, 5.0f))
+            if (!Physics.Raycast(transform.position + Vector3.up * 0.5f + raycastOffsetPlayer * transform.forward, Vector3.down, raycastDist)
+                    && !Physics.Raycast(transform.position + Vector3.up * 0.5f - raycastOffsetPlayer * transform.forward, Vector3.down, raycastDist)
+                    && !Physics.Raycast(transform.position + Vector3.up * 0.5f + raycastOffsetPlayer * transform.right, Vector3.down, raycastDist)
+                    && !Physics.Raycast(transform.position + Vector3.up * 0.5f - raycastOffsetPlayer * transform.right, Vector3.down, raycastDist))
                 IsGrounded = false;
         }
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.magenta;
+        //Gizmos.DrawCube(transform.position + Vector3.up*0.5f, Vector3.one);
+        //Gizmos.DrawCube(transform.position + Vector3.up*0.5f + Vector3.down*2.0f, Vector3.one);
+        Gizmos.DrawLine(transform.position + Vector3.up * 0.5f + raycastOffsetPlayer * transform.forward,
+            transform.position + Vector3.up * 0.5f + Vector3.down * raycastDist + raycastOffsetPlayer * transform.forward);
+        Gizmos.DrawLine(transform.position + Vector3.up * 0.5f - raycastOffsetPlayer * transform.forward, transform.position + Vector3.up * 0.5f + Vector3.down * raycastDist - raycastOffsetPlayer * transform.forward);
+        Gizmos.DrawLine(transform.position + Vector3.up * 0.5f + raycastOffsetPlayer * transform.right, transform.position + Vector3.up * 0.5f + Vector3.down * raycastDist + raycastOffsetPlayer * transform.right);
+        Gizmos.DrawLine(transform.position + Vector3.up * 0.5f - raycastOffsetPlayer * transform.right, transform.position + Vector3.up * 0.5f + Vector3.down * raycastDist - raycastOffsetPlayer * transform.right);
+    }
+
     public void OnCollisionEnter(Collision collision)
     {
         PlayerState.CollisionEnter(collision);
@@ -423,6 +450,15 @@ public class PlayerController : MonoBehaviour
                 Vector3 point = collision.contacts[i].point;
                 deformer.AddDeformingForce(point, vel * force);
             }
+        }
+
+        if (!collision.transform.GetComponent<Player>())
+        {
+            if (Physics.Raycast(transform.position + Vector3.up * 0.5f + raycastOffsetPlayer * transform.forward, Vector3.down, raycastDist)
+                    || Physics.Raycast(transform.position + Vector3.up * 0.5f - raycastOffsetPlayer * transform.forward, Vector3.down, raycastDist)
+                    || Physics.Raycast(transform.position + Vector3.up * 0.5f + raycastOffsetPlayer * transform.right, Vector3.down, raycastDist)
+                    || Physics.Raycast(transform.position + Vector3.up * 0.5f - raycastOffsetPlayer * transform.right, Vector3.down, raycastDist))
+                IsGrounded = true;
         }
 
     }
@@ -472,27 +508,29 @@ public class PlayerController : MonoBehaviour
     {
         // Charge jump if A button is pressed for a "long" time and only if on the ground
         //if (isGrounded)
+
+
+        if (state.Buttons.A == ButtonState.Pressed && chargeFactor < 1.0f)
         {
-            if (state.Buttons.A == ButtonState.Pressed && chargeFactor < 1.0f)
-            {
-                chargeFactor += jumpChargeSpeed * Time.unscaledDeltaTime;
-                // Force max charge jump if the charge reach maximum charge
-                if (chargeFactor > 1.0f)
-                {
-                    playerState.OnJumpPressed();
-                }
-            }
-            else if (prevState.Buttons.A == ButtonState.Pressed && state.Buttons.A == ButtonState.Released)
+            chargeFactor += jumpChargeSpeed * Time.unscaledDeltaTime;
+            // Force max charge jump if the charge reach maximum charge
+            if (chargeFactor > 1.0f)
             {
                 playerState.OnJumpPressed();
             }
-
-            if (state.Buttons.A == ButtonState.Released)
-            {
-                if (IsGrounded) jumpState.nbJumpMade = 0;
-                if (chargeFactor > 1.0f) chargeFactor = 0.0f;
-            }
         }
+        else if (prevState.Buttons.A == ButtonState.Pressed && state.Buttons.A == ButtonState.Released)
+        {
+            playerState.OnJumpPressed();
+        }
+
+
+        if (state.Buttons.A == ButtonState.Released)
+        {
+            if (IsGrounded) jumpState.nbJumpMade = 0;
+            chargeFactor = 0.0f;
+        }
+
     }
     public virtual void HandleDashWithController()
     {
