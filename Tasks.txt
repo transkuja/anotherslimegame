@@ -28,6 +28,7 @@
 [ANTHONY] - Revoir les 3C (surtout la caméra) => ok?
 		=> /!\ fix camera lock /!\
 		=> faire des tests pour le saut (low priority)
+		=> inertie
 [ANTHONY]- Revoir les règles de "Fin de partie" => ok
 		- Les implémenter
 [ANTHONY] - Evolution Platformist

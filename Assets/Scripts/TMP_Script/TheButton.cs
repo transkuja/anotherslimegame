@@ -39,10 +39,15 @@ public class TheButton : MonoBehaviour {
     {
         if (collision.gameObject.GetComponent<Player>())
         {
-            GetComponent<BoxCollider>().enabled = false;
-            GetComponent<Animator>().SetBool("test", true);
-            waterState = WaterState.WaterIsMovingTop;
+            StartIncreasing();
         }
+    }
+
+    public void StartIncreasing()
+    {
+        GetComponent<BoxCollider>().enabled = false;
+        GetComponent<Animator>().SetBool("test", true);
+        waterState = WaterState.WaterIsMovingTop;
     }
 
     public void Update()

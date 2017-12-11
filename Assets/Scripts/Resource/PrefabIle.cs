@@ -20,11 +20,22 @@ public class PrefabIle : MonoBehaviour
     [Header("Point Islands")]
     public GameObject prefabPointIsland1GameObject;
 
+    // TODO: there should be a prefab feedbacks manager
     [Header("Shelter Feedbacks")]
     public GameObject prefabShelterPlatformistFeedback;
     public GameObject prefabShelterStrengthFeedback;
     public GameObject prefabShelterAgilityFeedback;
     public GameObject prefabShelterGhostFeedback;
+
+    [Header("Cost Area Feedbacks")]
+    public GameObject prefabCostAreaPlatformistFeedback;
+    public GameObject prefabCostAreaStrengthFeedback;
+    public GameObject prefabCostAreaAgilityFeedback;
+    public GameObject prefabCostAreaGhostFeedback;
+    public GameObject prefabCostAreaKeyFeedback;
+    public GameObject prefabCostAreaTrophyFeedback;
+    public GameObject prefabCostAreaWaterFeedback;
+
 
     private List<GameObject> evolutionIslands = new List<GameObject>();
     private List<GameObject> pointsIslands = new List<GameObject>();
