@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
+[System.Serializable]
 public class MonsterShooter : MonoBehaviour {
 
     // temp : bulletPrefab
@@ -10,6 +10,9 @@ public class MonsterShooter : MonoBehaviour {
 
     public delegate void action();
     action CurAction;
+    [SerializeField] private bool obeyAlpha;
+    [SerializeField] private MonsterShooter leaderShooter;
+    [SerializeField] private float afterLeaderDelay;
 
     [SerializeField] private int bulletPerRafales;
     [SerializeField] private float chargeDelay;
@@ -19,7 +22,115 @@ public class MonsterShooter : MonoBehaviour {
 
     private float timer;
     private float curBullet;
-    Transform bulletSpawn;
+    private Transform bulletSpawn;
+    public action OnShoot;
+
+    #region getterSetters
+    public int BulletPerRafales
+    {
+        get
+        {
+            return bulletPerRafales;
+        }
+
+        set
+        {
+            bulletPerRafales = value;
+        }
+    }
+
+    public float ChargeDelay
+    {
+        get
+        {
+            return chargeDelay;
+        }
+
+        set
+        {
+            chargeDelay = value;
+        }
+    }
+
+    public float RafalesChargeDelay
+    {
+        get
+        {
+            return rafalesChargeDelay;
+        }
+
+        set
+        {
+            rafalesChargeDelay = value;
+        }
+    }
+
+    public float BulletDistance
+    {
+        get
+        {
+            return bulletDistance;
+        }
+
+        set
+        {
+            bulletDistance = value;
+        }
+    }
+
+    public float BulletSpeed
+    {
+        get
+        {
+            return bulletSpeed;
+        }
+
+        set
+        {
+            bulletSpeed = value;
+        }
+    }
+
+    public MonsterShooter LeaderShooter
+    {
+        get
+        {
+            return leaderShooter;
+        }
+
+        set
+        {
+            leaderShooter = value;
+        }
+    }
+
+    public bool ObeyAlpha
+    {
+        get
+        {
+            return obeyAlpha;
+        }
+
+        set
+        {
+            obeyAlpha = value;
+        }
+    }
+
+    public float AfterLeaderDelay
+    {
+        get
+        {
+            return afterLeaderDelay;
+        }
+
+        set
+        {
+            afterLeaderDelay = value;
+        }
+    }
+    #endregion
+
 
     void OnBegin()
     {
@@ -47,6 +158,10 @@ public class MonsterShooter : MonoBehaviour {
         }
     }
   
+    void DelayedShoot()
+    {
+        Invoke("Shoot", afterLeaderDelay);
+    }
     void Shoot()
     {
         curBullet++;
@@ -59,6 +174,10 @@ public class MonsterShooter : MonoBehaviour {
         else
         {
             CurAction = ChargeWait;
+        }
+        if (OnShoot!=null)
+        {
+            OnShoot();
         }
     }
     public void CreateBullet()
@@ -94,14 +213,24 @@ public class MonsterShooter : MonoBehaviour {
         bulletSpawn = transform.Find("BulletSpawn");
     }
     void Start () {
+        if (obeyAlpha)
+        {
+            if (leaderShooter != null)
+                leaderShooter.OnShoot += DelayedShoot;
+            else
+                Debug.LogWarning("Monster missing leader");
+        }
 	}
 	
 	// Update is called once per frame
 	void Update () {
         
-        if (CurAction!=null)
-            CurAction();
-        else
-            MonsterActivation();
+        if (!obeyAlpha)
+        {
+            if (CurAction != null)
+                CurAction();
+            else
+                MonsterActivation();
+        }
     }
 }
