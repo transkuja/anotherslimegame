@@ -443,13 +443,27 @@ public class PlayerController : MonoBehaviour
         PlayerState.CollisionEnter(collision);
         float force = 20f;
         ////float forceOffset = 0.1f;
-
+        // If we hit the floor
+        float dotProduct = Vector3.Dot(collision.contacts[0].normal, Vector3.up);
+        Debug.Log(dotProduct);
+        if (dotProduct > 0.9f && dotProduct < 1.1f)
+        {
+            ParticleSystem ps = transform.GetChild((int)PlayerChildren.LandingParticles).GetComponent<ParticleSystem>();
+            ParticleSystem.Burst[] bursts = new ParticleSystem.Burst[ps.emission.burstCount];
+            ps.emission.GetBursts(bursts);
+            Debug.Log(collision.relativeVelocity.magnitude / 85.0f);
+            bursts[0].minCount = (short)Mathf.Lerp(2.0f, 6.0f, (collision.relativeVelocity.magnitude / 150.0f));
+            bursts[0].maxCount = (short)Mathf.Lerp(3.0f, 8.0f, (collision.relativeVelocity.magnitude / 150.0f));
+            ps.emission.SetBursts(bursts);
+            ps.Play();
+        }
         if (deformer)
         {
             if(collision.relativeVelocity.magnitude > 30.0f)
             {
                 float vibforce = collision.relativeVelocity.magnitude/150.0f;
                 GamePad.VibrateForSeconds(playerIndex, vibforce, vibforce, 0.1f);
+                
             }
             float vel = collision.relativeVelocity.magnitude / collision.contacts.Length;
             for (int i = 0; i < collision.contacts.Length; i++)
