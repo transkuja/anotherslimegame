@@ -30,11 +30,11 @@ public class ScoreScreen : MonoBehaviour {
     public void Init()
     {
 
-        for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
-        {
-            GameObject playerScore = Instantiate(prefabPlayerScore, scorePanel.transform);
-            scorePanelPlayer.Add(GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<Player>(), playerScore);
-        }
+        //for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
+        //{
+        //    GameObject playerScore = Instantiate(prefabPlayerScore, scorePanel.transform);
+        //    scorePanelPlayer.Add(GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<Player>(), playerScore);
+        //}
     }
 
     public void RefreshScores(Player player)
@@ -42,14 +42,17 @@ public class ScoreScreen : MonoBehaviour {
         float time = Time.timeSinceLevelLoad;
         int minutes = Mathf.FloorToInt(time / 60);
         int seconds = (int)time % 60;
-     
+        rank++;
+
         String timeStr = string.Format("{0:00} : {1:00}", minutes, seconds);
-        scorePanelPlayer[player].GetComponent<PlayerScore>().Rank.text = rank.ToString();
-        scorePanelPlayer[player].GetComponent<PlayerScore>().TextTime.text = timeStr;
-        scorePanelPlayer[player].GetComponent<PlayerScore>().TextPointTime.text = (((SpawnManager.Instance.SpawnedItemsCount* valueCoins )/ Mathf.RoundToInt(time)) * valueTime).ToString();
-        scorePanelPlayer[player].GetComponent<PlayerScore>().TextCoins.text = player.Collectables[(int)CollectableType.Points].ToString();
-        scorePanelPlayer[player].GetComponent<PlayerScore>().TextPointCoins.text = (player.Collectables[(int)CollectableType.Points] * valueCoins).ToString();
-        scorePanelPlayer[player].SetActive(true);
+
+        transform.GetChild(rank - 1).GetComponent<PlayerScore>().SetScore(
+            (int)player.PlayerController.PlayerIndex, 
+            timeStr, 
+            (player.Collectables[(int)CollectableType.Points] * valueCoins).ToString()
+        );
+
+        transform.GetChild(rank - 1).gameObject.SetActive(true);
 
         player.Anim.SetBool("hasFinished", true);
         nbrOfPlayersAtTheEnd++;

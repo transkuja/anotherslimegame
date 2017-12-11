@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour {
     private static GameState currentState = GameState.Normal;
     private PlayerStart playerStart;
     private PlayerUI playerUI;
+    public bool isTimeOver = false;
 
     public static GameManager Instance
     {
@@ -126,6 +127,7 @@ public class GameManager : MonoBehaviour {
             return playerUI;
         }
     }
+
     public void RegisterPlayerStart(PlayerStart _ps)
     {
         playerStart = _ps;

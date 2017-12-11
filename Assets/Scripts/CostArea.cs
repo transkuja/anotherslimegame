@@ -129,9 +129,9 @@ public class CostArea : MonoBehaviour {
         if (playerComponent != null)
         {
             // TODO: rename bool array
-            if (!playerComponent.Player.evolutionTutoShown[(int)Powers.Size])
+            if (!playerComponent.Player.costAreaTutoShown)
             {
-                playerComponent.Player.evolutionTutoShown[(int)Powers.Size] = true;
+                playerComponent.Player.costAreaTutoShown = true;
                 Utils.PopTutoText("Press B to buy the reward", playerComponent.Player);
             }
             if (playerComponent.PrevState.Buttons.B == ButtonState.Pressed && playerComponent.State.Buttons.B == ButtonState.Released)
@@ -180,8 +180,7 @@ public class CostArea : MonoBehaviour {
             switch (costAreaEvent)
             {
                 case CostAreaEvent.EndGame:
-                    // TODO: UGLY, EndingTrigger should be renamed and be static
-                    GameObject.FindObjectOfType<EndingTrigger>().HasFinishedProcess(_player.Player);
+                    HasFinishedProcess(_player.Player);
                     break;
                 case CostAreaEvent.IncreaseWater:
                     // TODO: UGLY, TheButton should be referenced somewhere I suppose or the event externalized
@@ -240,5 +239,27 @@ public class CostArea : MonoBehaviour {
         }
 
         return null;
+    }
+
+    ////////////////////////////////////// EVENTS //////////////////////////////////////////
+    void HasFinishedProcess(Player _player)
+    {
+        _player.PlayerController.enabled = false;
+
+        // Making the player to stop in the air 
+        _player.Rb.Sleep(); // Quelque part là, il y a un sleep
+
+        // TODO: REACTIVATE INSTEAD OF INSTANTIATE (keys must not be destroyed too)
+        for (int i = 0; i < Utils.GetMaxValueForCollectable(CollectableType.Key); i++)
+        {
+            ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
+                _player.KeysInitialPosition[i],
+                _player.KeysInitialRotation[i],
+                null,
+                CollectableType.Key)
+            .GetComponent<Collectable>().Init();
+        }
+
+        GameManager.Instance.ScoreScreenReference.RefreshScores(_player);
     }
 }

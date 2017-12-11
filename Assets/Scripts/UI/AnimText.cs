@@ -10,6 +10,9 @@ public class AnimText : MonoBehaviour {
     bool scaleIncreasing = true;
     bool alphaIncreasing = true;
 
+    [SerializeField]
+    bool scaleOnly = false;
+
 	void Start () {
         text = GetComponent<Text>();
         outline = GetComponent<Outline>();
@@ -17,14 +20,18 @@ public class AnimText : MonoBehaviour {
     }
 	
 	void Update () {
-        outlineColor.a += ((alphaIncreasing) ? Time.deltaTime : -Time.deltaTime);
-        text.transform.localScale = new Vector3(text.transform.localScale.x + ((scaleIncreasing) ? Time.deltaTime : -Time.deltaTime)/4,
-                                                text.transform.localScale.y + ((scaleIncreasing) ? Time.deltaTime : -Time.deltaTime)/4,
-                                                1);
-        outline.effectColor = outlineColor;
+        if (!scaleOnly)
+        {
+            outlineColor.a += ((alphaIncreasing) ? Time.deltaTime : -Time.deltaTime);       
+            outline.effectColor = outlineColor;
 
-        if (outlineColor.a > 0.3f) alphaIncreasing = false;
-        else if (outlineColor.a < 0.01f) alphaIncreasing = true;
+            if (outlineColor.a > 0.3f) alphaIncreasing = false;
+            else if (outlineColor.a < 0.01f) alphaIncreasing = true;
+        }
+
+        text.transform.localScale = new Vector3(text.transform.localScale.x + ((scaleIncreasing) ? Time.deltaTime : -Time.deltaTime) / 4,
+                                                    text.transform.localScale.y + ((scaleIncreasing) ? Time.deltaTime : -Time.deltaTime) / 4,
+                                                    1);
         if (text.transform.localScale.x > 1.05f) scaleIncreasing = false;
         else if (text.transform.localScale.x < 0.95f) scaleIncreasing = true;
     }

@@ -138,7 +138,7 @@ public class DebugTools : MonoBehaviour {
             // Spawn a collectable
             else if (Input.GetKey(KeyCode.Alpha2))
             {
-                if (Input.GetKeyDown(KeyCode.Alpha1))
+                if (Input.GetKeyDown(KeyCode.Alpha8))
                 {
                     // TODO: broken
                     //ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
