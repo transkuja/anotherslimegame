@@ -31,6 +31,8 @@ public class Player : MonoBehaviour {
     public GameObject activeTutoText;
     private bool hasFinishedTheRun = false;
 
+    public int rank = 0;
+
     public Rigidbody Rb
     {
         get
@@ -132,14 +134,17 @@ public class Player : MonoBehaviour {
                 Rb.Sleep(); // Quelque part là, il y a un sleep
 
                 // TODO: REACTIVATE INSTEAD OF INSTANTIATE (keys must not be destroyed too)
-                for (int i = 0; i < Utils.GetMaxValueForCollectable(CollectableType.Key); i++)
+                if (!GameManager.Instance.isTimeOver)
                 {
-                    ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
-                        KeysInitialPosition[i],
-                        KeysInitialRotation[i],
-                        null,
-                        CollectableType.Key)
-                    .GetComponent<Collectable>().Init();
+                    for (int i = 0; i < Utils.GetMaxValueForCollectable(CollectableType.Key); i++)
+                    {
+                        ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
+                            KeysInitialPosition[i],
+                            KeysInitialRotation[i],
+                            null,
+                            CollectableType.Key)
+                        .GetComponent<Collectable>().Init();
+                    }
                 }
             }
 

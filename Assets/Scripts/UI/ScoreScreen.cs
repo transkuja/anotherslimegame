@@ -19,6 +19,10 @@ public class ScoreScreen : MonoBehaviour {
 
     uint nbrOfPlayersAtTheEnd = 0;
 
+    // A GameObject that contains children + a camera 
+    [SerializeField]
+    Transform podium;
+
     private void Awake()
     {
         GameManager.Instance.RegisterScoreScreenPanel(this);
@@ -59,6 +63,8 @@ public class ScoreScreen : MonoBehaviour {
 
         transform.GetChild(rank - 1).gameObject.SetActive(true);
 
+        player.rank = rank;
+
         player.Anim.SetBool("hasFinished", true);
         nbrOfPlayersAtTheEnd++;
         CheckEndGame();
@@ -74,6 +80,17 @@ public class ScoreScreen : MonoBehaviour {
     {
         if (nbrOfPlayersAtTheEnd == GameManager.Instance.PlayerStart.ActivePlayersAtStart)
         {
+            List<GameObject> players = GameManager.Instance.PlayerStart.PlayersReference;
+            for (int i = 0; i < players.Count; i++)
+            {
+                Player curPlayer = players[i].GetComponent<Player>();
+                curPlayer.cameraReference.SetActive(false);
+                curPlayer.transform.SetParent(podium.GetChild(curPlayer.rank));
+                curPlayer.transform.localPosition = Vector3.zero;
+                curPlayer.transform.localRotation = Quaternion.identity;
+            }
+            podium.GetChild(5).gameObject.SetActive(true);
+            GameManager.UiReference.gameObject.SetActive(false);
             gameObject.SetActive(true);
         }
     }

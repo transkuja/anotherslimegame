@@ -202,6 +202,7 @@ public class GameManager : MonoBehaviour {
                     Player _curPlayer = playerStart.PlayersReference[i].GetComponent<Player>();
                     if (!_curPlayer.HasFinishedTheRun)
                     {
+                        _curPlayer.HasFinishedTheRun = true;
                         if (remainingPlayers.Count == 0 
                             || remainingPlayers[remainingPlayers.Count - 1].Collectables[(int)CollectableType.Points] < _curPlayer.Collectables[(int)CollectableType.Points])
                         {
