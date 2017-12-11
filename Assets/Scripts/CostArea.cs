@@ -5,8 +5,11 @@ using UnityEngine.UI;
 
 using UWPAndXInput;
 
+// TODO: handle tutotext + reactivation (overtime, on event, none)
+// TODO: set cost area reference on keys + do not destroy keys + reactivate when necessary
 public enum CostAreaType { PayAndGetItem, PayAndCallEvent }
 public enum CostAreaEvent { None, EndGame, IncreaseWater }
+public enum CostAreaReactivationMode { None, OverTime, OnEvent }
 public class CostArea : MonoBehaviour {
     [SerializeField]
     CostAreaType costAreaType;
@@ -22,6 +25,11 @@ public class CostArea : MonoBehaviour {
 
     [SerializeField]
     bool isActive = true;
+    [SerializeField]
+    CostAreaReactivationMode reactivationMode;
+    [SerializeField]
+    float timeBeforeReactivation;
+    float currentTimerBeforeReactivation;
 
     [Header("Children references")]
     [SerializeField]
@@ -30,6 +38,8 @@ public class CostArea : MonoBehaviour {
     Image currencyLogo;
     [SerializeField]
     Transform rewardPreview;
+    [SerializeField]
+    Transform halo;
 
     [Header("Reward")]
     [SerializeField]
@@ -43,21 +53,7 @@ public class CostArea : MonoBehaviour {
     [SerializeField]
     Sprite currencyRune;
 
-    [Header("Reward model")]
-    [SerializeField]
-    GameObject rewardKey;
-    [SerializeField]
-    GameObject rewardPlatformist;
-    [SerializeField]
-    GameObject rewardGhost;
-    [SerializeField]
-    GameObject rewardStrength;
-    [SerializeField]
-    GameObject rewardAgility;
-    [SerializeField]
-    GameObject rewardVictory;
-    [SerializeField]
-    GameObject rewardIncreaseWater;
+    Color initialColor;
 
     public CollectableType Currency
     {
@@ -77,6 +73,7 @@ public class CostArea : MonoBehaviour {
 
     public void Start()
     {
+        initialColor = halo.GetComponent<ParticleSystem>().main.startColor.color; // <======8 WTFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF???!
         Init();
     }
 
@@ -99,6 +96,30 @@ public class CostArea : MonoBehaviour {
         }
     }
 
+    public void Reactivate()
+    {
+        costText.color = Color.white;
+        costText.text = "x " + cost;
+        currencyLogo.color = Color.white;
+        rewardPreview.gameObject.SetActive(true);
+        ParticleSystem.MainModule main = halo.GetComponent<ParticleSystem>().main;
+        main.startColor = initialColor;
+
+        isActive = true;
+    }
+
+    void Update()
+    {
+        if (reactivationMode == CostAreaReactivationMode.OverTime && !isActive)
+        {
+            currentTimerBeforeReactivation -= Time.deltaTime;
+            if (currentTimerBeforeReactivation < 0.0f)
+            {
+                Reactivate();
+            }
+        }
+    }
+
     private void OnTriggerStay(Collider other)
     {
         PlayerController playerComponent = other.GetComponent<PlayerController>();
@@ -113,9 +134,15 @@ public class CostArea : MonoBehaviour {
                 {
                     isActive = false;
 
+                    costText.text = "x 0";
+                    costText.color = Color.grey;
+                    currencyLogo.color = Color.grey;
+                    rewardPreview.gameObject.SetActive(false);
+                    ParticleSystem.MainModule main = halo.GetComponent<ParticleSystem>().main;
+                    main.startColor = Color.white;
+
+                    currentTimerBeforeReactivation = timeBeforeReactivation;
                     GiveReward(playerComponent);
-                    // deactivate halo
-                    // deactivate price and visual?
                 }
                 else
                 {

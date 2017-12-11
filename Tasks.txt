@@ -20,10 +20,12 @@
 
 [Rémi] - Reduire la taille du niveau
 
+- Intégrer les textures de murs/sols
+
 ========================
 	Gameplay
 ========================
-[ANTHONY] - Ajouter des zones de cout
+[ANTHONY] - Ajouter des zones de cout: voir todo dans costarea
 
 [ANTHONY] - Revoir les 3C (surtout la caméra) => ok?
 		=> /!\ fix camera lock /!\
@@ -37,7 +39,7 @@
 ========================
 	Feedbacks
 ========================
-- Revoir et refaire l'écran de victoire
+[Anthony]- Revoir et refaire l'écran de victoire
 - UI Multijoueur: où sont les autres? où est la sortie? (la sortie ça peut être un "guide" et non de l'UI)
 - Ajouter un feedback visuel sur les shelters
 	===> Manque un feedback pour le ghost
