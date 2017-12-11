@@ -140,14 +140,18 @@ public class DebugTools : MonoBehaviour {
             {
                 if (Input.GetKeyDown(KeyCode.Alpha1))
                 {
-                    ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
-                        DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.Points).GetComponent<Collectable>().Init();
+                    // TODO: broken
+                    //ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
+                    //    DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.Points).GetComponent<Collectable>().Init();
+                    DebugPlayerSelected.UpdateCollectableValue(CollectableType.Points, 10);
                     Debug.Log("Pop some " + CollectableType.Points + " on the ground!");
                 }
                 if (Input.GetKeyDown(KeyCode.Alpha3))
                 {
-                    ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
-                        DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.Key).GetComponent<Collectable>().Init();
+                    // TODO: broken
+                    //ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
+                    //    DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.Key).GetComponent<Collectable>().Init();
+                    DebugPlayerSelected.UpdateCollectableValue(CollectableType.Key, 1);
                     Debug.Log("Pop some " + CollectableType.Key + " on the ground!");
                 }
                 if (Input.GetKeyDown(KeyCode.Alpha4))
