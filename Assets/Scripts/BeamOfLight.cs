@@ -6,6 +6,7 @@ public class BeamOfLight : MonoBehaviour {
 
     LineRenderer lineRenderer;
     float timer;
+    [SerializeField] bool autoActivate;
     [SerializeField] float maxWidth;
     [SerializeField] Ease.EASE_TYPE easeFunction;
     [SerializeField] float speed = 2;
@@ -48,6 +49,11 @@ public class BeamOfLight : MonoBehaviour {
         }
         lineRenderer.enabled = false;
         yield return null;
+    }
+    public void Update()
+    {
+        if (autoActivate)
+            Activate();
     }
 
 }
