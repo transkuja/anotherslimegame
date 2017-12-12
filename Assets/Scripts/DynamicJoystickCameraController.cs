@@ -58,8 +58,9 @@ public class DynamicJoystickCameraController : MonoBehaviour {
                 }
             }
 
-            if (Mathf.Abs(state.ThumbSticks.Right.X ) > 0.1f)
+            if (Mathf.Abs(state.ThumbSticks.Right.X) > 0.1f)
             {
+                TurnCameraWithLThumb = false;
                 freelookCamera.m_XAxis.m_InputAxisValue = -state.ThumbSticks.Right.X * cameraXAdjuster;
                 freelookCamera.m_RecenterToTargetHeading.m_enabled = false;
                 needToTendToMiddleRig = false;
@@ -69,6 +70,7 @@ public class DynamicJoystickCameraController : MonoBehaviour {
 
             if (Mathf.Abs(state.ThumbSticks.Right.Y) > 0.1f)
             {
+                TurnCameraWithLThumb = false;
                 freelookCamera.m_YAxis.m_InputAxisValue = state.ThumbSticks.Right.Y * cameraYAdjuster;
                 freelookCamera.m_RecenterToTargetHeading.m_enabled = false;
                 needToTendToMiddleRig = false;
@@ -77,7 +79,10 @@ public class DynamicJoystickCameraController : MonoBehaviour {
             else
                 freelookCamera.m_YAxis.m_InputAxisValue = 0;
 
-            if(TurnCameraWithLThumb)
+            if ((Mathf.Abs(state.ThumbSticks.Right.X) + Mathf.Abs(state.ThumbSticks.Right.Y)) < 0.1f)
+                TurnCameraWithLThumb = true;
+
+            if (TurnCameraWithLThumb)
                 ////Need a more complex function ?
                 freelookCamera.m_XAxis.m_InputAxisValue += Mathf.Abs(state.ThumbSticks.Left.X) > 0.1f ? (freelookCamera.m_XAxis.m_InvertAxis?-1:1) * state.ThumbSticks.Left.X* Mathf.Lerp(0.5f, 1.0f, Mathf.Abs(state.ThumbSticks.Left.X))/2.0f : 0;
 
