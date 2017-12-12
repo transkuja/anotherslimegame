@@ -58,7 +58,7 @@ public class DynamicJoystickCameraController : MonoBehaviour {
                 }
             }
 
-            if (Mathf.Abs(state.ThumbSticks.Right.X) > 0.1f)
+            if (Utils.Abs(state.ThumbSticks.Right.X) > 0.1f)
             {
                 TurnCameraWithLThumb = false;
                 freelookCamera.m_XAxis.m_InputAxisValue = -state.ThumbSticks.Right.X * cameraXAdjuster;
@@ -68,7 +68,7 @@ public class DynamicJoystickCameraController : MonoBehaviour {
             else
                 freelookCamera.m_XAxis.m_InputAxisValue = 0;
 
-            if (Mathf.Abs(state.ThumbSticks.Right.Y) > 0.1f)
+            if (Utils.Abs(state.ThumbSticks.Right.Y) > 0.1f)
             {
                 TurnCameraWithLThumb = false;
                 freelookCamera.m_YAxis.m_InputAxisValue = state.ThumbSticks.Right.Y * cameraYAdjuster;
@@ -79,14 +79,14 @@ public class DynamicJoystickCameraController : MonoBehaviour {
             else
                 freelookCamera.m_YAxis.m_InputAxisValue = 0;
 
-            if ((Mathf.Abs(state.ThumbSticks.Right.X) + Mathf.Abs(state.ThumbSticks.Right.Y)) < 0.1f)
+            if ((Utils.Abs(state.ThumbSticks.Right.X) + Utils.Abs(state.ThumbSticks.Right.Y)) < 0.1f)
                 TurnCameraWithLThumb = true;
 
             if (TurnCameraWithLThumb)
                 ////Need a more complex function ?
-                freelookCamera.m_XAxis.m_InputAxisValue += Mathf.Abs(state.ThumbSticks.Left.X) > 0.1f ? (freelookCamera.m_XAxis.m_InvertAxis?-1:1) * state.ThumbSticks.Left.X* Mathf.Lerp(0.5f, 1.0f, Mathf.Abs(state.ThumbSticks.Left.X))/2.0f : 0;
+                freelookCamera.m_XAxis.m_InputAxisValue += Utils.Abs(state.ThumbSticks.Left.X) > 0.1f ? (freelookCamera.m_XAxis.m_InvertAxis?-1:1) * state.ThumbSticks.Left.X* Mathf.Lerp(0.5f, 1.0f, Utils.Abs(state.ThumbSticks.Left.X))/2.0f : 0;
 
-            if (Mathf.Abs(state.ThumbSticks.Left.Y) > 0.1f)
+            if (Utils.Abs(state.ThumbSticks.Left.Y) > 0.1f)
             {
                 needToTendToMiddleRig = true;
                 lerpOldValue = freelookCamera.m_YAxis.Value;
