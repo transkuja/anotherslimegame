@@ -15,10 +15,11 @@ public class PlayerState  {
 
     public float maxCoolDown = 0;
     public bool stateAvailable = true;
-    float dragForce = 0.02f;
+    float dragForce = 0.025f;
     float dragForceDash = 0.01f; // Dash value
 
     float airControlFactor = 0.75f;
+    float timerApplyDrag = 0.02f;
 
     #region getterSetters
 
@@ -103,6 +104,7 @@ public class PlayerState  {
 
         return initialVelocity;
     }
+
     public virtual void Move(Vector3 initialVelocity)
     {
         Vector3 camVectorForward = new Vector3(playerController.Player.cameraReference.transform.GetChild(0).forward.x, 0.0f, playerController.Player.cameraReference.transform.GetChild(0).forward.z);
@@ -125,7 +127,7 @@ public class PlayerState  {
             Vector3 tmp = new Vector3(playerController.Player.Rb.velocity.x, 0.0f, playerController.Player.Rb.velocity.z);
             Vector3 fwd = playerController.transform.forward;
 
-            float dragForceUsed = (playerController.PreviousPlayerState == playerController.dashState) ? dragForceDash : dragForce;
+            float dragForceUsed = dragForce;//(playerController.PreviousPlayerState == playerController.dashState) ? dragForceDash : dragForce;
 
             if (tmp.sqrMagnitude > 7.0f)// && Vector3.Dot(playerController.transform.forward, tmp) > 0)
             {
@@ -135,7 +137,7 @@ public class PlayerState  {
                 || (tmp.z < 0 && playerController.Player.Rb.velocity.z - tmp.z * fwd.z * dragForceUsed > 0))
                     playerController.Player.Rb.velocity = playerController.Player.Rb.velocity.y * Vector3.up;
                 else
-                    playerController.Player.Rb.velocity -= (tmp.normalized * dragForceUsed * tmp.sqrMagnitude);
+                    playerController.Player.Rb.velocity -= (tmp.normalized * dragForceUsed * tmp.sqrMagnitude) * ((Time.deltaTime/ timerApplyDrag));
 
                 tmp = new Vector3(playerController.Player.Rb.velocity.x, 0.0f, playerController.Player.Rb.velocity.z);
 
@@ -147,10 +149,7 @@ public class PlayerState  {
             {
                 playerController.Player.Rb.velocity = playerController.Player.Rb.velocity.y * Vector3.up;
             }
-
-
-
-    }
+        }
 
     }
 
