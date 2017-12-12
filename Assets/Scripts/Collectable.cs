@@ -54,6 +54,7 @@ public class Collectable : MonoBehaviour
             haveToDisperse = true;
             isAttracted = false;
             playerTarget = null;
+            GetComponent<Animator>().enabled = true;
         }
     }
 
