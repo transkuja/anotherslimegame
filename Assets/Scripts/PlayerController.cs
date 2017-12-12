@@ -12,6 +12,7 @@ public class PlayerController : MonoBehaviour
 {
     // Component : 
     private PlayerState playerState;
+    private PlayerState previousPlayerState;
     private JumpManager jumpManager;
     private Rigidbody rb;
     Player player;
@@ -84,6 +85,7 @@ public class PlayerController : MonoBehaviour
         }
         set
         {
+            PreviousPlayerState = playerState;
             if (value == null)
                 Debug.Log("State not created");
             else if (!value.stateAvailable)
@@ -246,6 +248,19 @@ public class PlayerController : MonoBehaviour
         set
         {
             rb = value;
+        }
+    }
+
+    public PlayerState PreviousPlayerState
+    {
+        get
+        {
+            return previousPlayerState;
+        }
+
+        set
+        {
+            previousPlayerState = value;
         }
     }
 
@@ -436,6 +451,9 @@ public class PlayerController : MonoBehaviour
         Gizmos.DrawLine(transform.position + Vector3.up * 0.5f - raycastOffsetPlayer * transform.forward, transform.position + Vector3.up * 0.5f + Vector3.down * raycastDist - raycastOffsetPlayer * transform.forward);
         Gizmos.DrawLine(transform.position + Vector3.up * 0.5f + raycastOffsetPlayer * transform.right, transform.position + Vector3.up * 0.5f + Vector3.down * raycastDist + raycastOffsetPlayer * transform.right);
         Gizmos.DrawLine(transform.position + Vector3.up * 0.5f - raycastOffsetPlayer * transform.right, transform.position + Vector3.up * 0.5f + Vector3.down * raycastDist - raycastOffsetPlayer * transform.right);
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawLine(transform.position + Vector3.up * 0.5f, transform.position + Vector3.up * 0.5f + transform.forward * 2.0f);
     }
 
     public void OnCollisionEnter(Collision collision)
@@ -445,7 +463,7 @@ public class PlayerController : MonoBehaviour
         ////float forceOffset = 0.1f;
         // If we hit the floor
         float dotProduct = Vector3.Dot(collision.contacts[0].normal, Vector3.up);
-        Debug.Log(dotProduct);
+
         if (dotProduct > 0.9f && dotProduct < 1.1f)
         {
             ParticleSystem ps = transform.GetChild((int)PlayerChildren.LandingParticles).GetComponent<ParticleSystem>();
@@ -618,5 +636,4 @@ public class PlayerController : MonoBehaviour
             tr.m_ZDamping = _newValues;
         }
     }
-
 }

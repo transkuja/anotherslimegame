@@ -15,6 +15,14 @@ public class PlayerState  {
 
     public float maxCoolDown = 0;
     public bool stateAvailable = true;
+    float dragForce = 0.02f;
+    float dragForceDash = 0.01f; // Dash value
+
+    int dragStepMax = 5;
+    int currentDragStep = 0;
+    Vector3 referenceVelocityForDrag;
+    Vector3 referenceFwdForDrag;
+    Vector3 referenceTmpForDrag;
 
     #region getterSetters
 
@@ -104,15 +112,50 @@ public class PlayerState  {
         Vector3 camVectorForward = new Vector3(playerController.Player.cameraReference.transform.GetChild(0).forward.x, 0.0f, playerController.Player.cameraReference.transform.GetChild(0).forward.z);
         camVectorForward.Normalize();
 
-        Vector3 velocityVec = initialVelocity.z * camVectorForward + Vector3.up * playerController.Player.Rb.velocity.y;
-        // MENU peter a cause de cette condition tu sais pourquoi c'est la antho ? sinon je peux faire une exception pour le menu
-        if (playerController.IsGrounded)
-            velocityVec += initialVelocity.x * playerController.Player.cameraReference.transform.GetChild(0).right;
+        if (initialVelocity.magnitude > 1f)
+        {
+            Vector3 velocityVec = initialVelocity.z * camVectorForward + Vector3.up * playerController.Player.Rb.velocity.y;
+            // MENU peter a cause de cette condition tu sais pourquoi c'est la antho ? sinon je peux faire une exception pour le menu
+            if (playerController.IsGrounded)
+                velocityVec += initialVelocity.x * playerController.Player.cameraReference.transform.GetChild(0).right;
 
-        playerController.Player.Rb.velocity = velocityVec;
-        playerController.transform.LookAt(playerController.transform.position + new Vector3(velocityVec.x, 0.0f, velocityVec.z) + initialVelocity.x * playerController.Player.cameraReference.transform.GetChild(0).right);
+            playerController.Player.Rb.velocity = velocityVec;
+            playerController.transform.LookAt(playerController.transform.position + new Vector3(velocityVec.x, 0.0f, velocityVec.z) + initialVelocity.x * playerController.Player.cameraReference.transform.GetChild(0).right);
+        }
+        else
+        {
+            Vector3 tmp = new Vector3(playerController.Player.Rb.velocity.x, 0.0f, playerController.Player.Rb.velocity.z);
+            Vector3 fwd = playerController.transform.forward;
+
+            float dragForceUsed = (playerController.PreviousPlayerState == playerController.dashState) ? dragForceDash : dragForce;
+
+            if (tmp.sqrMagnitude > 7.0f)// && Vector3.Dot(playerController.transform.forward, tmp) > 0)
+            {
+                if ((tmp.x > 0 && playerController.Player.Rb.velocity.x - tmp.x * fwd.x * dragForceUsed < 0)
+                || (tmp.x < 0 && playerController.Player.Rb.velocity.x - tmp.x * fwd.x * dragForceUsed > 0)
+                || (tmp.z > 0 && playerController.Player.Rb.velocity.z - tmp.z * fwd.z * dragForceUsed < 0)
+                || (tmp.z < 0 && playerController.Player.Rb.velocity.z - tmp.z * fwd.z * dragForceUsed > 0))
+                    playerController.Player.Rb.velocity = playerController.Player.Rb.velocity.y * Vector3.up;
+                else
+                    playerController.Player.Rb.velocity -= (tmp.normalized * dragForceUsed * tmp.sqrMagnitude);
+
+                tmp = new Vector3(playerController.Player.Rb.velocity.x, 0.0f, playerController.Player.Rb.velocity.z);
+
+                if (Vector3.Dot(fwd, tmp) < 0)
+                    playerController.Player.Rb.velocity = playerController.Player.Rb.velocity.y * Vector3.up;
+
+            }
+            else
+            {
+                playerController.Player.Rb.velocity = playerController.Player.Rb.velocity.y * Vector3.up;
+            }
+
+
 
     }
+
+    }
+
     public virtual void HandleGravity()
     {
         if (playerController.isGravityEnabled)
