@@ -27,6 +27,10 @@ public class DynamicJoystickCameraController : MonoBehaviour {
 
     [Range(0.1f, 2.0f)]
     public float lerpTendToMiddleRigSpeed = 0.85f;
+    public PlayerController associatedPlayerController;
+
+    [SerializeField]
+    float notGroundedAttenuationFactor = 0.5f;
 
     void Start () {
         freelookCamera = GetComponent<Cinemachine.CinemachineFreeLook>();
@@ -36,8 +40,10 @@ public class DynamicJoystickCameraController : MonoBehaviour {
     }
 	
 	void Update () {
+        if (associatedPlayerController == null)
+            return;
 
-        if (GameManager.Instance.PlayerStart.PlayersReference[(int)playerIndex].GetComponent<PlayerController>().IsUsingAController)
+        if (associatedPlayerController.IsUsingAController)
         {
             prevState = state;
             state = GamePad.GetState(playerIndex);
@@ -83,8 +89,15 @@ public class DynamicJoystickCameraController : MonoBehaviour {
                 TurnCameraWithLThumb = true;
 
             if (TurnCameraWithLThumb)
+            {
                 ////Need a more complex function ?
-                freelookCamera.m_XAxis.m_InputAxisValue += Utils.Abs(state.ThumbSticks.Left.X) > 0.1f ? (freelookCamera.m_XAxis.m_InvertAxis?-1:1) * state.ThumbSticks.Left.X* Mathf.Lerp(0.5f, 1.0f, Utils.Abs(state.ThumbSticks.Left.X))/2.0f : 0;
+                freelookCamera.m_XAxis.m_InputAxisValue += 
+                        Utils.Abs(state.ThumbSticks.Left.X) > 0.1f ? 
+                            (freelookCamera.m_XAxis.m_InvertAxis ? -1 : 1) * state.ThumbSticks.Left.X * Mathf.Lerp(0.5f, 1.0f, Utils.Abs(state.ThumbSticks.Left.X)) / 2.0f *
+                                ((associatedPlayerController.IsGrounded) ? 1 : notGroundedAttenuationFactor)
+                            : 0
+                        ;
+            }
 
             if (Utils.Abs(state.ThumbSticks.Left.Y) > 0.1f)
             {
