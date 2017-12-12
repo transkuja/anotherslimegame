@@ -92,7 +92,7 @@ public class PlayerState  {
         initialVelocity.Normalize();
        
         initialVelocity *= playerController.stats.Get(Stats.StatType.GROUND_SPEED);
-        if (Mathf.Abs(playerController.State.ThumbSticks.Left.X) + Mathf.Abs(playerController.State.ThumbSticks.Left.Y) < 0.95f)
+        if (Utils.Abs(playerController.State.ThumbSticks.Left.X) + Utils.Abs(playerController.State.ThumbSticks.Left.Y) < 0.95f)
         {
             initialVelocity /= 2;
         }
@@ -158,7 +158,7 @@ public class PlayerState  {
     }
     public virtual void HandleControllerAnim()
     {
-        playerController.Player.Anim.SetFloat("MouvementSpeed", Mathf.Abs(playerController.State.ThumbSticks.Left.X) > Mathf.Abs(playerController.State.ThumbSticks.Left.Y) ? Mathf.Abs(playerController.State.ThumbSticks.Left.X) +0.2f : Mathf.Abs(playerController.State.ThumbSticks.Left.Y)+0.2f);
-        playerController.Player.Anim.SetBool("isWalking", ((Mathf.Abs(playerController.State.ThumbSticks.Left.X) > 0.02f) || Mathf.Abs(playerController.State.ThumbSticks.Left.Y) > 0.02f) && playerController.IsGrounded);
+        playerController.Player.Anim.SetFloat("MouvementSpeed", Utils.Abs(playerController.State.ThumbSticks.Left.X) > Utils.Abs(playerController.State.ThumbSticks.Left.Y) ? Utils.Abs(playerController.State.ThumbSticks.Left.X) +0.2f : Utils.Abs(playerController.State.ThumbSticks.Left.Y)+0.2f);
+        playerController.Player.Anim.SetBool("isWalking", ((Utils.Abs(playerController.State.ThumbSticks.Left.X) > 0.02f) || Utils.Abs(playerController.State.ThumbSticks.Left.Y) > 0.02f) && playerController.IsGrounded);
     }
 }

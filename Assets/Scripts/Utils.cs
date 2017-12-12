@@ -102,4 +102,9 @@ public static class Utils {
         _player.activeTutoText = tutoText;
         GameObject.Destroy(tutoText, 5.0f);
     }
+
+    public static float Abs(float _float)
+    {
+        return (_float < 0.0f) ? -_float : _float;
+    }
 }
