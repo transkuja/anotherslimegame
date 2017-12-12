@@ -45,8 +45,6 @@ public class TheButton : MonoBehaviour {
 
     public void StartIncreasing()
     {
-        GetComponent<BoxCollider>().enabled = false;
-        GetComponent<Animator>().SetBool("test", true);
         waterState = WaterState.WaterIsMovingTop;
     }
 
@@ -71,8 +69,7 @@ public class TheButton : MonoBehaviour {
                 MoveWater(positionToReach, lerpStartValue);
                 if (lerpValue >= 1.0f)
                 {
-                    GetComponent<Animator>().SetBool("test", false);
-                    GetComponent<BoxCollider>().enabled = true;
+                    transform.GetChild(0).GetComponent<CostArea>().Reactivate();
                     waterState = WaterState.Clear;
                 }
                 break;
