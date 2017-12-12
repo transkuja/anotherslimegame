@@ -105,18 +105,21 @@ public class DynamicJoystickCameraController : MonoBehaviour {
                 lerpOldValue = freelookCamera.m_YAxis.Value;
                 lerpValue = 0.0f;
             }
-            TendToMiddleRig();
+
+            TendToMiddleRig(associatedPlayerController.GetComponentInParent<PlatformGameplay>() != null || !associatedPlayerController.IsGrounded);
         }
     }
 
-    public void TendToMiddleRig()
+    public void TendToMiddleRig(bool _isOnPlatform)
     {
         if (needToTendToMiddleRig && lerpValue < 1.0f)
         {
             lerpValue += Time.deltaTime * lerpTendToMiddleRigSpeed;
-            freelookCamera.m_YAxis.Value = Mathf.Lerp(lerpOldValue, 0.5f, lerpValue);
+            float rigTarget = _isOnPlatform ? 1.0f : 0.5f;
+            freelookCamera.m_YAxis.Value = Mathf.Lerp(lerpOldValue, rigTarget, lerpValue);
             if (lerpValue > 1.0f)
                 needToTendToMiddleRig = false;
         }
     }
+
 }
