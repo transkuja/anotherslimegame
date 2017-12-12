@@ -22,7 +22,7 @@ public static class Utils {
         50,                // CollectableType Evolution4 (Platformist)
         50,                // CollectableType Evolution4 (Agile)
         50,                // CollectableType Evolution4 (Ghost)
-        30,                // points
+        5,                // points
         1                  // Key
     };
 

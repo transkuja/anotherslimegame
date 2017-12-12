@@ -326,7 +326,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
         {
             int numberOfCollectablesToDrop;
             if (typeCollectable == (int)CollectableType.Key) numberOfCollectablesToDrop = 1;
-            else numberOfCollectablesToDrop = (int)Mathf.Clamp((float)(Mathf.Floor(player.Collectables[typeCollectable]) / Utils.GetDefaultCollectableValue(typeCollectable)), 1, 6);
+            else numberOfCollectablesToDrop = (int)Mathf.Clamp(((float)(player.Collectables[typeCollectable]) / Utils.GetDefaultCollectableValue(typeCollectable)), 1, 6);
 
   
             Vector3[] positions = SpawnManager.GetVector3ArrayOnADividedCircle(transform.position, player.GetComponent<SphereCollider>().bounds.extents.magnitude, numberOfCollectablesToDrop, SpawnManager.Axis.XZ);
