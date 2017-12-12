@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 
 public enum PlayerChildren { SlimeMesh, ShadowProjector, BubbleParticles, SplashParticles, CameraTarget, DustTrailParticles, DashParticles, LandingParticles };
+public enum KeyFrom { Shelter, CostArea };
+
 public class Player : MonoBehaviour {
 
     Rigidbody rb;
@@ -18,9 +20,7 @@ public class Player : MonoBehaviour {
     public bool hasBeenTeleported = false;
 
     [SerializeField]
-    Vector3[] keysInitialPosition;
-    [SerializeField]
-    Quaternion[] keysInitialRotation;
+    KeyReset[] keysReset;
 
     public bool isEdgeAssistActive = true;
     PlayerController playerController;
@@ -89,22 +89,6 @@ public class Player : MonoBehaviour {
         }
     }
 
-    public Vector3[] KeysInitialPosition
-    {
-        get
-        {
-            return keysInitialPosition;
-        }
-    }
-
-    public Quaternion[] KeysInitialRotation
-    {
-        get
-        {
-            return keysInitialRotation;
-        }
-    }
-
     public PlayerController PlayerController
     {
         get
@@ -138,12 +122,21 @@ public class Player : MonoBehaviour {
                 {
                     for (int i = 0; i < Utils.GetMaxValueForCollectable(CollectableType.Key); i++)
                     {
-                        ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
-                            KeysInitialPosition[i],
-                            KeysInitialRotation[i],
-                            null,
-                            CollectableType.Key)
-                        .GetComponent<Collectable>().Init();
+                        if (KeysReset[i].from == KeyFrom.CostArea)
+                        {
+                            // ConvertArrayOfBoolToString
+                            KeysReset[i].initialTransform.GetComponent<CostArea>().Reactivate();
+                        }
+                        else if (KeysReset[i].from == KeyFrom.Shelter)
+                        {
+                            // TODO: reactivate
+                            ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
+                                KeysReset[i].initialPosition,
+                                KeysReset[i].initialRotation,
+                                null,
+                                CollectableType.Key)
+                            .GetComponent<Collectable>().Init();
+                        }
                     }
                 }
             }
@@ -152,13 +145,20 @@ public class Player : MonoBehaviour {
         }
     }
 
+    public KeyReset[] KeysReset
+    {
+        get
+        {
+            return keysReset;
+        }
+    }
+
     void Start()
     {
         rb = GetComponent<Rigidbody>();
         collectables = new int[(int)CollectableType.Size];
 
-        keysInitialPosition = new Vector3[Utils.GetMaxValueForCollectable(CollectableType.Key)];
-        keysInitialRotation = new Quaternion[Utils.GetMaxValueForCollectable(CollectableType.Key)];
+        keysReset = new KeyReset[Utils.GetMaxValueForCollectable(CollectableType.Key)];
     }
 
     public void UpdateCollectableValue(CollectableType type, int pickedValue)
@@ -175,13 +175,18 @@ public class Player : MonoBehaviour {
         EvolutionCheck(type);
     }
 
-    public void AddKeyInitialPosition(Transform _tr)
+    public void AddKeyInitialPosition(Transform _tr, KeyFrom _from)
     {
         int currentlyHold = collectables[(int)CollectableType.Key];
-
-        keysInitialPosition[currentlyHold - 1] = _tr.position;
-        keysInitialRotation[currentlyHold - 1] = _tr.rotation;
+        KeysReset[currentlyHold - 1] = new KeyReset(_tr, _from);
     }
+
+    public void AddKeyInitialPosition(KeyReset _keyData)
+    {
+        int currentlyHold = collectables[(int)CollectableType.Key];
+        KeysReset[currentlyHold - 1] = _keyData;
+    }
+
 
     void EvolutionCheck(CollectableType type)
     {
@@ -223,5 +228,25 @@ public class Player : MonoBehaviour {
     {
      
 
+    }
+}
+
+public class KeyReset
+{
+    public Transform initialTransform;
+    public KeyFrom from;
+
+    public Vector3 initialPosition;
+    public Quaternion initialRotation;
+
+    public KeyReset(Transform _initialTransform, KeyFrom _from)
+    {
+        initialTransform = _initialTransform;
+        if (_initialTransform != null)
+        {
+            initialPosition = _initialTransform.position;
+            initialRotation = _initialTransform.rotation;
+        }
+        from = _from;
     }
 }

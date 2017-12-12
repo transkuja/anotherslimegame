@@ -174,6 +174,10 @@ public class CostArea : MonoBehaviour {
         if (costAreaType == CostAreaType.PayAndGetItem)
         {
             _player.Player.UpdateCollectableValue(rewardType, rewardQuantity);
+            if (rewardType == CollectableType.Key)
+            {
+                _player.Player.AddKeyInitialPosition(transform, KeyFrom.CostArea);
+            }
         }
         else if (costAreaType == CostAreaType.PayAndCallEvent)
         {

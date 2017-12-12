@@ -18,6 +18,9 @@ public class Collectable : MonoBehaviour
 
     public GameObject panneau;
 
+    public bool hasBeenSpawned = false;
+    public Player lastOwner;
+
     public float Value
     {
         get
@@ -115,14 +118,32 @@ public class Collectable : MonoBehaviour
         if (Vector3.Distance(playerTarget.transform.position, transform.position) < GetComponent<BoxCollider>().bounds.extents.magnitude)
         {
             playerTarget.UpdateCollectableValue(GetComponent<Collectable>().type, (int)GetComponent<Collectable>().Value);
-            if (GetComponent<Collectable>().type == CollectableType.Key)
-                playerTarget.AddKeyInitialPosition(transform);
+
             if (AudioManager.Instance != null && AudioManager.Instance.coinFX != null) AudioManager.Instance.PlayOneShot(AudioManager.Instance.coinFX);
 
             if (GetComponent<PoolChild>())
+            {
                 GetComponent<PoolChild>().ReturnToPool();
+            }
             else
+            {
+                if (GetComponent<Collectable>().type == CollectableType.Key)
+                {
+                    if (hasBeenSpawned)
+                    {
+                        int currentlyHoldByOwner = lastOwner.Collectables[(int)CollectableType.Key];
+
+                        KeyReset keyData = lastOwner.KeysReset[currentlyHoldByOwner];                      
+                        playerTarget.AddKeyInitialPosition(keyData);
+                        lastOwner.KeysReset[currentlyHoldByOwner] = null;
+                    }
+                    else
+                        playerTarget.AddKeyInitialPosition(transform, KeyFrom.Shelter);
+
+                }
+
                 Destroy(this.gameObject);
+            }
         }
     }
 

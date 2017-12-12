@@ -335,11 +335,13 @@ public class PlayerCollisionCenter : MonoBehaviour {
                 player.UpdateCollectableValue((CollectableType)typeCollectable, -Utils.GetDefaultCollectableValue(typeCollectable));
 
                 GameObject go;
-                // TMP !!! DO pool thing + alternate key for collision check
+                // TMP !!! DOUX pool thing + alternate key for collision check
                 if (typeCollectable == (int)CollectableType.Key)
                 {
                     go = ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(transform.position + Vector3.up * 2f, transform.rotation, null, CollectableType.Key);
                     go.GetComponent<Collectable>().Init();
+                    go.GetComponent<Collectable>().hasBeenSpawned = true;
+                    go.GetComponent<Collectable>().lastOwner = player;
                 }
                 else
                     go = ResourceUtils.Instance.poolManager.collectablePointsPool.GetItem(null, positions[i] + Vector3.up * 0.5f, player.transform.rotation, true);
