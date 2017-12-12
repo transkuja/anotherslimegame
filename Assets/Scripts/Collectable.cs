@@ -47,6 +47,16 @@ public class Collectable : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        if (GetComponent<PoolChild>())
+        {
+            haveToDisperse = true;
+            isAttracted = false;
+            playerTarget = null;
+        }
+    }
+
     public void Init()
     {
         Value = Utils.GetDefaultCollectableValue((int)type);
@@ -58,7 +68,7 @@ public class Collectable : MonoBehaviour
         haveToDisperse = true;
         Value = Utils.GetDefaultCollectableValue((int)type);
         GetComponent<Rigidbody>().AddForce(direction*7.5f, ForceMode.Impulse);
-        StartCoroutine(GetComponent<Collectable>().ReactivateCollider());
+        StartCoroutine(ReactivateCollider());
         needInitialisation = false;
     }
 
@@ -66,13 +76,15 @@ public class Collectable : MonoBehaviour
     {
         if (needInitialisation)
             Init();
+
         if (!haveToDisperse && IsAttracted)
             Attract();
+
     }
 
     public void PickUp(Player player)
     {
-        if (player && !IsAttracted)
+        if (player && !IsAttracted && !haveToDisperse)
         {
             // Grab everything not linked to evolution (points)
             if (!Utils.IsAnEvolutionCollectable(GetComponent <Collectable>().type))

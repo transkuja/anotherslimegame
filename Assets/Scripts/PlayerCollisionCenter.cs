@@ -163,7 +163,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
                 if (collectablesCollided[i].transform != transform) // Verification en cone
                 {
                     Collectable c = collectablesCollided[i].GetComponent<Collectable>();
-                    if (!c.IsAttracted)
+                    if (!c.IsAttracted && !c.haveToDisperse)
                     {
                         Physics.IgnoreCollision(collectablesCollided[i].GetComponent<Collider>(), GetComponent<Collider>(), true);
                         if(c.GetComponent<Animator>())
