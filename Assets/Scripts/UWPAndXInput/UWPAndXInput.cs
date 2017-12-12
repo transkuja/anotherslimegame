@@ -175,6 +175,7 @@ namespace UWPAndXInput
             state.Buttons.LeftShoulder = (ButtonState)_state.Buttons.LeftShoulder;
             state.Buttons.RightShoulder = (ButtonState)_state.Buttons.RightShoulder;
 
+
             state.Buttons.LeftStick = (ButtonState)_state.Buttons.LeftStick;
             state.Buttons.RightStick = (ButtonState)_state.Buttons.RightStick;
 
@@ -186,8 +187,14 @@ namespace UWPAndXInput
             state.Triggers.Left = _state.Triggers.Left;
             state.Triggers.Right = _state.Triggers.Right;
 
-            state.ThumbSticks.Left.X = _state.ThumbSticks.Left.X;
-            state.ThumbSticks.Left.Y = _state.ThumbSticks.Left.Y;
+            if ((float)_state.ThumbSticks.Left.X > 0.19f || (float)_state.ThumbSticks.Left.X < -0.19f)
+                state.ThumbSticks.Left.X = _state.ThumbSticks.Left.X;
+            else
+                state.ThumbSticks.Left.X = 0.0f;
+            if ((float)_state.ThumbSticks.Left.Y > 0.19f || (float)_state.ThumbSticks.Left.Y < -0.19f)
+                state.ThumbSticks.Left.Y = _state.ThumbSticks.Left.Y;
+           else
+                state.ThumbSticks.Left.Y = 0.0f;
             state.ThumbSticks.Right.X = _state.ThumbSticks.Right.X;
             state.ThumbSticks.Right.Y = _state.ThumbSticks.Right.Y;
 
