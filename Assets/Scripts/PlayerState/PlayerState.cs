@@ -18,11 +18,7 @@ public class PlayerState  {
     float dragForce = 0.02f;
     float dragForceDash = 0.01f; // Dash value
 
-    int dragStepMax = 5;
-    int currentDragStep = 0;
-    Vector3 referenceVelocityForDrag;
-    Vector3 referenceFwdForDrag;
-    Vector3 referenceTmpForDrag;
+    float airControlFactor = 0.75f;
 
     #region getterSetters
 
@@ -116,7 +112,9 @@ public class PlayerState  {
         {
             Vector3 velocityVec = initialVelocity.z * camVectorForward + Vector3.up * playerController.Player.Rb.velocity.y;
             // MENU peter a cause de cette condition tu sais pourquoi c'est la antho ? sinon je peux faire une exception pour le menu
-            if (playerController.IsGrounded)
+            if (!playerController.IsGrounded && playerController.jumpState.nbJumpMade == 2)
+                velocityVec += initialVelocity.x * playerController.Player.cameraReference.transform.GetChild(0).right * airControlFactor;
+            else
                 velocityVec += initialVelocity.x * playerController.Player.cameraReference.transform.GetChild(0).right;
 
             playerController.Player.Rb.velocity = velocityVec;

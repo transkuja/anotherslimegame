@@ -30,7 +30,7 @@ public class DynamicJoystickCameraController : MonoBehaviour {
     public PlayerController associatedPlayerController;
 
     [SerializeField]
-    float notGroundedAttenuationFactor = 0.5f;
+    float notGroundedAttenuationFactor = 0.1f;
 
     void Start () {
         freelookCamera = GetComponent<Cinemachine.CinemachineFreeLook>();
