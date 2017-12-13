@@ -441,6 +441,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+#if UNITY_EDITOR
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.magenta;
@@ -455,6 +456,7 @@ public class PlayerController : MonoBehaviour
         Gizmos.color = Color.green;
         Gizmos.DrawLine(transform.position + Vector3.up * 0.5f, transform.position + Vector3.up * 0.5f + transform.forward * 2.0f);
     }
+#endif
 
     public void OnCollisionEnter(Collision collision)
     {
