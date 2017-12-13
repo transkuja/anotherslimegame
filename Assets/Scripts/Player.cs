@@ -210,21 +210,31 @@ public class Player : MonoBehaviour {
     }
 
 
-    void EvolutionCheck(CollectableType type)
+    public bool EvolutionCheck(CollectableType type, bool _launchProcessOnSucess = true)
+    {
+        Evolution _evolution = GameManager.EvolutionManager.GetEvolutionByCollectableType(type);
+
+        bool canEvolve = (GameManager.CurrentGameMode.evolutionMode == EvolutionMode.GrabCollectableAndAutoEvolve && collectables[(int)type] >= _evolution.Cost)
+                || (GameManager.CurrentGameMode.evolutionMode == EvolutionMode.GrabEvolution && activeEvolutions == 0);
+
+        if (!_launchProcessOnSucess)
+            return canEvolve;
+
+        if (canEvolve)
+            EvolutionProcess(_evolution);
+
+        return canEvolve;       
+    }
+
+    void EvolutionProcess(Evolution _evolution)
     {
         if (GameManager.CurrentGameMode.evolutionMode == EvolutionMode.GrabCollectableAndAutoEvolve)
         {
-            Evolution evolution = GameManager.EvolutionManager.GetEvolutionByCollectableType(type);
-            if (collectables[(int)type] >= evolution.Cost)
-                EvolveGameplay1(evolution);
+            EvolveGameplay1(_evolution);
         }
         else if (GameManager.CurrentGameMode.evolutionMode == EvolutionMode.GrabEvolution)
         {
-            if (activeEvolutions == 0)
-            {
-                Evolution evolution = GameManager.EvolutionManager.GetEvolutionByCollectableType(type);
-                PermanentEvolution(evolution);
-            }
+            PermanentEvolution(_evolution);
         }
     }
 

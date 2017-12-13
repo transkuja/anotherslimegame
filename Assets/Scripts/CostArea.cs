@@ -144,6 +144,12 @@ public class CostArea : MonoBehaviour {
             }
             if (playerComponent.PrevState.Buttons.B == ButtonState.Pressed && playerComponent.State.Buttons.B == ButtonState.Released)
             {
+                if (Utils.IsAnEvolutionCollectable(rewardType))
+                {
+                    if (playerComponent.Player.EvolutionCheck(rewardType, false) == false)
+                        return;
+                }
+
                 if (Pay(playerComponent))
                 {
                     isActive = false;
