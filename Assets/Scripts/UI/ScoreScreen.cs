@@ -55,7 +55,7 @@ public class ScoreScreen : MonoBehaviour {
 
         String timeStr = string.Format("{0:00} : {1:00}", minutes, seconds);
 
-        transform.GetChild(rank - 1).GetComponent<PlayerScore>().SetScore(
+        transform.GetChild(rank - 1).GetComponent<PlayerScore>().SetScoreDefault(
             (int)player.PlayerController.PlayerIndex, 
             GameManager.Instance.isTimeOver ? "Timeout" : timeStr, 
             (player.Collectables[(int)CollectableType.Points]).ToString()
