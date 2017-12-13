@@ -104,7 +104,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
         rb = GetComponent<Rigidbody>();
         repulsionFactor = 35;
 
-        separationMask = LayerMask.GetMask(new string[] { "Player" });
+        separationMask = LayerMask.GetMask(new string[] { "Player", "GhostPlayer" });
         sphereCheckRadius = 5.0f;
 
         separationMask2 = LayerMask.GetMask(new string[] { "Collectable" });
@@ -115,16 +115,51 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
     private void Update()
     {
-        if (playerController.PlayerState is DashState)
+        if (playerController.PlayerState is DashState || playerController.PlayerState is DashDownState)
         {
             playersCollided = Physics.OverlapSphere(transform.position, sphereCheckRadius, separationMask);
-            if (playersCollided != null)
+            if (playersCollided.Length > 0)
             {
                 for (int i = 0; i < playersCollided.Length; i++)
                 {
                     Vector3 playerToTarget = playersCollided[i].transform.position - transform.position;
                     Vector3 playerCenterToTargetCenter = (playersCollided[i].transform.position + Vector3.up * 0.5f) - (transform.position + Vector3.up * 0.5f);
-                    if (playersCollided[i].transform != transform && Vector3.Angle(playerToTarget, transform.forward) < 45) // Verification en cone
+                    
+                    // TODO : faire une fonction plus tard
+                    if (player == playersCollided[i].GetComponent<Player>())
+                        continue;
+
+                    if ( playerController.PlayerState is DashDownState)
+                    {
+                        if (!impactedPlayers.Contains(playersCollided[i].GetComponent<Player>()))
+                        {
+                            Physics.IgnoreCollision(playersCollided[i].GetComponent<Collider>(), GetComponent<Collider>(), true);
+                            // Don't reimpacted the same player twice see invicibilityFrame
+                            impactedPlayers.Add(playersCollided[i].GetComponent<Player>());
+                            GameObject go = Instantiate(hitParticles);
+                            go.transform.position = transform.position + Vector3.up * 0.5f + playerCenterToTargetCenter / 2.0f;
+                            go.transform.rotation = Quaternion.LookRotation(playerToTarget, Vector3.up);
+                            Destroy(go, 10.0f);
+                            hasCollidedWithAPlayer = true;
+                            currentTimerStop = timerStopOnDashCollision;
+
+                            playerController.PlayerState = playerController.frozenState;
+                            playersCollided[i].GetComponent<PlayerController>().PlayerState = playersCollided[i].GetComponent<PlayerController>().frozenState;
+                            velocityOnImpact = playerController.Rb.velocity;
+                            playerController.Rb.velocity = Vector3.zero;
+                            impactedPlayersOldVelocities.Add(playersCollided[i].GetComponent<Rigidbody>().velocity);
+                            playersCollided[i].GetComponent<Rigidbody>().velocity = Vector3.zero;
+
+                            //Set vibrations
+                            UWPAndXInput.GamePad.VibrateForSeconds(playerController.playerIndex, 0.8f, 0.8f, .1f);
+                            UWPAndXInput.GamePad.VibrateForSeconds(playersCollided[i].GetComponent<PlayerController>().playerIndex, 0.8f, 0.8f, .1f);
+
+                            if (AudioManager.Instance != null && AudioManager.Instance.punchFx != null)
+                                AudioManager.Instance.PlayOneShot(AudioManager.Instance.punchFx);
+                        }
+                    }
+
+                    else if (playersCollided[i].transform != transform && Vector3.Angle(playerToTarget, transform.forward) < 45) // Verification en cone
                     {
                         if (!impactedPlayers.Contains(playersCollided[i].GetComponent<Player>()))
                         {
@@ -158,7 +193,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
         }
 
         collectablesCollided = Physics.OverlapSphere(transform.position, sphereCheckRadiusCollectables, separationMask2);
-        if (collectablesCollided != null)
+        if (collectablesCollided.Length > 0)
         {
             for (int i = 0; i < collectablesCollided.Length; i++)
             {
