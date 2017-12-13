@@ -39,9 +39,16 @@ public class DynamicJoystickCameraController : MonoBehaviour {
         startHighOffset = (freelookCamera.GetRig(0).GetCinemachineComponent<CinemachineComposer>()).m_TrackedObjectOffset;
         startMidOffset = (freelookCamera.GetRig(1).GetCinemachineComponent<CinemachineComposer>()).m_TrackedObjectOffset;
         startLowOffset = (freelookCamera.GetRig(2).GetCinemachineComponent<CinemachineComposer>()).m_TrackedObjectOffset;
+
+        // Ugly shit due to camera prefab being shitty
+        cameraXAdjuster = 0.4f;
+        cameraYAdjuster = 0.4f;
+        notGroundedAttenuationFactor = 0.33f;
+        lerpTendToMiddleRigSpeed = 0.85f;
+        ///////////////////////////////////////////////////
     }
-	
-	void Update () {
+
+    void Update () {
         if (associatedPlayerController == null)
             return;
 
