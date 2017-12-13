@@ -5,6 +5,7 @@ using UnityEngine;
 public class WaterImmersionCamera : MonoBehaviour {
 
     public bool isImmerge;
+    public Color color;
 
     //The scene's default fog settings
     private bool defaultFog;
@@ -26,7 +27,7 @@ public class WaterImmersionCamera : MonoBehaviour {
         if (isImmerge)
         {
             RenderSettings.fog = true;
-            RenderSettings.fogColor = new Color(0, 0.4f, 0.7f, 0.6f);
+            RenderSettings.fogColor = color/*new color(0, 0.4f, 0.7f, 0.6f)*/;
             RenderSettings.fogDensity = 0.04f;
             RenderSettings.skybox = null;
         }
@@ -34,9 +35,12 @@ public class WaterImmersionCamera : MonoBehaviour {
 
     private void OnPostRender()
     {
-        RenderSettings.fog = defaultFog;
-        RenderSettings.fogColor = defaultFogColor;
-        RenderSettings.fogDensity = defaultFogDensity;
-        RenderSettings.skybox = defaultSkybox;
+        if (!isImmerge)
+        {
+            RenderSettings.fog = defaultFog;
+            RenderSettings.fogColor = defaultFogColor;
+            RenderSettings.fogDensity = defaultFogDensity;
+            RenderSettings.skybox = defaultSkybox;
+        }
     }
 }

@@ -511,7 +511,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
                 WaterImmersionCamera waterImmersionCamera = PlayerComponent.cameraReference.transform.GetChild(0).GetComponent<WaterImmersionCamera>();
                 if (waterImmersionCamera)
                 {
-                    if (PlayerComponent.cameraReference.transform.GetChild(0).position.y < waterLevel)
+                    if (PlayerComponent.cameraReference.transform.GetChild(0).position.y < waterLevel +0.8f)
                     {
                         waterImmersionCamera.isImmerge = true;
                     }
