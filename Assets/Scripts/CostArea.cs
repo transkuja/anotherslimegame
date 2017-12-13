@@ -161,6 +161,9 @@ public class CostArea : MonoBehaviour {
                 else
                 {
                     // Feedback visuel/sonore
+                    GameManager.Instance.PlayerUI.HandleFeedbackNotEnoughPoints(playerComponent.Player, true);
+                    if (AudioManager.Instance != null && AudioManager.Instance.cantPayFx != null)
+                        AudioManager.Instance.PlayOneShot(AudioManager.Instance.cantPayFx);
                 }
             }
         }

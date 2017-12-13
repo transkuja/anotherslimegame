@@ -16,6 +16,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip blobSound;
     public AudioClip punchFx;
     public AudioClip breakFx;
+    public AudioClip cantPayFx;
 
     private AudioClip musicToPlay;
     private AudioClip previousMusic;

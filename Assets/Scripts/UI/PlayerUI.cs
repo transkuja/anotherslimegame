@@ -86,4 +86,32 @@ public class PlayerUI : MonoBehaviour {
         Transform toRefresh = linkPlayerPointsToItsUi[player].transform;
         toRefresh.GetComponentInChildren<Text>().text = " X " + _newValue;
     }
+
+    public void HandleFeedbackNotEnoughPoints(Player player, bool _activate)
+    {
+        if (!linkPlayerPointsToItsUi.ContainsKey(player))
+            return;
+
+        Transform ptsText = linkPlayerPointsToItsUi[player].transform.GetComponentInChildren<Text>().transform;
+
+
+        if (_activate)
+        {
+            // Feedback already running
+            if (ptsText.GetComponent<AnimTextCantPay>())
+                return;
+
+            ptsText.GetComponent<Outline>().effectColor = Color.red;
+            ptsText.GetComponent<Text>().fontSize += 20;
+            ptsText.gameObject.AddComponent<AnimTextCantPay>();
+            player.FeedbackCantPayActive = true;
+        }
+        else
+        {
+            ptsText.GetComponent<Outline>().effectColor = Color.black;
+            ptsText.GetComponent<Text>().fontSize -= 20;
+            Destroy(ptsText.GetComponent<AnimTextCantPay>());
+            ptsText.localScale = Vector3.one;          
+        }
+    }
 }
