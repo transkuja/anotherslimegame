@@ -126,6 +126,9 @@ public class Player : MonoBehaviour {
                 {
                     for (int i = 0; i < Utils.GetMaxValueForCollectable(CollectableType.Key); i++)
                     {
+                        if (KeysReset[i] == null)
+                            break;
+
                         if (KeysReset[i].from == KeyFrom.CostArea)
                         {
                             // ConvertArrayOfBoolToString
