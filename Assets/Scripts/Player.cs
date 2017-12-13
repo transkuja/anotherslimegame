@@ -37,6 +37,11 @@ public class Player : MonoBehaviour {
     float timerFeedbackCantPay = 2.0f;
     float currentFeedbackCantPay = 0.0f;
 
+    // for miniGame Push
+    [SerializeField]private int nbLife = -1;
+    //
+
+#region Accessors
     public Rigidbody Rb
     {
         get
@@ -174,6 +179,20 @@ public class Player : MonoBehaviour {
             feedbackCantPayActive = value;
         }
     }
+
+    public int NbLife
+    {
+        get
+        {
+            return nbLife;
+        }
+
+        set
+        {
+            nbLife = value;
+        }
+    }
+#endregion
 
     void Start()
     {

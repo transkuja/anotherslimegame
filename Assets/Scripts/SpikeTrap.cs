@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SpikeTrap : MonoBehaviour {
     [SerializeField]
@@ -26,6 +27,14 @@ public class SpikeTrap : MonoBehaviour {
     {
         if (collision.gameObject.GetComponentInParent<Player>())
         {
+            if (SceneManager.GetActiveScene().name == "SceneMinigamePush")
+            {
+                MiniGamePushManager.Singleton.ResetPlayer(collision.gameObject.GetComponent<Player>());
+                return;
+            }
+            Respawner.RespawnProcess(collision.gameObject.GetComponent<Player>());
+
+
             Player p = collision.gameObject.GetComponentInParent<Player>();
             if (respawnPlayer)
             {

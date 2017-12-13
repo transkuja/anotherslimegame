@@ -53,9 +53,12 @@ public class PlayerStart : MonoBehaviour {
         }
         if (SceneManager.GetActiveScene().name =="SceneMinigamePush")
         {
+            Player player;
             for (int i = 0;i < PlayersReference.Count;i++)
             {
-                PlayersReference[i].GetComponent<Player>().UpdateCollectableValue(CollectableType.StrengthEvolution1, 1);
+                player = PlayersReference[i].GetComponent<Player>();
+                player.UpdateCollectableValue(CollectableType.StrengthEvolution1, 1);
+                player.NbLife = 10;
             }
         }
 

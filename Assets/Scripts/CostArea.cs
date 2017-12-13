@@ -263,7 +263,7 @@ public class CostArea : MonoBehaviour {
     }
 
     ////////////////////////////////////// EVENTS //////////////////////////////////////////
-    void HasFinishedProcess(Player _player)
+    public void HasFinishedProcess(Player _player)
     {
         _player.HasFinishedTheRun = true;
         GameManager.Instance.ScoreScreenReference.RefreshScores(_player);
