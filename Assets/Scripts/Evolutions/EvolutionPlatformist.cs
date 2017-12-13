@@ -28,11 +28,6 @@ public class EvolutionPlatformist : EvolutionComponent {
     int indexPattern = 0;
     public int moduloIndexPattern = 2;
 
-    // Shitty implementation, I have a better implementation in mind
-    // should create invisible boxes and shift them to pop several platforms
-    public float summonHeight = 2.0f;
-    public float summonDistance = 5.0f;
-
     bool hasPlayedSecondTuto = false;
 
     // Private variables
@@ -148,25 +143,25 @@ public class EvolutionPlatformist : EvolutionComponent {
         }
     }
 
-    public void CreatePlatform(GamePadState receivedInput)
-    {
-        if (Charges > 0)
-        {
-            GameObject platform = Instantiate(ResourceUtils.Instance.refPrefabPlatform.prefabPlatformistDefault);
-            platform.transform.position = transform.position + transform.forward * summonDistance + Vector3.up * summonHeight;
-            platform.transform.rotation = transform.rotation;
-            platform.transform.GetComponent<AutoDestroyPlatform>().Init(platformLifetime);
+    //public void CreatePlatform(GamePadState receivedInput)
+    //{
+    //    if (Charges > 0)
+    //    {
+    //        GameObject platform = Instantiate(ResourceUtils.Instance.refPrefabPlatform.prefabPlatformistDefault);
+    //        platform.transform.position = transform.position + transform.forward * summonDistance + Vector3.up * summonHeight;
+    //        platform.transform.rotation = transform.rotation;
+    //        platform.transform.GetComponent<AutoDestroyPlatform>().Init(platformLifetime);
 
-            Charges--;
-            if (receivedInput.Buttons.LeftShoulder == ButtonState.Pressed)
-            {
-                platform.GetComponent<PlatformGameplay>().isBouncy = true;
-            }
-            TrappedPlatform trappedComponent = platform.GetComponent<TrappedPlatform>();
-            if (trappedComponent)
-                trappedComponent.owner = GetComponent<Player>();
-        }
-    }
+    //        Charges--;
+    //        if (receivedInput.Buttons.LeftShoulder == ButtonState.Pressed)
+    //        {
+    //            platform.GetComponent<PlatformGameplay>().isBouncy = true;
+    //        }
+    //        TrappedPlatform trappedComponent = platform.GetComponent<TrappedPlatform>();
+    //        if (trappedComponent)
+    //            trappedComponent.owner = GetComponent<Player>();
+    //    }
+    //}
 
     public void CreatePlatforms()
     {
@@ -174,15 +169,27 @@ public class EvolutionPlatformist : EvolutionComponent {
 
         if (Charges > 0)
         {
+            if (!GetComponent<PlayerController>().IsGrounded)
+            {
+                GameObject initial = Instantiate(ResourceUtils.Instance.refPrefabPlatform.prefabPlatformistDefault);
+                initial.transform.position = transform.position - 0.4f * Vector3.up;
+                initial.transform.rotation = transform.rotation;
+                initial.transform.GetComponent<AutoDestroyPlatform>().Init(platformLifetime);
+
+                TrappedPlatform trappedComponent = initial.GetComponent<TrappedPlatform>();
+                if (trappedComponent)
+                    trappedComponent.owner = GetComponent<Player>();
+            }
+
             GameObject[] platforms = new GameObject[Charges];
             PlatformistPattern pattern = PlatformistPatternFactory.GetPatternFromIndex(IndexPattern);
 
             for (int i = 0; i < Charges; i++)
             {
                 platforms[i] = Instantiate(ResourceUtils.Instance.refPrefabPlatform.prefabPlatformistDefault);
-                platforms[i].transform.position = transform.position 
-                    + transform.forward * pattern.summonDistance * (pattern.distanceStep * i + 1) 
-                    + Vector3.up * summonHeight * (pattern.heightStep * i + 1);
+                platforms[i].transform.position = transform.position - 0.4f * Vector3.up
+                    + transform.forward * pattern.summonDistance * (pattern.distanceStep * (i + 1)) 
+                    + Vector3.up * pattern.summonHeight * (pattern.heightStep * (i + 1));
                 platforms[i].transform.rotation = transform.rotation;
                 platforms[i].transform.GetComponent<AutoDestroyPlatform>().Init(platformLifetime);
 
@@ -207,9 +214,17 @@ public class EvolutionPlatformist : EvolutionComponent {
             for (int i = 0; i < Charges; i++)
             {
                 GameObject platform = Instantiate(ResourceUtils.Instance.refPrefabPlatform.prefabPlatformistShowPattern);
-                platform.transform.position = transform.position
-                    + transform.forward * pattern.summonDistance * (pattern.distanceStep * i + 1)
-                    + Vector3.up * summonHeight * (pattern.heightStep * i + 1);
+                platform.transform.position = transform.position - 0.4f * Vector3.up
+                    + transform.forward * pattern.summonDistance * (pattern.distanceStep * (i + 1))
+                    + Vector3.up * pattern.summonHeight * (pattern.heightStep * (i + 1));
+                platform.transform.rotation = transform.rotation;
+                showPattern.Add(platform);
+            }
+
+            if (!GetComponent<PlayerController>().IsGrounded)
+            {
+                GameObject platform = Instantiate(ResourceUtils.Instance.refPrefabPlatform.prefabPlatformistShowPattern);
+                platform.transform.position = transform.position - 0.4f * Vector3.up;
                 platform.transform.rotation = transform.rotation;
                 showPattern.Add(platform);
             }
@@ -260,12 +275,12 @@ static class PlatformistPatternFactory
 
     static PlatformistPattern GetStairPattern()
     {
-        return new PlatformistPattern(5.0f, 2.0f, 1, 1);
+        return new PlatformistPattern(8.0f, 4.0f, 1, 1);
     }
 
     static PlatformistPattern GetBridgePattern()
     {
-        return new PlatformistPattern(5.0f, 2.0f, 2, 0);
+        return new PlatformistPattern(8.0f, 0.0f, 2, 0);
     }
 }
 
