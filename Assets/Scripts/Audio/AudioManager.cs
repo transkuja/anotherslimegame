@@ -140,4 +140,12 @@ public class AudioManager : MonoBehaviour
         sourceFX.PlayOneShot(clip, volumeFXs * volumeMultiplier);
     }
 
+    public void Play(AudioClip clip, float volumeMultiplier = 1.0f)
+    {
+        if (sourceFX.clip != clip)
+            sourceFX.clip = clip;
+        sourceFX.volume = volumeFXs * volumeMultiplier;
+        sourceFX.Play();
+    }
+
 }
