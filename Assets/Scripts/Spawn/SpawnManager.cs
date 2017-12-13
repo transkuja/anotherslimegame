@@ -386,43 +386,66 @@ public class SpawnManager : MonoBehaviour{
         if (evolutionType == CollectableType.Size)
             return;
 
-        GameObject go = ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
-            evolutionSpawn.position,
-            evolutionSpawn.rotation,
-            evolutionSpawn,
-            evolutionType
-        );
-        go.GetComponent<Collectable>().Init();
+        evolutionSpawn.GetChild(0).GetComponent<CostArea>().InitForEvolution(evolutionType);
+        //ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
+        //    evolutionSpawn.position,
+        //    evolutionSpawn.rotation,
+        //    evolutionSpawn,
+        //    evolutionType
+        //).GetComponent<Collectable>().Init();
 
 
-        MeshRenderer panneau = spawnedIsland.transform.GetChild(1).GetComponent<MeshRenderer>();
+        MeshRenderer panneau = associatedShelter.transform.GetChild(0).GetComponent<MeshRenderer>();
+        MeshRenderer panneau2 = associatedShelter.transform.GetChild(1).GetComponent<MeshRenderer>();
 
         if (panneau == null || (panneau != null && !panneau.name.Contains("Panneau"))) {
-            Debug.LogWarning("WARNING: Panneau should be second on island");
+            Debug.LogWarning("WARNING: Panneau should be first on shelter");
+            return;
+        }
+        if (panneau2 == null || (panneau2 != null && !panneau2.name.Contains("Panneau")))
+        {
+            Debug.LogWarning("WARNING: Panneau should be second on shelter");
             return;
         }
 
-        go.GetComponent<Collectable>().panneau = panneau.gameObject;
+        //go.GetComponent<Collectable>().panneau = panneau.gameObject;
 
         switch (evolutionType)
         {
             case CollectableType.StrengthEvolution1:
                 panneau.material.SetTexture("_MainTex", ResourceUtils.Instance.spriteUtils.Hammer);
+                panneau.material.SetTexture("_EmissionMap", ResourceUtils.Instance.spriteUtils.Hammer);
+
+                panneau2.material.SetTexture("_MainTex", ResourceUtils.Instance.spriteUtils.Hammer);
+                panneau2.material.SetTexture("_EmissionMap", ResourceUtils.Instance.spriteUtils.Hammer);
 
                 break;
             case CollectableType.AgileEvolution1:
                 panneau.material.SetTexture("_MainTex", ResourceUtils.Instance.spriteUtils.Agile);
+                panneau.material.SetTexture("_EmissionMap", ResourceUtils.Instance.spriteUtils.Agile);
 
+                panneau2.material.SetTexture("_MainTex", ResourceUtils.Instance.spriteUtils.Agile);
+                panneau2.material.SetTexture("_EmissionMap", ResourceUtils.Instance.spriteUtils.Agile);
                 break;
             case CollectableType.GhostEvolution1:
                 panneau.material.SetTexture("_MainTex", ResourceUtils.Instance.spriteUtils.Ghost);
+                panneau.material.SetTexture("_EmissionMap", ResourceUtils.Instance.spriteUtils.Ghost);
+
+                panneau2.material.SetTexture("_MainTex", ResourceUtils.Instance.spriteUtils.Ghost);
+                panneau2.material.SetTexture("_EmissionMap", ResourceUtils.Instance.spriteUtils.Ghost);
 
                 break;
             case CollectableType.PlatformistEvolution1:
                 panneau.material.SetTexture("_MainTex", ResourceUtils.Instance.spriteUtils.Platformist);
-
+                panneau.material.SetTexture("_EmissionMap", ResourceUtils.Instance.spriteUtils.Platformist);
+      
+                panneau2.material.SetTexture("_MainTex", ResourceUtils.Instance.spriteUtils.Platformist);
+                panneau2.material.SetTexture("_EmissionMap", ResourceUtils.Instance.spriteUtils.Platformist);
                 break;
         }
+
+        panneau.material.SetFloat("_EmissionScaleUI", 0.2f);
+        panneau2.material.SetFloat("_EmissionScaleUI", 0.2f);
 
         InitTeleporter initTeleporterComponent = associatedShelter.GetComponentInChildren<InitTeleporter>();
         initTeleporterComponent.evolutionType = evolutionType;
@@ -439,12 +462,12 @@ public class SpawnManager : MonoBehaviour{
                     // Bind the target to return to origin
                     tmp.gameplayRoomStarter.GetComponent<PlatformGameplay>().teleporterTarget = associatedShelter.GetComponentInChildren<PlatformGameplay>().transform;
                     tmp.gameplayRoomStarter.GetComponent<InitTeleporter>().evolutionType = evolutionType;
-                    GameObject shelterFeedbackToSpawn = ResourceUtils.Instance.refPrefabIle.GetShelterFeedbackFromEvolutionName(evolutionType);
-                    if (shelterFeedbackToSpawn != null)
-                    {
-                        GameObject shelterFeedback = Instantiate(shelterFeedbackToSpawn, associatedShelter.GetComponentInChildren<PlatformGameplay>().transform);
-                        shelterFeedback.transform.localPosition = Vector3.up * 3.0f;
-                    }
+                    //GameObject shelterFeedbackToSpawn = ResourceUtils.Instance.refPrefabIle.GetShelterFeedbackFromEvolutionName(evolutionType);
+                    //if (shelterFeedbackToSpawn != null)
+                    //{
+                    //    GameObject shelterFeedback = Instantiate(shelterFeedbackToSpawn, associatedShelter.GetComponentInChildren<PlatformGameplay>().transform);
+                    //    shelterFeedback.transform.localPosition = Vector3.up * 3.0f;
+                    //}
                 }
             } 
         }

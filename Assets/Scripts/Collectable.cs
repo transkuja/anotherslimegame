@@ -16,7 +16,7 @@ public class Collectable : MonoBehaviour
     bool isAttracted = false;
     Player playerTarget;
 
-    public GameObject panneau;
+    //public GameObject panneau;
 
     public bool hasBeenSpawned = false;
     public Player lastOwner;
@@ -112,8 +112,8 @@ public class Collectable : MonoBehaviour
                 {
                     if (player.activeEvolutions == 0)
                     {
-                        if (panneau != null)
-                            panneau.SetActive(false);
+                        //if (panneau != null)
+                        //    panneau.SetActive(false);
                         IsAttracted = true;
                         playerTarget = player;
                     }

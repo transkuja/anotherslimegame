@@ -74,7 +74,9 @@ public class CostArea : MonoBehaviour {
     public void Start()
     {
         initialColor = halo.GetComponent<ParticleSystem>().main.startColor.color; // <======8 WTFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF???!
-        Init();
+        if (!Utils.IsAnEvolutionCollectable(rewardType))
+            Init();
+  
     }
 
     void Init()
@@ -94,6 +96,12 @@ public class CostArea : MonoBehaviour {
                 rewardPreview.localScale = Vector3.one * 0.5f;
             }
         }
+    }
+
+    public void InitForEvolution(CollectableType ct)
+    {
+        rewardType = ct;
+        Init();
     }
 
     public void Reactivate()
