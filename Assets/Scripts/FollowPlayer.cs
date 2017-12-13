@@ -205,22 +205,23 @@ public class FollowPlayer : MonoBehaviour
                         }
                         else
                         {
+                            //Pour le moment ça ne marche pas
                             //Placement du texte si il est en dehors de l'écran (droite ou gauche)
-                            if (textPlayer1.transform.position.z >= Screen.width / 2.0f)
-                            {
-                                textPlayer1.transform.position.Set(GameManager.Instance.PlayerStart.PlayersReference[1].transform.position.x, GameManager.Instance.PlayerStart.PlayersReference[1].transform.position.y, Screen.width / 2.0f);
-                            }
+                            //if (textPlayer1.transform.position.z >= Screen.width / 2.0f)
+                            //{
+                            //    textPlayer1.transform.position.Set(GameManager.Instance.PlayerStart.PlayersReference[1].transform.position.x, GameManager.Instance.PlayerStart.PlayersReference[1].transform.position.y, Screen.width / 2.0f);
+                            //}
 
                             //Placement du texte si il est trop haut ou trop bas
-                            if (textPlayer1.transform.position.y >= Screen.height)
-                            {
-                                textPlayer1.transform.position.Set(GameManager.Instance.PlayerStart.PlayersReference[1].transform.position.x, Screen.height, GameManager.Instance.PlayerStart.PlayersReference[1].transform.position.z);
-                            }
-                            if (textPlayer1.transform.position.y <= Screen.height / 2.0f)
-                            {
-                                textPlayer1.transform.position.Set(GameManager.Instance.PlayerStart.PlayersReference[1].transform.position.x, Screen.height / 2.0f, GameManager.Instance.PlayerStart.PlayersReference[1].transform.position.z);
-                            }
-                            //textPlayer1.gameObject.SetActive(false);
+                            //if (textPlayer1.transform.position.y >= Screen.height)
+                            //{
+                            //    textPlayer1.transform.position.Set(GameManager.Instance.PlayerStart.PlayersReference[1].transform.position.x, Screen.height, GameManager.Instance.PlayerStart.PlayersReference[1].transform.position.z);
+                            //}
+                            //if (textPlayer1.transform.position.y <= Screen.height / 2.0f)
+                            //{
+                            //    textPlayer1.transform.position.Set(GameManager.Instance.PlayerStart.PlayersReference[1].transform.position.x, Screen.height / 2.0f, GameManager.Instance.PlayerStart.PlayersReference[1].transform.position.z);
+                            //}
+                            textPlayer1.gameObject.SetActive(false);
                         }
 
                         if (distancePlayer1Text2 <= fieldOfView)
