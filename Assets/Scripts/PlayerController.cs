@@ -70,6 +70,8 @@ public class PlayerController : MonoBehaviour
 
     public bool IsUnderWater = false;
 
+    public bool forceCameraRecenter = false;
+
 #if UNITY_EDITOR
     [SerializeField] public string curStateName; // debug purpose only
 #endif

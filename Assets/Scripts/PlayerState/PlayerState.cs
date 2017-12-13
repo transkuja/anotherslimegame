@@ -112,15 +112,18 @@ public class PlayerState  {
 
         if (initialVelocity.magnitude > 1f)
         {
-            Vector3 velocityVec = initialVelocity.z * camVectorForward + Vector3.up * playerController.Player.Rb.velocity.y;
-            // MENU peter a cause de cette condition tu sais pourquoi c'est la antho ? sinon je peux faire une exception pour le menu
-            if (!playerController.IsGrounded && playerController.jumpState.nbJumpMade == 2)
-                velocityVec += initialVelocity.x * playerController.Player.cameraReference.transform.GetChild(0).right * airControlFactor;
-            else
-                velocityVec += initialVelocity.x * playerController.Player.cameraReference.transform.GetChild(0).right;
+            if (!playerController.forceCameraRecenter)
+            {
+                Vector3 velocityVec = initialVelocity.z * camVectorForward + Vector3.up * playerController.Player.Rb.velocity.y;
+                // MENU peter a cause de cette condition tu sais pourquoi c'est la antho ? sinon je peux faire une exception pour le menu
+                if (!playerController.IsGrounded && playerController.jumpState.nbJumpMade == 2)
+                    velocityVec += initialVelocity.x * playerController.Player.cameraReference.transform.GetChild(0).right * airControlFactor;
+                else
+                    velocityVec += initialVelocity.x * playerController.Player.cameraReference.transform.GetChild(0).right;
 
-            playerController.Player.Rb.velocity = velocityVec;
-            playerController.transform.LookAt(playerController.transform.position + new Vector3(velocityVec.x, 0.0f, velocityVec.z) + initialVelocity.x * playerController.Player.cameraReference.transform.GetChild(0).right);
+                playerController.Player.Rb.velocity = velocityVec;
+                playerController.transform.LookAt(playerController.transform.position + new Vector3(velocityVec.x, 0.0f, velocityVec.z) + initialVelocity.x * playerController.Player.cameraReference.transform.GetChild(0).right);
+            }
         }
         else
         {

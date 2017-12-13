@@ -57,11 +57,36 @@ public class DynamicJoystickCameraController : MonoBehaviour {
             prevState = state;
             state = GamePad.GetState(playerIndex);
 
-            if ((prevState.Buttons.RightStick == ButtonState.Released && state.Buttons.RightStick == ButtonState.Pressed) 
+            if (((prevState.Buttons.RightStick == ButtonState.Released && state.Buttons.RightStick == ButtonState.Pressed)
                 || (prevState.Buttons.LeftShoulder == ButtonState.Released && state.Buttons.LeftShoulder == ButtonState.Pressed))
+                && associatedPlayerController.IsGrounded)
             {
+
                 timer = 0.0f;
-                freelookCamera.m_RecenterToTargetHeading.m_enabled = true;
+
+                float dotProduct = Vector3.Dot(transform.parent.GetChild(0).forward.normalized, associatedPlayerController.transform.forward.normalized);
+                // TODO: this content may be written better
+                if (associatedPlayerController.Rb.velocity.magnitude > 0.0f)
+                {
+                    if (dotProduct < -0.8f)
+                    {
+                        freelookCamera.m_RecenterToTargetHeading.m_RecenteringTime = 0.4f;
+                        associatedPlayerController.forceCameraRecenter = true;
+                        freelookCamera.m_RecenterToTargetHeading.m_enabled = true;
+                    }
+                    else if (dotProduct > 0.0f)
+                    {
+                        freelookCamera.m_RecenterToTargetHeading.m_RecenteringTime = 0.7f;
+                        freelookCamera.m_RecenterToTargetHeading.m_enabled = true;
+                        associatedPlayerController.forceCameraRecenter = false;
+                    }
+                }
+                else
+                {
+                    freelookCamera.m_RecenterToTargetHeading.m_RecenteringTime = 0.7f;
+                    freelookCamera.m_RecenterToTargetHeading.m_enabled = true;
+                    associatedPlayerController.forceCameraRecenter = false;
+                }
             }
 
             if (freelookCamera.m_RecenterToTargetHeading.m_enabled)
@@ -70,6 +95,7 @@ public class DynamicJoystickCameraController : MonoBehaviour {
                 if (timer >= freelookCamera.m_RecenterToTargetHeading.m_RecenterWaitTime + freelookCamera.m_RecenterToTargetHeading.m_RecenteringTime)
                 {
                     freelookCamera.m_RecenterToTargetHeading.m_enabled = false;
+                    associatedPlayerController.forceCameraRecenter = false;
                 }
             }
 
