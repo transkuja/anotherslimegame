@@ -51,6 +51,13 @@ public class PlayerStart : MonoBehaviour {
             InitializeScorePanel();
             InitializePlayersUI();
         }
+        if (SceneManager.GetActiveScene().name =="SceneMinigamePush")
+        {
+            for (int i = 0;i < PlayersReference.Count;i++)
+            {
+                PlayersReference[i].GetComponent<Player>().UpdateCollectableValue(CollectableType.StrengthEvolution1, 1);
+            }
+        }
 
         // Pour chaque joueur
         //for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
