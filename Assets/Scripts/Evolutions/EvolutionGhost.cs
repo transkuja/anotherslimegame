@@ -132,6 +132,7 @@ public class EvolutionGhost : EvolutionComponent
     {
         //base.OnDestroy();
         gameObject.layer = LayerMask.NameToLayer("Player");
+        RemoveGhostVisual();
     }
 
     public override void Update()
