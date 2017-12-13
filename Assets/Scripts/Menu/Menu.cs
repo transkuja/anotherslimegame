@@ -1,6 +1,7 @@
 ﻿using UWPAndXInput;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Menu : MonoBehaviour {
     // Controls
@@ -10,7 +11,7 @@ public class Menu : MonoBehaviour {
 
 
     // Update is called once per frame
-    void FixedUpdate()
+    void Update()
     {
         if (isSceneSet) return;
 
@@ -36,8 +37,9 @@ public class Menu : MonoBehaviour {
     public void SetScene()
     {
         isSceneSet = true;
-        transform.GetChild(0).gameObject.SetActive(false);
-        transform.GetChild(1).gameObject.SetActive(false);
-        playerStart.gameObject.SetActive(true);
+        SceneManager.LoadScene(1);
+        //transform.GetChild(0).gameObject.SetActive(false);
+        //transform.GetChild(1).gameObject.SetActive(false);
+        //playerStart.gameObject.SetActive(true);
     }
 }
