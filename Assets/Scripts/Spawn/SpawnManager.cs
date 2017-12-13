@@ -386,7 +386,7 @@ public class SpawnManager : MonoBehaviour{
         if (evolutionType == CollectableType.Size)
             return;
 
-        evolutionSpawn.GetChild(0).GetComponent<CostArea>().InitForEvolution(evolutionType);
+        evolutionSpawn.GetChild(0).GetComponentInChildren<CostArea>().InitForEvolution(evolutionType);
         //ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
         //    evolutionSpawn.position,
         //    evolutionSpawn.rotation,

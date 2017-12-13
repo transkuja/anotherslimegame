@@ -208,7 +208,7 @@ public class Player : MonoBehaviour {
         if (type == CollectableType.Key)
             GameManager.Instance.PlayerUI.RefreshKeysPlayerUi(this, collectables[(int)type]);
         if (type == CollectableType.Points)
-            GameManager.Instance.PlayerUI.RefreshPointsPlayerUi(this, collectables[(int)type]);
+            GameManager.Instance.PlayerUI.RefreshPointsPlayerUi(this, collectables[(int)type], cameraReference.transform.GetSiblingIndex());
 
         if (!Utils.IsAnEvolutionCollectable(type))
             return;

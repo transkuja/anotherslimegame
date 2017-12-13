@@ -57,7 +57,7 @@ public class PlayerUI : MonoBehaviour {
             linkPlayerPointsToItsUi.Add(GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<Player>(), playerUi.transform.GetChild((int)PlayerUiChildren.Points).gameObject);
 
             // Initialize points
-            RefreshPointsPlayerUi(GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<Player>(), 0);
+            RefreshPointsPlayerUi(GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<Player>(), 0, i);
             playerUi.SetActive(true);
         }
     }
@@ -78,13 +78,16 @@ public class PlayerUI : MonoBehaviour {
         }
     }
 
-    public void RefreshPointsPlayerUi(Player player, int _newValue)
+    public void RefreshPointsPlayerUi(Player player, int _newValue, int index)
     {
         if (!linkPlayerPointsToItsUi.ContainsKey(player))
             return;
 
         Transform toRefresh = linkPlayerPointsToItsUi[player].transform;
-        toRefresh.GetComponentInChildren<Text>().text = " X " + _newValue;
+        if (index % 2 ==0)
+            toRefresh.GetComponentInChildren<Text>().text = " X " + _newValue;
+        else
+            toRefresh.GetComponentInChildren<Text>().text = _newValue + " X ";
     }
 
     public void HandleFeedbackNotEnoughPoints(Player player, bool _activate)
