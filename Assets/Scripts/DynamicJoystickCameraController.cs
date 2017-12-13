@@ -30,7 +30,7 @@ public class DynamicJoystickCameraController : MonoBehaviour {
     public PlayerController associatedPlayerController;
 
     [SerializeField]
-    float notGroundedAttenuationFactor = 0.1f;
+    float notGroundedAttenuationFactor = 0.33f;
 
     bool previouslyTendedToMiddleRig = true;
 
@@ -95,7 +95,7 @@ public class DynamicJoystickCameraController : MonoBehaviour {
                 ////Need a more complex function ?
                 freelookCamera.m_XAxis.m_InputAxisValue += 
                         Utils.Abs(state.ThumbSticks.Left.X) > 0.1f ? 
-                            (freelookCamera.m_XAxis.m_InvertAxis ? -1 : 1) * state.ThumbSticks.Left.X * Mathf.Lerp(0.5f, 1.0f, Utils.Abs(state.ThumbSticks.Left.X)) / 2.0f *
+                            ((freelookCamera.m_XAxis.m_InvertAxis ? -1 : 1) * state.ThumbSticks.Left.X * Mathf.Lerp(0.5f, 1.0f, Utils.Abs(state.ThumbSticks.Left.X)) / 2.0f) *
                                 ((associatedPlayerController.IsGrounded) ? 1 : notGroundedAttenuationFactor)
                             : 0
                         ;
