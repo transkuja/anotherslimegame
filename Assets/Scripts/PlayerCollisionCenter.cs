@@ -43,6 +43,8 @@ public class PlayerCollisionCenter : MonoBehaviour {
     Collider[] collectablesCollided;
     float sphereCheckRadiusCollectables;
 
+    int separationMask3;
+    Collider[] breakablesCollided;
 
     PlayerController playerController;
     Rigidbody rb;
@@ -107,6 +109,8 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
         separationMask2 = LayerMask.GetMask(new string[] { "Collectable" });
         sphereCheckRadiusCollectables = 3.0f;
+
+        separationMask3 = LayerMask.GetMask(new string[] { "Breakable" });
     }
 
     private void Update()
@@ -171,6 +175,22 @@ public class PlayerCollisionCenter : MonoBehaviour {
                         c.PickUp(GetComponent<Player>());
                     }
                 }
+            }
+        }
+
+        breakablesCollided = Physics.OverlapSphere(transform.position, sphereCheckRadius, separationMask3);
+        if (breakablesCollided.Length > 0)
+        {
+            //hasCollidedWithAPlayer = true;
+            //currentTimerStop = timerStopOnDashCollision;
+
+            //playerController.PlayerState = playerController.frozenState;
+            //velocityOnImpact = playerController.Rb.velocity;
+            //playerController.Rb.velocity = Vector3.zero;
+
+            for (int i = 0; i < breakablesCollided.Length; i++)
+            {
+                breakablesCollided[i].GetComponent<Breakable>().HandleCollision(playerController);
             }
         }
 
