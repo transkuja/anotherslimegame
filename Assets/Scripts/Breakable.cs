@@ -64,12 +64,11 @@ public class Breakable : MonoBehaviour {
     void DropCollectableOnGround()
     {
         int numberOfCollectablesToDrop = Random.Range(minCollectableDropOnBreak, maxCollectableDropOnBreak);
-        Vector3[] positions = SpawnManager.GetVector3ArrayOnADividedCircle(transform.position, 1.0f, numberOfCollectablesToDrop, SpawnManager.Axis.XZ);
         for (int i = 0; i < numberOfCollectablesToDrop; i++)
         {
-            GameObject go = ResourceUtils.Instance.poolManager.collectablePointsPool.GetItem(null, positions[i] + Vector3.up * 0.5f, Quaternion.identity, true);
+            GameObject go = ResourceUtils.Instance.poolManager.collectablePointsPool.GetItem(null, transform.position + Vector3.up * 0.5f, Quaternion.identity, true);
 
-            go.GetComponent<Collectable>().Disperse(i, (positions[i] - transform.position + Vector3.up * 1.5f).normalized);
+            go.GetComponent<Collectable>().Disperse(i);
         }
     }
 }

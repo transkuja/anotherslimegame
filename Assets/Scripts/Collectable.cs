@@ -64,11 +64,12 @@ public class Collectable : MonoBehaviour
         needInitialisation = false;
     }
 
-    public void Disperse(int index, Vector3 direction)
+    public void Disperse(int index)
     {
         haveToDisperse = true;
         Value = Utils.GetDefaultCollectableValue((int)type);
-        GetComponent<Rigidbody>().AddForce(direction*7.5f, ForceMode.Impulse);
+        Vector3 dir = new Vector3(Random.Range(-10.0f, 10.0f), Random.Range(-10.0f, 10.0f), Random.Range(-10.0f, 10.0f)).normalized;
+        GetComponent<Rigidbody>().AddForce(dir*Random.Range(7.5f, 12.0f), ForceMode.Impulse);
         StartCoroutine(ReactivateCollider());
         needInitialisation = false;
     }

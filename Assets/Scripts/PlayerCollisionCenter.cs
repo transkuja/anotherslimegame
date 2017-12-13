@@ -347,9 +347,6 @@ public class PlayerCollisionCenter : MonoBehaviour {
             int numberOfCollectablesToDrop;
             if (typeCollectable == (int)CollectableType.Key) numberOfCollectablesToDrop = 1;
             else numberOfCollectablesToDrop = (int)Mathf.Clamp(((float)(player.Collectables[typeCollectable]) / Utils.GetDefaultCollectableValue(typeCollectable)), 1, 6);
-
-  
-            Vector3[] positions = SpawnManager.GetVector3ArrayOnADividedCircle(transform.position, player.GetComponent<SphereCollider>().bounds.extents.magnitude, numberOfCollectablesToDrop, SpawnManager.Axis.XZ);
             for (int i = 0; i < numberOfCollectablesToDrop; i++)
             {
                 player.UpdateCollectableValue((CollectableType)typeCollectable, -Utils.GetDefaultCollectableValue(typeCollectable));
@@ -364,9 +361,9 @@ public class PlayerCollisionCenter : MonoBehaviour {
                     go.GetComponent<Collectable>().lastOwner = player;
                 }
                 else
-                    go = ResourceUtils.Instance.poolManager.collectablePointsPool.GetItem(null, positions[i] + Vector3.up * 0.5f, player.transform.rotation, true);
+                    go = ResourceUtils.Instance.poolManager.collectablePointsPool.GetItem(null, transform.position + Vector3.up * 0.5f, player.transform.rotation, true);
 
-                go.GetComponent<Collectable>().Disperse(i, (positions[i] - transform.position + Vector3.up*1.5f).normalized);
+                go.GetComponent<Collectable>().Disperse(i);
             }
         }
     }
