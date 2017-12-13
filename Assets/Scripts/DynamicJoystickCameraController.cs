@@ -32,6 +32,8 @@ public class DynamicJoystickCameraController : MonoBehaviour {
     [SerializeField]
     float notGroundedAttenuationFactor = 0.1f;
 
+    bool previouslyTendedToMiddleRig = true;
+
     void Start () {
         freelookCamera = GetComponent<Cinemachine.CinemachineFreeLook>();
         startHighOffset = (freelookCamera.GetRig(0).GetCinemachineComponent<CinemachineComposer>()).m_TrackedObjectOffset;
@@ -106,16 +108,31 @@ public class DynamicJoystickCameraController : MonoBehaviour {
                 lerpValue = 0.0f;
             }
 
-            TendToMiddleRig(associatedPlayerController.GetComponentInParent<PlatformGameplay>() != null || !associatedPlayerController.IsGrounded);
+            TendToMiddleRig(associatedPlayerController);
         }
     }
 
-    public void TendToMiddleRig(bool _isOnPlatform)
+    public void TendToMiddleRig(PlayerController _pc)
     {
         if (needToTendToMiddleRig && lerpValue < 1.0f)
         {
+            bool _tendToTopRig = 
+                (associatedPlayerController.GetComponentInParent<PlatformGameplay>() != null || !associatedPlayerController.IsGrounded)
+                && associatedPlayerController.PlayerState != associatedPlayerController.platformistChargedState;
+
+            if (previouslyTendedToMiddleRig && _tendToTopRig)
+            {
+                previouslyTendedToMiddleRig = false;
+                lerpOldValue = freelookCamera.m_YAxis.Value;
+                lerpValue = 0.0f;
+            }
+            else
+            {
+                previouslyTendedToMiddleRig = true;
+            }
+
             lerpValue += Time.deltaTime * lerpTendToMiddleRigSpeed;
-            float rigTarget = _isOnPlatform ? 1.0f : 0.5f;
+            float rigTarget = _tendToTopRig ? 1.0f : 0.5f;
             freelookCamera.m_YAxis.Value = Mathf.Lerp(lerpOldValue, rigTarget, lerpValue);
             if (lerpValue > 1.0f)
                 needToTendToMiddleRig = false;
