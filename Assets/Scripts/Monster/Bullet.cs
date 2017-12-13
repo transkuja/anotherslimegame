@@ -14,7 +14,7 @@ public class Bullet : MonoBehaviour {
     public void Init(GameObject launcher)
     {
         isFired = false;
-        Physics.IgnoreCollision(launcher.GetComponent<Collider>(), this.GetComponent<Collider>());
+        Physics.IgnoreCollision(launcher.GetComponent<Collider>(), this.GetComponent<Collider>(), true);
     }
     public void Fire(Vector3 _direction,float _speed,float _bulletDistance)
     {
@@ -51,7 +51,7 @@ public class Bullet : MonoBehaviour {
                     direction = other.transform.forward;
                 speed *= 2;
                 timerDist = 0;
-                Physics.IgnoreCollision(other, this.GetComponent<Collider>());
+                Physics.IgnoreCollision(other, this.GetComponent<Collider>(), true);
             }
             else
             {
@@ -67,6 +67,9 @@ public class Bullet : MonoBehaviour {
                 playerCollision.ExpulsePlayer(other.ClosestPoint(transform.position), other.GetComponent<Rigidbody>(), 50);
                 GetComponent<PoolChild>().ReturnToPool();
             }
+        } else
+        {
+            GetComponent<PoolChild>().ReturnToPool();
         }
         
     }
