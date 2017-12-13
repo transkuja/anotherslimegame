@@ -6,6 +6,8 @@ public class TrappedPlatform : MonoBehaviour {
     enum TrapType { MoveHorizontal, MoveBackward, MoveDown, Flip, RotateAroundY, Size }
     public Player owner;
 
+    [SerializeField] private bool isLevelDesignPlatform;
+    [SerializeField] private TrapType trapType;
     // The chance of the platform being trapped is 1 out of inverseTrapChance
     int inverseTrapChance = 1;
 
@@ -43,28 +45,37 @@ public class TrappedPlatform : MonoBehaviour {
             Debug.LogWarning("Platform gameplay component is null and shouldn't");
             return;
         }
-
-        TrapType trapRand = (TrapType)Random.Range(0, (int)TrapType.Size);
-        List<TrapType> usedIndex = new List<TrapType>();
-        int nbAttempts = 0;
-
-        while (!TrapViabilityCheck(trapRand) || nbAttempts == 10)
+        TrapType trapRand;
+            // si la platforme est générée par le platformiste
+        if (!isLevelDesignPlatform)
         {
-            usedIndex.Add(trapRand);
-            bool isInList = true;
-            while (isInList)
-            {
-                trapRand = (TrapType)Random.Range(0, (int)TrapType.Size);
-                foreach (TrapType checkedType in usedIndex)
-                {
-                    if (checkedType != trapRand)
-                        isInList = false;
-                }
-            }
-            nbAttempts++;
-        }
+            trapRand = (TrapType)Random.Range(0, (int)TrapType.Size);
+            List<TrapType> usedIndex = new List<TrapType>();
+            int nbAttempts = 0;
 
-        if (nbAttempts == 10) trapRand = TrapType.Flip;
+            while (!TrapViabilityCheck(trapRand) || nbAttempts == 10)
+            {
+                usedIndex.Add(trapRand);
+                bool isInList = true;
+                while (isInList)
+                {
+                    trapRand = (TrapType)Random.Range(0, (int)TrapType.Size);
+                    foreach (TrapType checkedType in usedIndex)
+                    {
+                        if (checkedType != trapRand)
+                            isInList = false;
+                    }
+                }
+                nbAttempts++;
+            }
+
+            if (nbAttempts == 10) trapRand = TrapType.Flip;
+        }
+        else // si la platforme a été posée en LevelDesign
+        {
+            trapRand = trapType;
+            StartCoroutine(ResetTrap());
+        }
 
         switch (trapRand)
         {
@@ -140,5 +151,29 @@ public class TrappedPlatform : MonoBehaviour {
         gameplay.hasADelayedRotation = true;
         gameplay.rotateAxisLocal = Random.Range(0, 2) == 0 ? Vector3.right : Vector3.forward;
         gameplay.isRotating = true;
+    }
+    IEnumerator ResetTrap()
+    {
+        yield return new WaitForSeconds(gameplay.delayBeforeTransition );
+        Debug.Log("Once");
+        while ( gameplay.rotateLerpValue > 0)
+        {
+            yield return null;
+        }
+        yield return new WaitForSeconds(gameplay.delayBeforeTransitionReturn);
+        Debug.Log("Two");
+        while (gameplay.rotateLerpValue < 1)
+        {
+            yield return null;
+        }
+        gameplay.IsMoving = false;
+        gameplay.hasADelayedRotation = false;
+        gameplay.isRotating = false;
+        gameplay.ResetPlatformToOrigin();
+
+        isTrapEnabled = false;
+        Material mat = GetComponentInChildren<MeshRenderer>().material;
+        mat.SetColor("_EmissionColor", Color.white);
+        yield return null;
     }
 }

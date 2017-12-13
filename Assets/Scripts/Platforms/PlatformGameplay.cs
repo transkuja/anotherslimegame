@@ -126,7 +126,7 @@ public class PlatformGameplay : MonoBehaviour {
 
     Quaternion lerpOriginRotation;
     Quaternion lerpNewRotation;
-    float rotateLerpValue = 0.0f;
+    [HideInInspector]public float rotateLerpValue = 0.0f; // desolé j'en ai besoin pour reset les trap posés en level design ( dans TrappedPlatform.cs)
     float rotateLerpSpeed;
     bool isRotationLerpActive = false;
 
@@ -391,11 +391,12 @@ public class PlatformGameplay : MonoBehaviour {
         isRotationLerpActive = true;
     }
 
-    void ResetPlatformToOrigin()
+    public void ResetPlatformToOrigin()
     {
         transform.position = platformOriginPosition;
         transform.rotation = platformOriginRotation;
         moveLerpValue = 0.0f;
+        rotateLerpValue = 0f;
         isInPong = false;
         hasPlayerJumpedOn = false;
         hasPlayerJumpedOff = false;
