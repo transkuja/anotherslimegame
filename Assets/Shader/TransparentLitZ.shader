@@ -1,4 +1,4 @@
-﻿Shader "Transparent/BlobbyShaderTransparentLit"
+﻿Shader "Slime/TransparentLitZ"
 {
 	Properties
 	{
