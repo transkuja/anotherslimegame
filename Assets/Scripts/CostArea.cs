@@ -5,9 +5,7 @@ using UnityEngine.UI;
 
 using UWPAndXInput;
 
-// TODO: handle tutotext + reactivation (overtime, on event, none)
-// TODO: set cost area reference on keys + do not destroy keys + reactivate when necessary
-public enum CostAreaType { PayAndGetItem, PayAndCallEvent }
+public enum CostAreaType { PayAndGetItem, PayAndCallEvent, PayAndUnlockMiniGame }
 public enum CostAreaEvent { None, EndGame, IncreaseWater }
 public enum CostAreaReactivationMode { None, OverTime, OnEvent }
 public class CostArea : MonoBehaviour {
@@ -18,6 +16,9 @@ public class CostArea : MonoBehaviour {
     CostAreaEvent costAreaEvent;
 
     [SerializeField]
+    MiniGame minigameToUnlock;
+
+    [SerializeField]
     CollectableType currency;
     
     [SerializeField]
@@ -25,6 +26,8 @@ public class CostArea : MonoBehaviour {
 
     [SerializeField]
     bool isActive = true;
+
+    [Header("Reactivation settings")]
     [SerializeField]
     CostAreaReactivationMode reactivationMode;
     [SerializeField]
@@ -210,6 +213,10 @@ public class CostArea : MonoBehaviour {
                 default:
                     break;
             }
+        }
+        else if (costAreaType == CostAreaType.PayAndUnlockMiniGame)
+        {
+            MinigameManager.GetSceneNameFromMinigame(minigameToUnlock);
         }
     }
 

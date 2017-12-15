@@ -1,15 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class InitTeleporter : MonoBehaviour {
     public CollectableType evolutionType;
     bool isTeleporterActive = false;
     Color startColor;
+    bool teleportToMinigame = false;
+    string minigameSceneToTeleportTo = "";
 
     private void Start()
     {
         startColor = GetComponent<MeshRenderer>().material.GetColor("_EmissionColor");
+    }
+
+    public void TeleportToMinigame(string sceneName)
+    {
+        teleportToMinigame = true;
+        minigameSceneToTeleportTo = sceneName;
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -39,7 +48,10 @@ public class InitTeleporter : MonoBehaviour {
             if (lerpValue >= 1.0f)
             {
                 isTeleporterActive = false;
-                Invoke("ResetPlatform", 0.1f);
+                if (teleportToMinigame)
+                    LoadMinigame();
+                else
+                    Invoke("ResetPlatform", 0.1f); // WARNING! Should be call in any cases if we dont load scenes
             }
         }
     }
@@ -49,6 +61,11 @@ public class InitTeleporter : MonoBehaviour {
         GetComponent<PlatformGameplay>().isATeleporter = false;
         if (GetComponent<MeshRenderer>())
             GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", startColor);
+    }
+
+    void LoadMinigame()
+    {
+        SceneManager.LoadScene(minigameSceneToTeleportTo);
     }
 
     private void OnCollisionExit(Collision collision)
