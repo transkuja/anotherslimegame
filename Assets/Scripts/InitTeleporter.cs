@@ -9,10 +9,35 @@ public class InitTeleporter : MonoBehaviour {
     Color startColor;
     bool teleportToMinigame = false;
     string minigameSceneToTeleportTo = "";
+    MeshRenderer meshRenderer;
+
+    // TODO: replace by an animation?
+    float lerpValueAnim;
+    Vector3 originPosition;
+    Vector3 endPosition;
 
     private void Start()
     {
-        startColor = GetComponent<MeshRenderer>().material.GetColor("_EmissionColor");
+        if (GetComponentInChildren<MeshRenderer>() != null)
+        {
+            meshRenderer = GetComponentInChildren<MeshRenderer>();
+            startColor = meshRenderer.material.GetColor("_EmissionColor");
+        }
+    }
+
+    private void OnEnable()
+    {
+        if (teleportToMinigame)
+        {
+            if (GetComponentInChildren<MeshRenderer>() != null)
+            {
+                meshRenderer = GetComponentInChildren<MeshRenderer>();
+                startColor = meshRenderer.material.GetColor("_EmissionColor");
+            }
+            originPosition = transform.position;
+            endPosition = originPosition + Vector3.up * 4.0f;
+            lerpValueAnim = 0.0f;
+        }
     }
 
     public void TeleportToMinigame(string sceneName)
@@ -23,6 +48,10 @@ public class InitTeleporter : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision)
     {
+        // Wait for animation to end
+        if (teleportToMinigame && lerpValueAnim < 1.0f)
+            return;
+
         // Arrived at destination
         if (collision.transform.GetComponent<Player>() != null && collision.transform.GetComponent<Player>().hasBeenTeleported)
         {
@@ -31,7 +60,8 @@ public class InitTeleporter : MonoBehaviour {
         }
 
         // TODO; dev here the day we want multiple evolution component behaviour
-        if (Utils.CheckEvolutionAndCollectableTypeCompatibility(evolutionType, collision.transform.GetComponent<EvolutionComponent>()))
+        if (Utils.CheckEvolutionAndCollectableTypeCompatibility(evolutionType, collision.transform.GetComponent<EvolutionComponent>())
+            || teleportToMinigame)
         {
             GetComponent<PlatformGameplay>().isATeleporter = true;
             isTeleporterActive = true;
@@ -44,7 +74,7 @@ public class InitTeleporter : MonoBehaviour {
         {
             PlatformGameplay gameplayComponent = GetComponent<PlatformGameplay>();
             float lerpValue = (gameplayComponent.delayBetweenMovements - gameplayComponent.DelayTimer) / gameplayComponent.delayBetweenMovements;
-            GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.Lerp(startColor, Color.red, lerpValue));
+            meshRenderer.material.SetColor("_EmissionColor", Color.Lerp(startColor, Color.red, lerpValue));
             if (lerpValue >= 1.0f)
             {
                 isTeleporterActive = false;
@@ -54,13 +84,19 @@ public class InitTeleporter : MonoBehaviour {
                     Invoke("ResetPlatform", 0.1f); // WARNING! Should be call in any cases if we dont load scenes
             }
         }
+
+        if (teleportToMinigame && lerpValueAnim < 1.0f)
+        {
+            lerpValueAnim += Time.deltaTime;
+            transform.position = Vector3.Lerp(originPosition, endPosition, lerpValueAnim);
+        }
     }
 
     void ResetPlatform()
     {
         GetComponent<PlatformGameplay>().isATeleporter = false;
-        if (GetComponent<MeshRenderer>())
-            GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", startColor);
+        if (meshRenderer != null)
+            meshRenderer.material.SetColor("_EmissionColor", startColor);
     }
 
     void LoadMinigame()
@@ -70,11 +106,17 @@ public class InitTeleporter : MonoBehaviour {
 
     private void OnCollisionExit(Collision collision)
     {
-        if (isTeleporterActive && Utils.CheckEvolutionAndCollectableTypeCompatibility(evolutionType, collision.transform.GetComponent<EvolutionComponent>()))
+        // Wait for animation to end
+        if (teleportToMinigame && lerpValueAnim < 1.0f)
+            return;
+
+        if (isTeleporterActive && 
+            (Utils.CheckEvolutionAndCollectableTypeCompatibility(evolutionType, collision.transform.GetComponent<EvolutionComponent>())
+            || teleportToMinigame))
         {
-            if (GetComponent<MeshRenderer>())
+            if (meshRenderer != null)
             {
-                GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", startColor);
+                meshRenderer.material.SetColor("_EmissionColor", startColor);
             }
             isTeleporterActive = false;
             GetComponent<PlatformGameplay>().isATeleporter = false;

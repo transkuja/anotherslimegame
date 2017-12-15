@@ -16,9 +16,6 @@ public class CostArea : MonoBehaviour {
     CostAreaEvent costAreaEvent;
 
     [SerializeField]
-    MiniGame minigameToUnlock;
-
-    [SerializeField]
     CollectableType currency;
     
     [SerializeField]
@@ -43,12 +40,17 @@ public class CostArea : MonoBehaviour {
     Transform rewardPreview;
     [SerializeField]
     Transform halo;
+    [SerializeField]
+    [Tooltip("Only on the right prefab.")]
+    InitTeleporter teleporterToMiniGame;
 
     [Header("Reward")]
     [SerializeField]
     CollectableType rewardType;
     [SerializeField]
     int rewardQuantity;
+    [SerializeField]
+    MiniGame minigameToUnlock;
 
     [Header("Currency Sprites")]
     [SerializeField]
@@ -86,6 +88,11 @@ public class CostArea : MonoBehaviour {
     {
         costText.text = "x " + cost;
         currencyLogo.sprite = GetLogoFromCurrency(currency);
+        if (currency == CollectableType.Key)
+        {
+            // Ugly ugly ugly wooooooohohooooo uuuuuglyyyy tudududidadidu
+            currencyLogo.color = new Color(0, 146, 255, 255);
+        }
         if (costAreaType != CostAreaType.PayAndCallEvent) costAreaEvent = CostAreaEvent.None;
         GameObject rewardPrefab = GetRewardModelFromRewardType();
         if (rewardPrefab != null)
@@ -98,6 +105,10 @@ public class CostArea : MonoBehaviour {
                 rewardFeedback.transform.localPosition += Vector3.up * 2.0f;
                 rewardPreview.localScale = Vector3.one * 0.5f;
             }
+        }
+        else
+        {
+            costText.transform.parent.localPosition = costText.transform.parent.localPosition - Vector3.up * 3.0f;
         }
     }
 
@@ -216,8 +227,13 @@ public class CostArea : MonoBehaviour {
         }
         else if (costAreaType == CostAreaType.PayAndUnlockMiniGame)
         {
-            MinigameManager.GetSceneNameFromMinigame(minigameToUnlock);
-        }
+            teleporterToMiniGame.TeleportToMinigame(MinigameManager.GetSceneNameFromMinigame(minigameToUnlock));
+            // Replace by the child
+            costText.transform.parent.gameObject.SetActive(false);
+            rewardPreview.gameObject.SetActive(false);
+            halo.gameObject.SetActive(false);
+            teleporterToMiniGame.gameObject.SetActive(true);
+}
     }
 
     GameObject GetRewardModelFromRewardType()
