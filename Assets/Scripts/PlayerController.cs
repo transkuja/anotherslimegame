@@ -473,7 +473,7 @@ public class PlayerController : MonoBehaviour
             ParticleSystem ps = transform.GetChild((int)PlayerChildren.LandingParticles).GetComponent<ParticleSystem>();
             ParticleSystem.Burst[] bursts = new ParticleSystem.Burst[ps.emission.burstCount];
             ps.emission.GetBursts(bursts);
-            Debug.Log(collision.relativeVelocity.magnitude / 85.0f);
+
             bursts[0].minCount = (short)Mathf.Lerp(2.0f, 6.0f, (collision.relativeVelocity.magnitude / 150.0f));
             bursts[0].maxCount = (short)Mathf.Lerp(3.0f, 8.0f, (collision.relativeVelocity.magnitude / 150.0f));
             ps.emission.SetBursts(bursts);

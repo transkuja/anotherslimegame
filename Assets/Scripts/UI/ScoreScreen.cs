@@ -137,8 +137,13 @@ public class ScoreScreen : MonoBehaviour {
         if (GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerController>().IsUsingAController)
         {
             if (GamePad.GetState(GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerController>().playerIndex).Buttons.Start == ButtonState.Pressed)
-                ExitToMainMenu();
-
+            {
+                if (SceneManager.GetActiveScene().name == MinigameManager.GetSceneNameFromMinigame(MiniGame.KickThemAll))
+                {
+                    SceneManager.LoadScene(1); // ugly?
+                }
+                //ExitToMainMenu();
+            }
         }
         else
         {
