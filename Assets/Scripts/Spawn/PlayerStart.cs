@@ -79,7 +79,7 @@ public class PlayerStart : MonoBehaviour {
         //}
 
 #if UNITY_EDITOR
-        ResourceUtils.Instance.debugTools.ActivateDebugMode();
+        ResourceUtils.Instance.debugTools.ActivateDebugMode(true);
 #endif
     }
 

@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 using UWPAndXInput;
 
 public class DebugTools : MonoBehaviour {
-    private static bool isDebugModeActive = false;
+    public static bool isDebugModeActive = false;
 
     [SerializeField]
     Transform debugPanelReference;
@@ -408,9 +408,9 @@ public class DebugTools : MonoBehaviour {
         
     }
 
-    public void ActivateDebugMode()
+    public void ActivateDebugMode(bool _forceActivation = false)
     {
-        isDebugModeActive = !isDebugModeActive;
+        isDebugModeActive = (_forceActivation) ? true : !isDebugModeActive;
         DebugPanelReference.gameObject.SetActive(isDebugModeActive);
 
         if (!hasUpdatedDebugPanel)
