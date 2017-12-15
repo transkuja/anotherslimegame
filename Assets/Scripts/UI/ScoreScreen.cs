@@ -47,6 +47,12 @@ public class ScoreScreen : MonoBehaviour {
         int minutes = Mathf.FloorToInt(time / 60);
         int seconds = (int)time % 60;
         rank++;
+        if (rank > 4)
+        {
+            Debug.LogWarning("RefreshScores should not have been called or rank has not been reset ...");
+            rank = 0;
+            return;
+        }
 
         if (rank == 1)
         {
@@ -55,18 +61,34 @@ public class ScoreScreen : MonoBehaviour {
 
         String timeStr = string.Format("{0:00} : {1:00}", minutes, seconds);
 
-        if(transform.childCount >= rank - 1)
+        if (SceneManager.GetActiveScene().name == MinigameManager.GetSceneNameFromMinigame(MiniGame.KickThemAll))
         {
-            transform.GetChild(rank - 1).GetComponent<PlayerScore>().SetScoreDefault(
-                (int)player.PlayerController.PlayerIndex,
-                GameManager.Instance.isTimeOver ? "Timeout" : timeStr,
-                (player.Collectables[(int)CollectableType.Points]).ToString()
-            );
+            Debug.Log(transform.childCount);
+            if (transform.childCount >= rank - 1) // who did this ugly line?
+            {
+                transform.GetChild(rank - 1).GetComponent<PlayerScore>().SetScoreMiniGamePtsOnly(
+                    (int)player.PlayerController.PlayerIndex,
+                    (player.Collectables[(int)CollectableType.Points]).ToString()
+                );
 
-            transform.GetChild(rank - 1).gameObject.SetActive(true);
+                transform.GetChild(rank - 1).gameObject.SetActive(true);
 
+            }
         }
+        else
+        {
+            if (transform.childCount >= rank - 1) // who did this ugly line?
+            {
+                transform.GetChild(rank - 1).GetComponent<PlayerScore>().SetScoreDefault(
+                    (int)player.PlayerController.PlayerIndex,
+                    GameManager.Instance.isTimeOver ? "Timeout" : timeStr,
+                    (player.Collectables[(int)CollectableType.Points]).ToString()
+                );
 
+                transform.GetChild(rank - 1).gameObject.SetActive(true);
+
+            }
+        }
         player.rank = rank;
 
         if (rank == 1)

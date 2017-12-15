@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UWPAndXInput;
 
 public class DebugTools : MonoBehaviour {
@@ -376,6 +377,20 @@ public class DebugTools : MonoBehaviour {
                 if (Input.GetKeyUp(KeyCode.H))
                 {
                     hasReleasedHelpButton = true;
+                }
+
+                // Finish current mini game
+                if (Input.GetKeyDown(KeyCode.F))
+                {
+                    if (SceneManager.GetActiveScene().name == MinigameManager.GetSceneNameFromMinigame(MiniGame.KickThemAll))
+                    {
+                        List<GameObject> players = GameManager.Instance.PlayerStart.PlayersReference;
+                        for (int i = 0; i < GameManager.Instance.PlayerStart.ActivePlayersAtStart; i++)
+                        {
+                            players[i].GetComponent<Player>().HasFinishedTheRun = true;
+                            GameManager.Instance.ScoreScreenReference.RefreshScores(players[i].GetComponent<Player>());
+                        }
+                    }
                 }
             }
         }
