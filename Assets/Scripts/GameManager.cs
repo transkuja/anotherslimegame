@@ -23,6 +23,8 @@ public class GameManager : MonoBehaviour {
 
     public GameObject activeTutoTextForAll;
 
+    public bool[] unlockedMinigames = new bool[(int)MiniGame.Size];
+
     public static GameManager Instance
     {
         get

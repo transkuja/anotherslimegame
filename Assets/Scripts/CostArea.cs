@@ -225,15 +225,25 @@ public class CostArea : MonoBehaviour {
                     break;
             }
         }
-        else if (costAreaType == CostAreaType.PayAndUnlockMiniGame)
+        else
         {
+            GameManager.Instance.unlockedMinigames[(int)minigameToUnlock] = true;
+            UnlockAssociatedMinigame();
+        }
+    }
+
+    public void UnlockAssociatedMinigame()
+    {
+        if (costAreaType == CostAreaType.PayAndUnlockMiniGame)
+        {
+            isActive = false;
             teleporterToMiniGame.TeleportToMinigame(MinigameManager.GetSceneNameFromMinigame(minigameToUnlock));
             // Replace by the child
             costText.transform.parent.gameObject.SetActive(false);
             rewardPreview.gameObject.SetActive(false);
             halo.gameObject.SetActive(false);
             teleporterToMiniGame.gameObject.SetActive(true);
-}
+        }
     }
 
     GameObject GetRewardModelFromRewardType()
