@@ -84,7 +84,7 @@ public class PlayerUI : MonoBehaviour {
             return;
 
         Transform toRefresh = linkPlayerPointsToItsUi[player].transform;
-        if (index % 2 ==0)
+        if (index % 2 == 0)
             toRefresh.GetComponentInChildren<Text>().text = " X " + _newValue;
         else
             toRefresh.GetComponentInChildren<Text>().text = _newValue + " X ";
