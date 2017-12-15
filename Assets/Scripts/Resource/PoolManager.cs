@@ -93,8 +93,10 @@ public class PoolManager : MonoBehaviour {
     public Pool ghostTrailPool;
 
     void Start () {
+
         /* =============================================================================== */
         GameObject breakablePiecesPoolParent = new GameObject("BreakablePiecesPool");
+        breakablePiecesPoolParent.transform.SetParent(transform);
         breakablePiecesPool.PoolParent = breakablePiecesPoolParent.transform;
 
         for (int i = 0; i < breakablePiecesPool.poolSize; i++)
@@ -103,6 +105,7 @@ public class PoolManager : MonoBehaviour {
 
         /* =============================================================================== */
         GameObject collectablePointsPoolParent = new GameObject("CollectablePointsPool");
+        collectablePointsPoolParent.transform.SetParent(transform);
         collectablePointsPool.PoolParent = collectablePointsPoolParent.transform;
 
         for (int i = 0; i < collectablePointsPool.poolSize; i++)
@@ -111,6 +114,7 @@ public class PoolManager : MonoBehaviour {
 
         /* =============================================================================== */
         GameObject monsterShotsPoolParent = new GameObject("MonsterShotsPool");
+        monsterShotsPoolParent.transform.SetParent(transform);
         monsterShotsPool.PoolParent = monsterShotsPoolParent.transform;
 
         for (int i = 0; i < monsterShotsPool.poolSize; i++)
@@ -119,6 +123,7 @@ public class PoolManager : MonoBehaviour {
 
         /* =============================================================================== */
         GameObject ghostTrailPoolParent = new GameObject("GhostTrailPool");
+        ghostTrailPoolParent.transform.SetParent(transform);
         ghostTrailPool.PoolParent = ghostTrailPoolParent.transform;
 
         for (int i = 0; i < ghostTrailPool.poolSize; i++)
