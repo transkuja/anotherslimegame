@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public static class Utils {
+    public static float timerTutoText = 5.0f;
 
     static int[] mapTypeMaxValue =
         {
@@ -96,11 +97,33 @@ public static class Utils {
                                         + Vector3.up * ((GameManager.Instance.PlayerStart.PlayersReference.Count > 2) ? 80.0f : 160.0f);
 
         tutoText.GetComponent<Text>().text = _text;
-        if (_player.activeTutoText != null)
-            _player.activeTutoText.SetActive(false);
+        if (GameManager.Instance.activeTutoTextForAll != null)
+        {
+            tutoText.SetActive(false);
+            _player.PendingTutoText = tutoText;
+        }
+        else
+        {
+            if (_player.activeTutoText != null)
+                _player.activeTutoText.SetActive(false);
 
-        _player.activeTutoText = tutoText;
-        GameObject.Destroy(tutoText, 5.0f);
+            _player.activeTutoText = tutoText;
+            GameObject.Destroy(tutoText, timerTutoText);
+        }
+         
+    }
+
+    public static void PopTutoTextForAll(string _text)
+    {
+        GameObject tutoText = GameObject.Instantiate(ResourceUtils.Instance.refPrefabLoot.prefabTutoTextForAll, GameManager.UiReference.transform);
+        tutoText.transform.localPosition = Vector3.zero;
+
+        tutoText.GetComponent<Text>().text = _text;
+        if (GameManager.Instance.activeTutoTextForAll != null)
+            GameManager.Instance.activeTutoTextForAll.SetActive(false);
+
+        GameManager.Instance.activeTutoTextForAll = tutoText;
+        GameObject.Destroy(tutoText, timerTutoText);
     }
 
     public static float Abs(float _float)

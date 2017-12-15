@@ -51,8 +51,10 @@ public class PlayerStart : MonoBehaviour {
             InitializeScorePanel();
             InitializePlayersUI();
         }
-        if (SceneManager.GetActiveScene().name =="SceneMinigamePush")
+        if (SceneManager.GetActiveScene().name == "SceneMinigamePush")
         {
+            Utils.PopTutoTextForAll("Be the last one standing!");
+
             Player player;
             for (int i = 0;i < PlayersReference.Count;i++)
             {

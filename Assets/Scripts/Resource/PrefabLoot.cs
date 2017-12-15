@@ -25,6 +25,7 @@ public class PrefabLoot : MonoBehaviour {
     public GameObject prefabPointSpriteRight;
     public GameObject prefabPointSpriteLeft;
     public GameObject prefabTutoText;
+    public GameObject prefabTutoTextForAll;
 
     public GameObject SpawnCollectableInstance(Vector3 where, Quaternion direction, Transform parent, CollectableType myItemType, bool useAlternativePrefab = false)
     {

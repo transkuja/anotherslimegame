@@ -29,6 +29,10 @@ public class Player : MonoBehaviour {
     public bool costAreaTutoShown = false;
 
     public GameObject activeTutoText;
+    private GameObject pendingTutoText;
+    float currentTimerPendingTutoText;
+    bool tutoTextIsPending = false;
+
     private bool hasFinishedTheRun = false;
 
     public int rank = 0;
@@ -192,7 +196,25 @@ public class Player : MonoBehaviour {
             nbLife = value;
         }
     }
-#endregion
+
+    public GameObject PendingTutoText
+    {
+        get
+        {
+            return pendingTutoText;
+        }
+
+        set
+        {
+            if (value != null)
+            {
+                tutoTextIsPending = true;
+                currentTimerPendingTutoText = Utils.timerTutoText + 0.1f;
+            }
+            pendingTutoText = value;
+        }
+    }
+    #endregion
 
     void Start()
     {
@@ -284,6 +306,26 @@ public class Player : MonoBehaviour {
             {
                 GameManager.Instance.PlayerUI.HandleFeedbackNotEnoughPoints(this, false);
                 FeedbackCantPayActive = false;
+            }
+        }
+
+        if (tutoTextIsPending)
+        {
+            currentTimerPendingTutoText -= Time.deltaTime;
+            if (currentTimerPendingTutoText < 0.0f)
+            {
+                // TODO: lot of behaviours here duplicated in Utils => Merge
+                if (activeTutoText != null)
+                    activeTutoText.SetActive(false);
+
+                activeTutoText = pendingTutoText;
+                pendingTutoText.transform.position = cameraReference.GetComponentInChildren<Camera>().WorldToScreenPoint(transform.position)
+                                        + Vector3.up * ((GameManager.Instance.PlayerStart.PlayersReference.Count > 2) ? 80.0f : 160.0f);
+
+                pendingTutoText.SetActive(true);
+                GameObject.Destroy(pendingTutoText, Utils.timerTutoText);
+
+                tutoTextIsPending = false;
             }
         }
     }

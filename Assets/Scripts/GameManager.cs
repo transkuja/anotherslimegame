@@ -21,6 +21,8 @@ public class GameManager : MonoBehaviour {
     // WARNING, should be reset on load scene
     bool finalTimerInitialized = false;
 
+    public GameObject activeTutoTextForAll;
+
     public static GameManager Instance
     {
         get
