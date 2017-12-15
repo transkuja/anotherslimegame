@@ -169,6 +169,8 @@ public class EvolutionPlatformist : EvolutionComponent {
 
         if (Charges > 0)
         {
+            float isGroundedOffset = 0.0f;
+
             if (!GetComponent<PlayerController>().IsGrounded)
             {
                 GameObject initial = Instantiate(ResourceUtils.Instance.refPrefabPlatform.prefabPlatformistDefault);
@@ -180,6 +182,10 @@ public class EvolutionPlatformist : EvolutionComponent {
                 if (trappedComponent)
                     trappedComponent.owner = GetComponent<Player>();
             }
+            else
+            {
+                isGroundedOffset = 1.0f;
+            }
 
             GameObject[] platforms = new GameObject[Charges];
             PlatformistPattern pattern = PlatformistPatternFactory.GetPatternFromIndex(IndexPattern);
@@ -189,7 +195,7 @@ public class EvolutionPlatformist : EvolutionComponent {
                 platforms[i] = Instantiate(ResourceUtils.Instance.refPrefabPlatform.prefabPlatformistDefault);
                 platforms[i].transform.position = transform.position - 0.4f * Vector3.up
                     + transform.forward * pattern.summonDistance * (pattern.distanceStep * (i + 1)) 
-                    + Vector3.up * pattern.summonHeight * (pattern.heightStep * (i + 1));
+                    + Vector3.up * (pattern.summonHeight * (pattern.heightStep * (i + 1)) + isGroundedOffset);
                 platforms[i].transform.rotation = transform.rotation;
                 platforms[i].transform.GetComponent<AutoDestroyPlatform>().Init(platformLifetime);
 
@@ -209,17 +215,9 @@ public class EvolutionPlatformist : EvolutionComponent {
 
         if (Charges > 0)
         {
-            PlatformistPattern pattern = PlatformistPatternFactory.GetPatternFromIndex(IndexPattern);
+            float isGroundedOffset = 0.0f;
 
-            for (int i = 0; i < Charges; i++)
-            {
-                GameObject platform = Instantiate(ResourceUtils.Instance.refPrefabPlatform.prefabPlatformistShowPattern);
-                platform.transform.position = transform.position - 0.4f * Vector3.up
-                    + transform.forward * pattern.summonDistance * (pattern.distanceStep * (i + 1))
-                    + Vector3.up * pattern.summonHeight * (pattern.heightStep * (i + 1));
-                platform.transform.rotation = transform.rotation;
-                showPattern.Add(platform);
-            }
+            PlatformistPattern pattern = PlatformistPatternFactory.GetPatternFromIndex(IndexPattern);
 
             if (!GetComponent<PlayerController>().IsGrounded)
             {
@@ -228,6 +226,21 @@ public class EvolutionPlatformist : EvolutionComponent {
                 platform.transform.rotation = transform.rotation;
                 showPattern.Add(platform);
             }
+            else
+            {
+                isGroundedOffset = 1.0f;
+            }
+
+            for (int i = 0; i < Charges; i++)
+            {
+                GameObject platform = Instantiate(ResourceUtils.Instance.refPrefabPlatform.prefabPlatformistShowPattern);
+                platform.transform.position = transform.position - 0.4f * Vector3.up
+                    + transform.forward * pattern.summonDistance * (pattern.distanceStep * (i + 1))
+                    + Vector3.up * (pattern.summonHeight * (pattern.heightStep * (i + 1)) + isGroundedOffset);
+                platform.transform.rotation = transform.rotation;
+                showPattern.Add(platform);
+            }
+
         }
 
         if (!hasPlayedSecondTuto)
