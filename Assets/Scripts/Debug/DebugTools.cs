@@ -7,7 +7,10 @@ public class DebugTools : MonoBehaviour {
     private static bool isDebugModeActive = false;
 
     [SerializeField]
-    Transform debugPanel;
+    Transform debugPanelReference;
+
+    [SerializeField]
+    GameObject debugPanelPrefab;
 
     [SerializeField]
     List<Transform> teleportPlayerPositionsList;
@@ -40,18 +43,27 @@ public class DebugTools : MonoBehaviour {
         }
     }
 
-    private void Start()
+    public Transform DebugPanelReference
     {
-        if (debugPanel == null)
+        get
         {
-            Debug.LogWarning("DebugPanel is not linked on DebugTools, autolink with Find ...");
-            debugPanel = GameObject.Find("DebugPanel").transform;
+            if (debugPanelReference == null)
+            {
+                Debug.LogWarning("DebugPanel is not linked on DebugTools, instantiate debug UI ...");
+                DebugPanelReference = GameObject.Instantiate(debugPanelPrefab, GameManager.UiReference.transform).transform;
+            }
+            return debugPanelReference;
+        }
+
+        set
+        {
+            debugPanelReference = value;
         }
     }
 
     void UpdateDebugPanel()
     {
-        DebugPanel debugPanelComponent = debugPanel.GetComponent<DebugPanel>();
+        DebugPanel debugPanelComponent = DebugPanelReference.GetComponent<DebugPanel>();
         debugPanelComponent.ResetInfoText();
 
         debugPanelComponent.AddToDebugPanelInfos("Ctrl", "RShift", "Activation/Deactivation");
@@ -349,16 +361,16 @@ public class DebugTools : MonoBehaviour {
                 if (Input.GetKey(KeyCode.U)
                     && Input.GetKeyDown(KeyCode.I))
                 {
-                    bool changeState = !debugPanel.GetComponent<DebugPanel>().evolutions.gameObject.activeInHierarchy;
+                    bool changeState = !DebugPanelReference.GetComponent<DebugPanel>().evolutions.gameObject.activeInHierarchy;
 
-                    debugPanel.GetComponent<DebugPanel>().evolutions.gameObject.SetActive(changeState);
-                    debugPanel.GetComponent<DebugPanel>().collectables.gameObject.SetActive(changeState);
-                    debugPanel.GetComponent<DebugPanel>().playerInfo.gameObject.SetActive(changeState);
+                    DebugPanelReference.GetComponent<DebugPanel>().evolutions.gameObject.SetActive(changeState);
+                    DebugPanelReference.GetComponent<DebugPanel>().collectables.gameObject.SetActive(changeState);
+                    DebugPanelReference.GetComponent<DebugPanel>().playerInfo.gameObject.SetActive(changeState);
                 }
 
                 if (Input.GetKey(KeyCode.H))
                 {
-                    debugPanel.GetComponent<DebugPanel>().helpPanel.gameObject.SetActive(true);
+                    DebugPanelReference.GetComponent<DebugPanel>().helpPanel.gameObject.SetActive(true);
                 }
 
                 if (Input.GetKeyUp(KeyCode.H))
@@ -373,7 +385,7 @@ public class DebugTools : MonoBehaviour {
             currentTimerShowHelp += Time.deltaTime;
             if (currentTimerShowHelp > timerShowHelp)
             {
-                debugPanel.GetComponent<DebugPanel>().helpPanel.gameObject.SetActive(false);
+                DebugPanelReference.GetComponent<DebugPanel>().helpPanel.gameObject.SetActive(false);
                 hasReleasedHelpButton = false;
                 currentTimerShowHelp = 0.0f;
             }
@@ -384,7 +396,7 @@ public class DebugTools : MonoBehaviour {
     public void ActivateDebugMode()
     {
         isDebugModeActive = !isDebugModeActive;
-        debugPanel.gameObject.SetActive(isDebugModeActive);
+        DebugPanelReference.gameObject.SetActive(isDebugModeActive);
 
         if (!hasUpdatedDebugPanel)
             UpdateDebugPanel();
