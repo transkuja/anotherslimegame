@@ -101,6 +101,11 @@ public class InitTeleporter : MonoBehaviour {
 
     void LoadMinigame()
     {
+        List<GameObject> players = GameManager.Instance.PlayerStart.PlayersReference;
+        for (int i = 0; i < players.Count; i++)
+        {
+            GameManager.Instance.playerCollectables[i] = players[i].GetComponent<Player>().Collectables;
+        }
         SceneManager.LoadScene(minigameSceneToTeleportTo);
     }
 

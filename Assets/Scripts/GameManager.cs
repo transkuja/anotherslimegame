@@ -25,6 +25,9 @@ public class GameManager : MonoBehaviour {
 
     public bool[] unlockedMinigames = new bool[(int)MiniGame.Size];
 
+    // TODO: move this
+    public int[][] playerCollectables;
+
     public static GameManager Instance
     {
         get

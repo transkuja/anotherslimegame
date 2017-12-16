@@ -145,6 +145,16 @@ public class PlayerStart : MonoBehaviour {
             PlayersReference.Add(go);
            
         }
+
+        if (GameManager.Instance.playerCollectables == null)
+            GameManager.Instance.playerCollectables = new int[activePlayersAtStart][];
+        else
+        {
+            for (int i = 0; i < activePlayersAtStart; i++)
+            {
+                PlayersReference[i].GetComponent<Player>().Collectables = GameManager.Instance.playerCollectables[i];
+            }
+        }
     }
 
     public void AttributeCamera()
