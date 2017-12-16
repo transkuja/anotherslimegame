@@ -54,11 +54,6 @@ public class ScoreScreen : MonoBehaviour {
             return;
         }
 
-        if (rank == 1)
-        {
-            GameManager.Instance.LaunchFinalTimer();
-        }
-
         String timeStr = string.Format("{0:00} : {1:00}", minutes, seconds);
 
         if (SceneManager.GetActiveScene().name == MinigameManager.GetSceneNameFromMinigame(MiniGame.KickThemAll))
@@ -77,6 +72,11 @@ public class ScoreScreen : MonoBehaviour {
         }
         else
         {
+            if (rank == 1)
+            {
+                GameManager.Instance.LaunchFinalTimer();
+            }
+
             if (transform.childCount >= rank - 1) // who did this ugly line?
             {
                 transform.GetChild(rank - 1).GetComponent<PlayerScore>().SetScoreDefault(
