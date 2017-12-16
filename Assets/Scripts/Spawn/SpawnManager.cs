@@ -1,14 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class Tampax
-{
-    [SerializeField]
-    public CollectableType evolutionType;
-    [SerializeField]
-    public GameObject gameplayRoomStarter;
-}
+
 
 public enum Shapes { None, Circle, Line, Grid }
 public class SpawnManager : MonoBehaviour{
@@ -30,8 +23,7 @@ public class SpawnManager : MonoBehaviour{
     // List of all evolutions in the level
     private List<CollectableType> evolutionsLeftToSpawn = new List<CollectableType>();
 
-    // Gameplay room starters
-    public List<Tampax> gameplayRoomStarters = new List<Tampax>();
+
 
     // Spawned Points Locations
     public Dictionary<int, Transform> dicSpawnPointsIslandLocations = new Dictionary<int, Transform>();
@@ -352,7 +344,9 @@ public class SpawnManager : MonoBehaviour{
     }
     #endregion
 
-    #region Evolution Islands
+
+    // Won't work if there is no hub manager
+    #region Evolution Islands 
     public int RegisterSpawnEvolutionIslandLocation(Transform mySpawnLocation, GameObject associatedShelter, bool needSpawn = false, bool forceSpawn = false)
     {
         instance.dicSpawnEvolutionIslandLocations.Add(lastInsertedKeySpawnEvolutionIsland, mySpawnLocation);
@@ -469,8 +463,8 @@ public class SpawnManager : MonoBehaviour{
         InitTeleporter initTeleporterComponent = associatedShelter.GetComponentInChildren<InitTeleporter>();
         initTeleporterComponent.evolutionType = evolutionType;
 
-        Utils.Shuffle(gameplayRoomStarters);
-        foreach (Tampax tmp in gameplayRoomStarters)
+        Utils.Shuffle(HUBManager.instance.gameplayRoomStarters);
+        foreach (Tampax tmp in HUBManager.instance.gameplayRoomStarters)
         {
             if(tmp.gameplayRoomStarter != null)
             {

@@ -11,7 +11,7 @@ public class UI : MonoBehaviour {
     {
         GameManager.UiReference = this;
         evolutionText = GetComponentInChildren<Text>();
-        timerText = transform.GetChild(2).GetComponent<Text>();
+        timerText = transform.GetChild(1).GetComponent<Text>();
     }
 
     public void NeedUpdate(string value)

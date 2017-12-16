@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class MainTowerGameplayManager : MonoBehaviour {
 
-    [Tooltip("The transform from which all instantiates will be done. Instantiated platforms will be this transform's children.")]
-    public Transform referenceTransform;
+    private Transform referenceTransform;
 
     public List<GameObject> prefabsGameplayPlateformsExterior;
     public List<GameObject> prefabsGameplayPlateformsInterior;
@@ -17,6 +16,7 @@ public class MainTowerGameplayManager : MonoBehaviour {
     
     private void Start()
     {
+        referenceTransform = HUBManager.instance.referenceTransform;
         if (referenceTransform == null)
         {
             Debug.LogWarning("No reference transform specified. Won't spawn anything.");
