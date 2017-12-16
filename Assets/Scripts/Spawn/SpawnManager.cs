@@ -126,6 +126,10 @@ public class SpawnManager : MonoBehaviour{
         {
             instance = this;
         }
+        else
+        {
+            Destroy(gameObject);
+        }
         ResetInstance();
     }
 
@@ -134,10 +138,25 @@ public class SpawnManager : MonoBehaviour{
         instance.spawnedItemsCountAtTheSameTime = 0;
         instance.spawnedMonsterCountAtTheSameTime = 0;
         instance.spawnedEvolutionIslandCountAtTheSameTime = 0;
+
+        instance.evolutionsLeftToSpawn = new List<CollectableType>();
         instance.evolutionsLeftToSpawn.Add(CollectableType.AgileEvolution1);
         instance.evolutionsLeftToSpawn.Add(CollectableType.PlatformistEvolution1);
         instance.evolutionsLeftToSpawn.Add(CollectableType.StrengthEvolution1);
         instance.evolutionsLeftToSpawn.Add(CollectableType.GhostEvolution1);
+
+        instance.dicSpawnItemsLocations = new Dictionary<int, Transform>();
+        instance.lastInsertedKeySpawnItems = 0;
+
+        instance.dicSpawnMonstersLocations = new Dictionary<int, Transform>();
+        instance.lastInsertedKeySpawnMonsters = 0;
+
+        instance.dicSpawnEvolutionIslandLocations = new Dictionary<int, Transform>();
+        instance.lastInsertedKeySpawnEvolutionIsland = 0;
+
+        instance.dicSpawnPointsIslandLocations = new Dictionary<int, Transform>();
+        instance.lastInsertedKeySpawnPointsIsland = 0;
+
         Utils.Shuffle(instance.evolutionsLeftToSpawn);
     }
 
