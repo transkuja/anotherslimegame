@@ -127,36 +127,38 @@ public class SpawnManager : MonoBehaviour{
 
     public void ResetInstance()
     {
-        instance.spawnedItemsCountAtTheSameTime = 0;
-        instance.spawnedMonsterCountAtTheSameTime = 0;
-        instance.spawnedEvolutionIslandCountAtTheSameTime = 0;
+        Debug.Log("Spawn manager reset");
+        spawnedItemsCountAtTheSameTime = 0;
+        spawnedMonsterCountAtTheSameTime = 0;
+        spawnedEvolutionIslandCountAtTheSameTime = 0;
+        spawnedPointIslandCountAtTheSameTime = 0;
 
-        instance.evolutionsLeftToSpawn = new List<CollectableType>();
-        instance.evolutionsLeftToSpawn.Add(CollectableType.AgileEvolution1);
-        instance.evolutionsLeftToSpawn.Add(CollectableType.PlatformistEvolution1);
-        instance.evolutionsLeftToSpawn.Add(CollectableType.StrengthEvolution1);
-        instance.evolutionsLeftToSpawn.Add(CollectableType.GhostEvolution1);
+        evolutionsLeftToSpawn = new List<CollectableType>();
+        evolutionsLeftToSpawn.Add(CollectableType.AgileEvolution1);
+        evolutionsLeftToSpawn.Add(CollectableType.PlatformistEvolution1);
+        evolutionsLeftToSpawn.Add(CollectableType.StrengthEvolution1);
+        evolutionsLeftToSpawn.Add(CollectableType.GhostEvolution1);
 
-        instance.dicSpawnItemsLocations = new Dictionary<int, Transform>();
-        instance.lastInsertedKeySpawnItems = 0;
+        dicSpawnItemsLocations = new Dictionary<int, Transform>();
+        lastInsertedKeySpawnItems = 0;
 
-        instance.dicSpawnMonstersLocations = new Dictionary<int, Transform>();
-        instance.lastInsertedKeySpawnMonsters = 0;
+        dicSpawnMonstersLocations = new Dictionary<int, Transform>();
+        lastInsertedKeySpawnMonsters = 0;
 
-        instance.dicSpawnEvolutionIslandLocations = new Dictionary<int, Transform>();
-        instance.lastInsertedKeySpawnEvolutionIsland = 0;
+        dicSpawnEvolutionIslandLocations = new Dictionary<int, Transform>();
+        lastInsertedKeySpawnEvolutionIsland = 0;
 
-        instance.dicSpawnPointsIslandLocations = new Dictionary<int, Transform>();
-        instance.lastInsertedKeySpawnPointsIsland = 0;
+        dicSpawnPointsIslandLocations = new Dictionary<int, Transform>();
+        lastInsertedKeySpawnPointsIsland = 0;
 
-        Utils.Shuffle(instance.evolutionsLeftToSpawn);
+        Utils.Shuffle(evolutionsLeftToSpawn);
     }
 
     #region Items
     private void SpawnItem(int idLocation, CollectableType myItemType, bool forceSpawn = false)
     {
 
-        if (instance.dicSpawnItemsLocations.ContainsKey(idLocation) == false)
+        if (dicSpawnItemsLocations.ContainsKey(idLocation) == false)
         {
             Debug.Log("Error  : invalid location");
             return;
@@ -171,16 +173,16 @@ public class SpawnManager : MonoBehaviour{
 
         SpawnedItemsCount++;
         ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
-            instance.dicSpawnItemsLocations[idLocation].transform.position,
-            instance.dicSpawnItemsLocations[idLocation].transform.rotation,
-            instance.dicSpawnItemsLocations[idLocation].transform,
+            dicSpawnItemsLocations[idLocation].transform.position,
+            dicSpawnItemsLocations[idLocation].transform.rotation,
+            dicSpawnItemsLocations[idLocation].transform,
             myItemType
         ).GetComponent<Collectable>().Init();
     }
 
     private void SpawnCircleShapedItems(int idLocation, int nbItems, CollectableType myItemType, bool forceSpawn = false, float circleRadius = 1.0f)
     {
-        if (instance.dicSpawnItemsLocations.ContainsKey(idLocation) == false)
+        if (dicSpawnItemsLocations.ContainsKey(idLocation) == false)
         {
             Debug.Log("Error  : invalid location");
             return;
@@ -195,9 +197,9 @@ public class SpawnManager : MonoBehaviour{
         {
             SpawnedItemsCount++;
             ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
-                GetVector3ArrayOnADividedCircle(instance.dicSpawnItemsLocations[idLocation].transform.position, circleRadius, nbItems, Axis.XZ)[i],
-                instance.dicSpawnItemsLocations[idLocation].transform.rotation,
-                instance.dicSpawnItemsLocations[idLocation].transform,
+                GetVector3ArrayOnADividedCircle(dicSpawnItemsLocations[idLocation].transform.position, circleRadius, nbItems, Axis.XZ)[i],
+                dicSpawnItemsLocations[idLocation].transform.rotation,
+                dicSpawnItemsLocations[idLocation].transform,
                 myItemType
             ).GetComponent<Collectable>().Init();
         }
@@ -205,7 +207,7 @@ public class SpawnManager : MonoBehaviour{
 
     private void SpawnLineShapedItems(int idLocation, int nbItems, CollectableType myItemType, bool forceSpawn = false)
     {
-        if (instance.dicSpawnItemsLocations.ContainsKey(idLocation) == false)
+        if (dicSpawnItemsLocations.ContainsKey(idLocation) == false)
         {
             Debug.Log("Error  : invalid location");
             return;
@@ -220,9 +222,9 @@ public class SpawnManager : MonoBehaviour{
         {
             SpawnedItemsCount++;
             ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
-                GetVector3ArrayOnLine(instance.dicSpawnItemsLocations[idLocation].transform.position, instance.dicSpawnItemsLocations[idLocation].transform.forward, nbItems)[i],
-                instance.dicSpawnItemsLocations[idLocation].transform.rotation,
-                instance.dicSpawnItemsLocations[idLocation].transform,
+                GetVector3ArrayOnLine(dicSpawnItemsLocations[idLocation].transform.position, dicSpawnItemsLocations[idLocation].transform.forward, nbItems)[i],
+                dicSpawnItemsLocations[idLocation].transform.rotation,
+                dicSpawnItemsLocations[idLocation].transform,
                 myItemType
             ).GetComponent<Collectable>().Init();
         }
@@ -230,7 +232,7 @@ public class SpawnManager : MonoBehaviour{
 
     private void SpawnGridShapedItems(int idLocation, int nbItems, CollectableType myItemType, bool forceSpawn = false)
     {
-        if (instance.dicSpawnItemsLocations.ContainsKey(idLocation) == false)
+        if (dicSpawnItemsLocations.ContainsKey(idLocation) == false)
         {
             Debug.Log("Error  : invalid location");
             return;
@@ -251,9 +253,9 @@ public class SpawnManager : MonoBehaviour{
             {
                 SpawnedItemsCount++;
                 ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
-                    GetVector3ArrayOnAGrid(instance.dicSpawnItemsLocations[idLocation].transform.position, instance.dicSpawnItemsLocations[idLocation].transform.forward, ligne, colonne)[i,j],
-                    instance.dicSpawnItemsLocations[idLocation].transform.rotation,
-                    instance.dicSpawnItemsLocations[idLocation].transform,
+                    GetVector3ArrayOnAGrid(dicSpawnItemsLocations[idLocation].transform.position, dicSpawnItemsLocations[idLocation].transform.forward, ligne, colonne)[i,j],
+                    dicSpawnItemsLocations[idLocation].transform.rotation,
+                    dicSpawnItemsLocations[idLocation].transform,
                     myItemType
                 ).GetComponent<Collectable>().Init();
 
@@ -265,7 +267,7 @@ public class SpawnManager : MonoBehaviour{
     // call before everything
     public int RegisterSpawnItemLocation(Transform mySpawnLocation, CollectableType myItemType, bool needSpawn = false, bool forceSpawn = false, Shapes shapes = Shapes.None, int nbItems = 1, float circleRadius = 1.0f)
     {
-        instance.dicSpawnItemsLocations.Add(lastInsertedKeySpawnItems, mySpawnLocation);
+        dicSpawnItemsLocations.Add(lastInsertedKeySpawnItems, mySpawnLocation);
 
         if (needSpawn)
         {
@@ -294,7 +296,7 @@ public class SpawnManager : MonoBehaviour{
     // call on destroy on a spawn item
     public void UnregisterSpawnItemLocation(int idToUnregister)
     {
-        instance.dicSpawnItemsLocations.Remove(idToUnregister);
+        dicSpawnItemsLocations.Remove(idToUnregister);
     }
 
     #endregion
@@ -302,7 +304,7 @@ public class SpawnManager : MonoBehaviour{
     #region Monsters
     private void SpawnMonster(int idLocation, MonsterType myMonsterType, bool forceSpawn = false)
     {
-        if (instance.dicSpawnMonstersLocations.ContainsKey(idLocation) == false)
+        if (dicSpawnMonstersLocations.ContainsKey(idLocation) == false)
         {
             Debug.Log("Error : invalid location");
             return;
@@ -316,9 +318,9 @@ public class SpawnManager : MonoBehaviour{
 
         SpawnedMonsterCount++;
         ResourceUtils.Instance.refPrefabMonster.SpawnMonsterInstance(
-            instance.dicSpawnMonstersLocations[idLocation].transform.position,
-            instance.dicSpawnMonstersLocations[idLocation].transform.rotation,
-            instance.dicSpawnMonstersLocations[idLocation].transform,
+            dicSpawnMonstersLocations[idLocation].transform.position,
+            dicSpawnMonstersLocations[idLocation].transform.rotation,
+            dicSpawnMonstersLocations[idLocation].transform,
             myMonsterType
         );
     }
@@ -327,7 +329,7 @@ public class SpawnManager : MonoBehaviour{
     // call before everything
     public int RegisterSpawnMonsterLocation(Transform mySpawnLocation, MonsterType myMonsterType, bool needSpawn = false, bool forceSpawn = false)
     {
-        instance.dicSpawnMonstersLocations.Add(lastInsertedKeySpawnMonsters, mySpawnLocation);
+        dicSpawnMonstersLocations.Add(lastInsertedKeySpawnMonsters, mySpawnLocation);
 
         if (needSpawn)
         {
@@ -340,7 +342,7 @@ public class SpawnManager : MonoBehaviour{
     // call on destroy on a spawn monster
     public void UnregisterSpawnMonsterLocation(int idToUnregister)
     {
-        instance.dicSpawnMonstersLocations.Remove(idToUnregister);
+        dicSpawnMonstersLocations.Remove(idToUnregister);
     }
     #endregion
 
@@ -349,7 +351,7 @@ public class SpawnManager : MonoBehaviour{
     #region Evolution Islands 
     public int RegisterSpawnEvolutionIslandLocation(Transform mySpawnLocation, GameObject associatedShelter, bool needSpawn = false, bool forceSpawn = false)
     {
-        instance.dicSpawnEvolutionIslandLocations.Add(lastInsertedKeySpawnEvolutionIsland, mySpawnLocation);
+        dicSpawnEvolutionIslandLocations.Add(lastInsertedKeySpawnEvolutionIsland, mySpawnLocation);
 
         if (needSpawn)
         {
@@ -362,12 +364,12 @@ public class SpawnManager : MonoBehaviour{
     // call on destroy on a spawn ile
     public void UnregisterSpawnEvolutionIslandLocation(int idToUnregister)
     {
-        instance.dicSpawnEvolutionIslandLocations.Remove(idToUnregister);
+        dicSpawnEvolutionIslandLocations.Remove(idToUnregister);
     }
 
     private void SpawnEvolutionIsland(int idLocation, GameObject associatedShelter, bool forceSpawn)
     {
-        if (instance.dicSpawnEvolutionIslandLocations.ContainsKey(idLocation) == false)
+        if (dicSpawnEvolutionIslandLocations.ContainsKey(idLocation) == false)
         {
             Debug.Log("Error : invalid location");
             return;
@@ -375,15 +377,15 @@ public class SpawnManager : MonoBehaviour{
 
         if (!forceSpawn && SpawnedEvolutionIslandCount == MAXSPAWNEVOLUTIONISLANDSCOUNTATTHESAMETIME)
         {
-            Debug.Log("Error  : max monster reach");
+            Debug.Log("Error  : max evolution island reach");
             return;
         }
 
         SpawnedEvolutionIslandCount++;
         GameObject spawnedIsland = ResourceUtils.Instance.refPrefabIle.SpawnEvolutionIslandInstance(
-            instance.dicSpawnEvolutionIslandLocations[idLocation].transform.position,
-            instance.dicSpawnEvolutionIslandLocations[idLocation].transform.rotation,
-            instance.dicSpawnEvolutionIslandLocations[idLocation].transform
+            dicSpawnEvolutionIslandLocations[idLocation].transform.position,
+            dicSpawnEvolutionIslandLocations[idLocation].transform.rotation,
+            dicSpawnEvolutionIslandLocations[idLocation].transform
         );
 
         Transform evolutionSpawn = spawnedIsland.transform.GetChild(0);
@@ -488,14 +490,14 @@ public class SpawnManager : MonoBehaviour{
 
     CollectableType GetNextEvolutionType()
     {
-        if (instance.evolutionsLeftToSpawn == null || instance.evolutionsLeftToSpawn.Count == 0)
+        if (evolutionsLeftToSpawn == null || evolutionsLeftToSpawn.Count == 0)
         {
             Debug.LogWarning("The four evolutions have already been spawned.");
             return CollectableType.Size;
         }
 
-        CollectableType evolutionType = instance.evolutionsLeftToSpawn[0];
-        instance.evolutionsLeftToSpawn.RemoveAt(0);
+        CollectableType evolutionType = evolutionsLeftToSpawn[0];
+        evolutionsLeftToSpawn.RemoveAt(0);
         return evolutionType;
     }
 
@@ -505,7 +507,7 @@ public class SpawnManager : MonoBehaviour{
     #region Points Islands
     public int RegisterSpawnPointsIslandLocation(Transform mySpawnLocation, bool needSpawn = false, bool forceSpawn = false)
     {
-        instance.dicSpawnPointsIslandLocations.Add(lastInsertedKeySpawnPointsIsland, mySpawnLocation);
+        dicSpawnPointsIslandLocations.Add(lastInsertedKeySpawnPointsIsland, mySpawnLocation);
 
         if (needSpawn)
         {
@@ -518,12 +520,12 @@ public class SpawnManager : MonoBehaviour{
     // call on destroy on a spawn ile
     public void UnregisterSpawnPointsIslandLocation(int idToUnregister)
     {
-        instance.dicSpawnPointsIslandLocations.Remove(idToUnregister);
+        dicSpawnPointsIslandLocations.Remove(idToUnregister);
     }
 
     private void SpawnPointIsland(int idLocation, bool forceSpawn)
     {
-        if (instance.dicSpawnPointsIslandLocations.ContainsKey(idLocation) == false)
+        if (dicSpawnPointsIslandLocations.ContainsKey(idLocation) == false)
         {
             Debug.Log("Error : invalid location");
             return;
@@ -537,9 +539,9 @@ public class SpawnManager : MonoBehaviour{
 
         SpawnedPointIslandCount++;
         ResourceUtils.Instance.refPrefabIle.SpawnPointIslandInstance(
-            instance.dicSpawnPointsIslandLocations[idLocation].transform.position,
-            instance.dicSpawnPointsIslandLocations[idLocation].transform.rotation,
-            instance.dicSpawnPointsIslandLocations[idLocation].transform
+            dicSpawnPointsIslandLocations[idLocation].transform.position,
+            dicSpawnPointsIslandLocations[idLocation].transform.rotation,
+            dicSpawnPointsIslandLocations[idLocation].transform
         );
     }
     #endregion
