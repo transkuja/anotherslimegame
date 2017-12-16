@@ -155,13 +155,11 @@ public class TrappedPlatform : MonoBehaviour {
     IEnumerator ResetTrap()
     {
         yield return new WaitForSeconds(gameplay.delayBeforeTransition );
-        Debug.Log("Once");
         while ( gameplay.rotateLerpValue > 0)
         {
             yield return null;
         }
         yield return new WaitForSeconds(gameplay.delayBeforeTransitionReturn);
-        Debug.Log("Two");
         while (gameplay.rotateLerpValue < 1)
         {
             yield return null;
