@@ -203,6 +203,12 @@ public class PlatformGameplay : MonoBehaviour {
             Material mat = GetComponentInChildren<MeshRenderer>().material;
             mat.SetColor("_EmissionColor", ResourceUtils.Instance.bounceEmissiveColor);
         }
+
+        if (isMoving)
+        {
+            Material mat = GetComponentInChildren<MeshRenderer>().material;
+            mat.SetColor("_EmissionColor", ResourceUtils.Instance.isMovingEmissiveColor);
+        }
     }
 
     void Update() {
