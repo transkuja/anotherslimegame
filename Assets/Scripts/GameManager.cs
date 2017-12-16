@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour {
     private static GameModeManager gameModeManager = new GameModeManager();
     private static GameMode currentGameMode;
     private static GameState currentState = GameState.Normal;
+    [SerializeField]
     private PlayerStart playerStart;
     private PlayerUI playerUI;
 
@@ -239,7 +240,10 @@ public class GameManager : MonoBehaviour {
 
     [SerializeField] float maxMovementSpeed = 35.0f;
 
+    [SerializeField]
     UI uiReference;
+    [SerializeField]
     public static PauseMenu pauseMenuReference;
+    [SerializeField]
     private ScoreScreen scoreScreenReference;
 }

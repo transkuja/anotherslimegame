@@ -254,24 +254,24 @@ public class CostArea : MonoBehaviour {
                 switch(rewardType)
                 {
                     case CollectableType.Key:
-                        return ResourceUtils.Instance.refPrefabIle.prefabCostAreaKeyFeedback;
+                        return HUBManager.instance.prefabIleRef.prefabCostAreaKeyFeedback;
                     case CollectableType.PlatformistEvolution1:
-                        return ResourceUtils.Instance.refPrefabIle.prefabCostAreaPlatformistFeedback;
+                        return HUBManager.instance.prefabIleRef.prefabCostAreaPlatformistFeedback;
                     case CollectableType.AgileEvolution1:
-                        return ResourceUtils.Instance.refPrefabIle.prefabCostAreaAgilityFeedback;
+                        return HUBManager.instance.prefabIleRef.prefabCostAreaAgilityFeedback;
                     case CollectableType.GhostEvolution1:
-                        return ResourceUtils.Instance.refPrefabIle.prefabCostAreaGhostFeedback;
+                        return HUBManager.instance.prefabIleRef.prefabCostAreaGhostFeedback;
                     case CollectableType.StrengthEvolution1:
-                        return ResourceUtils.Instance.refPrefabIle.prefabCostAreaStrengthFeedback;
+                        return HUBManager.instance.prefabIleRef.prefabCostAreaStrengthFeedback;
                 }
                 break;
             case CostAreaType.PayAndCallEvent:
                 switch(costAreaEvent)
                 {
                     case CostAreaEvent.EndGame:
-                        return ResourceUtils.Instance.refPrefabIle.prefabCostAreaTrophyFeedback;
+                        return HUBManager.instance.prefabIleRef.prefabCostAreaTrophyFeedback;
                     case CostAreaEvent.IncreaseWater:
-                        return ResourceUtils.Instance.refPrefabIle.prefabCostAreaWaterFeedback;
+                        return HUBManager.instance.prefabIleRef.prefabCostAreaWaterFeedback;
                 }
                 break;
             default:

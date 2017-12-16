@@ -14,7 +14,10 @@ public class Tampax
 public class HUBManager : MonoBehaviour {
 
     public GameObject CostAreaMiniGamePush;
+    public SpawnManager spawnManagerRef;
 
+    // WARNING!!!!! PREFAB ILE SHOULD NOT CONTAINS CODE
+    public PrefabIle prefabIleRef;
 
     #region GameplayRoom
     [Tooltip("The transform from which all instantiates will be done. Instantiated platforms will be this transform's children.")]

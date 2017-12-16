@@ -43,16 +43,16 @@ public class SpawnComponent : MonoBehaviour {
                     Debug.LogError("Are you serious with your shit? Size is not a real collectable type -_-");
                     break;
                 }
-                mySpawnId = SpawnManager.Instance.RegisterSpawnItemLocation(transform, myItemType, needSpawn, forceSpawn, shape, nbItems, circleRadius);
+                mySpawnId = HUBManager.instance.spawnManagerRef.RegisterSpawnItemLocation(transform, myItemType, needSpawn, forceSpawn, shape, nbItems, circleRadius);
                 break;
             case SpawnType.Monster:
-                mySpawnId = SpawnManager.Instance.RegisterSpawnMonsterLocation(transform, myMonsterType, needSpawn, forceSpawn);
+                mySpawnId = HUBManager.instance.spawnManagerRef.RegisterSpawnMonsterLocation(transform, myMonsterType, needSpawn, forceSpawn);
                 break;
             case SpawnType.EvolutionIsland:
-                mySpawnId = SpawnManager.Instance.RegisterSpawnEvolutionIslandLocation(transform, associatedShelter, needSpawn, forceSpawn);
+                mySpawnId = HUBManager.instance.spawnManagerRef.RegisterSpawnEvolutionIslandLocation(transform, associatedShelter, needSpawn, forceSpawn);
                 break;
             case SpawnType.PointIsland:
-                mySpawnId = SpawnManager.Instance.RegisterSpawnPointsIslandLocation(transform, needSpawn, forceSpawn);
+                mySpawnId = HUBManager.instance.spawnManagerRef.RegisterSpawnPointsIslandLocation(transform, needSpawn, forceSpawn);
                 break;
             default:
                 Debug.Log("Unknowned Spawn Type");
@@ -65,16 +65,16 @@ public class SpawnComponent : MonoBehaviour {
         switch (mySpawnType)
         {
             case SpawnType.Item:
-                SpawnManager.Instance.UnregisterSpawnItemLocation(mySpawnId);
+                HUBManager.instance.spawnManagerRef.UnregisterSpawnItemLocation(mySpawnId);
                 break;
             case SpawnType.Monster:
-                SpawnManager.Instance.UnregisterSpawnMonsterLocation(mySpawnId);
+                HUBManager.instance.spawnManagerRef.UnregisterSpawnMonsterLocation(mySpawnId);
                 break;
             case SpawnType.EvolutionIsland:
-                SpawnManager.Instance.UnregisterSpawnEvolutionIslandLocation(mySpawnId);
+                HUBManager.instance.spawnManagerRef.UnregisterSpawnEvolutionIslandLocation(mySpawnId);
                 break;
             case SpawnType.PointIsland:
-                SpawnManager.Instance.UnregisterSpawnPointsIslandLocation(mySpawnId);
+                HUBManager.instance.spawnManagerRef.UnregisterSpawnPointsIslandLocation(mySpawnId);
                 break;
             default:
                 Debug.Log("Unknowned Spawn Type");

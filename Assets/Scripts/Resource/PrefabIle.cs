@@ -37,12 +37,20 @@ public class PrefabIle : MonoBehaviour
 
     public void Awake()
     {
-        evolutionIslands.Add(prefabIle1GameObject);
-        evolutionIslands.Add(prefabIle2GameObject);
-        evolutionIslands.Add(prefabIle3GameObject);
-        evolutionIslands.Add(prefabIle4GameObject);
+        FillEvolutionIslands();
+    }
 
-        pointsIslands.Add(prefabPointIsland1GameObject);
+    void FillEvolutionIslands()
+    {
+        //if (evolutionIslands.Count < 5)
+        //{
+            evolutionIslands.Clear();
+            evolutionIslands.Add(prefabIle1GameObject);
+            evolutionIslands.Add(prefabIle2GameObject);
+            evolutionIslands.Add(prefabIle3GameObject);
+            evolutionIslands.Add(prefabIle4GameObject);
+            pointsIslands.Add(prefabPointIsland1GameObject);
+        //}
     }
 
     public GameObject SpawnEvolutionIslandInstance(Vector3 where, Quaternion direction, Transform parent)
