@@ -188,6 +188,9 @@ public class PlatformGameplay : MonoBehaviour {
             }
             else
                 baseRotation.rotateAxis.Normalize();
+
+            Material mat = GetComponentInChildren<MeshRenderer>().material;
+            mat.SetColor("_EmissionColor", ResourceUtils.Instance.isMovingEmissiveColor);
         }
         lerpOriginPosition = transform.position;
         lerpNewPosition = transform.position + movingDistance * ((isAWorldAxis) ? movingAxis : (transform.rotation * movingAxis));
