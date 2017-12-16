@@ -482,7 +482,7 @@ public class PlayerController : MonoBehaviour
         if (deformer)
         {
             float vibforce = collision.relativeVelocity.magnitude/150.0f;
-            GamePad.VibrateForSeconds(playerIndex, vibforce, vibforce, 0.1f);
+            //GamePad.VibrateForSeconds(playerIndex, vibforce, vibforce, 0.1f);
 
             float vel = collision.relativeVelocity.magnitude / collision.contacts.Length;
             for (int i = 0; i < collision.contacts.Length; i++)
