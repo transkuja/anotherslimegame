@@ -37,6 +37,9 @@ public class ResourceUtils : MonoBehaviour {
     [Tooltip("Emissive color for moving platforms")]
     public Color isMovingEmissiveColor;
 
+    [Tooltip("Emissive color for teleporters")]
+    public Color teleporterEmissiveColor;
+
     [HideInInspector]
     public PrefabMonster refPrefabMonster;
 

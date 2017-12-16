@@ -21,7 +21,8 @@ public class InitTeleporter : MonoBehaviour {
         if (GetComponentInChildren<MeshRenderer>() != null)
         {
             meshRenderer = GetComponentInChildren<MeshRenderer>();
-            startColor = meshRenderer.material.GetColor("_EmissionColor");
+            startColor = ResourceUtils.Instance.teleporterEmissiveColor;
+            meshRenderer.material.SetColor("_EmissionColor", ResourceUtils.Instance.teleporterEmissiveColor);
         }
     }
 
@@ -32,7 +33,8 @@ public class InitTeleporter : MonoBehaviour {
             if (GetComponentInChildren<MeshRenderer>() != null)
             {
                 meshRenderer = GetComponentInChildren<MeshRenderer>();
-                startColor = meshRenderer.material.GetColor("_EmissionColor");
+                startColor = ResourceUtils.Instance.teleporterEmissiveColor;
+                meshRenderer.material.SetColor("_EmissionColor", ResourceUtils.Instance.teleporterEmissiveColor);
             }
             originPosition = transform.position;
             endPosition = originPosition + Vector3.up * 4.0f;
