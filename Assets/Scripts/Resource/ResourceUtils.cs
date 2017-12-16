@@ -16,7 +16,6 @@ public class ResourceUtils : MonoBehaviour {
             refPrefabLoot = GetComponentInChildren<PrefabLoot>();
             refPrefabPlatform = GetComponentInChildren<PrefabPlatform>();
             refPrefabGhost = GetComponentInChildren<PrefabGhost>();
-            refMainTowerGameplayManager = GetComponentInChildren<MainTowerGameplayManager>();
             debugTools = GetComponentInChildren<DebugTools>();
             poolManager = GetComponentInChildren<PoolManager>();
             particleSystemManager = GetComponentInChildren<ParticleSystemManager>();
@@ -45,9 +44,6 @@ public class ResourceUtils : MonoBehaviour {
 
     [HideInInspector]
     public PrefabGhost refPrefabGhost;
-
-    [HideInInspector]
-    public MainTowerGameplayManager refMainTowerGameplayManager;
 
     [HideInInspector]
     public DebugTools debugTools;
