@@ -113,12 +113,13 @@ public static class Utils {
          
     }
 
-    public static void PopTutoTextForAll(string _text)
+    public static void PopTutoTextForAll(string _text, string _textCmd = "")
     {
         GameObject tutoText = GameObject.Instantiate(ResourceUtils.Instance.refPrefabLoot.prefabTutoTextForAll, GameManager.UiReference.transform);
         tutoText.transform.localPosition = Vector3.zero;
 
         tutoText.GetComponent<Text>().text = _text;
+        tutoText.transform.GetChild(0).GetComponent<Text>().text = _textCmd;
         if (GameManager.Instance.activeTutoTextForAll != null)
             GameManager.Instance.activeTutoTextForAll.SetActive(false);
 
