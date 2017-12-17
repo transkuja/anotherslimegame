@@ -55,7 +55,7 @@ public class SpikeTrap : MonoBehaviour {
 
  
             pController.GetComponent<PlayerCollisionCenter>().DamagePlayer(pController.GetComponent<Player>());
-            pController.GetComponent<PlayerCollisionCenter>().ExpulsePlayer(collision.collider.ClosestPoint(transform.position), pController.GetComponent<Rigidbody>(), 900);
+            pController.GetComponent<PlayerCollisionCenter>().ExpulsePlayer(collision.collider.ClosestPoint(transform.position), pController.GetComponent<Rigidbody>(), 15);
         }
     }
 }
