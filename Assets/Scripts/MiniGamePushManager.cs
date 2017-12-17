@@ -39,7 +39,7 @@ public class MiniGamePushManager : MonoBehaviour {
         {
             player = playerReferences[i].GetComponent<Player>();
             player.UpdateCollectableValue(CollectableType.StrengthEvolution1, 1);
-            player.NbLife = 10;
+            player.NbLife = 3;
             GameManager.Instance.PlayerUI.ShowLife(true);
             GameManager.Instance.PlayerUI.ShowPoints(false);
             GameManager.Instance.PlayerUI.RefreshLifePlayerUi(player, player.NbLife, i);
@@ -54,8 +54,8 @@ public class MiniGamePushManager : MonoBehaviour {
     }
     public void ResetPlayer(Player p)
     {
-        p.NbLife-=1;
-        if (p.NbLife>0)
+        p.NbLife -= 1;
+        if (p.NbLife > 0)
         {
             Respawner.RespawnProcess(p);
             GameManager.Instance.PlayerUI.RefreshLifePlayerUi(p, p.NbLife, p.cameraReference.transform.GetSiblingIndex());
@@ -65,5 +65,6 @@ public class MiniGamePushManager : MonoBehaviour {
             // le joueur a perdu il ne réapparait pas; 
             /// ecran noir ?
         }
+        GameManager.Instance.PlayerUI.RefreshLifePlayerUi(p, p.NbLife, p.cameraReference.transform.GetSiblingIndex());
     }
 }
