@@ -139,12 +139,20 @@ public class PlayerStart : MonoBehaviour {
         if (GameManager.Instance.playerCollectables == null)
         {
             GameManager.Instance.playerCollectables = new int[activePlayersAtStart][];
+            GameManager.Instance.playerEvolutionTutoShown = new bool[activePlayersAtStart][];
+            GameManager.Instance.playerCostAreaTutoShown = new bool[activePlayersAtStart];
         }
         else
         {
+            if (SceneManager.GetActiveScene().name == MinigameManager.GetSceneNameFromMinigame(MiniGame.KickThemAll))
+                return;
+
             for (int i = 0; i < activePlayersAtStart; i++)
             {
-                PlayersReference[i].GetComponent<Player>().Collectables = GameManager.Instance.playerCollectables[i];
+                Player currentPlayer = PlayersReference[i].GetComponent<Player>();
+                currentPlayer.Collectables = GameManager.Instance.playerCollectables[i];
+                currentPlayer.evolutionTutoShown = GameManager.Instance.playerEvolutionTutoShown[i];
+                currentPlayer.costAreaTutoShown = GameManager.Instance.playerCostAreaTutoShown[i];
             }
         }
     }

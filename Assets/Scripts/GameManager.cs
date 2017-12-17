@@ -28,6 +28,8 @@ public class GameManager : MonoBehaviour {
 
     // TODO: move this
     public int[][] playerCollectables;
+    public bool[][] playerEvolutionTutoShown;
+    public bool[] playerCostAreaTutoShown;
 
     public static GameManager Instance
     {
