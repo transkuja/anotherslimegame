@@ -39,7 +39,7 @@ public class EvolutionPlatformist : EvolutionComponent {
         SetPower(Powers.Platformist);
         Player playerComponent = GetComponent<Player>();
 
-        if (!playerComponent.evolutionTutoShown[(int)Powers.Platformist])
+        if (!playerComponent.evolutionTutoShown[(int)Powers.Platformist] && !MinigameManager.IsAMiniGameScene())
         {
             playerComponent.evolutionTutoShown[(int)Powers.Platformist] = true;
             Utils.PopTutoText("Hold RT to create platforms", playerComponent);
@@ -243,7 +243,7 @@ public class EvolutionPlatformist : EvolutionComponent {
 
         }
 
-        if (!hasPlayedSecondTuto)
+        if (!hasPlayedSecondTuto && !MinigameManager.IsAMiniGameScene())
         {
             hasPlayedSecondTuto = true;
             Utils.PopTutoText("Press RB to change platforms' pattern", GetComponent<Player>());

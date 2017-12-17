@@ -152,7 +152,7 @@ public class CostArea : MonoBehaviour {
         if (playerComponent != null)
         {
             // TODO: rename bool array
-            if (!playerComponent.Player.costAreaTutoShown)
+            if (!playerComponent.Player.costAreaTutoShown && !MinigameManager.IsAMiniGameScene())
             {
                 playerComponent.Player.costAreaTutoShown = true;
                 Utils.PopTutoText("Press B to buy the reward", playerComponent.Player);
