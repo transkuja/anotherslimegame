@@ -87,10 +87,18 @@ public class InitTeleporter : MonoBehaviour {
             }
         }
 
-        if (teleportToMinigame && lerpValueAnim < 1.0f)
+        if (teleportToMinigame)
         {
-            lerpValueAnim += Time.deltaTime;
-            transform.position = Vector3.Lerp(originPosition, endPosition, lerpValueAnim);
+            if (lerpValueAnim < 1.0f)
+            {
+                lerpValueAnim += Time.deltaTime;
+                transform.position = Vector3.Lerp(originPosition, endPosition, lerpValueAnim);
+            }
+            else
+            {
+                GetComponent<PlatformGameplay>().isATeleporter = true;
+                isTeleporterActive = true;
+            }
         }
     }
 
