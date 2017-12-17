@@ -172,9 +172,9 @@ public class PlayerStart : MonoBehaviour {
         for (int i = 0; i < activePlayersAtStart; i++)
         {
             GameObject go = PlayersReference[i];
-            if (SceneManager.GetActiveScene() == SceneManager.GetSceneByBuildIndex(0))
+            if (SceneManager.GetActiveScene().name == "SceneMinigamePush")
             {
-                cameraPlayerReferences[i].transform.GetChild(1).GetComponent<Cinemachine.CinemachineVirtualCamera>().LookAt = go.transform;
+                //cameraPlayerReferences[i].transform.GetChild(1).GetComponent<Cinemachine.CinemachineVirtualCamera>().LookAt = go.transform;
             }
             else
             {
