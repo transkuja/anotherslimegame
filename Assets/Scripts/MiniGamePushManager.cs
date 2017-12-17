@@ -40,9 +40,7 @@ public class MiniGamePushManager : MonoBehaviour {
             player = playerReferences[i].GetComponent<Player>();
             player.UpdateCollectableValue(CollectableType.StrengthEvolution1, 1);
             player.NbLife = 3;
-            GameManager.Instance.PlayerUI.ShowLife(true);
-            GameManager.Instance.PlayerUI.ShowPoints(false);
-            GameManager.Instance.PlayerUI.RefreshLifePlayerUi(player, player.NbLife, i);
+            player.UpdateCollectableValue(CollectableType.Points, 500);
         }
     }
 

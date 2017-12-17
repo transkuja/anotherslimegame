@@ -219,11 +219,14 @@ public class Player : MonoBehaviour {
     }
     #endregion
 
-    void Start()
+    private void Awake()
     {
         rb = GetComponent<Rigidbody>();
         collectables = new int[(int)CollectableType.Size];
-
+    }
+    void Start()
+    {
+        
         keysReset = new KeyReset[Utils.GetMaxValueForCollectable(CollectableType.Key)];
     }
 
