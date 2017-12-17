@@ -218,25 +218,8 @@ public class GameManager : MonoBehaviour {
             if (currentGameFinalTimer < 0.0f)
             {
                 finalTimerInitialized = false;
-                isTimeOver = true;
-                List<Player> remainingPlayers = new List<Player>();
-                for (int i = 0; i < playerStart.PlayersReference.Count; i++)
-                {
-                    Player _curPlayer = playerStart.PlayersReference[i].GetComponent<Player>();
-                    if (!_curPlayer.HasFinishedTheRun)
-                    {
-                        _curPlayer.HasFinishedTheRun = true;
-                        if (remainingPlayers.Count == 0 
-                            || remainingPlayers[remainingPlayers.Count - 1].Collectables[(int)CollectableType.Points] < _curPlayer.Collectables[(int)CollectableType.Points])
-                        {
-                            remainingPlayers.Add(_curPlayer);
-                        }
-                        else
-                            remainingPlayers.Insert(remainingPlayers.Count - 1, _curPlayer);
-
-                    }
-                }
-                scoreScreenReference.RefreshScoresTimeOver(remainingPlayers.ToArray());
+                isTimeOver = true;              
+                scoreScreenReference.RankPlayersByPoints();
             }
             else
             {

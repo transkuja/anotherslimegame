@@ -392,12 +392,7 @@ public class DebugTools : MonoBehaviour {
                 {
                     if (SceneManager.GetActiveScene().name == MinigameManager.GetSceneNameFromMinigame(MiniGame.KickThemAll))
                     {
-                        List<GameObject> players = GameManager.Instance.PlayerStart.PlayersReference;
-                        for (int i = 0; i < GameManager.Instance.PlayerStart.ActivePlayersAtStart; i++)
-                        {
-                            players[i].GetComponent<Player>().HasFinishedTheRun = true;
-                            GameManager.Instance.ScoreScreenReference.RefreshScores(players[i].GetComponent<Player>());
-                        }
+                        GameManager.Instance.ScoreScreenReference.RankPlayersByPoints();
                     }
                 }
             }

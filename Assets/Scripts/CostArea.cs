@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 using UWPAndXInput;
 
@@ -304,7 +305,14 @@ public class CostArea : MonoBehaviour {
     ////////////////////////////////////// EVENTS //////////////////////////////////////////
     public void HasFinishedProcess(Player _player)
     {
-        _player.HasFinishedTheRun = true;
-        GameManager.Instance.ScoreScreenReference.RefreshScores(_player);
+        if (SceneManager.GetActiveScene().name == MinigameManager.GetSceneNameFromMinigame(MiniGame.KickThemAll))
+        {
+            GameManager.Instance.ScoreScreenReference.RankPlayersByPoints();
+        }
+        else
+        {
+            _player.HasFinishedTheRun = true;
+            GameManager.Instance.ScoreScreenReference.RefreshScores(_player);
+        }
     }
 }

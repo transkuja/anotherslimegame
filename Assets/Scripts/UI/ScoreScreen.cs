@@ -102,7 +102,30 @@ public class ScoreScreen : MonoBehaviour {
         CheckEndGame();
     }
 
-    public void RefreshScoresTimeOver(Player[] _remainingPlayers)
+    public void RankPlayersByPoints()
+    {
+        List<GameObject> playersReference = GameManager.Instance.PlayerStart.PlayersReference;
+        List<Player> remainingPlayers = new List<Player>();
+
+        for (int i = 0; i < playersReference.Count; i++)
+        {
+            Player _curPlayer = playersReference[i].GetComponent<Player>();
+            if (!_curPlayer.HasFinishedTheRun)
+            {
+                _curPlayer.HasFinishedTheRun = true;
+                if (remainingPlayers.Count == 0
+                    || remainingPlayers[remainingPlayers.Count - 1].Collectables[(int)CollectableType.Points] < _curPlayer.Collectables[(int)CollectableType.Points])
+                {
+                    remainingPlayers.Add(_curPlayer);
+                }
+                else
+                    remainingPlayers.Insert(remainingPlayers.Count - 1, _curPlayer);
+            }
+        }
+        RefreshScoresTimeOver(remainingPlayers.ToArray());
+    }
+
+    void RefreshScoresTimeOver(Player[] _remainingPlayers)
     {
         for (int i = 0; i < _remainingPlayers.Length; i++)
             RefreshScores(_remainingPlayers[i]);
