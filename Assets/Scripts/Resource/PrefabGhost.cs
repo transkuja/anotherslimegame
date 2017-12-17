@@ -7,4 +7,6 @@ public class PrefabGhost : MonoBehaviour {
     public GameObject prefabGhostTrailPane;
 
     public Material GhostMaterial;
+
+    public Material GhostDustTrailMaterial;
 }

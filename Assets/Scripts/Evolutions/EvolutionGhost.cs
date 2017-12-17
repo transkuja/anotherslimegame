@@ -6,6 +6,7 @@ using UWPAndXInput;
 public class EvolutionGhost : EvolutionComponent
 {
     Material baseMat;
+    Material baseDustTrailMat;
 
     float maxEmissionTime = 2.0f;
 
@@ -95,13 +96,16 @@ public class EvolutionGhost : EvolutionComponent
 
     public void SetGhostVisual()
     {
-        baseMat = transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)BodyPart.Body).GetComponent<MeshRenderer>().material;
+        baseMat = transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)BodyPart.Body).GetComponent<MeshRenderer>().sharedMaterial;
         transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)BodyPart.Body).GetComponent<MeshRenderer>().material = ResourceUtils.Instance.refPrefabGhost.GhostMaterial;
         transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)BodyPart.Body).GetChild(0).GetChild(0).GetComponent<MeshRenderer>().material = ResourceUtils.Instance.refPrefabGhost.GhostMaterial;
         transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)BodyPart.Body).GetChild(0).GetChild(1).GetComponent<MeshRenderer>().material = ResourceUtils.Instance.refPrefabGhost.GhostMaterial;
         transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)BodyPart.Body).GetChild(1).GetChild(0).GetComponent<MeshRenderer>().material = ResourceUtils.Instance.refPrefabGhost.GhostMaterial;
         transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)BodyPart.Body).GetChild(1).GetChild(1).GetComponent<MeshRenderer>().material = ResourceUtils.Instance.refPrefabGhost.GhostMaterial;
         transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)BodyPart.Body).GetChild(2).GetComponent<ParticleSystem>().Play();
+        baseDustTrailMat = transform.GetChild((int)PlayerChildren.DustTrailParticles).GetComponent<ParticleSystemRenderer>().sharedMaterial;
+        transform.GetChild((int)PlayerChildren.DustTrailParticles).GetComponent<ParticleSystemRenderer>().material = ResourceUtils.Instance.refPrefabGhost.GhostDustTrailMaterial;
+        transform.GetChild((int)PlayerChildren.DustTrailParticles).GetChild(0).GetComponent<ParticleSystemRenderer>().material = ResourceUtils.Instance.refPrefabGhost.GhostDustTrailMaterial;
     }
 
     public void RemoveGhostVisual()
@@ -112,6 +116,8 @@ public class EvolutionGhost : EvolutionComponent
         transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)BodyPart.Body).GetChild(1).GetChild(0).GetComponent<MeshRenderer>().material = baseMat;
         transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)BodyPart.Body).GetChild(1).GetChild(1).GetComponent<MeshRenderer>().material = baseMat;
         transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)BodyPart.Body).GetChild(2).GetComponent<ParticleSystem>().Stop();
+        transform.GetChild((int)PlayerChildren.DustTrailParticles).GetComponent<ParticleSystemRenderer>().material = baseDustTrailMat;
+        transform.GetChild((int)PlayerChildren.DustTrailParticles).GetChild(0).GetComponent<ParticleSystemRenderer>().material = baseDustTrailMat;
     }
 
     public override void Start()
