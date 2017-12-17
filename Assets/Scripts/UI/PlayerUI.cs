@@ -16,7 +16,7 @@ public class PlayerUI : MonoBehaviour {
         GameManager.Instance.RegisterPlayerUI(this);
 	}
 
-    public void Init()
+    public virtual void Init()
     {
         for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
         {
@@ -102,7 +102,7 @@ public class PlayerUI : MonoBehaviour {
         }
     }
 
-    public void RefreshPointsPlayerUi(Player player, int _newValue, int index)
+    public virtual void RefreshPointsPlayerUi(Player player, int _newValue, int index)
     {
         if (!linkPlayerPointsToItsUi.ContainsKey(player))
             return;

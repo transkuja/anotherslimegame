@@ -27,6 +27,8 @@ public class PrefabLoot : MonoBehaviour {
     public GameObject prefabLifeSpriteRight;
     public GameObject prefabLifeSpriteLeft;
 
+    public GameObject prefabPointPushGame;
+
     public GameObject prefabTutoText;
     public GameObject prefabTutoTextForAll;
 
