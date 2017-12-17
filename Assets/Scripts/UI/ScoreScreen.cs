@@ -114,7 +114,7 @@ public class ScoreScreen : MonoBehaviour {
             {
                 _curPlayer.HasFinishedTheRun = true;
                 if (remainingPlayers.Count == 0
-                    || remainingPlayers[remainingPlayers.Count - 1].Collectables[(int)CollectableType.Points] < _curPlayer.Collectables[(int)CollectableType.Points])
+                    || remainingPlayers[remainingPlayers.Count - 1].Collectables[(int)CollectableType.Points] > _curPlayer.Collectables[(int)CollectableType.Points])
                 {
                     remainingPlayers.Add(_curPlayer);
                 }
