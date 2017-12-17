@@ -46,7 +46,7 @@ public class MiniGamePushManager : MonoBehaviour {
     }
     public void LauchTimer()
     {
-        GameManager.Instance.GameFinalTimer = 120;// 2 minutes
+        GameManager.Instance.GameFinalTimer = 60;// 1 minutes
         GameManager.Instance.LaunchFinalTimer();
     }
 
