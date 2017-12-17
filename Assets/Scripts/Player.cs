@@ -41,6 +41,9 @@ public class Player : MonoBehaviour {
     float timerFeedbackCantPay = 2.0f;
     float currentFeedbackCantPay = 0.0f;
 
+    // Ugly
+    public bool isInMainTower = false;
+
     // for miniGame Push
     [SerializeField]private int nbLife = -1;
     //
@@ -328,6 +331,18 @@ public class Player : MonoBehaviour {
                 tutoTextIsPending = false;
             }
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == "TriggerMainTower")
+            isInMainTower = true;
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "TriggerMainTower")
+            isInMainTower = false;
     }
 }
 

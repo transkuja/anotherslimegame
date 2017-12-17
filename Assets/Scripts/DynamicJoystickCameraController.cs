@@ -151,7 +151,8 @@ public class DynamicJoystickCameraController : MonoBehaviour {
         {
             bool _tendToTopRig = 
                 (associatedPlayerController.GetComponentInParent<PlatformGameplay>() != null || !associatedPlayerController.IsGrounded)
-                && associatedPlayerController.PlayerState != associatedPlayerController.platformistChargedState;
+                && associatedPlayerController.PlayerState != associatedPlayerController.platformistChargedState
+                && !associatedPlayerController.Player.isInMainTower;
 
             if (previouslyTendedToMiddleRig && _tendToTopRig)
             {
