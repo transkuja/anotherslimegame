@@ -14,7 +14,7 @@ public class PlayerStart : MonoBehaviour {
 
     List<GameObject> playersReference = new List<GameObject>();
     [SerializeField]
-    Color[] colorPlayer;
+    public Color[] colorPlayer;
 
     public List<GameObject> PlayersReference
     {
