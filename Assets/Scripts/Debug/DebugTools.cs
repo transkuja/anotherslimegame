@@ -50,8 +50,8 @@ public class DebugTools : MonoBehaviour {
         {
             if (debugPanelReference == null)
             {
-                Debug.LogWarning("DebugPanel is not linked on DebugTools, instantiate debug UI ...");
-                DebugPanelReference = GameObject.Instantiate(debugPanelPrefab, GameManager.UiReference.transform).transform;
+                Debug.Log("No debug panel, instantiate debug UI ...");
+                debugPanelReference = GameObject.Instantiate(debugPanelPrefab, GameManager.UiReference.transform).transform;
             }
             return debugPanelReference;
         }
