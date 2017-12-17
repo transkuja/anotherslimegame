@@ -21,25 +21,25 @@ public class WaterImmersionCamera : MonoBehaviour {
     }
 
     // Update is called once per frame
-    private void OnPreRender()
-    {
-        if (isImmerge)
-        {
-            RenderSettings.fog = true;
-            RenderSettings.fogColor = color/*new color(0, 0.4f, 0.7f, 0.6f)*/;
-            RenderSettings.fogDensity = fogdensity;
-            RenderSettings.skybox = null;
-        }
-    }
+    //private void OnPreRender()
+    //{
+    //    if (isImmerge)
+    //    {
+    //        RenderSettings.fog = true;
+    //        RenderSettings.fogColor = color/*new color(0, 0.4f, 0.7f, 0.6f)*/;
+    //        RenderSettings.fogDensity = fogdensity;
+    //        RenderSettings.skybox = null;
+    //    }
+    //}
 
-    private void OnPostRender()
-    {
-        if (!isImmerge)
-        {
-            RenderSettings.fog = defaultFog;
-            RenderSettings.fogColor = defaultFogColor;
-            RenderSettings.fogDensity = defaultFogDensity;
-            RenderSettings.skybox = defaultSkybox;
-        }
-    }
+    //private void OnPostRender()
+    //{
+    //    if (!isImmerge)
+    //    {
+    //        RenderSettings.fog = defaultFog;
+    //        RenderSettings.fogColor = defaultFogColor;
+    //        RenderSettings.fogDensity = defaultFogDensity;
+    //        RenderSettings.skybox = defaultSkybox;
+    //    }
+    //}
 }
