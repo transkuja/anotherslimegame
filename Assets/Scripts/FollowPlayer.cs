@@ -41,19 +41,27 @@ public class FollowPlayer : MonoBehaviour
     private Text[] textPlayer = new Text[3];
 
     public string layerName;
-    public GameObject[] camReferences;
+    //public GameObject[] camReferences;
 
     //Les 4 cameras
-    Camera cam1;
-    Camera cam2;
-    Camera cam3;
-    Camera cam4;
+    public Camera cam1;
+    /*public Camera cam2;
+    public Camera cam3;
+    public Camera cam4;*/
+
+    public Vector3 postext1Cam1;
+    public Vector3 posText2Cam1;
+    public Vector3 posText3Cam1;
+    /*Vector3 posCam2;
+    Vector3 posCam3;
+    Vector3 posCam4;*/
+
     // Use this for initialization
     void Start()
     {
         count = GameManager.Instance.PlayerStart.PlayersReference.Count;
         layerName = LayerMask.LayerToName(textPlayer1.gameObject.layer);
-        camReferences = GameManager.Instance.PlayerStart.cameraPlayerReferences;
+        //camReferences = GameManager.Instance.PlayerStart.cameraPlayerReferences;
         //fieldOfView = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>().fieldOfView;
         fieldOfView = 95.0f;
 
@@ -189,8 +197,15 @@ public class FollowPlayer : MonoBehaviour
         distancePlayer4Text1 = GameManager.Instance.PlayerStart.PlayersReference[3].transform.position.z - textPlayer1.transform.position.z;
         distancePlayer4Text2 = GameManager.Instance.PlayerStart.PlayersReference[3].transform.position.z - textPlayer2.transform.position.z;
         distancePlayer4Text3 = GameManager.Instance.PlayerStart.PlayersReference[3].transform.position.z - textPlayer3.transform.position.z;
+        
         //Position pour les test et positionner les textes comme il le faut
-        Vector3 pos = cam1.WorldToScreenPoint(textPlayer1.transform.position);
+        postext1Cam1 = cam1.WorldToScreenPoint(textPlayer1.transform.position);
+        posText2Cam1 = cam1.WorldToScreenPoint(textPlayer2.transform.position);
+        posText3Cam1 = cam1.WorldToScreenPoint(textPlayer3.transform.position);
+
+        /*posCam2 = cam2.WorldToScreenPoint(textPlayer1.transform.position);
+        posCam3 = cam3.WorldToScreenPoint(textPlayer1.transform.position);
+        posCam4 = cam4.WorldToScreenPoint(textPlayer1.transform.position);*/
         switch (layerName)
         {
             //JOUEUR 1
@@ -207,20 +222,27 @@ public class FollowPlayer : MonoBehaviour
                         {
                             //Pour le moment ça ne marche pas
                             //Placement du texte si il est en dehors de l'écran (droite ou gauche)
-                            //if (textPlayer1.transform.position.z >= Screen.width / 2.0f)
-                            //{
-                            //    textPlayer1.transform.position.Set(GameManager.Instance.PlayerStart.PlayersReference[1].transform.position.x, GameManager.Instance.PlayerStart.PlayersReference[1].transform.position.y, Screen.width / 2.0f);
-                            //}
+                            /*if (postext1Cam1.z >= Screen.width / 2.0f)
+                            {
+                                Debug.Log("coucou Text 1");
+                                textPlayer1.transform.position.Set(GameManager.Instance.PlayerStart.PlayersReference[1].transform.position.x, GameManager.Instance.PlayerStart.PlayersReference[1].transform.position.y, Screen.width / 2.0f);
+                            }
+                            else if(postext1Cam1.z < 0.0f)
+                            {
+                                textPlayer1.transform.position.Set(GameManager.Instance.PlayerStart.PlayersReference[1].transform.position.x, GameManager.Instance.PlayerStart.PlayersReference[1].transform.position.y, 0.0f);
+                            }*/
 
                             //Placement du texte si il est trop haut ou trop bas
-                            //if (textPlayer1.transform.position.y >= Screen.height)
-                            //{
-                            //    textPlayer1.transform.position.Set(GameManager.Instance.PlayerStart.PlayersReference[1].transform.position.x, Screen.height, GameManager.Instance.PlayerStart.PlayersReference[1].transform.position.z);
-                            //}
-                            //if (textPlayer1.transform.position.y <= Screen.height / 2.0f)
-                            //{
-                            //    textPlayer1.transform.position.Set(GameManager.Instance.PlayerStart.PlayersReference[1].transform.position.x, Screen.height / 2.0f, GameManager.Instance.PlayerStart.PlayersReference[1].transform.position.z);
-                            //}
+                            /*if (postext1Cam1.y >= Screen.height)
+                            {
+                                Debug.Log("coucou Text 1 56");
+                                textPlayer1.transform.position.Set(GameManager.Instance.PlayerStart.PlayersReference[1].transform.position.x, Screen.height, GameManager.Instance.PlayerStart.PlayersReference[1].transform.position.z);
+                            }
+                            else if (postext1Cam1.y < Screen.height / 2.0f)
+                            {
+                                Debug.Log("coucou Text 1 78");
+                                textPlayer1.transform.position.Set(GameManager.Instance.PlayerStart.PlayersReference[1].transform.position.x, Screen.height / 2.0f, GameManager.Instance.PlayerStart.PlayersReference[1].transform.position.z);
+                            }*/
                             textPlayer1.gameObject.SetActive(false);
                         }
 
@@ -231,6 +253,28 @@ public class FollowPlayer : MonoBehaviour
                         }
                         else
                         {
+                            //Placement du texte si il est en dehors de l'écran (droite ou gauche)
+                            /*if (posText2Cam1.z >= Screen.width / 2.0f)
+                            {
+                                Debug.Log("coucou Text2");
+                                textPlayer2.transform.position.Set(GameManager.Instance.PlayerStart.PlayersReference[2].transform.position.x, GameManager.Instance.PlayerStart.PlayersReference[2].transform.position.y, Screen.width / 2.0f);
+                            }
+                            else if (posText2Cam1.z < 0.0f)
+                            {
+                                textPlayer2.transform.position.Set(GameManager.Instance.PlayerStart.PlayersReference[2].transform.position.x, GameManager.Instance.PlayerStart.PlayersReference[2].transform.position.y, 0.0f);
+                            }*/
+
+                            //Placement du texte si il est trop haut ou trop bas
+                            /*if (posText2Cam1.y >= Screen.height)
+                            {
+                                Debug.Log("coucou Text 2 56");
+                                textPlayer2.transform.position.Set(GameManager.Instance.PlayerStart.PlayersReference[2].transform.position.x, Screen.height, GameManager.Instance.PlayerStart.PlayersReference[2].transform.position.z);
+                            }
+                            else if (posText2Cam1.y < Screen.height / 2.0f)
+                            {
+                                Debug.Log("coucou Text 2 78");
+                                textPlayer2.transform.position.Set(GameManager.Instance.PlayerStart.PlayersReference[2].transform.position.x, Screen.height / 2.0f, GameManager.Instance.PlayerStart.PlayersReference[2].transform.position.z);
+                            }*/
                             textPlayer2.gameObject.SetActive(false);
                         }
 
@@ -241,6 +285,28 @@ public class FollowPlayer : MonoBehaviour
                         }
                         else
                         {
+                            //Placement du texte si il est en dehors de l'écran (droite ou gauche)
+                            /*if (posText3Cam1.z >= Screen.width / 2.0f)
+                            {
+                                Debug.Log("coucou Text2");
+                                textPlayer3.transform.position.Set(GameManager.Instance.PlayerStart.PlayersReference[3].transform.position.x, GameManager.Instance.PlayerStart.PlayersReference[3].transform.position.y, Screen.width / 2.0f);
+                            }
+                            else if (posText3Cam1.z < 0.0f)
+                            {
+                                textPlayer3.transform.position.Set(GameManager.Instance.PlayerStart.PlayersReference[3].transform.position.x, GameManager.Instance.PlayerStart.PlayersReference[3].transform.position.y, 0.0f);
+                            }*/
+
+                            //Placement du texte si il est trop haut ou trop bas
+                            /*if (posText3Cam1.y >= Screen.height)
+                            {
+                                Debug.Log("coucou Text 2 56");
+                                textPlayer3.transform.position.Set(GameManager.Instance.PlayerStart.PlayersReference[3].transform.position.x, Screen.height, GameManager.Instance.PlayerStart.PlayersReference[3].transform.position.z);
+                            }
+                            else if (posText3Cam1.y < Screen.height / 2.0f)
+                            {
+                                Debug.Log("coucou Text 2 78");
+                                textPlayer3.transform.position.Set(GameManager.Instance.PlayerStart.PlayersReference[3].transform.position.x, Screen.height / 2.0f, GameManager.Instance.PlayerStart.PlayersReference[3].transform.position.z);
+                            }*/
                             textPlayer3.gameObject.SetActive(false);
                         }
                         break;
