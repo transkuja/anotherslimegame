@@ -144,6 +144,19 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    public float GameFinalTimer
+    {
+        get
+        {
+            return gameFinalTimer;
+        }
+
+        set
+        {
+            gameFinalTimer = value;
+        }
+    }
+
     public void RegisterPlayerStart(PlayerStart _ps)
     {
         playerStart = _ps;
@@ -233,7 +246,7 @@ public class GameManager : MonoBehaviour {
 
     public void LaunchFinalTimer()
     {
-        currentGameFinalTimer = gameFinalTimer;
+        currentGameFinalTimer = GameFinalTimer;
         finalTimerInitialized = true;
         uiReference.TimerNeedUpdate(currentGameFinalTimer);
     }

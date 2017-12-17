@@ -42,6 +42,12 @@ public class MiniGamePushManager : MonoBehaviour {
             player.NbLife = 3;
             player.UpdateCollectableValue(CollectableType.Points, 500);
         }
+        Invoke("LauchTimer", Utils.timerTutoText);
+    }
+    public void LauchTimer()
+    {
+        GameManager.Instance.GameFinalTimer = 120;// 2 minutes
+        GameManager.Instance.LaunchFinalTimer();
     }
 
     public void CheckVictory()
