@@ -57,11 +57,13 @@ public class SetCamerasValues : MonoBehaviour {
 
                 //Lens
                 cam.GetRig(0).m_Lens.FieldOfView = 95.0f;
+                cam.GetRig(0).m_Lens.FarClipPlane = 1000.0f;
 
                 cam.GetRig(1).m_Lens.FieldOfView = 87.5f;
+                cam.GetRig(1).m_Lens.FarClipPlane = 1000.0f;
 
                 cam.GetRig(2).m_Lens.FieldOfView = 80.0f;
-
+                cam.GetRig(2).m_Lens.FarClipPlane = 1000.0f;
                 //Aim
                 CinemachineComposer cp;
                 cp = ((cam.GetRig(0).GetCinemachineComponent<CinemachineComposer>()));
