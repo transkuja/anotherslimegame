@@ -13,6 +13,7 @@ public class PlayerStart : MonoBehaviour {
     public bool DEBUG_playWithFourPlayers = true;
 
     List<GameObject> playersReference = new List<GameObject>();
+    [SerializeField]
     Color[] colorPlayer;
 
     public List<GameObject> PlayersReference
@@ -33,11 +34,6 @@ public class PlayerStart : MonoBehaviour {
 
     void Start()
     {
-        colorPlayer = new Color[4];
-        colorPlayer[0] = Color.red;
-        colorPlayer[1] = Color.blue;
-        colorPlayer[2] = Color.green;
-        colorPlayer[3] = Color.cyan;
         playerStart = new Transform[4];
         for (int i = 0; i < transform.childCount; i++)
             playerStart[i] = transform.GetChild(i);
@@ -127,20 +123,23 @@ public class PlayerStart : MonoBehaviour {
             playerController.IsUsingAController = true;
             playerController.PlayerIndexSet = true;
 
+            if (i > 0)
+            {
+                go.transform.GetChild(0).GetChild(0).GetComponent<MeshRenderer>().material.SetColor("_Color", colorPlayer[i - 1]);
+                go.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<MeshRenderer>().material.SetColor("_Color", colorPlayer[i - 1]);
+                go.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(1).GetComponent<MeshRenderer>().material.SetColor("_Color", colorPlayer[i - 1]);
 
-            //go.transform.GetChild(0).GetChild(0).GetComponent<MeshRenderer>().material.SetColor("_Color", colorPlayer[i]);
-            //go.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<MeshRenderer>().material.SetColor("_Color", colorPlayer[i]);
-            //go.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(1).GetComponent<MeshRenderer>().material.SetColor("_Color", colorPlayer[i]);
-
-            //go.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetComponent<MeshRenderer>().material.SetColor("_Color", colorPlayer[i]);
-            //go.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(1).GetComponent<MeshRenderer>().material.SetColor("_Color", colorPlayer[i]);
-
+                go.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetComponent<MeshRenderer>().material.SetColor("_Color", colorPlayer[i - 1]);
+                go.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(1).GetComponent<MeshRenderer>().material.SetColor("_Color", colorPlayer[i - 1]);
+            }
             PlayersReference.Add(go);
            
         }
 
         if (GameManager.Instance.playerCollectables == null)
+        {
             GameManager.Instance.playerCollectables = new int[activePlayersAtStart][];
+        }
         else
         {
             for (int i = 0; i < activePlayersAtStart; i++)
