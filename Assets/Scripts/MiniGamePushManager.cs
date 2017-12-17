@@ -32,7 +32,7 @@ public class MiniGamePushManager : MonoBehaviour {
 	}
     public void StartGame(List<GameObject> playerReferences)
     {
-        Utils.PopTutoTextForAll("Be the last one standing!");
+        Utils.PopTutoTextForAll("Steal their coins!\nDash with X or crush them by pressing Y in the air.");
 
         Player player;
         for (int i = 0; i < playerReferences.Count; i++)
