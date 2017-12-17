@@ -248,10 +248,10 @@ public class CostArea : MonoBehaviour {
 
     GameObject GetRewardModelFromRewardType()
     {
-        switch(costAreaType)
+        switch (costAreaType)
         {
             case CostAreaType.PayAndGetItem:
-                switch(rewardType)
+                switch (rewardType)
                 {
                     case CollectableType.Key:
                         return HUBManager.instance.prefabIleRef.prefabCostAreaKeyFeedback;
@@ -266,13 +266,19 @@ public class CostArea : MonoBehaviour {
                 }
                 break;
             case CostAreaType.PayAndCallEvent:
-                switch(costAreaEvent)
+                // UGLY condition, prefabs should not be linked to hubmanager but we have to for the milestone
+                if (HUBManager.instance != null && HUBManager.instance.prefabIleRef != null)
                 {
-                    case CostAreaEvent.EndGame:
-                        return HUBManager.instance.prefabIleRef.prefabCostAreaTrophyFeedback;
-                    case CostAreaEvent.IncreaseWater:
-                        return HUBManager.instance.prefabIleRef.prefabCostAreaWaterFeedback;
+                    switch (costAreaEvent)
+                    {
+                        case CostAreaEvent.EndGame:
+                            return HUBManager.instance.prefabIleRef.prefabCostAreaTrophyFeedback;
+                        case CostAreaEvent.IncreaseWater:
+                            return HUBManager.instance.prefabIleRef.prefabCostAreaWaterFeedback;
+                    }
                 }
+                else
+                    return null;
                 break;
             default:
                 return null;
