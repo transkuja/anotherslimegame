@@ -13,4 +13,15 @@ public static class MinigameManager {
             return "SceneMinigamePush";
         return "";
     }
+
+    public static bool IsAMiniGameScene()
+    {
+        string activeSceneName = SceneManager.GetActiveScene().name;
+        return
+            activeSceneName == GetSceneNameFromMinigame(MiniGame.KickThemAll)
+        // ||
+        ;
+
+
+    }
 }

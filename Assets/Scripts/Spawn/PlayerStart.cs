@@ -144,7 +144,7 @@ public class PlayerStart : MonoBehaviour {
         }
         else
         {
-            if (SceneManager.GetActiveScene().name == MinigameManager.GetSceneNameFromMinigame(MiniGame.KickThemAll))
+            if (MinigameManager.IsAMiniGameScene())
                 return;
 
             for (int i = 0; i < activePlayersAtStart; i++)
