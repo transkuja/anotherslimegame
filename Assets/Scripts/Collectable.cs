@@ -163,7 +163,7 @@ public class Collectable : MonoBehaviour
 
     public IEnumerator ReactivateCollider()
     {
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(1.0f);
         haveToDisperse = false;
         yield return null;
     }
