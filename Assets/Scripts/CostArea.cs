@@ -255,15 +255,15 @@ public class CostArea : MonoBehaviour {
                 switch (rewardType)
                 {
                     case CollectableType.Key:
-                        return ResourceUtils.Instance.prefabIle.prefabCostAreaKeyFeedback;
+                        return ResourceUtils.Instance.feedbacksManager.prefabCostAreaKeyFeedback;
                     case CollectableType.PlatformistEvolution1:
-                        return ResourceUtils.Instance.prefabIle.prefabCostAreaPlatformistFeedback;
+                        return ResourceUtils.Instance.feedbacksManager.prefabCostAreaPlatformistFeedback;
                     case CollectableType.AgileEvolution1:
-                        return ResourceUtils.Instance.prefabIle.prefabCostAreaAgilityFeedback;
+                        return ResourceUtils.Instance.feedbacksManager.prefabCostAreaAgilityFeedback;
                     case CollectableType.GhostEvolution1:
-                        return ResourceUtils.Instance.prefabIle.prefabCostAreaGhostFeedback;
+                        return ResourceUtils.Instance.feedbacksManager.prefabCostAreaGhostFeedback;
                     case CollectableType.StrengthEvolution1:
-                        return ResourceUtils.Instance.prefabIle.prefabCostAreaStrengthFeedback;
+                        return ResourceUtils.Instance.feedbacksManager.prefabCostAreaStrengthFeedback;
                 }
                 break;
             case CostAreaType.PayAndCallEvent:
@@ -271,9 +271,9 @@ public class CostArea : MonoBehaviour {
                 switch (costAreaEvent)
                 {
                     case CostAreaEvent.EndGame:
-                        return ResourceUtils.Instance.prefabIle.prefabCostAreaTrophyFeedback;
+                        return ResourceUtils.Instance.feedbacksManager.prefabCostAreaTrophyFeedback;
                     case CostAreaEvent.IncreaseWater:
-                        return ResourceUtils.Instance.prefabIle.prefabCostAreaWaterFeedback;
+                        return ResourceUtils.Instance.feedbacksManager.prefabCostAreaWaterFeedback;
                 }
                 break;
             default:

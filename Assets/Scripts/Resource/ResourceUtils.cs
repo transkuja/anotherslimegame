@@ -21,6 +21,7 @@ public class ResourceUtils : MonoBehaviour {
             particleSystemManager = GetComponentInChildren<ParticleSystemManager>();
             spriteUtils = GetComponentInChildren<SpriteUtils>();
             prefabIle = GetComponentInChildren<PrefabIle>();
+            feedbacksManager = GetComponentInChildren<FeedbacksManager>();
 
             DontDestroyOnLoad(Instance);
         }
@@ -67,6 +68,9 @@ public class ResourceUtils : MonoBehaviour {
 
     [HideInInspector]
     public PrefabIle prefabIle;
+
+    [HideInInspector]
+    public FeedbacksManager feedbacksManager;
 
     public static ResourceUtils Instance
     {
