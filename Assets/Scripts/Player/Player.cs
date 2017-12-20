@@ -9,7 +9,7 @@ public class Player : MonoBehaviour {
     bool canDoubleJump = false;
 
     [Header("Collectables")]
-    [SerializeField] int[] collectables;
+    [SerializeField] int points;
 
     public uint activeEvolutions = 0;
 
@@ -92,16 +92,16 @@ public class Player : MonoBehaviour {
         }
     }
 
-    public int[] Collectables
+    public int Points
     {
         get
         {
-            return collectables;
+            return points;
         }
 
         set
         {
-            collectables = value;
+            points = value;
         }
     }
 
@@ -222,21 +222,25 @@ public class Player : MonoBehaviour {
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        collectables = new int[(int)CollectableType.Size];
     }
+
     void Start()
-    {
-        
+    {     
         keysReset = new KeyReset[Utils.GetMaxValueForCollectable(CollectableType.Key)];
     }
 
     public void UpdateCollectableValue(CollectableType type, int pickedValue)
     {
-        collectables[(int)type] = Mathf.Clamp(collectables[(int)type] + pickedValue, 0, Utils.GetMaxValueForCollectable(type));
         if (type == CollectableType.Key)
-            GameManager.Instance.PlayerUI.RefreshKeysPlayerUi(this, collectables[(int)type]);
-        if (type == CollectableType.Points)
-            GameManager.Instance.PlayerUI.RefreshPointsPlayerUi(this, collectables[(int)type], cameraReference.transform.GetSiblingIndex());
+        {
+            GameManager.Instance.Runes += 1;
+            GameManager.Instance.PlayerUI.RefreshKeysPlayerUi(this, GameManager.Instance.Runes);
+        }
+        else
+        {
+            points = Mathf.Clamp(points + pickedValue, 0, Utils.GetMaxValueForCollectable(type));
+            GameManager.Instance.PlayerUI.RefreshPointsPlayerUi(this, points, cameraReference.transform.GetSiblingIndex());
+        }
 
         if (!Utils.IsAnEvolutionCollectable(type))
             return;
@@ -261,8 +265,7 @@ public class Player : MonoBehaviour {
     {
         Evolution _evolution = GameManager.EvolutionManager.GetEvolutionByCollectableType(type);
 
-        bool canEvolve = (GameManager.CurrentGameMode.evolutionMode == EvolutionMode.GrabCollectableAndAutoEvolve && collectables[(int)type] >= _evolution.Cost)
-                || (GameManager.CurrentGameMode.evolutionMode == EvolutionMode.GrabEvolution && activeEvolutions == 0);
+        bool canEvolve = activeEvolutions == 0;
 
         if (!_launchProcessOnSucess)
             return canEvolve;
@@ -275,27 +278,7 @@ public class Player : MonoBehaviour {
 
     void EvolutionProcess(Evolution _evolution)
     {
-        if (GameManager.CurrentGameMode.evolutionMode == EvolutionMode.GrabCollectableAndAutoEvolve)
-        {
-            EvolveGameplay1(_evolution);
-        }
-        else if (GameManager.CurrentGameMode.evolutionMode == EvolutionMode.GrabEvolution)
-        {
-            PermanentEvolution(_evolution);
-        }
-    }
-
-    // GAMEPLAY TEST 1: all of this should be in an Evolution class handling all evolution parameters (+ we should be able to pickup collectables and "refresh" an evolution indefinitely)
-    private void EvolveGameplay1(Evolution evolution)
-    {
-        GameManager.EvolutionManager.AddEvolutionComponent(gameObject, evolution);
-        collectables[(int)evolution.AssociatedCollectable] -= evolution.Cost;
-    }
-
-    public void EvolveGameplay2(Evolution evolution)
-    {
-        GameManager.EvolutionManager.AddEvolutionComponent(gameObject, evolution);
-        collectables[0] -= evolution.Cost;
+        PermanentEvolution(_evolution);
     }
 
     private void PermanentEvolution(Evolution evolution)

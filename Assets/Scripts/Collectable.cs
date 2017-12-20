@@ -89,7 +89,7 @@ public class Collectable : MonoBehaviour
         if (player && !IsAttracted && !haveToDisperse)
         {
             // Grab everything not linked to evolution (points)
-            if (!Utils.IsAnEvolutionCollectable(GetComponent <Collectable>().type))
+            if (!Utils.IsAnEvolutionCollectable(GetComponent<Collectable>().type))
             {
                 if (player.Collectables[(int)GetComponent<Collectable>().type] < Utils.GetMaxValueForCollectable(GetComponent<Collectable>().type))
                 {

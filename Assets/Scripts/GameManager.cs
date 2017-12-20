@@ -26,7 +26,9 @@ public class GameManager : MonoBehaviour {
 
     public bool[] unlockedMinigames = new bool[(int)MiniGame.Size];
 
-    // TODO: move this
+    private int runes = 0;
+
+    // Players persistence
     public int[][] playerCollectables;
     public bool[][] playerEvolutionTutoShown;
     public bool[] playerCostAreaTutoShown;
@@ -156,6 +158,19 @@ public class GameManager : MonoBehaviour {
         set
         {
             gameFinalTimer = value;
+        }
+    }
+
+    public int Runes
+    {
+        get
+        {
+            return runes;
+        }
+
+        set
+        {
+            runes = Mathf.Clamp(value, 0, Utils.GetMaxValueForCollectable(CollectableType.Key));
         }
     }
 
