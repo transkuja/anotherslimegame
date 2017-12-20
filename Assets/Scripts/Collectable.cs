@@ -99,26 +99,10 @@ public class Collectable : MonoBehaviour
                     return;
                 }
             }
-            else
+            else if(player.activeEvolutions == 0)
             {
-                if (GameManager.CurrentGameMode.evolutionMode != EvolutionMode.GrabEvolution)
-                {
-                    if (player.Collectables[(int)GetComponent<Collectable>().type] < Utils.GetMaxValueForCollectable(GetComponent<Collectable>().type))
-                    {
-                        IsAttracted = true;
-                        playerTarget = player;
-                    }
-                }
-                else
-                {
-                    if (player.activeEvolutions == 0)
-                    {
-                        //if (panneau != null)
-                        //    panneau.SetActive(false);
-                        IsAttracted = true;
-                        playerTarget = player;
-                    }
-                }
+                IsAttracted = true;
+                playerTarget = player;
             }
 
         }

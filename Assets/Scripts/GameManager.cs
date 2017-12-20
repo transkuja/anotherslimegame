@@ -6,8 +6,8 @@ public class GameManager : MonoBehaviour {
 
     private static GameManager instance = null;
     private static EvolutionManager evolutionManager = new EvolutionManager();
-    private static GameModeManager gameModeManager = new GameModeManager();
-    private static GameMode currentGameMode;
+    //private static GameModeManager gameModeManager = new GameModeManager();
+    private GameMode currentGameMode;
     private static GameState currentState = GameState.Normal;
     [SerializeField]
     private PlayerStart playerStart;
@@ -80,13 +80,13 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    public static GameModeManager GameModeManager
-    {
-        get
-        {
-            return gameModeManager;
-        }
-    }
+    //public static GameModeManager GameModeManager
+    //{
+    //    get
+    //    {
+    //        return gameModeManager;
+    //    }
+    //}
 
     public static GameState CurrentState
     {
@@ -96,16 +96,11 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    public static GameMode CurrentGameMode
+    public GameMode CurrentGameMode
     {
         get
         {
-            // Load from another scene than the menu load te escape gameMode fow now
-            // TODO : Destroy this ? 
-            if (currentGameMode == null)
-            {
-                currentGameMode = gameModeManager.GetGameModeByName(GameModeType.Escape);
-            }
+            Debug.Assert(currentGameMode != null, "GameMode must be set on scene");
             return currentGameMode;
         }
         set

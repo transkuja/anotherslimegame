@@ -49,7 +49,7 @@ public class EvolutionComponent : MonoBehaviour {
     protected void SetPower(Powers powerName)
     {
         GetComponent<Player>().activeEvolutions++;
-        evolution = GameManager.EvolutionManager.GetEvolutionByPowerName(powerName, (GameManager.CurrentGameMode.evolutionMode == EvolutionMode.GrabEvolution));
+        evolution = GameManager.EvolutionManager.GetEvolutionByPowerName(powerName,true);
         if((int)evolution.BodyPart < transform.GetChild((int)PlayerChildren.SlimeMesh).childCount)
             affectedPart = transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)evolution.BodyPart).gameObject;
         if (evolution.BodyPart == BodyPart.Hammer)

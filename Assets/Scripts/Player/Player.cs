@@ -261,8 +261,7 @@ public class Player : MonoBehaviour {
     {
         Evolution _evolution = GameManager.EvolutionManager.GetEvolutionByCollectableType(type);
 
-        bool canEvolve = (GameManager.CurrentGameMode.evolutionMode == EvolutionMode.GrabCollectableAndAutoEvolve && collectables[(int)type] >= _evolution.Cost)
-                || (GameManager.CurrentGameMode.evolutionMode == EvolutionMode.GrabEvolution && activeEvolutions == 0);
+        bool canEvolve = ( activeEvolutions == 0);
 
         if (!_launchProcessOnSucess)
             return canEvolve;
@@ -275,28 +274,9 @@ public class Player : MonoBehaviour {
 
     void EvolutionProcess(Evolution _evolution)
     {
-        if (GameManager.CurrentGameMode.evolutionMode == EvolutionMode.GrabCollectableAndAutoEvolve)
-        {
-            EvolveGameplay1(_evolution);
-        }
-        else if (GameManager.CurrentGameMode.evolutionMode == EvolutionMode.GrabEvolution)
-        {
-            PermanentEvolution(_evolution);
-        }
+        PermanentEvolution(_evolution);
     }
 
-    // GAMEPLAY TEST 1: all of this should be in an Evolution class handling all evolution parameters (+ we should be able to pickup collectables and "refresh" an evolution indefinitely)
-    private void EvolveGameplay1(Evolution evolution)
-    {
-        GameManager.EvolutionManager.AddEvolutionComponent(gameObject, evolution);
-        collectables[(int)evolution.AssociatedCollectable] -= evolution.Cost;
-    }
-
-    public void EvolveGameplay2(Evolution evolution)
-    {
-        GameManager.EvolutionManager.AddEvolutionComponent(gameObject, evolution);
-        collectables[0] -= evolution.Cost;
-    }
 
     private void PermanentEvolution(Evolution evolution)
     {
