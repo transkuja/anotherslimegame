@@ -9,9 +9,6 @@ public class SpikeTrap : MonoBehaviour {
     [SerializeField]
     int damage;
 
-    public bool respawnPlayer = false;
-    public bool istest = false;
-
 	void OnTriggerEnter(Collider col)
     {
         if (col.GetComponentInParent<Player>())
@@ -27,33 +24,12 @@ public class SpikeTrap : MonoBehaviour {
     {
         if (collision.gameObject.GetComponentInParent<Player>())
         {
-            //if (SceneManager.GetActiveScene().name == "SceneMinigamePush")
-            //{
-            //    MiniGamePushManager.Singleton.ResetPlayer(collision.gameObject.GetComponent<Player>());
-            //    return;
-            //}
-            //Respawner.RespawnProcess(collision.gameObject.GetComponent<Player>());
-
-
             Player p = collision.gameObject.GetComponentInParent<Player>();
-            //if (respawnPlayer)
-            //{
-            //    Respawner.RespawnProcess(p);
-            //    return;
-            //}
 
             PlayerController pController = p.GetComponent<PlayerController>();
-            if (istest)
-            {
-                Vector3 direction = transform.forward;
-                pController.GetComponent<PlayerCollisionCenter>().ForcedJump(direction, 200, pController.GetComponent<Rigidbody>());
-                StartCoroutine(pController.GetComponent<PlayerCollisionCenter>().ReactivateCollider(pController.GetComponent<Rigidbody>().GetComponent<Player>()));
-                return;
-            }
 
             p.CanDoubleJump = true;
 
- 
             pController.GetComponent<PlayerCollisionCenter>().DamagePlayer(pController.GetComponent<Player>());
             pController.GetComponent<PlayerCollisionCenter>().ExpulsePlayer(collision.collider.ClosestPoint(transform.position), pController.GetComponent<Rigidbody>(), 15);
         }
