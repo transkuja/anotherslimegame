@@ -15,9 +15,7 @@ public class HUBManager : MonoBehaviour {
 
     public GameObject CostAreaMiniGamePush;
     public SpawnManager spawnManagerRef;
-
-    // WARNING!!!!! PREFAB ILE SHOULD NOT CONTAINS CODE
-    public PrefabIle prefabIleRef;
+    public IslandSpawner islandSpawner;
 
     #region GameplayRoom
     [Tooltip("The transform from which all instantiates will be done. Instantiated platforms will be this transform's children.")]
@@ -38,6 +36,7 @@ public class HUBManager : MonoBehaviour {
     public void Awake()
     {
         instance = this;
+        islandSpawner = GetComponent<IslandSpawner>();
     }
     #endregion
     // End modif tmp

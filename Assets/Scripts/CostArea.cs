@@ -255,31 +255,26 @@ public class CostArea : MonoBehaviour {
                 switch (rewardType)
                 {
                     case CollectableType.Key:
-                        return HUBManager.instance.prefabIleRef.prefabCostAreaKeyFeedback;
+                        return ResourceUtils.Instance.prefabIle.prefabCostAreaKeyFeedback;
                     case CollectableType.PlatformistEvolution1:
-                        return HUBManager.instance.prefabIleRef.prefabCostAreaPlatformistFeedback;
+                        return ResourceUtils.Instance.prefabIle.prefabCostAreaPlatformistFeedback;
                     case CollectableType.AgileEvolution1:
-                        return HUBManager.instance.prefabIleRef.prefabCostAreaAgilityFeedback;
+                        return ResourceUtils.Instance.prefabIle.prefabCostAreaAgilityFeedback;
                     case CollectableType.GhostEvolution1:
-                        return HUBManager.instance.prefabIleRef.prefabCostAreaGhostFeedback;
+                        return ResourceUtils.Instance.prefabIle.prefabCostAreaGhostFeedback;
                     case CollectableType.StrengthEvolution1:
-                        return HUBManager.instance.prefabIleRef.prefabCostAreaStrengthFeedback;
+                        return ResourceUtils.Instance.prefabIle.prefabCostAreaStrengthFeedback;
                 }
                 break;
             case CostAreaType.PayAndCallEvent:
                 // UGLY condition, prefabs should not be linked to hubmanager but we have to for the milestone
-                if (HUBManager.instance != null && HUBManager.instance.prefabIleRef != null)
+                switch (costAreaEvent)
                 {
-                    switch (costAreaEvent)
-                    {
-                        case CostAreaEvent.EndGame:
-                            return HUBManager.instance.prefabIleRef.prefabCostAreaTrophyFeedback;
-                        case CostAreaEvent.IncreaseWater:
-                            return HUBManager.instance.prefabIleRef.prefabCostAreaWaterFeedback;
-                    }
+                    case CostAreaEvent.EndGame:
+                        return ResourceUtils.Instance.prefabIle.prefabCostAreaTrophyFeedback;
+                    case CostAreaEvent.IncreaseWater:
+                        return ResourceUtils.Instance.prefabIle.prefabCostAreaWaterFeedback;
                 }
-                else
-                    return null;
                 break;
             default:
                 return null;

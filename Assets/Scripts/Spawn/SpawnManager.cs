@@ -363,7 +363,7 @@ public class SpawnManager : MonoBehaviour{
         }
 
         SpawnedEvolutionIslandCount++;
-        GameObject spawnedIsland = HUBManager.instance.prefabIleRef.SpawnEvolutionIslandInstance(
+        GameObject spawnedIsland = HUBManager.instance.islandSpawner.SpawnEvolutionIslandInstance(
             dicSpawnEvolutionIslandLocations[idLocation].transform.position,
             dicSpawnEvolutionIslandLocations[idLocation].transform.rotation,
             dicSpawnEvolutionIslandLocations[idLocation].transform
@@ -519,7 +519,7 @@ public class SpawnManager : MonoBehaviour{
         }
 
         SpawnedPointIslandCount++;
-        HUBManager.instance.prefabIleRef.SpawnPointIslandInstance(
+        HUBManager.instance.islandSpawner.SpawnPointIslandInstance(
             dicSpawnPointsIslandLocations[idLocation].transform.position,
             dicSpawnPointsIslandLocations[idLocation].transform.rotation,
             dicSpawnPointsIslandLocations[idLocation].transform
