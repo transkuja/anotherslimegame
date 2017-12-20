@@ -219,8 +219,7 @@ public class CostArea : MonoBehaviour {
                     HasFinishedProcess(_player.Player);
                     break;
                 case CostAreaEvent.IncreaseWater:
-                    // TODO: UGLY, TheButton should be referenced somewhere I suppose or the event externalized
-                    GameObject.FindObjectOfType<TheButton>().StartIncreasing();
+                    HUBManager.instance.StartIncreasing();
                     break;
                 default:
                     break;

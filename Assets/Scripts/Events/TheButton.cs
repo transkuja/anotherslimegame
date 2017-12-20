@@ -25,8 +25,6 @@ public class TheButton : MonoBehaviour {
     public float timerResetMax = 20.0f;
     private float timerReset = 0.0f;
 
-    public WaterState waterState = WaterState.Clear;
-
     public void Start()
     {
         positionToReach = water.transform.position + heightToReach * Vector3.up;
@@ -35,22 +33,9 @@ public class TheButton : MonoBehaviour {
         lerpStartValue = water.transform.position;
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.GetComponent<Player>())
-        {
-            StartIncreasing();
-        }
-    }
-
-    public void StartIncreasing()
-    {
-        waterState = WaterState.WaterIsMovingTop;
-    }
-
     public void Update()
     {
-        switch (waterState)
+        switch (HUBManager.instance.WaterState)
         {
             case WaterState.WaterIsMovingTop:
                 MoveWater(lerpStartValue, positionToReach);
@@ -61,7 +46,7 @@ public class TheButton : MonoBehaviour {
                     {
                         timerReset = 0.0f;
                         lerpValue = 0.0f;
-                        waterState = WaterState.WaterIsMovingBottom;
+                        HUBManager.instance.WaterState = WaterState.WaterIsMovingBottom;
                     }
                 }
                 break;
@@ -70,7 +55,7 @@ public class TheButton : MonoBehaviour {
                 if (lerpValue >= 1.0f)
                 {
                     transform.GetChild(0).GetComponent<CostArea>().Reactivate();
-                    waterState = WaterState.Clear;
+                    HUBManager.instance.WaterState = WaterState.Clear;
                 }
                 break;
             case WaterState.Clear:

@@ -17,6 +17,8 @@ public class HUBManager : MonoBehaviour {
     public SpawnManager spawnManagerRef;
     public IslandSpawner islandSpawner;
 
+    public WaterState WaterState = WaterState.Clear;
+
     #region GameplayRoom
     [Tooltip("The transform from which all instantiates will be done. Instantiated platforms will be this transform's children.")]
     public Transform referenceTransform;
@@ -50,5 +52,13 @@ public class HUBManager : MonoBehaviour {
     public void UpdateHUBWithData(bool[] _activateMinigames)
     {
         if (_activateMinigames[(int)MiniGame.KickThemAll]) CostAreaMiniGamePush.GetComponent<CostArea>().UnlockAssociatedMinigame();
+    }
+
+    // HUB events
+    // Water
+
+    public void StartIncreasing()
+    {
+        WaterState = WaterState.WaterIsMovingTop;
     }
 }
