@@ -8,7 +8,7 @@ public class IslandSpawner : MonoBehaviour {
     private List<GameObject> evolutionIslands = new List<GameObject>();
     private List<GameObject> pointsIslands = new List<GameObject>();
 
-    public void Start()
+    public void Awake()
     {
         FillEvolutionIslands();
     }
