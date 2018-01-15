@@ -369,18 +369,18 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
         //if (typeCollectable == -1) return;
 
-        if (player.Collectables[(int)CollectableType.Key] > 0)
+        if (player.Collectables[(int)CollectableType.Rune] > 0)
         {
-            int random = Random.Range(1, Utils.GetMaxValueForCollectable(CollectableType.Key)+1);
-            if(random > Utils.GetMaxValueForCollectable(CollectableType.Key) - player.Collectables[(int)CollectableType.Key])
-                typeCollectable = (int)CollectableType.Key;
+            int random = Random.Range(1, Utils.GetMaxValueForCollectable(CollectableType.Rune)+1);
+            if(random > Utils.GetMaxValueForCollectable(CollectableType.Rune) - player.Collectables[(int)CollectableType.Rune])
+                typeCollectable = (int)CollectableType.Rune;
         } 
 
 
         if (player.Collectables[typeCollectable] > 0)
         {
             int numberOfCollectablesToDrop;
-            if (typeCollectable == (int)CollectableType.Key) numberOfCollectablesToDrop = 1;
+            if (typeCollectable == (int)CollectableType.Rune) numberOfCollectablesToDrop = 1;
             else numberOfCollectablesToDrop = (int)Mathf.Clamp(((float)(player.Collectables[typeCollectable]) / Utils.GetDefaultCollectableValue(typeCollectable)), 1, 6);
             for (int i = 0; i < numberOfCollectablesToDrop; i++)
             {
@@ -388,9 +388,9 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
                 GameObject go;
                 // TMP !!! DOUX pool thing + alternate key for collision check
-                if (typeCollectable == (int)CollectableType.Key)
+                if (typeCollectable == (int)CollectableType.Rune)
                 {
-                    go = ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(transform.position + Vector3.up * 2f, transform.rotation, null, CollectableType.Key);
+                    go = ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(transform.position + Vector3.up * 2f, transform.rotation, null, CollectableType.Rune);
                     go.GetComponent<Collectable>().Init();
                     go.GetComponent<Collectable>().hasBeenSpawned = true;
                     go.GetComponent<Collectable>().lastOwner = player;

@@ -22,7 +22,7 @@ public class PlayerUI : MonoBehaviour {
         {
             GameObject playerUi = Instantiate(prefabPlayerUI[i], transform);
             // Generate UI key
-            for (int j = 0; j < Utils.GetMaxValueForCollectable(CollectableType.Key); j++)
+            for (int j = 0; j < Utils.GetMaxValueForCollectable(CollectableType.Rune); j++)
             {
                 GameObject keySprite = Instantiate(ResourceUtils.Instance.refPrefabLoot.prefabKeySprite, playerUi.transform.GetChild((int)PlayerUiChildren.Keys).transform);
                 keySprite.SetActive(false);
@@ -96,7 +96,7 @@ public class PlayerUI : MonoBehaviour {
         {
             toRefresh.GetChild(i).gameObject.SetActive(true);
         }
-        for (int i = _newValue; i < Utils.GetMaxValueForCollectable(CollectableType.Key); i++)
+        for (int i = _newValue; i < Utils.GetMaxValueForCollectable(CollectableType.Rune); i++)
         {
             toRefresh.GetChild(i).gameObject.SetActive(false);
         }

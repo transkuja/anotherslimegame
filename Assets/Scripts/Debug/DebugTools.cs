@@ -96,7 +96,7 @@ public class DebugTools : MonoBehaviour {
 
         debugPanelComponent.AddToDebugPanelInfos("", "", "Spawn a collectable");
         debugPanelComponent.AddToDebugPanelInfos("2", "1", CollectableType.Points.ToString());
-        debugPanelComponent.AddToDebugPanelInfos("2", "3", CollectableType.Key.ToString());
+        debugPanelComponent.AddToDebugPanelInfos("2", "3", CollectableType.Rune.ToString());
         debugPanelComponent.AddToDebugPanelInfos("2", "4", CollectableType.StrengthEvolution1.ToString());
         debugPanelComponent.AddToDebugPanelInfos("2", "5", CollectableType.PlatformistEvolution1.ToString());
         debugPanelComponent.AddToDebugPanelInfos("2", "6", CollectableType.AgileEvolution1.ToString());
@@ -172,8 +172,8 @@ public class DebugTools : MonoBehaviour {
                     // TODO: broken
                     //ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
                     //    DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.Key).GetComponent<Collectable>().Init();
-                    DebugPlayerSelected.UpdateCollectableValue(CollectableType.Key, 1);
-                    Debug.Log("Pop some " + CollectableType.Key + " on the ground!");
+                    DebugPlayerSelected.UpdateCollectableValue(CollectableType.Rune, 1);
+                    Debug.Log("Pop some " + CollectableType.Rune + " on the ground!");
                 }
                 if (Input.GetKeyDown(KeyCode.Alpha4))
                 {

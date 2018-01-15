@@ -170,7 +170,7 @@ public class GameManager : MonoBehaviour {
 
         set
         {
-            runes = Mathf.Clamp(value, 0, Utils.GetMaxValueForCollectable(CollectableType.Key));
+            runes = Mathf.Clamp(value, 0, Utils.GetMaxValueForCollectable(CollectableType.Rune));
         }
     }
 

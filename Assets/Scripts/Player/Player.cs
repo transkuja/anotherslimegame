@@ -136,7 +136,7 @@ public class Player : MonoBehaviour {
                 // TODO: REACTIVATE INSTEAD OF INSTANTIATE (keys must not be destroyed too)
                 if (!GameManager.Instance.isTimeOver)
                 {
-                    for (int i = 0; i < Utils.GetMaxValueForCollectable(CollectableType.Key); i++)
+                    for (int i = 0; i < Utils.GetMaxValueForCollectable(CollectableType.Rune); i++)
                     {
                         if (KeysReset[i] == null)
                             break;
@@ -153,7 +153,7 @@ public class Player : MonoBehaviour {
                                 KeysReset[i].initialPosition,
                                 KeysReset[i].initialRotation,
                                 null,
-                                CollectableType.Key)
+                                CollectableType.Rune)
                             .GetComponent<Collectable>().Init();
                         }
                     }
@@ -226,12 +226,12 @@ public class Player : MonoBehaviour {
 
     void Start()
     {     
-        keysReset = new KeyReset[Utils.GetMaxValueForCollectable(CollectableType.Key)];
+        keysReset = new KeyReset[Utils.GetMaxValueForCollectable(CollectableType.Rune)];
     }
 
     public void UpdateCollectableValue(CollectableType type, int pickedValue)
     {
-        if (type == CollectableType.Key)
+        if (type == CollectableType.Rune)
         {
             GameManager.Instance.Runes += 1;
             GameManager.Instance.PlayerUI.RefreshKeysPlayerUi(this, GameManager.Instance.Runes);
@@ -250,13 +250,13 @@ public class Player : MonoBehaviour {
 
     public void AddKeyInitialPosition(Transform _tr, KeyFrom _from)
     {
-        int currentlyHold = collectables[(int)CollectableType.Key];
+        int currentlyHold = collectables[(int)CollectableType.Rune];
         KeysReset[currentlyHold - 1] = new KeyReset(_tr, _from);
     }
 
     public void AddKeyInitialPosition(KeyReset _keyData)
     {
-        int currentlyHold = collectables[(int)CollectableType.Key];
+        int currentlyHold = collectables[(int)CollectableType.Rune];
         KeysReset[currentlyHold - 1] = _keyData;
     }
 

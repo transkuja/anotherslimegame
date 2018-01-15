@@ -49,7 +49,7 @@ public class PrefabLoot : MonoBehaviour {
                     return Instantiate(prefabPointsGameObject, where, direction, parent);
                 else
                     return Instantiate(prefabPointsDroppedGameObject, where, direction, parent);
-            case CollectableType.Key:
+            case CollectableType.Rune:
                 return Instantiate(prefabKeyGameObject, where, direction, parent);
             default:
                 Debug.Log("Unknown Item type");
