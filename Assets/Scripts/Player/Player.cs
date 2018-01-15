@@ -9,6 +9,7 @@ public class Player : MonoBehaviour {
     bool canDoubleJump = false;
 
     [Header("Collectables")]
+    [SerializeField] int[] collectables;
     [SerializeField] int points;
 
     public uint activeEvolutions = 0;
@@ -217,6 +218,19 @@ public class Player : MonoBehaviour {
             pendingTutoText = value;
         }
     }
+
+    public int[] Collectables
+    {
+        get
+        {
+            return collectables;
+        }
+
+        set
+        {
+            collectables = value;
+        }
+    }
     #endregion
 
     private void Awake()
@@ -227,6 +241,7 @@ public class Player : MonoBehaviour {
     void Start()
     {     
         keysReset = new KeyReset[Utils.GetMaxValueForCollectable(CollectableType.Rune)];
+        collectables = new int[(int)CollectableType.Size];
     }
 
     public void UpdateCollectableValue(CollectableType type, int pickedValue)
@@ -236,10 +251,15 @@ public class Player : MonoBehaviour {
             GameManager.Instance.Runes += 1;
             GameManager.Instance.PlayerUI.RefreshKeysPlayerUi(this, GameManager.Instance.Runes);
         }
-        else
+        else if (type == CollectableType.Points)
         {
             points = Mathf.Clamp(points + pickedValue, 0, Utils.GetMaxValueForCollectable(type));
             GameManager.Instance.PlayerUI.RefreshPointsPlayerUi(this, points, cameraReference.transform.GetSiblingIndex());
+        }
+        // All collectables that are not points or runes should be handled like this
+        else
+        {
+            collectables[(int)type] = Mathf.Clamp(collectables[(int)type] + pickedValue, 0, Utils.GetMaxValueForCollectable(type));
         }
 
         if (!Utils.IsAnEvolutionCollectable(type))
@@ -271,14 +291,9 @@ public class Player : MonoBehaviour {
             return canEvolve;
 
         if (canEvolve)
-            EvolutionProcess(_evolution);
+            PermanentEvolution(_evolution);
 
         return canEvolve;       
-    }
-
-    void EvolutionProcess(Evolution _evolution)
-    {
-        PermanentEvolution(_evolution);
     }
 
     private void PermanentEvolution(Evolution evolution)
