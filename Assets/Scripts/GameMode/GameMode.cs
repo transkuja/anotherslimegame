@@ -10,6 +10,10 @@ abstract public class GameMode : MonoBehaviour
     [SerializeField] protected int nbPlayersMin;
     [SerializeField] protected int nbPlayersMax;
 
+    public void Awake()
+    {
+        GameManager.Instance.CurrentGameMode = this;
+    }
     public virtual bool IsMiniGame()
     {
         return this is HubMode;
@@ -48,7 +52,6 @@ abstract public class GameMode : MonoBehaviour
             return "SceneMinigamePush";
         return "";
     }
-    public void 
 }
 
 
