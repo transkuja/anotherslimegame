@@ -289,7 +289,7 @@ public class CostArea : MonoBehaviour {
             case CollectableType.Rune:
                 return currencyRune;
 
-            case CollectableType.Points:
+            case CollectableType.Money:
                 return currencyCoin;
         }
 

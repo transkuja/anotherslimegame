@@ -58,7 +58,6 @@ public class ScoreScreen : MonoBehaviour {
 
         if (SceneManager.GetActiveScene().name == MinigameManager.GetSceneNameFromMinigame(MiniGame.KickThemAll))
         {
-            Debug.Log(transform.childCount);
             if (transform.childCount >= rank - 1) // who did this ugly line?
             {
                 transform.GetChild(rank - 1).GetComponent<PlayerScore>().SetScoreMiniGamePtsOnly(
