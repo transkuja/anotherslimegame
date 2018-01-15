@@ -10,7 +10,6 @@ public class Player : MonoBehaviour {
 
     [Header("Collectables")]
     [SerializeField] int[] collectables;
-    [SerializeField] int points;
 
     public uint activeEvolutions = 0;
 
@@ -90,19 +89,6 @@ public class Player : MonoBehaviour {
         set
         {
             canDoubleJump = value;
-        }
-    }
-
-    public int Points
-    {
-        get
-        {
-            return points;
-        }
-
-        set
-        {
-            points = value;
         }
     }
 
@@ -251,15 +237,19 @@ public class Player : MonoBehaviour {
             GameManager.Instance.Runes += 1;
             GameManager.Instance.PlayerUI.RefreshKeysPlayerUi(this, GameManager.Instance.Runes);
         }
-        else if (type == CollectableType.Points)
-        {
-            points = Mathf.Clamp(points + pickedValue, 0, Utils.GetMaxValueForCollectable(type));
-            GameManager.Instance.PlayerUI.RefreshPointsPlayerUi(this, points, cameraReference.transform.GetSiblingIndex());
-        }
-        // All collectables that are not points or runes should be handled like this
+		else if (type == CollectableType.Money)
+		{
+			GameManager.Instance.GlobalMoney += pickedValue;
+			// TODO: update UI
+		}
+		// All collectables that are not money or runes should be handled like this
         else
         {
             collectables[(int)type] = Mathf.Clamp(collectables[(int)type] + pickedValue, 0, Utils.GetMaxValueForCollectable(type));
+			if (type == CollectableType.Points)
+			{
+				GameManager.Instance.PlayerUI.RefreshPointsPlayerUi(this, collectables[(int)type], cameraReference.transform.GetSiblingIndex());
+			}
         }
 
         if (!Utils.IsAnEvolutionCollectable(type))
