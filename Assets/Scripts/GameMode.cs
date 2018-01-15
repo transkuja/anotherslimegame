@@ -9,7 +9,6 @@ public enum GameModeType {
 
 public enum EvolutionMode {
     GrabEvolution, // Evolutions are collectables, they are permanent once the player grab it
-    GrabCollectableAndActivate, // Evolutions have a collectable cost, the player can then choose which one he wants to activate
     GrabCollectableAndAutoEvolve // There are several types of collectables, one for each evolution. Once the player reach the required amount, he gets the evolution
 };
 
@@ -36,7 +35,6 @@ public class GameModeManager
     GameMode escapeMode = new GameMode(GameModeType.Escape, EvolutionMode.GrabEvolution, 1, 4);
 
     GameMode arenaMode1 = new GameMode(GameModeType.Arena, EvolutionMode.GrabCollectableAndAutoEvolve, 1, 4);
-    GameMode arenaMode2 = new GameMode(GameModeType.Arena, EvolutionMode.GrabCollectableAndActivate, 1, 4);
 
 
     public GameMode GetGameModeByName(GameModeType _name, EvolutionMode _evolutionMode = EvolutionMode.GrabEvolution)
@@ -46,10 +44,8 @@ public class GameModeManager
             case GameModeType.Escape:
                 return escapeMode;
             case GameModeType.Arena:
-                if (_evolutionMode == EvolutionMode.GrabCollectableAndAutoEvolve)
-                    return arenaMode1;
-                else
-                    return arenaMode2;
+                return arenaMode1;
+
             default:
                 Debug.LogWarning("The gamemode name specified is unknown:" + _name);
                 return null;

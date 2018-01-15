@@ -399,9 +399,6 @@ public class PlayerController : MonoBehaviour
                 HandleDashWithController();
                 PlatformistController();
                 GhostController();
-
-                if (GameManager.CurrentGameMode.evolutionMode == EvolutionMode.GrabCollectableAndActivate)
-                    HandleEvolutionsWithController();
             }
             // TODO: Externalize "state" to handle pause in PauseMenu? //  Remi : Can't manage GamePade(IndexPlayer) Instead, copy not working
             if (SceneManager.GetActiveScene() != SceneManager.GetSceneByBuildIndex(0))
@@ -511,30 +508,7 @@ public class PlayerController : MonoBehaviour
     {
         PlayerState.CollisionExit(collision);
     }
-    // Pour continuer à alleger, ajouter un composant qui s'occupe des evolution ?
-    public void HandleEvolutionsWithController()
-    {
-        if (prevState.Buttons.LeftShoulder == ButtonState.Released && state.Buttons.LeftShoulder == ButtonState.Pressed)
-        {
-            selectedEvolution = selectedEvolution > 0 ? (selectedEvolution - 1) % (int)Powers.Size : 0;
-            GameManager.UiReference.NeedUpdate(selectedEvolution.ToString());
-        }
-        if (prevState.Buttons.RightShoulder == ButtonState.Released && state.Buttons.RightShoulder == ButtonState.Pressed)
-        {
-            selectedEvolution = (selectedEvolution + 1) % (int)Powers.Size;
-            GameManager.UiReference.NeedUpdate(selectedEvolution.ToString());
-        }
-        if (prevState.Buttons.Y == ButtonState.Released && state.Buttons.Y == ButtonState.Pressed)
-        {
-            Evolution selectedEvol = GameManager.EvolutionManager.GetEvolutionByPowerName((Powers)Enum.Parse(typeof(Powers), selectedEvolution.ToString()));
-            if (player.Collectables[0] >= selectedEvol.Cost)
-            {
-                player.EvolveGameplay2(selectedEvol);
-            }
-            // if has enough => evolve else nothing
-        }
 
-    }
     public virtual void HandleMovementWithController()
     {
         Vector3 initialVelocity = PlayerState.HandleSpeedWithController();
