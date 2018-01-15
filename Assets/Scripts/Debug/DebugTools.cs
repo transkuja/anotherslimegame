@@ -395,6 +395,16 @@ public class DebugTools : MonoBehaviour {
                         GameManager.Instance.ScoreScreenReference.RankPlayersByPoints();
                     }
                 }
+
+                if (debugPlayerSelected == null || debugPlayerSelected.GetComponent<PlayerController>() == null)
+                    return;
+
+                if (debugPlayerSelected.GetComponent<PlayerController>().State.Buttons.Y == ButtonState.Pressed 
+                    && debugPlayerSelected.GetComponent<PlayerController>().PrevState.DPad.Up == ButtonState.Released
+                    && debugPlayerSelected.GetComponent<PlayerController>().State.DPad.Up == ButtonState.Pressed)
+                {
+                    SceneManager.LoadScene((SceneManager.GetActiveScene().buildIndex + 1) % SceneManager.sceneCountInBuildSettings);
+                }
             }
         }
 

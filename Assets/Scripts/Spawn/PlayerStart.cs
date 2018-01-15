@@ -10,7 +10,9 @@ public class PlayerStart : MonoBehaviour {
     public GameObject playerPrefab;
     public GameObject[] cameraPlayerReferences;
     uint activePlayersAtStart = 0;
-    public bool DEBUG_playWithFourPlayers = true;
+    public bool DEBUG_ForceNbPlayers = true;
+    [Range(1, 4)]
+    public uint DEBUG_NbPlayers = 1;
 
     List<GameObject> playersReference = new List<GameObject>();
     [SerializeField]
@@ -42,11 +44,11 @@ public class PlayerStart : MonoBehaviour {
         AttributeCamera();
 
         // Inits
-        if (SceneManager.GetActiveScene() != SceneManager.GetSceneByBuildIndex(0))
-        {
-            InitializeScorePanel();
-            InitializePlayersUI();
-        }
+        //if (SceneManager.GetActiveScene() != SceneManager.GetSceneByBuildIndex(0))
+        //{
+        //    InitializeScorePanel();
+        //    InitializePlayersUI();
+        //}
         if (SceneManager.GetActiveScene().name == "SceneMinigamePush")
         {
             MiniGamePushManager.Singleton.StartGame(PlayersReference);
@@ -67,9 +69,9 @@ public class PlayerStart : MonoBehaviour {
         //    }
         //}
 
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
         ResourceUtils.Instance.debugTools.ActivateDebugMode(true);
-#endif
+//#endif
     }
 
     public Transform GetPlayerStart(uint playerIndex)
@@ -80,13 +82,13 @@ public class PlayerStart : MonoBehaviour {
 
     void CheckNumberOfActivePlayers()
     {
-#if UNITY_EDITOR
-        if (DEBUG_playWithFourPlayers)
+//#if UNITY_EDITOR
+        if (DEBUG_ForceNbPlayers)
         {
-            activePlayersAtStart = 4;
+            activePlayersAtStart = DEBUG_NbPlayers;
             return;
         }
-#endif
+//#endif
         for (int i = 0; i < 4; ++i)
         {
             PlayerIndex testPlayerIndex = (PlayerIndex)i;
@@ -107,7 +109,8 @@ public class PlayerStart : MonoBehaviour {
     public void SpawnPlayers()
     {
         CheckNumberOfActivePlayers();
-        
+        PlayersReference.Clear();
+
         for (int i = 0; i < activePlayersAtStart; i++)
         {
             GameObject go = Instantiate(playerPrefab);
@@ -147,13 +150,14 @@ public class PlayerStart : MonoBehaviour {
             if (MinigameManager.IsAMiniGameScene())
                 return;
 
-            for (int i = 0; i < activePlayersAtStart; i++)
-            {
-                Player currentPlayer = PlayersReference[i].GetComponent<Player>();
-                currentPlayer.Collectables = GameManager.Instance.playerCollectables[i];
-                currentPlayer.evolutionTutoShown = GameManager.Instance.playerEvolutionTutoShown[i];
-                currentPlayer.costAreaTutoShown = GameManager.Instance.playerCostAreaTutoShown[i];
-            }
+            // TODO: Persist things between scenes, needs a review
+            //for (int i = 0; i < activePlayersAtStart; i++)
+            //{
+            //    Player currentPlayer = PlayersReference[i].GetComponent<Player>();
+            //    currentPlayer.Collectables = GameManager.Instance.playerCollectables[i];
+            //    currentPlayer.evolutionTutoShown = GameManager.Instance.playerEvolutionTutoShown[i];
+            //    currentPlayer.costAreaTutoShown = GameManager.Instance.playerCostAreaTutoShown[i];
+            //}
         }
     }
 

@@ -66,7 +66,6 @@ public class PlayerController : MonoBehaviour
 
     public float raycastDist = 0.75f;
     float raycastOffsetPlayer;
-    Ray[] raycastRays = new Ray[4];
 
     public bool IsUnderWater = false;
 
@@ -348,10 +347,6 @@ public class PlayerController : MonoBehaviour
         PlayerState = freeState;
         raycastOffsetPlayer = GetComponent<SphereCollider>().radius;
 
-        raycastRays[0] = new Ray();
-        raycastRays[0] = new Ray();
-        raycastRays[0] = new Ray();
-        raycastRays[0] = new Ray();
     }
 
 
@@ -368,6 +363,7 @@ public class PlayerController : MonoBehaviour
             return;
         if (!playerIndexSet)
             return;
+
         if (!prevState.IsConnected)
         {
             isUsingAController = false;
@@ -511,6 +507,9 @@ public class PlayerController : MonoBehaviour
 
     public virtual void HandleMovementWithController()
     {
+        if (playerState == null)
+            return;
+        
         Vector3 initialVelocity = PlayerState.HandleSpeedWithController();
 
         PlayerState.Move(initialVelocity);

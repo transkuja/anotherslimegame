@@ -95,7 +95,7 @@ public class PlayerState  {
     {
         Vector3 initialVelocity = new Vector3(playerController.State.ThumbSticks.Left.X, 0.0f, playerController.State.ThumbSticks.Left.Y);
         initialVelocity.Normalize();
-       
+
         initialVelocity *= playerController.stats.Get(Stats.StatType.GROUND_SPEED);
         if (Utils.Abs(playerController.State.ThumbSticks.Left.X) + Utils.Abs(playerController.State.ThumbSticks.Left.Y) < 0.95f)
         {
@@ -107,6 +107,9 @@ public class PlayerState  {
 
     public virtual void Move(Vector3 initialVelocity)
     {
+        if (playerController.Player.cameraReference == null)
+            return;
+
         Vector3 camVectorForward = new Vector3(playerController.Player.cameraReference.transform.GetChild(0).forward.x, 0.0f, playerController.Player.cameraReference.transform.GetChild(0).forward.z);
         camVectorForward.Normalize();
 
