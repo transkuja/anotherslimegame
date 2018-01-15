@@ -10,6 +10,7 @@ public class Player : MonoBehaviour {
 
     [Header("Collectables")]
     [SerializeField] int[] collectables;
+    [SerializeField] int points;
 
     public uint activeEvolutions = 0;
 
@@ -92,16 +93,16 @@ public class Player : MonoBehaviour {
         }
     }
 
-    public int[] Collectables
+    public int Points
     {
         get
         {
-            return collectables;
+            return points;
         }
 
         set
         {
-            collectables = value;
+            points = value;
         }
     }
 
@@ -136,7 +137,7 @@ public class Player : MonoBehaviour {
                 // TODO: REACTIVATE INSTEAD OF INSTANTIATE (keys must not be destroyed too)
                 if (!GameManager.Instance.isTimeOver)
                 {
-                    for (int i = 0; i < Utils.GetMaxValueForCollectable(CollectableType.Key); i++)
+                    for (int i = 0; i < Utils.GetMaxValueForCollectable(CollectableType.Rune); i++)
                     {
                         if (KeysReset[i] == null)
                             break;
@@ -153,7 +154,7 @@ public class Player : MonoBehaviour {
                                 KeysReset[i].initialPosition,
                                 KeysReset[i].initialRotation,
                                 null,
-                                CollectableType.Key)
+                                CollectableType.Rune)
                             .GetComponent<Collectable>().Init();
                         }
                     }
@@ -217,26 +218,49 @@ public class Player : MonoBehaviour {
             pendingTutoText = value;
         }
     }
+
+    public int[] Collectables
+    {
+        get
+        {
+            return collectables;
+        }
+
+        set
+        {
+            collectables = value;
+        }
+    }
     #endregion
 
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        collectables = new int[(int)CollectableType.Size];
     }
+
     void Start()
-    {
-        
-        keysReset = new KeyReset[Utils.GetMaxValueForCollectable(CollectableType.Key)];
+    {     
+        keysReset = new KeyReset[Utils.GetMaxValueForCollectable(CollectableType.Rune)];
+        collectables = new int[(int)CollectableType.Size];
     }
 
     public void UpdateCollectableValue(CollectableType type, int pickedValue)
     {
-        collectables[(int)type] = Mathf.Clamp(collectables[(int)type] + pickedValue, 0, Utils.GetMaxValueForCollectable(type));
-        if (type == CollectableType.Key)
-            GameManager.Instance.PlayerUI.RefreshKeysPlayerUi(this, collectables[(int)type]);
-        if (type == CollectableType.Points)
-            GameManager.Instance.PlayerUI.RefreshPointsPlayerUi(this, collectables[(int)type], cameraReference.transform.GetSiblingIndex());
+        if (type == CollectableType.Rune)
+        {
+            GameManager.Instance.Runes += 1;
+            GameManager.Instance.PlayerUI.RefreshKeysPlayerUi(this, GameManager.Instance.Runes);
+        }
+        else if (type == CollectableType.Points)
+        {
+            points = Mathf.Clamp(points + pickedValue, 0, Utils.GetMaxValueForCollectable(type));
+            GameManager.Instance.PlayerUI.RefreshPointsPlayerUi(this, points, cameraReference.transform.GetSiblingIndex());
+        }
+        // All collectables that are not points or runes should be handled like this
+        else
+        {
+            collectables[(int)type] = Mathf.Clamp(collectables[(int)type] + pickedValue, 0, Utils.GetMaxValueForCollectable(type));
+        }
 
         if (!Utils.IsAnEvolutionCollectable(type))
             return;
@@ -246,13 +270,13 @@ public class Player : MonoBehaviour {
 
     public void AddKeyInitialPosition(Transform _tr, KeyFrom _from)
     {
-        int currentlyHold = collectables[(int)CollectableType.Key];
+        int currentlyHold = collectables[(int)CollectableType.Rune];
         KeysReset[currentlyHold - 1] = new KeyReset(_tr, _from);
     }
 
     public void AddKeyInitialPosition(KeyReset _keyData)
     {
-        int currentlyHold = collectables[(int)CollectableType.Key];
+        int currentlyHold = collectables[(int)CollectableType.Rune];
         KeysReset[currentlyHold - 1] = _keyData;
     }
 
@@ -267,16 +291,10 @@ public class Player : MonoBehaviour {
             return canEvolve;
 
         if (canEvolve)
-            EvolutionProcess(_evolution);
+            PermanentEvolution(_evolution);
 
         return canEvolve;       
     }
-
-    void EvolutionProcess(Evolution _evolution)
-    {
-        PermanentEvolution(_evolution);
-    }
-
 
     private void PermanentEvolution(Evolution evolution)
     {

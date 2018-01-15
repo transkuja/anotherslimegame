@@ -508,8 +508,7 @@ public class PlayerController : MonoBehaviour
     {
         PlayerState.CollisionExit(collision);
     }
-    // Pour continuer à alleger, ajouter un composant qui s'occupe des evolution ?
-  
+
     public virtual void HandleMovementWithController()
     {
         Vector3 initialVelocity = PlayerState.HandleSpeedWithController();

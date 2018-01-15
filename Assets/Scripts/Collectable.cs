@@ -89,7 +89,7 @@ public class Collectable : MonoBehaviour
         if (player && !IsAttracted && !haveToDisperse)
         {
             // Grab everything not linked to evolution (points)
-            if (!Utils.IsAnEvolutionCollectable(GetComponent <Collectable>().type))
+            if (!Utils.IsAnEvolutionCollectable(GetComponent<Collectable>().type))
             {
                 if (player.Collectables[(int)GetComponent<Collectable>().type] < Utils.GetMaxValueForCollectable(GetComponent<Collectable>().type))
                 {
@@ -125,11 +125,11 @@ public class Collectable : MonoBehaviour
             }
             else
             {
-                if (GetComponent<Collectable>().type == CollectableType.Key)
+                if (GetComponent<Collectable>().type == CollectableType.Rune)
                 {
                     if (hasBeenSpawned)
                     {
-                        int currentlyHoldByOwner = lastOwner.Collectables[(int)CollectableType.Key];
+                        int currentlyHoldByOwner = lastOwner.Collectables[(int)CollectableType.Rune];
 
                         KeyReset keyData = lastOwner.KeysReset[currentlyHoldByOwner];                      
                         playerTarget.AddKeyInitialPosition(keyData);

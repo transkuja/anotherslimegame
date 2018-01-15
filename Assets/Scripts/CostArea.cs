@@ -89,7 +89,7 @@ public class CostArea : MonoBehaviour {
     {
         costText.text = "x " + cost;
         currencyLogo.sprite = GetLogoFromCurrency(currency);
-        if (currency == CollectableType.Key)
+        if (currency == CollectableType.Rune)
         {
             // Ugly ugly ugly wooooooohohooooo uuuuuglyyyy tudududidadidu
             currencyLogo.color = new Color(0, 146, 255, 255);
@@ -101,7 +101,7 @@ public class CostArea : MonoBehaviour {
             GameObject rewardFeedback = Instantiate(rewardPrefab, rewardPreview);
             rewardFeedback.transform.localPosition = Vector3.zero;
             // TODO: UGLY, tweak the feedback a bit instead (may be hard for position as the pivot point for hammer is not centered)
-            if (rewardType == CollectableType.Key)
+            if (rewardType == CollectableType.Rune)
             {
                 rewardFeedback.transform.localPosition += Vector3.up * 2.0f;
                 rewardPreview.localScale = Vector3.one * 0.5f;
@@ -206,7 +206,7 @@ public class CostArea : MonoBehaviour {
         if (costAreaType == CostAreaType.PayAndGetItem)
         {
             _player.Player.UpdateCollectableValue(rewardType, rewardQuantity);
-            if (rewardType == CollectableType.Key)
+            if (rewardType == CollectableType.Rune)
             {
                 _player.Player.AddKeyInitialPosition(transform, KeyFrom.CostArea);
             }
@@ -253,7 +253,7 @@ public class CostArea : MonoBehaviour {
             case CostAreaType.PayAndGetItem:
                 switch (rewardType)
                 {
-                    case CollectableType.Key:
+                    case CollectableType.Rune:
                         return ResourceUtils.Instance.feedbacksManager.prefabCostAreaKeyFeedback;
                     case CollectableType.PlatformistEvolution1:
                         return ResourceUtils.Instance.feedbacksManager.prefabCostAreaPlatformistFeedback;
@@ -286,7 +286,7 @@ public class CostArea : MonoBehaviour {
     {
         switch(_currency)
         {
-            case CollectableType.Key:
+            case CollectableType.Rune:
                 return currencyRune;
 
             case CollectableType.Points:
