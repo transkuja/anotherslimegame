@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FeedbacksManager : MonoBehaviour {
+public class FeedbacksManager : MonoBehaviour
+{
 
     [Header("Shelter Feedbacks")]
     public GameObject prefabShelterPlatformistFeedback;

@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MiniGamePushManager : MonoBehaviour {
+public class MiniGamePushManager : MonoBehaviour
+{
 
     CostArea costArea;
-     // fake singleton
+    // fake singleton
     static MiniGamePushManager singleton;
 
     public static MiniGamePushManager Singleton
@@ -27,9 +28,10 @@ public class MiniGamePushManager : MonoBehaviour {
     {
         costArea = GetComponent<CostArea>();
     }
-    void Update () {
-		
-	}
+    void Update()
+    {
+
+    }
     public void StartGame(List<GameObject> playerReferences)
     {
         Utils.PopTutoTextForAll("Steal their coins!", "Dash with X or crush them by pressing Y in the air");

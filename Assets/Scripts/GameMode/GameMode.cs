@@ -5,12 +5,13 @@ using UnityEngine;
 
 
 
-abstract public class GameMode {
+abstract public class GameMode
+{
 
     readonly protected int nbPlayersMin;
     readonly protected int nbPlayersMax;
 
-    public GameMode(int _nbPlayerMin= 2,int nbPlayerMax = 4)
+    public GameMode(int _nbPlayerMin = 2, int nbPlayerMax = 4)
     {
         nbPlayersMin = _nbPlayerMin;
     }

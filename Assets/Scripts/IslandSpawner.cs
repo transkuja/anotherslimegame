@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-public class IslandSpawner : MonoBehaviour {
+public class IslandSpawner : MonoBehaviour
+{
 
     private List<GameObject> evolutionIslands = new List<GameObject>();
     private List<GameObject> pointsIslands = new List<GameObject>();

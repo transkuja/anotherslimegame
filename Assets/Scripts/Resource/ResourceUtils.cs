@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ResourceUtils : MonoBehaviour {
+public class ResourceUtils : MonoBehaviour
+{
 
     private static ResourceUtils instance = null;
- 
+
     public void Awake()
     {
         if (instance == null)

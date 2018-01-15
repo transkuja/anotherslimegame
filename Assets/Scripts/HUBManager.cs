@@ -11,7 +11,8 @@ public class Tampax
     public GameObject gameplayRoomStarter;
 }
 
-public class HUBManager : MonoBehaviour {
+public class HUBManager : MonoBehaviour
+{
 
     public GameObject CostAreaMiniGamePush;
     public SpawnManager spawnManagerRef;
@@ -34,7 +35,7 @@ public class HUBManager : MonoBehaviour {
 
     // Gameplay room starters
     public List<Tampax> gameplayRoomStarters = new List<Tampax>();
-    
+
     public void Awake()
     {
         instance = this;
