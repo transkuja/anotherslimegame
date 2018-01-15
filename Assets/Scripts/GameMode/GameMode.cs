@@ -1,14 +1,19 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UWPAndXInput;
 
+
+public enum MiniGame { None, KickThemAll, Size }
 
 abstract public class GameMode : MonoBehaviour
 {
     [SerializeField] protected int nbPlayersMin;
     [SerializeField] protected int nbPlayersMax;
+
+    public virtual bool IsMiniGame()
+    {
+        return this is HubMode;
+    }
 
     public virtual void StartGame(List<GameObject> playerReferences)
     {
@@ -37,6 +42,13 @@ abstract public class GameMode : MonoBehaviour
     {
         throw new NotImplementedException();
     }
+    public static string GetSceneNameFromMinigame(MiniGame _miniGame)
+    {
+        if (_miniGame == MiniGame.KickThemAll)
+            return "SceneMinigamePush";
+        return "";
+    }
+    public void 
 }
 
 

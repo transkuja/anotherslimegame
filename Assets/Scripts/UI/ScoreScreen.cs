@@ -56,7 +56,7 @@ public class ScoreScreen : MonoBehaviour {
 
         String timeStr = string.Format("{0:00} : {1:00}", minutes, seconds);
 
-        if (SceneManager.GetActiveScene().name == MinigameManager.GetSceneNameFromMinigame(MiniGame.KickThemAll))
+        if(GameManager.Instance.CurrentGameMode.IsMiniGame())
         {
             if (transform.childCount >= rank - 1) // who did this ugly line?
             {
@@ -160,7 +160,7 @@ public class ScoreScreen : MonoBehaviour {
         {
             if (GamePad.GetState(GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerController>().playerIndex).Buttons.Start == ButtonState.Pressed)
             {
-                if (SceneManager.GetActiveScene().name == MinigameManager.GetSceneNameFromMinigame(MiniGame.KickThemAll))
+                if (GameManager.Instance.CurrentGameMode.IsMiniGame())
                 {
                     SceneManager.LoadScene(1); // ugly?
                 }

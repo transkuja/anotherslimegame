@@ -390,7 +390,7 @@ public class DebugTools : MonoBehaviour {
                 // Finish current mini game
                 if (Input.GetKeyDown(KeyCode.F))
                 {
-                    if (SceneManager.GetActiveScene().name == MinigameManager.GetSceneNameFromMinigame(MiniGame.KickThemAll))
+                    if (SceneManager.GetActiveScene().name == GameMode.GetSceneNameFromMinigame(MiniGame.KickThemAll))
                     {
                         GameManager.Instance.ScoreScreenReference.RankPlayersByPoints();
                     }

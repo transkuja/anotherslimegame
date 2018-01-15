@@ -152,7 +152,8 @@ public class CostArea : MonoBehaviour {
         if (playerComponent != null)
         {
             // TODO: rename bool array
-            if (!playerComponent.Player.costAreaTutoShown && !MinigameManager.IsAMiniGameScene())
+            
+            if (!playerComponent.Player.costAreaTutoShown && !GameManager.Instance.CurrentGameMode.IsMiniGame())
             {
                 playerComponent.Player.costAreaTutoShown = true;
                 Utils.PopTutoText("Press B to buy the reward", playerComponent.Player);
@@ -237,7 +238,7 @@ public class CostArea : MonoBehaviour {
         if (costAreaType == CostAreaType.PayAndUnlockMiniGame)
         {
             isActive = false;
-            teleporterToMiniGame.TeleportToMinigame(MinigameManager.GetSceneNameFromMinigame(minigameToUnlock));
+            teleporterToMiniGame.TeleportToMinigame(GameMode.GetSceneNameFromMinigame(minigameToUnlock));
             // Replace by the child
             costText.transform.parent.gameObject.SetActive(false);
             rewardPreview.gameObject.SetActive(false);
