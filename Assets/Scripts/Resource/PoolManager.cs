@@ -91,6 +91,7 @@ public class PoolManager : MonoBehaviour {
     public Pool collectablePointsPool;
     public Pool monsterShotsPool;
     public Pool ghostTrailPool;
+    public Pool moneyPool;
 
     void Start () {
 
@@ -128,6 +129,15 @@ public class PoolManager : MonoBehaviour {
 
         for (int i = 0; i < ghostTrailPool.poolSize; i++)
             ghostTrailPool.CreateRandomPoolItem();
+        /* =============================================================================== */
+
+        /* =============================================================================== */
+        GameObject moneyPoolParent = new GameObject("GhostTrailPool");
+        moneyPoolParent.transform.SetParent(transform);
+        moneyPool.PoolParent = moneyPoolParent.transform;
+
+        for (int i = 0; i < moneyPool.poolSize; i++)
+            moneyPool.CreateRandomPoolItem();
         /* =============================================================================== */
     }
 

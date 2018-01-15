@@ -319,7 +319,8 @@ public class PlayerCollisionCenter : MonoBehaviour {
     {
 
         // Damage Behavior
-        DamagePlayer(playerImpacted);
+        // TODO: should change target depending if it's in minigame or not, needs more thinking but it's not the right moment
+        DamagePlayer(playerImpacted, CollectableType.Points);
         //Physics.IgnoreCollision()
         // ExpluseForce
 
@@ -353,10 +354,10 @@ public class PlayerCollisionCenter : MonoBehaviour {
         }
     }
 
-    public void DamagePlayer(Player player)
+    public void DamagePlayer(Player player, CollectableType _damageOn)
     {
         // Damage Behavior
-        int typeCollectable = (int)CollectableType.Points;
+        int typeCollectable = (int)_damageOn;
         //switch (GameManager.CurrentGameMode.gameModeType)
         //{
         //    case GameModeType.Escape:
@@ -380,8 +381,13 @@ public class PlayerCollisionCenter : MonoBehaviour {
         if (player.Collectables[typeCollectable] > 0)
         {
             int numberOfCollectablesToDrop;
-            if (typeCollectable == (int)CollectableType.Rune) numberOfCollectablesToDrop = 1;
-            else numberOfCollectablesToDrop = (int)Mathf.Clamp(((float)(player.Collectables[typeCollectable]) / Utils.GetDefaultCollectableValue(typeCollectable)), 1, 6);
+            if (typeCollectable == (int)CollectableType.Rune)
+                numberOfCollectablesToDrop = 1;
+            else if (typeCollectable == (int)CollectableType.Money)
+                numberOfCollectablesToDrop = (int)Mathf.Clamp(((float)(GameManager.Instance.GlobalMoney) / Utils.GetDefaultCollectableValue(typeCollectable)), 1, 6);
+            else
+                numberOfCollectablesToDrop = (int)Mathf.Clamp(((float)(player.Collectables[typeCollectable]) / Utils.GetDefaultCollectableValue(typeCollectable)), 1, 6);
+
             for (int i = 0; i < numberOfCollectablesToDrop; i++)
             {
                 player.UpdateCollectableValue((CollectableType)typeCollectable, -Utils.GetDefaultCollectableValue(typeCollectable));
@@ -396,7 +402,12 @@ public class PlayerCollisionCenter : MonoBehaviour {
                     go.GetComponent<Collectable>().lastOwner = player;
                 }
                 else
-                    go = ResourceUtils.Instance.poolManager.collectablePointsPool.GetItem(null, transform.position + Vector3.up * 0.5f, player.transform.rotation, true);
+                {
+                    if (typeCollectable == (int)CollectableType.Money)
+                        go = ResourceUtils.Instance.poolManager.moneyPool.GetItem(null, transform.position + Vector3.up * 0.5f, player.transform.rotation, true);
+                    else
+                        go = ResourceUtils.Instance.poolManager.collectablePointsPool.GetItem(null, transform.position + Vector3.up * 0.5f, player.transform.rotation, true);
+                }
 
                 go.GetComponent<Collectable>().Disperse(i);
             }
