@@ -42,7 +42,11 @@ public class HubMode : GameMode
 
             go.GetComponent<Player>().cameraReference = cameraReferences[i];
             cameraReferences[i].SetActive(true);
-
         }
+    }
+    public override void PlayerHasFinished(Player _player)
+    {
+        _player.HasFinishedTheRun = true;
+        GameManager.Instance.ScoreScreenReference.RefreshScores(_player);
     }
 }

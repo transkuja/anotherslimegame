@@ -12,6 +12,7 @@ abstract public class GameMode : MonoBehaviour
 
     public virtual void StartGame(List<GameObject> playerReferences)
     {
+        
     }
     public virtual void AttributeCamera(uint activePlayersAtStart, GameObject[] cameraReferences, List<GameObject> playersReference)
     {
@@ -31,6 +32,10 @@ abstract public class GameMode : MonoBehaviour
             cameraReferences[0].transform.GetChild(0).GetComponent<Camera>().rect = new Rect(0, 0.5f, 0.5f, 0.5f);
             cameraReferences[1].transform.GetChild(0).GetComponent<Camera>().rect = new Rect(0.5f, 0.5f, 0.5f, 0.5f);
         }
+    }
+    public virtual  void PlayerHasFinished(Player player)
+    {
+        throw new NotImplementedException();
     }
 }
 

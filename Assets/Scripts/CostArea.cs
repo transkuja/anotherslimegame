@@ -237,7 +237,7 @@ public class CostArea : MonoBehaviour {
             switch (costAreaEvent)
             {
                 case CostAreaEvent.EndGame:
-                    HasFinishedProcess(_player.Player);
+                    GameManager.Instance.CurrentGameMode.PlayerHasFinished(_player);
                     break;
                 case CostAreaEvent.IncreaseWater:
                     HUBManager.instance.StartIncreasing();
@@ -318,16 +318,4 @@ public class CostArea : MonoBehaviour {
     }
 
     ////////////////////////////////////// EVENTS //////////////////////////////////////////
-    public void HasFinishedProcess(Player _player)
-    {
-        if (SceneManager.GetActiveScene().name == MinigameManager.GetSceneNameFromMinigame(MiniGame.KickThemAll))
-        {
-            GameManager.Instance.ScoreScreenReference.RankPlayersByPoints();
-        }
-        else
-        {
-            _player.HasFinishedTheRun = true;
-            GameManager.Instance.ScoreScreenReference.RefreshScores(_player);
-        }
-    }
 }
