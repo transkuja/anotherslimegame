@@ -2,24 +2,36 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UWPAndXInput;
 
 
-
-abstract public class GameMode
+abstract public class GameMode : MonoBehaviour
 {
+    [SerializeField] protected int nbPlayersMin;
+    [SerializeField] protected int nbPlayersMax;
 
-    readonly protected int nbPlayersMin;
-    readonly protected int nbPlayersMax;
-
-    public GameMode(int _nbPlayerMin = 2, int nbPlayerMax = 4)
-    {
-        nbPlayersMin = _nbPlayerMin;
-    }
     public virtual void OnBegin()
     {
-
     }
-    public abstract void AttributeCamera();
+    public virtual void AttributeCamera(uint activePlayersAtStart, GameObject[] cameraReferences, List<GameObject> playersReference)
+    {
+        if (cameraReferences.Length == 0)
+        {
+            Debug.LogError("No camera assigned in playerStart");
+            return;
+        }
+        // By default, cameraP2 is set for 2-Player mode, so we only update cameraP1
+        if (activePlayersAtStart == 2)
+        {
+            cameraReferences[0].transform.GetChild(0).GetComponent<Camera>().rect = new Rect(0, 0, 0.5f, 1.0f);
+        }
+        // By default, cameraP3 and cameraP4 are set for 4-Player mode, so we only update cameraP1 and cameraP2
+        else if (activePlayersAtStart > 2)
+        {
+            cameraReferences[0].transform.GetChild(0).GetComponent<Camera>().rect = new Rect(0, 0.5f, 0.5f, 0.5f);
+            cameraReferences[1].transform.GetChild(0).GetComponent<Camera>().rect = new Rect(0.5f, 0.5f, 0.5f, 0.5f);
+        }
+    }
 }
 
 

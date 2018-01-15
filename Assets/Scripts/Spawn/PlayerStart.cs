@@ -8,6 +8,9 @@ public class PlayerStart : MonoBehaviour {
 
     Transform[] playerStart;
     public GameObject playerPrefab;
+    [SerializeField] GameObject PlayerUI;
+    [SerializeField] GameMode gameMode;
+
     public GameObject[] cameraPlayerReferences;
     uint activePlayersAtStart = 0;
     public bool DEBUG_playWithFourPlayers = true;
@@ -15,6 +18,8 @@ public class PlayerStart : MonoBehaviour {
     List<GameObject> playersReference = new List<GameObject>();
     [SerializeField]
     public Color[] colorPlayer;
+
+
 
     public List<GameObject> PlayersReference
     {
@@ -39,7 +44,8 @@ public class PlayerStart : MonoBehaviour {
             playerStart[i] = transform.GetChild(i);
         GameManager.Instance.RegisterPlayerStart(this);
         SpawnPlayers();
-        AttributeCamera();
+        Debug.Assert(gameMode != null, "Missing gameMode");
+        gameMode.AttributeCamera(activePlayersAtStart, cameraPlayerReferences, playersReference);
 
         // Inits
         if (SceneManager.GetActiveScene() != SceneManager.GetSceneByBuildIndex(0))
@@ -194,7 +200,6 @@ public class PlayerStart : MonoBehaviour {
 
             go.GetComponent<Player>().cameraReference = cameraPlayerReferences[i];
             cameraPlayerReferences[i].SetActive(true);
-  
         }
     }
 
