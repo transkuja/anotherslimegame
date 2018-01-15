@@ -192,33 +192,12 @@ public class CostArea : MonoBehaviour {
 
     bool Pay(PlayerController _player)
     {
-		int money;
-        if (currency == CollectableType.Rune)
+        int money = _player.Player.Collectables[(int)currency];
+        if (money >= cost)
         {
-            money = GameManager.Instance.Runes;
-            if (money >= cost)
-                return true;
+            _player.Player.UpdateCollectableValue(Currency, -Cost);
+            return true;
         }
-        else if (currency == CollectableType.Money)
-        {
-            money = GameManager.Instance.GlobalMoney;
-            if (money >= cost)
-            {
-                GameManager.Instance.GlobalMoney -= cost;
-                return true;
-            }
-        }
-        else
-        {
-            money = _player.Player.Collectables[(int)currency];
-
-            if (money >= cost)
-            {
-                _player.Player.UpdateCollectableValue(Currency, -Cost);
-                return true;
-            }
-        }
-
         return false;
     }
 
@@ -237,7 +216,7 @@ public class CostArea : MonoBehaviour {
             switch (costAreaEvent)
             {
                 case CostAreaEvent.EndGame:
-                    GameManager.Instance.CurrentGameMode.PlayerHasFinished(_player);
+                    GameManager.Instance.CurrentGameMode.PlayerHasFinished(_player.Player);
                     break;
                 case CostAreaEvent.IncreaseWater:
                     HUBManager.instance.StartIncreasing();
@@ -318,4 +297,5 @@ public class CostArea : MonoBehaviour {
     }
 
     ////////////////////////////////////// EVENTS //////////////////////////////////////////
+ 
 }
