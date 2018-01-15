@@ -7,10 +7,6 @@ public class DeathZone : MonoBehaviour {
     {
         if (other.GetComponent<Player>() != null)
         {
-            if(SceneManager.GetActiveScene().name == "SceneMinigamePush")
-            {
-                MiniGamePushManager.Singleton.ResetPlayer(other.GetComponent<Player>());
-            }
             Respawner.RespawnProcess(other.GetComponent<Player>());
         }
     }

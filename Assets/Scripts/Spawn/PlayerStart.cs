@@ -53,11 +53,7 @@ public class PlayerStart : MonoBehaviour {
             InitializeScorePanel();
             InitializePlayersUI();
         }
-        if (SceneManager.GetActiveScene().name == "SceneMinigamePush")
-        {
-            MiniGamePushManager.Singleton.StartGame(PlayersReference);
-           
-        }
+        gameMode.StartGame(playersReference);
 
         // Pour chaque joueur
         //for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)

@@ -10,7 +10,7 @@ abstract public class GameMode : MonoBehaviour
     [SerializeField] protected int nbPlayersMin;
     [SerializeField] protected int nbPlayersMax;
 
-    public virtual void OnBegin()
+    public virtual void StartGame(List<GameObject> playerReferences)
     {
     }
     public virtual void AttributeCamera(uint activePlayersAtStart, GameObject[] cameraReferences, List<GameObject> playersReference)
