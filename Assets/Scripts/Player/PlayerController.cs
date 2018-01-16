@@ -66,7 +66,6 @@ public class PlayerController : MonoBehaviour
 
     public float raycastDist = 0.75f;
     float raycastOffsetPlayer;
-    Ray[] raycastRays = new Ray[4];
 
     public bool IsUnderWater = false;
 
@@ -347,11 +346,6 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Player should not be null");
         PlayerState = freeState;
         raycastOffsetPlayer = GetComponent<SphereCollider>().radius;
-
-        raycastRays[0] = new Ray();
-        raycastRays[0] = new Ray();
-        raycastRays[0] = new Ray();
-        raycastRays[0] = new Ray();
     }
 
 
