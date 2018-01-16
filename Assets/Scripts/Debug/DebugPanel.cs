@@ -15,6 +15,7 @@ public class DebugPanel : MonoBehaviour {
     Text collectablesText;
     Text playerInfoText;
     public Text infoText;
+    public Text fpsText;
 
     void Start () {
         evolutions = transform.GetChild((int)DebugPanelChildren.EvolutionsState);
@@ -25,6 +26,8 @@ public class DebugPanel : MonoBehaviour {
         evolutionsText = evolutions.GetComponent<Text>();
         collectablesText = collectables.GetComponent<Text>();
         playerInfoText = playerInfo.GetComponent<Text>();
+        fpsText = transform.GetChild(6).GetComponent<Text>();
+
         evolutionsText.text = collectablesText.text = playerInfoText.text = "";
     }
 
@@ -46,6 +49,8 @@ public class DebugPanel : MonoBehaviour {
         UpdateEvolutionText();
         UpdateCollectableText();
         UpdatePlayerInfoText();
+        if (fpsText != null)
+            fpsText.text = DebugTools.computedFPS.ToString("0.0") + "FPS";
     }
 
     void UpdateEvolutionText()

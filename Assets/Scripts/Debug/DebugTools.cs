@@ -30,6 +30,19 @@ public class DebugTools : MonoBehaviour {
     bool hasReleasedHelpButton = false;
     float timerShowHelp = 5.0f;
     float currentTimerShowHelp = 0.0f;
+    public GameObject[] buildings;
+    int buildingToShow = 8;
+    List<float> lastFramesTime = new List<float>();
+    public static float computedFPS = 0.0f;
+
+    private void Start()
+    {
+        buildingToShow = 0;
+        for (int i = buildingToShow; i < buildings.Length; i++)
+        {
+            buildings[i].SetActive(false);
+        }
+    }
 
     public static Player DebugPlayerSelected
     {
@@ -114,6 +127,19 @@ public class DebugTools : MonoBehaviour {
 
         if (isDebugModeActive)
         {
+            lastFramesTime.Add(Time.deltaTime);
+            if (lastFramesTime.Count >= 10)
+            {
+                lastFramesTime.RemoveAt(0);
+            }
+
+            computedFPS = 0;
+            for (int i = 0; i < lastFramesTime.Count; i++)
+            {
+                computedFPS += lastFramesTime[i];
+            }
+            computedFPS = lastFramesTime.Count / computedFPS;
+
             // TODO Antho: Handle evolution mode switch
             // Add evolution to current player
             if (Input.GetKey(KeyCode.Alpha1))
@@ -328,7 +354,7 @@ public class DebugTools : MonoBehaviour {
                     Debug.Log("Switch to player index: " + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
                 }
 
-                if (Input.GetKeyDown(KeyCode.T))
+                if (Input.GetKeyDown(KeyCode.T) || debugPlayerSelected.GetComponent<PlayerController>().PrevState.DPad.Down == ButtonState.Pressed)
                 {
                     if (teleportPlayerPositionsList == null || teleportPlayerPositionsList.Count == 0)
                     {
@@ -404,6 +430,45 @@ public class DebugTools : MonoBehaviour {
                     && debugPlayerSelected.GetComponent<PlayerController>().State.DPad.Up == ButtonState.Pressed)
                 {
                     SceneManager.LoadScene((SceneManager.GetActiveScene().buildIndex + 1) % SceneManager.sceneCountInBuildSettings);
+                }
+
+                if (debugPlayerSelected.GetComponent<PlayerController>().State.Triggers.Right > 0.0f && DebugPanelReference.GetComponent<DebugPanel>().fpsText != null)
+                {
+                    DebugPanelReference.GetComponent<DebugPanel>().fpsText.gameObject.SetActive(true);
+                }
+                else
+                {
+                    DebugPanelReference.GetComponent<DebugPanel>().fpsText.gameObject.SetActive(false);
+                }
+
+                if (debugPlayerSelected.GetComponent<PlayerController>().PrevState.DPad.Right == ButtonState.Released
+                    && debugPlayerSelected.GetComponent<PlayerController>().State.DPad.Right == ButtonState.Pressed)
+                {
+                    buildingToShow = (buildingToShow + 1) % 8;
+                    for (int i = 0; i < buildingToShow; i++)
+                    {
+                        buildings[i].SetActive(true);
+                    }
+                    for (int i = buildingToShow; i < buildings.Length; i++)
+                    {
+                        buildings[i].SetActive(false);
+                    }
+                }
+
+                if (debugPlayerSelected.GetComponent<PlayerController>().PrevState.DPad.Left == ButtonState.Released
+                    && debugPlayerSelected.GetComponent<PlayerController>().State.DPad.Left == ButtonState.Pressed)
+                {
+                    buildingToShow = (buildingToShow - 1) % 8;
+                    if (buildingToShow < 0) buildingToShow = 7;
+
+                    for (int i = 0; i < buildingToShow; i++)
+                    {
+                        buildings[i].SetActive(true);
+                    }
+                    for (int i = buildingToShow; i < buildings.Length; i++)
+                    {
+                        buildings[i].SetActive(false);
+                    }
                 }
             }
         }
