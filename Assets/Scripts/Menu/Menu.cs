@@ -15,6 +15,9 @@ public class Menu : MonoBehaviour {
     int selectedMode = -1;
     int nbPlayers = -1;
 
+    Button currentlySelectedButton;
+    bool buttonNeedUpdate = false;
+
     public void SetMode(int _modeSelected)
     {
         selectedMode = _modeSelected;
@@ -40,39 +43,57 @@ public class Menu : MonoBehaviour {
             GoToNextState();
         }
 
-        if (controllerState.ThumbSticks.Left.X > 0.25f && prevControllerState.ThumbSticks.Left.X < 0.25f || controllerState.ThumbSticks.Left.Y > 0.25f && prevControllerState.ThumbSticks.Left.Y < 0.25f)
+        if (controllerState.ThumbSticks.Left.X > 0.25f && prevControllerState.ThumbSticks.Left.X < 0.25f
+                || controllerState.ThumbSticks.Left.Y > 0.25f && prevControllerState.ThumbSticks.Left.Y < 0.25f)
         {
+            buttonNeedUpdate = true;
             currentCursor++;
-            // Update visual feedback
+        }
+        else if (controllerState.ThumbSticks.Left.X < -0.25f && prevControllerState.ThumbSticks.Left.X > -0.25f
+                || controllerState.ThumbSticks.Left.Y < -0.25f && prevControllerState.ThumbSticks.Left.Y > -0.25f)
+        {
+            buttonNeedUpdate = true;
+            currentCursor--;
+        }
+
+        // Update visual feedback
+        if (buttonNeedUpdate)
+        {
             if (currentState == MenuState.NumberOfPlayers && selectedMode == 1)
             {
-                currentCursor = currentCursor % 4;
-                transform.GetChild((int)currentState).GetChild(3).GetChild(currentCursor).GetComponent<Button>().Select();
+                if (currentCursor < 0)
+                    currentCursor = 3;
+                else
+                    currentCursor = currentCursor % 4;
+                currentlySelectedButton = transform.GetChild((int)currentState).GetChild(3).GetChild(currentCursor).GetComponent<Button>();
+                currentlySelectedButton.Select();
             }
             else
             {
-                currentCursor = currentCursor % 2;
-                transform.GetChild((int)currentState).GetChild(2).GetChild(currentCursor).GetComponent<Button>().Select();
+                if (currentCursor < 0)
+                    currentCursor = 1;
+                else
+                    currentCursor = currentCursor % 2;
+                currentlySelectedButton = transform.GetChild((int)currentState).GetChild(2).GetChild(currentCursor).GetComponent<Button>();
+                currentlySelectedButton.Select();
+            }
+            buttonNeedUpdate = false;
+        }
+
+        if (prevControllerState.Buttons.A == ButtonState.Released && controllerState.Buttons.A == ButtonState.Pressed)
+        {
+            if (currentlySelectedButton != null)
+            {
+                currentlySelectedButton.onClick.Invoke();
+                GoToNextState();
             }
         }
-        //else if (controllerState.ThumbSticks.Left.X < -0.25f && prevControllerState.ThumbSticks.Left.X > -0.25f 
-        //    || controllerState.ThumbSticks.Left.Y < -0.25f && prevControllerState.ThumbSticks.Left.Y > -0.25f)
-        //{
-        //    currentCursor--;
-        //    // Update visual feedback
-        //    transform.GetChild((int)MenuState.ModeSelection).GetChild(2 + currentCursor).GetComponent<Button>().Select();
-        //}
 
-        if (prevControllerState.Buttons.A == ButtonState.Released && prevControllerState.Buttons.A == ButtonState.Pressed)
+        else if (prevControllerState.Buttons.B == ButtonState.Released && controllerState.Buttons.B == ButtonState.Pressed)
         {
-            //GoToNextState();
-            transform.GetChild((int)MenuState.ModeSelection).GetChild(2 + currentCursor).GetComponent<Button>().onClick.Invoke();
+            if (currentState != MenuState.TitleScreen)
+                ReturnToPreviousState();
         }
-        else if (prevControllerState.Buttons.B == ButtonState.Released && prevControllerState.Buttons.B == ButtonState.Pressed)
-        {
-            ReturnToPreviousState();
-        }
-        Debug.Log(currentCursor);
     }
 
     public void SetState(MenuState _newState)
@@ -81,6 +102,9 @@ public class Menu : MonoBehaviour {
         transform.GetChild((int)currentState).gameObject.SetActive(false);
         currentState = _newState;
         transform.GetChild((int)currentState).gameObject.SetActive(true);
+        if (currentState == MenuState.ModeSelection) selectedMode = -1;
+        if (currentState == MenuState.NumberOfPlayers) nbPlayers = -1;
+
     }
 
     void GoToNextState()
@@ -92,6 +116,5 @@ public class Menu : MonoBehaviour {
     void ReturnToPreviousState()
     {
         SetState((MenuState)((int)currentState - 1));
-
     }
 }
