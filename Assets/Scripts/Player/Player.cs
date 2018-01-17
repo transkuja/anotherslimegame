@@ -222,12 +222,12 @@ public class Player : MonoBehaviour {
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        collectables = new int[(int)CollectableType.Size];
     }
 
     void Start()
     {     
         keysReset = new KeyReset[Utils.GetMaxValueForCollectable(CollectableType.Rune)];
-        collectables = new int[(int)CollectableType.Size];
     }
 
     public void UpdateCollectableValue(CollectableType type, int pickedValue)
