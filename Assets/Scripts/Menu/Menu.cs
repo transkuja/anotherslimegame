@@ -43,14 +43,15 @@ public class Menu : MonoBehaviour {
             GoToNextState();
         }
 
-        if (controllerState.ThumbSticks.Left.X > 0.25f && prevControllerState.ThumbSticks.Left.X < 0.25f
-                || controllerState.ThumbSticks.Left.Y > 0.25f && prevControllerState.ThumbSticks.Left.Y < 0.25f)
+
+        if ((controllerState.ThumbSticks.Left.X > 0.5f && prevControllerState.ThumbSticks.Left.X < 0.5f)
+                || (controllerState.ThumbSticks.Left.Y < -0.75f && prevControllerState.ThumbSticks.Left.Y > -0.75f))
         {
             buttonNeedUpdate = true;
             currentCursor++;
         }
-        else if (controllerState.ThumbSticks.Left.X < -0.25f && prevControllerState.ThumbSticks.Left.X > -0.25f
-                || controllerState.ThumbSticks.Left.Y < -0.25f && prevControllerState.ThumbSticks.Left.Y > -0.25f)
+        else if ((controllerState.ThumbSticks.Left.X < -0.5f && prevControllerState.ThumbSticks.Left.X > -0.5f)
+                || (controllerState.ThumbSticks.Left.Y > 0.75f && prevControllerState.ThumbSticks.Left.Y < 0.75f))
         {
             buttonNeedUpdate = true;
             currentCursor--;
