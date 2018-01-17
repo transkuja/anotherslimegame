@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 using UnityEngine.SceneManagement;
 using UWPAndXInput;
+using System.Collections.Generic;
 
 public class Menu : MonoBehaviour {
     public enum MenuState { TitleScreen, ModeSelection, NumberOfPlayers, CustomisationScreen, MinigameSelection }
@@ -19,6 +20,8 @@ public class Menu : MonoBehaviour {
     bool buttonNeedUpdate = false;
 
     public GameObject playerCustomScreenPrefab;
+
+    List<GameObject> playerCustomScreens;
 
     public void SetMode(int _modeSelected)
     {
@@ -107,6 +110,23 @@ public class Menu : MonoBehaviour {
         transform.GetChild((int)currentState).gameObject.SetActive(true);
         if (currentState == MenuState.ModeSelection) selectedMode = -1;
         if (currentState == MenuState.NumberOfPlayers) nbPlayers = -1;
+
+        if (currentState == MenuState.CustomisationScreen)
+        {
+            for (int i = 0; i < nbPlayers; i++)
+            {
+                GameObject go = Instantiate(playerCustomScreenPrefab, transform.GetChild((int)MenuState.CustomisationScreen));
+                if (nbPlayers%2 == 0)
+                {
+                    go.transform.localPosition = new Vector3(i* -(Screen.width / 4), 0.0f, 0.0f);
+                }
+                else
+                {
+                    //go.transform.localPosition = new Vector3(i * + (-1-(Screen.width / 4), 0.0f, 0.0f);
+                }
+                playerCustomScreens.Add(go);
+            }
+        }
 
     }
 
