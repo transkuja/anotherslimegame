@@ -1,16 +1,53 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UWPAndXInput;
+
 
 public class PlayerController : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    protected Rigidbody rb;
+    protected Player player;
+
+    public PlayerIndex playerIndex;
+
+    #region getterSetters
+
+    public Rigidbody Rb
+    {
+        get
+        {
+            return rb;
+        }
+
+        set
+        {
+            rb = value;
+        }
+    }
+    public Player Player
+    {
+        get
+        {
+            return player;
+        }
+
+        set
+        {
+            player = value;
+        }
+    }
+    public PlayerIndex PlayerIndex
+    {
+        get
+        {
+            return playerIndex;
+        }
+
+        set
+        {
+            playerIndex = value;
+        }
+    }
+
+    #endregion
 }
