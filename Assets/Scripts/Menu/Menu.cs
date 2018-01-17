@@ -18,6 +18,8 @@ public class Menu : MonoBehaviour {
     Button currentlySelectedButton;
     bool buttonNeedUpdate = false;
 
+    public GameObject playerCustomScreenPrefab;
+
     public void SetMode(int _modeSelected)
     {
         selectedMode = _modeSelected;
