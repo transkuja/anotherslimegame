@@ -7,7 +7,7 @@ using Cinemachine;
 
 
 public delegate void ptrStateFct();
-public class PlayerState  {
+public class PlayerHubState  {
 
     protected ptrStateFct curUpdateFct;
     protected ptrStateFct curFixedUpdateFct;
@@ -49,7 +49,7 @@ public class PlayerState  {
     }
 
     #endregion
-    public PlayerState(PlayerControllerHub _playerController)
+    public PlayerHubState(PlayerControllerHub _playerController)
     {
         playerController = _playerController;
     }

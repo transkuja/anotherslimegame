@@ -11,11 +11,9 @@ using Cinemachine;
 public class PlayerControllerHub : PlayerController
 {
     // Component : 
-    private PlayerState playerState;
-    private PlayerState previousPlayerState;
+    private PlayerHubState playerState;
+    private PlayerHubState previousPlayerState;
     private JumpManager jumpManager;
-    private Rigidbody rb;
-    Player player;
 
     // gamePad
     GamePadState state;
@@ -26,7 +24,6 @@ public class PlayerControllerHub : PlayerController
     int selectedEvolution = 0;
 
     //  others
-    public PlayerIndex playerIndex;
     bool playerIndexSet = false;
     public bool isGravityEnabled = true;
     float maxDistanceOffset = 2.0f;
@@ -78,7 +75,7 @@ public class PlayerControllerHub : PlayerController
 
 
     /// StateManagment
-    public PlayerState PlayerState
+    public PlayerHubState PlayerState
     {
         get
         {
@@ -137,18 +134,6 @@ public class PlayerControllerHub : PlayerController
         }
     }
 
-    public PlayerIndex PlayerIndex
-    {
-        get
-        {
-            return playerIndex;
-        }
-
-        set
-        {
-            playerIndex = value;
-        }
-    }
 
     public bool IsUsingAController
     {
@@ -214,18 +199,7 @@ public class PlayerControllerHub : PlayerController
         }
     }
 
-    public Player Player
-    {
-        get
-        {
-            return player;
-        }
 
-        set
-        {
-            player = value;
-        }
-    }
 
     public JumpManager JumpManager
     {
@@ -239,20 +213,9 @@ public class PlayerControllerHub : PlayerController
             jumpManager = value;
         }
     }
-    public Rigidbody Rb
-    {
-        get
-        {
-            return rb;
-        }
+   
 
-        set
-        {
-            rb = value;
-        }
-    }
-
-    public PlayerState PreviousPlayerState
+    public PlayerHubState PreviousPlayerState
     {
         get
         {
@@ -315,9 +278,6 @@ public class PlayerControllerHub : PlayerController
             platformistComponent.TimerPlatform += Time.deltaTime;
         }
     }
-
-
-
 
 
     #endregion

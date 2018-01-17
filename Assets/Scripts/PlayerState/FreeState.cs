@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FreeState : PlayerState
+public class FreeState : PlayerHubState
 {
     public FreeState(PlayerControllerHub _playerController) : base(_playerController)
     {

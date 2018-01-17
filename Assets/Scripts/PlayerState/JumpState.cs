@@ -4,7 +4,7 @@ using System;
 using UnityEngine.SceneManagement;
 using Cinemachine;
 
-public class JumpState : PlayerState
+public class JumpState : PlayerHubState
 {
 
     bool hasJumpButtonBeenReleased;

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OnTheEdgeState : PlayerState
+public class OnTheEdgeState : PlayerHubState
 {
     public OnTheEdgeState(PlayerControllerHub _playerController) : base(_playerController)
     {
