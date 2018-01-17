@@ -211,21 +211,16 @@ public class Menu : MonoBehaviour {
                 go.GetComponentInChildren<Text>().text = "Player " + (i + 1);
 
                 if (nbPlayers == 1)
-                {
                     go.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
-                }
                 if (nbPlayers == 2)
-                {
                     go.transform.localPosition = new Vector3(-(250) + (2 * i) * (250), 0.0f, 0.0f);
-                }
                 if (nbPlayers == 3)
-                {
                     go.transform.localPosition = new Vector3((-(250) + i * (250)), 0.0f, 0.0f);
-                }
                 if (nbPlayers == 4)
-                {
                     go.transform.localPosition = new Vector3(-(300) + (i * (200)), 0.0f, 0.0f);
-                }
+
+                go.transform.GetChild(3).GetComponentInChildren<PlayerCosmetics>().SetUniqueColor(customColors[0]);
+                go.transform.GetChild(3).GetComponentInChildren<PlayerCosmetics>().FaceType = 0;
 
                 playerCustomScreens.Add(go);
             }
