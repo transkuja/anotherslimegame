@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FreeState : PlayerState
 {
-    public FreeState(PlayerController _playerController) : base(_playerController)
+    public FreeState(PlayerControllerHub _playerController) : base(_playerController)
     {
     }
 

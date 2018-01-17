@@ -7,7 +7,7 @@ public class ExpulsedState : PlayerState
 
     public float timer;
 
-    public ExpulsedState(PlayerController _playerController) : base(_playerController)
+    public ExpulsedState(PlayerControllerHub _playerController) : base(_playerController)
     {
     }
     public override void OnBegin()

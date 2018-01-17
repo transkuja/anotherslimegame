@@ -119,7 +119,7 @@ public class PlayerStart : MonoBehaviour {
             Player currentPlayer = go.GetComponent<Player>();
             currentPlayer.respawnPoint = playerSpawn;
 
-            PlayerController playerController = go.GetComponent<PlayerController>();
+            PlayerControllerHub playerController = go.GetComponent<PlayerControllerHub>();
             
             playerController.PlayerIndex = (PlayerIndex)i;
             playerController.IsUsingAController = true;
@@ -173,7 +173,7 @@ public class PlayerStart : MonoBehaviour {
                 cameraPlayerReferences[i].transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().LookAt = go.transform.GetChild((int)PlayerChildren.CameraTarget);
                 cameraPlayerReferences[i].transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().Follow = go.transform;
                 cameraPlayerReferences[i].transform.GetChild(1).GetComponent<DynamicJoystickCameraController>().playerIndex = (PlayerIndex)i;
-                cameraPlayerReferences[i].transform.GetChild(1).GetComponent<DynamicJoystickCameraController>().associatedPlayerController = go.GetComponent<PlayerController>();
+                cameraPlayerReferences[i].transform.GetChild(1).GetComponent<DynamicJoystickCameraController>().associatedPlayerController = go.GetComponent<PlayerControllerHub>();
             }
 
             go.GetComponent<Player>().cameraReference = cameraPlayerReferences[i];

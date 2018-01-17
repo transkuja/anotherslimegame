@@ -44,7 +44,7 @@ public class Bullet : MonoBehaviour {
     private void OnTriggerEnter(Collider other)
     {
         PlayerCollisionCenter playerCollision = other.GetComponent<PlayerCollisionCenter>();
-        PlayerController playerController = other.GetComponent<PlayerController>();
+        PlayerControllerHub playerController = other.GetComponent<PlayerControllerHub>();
         if (playerCollision != null)
         {
             if (playerCollision.GetComponent<EvolutionStrength>()!=null && playerController.PlayerState == playerController.dashState)

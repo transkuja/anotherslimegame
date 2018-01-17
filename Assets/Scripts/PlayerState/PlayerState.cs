@@ -11,7 +11,7 @@ public class PlayerState  {
 
     protected ptrStateFct curUpdateFct;
     protected ptrStateFct curFixedUpdateFct;
-    protected PlayerController playerController;
+    protected PlayerControllerHub playerController;
 
     public float maxCoolDown = 0;
     public bool stateAvailable = true;
@@ -49,7 +49,7 @@ public class PlayerState  {
     }
 
     #endregion
-    public PlayerState(PlayerController _playerController)
+    public PlayerState(PlayerControllerHub _playerController)
     {
         playerController = _playerController;
     }

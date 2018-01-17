@@ -153,12 +153,12 @@ public class ScoreScreen : MonoBehaviour {
     {
 
         // TODO : Multi to be handle
-        if (!GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerController>().PlayerIndexSet)
+        if (!GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerControllerHub>().PlayerIndexSet)
             return;
 
-        if (GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerController>().IsUsingAController)
+        if (GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerControllerHub>().IsUsingAController)
         {
-            if (GamePad.GetState(GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerController>().playerIndex).Buttons.Start == ButtonState.Pressed)
+            if (GamePad.GetState(GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerControllerHub>().playerIndex).Buttons.Start == ButtonState.Pressed)
             {
                 if (GameManager.Instance.CurrentGameMode.IsMiniGame())
                 {

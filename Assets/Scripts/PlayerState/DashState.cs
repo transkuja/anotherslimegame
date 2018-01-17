@@ -25,7 +25,7 @@ public class DashState : PlayerState
 
     public int nbDashMade = 0;
 
-    public DashState(PlayerController _playerController) : base(_playerController)
+    public DashState(PlayerControllerHub _playerController) : base(_playerController)
     {
         maxCoolDown = 0.5f;
     }

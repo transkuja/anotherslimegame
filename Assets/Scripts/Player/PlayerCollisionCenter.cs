@@ -46,7 +46,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
     int separationMask3;
     Collider[] breakablesCollided;
 
-    PlayerController playerController;
+    PlayerControllerHub playerController;
     Rigidbody rb;
     Player player;
 
@@ -68,12 +68,12 @@ public class PlayerCollisionCenter : MonoBehaviour {
     public float waterUpliftStrength;
     [Range(0.01f, 1.0f)]
     public float modulateWaterForceFactor;
-    PlayerController _PlayerController
+    PlayerControllerHub _PlayerController
     {
         get
         {
             if (playerController == null)
-                playerController = GetComponent<PlayerController>();
+                playerController = GetComponent<PlayerControllerHub>();
             return playerController;
         }
     }
@@ -100,7 +100,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
     void Start()
     {
-        playerController = GetComponent<PlayerController>();
+        playerController = GetComponent<PlayerControllerHub>();
         rb = GetComponent<Rigidbody>();
         repulsionFactor = 35;
 
@@ -144,7 +144,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
                             currentTimerStop = timerStopOnDashCollision;
 
                             playerController.PlayerState = playerController.frozenState;
-                            playersCollided[i].GetComponent<PlayerController>().PlayerState = playersCollided[i].GetComponent<PlayerController>().frozenState;
+                            playersCollided[i].GetComponent<PlayerControllerHub>().PlayerState = playersCollided[i].GetComponent<PlayerControllerHub>().frozenState;
                             velocityOnImpact = playerController.Rb.velocity;
                             playerController.Rb.velocity = Vector3.zero;
                             impactedPlayersOldVelocities.Add(playersCollided[i].GetComponent<Rigidbody>().velocity);
@@ -152,7 +152,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
                             //Set vibrations
                             UWPAndXInput.GamePad.VibrateForSeconds(playerController.playerIndex, 0.8f, 0.8f, .1f);
-                            UWPAndXInput.GamePad.VibrateForSeconds(playersCollided[i].GetComponent<PlayerController>().playerIndex, 0.8f, 0.8f, .1f);
+                            UWPAndXInput.GamePad.VibrateForSeconds(playersCollided[i].GetComponent<PlayerControllerHub>().playerIndex, 0.8f, 0.8f, .1f);
 
                             if (AudioManager.Instance != null && AudioManager.Instance.punchFx != null)
                                 AudioManager.Instance.PlayOneShot(AudioManager.Instance.punchFx);
@@ -174,7 +174,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
                             currentTimerStop = timerStopOnDashCollision;
 
                             playerController.PlayerState = playerController.frozenState;
-                            playersCollided[i].GetComponent<PlayerController>().PlayerState = playersCollided[i].GetComponent<PlayerController>().frozenState;
+                            playersCollided[i].GetComponent<PlayerControllerHub>().PlayerState = playersCollided[i].GetComponent<PlayerControllerHub>().frozenState;
                             velocityOnImpact = playerController.Rb.velocity;
                             playerController.Rb.velocity = Vector3.zero;
                             impactedPlayersOldVelocities.Add(playersCollided[i].GetComponent<Rigidbody>().velocity);
@@ -182,7 +182,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
                             //Set vibrations
                             UWPAndXInput.GamePad.VibrateForSeconds(playerController.playerIndex, 0.8f, 0.8f, .1f);
-                            UWPAndXInput.GamePad.VibrateForSeconds(playersCollided[i].GetComponent<PlayerController>().playerIndex, 0.8f, 0.8f, .1f);
+                            UWPAndXInput.GamePad.VibrateForSeconds(playersCollided[i].GetComponent<PlayerControllerHub>().playerIndex, 0.8f, 0.8f, .1f);
 
                             if (AudioManager.Instance != null && AudioManager.Instance.punchFx != null)
                                 AudioManager.Instance.PlayOneShot(AudioManager.Instance.punchFx);
@@ -237,7 +237,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
                 playerController.PlayerState = playerController.freeState;
                 for (int i = 0; i < impactedPlayers.Count; i++)
                 {
-                    impactedPlayers[i].GetComponent<PlayerController>().PlayerState = impactedPlayers[i].GetComponent<PlayerController>().freeState;
+                    impactedPlayers[i].GetComponent<PlayerControllerHub>().PlayerState = impactedPlayers[i].GetComponent<PlayerControllerHub>().freeState;
                     ImpactHandling(impactedPlayers[i]);
                 }
                 hasCollidedWithAPlayer = false;
@@ -250,7 +250,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
         // Interaction Joueur / Joueur
         if (collision.gameObject.GetComponent<Player>())
         {
-            PlayerController collidedPlayerController = collision.transform.gameObject.GetComponent<PlayerController>();
+            PlayerControllerHub collidedPlayerController = collision.transform.gameObject.GetComponent<PlayerControllerHub>();
 
             if (collidedPlayerController == null) return;
 
@@ -426,7 +426,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
     public void RepulseRigibody(Vector3 collisionPoint, Rigidbody rbPlayerToExpulse, float repulsionFactor)
     {
-        if (!onceRepulsion && rbPlayerToExpulse.GetComponent<PlayerController>())
+        if (!onceRepulsion && rbPlayerToExpulse.GetComponent<PlayerControllerHub>())
         {
             onceRepulsion = true;
 
@@ -456,9 +456,9 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
     public void ForcedJump(Vector3 direction, float repulseStrength, Rigidbody target)
     {
-        if (target.GetComponent<PlayerController>() != null)
+        if (target.GetComponent<PlayerControllerHub>() != null)
         {
-            PlayerController _pcTarget = target.GetComponent<PlayerController>();
+            PlayerControllerHub _pcTarget = target.GetComponent<PlayerControllerHub>();
             _pcTarget.jumpState.nbJumpMade = 0;
             _pcTarget.PlayerState.OnJumpPressed();
             _pcTarget.PlayerState.PushPlayer(direction* repulseStrength);

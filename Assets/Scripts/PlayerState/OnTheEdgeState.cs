@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class OnTheEdgeState : PlayerState
 {
-    public OnTheEdgeState(PlayerController _playerController) : base(_playerController)
+    public OnTheEdgeState(PlayerControllerHub _playerController) : base(_playerController)
     {
     }
 

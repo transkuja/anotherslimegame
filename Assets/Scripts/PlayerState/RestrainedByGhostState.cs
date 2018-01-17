@@ -12,7 +12,7 @@ public class RestrainedByGhostState : PlayerState
         timer = 0.0f;
     }
 
-    public RestrainedByGhostState(PlayerController _playerController) : base(_playerController)
+    public RestrainedByGhostState(PlayerControllerHub _playerController) : base(_playerController)
     {
     }
 

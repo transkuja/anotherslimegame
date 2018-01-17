@@ -10,7 +10,7 @@ public class JumpState : PlayerState
     bool hasJumpButtonBeenReleased;
     public int nbJumpMade = 0;
 
-    public JumpState(PlayerController _playerController) : base(_playerController)
+    public JumpState(PlayerControllerHub _playerController) : base(_playerController)
     {
         curUpdateFct = OnJump;
     }

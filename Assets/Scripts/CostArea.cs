@@ -145,7 +145,7 @@ public class CostArea : MonoBehaviour {
 
     private void OnTriggerStay(Collider other)
     {
-        PlayerController playerComponent = other.GetComponent<PlayerController>();
+        PlayerControllerHub playerComponent = other.GetComponent<PlayerControllerHub>();
         if (!isActive)
             return;
 
@@ -191,7 +191,7 @@ public class CostArea : MonoBehaviour {
         }
     }
 
-    bool Pay(PlayerController _player)
+    bool Pay(PlayerControllerHub _player)
     {
         int money = _player.Player.Collectables[(int)currency];
         if (money >= cost)
@@ -202,7 +202,7 @@ public class CostArea : MonoBehaviour {
         return false;
     }
 
-    void GiveReward(PlayerController _player)
+    void GiveReward(PlayerControllerHub _player)
     {
         if (costAreaType == CostAreaType.PayAndGetItem)
         {

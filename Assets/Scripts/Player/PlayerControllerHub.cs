@@ -8,7 +8,7 @@ using Cinemachine;
 
 // Gère les input selon l'input appelle des action codée dans une playerState.
 
-public class PlayerController : MonoBehaviour
+public class PlayerControllerHub : MonoBehaviour
 {
     // Component : 
     private PlayerState playerState;

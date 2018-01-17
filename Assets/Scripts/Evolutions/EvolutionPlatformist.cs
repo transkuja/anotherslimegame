@@ -171,7 +171,7 @@ public class EvolutionPlatformist : EvolutionComponent {
         {
             float isGroundedOffset = 0.0f;
 
-            if (!GetComponent<PlayerController>().IsGrounded)
+            if (!GetComponent<PlayerControllerHub>().IsGrounded)
             {
                 GameObject initial = Instantiate(ResourceUtils.Instance.refPrefabPlatform.prefabPlatformistDefault);
                 initial.transform.position = transform.position - 0.4f * Vector3.up;
@@ -219,7 +219,7 @@ public class EvolutionPlatformist : EvolutionComponent {
 
             PlatformistPattern pattern = PlatformistPatternFactory.GetPatternFromIndex(IndexPattern);
 
-            if (!GetComponent<PlayerController>().IsGrounded)
+            if (!GetComponent<PlayerControllerHub>().IsGrounded)
             {
                 GameObject platform = Instantiate(ResourceUtils.Instance.refPrefabPlatform.prefabPlatformistShowPattern);
                 platform.transform.position = transform.position - 0.4f * Vector3.up;

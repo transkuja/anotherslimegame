@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FrozenState : PlayerState {
 
-    public FrozenState(PlayerController _playerController) : base(_playerController)
+    public FrozenState(PlayerControllerHub _playerController) : base(_playerController)
     {
     }
 

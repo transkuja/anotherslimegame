@@ -68,7 +68,7 @@ public class DebugPanel : MonoBehaviour {
 
     void UpdatePlayerInfoText()
     {
-        PlayerController playerController = DebugTools.DebugPlayerSelected.GetComponent<PlayerController>();
+        PlayerControllerHub playerController = DebugTools.DebugPlayerSelected.GetComponent<PlayerControllerHub>();
         playerInfoText.text = "";
         playerInfoText.text += "Player index: " + (int)playerController.PlayerIndex + "\n";
         playerInfoText.text += "Use a controller: " + playerController.IsUsingAController + "\n";

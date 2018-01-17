@@ -27,7 +27,7 @@ public class DynamicJoystickCameraController : MonoBehaviour {
 
     [Range(0.1f, 2.0f)]
     public float lerpTendToMiddleRigSpeed = 0.85f;
-    public PlayerController associatedPlayerController;
+    public PlayerControllerHub associatedPlayerController;
 
     [SerializeField]
     float notGroundedAttenuationFactor = 0.33f;
@@ -145,7 +145,7 @@ public class DynamicJoystickCameraController : MonoBehaviour {
         }
     }
 
-    public void TendToMiddleRig(PlayerController _pc)
+    public void TendToMiddleRig(PlayerControllerHub _pc)
     {
         if (needToTendToMiddleRig && lerpValue < 1.0f)
         {

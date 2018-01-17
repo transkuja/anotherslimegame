@@ -26,7 +26,7 @@ public class SpikeTrap : MonoBehaviour {
         {
             Player p = collision.gameObject.GetComponentInParent<Player>();
 
-            PlayerController pController = p.GetComponent<PlayerController>();
+            PlayerControllerHub pController = p.GetComponent<PlayerControllerHub>();
 
             p.CanDoubleJump = true;
 

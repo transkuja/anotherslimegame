@@ -23,7 +23,7 @@ public class Player : MonoBehaviour {
     KeyReset[] keysReset;
 
     public bool isEdgeAssistActive = true;
-    PlayerController playerController;
+    PlayerControllerHub playerController;
 
     public bool[] evolutionTutoShown = new bool[(int)Powers.Size];
     public bool costAreaTutoShown = false;
@@ -92,12 +92,12 @@ public class Player : MonoBehaviour {
         }
     }
 
-    public PlayerController PlayerController
+    public PlayerControllerHub PlayerController
     {
         get
         {
             if (playerController == null)
-                playerController = GetComponent<PlayerController>();
+                playerController = GetComponent<PlayerControllerHub>();
             return playerController;
         }
 

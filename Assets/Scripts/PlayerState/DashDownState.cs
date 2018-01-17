@@ -11,7 +11,7 @@ public class DashDownState : PlayerState
 
     public int nbDashDownMade = 0;
         
-    public DashDownState(PlayerController _playerController) : base(_playerController)
+    public DashDownState(PlayerControllerHub _playerController) : base(_playerController)
     {
     }
     public override void OnBegin()
