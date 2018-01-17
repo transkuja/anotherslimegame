@@ -4,9 +4,11 @@ using UWPAndXInput;
 
 public class PlayerController : MonoBehaviour {
 
+    protected PlayerState<PlayerController> playerState;
 
     protected Rigidbody rb;
     protected Player player;
+
 
     public PlayerIndex playerIndex;
 
@@ -50,4 +52,11 @@ public class PlayerController : MonoBehaviour {
     }
 
     #endregion
+
+
+    protected virtual void Awake()
+    {
+
+    }
+
 }

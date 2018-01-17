@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DashState : PlayerHubState
+public class DashState : PlayerState3DDefault
 {
 
     float dashingMaxTimer;
@@ -25,7 +25,7 @@ public class DashState : PlayerHubState
 
     public int nbDashMade = 0;
 
-    public DashState(PlayerControllerHub _playerController) : base(_playerController)
+    public DashState(PlayerController3DDefault _playerController) : base(_playerController)
     {
         maxCoolDown = 0.5f;
     }

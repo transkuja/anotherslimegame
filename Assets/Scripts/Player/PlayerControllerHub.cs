@@ -8,10 +8,10 @@ using Cinemachine;
 
 // Gère les input selon l'input appelle des action codée dans une playerState.
 
-public class PlayerControllerHub : PlayerController
+public class PlayerControllerHub : PlayerController3DDefault
 {
     // Component : 
-    private PlayerHubState playerState;
+    //private PlayerHubState playerState;
     private PlayerHubState previousPlayerState;
     private JumpManager jumpManager;
 
@@ -25,7 +25,6 @@ public class PlayerControllerHub : PlayerController
 
     //  others
     bool playerIndexSet = false;
-    public bool isGravityEnabled = true;
     float maxDistanceOffset = 2.0f;
 
     // jump
@@ -45,9 +44,8 @@ public class PlayerControllerHub : PlayerController
     public GameObject dashParticles;
 
     // All PlayerStateCreation once and for all.
-    public JumpState jumpState;
     public WalljumpState wallJumpState;
-    public DashState dashState;
+
     public FreeState freeState;
     public DashDownState downDashState;
     public ExpulsedState expulsedState;
@@ -56,7 +54,6 @@ public class PlayerControllerHub : PlayerController
     public FrozenState frozenState;
 
     [SerializeField] public Stats stats;
-    [SerializeField] bool isGrounded = true;
     public bool DEBUG_hasBeenSpawnedFromTool = false;
 
     public bool canDoubleJump = true; // A Priori c'es du legacy, mais j'ai pas toutpigé.
@@ -97,40 +94,6 @@ public class PlayerControllerHub : PlayerController
 #if UNITY_EDITOR
             curStateName = value.ToString();
 #endif
-        }
-    }
-    public bool IsGrounded
-    {
-        get
-        {
-            return isGrounded;
-        }
-
-        set
-        {
-            if (value == true)
-            {
-                jumpState.nbJumpMade = 20; // Very high value, reset when releasing button AND being grounded
-                downDashState.nbDashDownMade = 0;
-                dashState.nbDashMade = 0;
-                if (GetComponent<JumpManager>() != null)
-                    GetComponent<JumpManager>().Stop();
-                GetComponent<Player>().Anim.SetBool("isExpulsed", false);
-                if (dustTrailParticles && dustTrailParticles.GetComponent<ParticleSystem>() != null)
-                {
-                    dustTrailParticles.GetComponent<ParticleSystem>().Play();
-                }
-            }
-            else
-            {
-                if (dustTrailParticles && dustTrailParticles.GetComponent<ParticleSystem>() != null)
-                {
-                    dustTrailParticles.GetComponent<ParticleSystem>().Stop();
-                }
-                    
-            }
-
-            isGrounded = value;
         }
     }
 
@@ -282,15 +245,12 @@ public class PlayerControllerHub : PlayerController
 
     #endregion
 
-    private void Awake()
+    protected override void Awake()
     {
         stats.Init(this);
-        jumpState = new JumpState(this);
         wallJumpState = new WalljumpState(this);
-        dashState = new DashState(this);
         freeState = new FreeState(this);
         expulsedState = new ExpulsedState(this);
-        downDashState = new DashDownState(this);
         platformistChargedState = new PlatformistChargedState(this);
         restrainedByGhostState = new RestrainedByGhostState(this);
         frozenState = new FrozenState(this);

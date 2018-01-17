@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UWPAndXInput;
 
-public class DashDownState : PlayerHubState
+public class DashDownState : PlayerState3DDefault
 {
     float timer;
     float maxDashChargeDelay;
@@ -11,8 +11,9 @@ public class DashDownState : PlayerHubState
 
     public int nbDashDownMade = 0;
         
-    public DashDownState(PlayerControllerHub _playerController) : base(_playerController)
+    public DashDownState(PlayerController3DDefault _playerController) : base(_playerController)
     {
+        playerController = _playerController;
     }
     public override void OnBegin()
     {

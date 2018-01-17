@@ -7,7 +7,7 @@ using Cinemachine;
 
 
 public delegate void ptrStateFct();
-public class PlayerHubState : PlayerState<PlayerControllerHub> {
+public class PlayerHubState : PlayerState3DDefault {
 
     float dragForce = 0.025f;
     float dragForceDash = 0.01f; // Dash value
@@ -35,7 +35,7 @@ public class PlayerHubState : PlayerState<PlayerControllerHub> {
         return initialVelocity;
     }
 
-    public virtual void Move(Vector3 initialVelocity)
+    public override void Move(Vector3 initialVelocity)
     {
         Vector3 camVectorForward = new Vector3(playerController.Player.cameraReference.transform.GetChild(0).forward.x, 0.0f, playerController.Player.cameraReference.transform.GetChild(0).forward.z);
         camVectorForward.Normalize();
@@ -86,14 +86,7 @@ public class PlayerHubState : PlayerState<PlayerControllerHub> {
 
     }
 
-    public virtual void HandleGravity()
-    {
-        if (playerController.isGravityEnabled)
-        {
-            float gravity = playerController.GetComponent<JumpManager>().GetGravity();
-            playerController.Player.Rb.AddForce(gravity * Vector3.down, ForceMode.Acceleration);
-        }
-    }
+
     public virtual void OnJumpPressed()
     {
         if(playerController.wallJumpState.WallJumpTest())
@@ -105,24 +98,7 @@ public class PlayerHubState : PlayerState<PlayerControllerHub> {
             playerController.PlayerState = playerController.jumpState;
         }
     }
-    public virtual void OnDashPressed()
-    {
-        if (playerController.dashState.nbDashMade < 1)
-        {
-            playerController.PlayerState = playerController.dashState;
-            if ( playerController.jumpState.nbJumpMade > 0) 
-                playerController.dashState.nbDashMade++;
-        }
-    }
-    public virtual void OnDownDashPressed()
-    {
-        if (playerController.downDashState.nbDashDownMade < 1 && !playerController.IsGrounded)
-        {
-            playerController.PlayerState = playerController.downDashState;
-            if (playerController.jumpState.nbJumpMade > 0)
-                playerController.downDashState.nbDashDownMade++;
-        }
-    }
+
     public virtual void PushPlayer(Vector3 force)
     {
         playerController.PlayerState = playerController.expulsedState;
