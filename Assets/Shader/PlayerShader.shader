@@ -4,13 +4,13 @@
 		_EmissiveColor("Emissive Color", Color) = (0, 0, 0, 1)
 		_MainTex ("Faces", 2D) = "white" {}
 		_Emissive("Emissive", 2D) = "white" {}
-		_FaceType("Face Type Index ", float) = 0
-		_FaceEmotion("Face Emotion Index ", float) = 0
+		_FaceType("Face Type Index", float) = 0
+		_FaceEmotion("Face Emotion Index", float) = 0
 		_Glossiness ("Smoothness", Range(0,1)) = 0.5
 		_Metallic ("Metallic", Range(0,1)) = 0.0
 	}
 	SubShader {
-		Tags { "RenderType"="Opaque" }
+		Tags { "RenderType"="Opaque" "IgnoreProjector" = "True" }
 		LOD 200
 		
 		CGPROGRAM
