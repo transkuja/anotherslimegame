@@ -432,7 +432,7 @@ public class PlayerControllerHub : PlayerController
         }
         if (deformer)
         {
-            float vibforce = collision.relativeVelocity.magnitude/150.0f;
+            //float vibforce = collision.relativeVelocity.magnitude/150.0f;
             //GamePad.VibrateForSeconds(playerIndex, vibforce, vibforce, 0.1f);
 
             float vel = collision.relativeVelocity.magnitude / collision.contacts.Length;

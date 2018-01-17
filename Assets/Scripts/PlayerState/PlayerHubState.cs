@@ -9,86 +9,17 @@ using Cinemachine;
 public delegate void ptrStateFct();
 public class PlayerHubState : PlayerState<PlayerControllerHub> {
 
-    protected ptrStateFct curUpdateFct;
-    protected ptrStateFct curFixedUpdateFct;
-
-    public float maxCoolDown = 0;
-    public bool stateAvailable = true;
     float dragForce = 0.025f;
     float dragForceDash = 0.01f; // Dash value
 
     float airControlFactor = 0.75f;
     float timerApplyDrag = 0.02f;
 
-    #region getterSetters
 
-    public ptrStateFct CurActionFct
-    {
-        get
-        {
-            return curUpdateFct;
-        }
-
-        protected set
-        {
-            curUpdateFct = value;
-        }
-    }
-
-    public ptrStateFct CurFixedUpdateFct
-    {
-        get
-        {
-            return curFixedUpdateFct;
-        }
-        set
-        {
-            curFixedUpdateFct = value;
-        }
-    }
-
-    #endregion
-    public PlayerHubState(PlayerControllerHub _playerController)
+    public PlayerHubState(PlayerControllerHub _playerController) : base(_playerController)
     {
         playerController = _playerController;
     }
-    public virtual void OnBegin()
-    {
-    }
-    public virtual void OnEnd()
-    {
-        stateAvailable = false;
-        playerController.StartCoroutine(StateCooldown(maxCoolDown));
-    }
-   
-    public virtual void OnUpdate()
-    {
-        if (curUpdateFct != null)
-            curUpdateFct();
-    }
-    public virtual void OnFixedUpdate()
-    {
-        if (CurFixedUpdateFct != null)
-            CurFixedUpdateFct();
-    }
-    public virtual void CollisionEnter(Collision collision)
-    {}
-    public virtual void CollisionStay(Collision collision)
-    {}
-    public virtual void CollisionExit(Collision collision)
-    {}
-  
-    public virtual void DrawGizmo()
-    {}
-    public  IEnumerator StateCooldown(float maxCoolDown)
-    {
-        yield return new WaitForSeconds(maxCoolDown);
-        stateAvailable = true;
-        yield return null;
-    }
-    // Fonction utiles pour tout état : 
-    // peut être à deplacer dans un composant qui gère les evolutions.
-  
    
     public virtual Vector3 HandleSpeedWithController()
     {
@@ -182,7 +113,6 @@ public class PlayerHubState : PlayerState<PlayerControllerHub> {
             if ( playerController.jumpState.nbJumpMade > 0) 
                 playerController.dashState.nbDashMade++;
         }
-
     }
     public virtual void OnDownDashPressed()
     {
