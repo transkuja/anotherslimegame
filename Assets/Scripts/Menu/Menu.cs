@@ -58,6 +58,7 @@ public class Menu : MonoBehaviour {
             if (Input.anyKey && currentState == MenuState.TitleScreen)
             {
                 GoToNextState();
+                return;
             }
 
             if ((controllerState.ThumbSticks.Left.X > 0.5f && prevControllerState.ThumbSticks.Left.X < 0.5f)
@@ -235,11 +236,16 @@ public class Menu : MonoBehaviour {
     void GoToNextState()
     {
         // Go to next state if not story + customisation or minigames and minigame selection
+        if ((selectedMode == 0 && currentState == MenuState.CustomisationScreen)
+            || (selectedMode == 1 && currentState == MenuState.MinigameSelection))
+            return;
         SetState((MenuState)((int)currentState + 1));
     }
 
     void ReturnToPreviousState()
     {
+        if (currentState == MenuState.ModeSelection || currentState == MenuState.TitleScreen)
+            return;
         SetState((MenuState)((int)currentState - 1));
     }
 }
