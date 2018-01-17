@@ -46,11 +46,6 @@ public class Menu : MonoBehaviour {
     private void Start()
     {
         SetState(MenuState.TitleScreen);
-        //for (int i = 0; i < 4; i++)
-        //{
-        //    prevControllerStates.Add(GamePad.GetState((PlayerIndex)i));
-        //    controllerStates.Add(GamePad.GetState((PlayerIndex)i));
-        //}
     }
 
     void Update()
@@ -129,10 +124,12 @@ public class Menu : MonoBehaviour {
                 controllerStates[i] = GamePad.GetState((PlayerIndex)i);
 
                 if (controllerStates[i].ThumbSticks.Left.Y > 0.5f && prevControllerStates[i].ThumbSticks.Left.Y < 0.5f
-                    || (controllerState.ThumbSticks.Left.Y < -0.5f && prevControllerState.ThumbSticks.Left.Y > -0.5f))
+                    || (controllerStates[i].ThumbSticks.Left.Y < -0.5f && prevControllerStates[i].ThumbSticks.Left.Y > -0.5f))
                 {
                     currentCursorsRow[i]++;
                     currentCursorsRow[i] = currentCursorsRow[i] % 2;
+                    playerCustomScreens[i].transform.GetChild(0).GetChild(currentCursorsRow[i]).gameObject.SetActive(true);
+                    playerCustomScreens[i].transform.GetChild(0).GetChild((currentCursorsRow[i] + 1)%2).gameObject.SetActive(false);
                 }
                 else if (controllerStates[i].ThumbSticks.Left.X > 0.5f && prevControllerStates[i].ThumbSticks.Left.X < 0.5f)
                 {
@@ -153,7 +150,7 @@ public class Menu : MonoBehaviour {
                         playerCustomScreens[i].transform.GetChild(3).GetComponentInChildren<PlayerCosmetics>().FaceType = (FaceType)selectedFaces[i];
                     }
                 }
-                else if (controllerState.ThumbSticks.Left.X < -0.5f && prevControllerState.ThumbSticks.Left.X > -0.5f)
+                else if (controllerStates[i].ThumbSticks.Left.X < -0.5f && prevControllerStates[i].ThumbSticks.Left.X > -0.5f)
                 {
                     if (currentCursorsRow[i] == 0)
                     {
@@ -189,8 +186,20 @@ public class Menu : MonoBehaviour {
         transform.GetChild((int)currentState).gameObject.SetActive(false);
         currentState = _newState;
         transform.GetChild((int)currentState).gameObject.SetActive(true);
-        if (currentState == MenuState.ModeSelection) selectedMode = -1;
-        if (currentState == MenuState.NumberOfPlayers) nbPlayers = -1;
+
+        if (currentState == MenuState.ModeSelection)
+        {
+            currentlySelectedButton = transform.GetChild((int)currentState).GetChild(2).GetChild(currentCursor).GetComponent<Button>();
+            currentlySelectedButton.Select();
+            selectedMode = -1;
+        }
+
+        if (currentState == MenuState.NumberOfPlayers)
+        {
+            currentlySelectedButton = transform.GetChild((int)currentState).GetChild(selectedMode + 2).GetChild(currentCursor).GetComponent<Button>();
+            currentlySelectedButton.Select();
+            nbPlayers = -1;
+        }
 
         if (currentState == MenuState.CustomisationScreen)
         {
@@ -201,13 +210,21 @@ public class Menu : MonoBehaviour {
                 go.GetComponentInChildren<Text>().text = "Player " + (i + 1);
 
                 if (nbPlayers == 1)
+                {
                     go.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
+                }
                 if (nbPlayers == 2)
-                    go.transform.localPosition = new Vector3(-(250) + (2*i) * (250), 0.0f, 0.0f);
+                {
+                    go.transform.localPosition = new Vector3(-(250) + (2 * i) * (250), 0.0f, 0.0f);
+                }
                 if (nbPlayers == 3)
-                    go.transform.localPosition = new Vector3((-(250) + i *(250)), 0.0f, 0.0f);
+                {
+                    go.transform.localPosition = new Vector3((-(250) + i * (250)), 0.0f, 0.0f);
+                }
                 if (nbPlayers == 4)
+                {
                     go.transform.localPosition = new Vector3(-(300) + (i * (200)), 0.0f, 0.0f);
+                }
 
                 playerCustomScreens.Add(go);
             }
