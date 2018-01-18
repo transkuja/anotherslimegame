@@ -125,15 +125,29 @@ public class PlayerStart : MonoBehaviour {
             playerController.IsUsingAController = true;
             playerController.PlayerIndexSet = true;
 
-            if (i > 0)
+            if (GameManager.Instance.DataContainer == null)
             {
-                go.transform.GetChild(0).GetChild(0).GetComponent<MeshRenderer>().material.SetColor("_Color", colorPlayer[i - 1]);
-                go.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<MeshRenderer>().material.SetColor("_Color", colorPlayer[i - 1]);
-                go.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(1).GetComponent<MeshRenderer>().material.SetColor("_Color", colorPlayer[i - 1]);
-
-                go.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetComponent<MeshRenderer>().material.SetColor("_Color", colorPlayer[i - 1]);
-                go.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(1).GetComponent<MeshRenderer>().material.SetColor("_Color", colorPlayer[i - 1]);
+                GameManager.Instance.RegisterDataContainer(FindObjectOfType<SlimeDataContainer>());
             }
+
+            if (GameManager.Instance.DataContainer != null)
+            {
+                go.transform.GetComponentInChildren<PlayerCosmetics>().SetUniqueColor(GameManager.Instance.DataContainer.selectedColors[i]);
+                go.transform.GetComponentInChildren<PlayerCosmetics>().FaceType = (FaceType)GameManager.Instance.DataContainer.selectedFaces[i];
+            }
+            else
+            {
+                if (i > 0)
+                {
+                    go.transform.GetChild(0).GetChild(0).GetComponent<MeshRenderer>().material.SetColor("_Color", colorPlayer[i - 1]);
+                    go.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<MeshRenderer>().material.SetColor("_Color", colorPlayer[i - 1]);
+                    go.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(1).GetComponent<MeshRenderer>().material.SetColor("_Color", colorPlayer[i - 1]);
+
+                    go.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetComponent<MeshRenderer>().material.SetColor("_Color", colorPlayer[i - 1]);
+                    go.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(1).GetComponent<MeshRenderer>().material.SetColor("_Color", colorPlayer[i - 1]);
+                }
+            }
+
             PlayersReference.Add(go);
            
         }

@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour {
     [SerializeField]
     private PlayerStart playerStart;
     private PlayerUI playerUI;
+    private SlimeDataContainer dataContainer;
 
     // WARNING, should be reset on load scene
     public bool isTimeOver = false;
@@ -120,6 +121,14 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    public SlimeDataContainer DataContainer
+    {
+        get
+        {
+            return dataContainer;
+        }
+    }
+
     public uint ActivePlayersAtStart
     {
         get
@@ -188,6 +197,11 @@ public class GameManager : MonoBehaviour {
     public void RegisterPlayerStart(PlayerStart _ps)
     {
         playerStart = _ps;
+    }
+
+    public void RegisterDataContainer(SlimeDataContainer _sdc)
+    {
+        dataContainer = _sdc;
     }
 
     public void RegisterPlayerUI(PlayerUI _pUI)

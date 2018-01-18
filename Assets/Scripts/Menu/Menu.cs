@@ -33,6 +33,9 @@ public class Menu : MonoBehaviour {
     int maxFacesNumber = 4;
     int[] currentCursorsRow = new int[4];
 
+    [SerializeField]
+    SlimeDataContainer dataContainer;
+
     public void SetMode(int _modeSelected)
     {
         selectedMode = _modeSelected;
@@ -118,6 +121,18 @@ public class Menu : MonoBehaviour {
         {
             if (nbPlayers == -1)
                 return;
+
+            if (prevControllerStates[0].Buttons.Start == ButtonState.Released && controllerStates[0].Buttons.Start == ButtonState.Pressed)
+            {
+                // TODO: confirmation screen
+                // Send data to data container
+                Color[] sc = new Color[nbPlayers];
+                for (int i = 0; i < nbPlayers; i++)
+                    sc[i] = customColors[selectedColors[i]];
+                dataContainer.SaveData(sc, selectedFaces);
+                SceneManager.LoadScene(1);
+                return;
+            }
 
             for (int i = 0; i < nbPlayers; i++)
             {
