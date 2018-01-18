@@ -34,6 +34,8 @@ public class Menu : MonoBehaviour {
     [SerializeField]
     SlimeDataContainer dataContainer;
 
+    bool[] areReady;
+
     public void SetMode(int _modeSelected)
     {
         selectedMode = _modeSelected;
@@ -130,21 +132,49 @@ public class Menu : MonoBehaviour {
             if (nbPlayers == -1)
                 return;
 
-            if (selectedMode == 0 && prevControllerStates[0].Buttons.Start == ButtonState.Released && controllerStates[0].Buttons.Start == ButtonState.Pressed)
-            {
-                // TODO: confirmation screen
-                // Send data to data container
-                Color[] sc = new Color[nbPlayers];
-                for (int i = 0; i < nbPlayers; i++)
-                    sc[i] = customColors[selectedColors[i]];
-                dataContainer.SaveData(nbPlayers, sc, selectedFaces);
-
-                SceneManager.LoadScene(1);
-                return;
-            }
+            areReady = new bool[nbPlayers];
 
             for (int i = 0; i < nbPlayers; i++)
             {
+
+                if (prevControllerStates[i].Buttons.B == ButtonState.Released && controllerStates[i].Buttons.B == ButtonState.Pressed)
+                {
+                    // Do not go back to previous state if player 1 is ready
+                    if (i == 0 && !areReady[0])
+                    {
+                        ReturnToPreviousState();
+                        return;
+                    }
+                        
+
+                    areReady[i] = false;
+                    currentCursorsRow[i] = 0;
+                    playerCustomScreens[i].transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
+
+                    // Disable "Ready!" txt
+                    playerCustomScreens[i].transform.GetChild(4).gameObject.SetActive(false);
+                }
+
+                if (areReady[i])
+                    continue;
+
+                if (prevControllerStates[i].Buttons.Start == ButtonState.Released && controllerStates[i].Buttons.Start == ButtonState.Pressed)
+                {
+                    areReady[i] = true;
+                    // Deactivate feedbacks
+                    playerCustomScreens[i].transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
+                    playerCustomScreens[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+                    // Pop "Ready!" txt
+                    playerCustomScreens[i].transform.GetChild(4).gameObject.SetActive(true);
+
+                    if (IsEveryoneReady())
+                    {
+                        LaunchGameProcess();
+                        return;
+                    }
+                }
+
+
                 if (controllerStates[i].ThumbSticks.Left.Y > 0.5f && prevControllerStates[i].ThumbSticks.Left.Y < 0.5f
                     || (controllerStates[i].ThumbSticks.Left.Y < -0.5f && prevControllerStates[i].ThumbSticks.Left.Y > -0.5f))
                 {
@@ -269,5 +299,31 @@ public class Menu : MonoBehaviour {
         if (currentState == MenuState.ModeSelection || currentState == MenuState.TitleScreen)
             return;
         SetState((MenuState)((int)currentState - 1));
+    }
+
+    bool IsEveryoneReady()
+    {
+        for (int i = 0; i < areReady.Length; i++)
+        {
+            if (!areReady[i])
+                return false;
+        }
+        return true;
+    }
+
+    void LaunchGameProcess()
+    {
+        // Send data to data container
+        Color[] sc = new Color[nbPlayers];
+        for (int i = 0; i < nbPlayers; i++)
+            sc[i] = customColors[selectedColors[i]];
+        dataContainer.SaveData(nbPlayers, sc, selectedFaces);
+
+        // Launch HUB
+        if (selectedMode == 0)
+        {
+            SceneManager.LoadScene(1);
+            return;
+        }
     }
 }
