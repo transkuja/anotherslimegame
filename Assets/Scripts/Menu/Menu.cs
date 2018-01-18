@@ -51,27 +51,36 @@ public class Menu : MonoBehaviour {
         SetState(MenuState.TitleScreen);
     }
 
+    void TitleScreenInputHandling()
+    {
+        if (Input.anyKey)
+        {
+            GoToNextState();
+            return;
+        }
+    }
+
     void Update()
     {
+        // Title screen inputs
         if (currentState == MenuState.TitleScreen)
         {
-            if (Input.anyKey)
-            {
-                GoToNextState();
-                return;
-            }
+            TitleScreenInputHandling();
             return;
         }
 
+
+        // Save all players input
         for (int i = 0; i < 4; i++)
         {
             prevControllerStates[i] = controllerStates[i];
             controllerStates[i] = GamePad.GetState((PlayerIndex)i);
         }
 
-
+        // Player 1 has the lead and can rewind the menu state by pressing B
         if (prevControllerStates[0].Buttons.B == ButtonState.Released && controllerStates[0].Buttons.B == ButtonState.Pressed)
         {
+            // For CustomisationScreen, we want to be sure that Player 1 is not in "ready" state so we handle rewind elsewhere
             if (currentState != MenuState.TitleScreen && currentState != MenuState.CustomisationScreen)
             {
                 ReturnToPreviousState();
@@ -79,6 +88,7 @@ public class Menu : MonoBehaviour {
             }
         }
 
+        // Standard states input
         if (currentState != MenuState.CustomisationScreen)
         {
             if ((controllerStates[0].ThumbSticks.Left.X > 0.5f && prevControllerStates[0].ThumbSticks.Left.X < 0.5f)
@@ -128,25 +138,29 @@ public class Menu : MonoBehaviour {
                 }
             }
         }
+        // Customisation screen inputs & behaviours
         else
         {
+            // if nb of players is not specified here, there must be a bug in state transition
             if (nbPlayers == -1)
                 return;
 
+            // Check all players input
             for (int i = 0; i < nbPlayers; i++)
             {
-
+                // Unready player 
                 if (prevControllerStates[i].Buttons.B == ButtonState.Released && controllerStates[i].Buttons.B == ButtonState.Pressed)
                 {
-                    // Do not go back to previous state if player 1 is ready
+                    // Go back to previous state if player 1 is not ready and pressed B
                     if (i == 0 && !areReady[0])
                     {
                         ReturnToPreviousState();
                         return;
                     }
                         
-
                     areReady[i] = false;
+
+                    // Reactivate position feedback and reset cursor
                     currentCursorsRow[i] = 0;
                     playerCustomScreens[i].transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
 
@@ -154,9 +168,11 @@ public class Menu : MonoBehaviour {
                     playerCustomScreens[i].transform.GetChild(4).gameObject.SetActive(false);
                 }
 
+                // If the player i is ready, block all inputs
                 if (areReady[i])
                     continue;
 
+                // Press start when you're ready to go
                 if (prevControllerStates[i].Buttons.Start == ButtonState.Released && controllerStates[i].Buttons.Start == ButtonState.Pressed)
                 {
                     areReady[i] = true;
@@ -166,6 +182,7 @@ public class Menu : MonoBehaviour {
                     // Pop "Ready!" txt
                     playerCustomScreens[i].transform.GetChild(4).gameObject.SetActive(true);
 
+                    // If everyone is ready, launch the game or the mini game selection screen
                     if (IsEveryoneReady())
                     {
                         LaunchGameProcess();
@@ -173,7 +190,7 @@ public class Menu : MonoBehaviour {
                     }
                 }
 
-
+                // Y axis controls the settings selection
                 if (controllerStates[i].ThumbSticks.Left.Y > 0.5f && prevControllerStates[i].ThumbSticks.Left.Y < 0.5f
                     || (controllerStates[i].ThumbSticks.Left.Y < -0.5f && prevControllerStates[i].ThumbSticks.Left.Y > -0.5f))
                 {
@@ -182,6 +199,7 @@ public class Menu : MonoBehaviour {
                     playerCustomScreens[i].transform.GetChild(0).GetChild(currentCursorsRow[i]).gameObject.SetActive(true);
                     playerCustomScreens[i].transform.GetChild(0).GetChild((currentCursorsRow[i] + 1)%2).gameObject.SetActive(false);
                 }
+                // X axis controls the settings values
                 else if (controllerStates[i].ThumbSticks.Left.X > 0.5f && prevControllerStates[i].ThumbSticks.Left.X < 0.5f)
                 {
                     if (currentCursorsRow[i] == 0)
@@ -254,7 +272,7 @@ public class Menu : MonoBehaviour {
 
         if (currentState == MenuState.CustomisationScreen)
         {
-            areReady = new bool[nbPlayers];
+                        areReady = new bool[nbPlayers];
 
             if (playerCustomScreens.Count > 0)
             {
