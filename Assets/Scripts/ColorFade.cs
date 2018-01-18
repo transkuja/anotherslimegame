@@ -5,7 +5,7 @@ using UnityEngine;
 public class ColorFade : MonoBehaviour {
     List<Material> mats;
     [SerializeField]
-    float speed = 0.5f;
+    float speed = 0.2f;
     [SerializeField]
     bool randomSpeed;
     // Use this for initialization
