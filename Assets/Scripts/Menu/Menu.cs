@@ -75,6 +75,7 @@ public class Menu : MonoBehaviour {
             if (currentState != MenuState.TitleScreen && currentState != MenuState.CustomisationScreen)
             {
                 ReturnToPreviousState();
+                return;
             }
         }
 
@@ -131,8 +132,6 @@ public class Menu : MonoBehaviour {
         {
             if (nbPlayers == -1)
                 return;
-
-            areReady = new bool[nbPlayers];
 
             for (int i = 0; i < nbPlayers; i++)
             {
@@ -255,6 +254,8 @@ public class Menu : MonoBehaviour {
 
         if (currentState == MenuState.CustomisationScreen)
         {
+            areReady = new bool[nbPlayers];
+
             if (playerCustomScreens.Count > 0)
             {
                 foreach (GameObject go in playerCustomScreens)
