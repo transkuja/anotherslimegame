@@ -6,7 +6,7 @@ using UWPAndXInput;
 using System.Collections.Generic;
 
 public class Menu : MonoBehaviour {
-    public enum MenuState { TitleScreen, ModeSelection, NumberOfPlayers, CustomisationScreen, MinigameSelection }
+    public enum MenuState { Common, TitleScreen, ModeSelection, NumberOfPlayers, CustomisationScreen, MinigameSelection }
     MenuState currentState = MenuState.TitleScreen;
 
     int currentCursor = 0;
@@ -95,7 +95,7 @@ public class Menu : MonoBehaviour {
                         currentCursor = 3;
                     else
                         currentCursor = currentCursor % 4;
-                    currentlySelectedButton = transform.GetChild((int)currentState).GetChild(3).GetChild(currentCursor).GetComponent<Button>();
+                    currentlySelectedButton = transform.GetChild((int)currentState).GetChild(1).GetChild(currentCursor).GetComponent<Button>();
                     currentlySelectedButton.Select();
                 }
                 else
@@ -104,7 +104,7 @@ public class Menu : MonoBehaviour {
                         currentCursor = 1;
                     else
                         currentCursor = currentCursor % 2;
-                    currentlySelectedButton = transform.GetChild((int)currentState).GetChild(2).GetChild(currentCursor).GetComponent<Button>();
+                    currentlySelectedButton = transform.GetChild((int)currentState).GetChild(0).GetChild(currentCursor).GetComponent<Button>();
                     currentlySelectedButton.Select();
                 }
                 buttonNeedUpdate = false;
@@ -205,14 +205,14 @@ public class Menu : MonoBehaviour {
 
         if (currentState == MenuState.ModeSelection)
         {
-            currentlySelectedButton = transform.GetChild((int)currentState).GetChild(2).GetChild(currentCursor).GetComponent<Button>();
+            currentlySelectedButton = transform.GetChild((int)currentState).GetChild(0).GetChild(currentCursor).GetComponent<Button>();
             currentlySelectedButton.Select();
             selectedMode = -1;
         }
 
         if (currentState == MenuState.NumberOfPlayers)
         {
-            currentlySelectedButton = transform.GetChild((int)currentState).GetChild(selectedMode + 2).GetChild(currentCursor).GetComponent<Button>();
+            currentlySelectedButton = transform.GetChild((int)currentState).GetChild(selectedMode).GetChild(currentCursor).GetComponent<Button>();
             currentlySelectedButton.Select();
             nbPlayers = -1;
         }
