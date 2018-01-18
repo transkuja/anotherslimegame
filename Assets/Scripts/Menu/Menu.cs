@@ -30,6 +30,7 @@ public class Menu : MonoBehaviour {
     int[] selectedFaces = new int[4];
     int maxFacesNumber = 5;
     int[] currentCursorsRow = new int[4];
+    bool[] selectedColorFades = new bool[4];
 
     [SerializeField]
     SlimeDataContainer dataContainer;
@@ -205,10 +206,18 @@ public class Menu : MonoBehaviour {
                     if (currentCursorsRow[i] == 0)
                     {
                         selectedColors[i]++;
-                        selectedColors[i] = selectedColors[i] % customColors.Count;
+                        selectedColors[i] = selectedColors[i] % (customColors.Count + 1);
                         // Update text and character
                         playerCustomScreens[i].transform.GetChild(1).GetComponent<Text>().text = (selectedColors[i]+1).ToString();
-                        playerCustomScreens[i].transform.GetChild(3).GetComponentInChildren<PlayerCosmetics>().SetUniqueColor(customColors[selectedColors[i]]);
+                        if (selectedColors[i] == customColors.Count)
+                            playerCustomScreens[i].transform.GetChild(3).gameObject.AddComponent<ColorFade>();
+                        else
+                        {
+                            ColorFade cf = playerCustomScreens[i].transform.GetComponentInChildren<ColorFade>();
+                            if (cf != null)
+                                Destroy(cf);
+                            playerCustomScreens[i].transform.GetChild(3).GetComponentInChildren<PlayerCosmetics>().SetUniqueColor(customColors[selectedColors[i]]);
+                        }
                     }
                     else
                     {
@@ -225,12 +234,20 @@ public class Menu : MonoBehaviour {
                     {
                         selectedColors[i]--;
                         if (selectedColors[i] < 0)
-                            selectedColors[i] = customColors.Count - 1;
+                            selectedColors[i] = customColors.Count;
                         else
-                            selectedColors[i] = selectedColors[i] % customColors.Count;
+                            selectedColors[i] = selectedColors[i] % (customColors.Count + 1);
                         // Update text and character
                         playerCustomScreens[i].transform.GetChild(1).GetComponent<Text>().text = (selectedColors[i]+1).ToString();
-                        playerCustomScreens[i].transform.GetChild(3).GetComponentInChildren<PlayerCosmetics>().SetUniqueColor(customColors[selectedColors[i]]);
+                        if (selectedColors[i] == customColors.Count)
+                            playerCustomScreens[i].transform.GetChild(3).gameObject.AddComponent<ColorFade>();
+                        else
+                        {
+                            ColorFade cf = playerCustomScreens[i].transform.GetComponentInChildren<ColorFade>();
+                            if (cf != null)
+                                Destroy(cf);
+                            playerCustomScreens[i].transform.GetChild(3).GetComponentInChildren<PlayerCosmetics>().SetUniqueColor(customColors[selectedColors[i]]);
+                        }
                     }
                     else
                     {
@@ -335,8 +352,13 @@ public class Menu : MonoBehaviour {
         // Send data to data container
         Color[] sc = new Color[nbPlayers];
         for (int i = 0; i < nbPlayers; i++)
-            sc[i] = customColors[selectedColors[i]];
-        dataContainer.SaveData(nbPlayers, sc, selectedFaces);
+        {
+            if (selectedColors[i] == customColors.Count)
+                selectedColorFades[i] = true;
+            else
+                sc[i] = customColors[selectedColors[i]];
+        }
+        dataContainer.SaveData(nbPlayers, sc, selectedFaces, selectedColorFades);
 
         // Launch HUB
         if (selectedMode == 0)
