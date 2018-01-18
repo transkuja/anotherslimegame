@@ -51,27 +51,33 @@ public class Menu : MonoBehaviour {
 
     void Update()
     {
+        if (currentState == MenuState.TitleScreen)
+        {
+            if (Input.anyKey)
+            {
+                GoToNextState();
+                return;
+            }
+            return;
+        }
+
         for (int i = 0; i < 4; i++)
         {
             prevControllerStates[i] = controllerStates[i];
             controllerStates[i] = GamePad.GetState((PlayerIndex)i);
         }
 
-        
+
         if (prevControllerStates[0].Buttons.B == ButtonState.Released && controllerStates[0].Buttons.B == ButtonState.Pressed)
         {
-            if (currentState != MenuState.TitleScreen)
+            if (currentState != MenuState.TitleScreen && currentState != MenuState.CustomisationScreen)
+            {
                 ReturnToPreviousState();
+            }
         }
 
         if (currentState != MenuState.CustomisationScreen)
         {
-            if (Input.anyKey && currentState == MenuState.TitleScreen)
-            {
-                GoToNextState();
-                return;
-            }
-
             if ((controllerStates[0].ThumbSticks.Left.X > 0.5f && prevControllerStates[0].ThumbSticks.Left.X < 0.5f)
                     || (controllerStates[0].ThumbSticks.Left.Y < -0.75f && prevControllerStates[0].ThumbSticks.Left.Y > -0.75f))
             {
