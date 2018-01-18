@@ -28,7 +28,7 @@ public class Menu : MonoBehaviour {
 
     int[] selectedColors = new int[4];
     int[] selectedFaces = new int[4];
-    int maxFacesNumber = 4;
+    int maxFacesNumber = 5;
     int[] currentCursorsRow = new int[4];
 
     [SerializeField]
