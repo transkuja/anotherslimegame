@@ -122,7 +122,7 @@ public class Menu : MonoBehaviour {
             if (nbPlayers == -1)
                 return;
 
-            if (prevControllerStates[0].Buttons.Start == ButtonState.Released && controllerStates[0].Buttons.Start == ButtonState.Pressed)
+            if (selectedMode == 0 && prevControllerStates[0].Buttons.Start == ButtonState.Released && controllerStates[0].Buttons.Start == ButtonState.Pressed)
             {
                 // TODO: confirmation screen
                 // Send data to data container
@@ -130,6 +130,7 @@ public class Menu : MonoBehaviour {
                 for (int i = 0; i < nbPlayers; i++)
                     sc[i] = customColors[selectedColors[i]];
                 dataContainer.SaveData(nbPlayers, sc, selectedFaces);
+
                 SceneManager.LoadScene(1);
                 return;
             }
