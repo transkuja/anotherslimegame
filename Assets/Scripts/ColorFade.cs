@@ -6,9 +6,13 @@ public class ColorFade : MonoBehaviour {
     List<Material> mats;
     [SerializeField]
     float speed = 0.5f;
+
+    [SerializeField]
+    bool randomSpeed = true;
 	// Use this for initialization
 	void Start () {
-        speed = Random.Range(0.2f, 0.8f);
+        if(randomSpeed)
+            speed = Random.Range(0.2f, 0.8f);
         Renderer[] mr = GetComponentsInChildren<Renderer>();
         mats = new List<Material>();
         for(int i = 0; i < mr.Length; i++)
