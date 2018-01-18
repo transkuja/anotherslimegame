@@ -10,8 +10,6 @@ public class Menu : MonoBehaviour {
     MenuState currentState = MenuState.TitleScreen;
 
     int currentCursor = 0;
-    GamePadState prevControllerState;
-    GamePadState controllerState;
 
     int selectedMode = -1;
     int nbPlayers = -1;
@@ -53,25 +51,35 @@ public class Menu : MonoBehaviour {
 
     void Update()
     {
+        for (int i = 0; i < 4; i++)
+        {
+            prevControllerStates[i] = controllerStates[i];
+            controllerStates[i] = GamePad.GetState((PlayerIndex)i);
+        }
+
+        
+        if (prevControllerStates[0].Buttons.B == ButtonState.Released && controllerStates[0].Buttons.B == ButtonState.Pressed)
+        {
+            if (currentState != MenuState.TitleScreen)
+                ReturnToPreviousState();
+        }
+
         if (currentState != MenuState.CustomisationScreen)
         {
-            prevControllerState = controllerState;
-            controllerState = GamePad.GetState(0);
-
             if (Input.anyKey && currentState == MenuState.TitleScreen)
             {
                 GoToNextState();
                 return;
             }
 
-            if ((controllerState.ThumbSticks.Left.X > 0.5f && prevControllerState.ThumbSticks.Left.X < 0.5f)
-                    || (controllerState.ThumbSticks.Left.Y < -0.75f && prevControllerState.ThumbSticks.Left.Y > -0.75f))
+            if ((controllerStates[0].ThumbSticks.Left.X > 0.5f && prevControllerStates[0].ThumbSticks.Left.X < 0.5f)
+                    || (controllerStates[0].ThumbSticks.Left.Y < -0.75f && prevControllerStates[0].ThumbSticks.Left.Y > -0.75f))
             {
                 buttonNeedUpdate = true;
                 currentCursor++;
             }
-            else if ((controllerState.ThumbSticks.Left.X < -0.5f && prevControllerState.ThumbSticks.Left.X > -0.5f)
-                    || (controllerState.ThumbSticks.Left.Y > 0.75f && prevControllerState.ThumbSticks.Left.Y < 0.75f))
+            else if ((controllerStates[0].ThumbSticks.Left.X < -0.5f && prevControllerStates[0].ThumbSticks.Left.X > -0.5f)
+                    || (controllerStates[0].ThumbSticks.Left.Y > 0.75f && prevControllerStates[0].ThumbSticks.Left.Y < 0.75f))
             {
                 buttonNeedUpdate = true;
                 currentCursor--;
@@ -102,19 +110,13 @@ public class Menu : MonoBehaviour {
                 buttonNeedUpdate = false;
             }
 
-            if (prevControllerState.Buttons.A == ButtonState.Released && controllerState.Buttons.A == ButtonState.Pressed)
+            if (prevControllerStates[0].Buttons.A == ButtonState.Released && controllerStates[0].Buttons.A == ButtonState.Pressed)
             {
                 if (currentlySelectedButton != null)
                 {
                     currentlySelectedButton.onClick.Invoke();
                     GoToNextState();
                 }
-            }
-
-            else if (prevControllerState.Buttons.B == ButtonState.Released && controllerState.Buttons.B == ButtonState.Pressed)
-            {
-                if (currentState != MenuState.TitleScreen)
-                    ReturnToPreviousState();
             }
         }
         else
@@ -137,9 +139,6 @@ public class Menu : MonoBehaviour {
 
             for (int i = 0; i < nbPlayers; i++)
             {
-                prevControllerStates[i] = controllerStates[i];
-                controllerStates[i] = GamePad.GetState((PlayerIndex)i);
-
                 if (controllerStates[i].ThumbSticks.Left.Y > 0.5f && prevControllerStates[i].ThumbSticks.Left.Y < 0.5f
                     || (controllerStates[i].ThumbSticks.Left.Y < -0.5f && prevControllerStates[i].ThumbSticks.Left.Y > -0.5f))
                 {
