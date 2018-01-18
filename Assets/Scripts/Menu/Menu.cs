@@ -129,7 +129,7 @@ public class Menu : MonoBehaviour {
                 Color[] sc = new Color[nbPlayers];
                 for (int i = 0; i < nbPlayers; i++)
                     sc[i] = customColors[selectedColors[i]];
-                dataContainer.SaveData(sc, selectedFaces);
+                dataContainer.SaveData(nbPlayers, sc, selectedFaces);
                 SceneManager.LoadScene(1);
                 return;
             }

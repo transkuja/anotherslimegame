@@ -109,7 +109,17 @@ public class PlayerStart : MonoBehaviour {
     public void SpawnPlayers()
     {
         CheckNumberOfActivePlayers();
-        
+
+        if (GameManager.Instance.DataContainer == null)
+        {
+            GameManager.Instance.RegisterDataContainer(FindObjectOfType<SlimeDataContainer>());
+        }
+
+        if (GameManager.Instance.DataContainer != null)
+        {
+            activePlayersAtStart = (uint)GameManager.Instance.DataContainer.nbPlayers;
+        }
+
         for (int i = 0; i < activePlayersAtStart; i++)
         {
             GameObject go = Instantiate(playerPrefab);
@@ -125,11 +135,7 @@ public class PlayerStart : MonoBehaviour {
             playerController.IsUsingAController = true;
             playerController.PlayerIndexSet = true;
 
-            if (GameManager.Instance.DataContainer == null)
-            {
-                GameManager.Instance.RegisterDataContainer(FindObjectOfType<SlimeDataContainer>());
-            }
-
+            
             if (GameManager.Instance.DataContainer != null)
             {
                 go.transform.GetComponentInChildren<PlayerCosmetics>().SetUniqueColor(GameManager.Instance.DataContainer.selectedColors[i]);
