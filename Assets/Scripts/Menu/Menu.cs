@@ -219,6 +219,12 @@ public class Menu : MonoBehaviour {
 
         if (currentState == MenuState.CustomisationScreen)
         {
+            if (playerCustomScreens.Count > 0)
+            {
+                foreach (GameObject go in playerCustomScreens)
+                    Destroy(go);
+            }
+
             playerCustomScreens.Clear();
             for (int i = 0; i < nbPlayers; i++)
             {
