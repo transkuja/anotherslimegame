@@ -13,7 +13,8 @@ public class PlayerStart : MonoBehaviour {
 
     public GameObject[] cameraPlayerReferences;
     uint activePlayersAtStart = 0;
-    public bool DEBUG_playWithFourPlayers = true;
+    public bool DEBUG_playXPlayers = true;
+    public uint DEBUG_NbPlayers = 1;
 
     List<GameObject> playersReference = new List<GameObject>();
     [SerializeField]
@@ -83,9 +84,9 @@ public class PlayerStart : MonoBehaviour {
     void CheckNumberOfActivePlayers()
     {
 #if UNITY_EDITOR
-        if (DEBUG_playWithFourPlayers)
+        if (DEBUG_playXPlayers)
         {
-            activePlayersAtStart = 4;
+            activePlayersAtStart = DEBUG_NbPlayers;
             return;
         }
 #endif

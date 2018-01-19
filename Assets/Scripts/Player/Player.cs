@@ -239,8 +239,8 @@ public class Player : MonoBehaviour {
 		else if (type == CollectableType.Money)
 		{
 			GameManager.Instance.GlobalMoney += pickedValue;
-			// TODO: update UI
 		}
+
 		// All collectables that are not money or runes should be handled like this
         else
         {
