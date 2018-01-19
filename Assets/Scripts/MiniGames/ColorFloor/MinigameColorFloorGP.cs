@@ -14,9 +14,4 @@ public class MinigameColorFloorGP : MonoBehaviour {
         }
     }
 
-
-    // TODO: keep lists in a scene specific script
-    //RegisterSelfToPlayer(int _playerIndex)
-
-    //UnregisterSelfToPlayer(int _playerIndex)
 }
