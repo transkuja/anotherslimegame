@@ -86,12 +86,6 @@ public class PlayerUI : MonoBehaviour {
         }
     }
 
-    // TODO: Remi
-    public void RefreshKeysPlayerUi(Player player, int _newValue)
-    {
-        // TODO: should only refresh the runes value        
-    }
-
     public virtual void RefreshPointsPlayerUi(Player player, int _newValue, int index)
     {
         if (!linkPlayerPointsToItsUi.ContainsKey(player))
@@ -103,6 +97,7 @@ public class PlayerUI : MonoBehaviour {
         else
             toRefresh.GetComponentInChildren<Text>().text = _newValue + " X ";
     }
+
     public void RefreshLifePlayerUi(Player player, int _newValue, int index)
     {
         if (!linkPlayerLifesToItsUi.ContainsKey(player))
@@ -114,6 +109,7 @@ public class PlayerUI : MonoBehaviour {
         else
             toRefresh.GetComponentInChildren<Text>().text = _newValue + " X ";
     }
+
     public void HandleFeedbackNotEnoughPoints(Player player, bool _activate)
     {
         if (!linkPlayerPointsToItsUi.ContainsKey(player))

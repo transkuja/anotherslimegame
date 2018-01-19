@@ -176,6 +176,7 @@ public class GameManager : MonoBehaviour {
         set
         {
             runes = Mathf.Clamp(value, 0, Utils.GetMaxValueForCollectable(CollectableType.Rune));
+            // TODO: Runes UI update should be handled here
         }
     }
 
@@ -191,6 +192,8 @@ public class GameManager : MonoBehaviour {
             // TODO: clamp it?
             //globalMoney = Mathf.Clamp(value, 0, Utils.GetMaxValueForCollectable(CollectableType.Rune));
             globalMoney = value;
+            // TODO: update UI
+
         }
     }
 

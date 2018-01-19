@@ -235,7 +235,6 @@ public class Player : MonoBehaviour {
         if (type == CollectableType.Rune)
         {
             GameManager.Instance.Runes += 1;
-            GameManager.Instance.PlayerUI.RefreshKeysPlayerUi(this, GameManager.Instance.Runes);
         }
 		else if (type == CollectableType.Money)
 		{
