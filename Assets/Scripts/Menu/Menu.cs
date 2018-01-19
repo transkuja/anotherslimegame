@@ -356,7 +356,10 @@ public class Menu : MonoBehaviour {
             if (selectedColors[i] == customColors.Count)
                 selectedColorFades[i] = true;
             else
+            {
+                selectedColorFades[i] = false; // Line needed in case we come back from minigame selection screen
                 sc[i] = customColors[selectedColors[i]];
+            }
         }
         dataContainer.SaveData(nbPlayers, sc, selectedFaces, selectedColorFades);
 
@@ -364,6 +367,11 @@ public class Menu : MonoBehaviour {
         if (selectedMode == 0)
         {
             SceneManager.LoadScene(1);
+            return;
+        }
+        else
+        {
+            GoToNextState();
             return;
         }
     }
