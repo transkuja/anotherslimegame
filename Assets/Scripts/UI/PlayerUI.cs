@@ -86,20 +86,10 @@ public class PlayerUI : MonoBehaviour {
         }
     }
 
+    // TODO: Remi
     public void RefreshKeysPlayerUi(Player player, int _newValue)
     {
-        if (!linkPlayerKeyToItsUi.ContainsKey(player))
-            return;
-
-        Transform toRefresh = linkPlayerKeyToItsUi[player].transform;
-        for (int i = 0; i < _newValue; i++)
-        {
-            toRefresh.GetChild(i).gameObject.SetActive(true);
-        }
-        for (int i = _newValue; i < Utils.GetMaxValueForCollectable(CollectableType.Rune); i++)
-        {
-            toRefresh.GetChild(i).gameObject.SetActive(false);
-        }
+        // TODO: should only refresh the runes value        
     }
 
     public virtual void RefreshPointsPlayerUi(Player player, int _newValue, int index)
