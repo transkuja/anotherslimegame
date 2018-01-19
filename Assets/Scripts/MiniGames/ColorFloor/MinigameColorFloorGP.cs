@@ -9,6 +9,7 @@ public class MinigameColorFloorGP : MonoBehaviour {
         if (collision.transform.GetComponentInParent<PlayerController>() != null)
         {
             PlayerController pc = collision.transform.GetComponentInParent<PlayerController>();
+            ColorFloorHandler.RegisterFloor((int)pc.playerIndex, collision.contacts[0].thisCollider);
             collision.contacts[0].thisCollider.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", GameManager.Instance.PlayerStart.colorPlayer[(int)pc.playerIndex]);
         }
     }
