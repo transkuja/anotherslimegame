@@ -196,26 +196,12 @@ public class Menu : MonoBehaviour {
                     if (currentCursorsRow[i] == 0)
                     {
                         selectedColors[i]++;
-                        selectedColors[i] = selectedColors[i] % (customColors.Count + 1);
-                        // Update text and character
-                        playerCustomScreens[i].transform.GetChild(1).GetComponent<Text>().text = (selectedColors[i]+1).ToString();
-                        if (selectedColors[i] == customColors.Count)
-                            playerCustomScreens[i].transform.GetChild(3).gameObject.AddComponent<ColorFade>();
-                        else
-                        {
-                            ColorFade cf = playerCustomScreens[i].transform.GetComponentInChildren<ColorFade>();
-                            if (cf != null)
-                                Destroy(cf);
-                            playerCustomScreens[i].transform.GetChild(3).GetComponentInChildren<PlayerCosmetics>().SetUniqueColor(customColors[selectedColors[i]]);
-                        }
+                        UpdatePlayerPreviewColor(i);
                     }
                     else
                     {
                         selectedFaces[i]++;
-                        selectedFaces[i] = selectedFaces[i] % maxFacesNumber;
-                        // Update text and character
-                        playerCustomScreens[i].transform.GetChild(2).GetComponent<Text>().text = (selectedFaces[i]+1).ToString();
-                        playerCustomScreens[i].transform.GetChild(3).GetComponentInChildren<PlayerCosmetics>().FaceType = (FaceType)selectedFaces[i];
+                        UpdatePlayerPreviewFace(i);
                     }
                 }
                 else if (controllerStates[i].ThumbSticks.Left.X < -0.5f && prevControllerStates[i].ThumbSticks.Left.X > -0.5f)
@@ -223,39 +209,19 @@ public class Menu : MonoBehaviour {
                     if (currentCursorsRow[i] == 0)
                     {
                         selectedColors[i]--;
-                        if (selectedColors[i] < 0)
-                            selectedColors[i] = customColors.Count;
-                        else
-                            selectedColors[i] = selectedColors[i] % (customColors.Count + 1);
-                        // Update text and character
-                        playerCustomScreens[i].transform.GetChild(1).GetComponent<Text>().text = (selectedColors[i]+1).ToString();
-                        if (selectedColors[i] == customColors.Count)
-                            playerCustomScreens[i].transform.GetChild(3).gameObject.AddComponent<ColorFade>();
-                        else
-                        {
-                            ColorFade cf = playerCustomScreens[i].transform.GetComponentInChildren<ColorFade>();
-                            if (cf != null)
-                                Destroy(cf);
-                            playerCustomScreens[i].transform.GetChild(3).GetComponentInChildren<PlayerCosmetics>().SetUniqueColor(customColors[selectedColors[i]]);
-                        }
+                        UpdatePlayerPreviewColor(i);
                     }
                     else
                     {
                         selectedFaces[i]--;
-                        if (selectedFaces[i] < 0)
-                            selectedFaces[i] = maxFacesNumber - 1;
-                        else
-                            selectedFaces[i] = selectedFaces[i] % maxFacesNumber;
-
-                        // Update text and character
-                        playerCustomScreens[i].transform.GetChild(2).GetComponent<Text>().text = (selectedFaces[i]+1).ToString();
-                        playerCustomScreens[i].transform.GetChild(3).GetComponentInChildren<PlayerCosmetics>().FaceType = (FaceType)selectedFaces[i];
+                        UpdatePlayerPreviewFace(i);
                     }
                 }
             }
         }
     }
 
+    // Move the button cursor and highlight it
     void UpdateSelectionVisual(int _nbButtons, int _childOffset)
     {
         if (currentCursor < 0)
@@ -265,6 +231,40 @@ public class Menu : MonoBehaviour {
         currentlySelectedButton = transform.GetChild((int)currentState).GetChild(_childOffset).GetChild(currentCursor).GetComponent<Button>();
         currentlySelectedButton.Select();
     }
+
+    // Change the player color according to current selection
+    void UpdatePlayerPreviewColor(int _playerIndex)
+    {
+        if (selectedColors[_playerIndex] < 0)
+            selectedColors[_playerIndex] = customColors.Count;
+        else
+            selectedColors[_playerIndex] = selectedColors[_playerIndex] % (customColors.Count + 1);
+        // Update text and character
+        playerCustomScreens[_playerIndex].transform.GetChild(1).GetComponent<Text>().text = (selectedColors[_playerIndex] + 1).ToString();
+        if (selectedColors[_playerIndex] == customColors.Count)
+            playerCustomScreens[_playerIndex].transform.GetChild(3).gameObject.AddComponent<ColorFade>();
+        else
+        {
+            ColorFade cf = playerCustomScreens[_playerIndex].transform.GetComponentInChildren<ColorFade>();
+            if (cf != null)
+                Destroy(cf);
+            playerCustomScreens[_playerIndex].transform.GetChild(3).GetComponentInChildren<PlayerCosmetics>().SetUniqueColor(customColors[selectedColors[_playerIndex]]);
+        }
+    }
+
+    // Change the player face according to current selection
+    void UpdatePlayerPreviewFace(int _playerIndex)
+    {
+        if (selectedFaces[_playerIndex] < 0)
+            selectedFaces[_playerIndex] = maxFacesNumber - 1;
+        else
+            selectedFaces[_playerIndex] = selectedFaces[_playerIndex] % maxFacesNumber;
+
+        // Update text and character
+        playerCustomScreens[_playerIndex].transform.GetChild(2).GetComponent<Text>().text = (selectedFaces[_playerIndex] + 1).ToString();
+        playerCustomScreens[_playerIndex].transform.GetChild(3).GetComponentInChildren<PlayerCosmetics>().FaceType = (FaceType)selectedFaces[_playerIndex];
+    }
+
 
     public void SetState(MenuState _newState)
     {
