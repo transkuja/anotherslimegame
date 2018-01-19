@@ -186,7 +186,7 @@ public class Menu : MonoBehaviour {
                     // If everyone is ready, launch the game or the mini game selection screen
                     if (IsEveryoneReady())
                     {
-                        LaunchGameProcess();
+                        GoToNextStateFromCustomisationScreen();
                         return;
                     }
                 }
@@ -347,7 +347,24 @@ public class Menu : MonoBehaviour {
         return true;
     }
 
-    void LaunchGameProcess()
+    void GoToNextStateFromCustomisationScreen()
+    {
+        // Launch HUB
+        if (selectedMode == 0)
+        {
+            SendDataToContainer();
+            SceneManager.LoadScene(1);
+            return;
+        }
+        // Go to minigame selection screen
+        else
+        {
+            GoToNextState();
+            return;
+        }
+    }
+
+    void SendDataToContainer()
     {
         // Send data to data container
         Color[] sc = new Color[nbPlayers];
@@ -362,17 +379,5 @@ public class Menu : MonoBehaviour {
             }
         }
         dataContainer.SaveData(nbPlayers, sc, selectedFaces, selectedColorFades);
-
-        // Launch HUB
-        if (selectedMode == 0)
-        {
-            SceneManager.LoadScene(1);
-            return;
-        }
-        else
-        {
-            GoToNextState();
-            return;
-        }
     }
 }
