@@ -113,6 +113,10 @@ public class Menu : MonoBehaviour {
                 {
                     UpdateSelectionVisual(4, 1);                   
                 }
+                else if (currentState == MenuState.MinigameSelection)
+                {
+                  //  UpdateSelectionVisual()
+                }
                 else
                 {
                     UpdateSelectionVisual(2, 0);
