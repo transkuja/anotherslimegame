@@ -111,21 +111,11 @@ public class Menu : MonoBehaviour {
             {
                 if (currentState == MenuState.NumberOfPlayers && selectedMode == 1)
                 {
-                    if (currentCursor < 0)
-                        currentCursor = 3;
-                    else
-                        currentCursor = currentCursor % 4;
-                    currentlySelectedButton = transform.GetChild((int)currentState).GetChild(1).GetChild(currentCursor).GetComponent<Button>();
-                    currentlySelectedButton.Select();
+                    UpdateSelectionVisual(4, 1);                   
                 }
                 else
                 {
-                    if (currentCursor < 0)
-                        currentCursor = 1;
-                    else
-                        currentCursor = currentCursor % 2;
-                    currentlySelectedButton = transform.GetChild((int)currentState).GetChild(0).GetChild(currentCursor).GetComponent<Button>();
-                    currentlySelectedButton.Select();
+                    UpdateSelectionVisual(2, 0);
                 }
                 buttonNeedUpdate = false;
             }
@@ -264,6 +254,16 @@ public class Menu : MonoBehaviour {
                 }
             }
         }
+    }
+
+    void UpdateSelectionVisual(int _nbButtons, int _childOffset)
+    {
+        if (currentCursor < 0)
+            currentCursor = _nbButtons - 1;
+        else
+            currentCursor = currentCursor % _nbButtons;
+        currentlySelectedButton = transform.GetChild((int)currentState).GetChild(_childOffset).GetChild(currentCursor).GetComponent<Button>();
+        currentlySelectedButton.Select();
     }
 
     public void SetState(MenuState _newState)
