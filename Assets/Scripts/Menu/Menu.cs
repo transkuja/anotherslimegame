@@ -273,6 +273,7 @@ public class Menu : MonoBehaviour {
         currentState = _newState;
         transform.GetChild((int)currentState).gameObject.SetActive(true);
 
+        // Mode selection step reset
         if (currentState == MenuState.ModeSelection)
         {
             currentlySelectedButton = transform.GetChild((int)currentState).GetChild(0).GetChild(currentCursor).GetComponent<Button>();
@@ -280,6 +281,7 @@ public class Menu : MonoBehaviour {
             selectedMode = -1;
         }
 
+        // Nb of players selection step reset
         if (currentState == MenuState.NumberOfPlayers)
         {
             currentlySelectedButton = transform.GetChild((int)currentState).GetChild(selectedMode).GetChild(currentCursor).GetComponent<Button>();
@@ -287,9 +289,10 @@ public class Menu : MonoBehaviour {
             nbPlayers = -1;
         }
 
+        // Customisation screen reset
         if (currentState == MenuState.CustomisationScreen)
         {
-                        areReady = new bool[nbPlayers];
+            areReady = new bool[nbPlayers];
 
             if (playerCustomScreens.Count > 0)
             {
