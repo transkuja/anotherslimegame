@@ -17,7 +17,12 @@ public class ColorFloorPickupHandler : MonoBehaviour {
             yield return new WaitForSeconds(pickupDelay);
             if (pickupSpawned < maxPickupOnMap)
             {
-                // spawn pickup
+                // Spawn pickup
+                int randChild = Random.Range(0, transform.childCount);
+                GameObject go = Instantiate(ResourceUtils.Instance.poolManager.colorFloorScorePickUpPool.GetItem(), transform.GetChild(randChild));
+                go.transform.localPosition = Vector3.zero;
+                go.SetActive(true);
+
                 pickupSpawned++;
             }
         }
