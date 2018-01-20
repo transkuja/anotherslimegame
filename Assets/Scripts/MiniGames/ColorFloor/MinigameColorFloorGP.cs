@@ -17,13 +17,18 @@ public class MinigameColorFloorGP : MonoBehaviour {
         {
             PlayerController pc = collision.transform.GetComponentInParent<PlayerController>();
             Collider thisCollider = collision.contacts[0].thisCollider;
-            ColorFloorHandler.RegisterFloor((int)pc.playerIndex, thisCollider);
-            thisCollider.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", GameManager.Instance.PlayerStart.colorPlayer[(int)pc.playerIndex]);
             if (thisCollider.transform.childCount > 0)
             {
-                Destroy(thisCollider.transform.GetChild(0).gameObject);
+                ColorFloorPickUp pickupComponent = thisCollider.transform.GetChild(0).GetComponent<ColorFloorPickUp>();
+                if (pickupComponent.pickupType == ColorFloorPickUpType.Score)
+                    ColorFloorHandler.ScorePoints((int)pc.playerIndex);
+
+                Destroy(pickupComponent.gameObject);
                 pickupHandler.pickupSpawned--;
             }
+
+            ColorFloorHandler.RegisterFloor((int)pc.playerIndex, thisCollider);
+            thisCollider.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", GameManager.Instance.PlayerStart.colorPlayer[(int)pc.playerIndex]);
         }
     }
 
