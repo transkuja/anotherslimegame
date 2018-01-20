@@ -9,7 +9,7 @@ public class ColorFloorPickupHandler : MonoBehaviour {
     [SerializeField]
     int maxPickupOnMap = 3;
 
-    int pickupSpawned = 0;
+    public int pickupSpawned = 0;
 
     IEnumerator Start () {
 		while (true)
@@ -19,6 +19,11 @@ public class ColorFloorPickupHandler : MonoBehaviour {
             {
                 // Spawn pickup
                 int randChild = Random.Range(0, transform.childCount);
+
+                // Makes sure we don't spawn twice at the same place
+                while (transform.GetChild(randChild).childCount > 0)
+                    randChild = Random.Range(0, transform.childCount);
+
                 GameObject go = Instantiate(ResourceUtils.Instance.poolManager.colorFloorScorePickUpPool.GetItem(), transform.GetChild(randChild));
                 go.transform.localPosition = Vector3.up;
                 go.SetActive(true);
