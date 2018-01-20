@@ -92,6 +92,7 @@ public class PoolManager : MonoBehaviour {
     public Pool monsterShotsPool;
     public Pool ghostTrailPool;
     public Pool moneyPool;
+    public Pool colorFloorScorePickUpPool;
 
     void Start () {
 
@@ -132,12 +133,21 @@ public class PoolManager : MonoBehaviour {
         /* =============================================================================== */
 
         /* =============================================================================== */
-        GameObject moneyPoolParent = new GameObject("GhostTrailPool");
+        GameObject moneyPoolParent = new GameObject("MoneyPool");
         moneyPoolParent.transform.SetParent(transform);
         moneyPool.PoolParent = moneyPoolParent.transform;
 
         for (int i = 0; i < moneyPool.poolSize; i++)
             moneyPool.CreateRandomPoolItem();
+        /* =============================================================================== */
+
+        /* =============================================================================== */
+        GameObject colorFloorScorePickUpPoolParent = new GameObject("ColorFloorScorePickUpPool");
+        colorFloorScorePickUpPoolParent.transform.SetParent(transform);
+        colorFloorScorePickUpPool.PoolParent = colorFloorScorePickUpPoolParent.transform;
+
+        for (int i = 0; i < colorFloorScorePickUpPool.poolSize; i++)
+            colorFloorScorePickUpPool.CreateRandomPoolItem();
         /* =============================================================================== */
     }
 
