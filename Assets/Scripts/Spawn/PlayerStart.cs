@@ -162,7 +162,11 @@ public class PlayerStart : MonoBehaviour {
            
         }
 
-       
+        // Ugly shit, should be handled in gamemode @Anthony
+        if (SceneManager.GetActiveScene().name == "MinigameAntho")
+            ColorFloorHandler.Init(activePlayersAtStart);
+
+
     }
 
     public void AttributeCamera()
