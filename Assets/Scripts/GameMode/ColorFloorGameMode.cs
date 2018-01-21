@@ -6,10 +6,30 @@ using UWPAndXInput;
 public class ColorFloorGameMode : GameMode {
 
     public float timer;
+    public bool freeMovement = true;
+    public float restrainedMovementTick;
+    [SerializeField]
+    List<GameObject> restrainedMovementStarters;
+
+    public List<GameObject> RestrainedMovementStarters
+    {
+        get
+        {
+            return restrainedMovementStarters;
+        }
+    }
 
     public override void StartGame(List<GameObject> playerReferences)
     {
         base.StartGame(playerReferences);
+        if (!freeMovement)
+        {
+            for (int i = 0; i < playerReferences.Count; i++)
+            {
+                playerReferences[i].GetComponent<PlayerControllerHub>().enabled = false;
+                playerReferences[i].transform.position = restrainedMovementStarters[i].transform.position + Vector3.up;
+            }
+        }
 
         LaunchTimer();
     }

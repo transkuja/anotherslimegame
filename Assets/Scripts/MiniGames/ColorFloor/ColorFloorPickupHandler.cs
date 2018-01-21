@@ -9,6 +9,7 @@ public class ColorFloorPickupHandler : MonoBehaviour {
     [SerializeField]
     int maxPickupOnMap = 3;
 
+    [HideInInspector]
     public int pickupSpawned = 0;
 
     IEnumerator Start () {
