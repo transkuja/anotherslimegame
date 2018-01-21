@@ -27,7 +27,9 @@ public class ColorFloorGameMode : GameMode {
             for (int i = 0; i < playerReferences.Count; i++)
             {
                 Destroy(playerReferences[i].GetComponent<PlayerControllerHub>());
-                playerReferences[i].transform.position = restrainedMovementStarters[i].transform.position;// + Vector3.up*0.1f;
+                PlayerController pc = playerReferences[i].AddComponent<PlayerController>();
+                pc.playerIndex = (PlayerIndex)i;
+                playerReferences[i].transform.position = restrainedMovementStarters[i].transform.position;
                 playerReferences[i].GetComponent<Rigidbody>().useGravity = true;
             }
         }
