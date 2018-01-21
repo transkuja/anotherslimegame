@@ -25,9 +25,7 @@ public class ColorFloorPickupHandler : MonoBehaviour {
                 while (transform.GetChild(randChild).childCount > 0)
                     randChild = Random.Range(0, transform.childCount);
 
-                GameObject go = Instantiate(ResourceUtils.Instance.poolManager.colorFloorScorePickUpPool.GetItem(), transform.GetChild(randChild));
-                go.transform.localPosition = Vector3.up;
-                go.SetActive(true);
+                ResourceUtils.Instance.poolManager.colorFloorScorePickUpPool.GetItem(transform.GetChild(randChild), Vector3.up, Quaternion.identity, true);
 
                 pickupSpawned++;
             }
