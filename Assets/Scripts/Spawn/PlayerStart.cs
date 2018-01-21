@@ -14,6 +14,7 @@ public class PlayerStart : MonoBehaviour {
     public GameObject[] cameraPlayerReferences;
     uint activePlayersAtStart = 0;
     public bool DEBUG_playXPlayers = true;
+    [Range(1,4)]
     public uint DEBUG_NbPlayers = 1;
 
     List<GameObject> playersReference = new List<GameObject>();
