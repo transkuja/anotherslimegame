@@ -25,6 +25,8 @@ public class PlayerCosmetics : MonoBehaviour {
     Material[] handMats;
     Material[] earMats;
 
+    [SerializeField]
+    bool useColorFade;
 
     [SerializeField]
     Color bodyColor;
@@ -82,6 +84,29 @@ public class PlayerCosmetics : MonoBehaviour {
             earColor = value;
             foreach (Material m in earMats)
                 m.color = earColor;
+        }
+    }
+
+    public bool UseColorFade
+    {
+        get
+        {
+            return useColorFade;
+        }
+
+        set
+        {
+
+            int toAssign = value ? 1 : 0;
+            bodyMat.SetInt("_ColorFade", toAssign);
+
+            foreach (Material m in handMats)
+                m.SetInt("_ColorFade", toAssign);
+
+            foreach (Material m in earMats)
+                m.SetInt("_ColorFade", toAssign);
+
+            useColorFade = value;
         }
     }
 
