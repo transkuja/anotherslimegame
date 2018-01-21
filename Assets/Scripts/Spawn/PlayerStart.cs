@@ -141,7 +141,7 @@ public class PlayerStart : MonoBehaviour {
             if (GameManager.Instance.DataContainer != null)
             {
                 if (GameManager.Instance.DataContainer.colorFadeSelected[i])
-                    go.transform.GetComponentInChildren<PlayerCosmetics>().gameObject.AddComponent<ColorFade>();
+                    go.transform.GetComponentInChildren<PlayerCosmetics>().UseColorFade = true;
                 else
                     go.transform.GetComponentInChildren<PlayerCosmetics>().SetUniqueColor(GameManager.Instance.DataContainer.selectedColors[i]);
                 go.transform.GetComponentInChildren<PlayerCosmetics>().FaceType = (FaceType)GameManager.Instance.DataContainer.selectedFaces[i];

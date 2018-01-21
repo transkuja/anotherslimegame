@@ -246,12 +246,10 @@ public class Menu : MonoBehaviour {
         // Update text and character
         playerCustomScreens[_playerIndex].transform.GetChild(1).GetComponent<Text>().text = (selectedColors[_playerIndex] + 1).ToString();
         if (selectedColors[_playerIndex] == customColors.Count)
-            playerCustomScreens[_playerIndex].transform.GetChild(3).gameObject.AddComponent<ColorFade>();
+            playerCustomScreens[_playerIndex].transform.GetChild(3).GetComponentInChildren<PlayerCosmetics>().UseColorFade = true;
         else
         {
-            ColorFade cf = playerCustomScreens[_playerIndex].transform.GetComponentInChildren<ColorFade>();
-            if (cf != null)
-                Destroy(cf);
+            playerCustomScreens[_playerIndex].transform.GetChild(3).GetComponentInChildren<PlayerCosmetics>().UseColorFade = false;
             playerCustomScreens[_playerIndex].transform.GetChild(3).GetComponentInChildren<PlayerCosmetics>().SetUniqueColor(customColors[selectedColors[_playerIndex]]);
         }
     }
