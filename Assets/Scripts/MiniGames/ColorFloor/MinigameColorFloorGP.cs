@@ -77,9 +77,12 @@ public class MinigameColorFloorGP : MonoBehaviour {
                 Debug.Log(hit.collider.name);
                 if (!IsDestinationOccupied(hit.collider.gameObject))
                 {
-                    // TODO:Anim + proper move
                     playerCurrentPositions[i] = hit.collider.gameObject;
-                    GameManager.Instance.PlayerStart.PlayersReference[i].transform.position = hit.collider.transform.position;
+
+                    // TODO:Anim + proper move
+                    GameObject curPlayer = GameManager.Instance.PlayerStart.PlayersReference[i];
+                    curPlayer.transform.LookAt(hit.collider.transform);
+                    curPlayer.transform.position = hit.collider.transform.position;
                 }
             }
             
