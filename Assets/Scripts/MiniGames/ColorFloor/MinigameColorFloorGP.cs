@@ -13,6 +13,9 @@ public class MinigameColorFloorGP : MonoBehaviour {
 
     GameObject[] playerCurrentPositions = new GameObject[4];
 
+    [SerializeField]
+    LayerMask restrainedMovementLayerMask;
+
     private IEnumerator Start()
     {
         pickupHandler = GetComponent<ColorFloorPickupHandler>();
@@ -52,14 +55,6 @@ public class MinigameColorFloorGP : MonoBehaviour {
         }
     }
 
-    //private void Update()
-    //{
-    //    if (!gameMode.freeMovement)
-    //    {
-
-    //    }
-    //}
-
     void Move()
     {
         for (int i = 0; i < nbPlayers; i++)
@@ -68,19 +63,23 @@ public class MinigameColorFloorGP : MonoBehaviour {
 
             float x = controllerStates[i].ThumbSticks.Left.X;
             float y = controllerStates[i].ThumbSticks.Left.Y;
-            Vector3 dir = (Utils.Abs(x) > Utils.Abs(y)) ? Vector3.right * x : Vector3.up * y;
+            if (Utils.Abs(x) < 0.1f && Utils.Abs(y) < 0.1f)
+                return;
+
+            Vector3 dir = (Utils.Abs(x) > Utils.Abs(y)) ? Vector3.right * x : Vector3.forward * y;
             dir.Normalize();
 
-            Transform from = playerCurrentPositions[i].transform;
+            Transform from = GameManager.Instance.PlayerStart.PlayersReference[i].transform;
             RaycastHit hit;
 
-            if (Physics.Raycast(from.position, dir, out hit, 1.0f))
+            if (Physics.Raycast(from.position + Vector3.up, dir + Vector3.down*0.25f, out hit, 5.0f, restrainedMovementLayerMask))
             {
-                if (hit.transform != from && !IsDestinationOccupied(hit.transform.gameObject))
+                Debug.Log(hit.collider.name);
+                if (!IsDestinationOccupied(hit.collider.gameObject))
                 {
                     // TODO:Anim + proper move
-                    playerCurrentPositions[i] = hit.transform.gameObject;
-                    GameManager.Instance.PlayerStart.PlayersReference[i].transform.position = hit.transform.position + Vector3.up;
+                    playerCurrentPositions[i] = hit.collider.gameObject;
+                    GameManager.Instance.PlayerStart.PlayersReference[i].transform.position = hit.collider.transform.position;
                 }
             }
             

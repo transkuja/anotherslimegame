@@ -317,7 +317,8 @@ public class DebugTools : MonoBehaviour {
                     if (DebugPlayerSelected.GetComponent<EvolutionPlatformist>())
                         DebugPlayerSelected.GetComponent<EvolutionPlatformist>().Charges = 3;
 
-                    Debug.Log("Powers reloaded for player " + DebugPlayerSelected.GetComponent<PlayerControllerHub>().PlayerIndex);
+                    if (DebugPlayerSelected.GetComponent<PlayerControllerHub>() != null)
+                        Debug.Log("Powers reloaded for player " + DebugPlayerSelected.GetComponent<PlayerControllerHub>().PlayerIndex);
                 }
 
                 // Change debug player selected
@@ -325,7 +326,8 @@ public class DebugTools : MonoBehaviour {
                 {
                     SwitchPlayer();
 
-                    Debug.Log("Switch to player index: " + DebugPlayerSelected.GetComponent<PlayerControllerHub>().PlayerIndex);
+                    if (DebugPlayerSelected.GetComponent<PlayerControllerHub>() != null)
+                        Debug.Log("Switch to player index: " + DebugPlayerSelected.GetComponent<PlayerControllerHub>().PlayerIndex);
                 }
 
                 if (Input.GetKeyDown(KeyCode.T))
