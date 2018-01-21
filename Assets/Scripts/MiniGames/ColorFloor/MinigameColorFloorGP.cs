@@ -74,7 +74,6 @@ public class MinigameColorFloorGP : MonoBehaviour {
 
             if (Physics.Raycast(from.position + Vector3.up, dir + Vector3.down*0.25f, out hit, 5.0f, restrainedMovementLayerMask))
             {
-                Debug.Log(hit.collider.name);
                 if (!IsDestinationOccupied(hit.collider.gameObject))
                 {
                     playerCurrentPositions[i] = hit.collider.gameObject;
