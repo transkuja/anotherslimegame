@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WalljumpState : PlayerHubState
+public class WalljumpState : PlayerState
 {
     float pushForce;
     float pushTime;

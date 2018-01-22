@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UWPAndXInput;
 
-public class DashDownState : PlayerHubState
+public class DashDownState : PlayerState
 {
     float timer;
     float maxDashChargeDelay;

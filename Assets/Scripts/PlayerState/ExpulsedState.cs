@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ExpulsedState : PlayerHubState
+public class ExpulsedState : PlayerState
 {
 
     public float timer;

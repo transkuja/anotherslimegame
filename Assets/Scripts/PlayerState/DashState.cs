@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DashState : PlayerHubState
+public class DashState : PlayerState
 {
 
     float dashingMaxTimer;

@@ -11,8 +11,8 @@ using Cinemachine;
 public class PlayerControllerHub : PlayerController
 {
     // Component : 
-    private PlayerHubState playerState;
-    private PlayerHubState previousPlayerState;
+    private PlayerState playerState;
+    private PlayerState previousPlayerState;
     private JumpManager jumpManager;
 
     // gamePad
@@ -75,7 +75,7 @@ public class PlayerControllerHub : PlayerController
 
 
     /// StateManagment
-    public PlayerHubState PlayerState
+    public PlayerState PlayerState
     {
         get
         {
@@ -215,7 +215,7 @@ public class PlayerControllerHub : PlayerController
     }
    
 
-    public PlayerHubState PreviousPlayerState
+    public PlayerState PreviousPlayerState
     {
         get
         {

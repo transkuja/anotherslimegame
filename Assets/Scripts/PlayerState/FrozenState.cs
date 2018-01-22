@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FrozenState : PlayerHubState {
+public class FrozenState : PlayerState {
 
     public FrozenState(PlayerControllerHub _playerController) : base(_playerController)
     {

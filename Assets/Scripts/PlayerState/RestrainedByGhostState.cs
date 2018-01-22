@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RestrainedByGhostState : PlayerHubState
+public class RestrainedByGhostState : PlayerState
 {
     float maxDuration = 2.0f;
     float timer = 0.0f;
