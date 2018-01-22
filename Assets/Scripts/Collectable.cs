@@ -125,21 +125,6 @@ public class Collectable : MonoBehaviour
             }
             else
             {
-                if (GetComponent<Collectable>().type == CollectableType.Rune)
-                {
-                    if (hasBeenSpawned)
-                    {
-                        int currentlyHoldByOwner = lastOwner.Collectables[(int)CollectableType.Rune];
-
-                        KeyReset keyData = lastOwner.KeysReset[currentlyHoldByOwner];                      
-                        playerTarget.AddKeyInitialPosition(keyData);
-                        lastOwner.KeysReset[currentlyHoldByOwner] = null;
-                    }
-                    else
-                        playerTarget.AddKeyInitialPosition(transform, KeyFrom.Shelter);
-
-                }
-
                 Destroy(this.gameObject);
             }
         }

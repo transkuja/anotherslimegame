@@ -19,9 +19,6 @@ public class Player : MonoBehaviour {
     Animator anim;
     public bool hasBeenTeleported = false;
 
-    [SerializeField]
-    KeyReset[] keysReset;
-
     public bool isEdgeAssistActive = true;
     PlayerControllerHub playerController;
 
@@ -114,48 +111,13 @@ public class Player : MonoBehaviour {
         {
             if (value == true)
             {
-
                 PlayerController.enabled = false;
 
                 // Making the player to stop in the air 
                 Rb.Sleep(); // Quelque part là, il y a un sleep
-
-                // TODO: REACTIVATE INSTEAD OF INSTANTIATE (keys must not be destroyed too)
-                if (!GameManager.Instance.isTimeOver)
-                {
-                    for (int i = 0; i < Utils.GetMaxValueForCollectable(CollectableType.Rune); i++)
-                    {
-                        if (KeysReset[i] == null)
-                            break;
-
-                        if (KeysReset[i].from == KeyFrom.CostArea)
-                        {
-                            // ConvertArrayOfBoolToString
-                            KeysReset[i].initialTransform.GetComponent<CostArea>().Reactivate();
-                        }
-                        else if (KeysReset[i].from == KeyFrom.Shelter)
-                        {
-                            // TODO: reactivate
-                            ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
-                                KeysReset[i].initialPosition,
-                                KeysReset[i].initialRotation,
-                                null,
-                                CollectableType.Rune)
-                            .GetComponent<Collectable>().Init();
-                        }
-                    }
-                }
             }
 
             hasFinishedTheRun = value;
-        }
-    }
-
-    public KeyReset[] KeysReset
-    {
-        get
-        {
-            return keysReset;
         }
     }
 
@@ -225,11 +187,6 @@ public class Player : MonoBehaviour {
         collectables = new int[(int)CollectableType.Size];
     }
 
-    void Start()
-    {     
-        keysReset = new KeyReset[Utils.GetMaxValueForCollectable(CollectableType.Rune)];
-    }
-
     public void UpdateCollectableValue(CollectableType type, int pickedValue)
     {
         if (type == CollectableType.Rune)
@@ -256,19 +213,6 @@ public class Player : MonoBehaviour {
 
         EvolutionCheck(type);
     }
-
-    public void AddKeyInitialPosition(Transform _tr, KeyFrom _from)
-    {
-        int currentlyHold = collectables[(int)CollectableType.Rune];
-        KeysReset[currentlyHold - 1] = new KeyReset(_tr, _from);
-    }
-
-    public void AddKeyInitialPosition(KeyReset _keyData)
-    {
-        int currentlyHold = collectables[(int)CollectableType.Rune];
-        KeysReset[currentlyHold - 1] = _keyData;
-    }
-
 
     public bool EvolutionCheck(CollectableType type, bool _launchProcessOnSucess = true)
     {
