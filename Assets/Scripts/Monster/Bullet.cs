@@ -66,7 +66,8 @@ public class Bullet : MonoBehaviour {
                 if (AudioManager.Instance != null && AudioManager.Instance.punchFx != null)
                     AudioManager.Instance.PlayOneShot(AudioManager.Instance.punchFx);
                 UWPAndXInput.GamePad.VibrateForSeconds(playerController.playerIndex, 0.9f, 0.9f, .2f);
-                playerCollision.DamagePlayer(other.GetComponent<Player>(), damageOn);
+                if (GameManager.Instance.CurrentGameMode.TakesDamageFromTraps)
+                    playerCollision.DamagePlayer(other.GetComponent<Player>(), damageOn);
                 playerCollision.ExpulsePlayer(other.ClosestPoint(transform.position), other.GetComponent<Rigidbody>(), 50);
                 GetComponent<PoolChild>().ReturnToPool();
             }

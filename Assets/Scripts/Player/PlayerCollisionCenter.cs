@@ -320,7 +320,8 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
         // Damage Behavior
         // TODO: should change target depending if it's in minigame or not, needs more thinking but it's not the right moment
-        DamagePlayer(playerImpacted, CollectableType.Points);
+        if (GameManager.Instance.CurrentGameMode.TakesDamageFromPlayer)
+            DamagePlayer(playerImpacted, CollectableType.Points);
         //Physics.IgnoreCollision()
         // ExpluseForce
 

@@ -9,6 +9,26 @@ abstract public class GameMode : MonoBehaviour
 {
     [SerializeField] protected int nbPlayersMin;
     [SerializeField] protected int nbPlayersMax;
+    // Use to remove damage on points based on gamemode when players collide. Players will still be expulsed
+    [SerializeField] private bool takesDamageFromPlayer = true;
+    // Use to remove damage on points based on gamemode when players collide with a trap. Players will still be expulsed
+    [SerializeField] private bool takesDamageFromTraps = true;
+
+    public bool TakesDamageFromPlayer
+    {
+        get
+        {
+            return takesDamageFromPlayer;
+        }
+    }
+
+    public bool TakesDamageFromTraps
+    {
+        get
+        {
+            return takesDamageFromTraps;
+        }
+    }
 
     public void Awake()
     {
