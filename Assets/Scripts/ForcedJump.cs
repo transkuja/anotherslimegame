@@ -37,7 +37,7 @@ public class ForcedJump {
     {
         _rb.velocity += repulseForce;
         _rb.GetComponent<Player>().Anim.SetFloat("MouvementSpeed", 3);
-        _rb.GetComponent<Player>().Anim.SetBool("isExpulsed", _rb.GetComponent<PlayerController>().IsGrounded);
+        _rb.GetComponent<Player>().Anim.SetBool("isExpulsed", _rb.GetComponent<PlayerControllerHub>().IsGrounded);
     }
 
 }

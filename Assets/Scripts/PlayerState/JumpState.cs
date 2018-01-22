@@ -4,13 +4,13 @@ using System;
 using UnityEngine.SceneManagement;
 using Cinemachine;
 
-public class JumpState : PlayerState
+public class JumpState : PlayerHubState
 {
 
     bool hasJumpButtonBeenReleased;
     public int nbJumpMade = 0;
 
-    public JumpState(PlayerController _playerController) : base(_playerController)
+    public JumpState(PlayerControllerHub _playerController) : base(_playerController)
     {
         curUpdateFct = OnJump;
     }

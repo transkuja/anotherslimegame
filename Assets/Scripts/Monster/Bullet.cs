@@ -11,6 +11,9 @@ public class Bullet : MonoBehaviour {
     float timerDist;
     [SerializeField]
     GameObject hitParticles;
+    [SerializeField]
+    CollectableType damageOn = CollectableType.Points;
+
     public void Init(GameObject launcher)
     {
         isFired = false;
@@ -41,7 +44,7 @@ public class Bullet : MonoBehaviour {
     private void OnTriggerEnter(Collider other)
     {
         PlayerCollisionCenter playerCollision = other.GetComponent<PlayerCollisionCenter>();
-        PlayerController playerController = other.GetComponent<PlayerController>();
+        PlayerControllerHub playerController = other.GetComponent<PlayerControllerHub>();
         if (playerCollision != null)
         {
             if (playerCollision.GetComponent<EvolutionStrength>()!=null && playerController.PlayerState == playerController.dashState)
@@ -63,7 +66,8 @@ public class Bullet : MonoBehaviour {
                 if (AudioManager.Instance != null && AudioManager.Instance.punchFx != null)
                     AudioManager.Instance.PlayOneShot(AudioManager.Instance.punchFx);
                 UWPAndXInput.GamePad.VibrateForSeconds(playerController.playerIndex, 0.9f, 0.9f, .2f);
-                playerCollision.DamagePlayer(other.GetComponent<Player>());
+                if (GameManager.Instance.CurrentGameMode.TakesDamageFromTraps)
+                    playerCollision.DamagePlayer(other.GetComponent<Player>(), damageOn);
                 playerCollision.ExpulsePlayer(other.ClosestPoint(transform.position), other.GetComponent<Rigidbody>(), 50);
                 GetComponent<PoolChild>().ReturnToPool();
             }

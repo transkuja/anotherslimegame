@@ -9,7 +9,7 @@ public class EvolutionComponent : MonoBehaviour {
     Evolution evolution;
     float timer;
     bool isTimerInitialized = false;
-    protected PlayerController playerController;
+    protected PlayerControllerHub playerController;
     protected bool isSpecialActionPushedOnce = false;
     protected bool isSpecialActionPushed = false;
     protected bool isSpecialActionReleased = false;
@@ -66,7 +66,7 @@ public class EvolutionComponent : MonoBehaviour {
         affectedPart.SetActive(true);
 
         Timer = evolution.duration;
-        playerController = GetComponent<PlayerController>();
+        playerController = GetComponent<PlayerControllerHub>();
     }
 
     public virtual void Update()

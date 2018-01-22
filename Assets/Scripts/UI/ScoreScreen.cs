@@ -56,9 +56,8 @@ public class ScoreScreen : MonoBehaviour {
 
         String timeStr = string.Format("{0:00} : {1:00}", minutes, seconds);
 
-        if (SceneManager.GetActiveScene().name == MinigameManager.GetSceneNameFromMinigame(MiniGame.KickThemAll))
+        if(GameManager.Instance.CurrentGameMode.IsMiniGame())
         {
-            Debug.Log(transform.childCount);
             if (transform.childCount >= rank - 1) // who did this ugly line?
             {
                 transform.GetChild(rank - 1).GetComponent<PlayerScore>().SetScoreMiniGamePtsOnly(
@@ -154,14 +153,14 @@ public class ScoreScreen : MonoBehaviour {
     {
 
         // TODO : Multi to be handle
-        if (!GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerController>().PlayerIndexSet)
+        if (!GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerControllerHub>().PlayerIndexSet)
             return;
 
-        if (GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerController>().IsUsingAController)
+        if (GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerControllerHub>().IsUsingAController)
         {
-            if (GamePad.GetState(GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerController>().playerIndex).Buttons.Start == ButtonState.Pressed)
+            if (GamePad.GetState(GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerControllerHub>().playerIndex).Buttons.Start == ButtonState.Pressed)
             {
-                if (SceneManager.GetActiveScene().name == MinigameManager.GetSceneNameFromMinigame(MiniGame.KickThemAll))
+                if (GameManager.Instance.CurrentGameMode.IsMiniGame())
                 {
                     SceneManager.LoadScene(1); // ugly?
                 }

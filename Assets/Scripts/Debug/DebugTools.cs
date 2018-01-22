@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UWPAndXInput;
 
-public class DebugTools : MonoBehaviour {
+public class DebugTools : MonoBehaviour
+{
     public static bool isDebugModeActive = false;
 
     [SerializeField]
@@ -30,19 +31,6 @@ public class DebugTools : MonoBehaviour {
     bool hasReleasedHelpButton = false;
     float timerShowHelp = 5.0f;
     float currentTimerShowHelp = 0.0f;
-    public GameObject[] buildings;
-    int buildingToShow = 8;
-    List<float> lastFramesTime = new List<float>();
-    public static float computedFPS = 0.0f;
-
-    private void Start()
-    {
-        buildingToShow = 0;
-        for (int i = buildingToShow; i < buildings.Length; i++)
-        {
-            buildings[i].SetActive(false);
-        }
-    }
 
     public static Player DebugPlayerSelected
     {
@@ -117,7 +105,8 @@ public class DebugTools : MonoBehaviour {
         hasUpdatedDebugPanel = true;
     }
 
-    void Update () {
+    void Update()
+    {
         // Activation/Deactivation debug mode
         if (Input.GetKey(KeyCode.LeftControl)
             && Input.GetKeyDown(KeyCode.RightShift))
@@ -127,19 +116,6 @@ public class DebugTools : MonoBehaviour {
 
         if (isDebugModeActive)
         {
-            lastFramesTime.Add(Time.deltaTime);
-            if (lastFramesTime.Count >= 10)
-            {
-                lastFramesTime.RemoveAt(0);
-            }
-
-            computedFPS = 0;
-            for (int i = 0; i < lastFramesTime.Count; i++)
-            {
-                computedFPS += lastFramesTime[i];
-            }
-            computedFPS = lastFramesTime.Count / computedFPS;
-
             // TODO Antho: Handle evolution mode switch
             // Add evolution to current player
             if (Input.GetKey(KeyCode.Alpha1))
@@ -148,25 +124,25 @@ public class DebugTools : MonoBehaviour {
                 {
                     if (DebugPlayerSelected.GetComponent<EvolutionStrength>() == null)
                         GameManager.EvolutionManager.AddEvolutionComponent(DebugPlayerSelected.gameObject, GameManager.EvolutionManager.GetEvolutionByPowerName(Powers.Strength));
-                    Debug.Log("Added Strength on player " + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
+                    Debug.Log("Added Strength on player " + DebugPlayerSelected.GetComponent<PlayerControllerHub>().PlayerIndex);
                 }
                 if (Input.GetKeyDown(KeyCode.Alpha3))
                 {
                     if (DebugPlayerSelected.GetComponent<EvolutionAgile>() == null)
                         GameManager.EvolutionManager.AddEvolutionComponent(DebugPlayerSelected.gameObject, GameManager.EvolutionManager.GetEvolutionByPowerName(Powers.Agile));
-                    Debug.Log("Added Agile on player " + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
+                    Debug.Log("Added Agile on player " + DebugPlayerSelected.GetComponent<PlayerControllerHub>().PlayerIndex);
                 }
                 if (Input.GetKeyDown(KeyCode.Alpha4))
                 {
                     if (DebugPlayerSelected.GetComponent<EvolutionPlatformist>() == null)
                         GameManager.EvolutionManager.AddEvolutionComponent(DebugPlayerSelected.gameObject, GameManager.EvolutionManager.GetEvolutionByPowerName(Powers.Platformist));
-                    Debug.Log("Added Platformist on player " + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
+                    Debug.Log("Added Platformist on player " + DebugPlayerSelected.GetComponent<PlayerControllerHub>().PlayerIndex);
                 }
                 if (Input.GetKeyDown(KeyCode.Alpha5))
                 {
                     if (DebugPlayerSelected.GetComponent<EvolutionGhost>() == null)
                         GameManager.EvolutionManager.AddEvolutionComponent(DebugPlayerSelected.gameObject, GameManager.EvolutionManager.GetEvolutionByPowerName(Powers.Ghost));
-                    Debug.Log("Added Ghost on player" + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
+                    Debug.Log("Added Ghost on player" + DebugPlayerSelected.GetComponent<PlayerControllerHub>().PlayerIndex);
                 }
                 // Debug platformist
                 if (Input.GetKeyDown(KeyCode.Alpha6))
@@ -178,7 +154,7 @@ public class DebugTools : MonoBehaviour {
                     evolution.CooldownCharge = 1.0f;
                     evolution.PlatformLifetime = 300.0f;
 
-                    Debug.Log("Added Platformist on player " + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
+                    Debug.Log("Added Platformist on player " + DebugPlayerSelected.GetComponent<PlayerControllerHub>().PlayerIndex);
                 }
             }
 
@@ -238,7 +214,7 @@ public class DebugTools : MonoBehaviour {
                     if (DebugPlayerSelected.GetComponent<EvolutionPlatformist>()) Destroy(DebugPlayerSelected.GetComponent<EvolutionPlatformist>());
                     if (DebugPlayerSelected.GetComponent<EvolutionGhost>()) Destroy(DebugPlayerSelected.GetComponent<EvolutionGhost>());
                     DebugPlayerSelected.Rb.velocity = Vector3.zero;
-                    Debug.Log("Reset current player! " + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
+                    Debug.Log("Reset current player! " + DebugPlayerSelected.GetComponent<PlayerControllerHub>().PlayerIndex);
                 }
 
                 // Respawn player
@@ -246,7 +222,7 @@ public class DebugTools : MonoBehaviour {
                 {
                     Respawner.RespawnProcess(DebugPlayerSelected);
                     DebugPlayerSelected.Rb.velocity = Vector3.zero;
-                    Debug.Log("Reset current player to last respawn point! " + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
+                    Debug.Log("Reset current player to last respawn point! " + DebugPlayerSelected.GetComponent<PlayerControllerHub>().PlayerIndex);
                 }
 
                 // Pop player
@@ -258,7 +234,7 @@ public class DebugTools : MonoBehaviour {
                     Player currentPlayer = go.GetComponent<Player>();
                     currentPlayer.respawnPoint = DebugPlayerSelected.respawnPoint;
 
-                    PlayerController playerController = go.GetComponent<PlayerController>();
+                    PlayerControllerHub playerController = go.GetComponent<PlayerControllerHub>();
                     playerController.DEBUG_hasBeenSpawnedFromTool = true;
                     playerController.PlayerIndex = (PlayerIndex)5;
                     playerController.IsUsingAController = true;
@@ -267,7 +243,7 @@ public class DebugTools : MonoBehaviour {
                     GameManager.Instance.PlayerStart.PlayersReference.Add(go);
                     debugSpawnedPlayer = go.GetComponent<Player>();
 
-                    Debug.Log("Player spawned! " + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
+                    Debug.Log("Player spawned! " + DebugPlayerSelected.GetComponent<PlayerControllerHub>().PlayerIndex);
                 }
 
                 if (Input.GetKeyDown(KeyCode.P))
@@ -280,7 +256,7 @@ public class DebugTools : MonoBehaviour {
 
                     if (!possessASpawnedPlayer)
                     {
-                        PlayerController playerControllerOne = DebugPlayerSelected.GetComponent<PlayerController>();
+                        PlayerControllerHub playerControllerOne = DebugPlayerSelected.GetComponent<PlayerControllerHub>();
                         playerControllerOne.DEBUG_hasBeenSpawnedFromTool = true;
                         playerControllerOne.PlayerIndex = (PlayerIndex)5;
 
@@ -299,7 +275,7 @@ public class DebugTools : MonoBehaviour {
                             debugSpawnedPlayer.cameraReference.transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().Follow = debugSpawnedPlayer.transform;
                         }
 
-                        PlayerController playerControllerSpwn = debugSpawnedPlayer.GetComponent<PlayerController>();
+                        PlayerControllerHub playerControllerSpwn = debugSpawnedPlayer.GetComponent<PlayerControllerHub>();
                         playerControllerSpwn.DEBUG_hasBeenSpawnedFromTool = false;
                         playerControllerSpwn.PlayerIndex = (PlayerIndex)0;
 
@@ -307,7 +283,7 @@ public class DebugTools : MonoBehaviour {
                     }
                     else
                     {
-                        PlayerController playerControllerSpwn = debugSpawnedPlayer.GetComponent<PlayerController>();
+                        PlayerControllerHub playerControllerSpwn = debugSpawnedPlayer.GetComponent<PlayerControllerHub>();
                         playerControllerSpwn.DEBUG_hasBeenSpawnedFromTool = true;
                         playerControllerSpwn.PlayerIndex = (PlayerIndex)5;
 
@@ -326,7 +302,7 @@ public class DebugTools : MonoBehaviour {
                             debugSpawnedPlayer.cameraReference.transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().Follow = debugSpawnedPlayer.transform;
                         }
 
-                        PlayerController playerControllerOne = DebugPlayerSelected.GetComponent<PlayerController>();
+                        PlayerControllerHub playerControllerOne = DebugPlayerSelected.GetComponent<PlayerControllerHub>();
                         playerControllerOne.DEBUG_hasBeenSpawnedFromTool = false;
                         playerControllerOne.PlayerIndex = (PlayerIndex)0;
 
@@ -343,7 +319,8 @@ public class DebugTools : MonoBehaviour {
                     if (DebugPlayerSelected.GetComponent<EvolutionPlatformist>())
                         DebugPlayerSelected.GetComponent<EvolutionPlatformist>().Charges = 3;
 
-                    Debug.Log("Powers reloaded for player " + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
+                    if (DebugPlayerSelected.GetComponent<PlayerControllerHub>() != null)
+                        Debug.Log("Powers reloaded for player " + DebugPlayerSelected.GetComponent<PlayerControllerHub>().PlayerIndex);
                 }
 
                 // Change debug player selected
@@ -351,10 +328,11 @@ public class DebugTools : MonoBehaviour {
                 {
                     SwitchPlayer();
 
-                    Debug.Log("Switch to player index: " + DebugPlayerSelected.GetComponent<PlayerController>().PlayerIndex);
+                    if (DebugPlayerSelected.GetComponent<PlayerControllerHub>() != null)
+                        Debug.Log("Switch to player index: " + DebugPlayerSelected.GetComponent<PlayerControllerHub>().PlayerIndex);
                 }
 
-                if (Input.GetKeyDown(KeyCode.T) || debugPlayerSelected.GetComponent<PlayerController>().PrevState.DPad.Down == ButtonState.Pressed)
+                if (Input.GetKeyDown(KeyCode.T))
                 {
                     if (teleportPlayerPositionsList == null || teleportPlayerPositionsList.Count == 0)
                     {
@@ -416,58 +394,9 @@ public class DebugTools : MonoBehaviour {
                 // Finish current mini game
                 if (Input.GetKeyDown(KeyCode.F))
                 {
-                    if (SceneManager.GetActiveScene().name == MinigameManager.GetSceneNameFromMinigame(MiniGame.KickThemAll))
+                    if (SceneManager.GetActiveScene().name == GameMode.GetSceneNameFromMinigame(MiniGame.KickThemAll))
                     {
                         GameManager.Instance.ScoreScreenReference.RankPlayersByPoints();
-                    }
-                }
-
-                if (debugPlayerSelected == null || debugPlayerSelected.GetComponent<PlayerController>() == null)
-                    return;
-
-                if (debugPlayerSelected.GetComponent<PlayerController>().State.Buttons.Y == ButtonState.Pressed 
-                    && debugPlayerSelected.GetComponent<PlayerController>().PrevState.DPad.Up == ButtonState.Released
-                    && debugPlayerSelected.GetComponent<PlayerController>().State.DPad.Up == ButtonState.Pressed)
-                {
-                    SceneManager.LoadScene((SceneManager.GetActiveScene().buildIndex + 1) % SceneManager.sceneCountInBuildSettings);
-                }
-
-                if (debugPlayerSelected.GetComponent<PlayerController>().State.Triggers.Right > 0.0f && DebugPanelReference.GetComponent<DebugPanel>().fpsText != null)
-                {
-                    DebugPanelReference.GetComponent<DebugPanel>().fpsText.gameObject.SetActive(true);
-                }
-                else
-                {
-                    DebugPanelReference.GetComponent<DebugPanel>().fpsText.gameObject.SetActive(false);
-                }
-
-                if (debugPlayerSelected.GetComponent<PlayerController>().PrevState.DPad.Right == ButtonState.Released
-                    && debugPlayerSelected.GetComponent<PlayerController>().State.DPad.Right == ButtonState.Pressed)
-                {
-                    buildingToShow = (buildingToShow + 1) % 8;
-                    for (int i = 0; i < buildingToShow; i++)
-                    {
-                        buildings[i].SetActive(true);
-                    }
-                    for (int i = buildingToShow; i < buildings.Length; i++)
-                    {
-                        buildings[i].SetActive(false);
-                    }
-                }
-
-                if (debugPlayerSelected.GetComponent<PlayerController>().PrevState.DPad.Left == ButtonState.Released
-                    && debugPlayerSelected.GetComponent<PlayerController>().State.DPad.Left == ButtonState.Pressed)
-                {
-                    buildingToShow = (buildingToShow - 1) % 8;
-                    if (buildingToShow < 0) buildingToShow = 7;
-
-                    for (int i = 0; i < buildingToShow; i++)
-                    {
-                        buildings[i].SetActive(true);
-                    }
-                    for (int i = buildingToShow; i < buildings.Length; i++)
-                    {
-                        buildings[i].SetActive(false);
                     }
                 }
             }
@@ -483,7 +412,7 @@ public class DebugTools : MonoBehaviour {
                 currentTimerShowHelp = 0.0f;
             }
         }
-        
+
     }
 
     public void ActivateDebugMode(bool _forceActivation = false)

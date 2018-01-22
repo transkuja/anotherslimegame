@@ -15,7 +15,7 @@ public class Breakable : MonoBehaviour {
             transform.gameObject.layer = LayerMask.NameToLayer("Breakable");
     }
 
-    public void HandleCollision(PlayerController _player)
+    public void HandleCollision(PlayerControllerHub _player)
     {
         if (_player != null && (
                 _player.PlayerState == _player.dashState

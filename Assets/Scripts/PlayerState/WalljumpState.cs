@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WalljumpState : PlayerState
+public class WalljumpState : PlayerHubState
 {
     float pushForce;
     float pushTime;
     public Vector3 pushDirection;
     float timer;
-    public WalljumpState(PlayerController _playerController) : base(_playerController)
+    public WalljumpState(PlayerControllerHub _playerController) : base(_playerController)
     {
     }
     public override void OnBegin()

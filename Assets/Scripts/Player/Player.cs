@@ -10,7 +10,6 @@ public class Player : MonoBehaviour {
 
     [Header("Collectables")]
     [SerializeField] int[] collectables;
-    [SerializeField] int points;
 
     public uint activeEvolutions = 0;
 
@@ -24,7 +23,7 @@ public class Player : MonoBehaviour {
     KeyReset[] keysReset;
 
     public bool isEdgeAssistActive = true;
-    PlayerController playerController;
+    PlayerControllerHub playerController;
 
     public bool[] evolutionTutoShown = new bool[(int)Powers.Size];
     public bool costAreaTutoShown = false;
@@ -93,25 +92,12 @@ public class Player : MonoBehaviour {
         }
     }
 
-    public int Points
-    {
-        get
-        {
-            return points;
-        }
-
-        set
-        {
-            points = value;
-        }
-    }
-
-    public PlayerController PlayerController
+    public PlayerControllerHub PlayerController
     {
         get
         {
             if (playerController == null)
-                playerController = GetComponent<PlayerController>();
+                playerController = GetComponent<PlayerControllerHub>();
             return playerController;
         }
 
@@ -236,12 +222,12 @@ public class Player : MonoBehaviour {
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
+        collectables = new int[(int)CollectableType.Size];
     }
 
     void Start()
     {     
         keysReset = new KeyReset[Utils.GetMaxValueForCollectable(CollectableType.Rune)];
-        collectables = new int[(int)CollectableType.Size];
     }
 
     public void UpdateCollectableValue(CollectableType type, int pickedValue)
@@ -249,17 +235,20 @@ public class Player : MonoBehaviour {
         if (type == CollectableType.Rune)
         {
             GameManager.Instance.Runes += 1;
-            GameManager.Instance.PlayerUI.RefreshKeysPlayerUi(this, GameManager.Instance.Runes);
         }
-        else if (type == CollectableType.Points)
-        {
-            points = Mathf.Clamp(points + pickedValue, 0, Utils.GetMaxValueForCollectable(type));
-            GameManager.Instance.PlayerUI.RefreshPointsPlayerUi(this, points, cameraReference.transform.GetSiblingIndex());
-        }
-        // All collectables that are not points or runes should be handled like this
+		else if (type == CollectableType.Money)
+		{
+			GameManager.Instance.GlobalMoney += pickedValue;
+		}
+
+		// All collectables that are not money or runes should be handled like this
         else
         {
             collectables[(int)type] = Mathf.Clamp(collectables[(int)type] + pickedValue, 0, Utils.GetMaxValueForCollectable(type));
+			if (type == CollectableType.Points)
+			{
+				GameManager.Instance.PlayerUI.RefreshPointsPlayerUi(this, collectables[(int)type], cameraReference.transform.GetSiblingIndex());
+			}
         }
 
         if (!Utils.IsAnEvolutionCollectable(type))

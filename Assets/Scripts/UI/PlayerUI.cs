@@ -86,22 +86,6 @@ public class PlayerUI : MonoBehaviour {
         }
     }
 
-    public void RefreshKeysPlayerUi(Player player, int _newValue)
-    {
-        if (!linkPlayerKeyToItsUi.ContainsKey(player))
-            return;
-
-        Transform toRefresh = linkPlayerKeyToItsUi[player].transform;
-        for (int i = 0; i < _newValue; i++)
-        {
-            toRefresh.GetChild(i).gameObject.SetActive(true);
-        }
-        for (int i = _newValue; i < Utils.GetMaxValueForCollectable(CollectableType.Rune); i++)
-        {
-            toRefresh.GetChild(i).gameObject.SetActive(false);
-        }
-    }
-
     public virtual void RefreshPointsPlayerUi(Player player, int _newValue, int index)
     {
         if (!linkPlayerPointsToItsUi.ContainsKey(player))
@@ -113,6 +97,7 @@ public class PlayerUI : MonoBehaviour {
         else
             toRefresh.GetComponentInChildren<Text>().text = _newValue + " X ";
     }
+
     public void RefreshLifePlayerUi(Player player, int _newValue, int index)
     {
         if (!linkPlayerLifesToItsUi.ContainsKey(player))
@@ -124,6 +109,7 @@ public class PlayerUI : MonoBehaviour {
         else
             toRefresh.GetComponentInChildren<Text>().text = _newValue + " X ";
     }
+
     public void HandleFeedbackNotEnoughPoints(Player player, bool _activate)
     {
         if (!linkPlayerPointsToItsUi.ContainsKey(player))

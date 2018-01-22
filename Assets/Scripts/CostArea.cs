@@ -145,14 +145,15 @@ public class CostArea : MonoBehaviour {
 
     private void OnTriggerStay(Collider other)
     {
-        PlayerController playerComponent = other.GetComponent<PlayerController>();
+        PlayerControllerHub playerComponent = other.GetComponent<PlayerControllerHub>();
         if (!isActive)
             return;
 
         if (playerComponent != null)
         {
             // TODO: rename bool array
-            if (!playerComponent.Player.costAreaTutoShown && !MinigameManager.IsAMiniGameScene())
+            
+            if (!playerComponent.Player.costAreaTutoShown && !GameManager.Instance.CurrentGameMode.IsMiniGame())
             {
                 playerComponent.Player.costAreaTutoShown = true;
                 Utils.PopTutoText("Press B to buy the reward", playerComponent.Player);
@@ -190,7 +191,7 @@ public class CostArea : MonoBehaviour {
         }
     }
 
-    bool Pay(PlayerController _player)
+    bool Pay(PlayerControllerHub _player)
     {
         int money = _player.Player.Collectables[(int)currency];
         if (money >= cost)
@@ -201,7 +202,7 @@ public class CostArea : MonoBehaviour {
         return false;
     }
 
-    void GiveReward(PlayerController _player)
+    void GiveReward(PlayerControllerHub _player)
     {
         if (costAreaType == CostAreaType.PayAndGetItem)
         {
@@ -216,7 +217,7 @@ public class CostArea : MonoBehaviour {
             switch (costAreaEvent)
             {
                 case CostAreaEvent.EndGame:
-                    HasFinishedProcess(_player.Player);
+                    GameManager.Instance.CurrentGameMode.PlayerHasFinished(_player.Player);
                     break;
                 case CostAreaEvent.IncreaseWater:
                     HUBManager.instance.StartIncreasing();
@@ -237,7 +238,7 @@ public class CostArea : MonoBehaviour {
         if (costAreaType == CostAreaType.PayAndUnlockMiniGame)
         {
             isActive = false;
-            teleporterToMiniGame.TeleportToMinigame(MinigameManager.GetSceneNameFromMinigame(minigameToUnlock));
+            teleporterToMiniGame.TeleportToMinigame(GameMode.GetSceneNameFromMinigame(minigameToUnlock));
             // Replace by the child
             costText.transform.parent.gameObject.SetActive(false);
             rewardPreview.gameObject.SetActive(false);
@@ -289,7 +290,7 @@ public class CostArea : MonoBehaviour {
             case CollectableType.Rune:
                 return currencyRune;
 
-            case CollectableType.Points:
+            case CollectableType.Money:
                 return currencyCoin;
         }
 
@@ -297,16 +298,5 @@ public class CostArea : MonoBehaviour {
     }
 
     ////////////////////////////////////// EVENTS //////////////////////////////////////////
-    public void HasFinishedProcess(Player _player)
-    {
-        if (SceneManager.GetActiveScene().name == MinigameManager.GetSceneNameFromMinigame(MiniGame.KickThemAll))
-        {
-            GameManager.Instance.ScoreScreenReference.RankPlayersByPoints();
-        }
-        else
-        {
-            _player.HasFinishedTheRun = true;
-            GameManager.Instance.ScoreScreenReference.RefreshScores(_player);
-        }
-    }
+ 
 }

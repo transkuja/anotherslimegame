@@ -16,7 +16,7 @@ public class JumpManager : MonoBehaviour
 
 
     private Rigidbody rb;
-    private PlayerController pc;
+    private PlayerControllerHub pc;
 
     private Jump curJump;
     public Jump[] jumpTab;
@@ -24,7 +24,7 @@ public class JumpManager : MonoBehaviour
     public void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        pc = GetComponent<PlayerController>();
+        pc = GetComponent<PlayerControllerHub>();
     }
     public void Start()
     {

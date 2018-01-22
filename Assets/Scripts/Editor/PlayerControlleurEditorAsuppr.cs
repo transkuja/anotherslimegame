@@ -4,13 +4,13 @@ using UnityEngine;
 #if UNITY_EDITOR
 using UnityEditor;
 
-[CustomEditor(typeof(PlayerController))]
+[CustomEditor(typeof(PlayerControllerHub))]
 public class PlayerControlleurEditorAsuppr : Editor
 {
-    public PlayerController playerController;
+    public PlayerControllerHub playerController;
     private void OnEnable()
     {
-        playerController = target as PlayerController;
+        playerController = target as PlayerControllerHub;
     }
     public override void OnInspectorGUI()
     {

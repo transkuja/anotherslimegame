@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlatformistChargedState : PlayerState
+public class PlatformistChargedState : PlayerHubState
 {
-    public PlatformistChargedState(PlayerController _playerController) : base(_playerController)
+    public PlatformistChargedState(PlayerControllerHub _playerController) : base(_playerController)
     {
     }
 

@@ -30,7 +30,7 @@ public class Stats  {
     private List<StatBuff> buffList;
     [SerializeField] private Stat[] stats = new Stat[(int)StatType.MAX_STATS]; // tableau contenant toutes les stats du joueur
 
-    PlayerController playerController;
+    PlayerControllerHub playerController;
 
     public Stats()
     {
@@ -41,7 +41,7 @@ public class Stats  {
         }
         buffList = new List<StatBuff>();
     }
-    public void Init(PlayerController _playerController)
+    public void Init(PlayerControllerHub _playerController)
     {
             // Si erreur dans les données du prefab, on recrée : 
         if (stats == null || stats.Length < (int)StatType.MAX_STATS)

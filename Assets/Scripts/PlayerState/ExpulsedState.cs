@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ExpulsedState : PlayerState
+public class ExpulsedState : PlayerHubState
 {
 
     public float timer;
 
-    public ExpulsedState(PlayerController _playerController) : base(_playerController)
+    public ExpulsedState(PlayerControllerHub _playerController) : base(_playerController)
     {
     }
     public override void OnBegin()

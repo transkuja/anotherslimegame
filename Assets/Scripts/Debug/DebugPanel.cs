@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class DebugPanel : MonoBehaviour {
+public class DebugPanel : MonoBehaviour
+{
     enum DebugPanelChildren { EvolutionsState, CollectablesState, PlayerInfo, Infos };
 
     public Transform evolutions;
@@ -15,9 +16,9 @@ public class DebugPanel : MonoBehaviour {
     Text collectablesText;
     Text playerInfoText;
     public Text infoText;
-    public Text fpsText;
 
-    void Start () {
+    void Start()
+    {
         evolutions = transform.GetChild((int)DebugPanelChildren.EvolutionsState);
         collectables = transform.GetChild((int)DebugPanelChildren.CollectablesState);
         playerInfo = transform.GetChild((int)DebugPanelChildren.PlayerInfo);
@@ -26,8 +27,6 @@ public class DebugPanel : MonoBehaviour {
         evolutionsText = evolutions.GetComponent<Text>();
         collectablesText = collectables.GetComponent<Text>();
         playerInfoText = playerInfo.GetComponent<Text>();
-        fpsText = transform.GetChild(6).GetComponent<Text>();
-
         evolutionsText.text = collectablesText.text = playerInfoText.text = "";
     }
 
@@ -38,19 +37,18 @@ public class DebugPanel : MonoBehaviour {
 
     public void AddToDebugPanelInfos(string firstKey, string secondKey, string description)
     {
-        infoText.text += " " + firstKey 
-            + ((secondKey != "") ? " + " + secondKey : " ") 
-            + ((firstKey != "" && secondKey != "") ? ": " : "") 
-            + description 
+        infoText.text += " " + firstKey
+            + ((secondKey != "") ? " + " + secondKey : " ")
+            + ((firstKey != "" && secondKey != "") ? ": " : "")
+            + description
             + "\n";
     }
 
-    void Update () {
+    void Update()
+    {
         UpdateEvolutionText();
         UpdateCollectableText();
         UpdatePlayerInfoText();
-        if (fpsText != null)
-            fpsText.text = DebugTools.computedFPS.ToString("0.0") + "FPS";
     }
 
     void UpdateEvolutionText()
@@ -73,7 +71,10 @@ public class DebugPanel : MonoBehaviour {
 
     void UpdatePlayerInfoText()
     {
-        PlayerController playerController = DebugTools.DebugPlayerSelected.GetComponent<PlayerController>();
+        PlayerControllerHub playerController = DebugTools.DebugPlayerSelected.GetComponent<PlayerControllerHub>();
+        if (playerController == null)
+            return;
+
         playerInfoText.text = "";
         playerInfoText.text += "Player index: " + (int)playerController.PlayerIndex + "\n";
         playerInfoText.text += "Use a controller: " + playerController.IsUsingAController + "\n";
@@ -87,10 +88,10 @@ public class DebugPanel : MonoBehaviour {
             playerInfoText.text += "Charges: " + playerController.GetComponent<EvolutionPlatformist>().Charges + "\n";
             playerInfoText.text += "Pattern index: " + playerController.GetComponent<EvolutionPlatformist>().IndexPattern + "\n";
         }
-        if(playerController.GetComponent<EvolutionGhost>())
+        if (playerController.GetComponent<EvolutionGhost>())
         {
             EvolutionGhost ghost = playerController.GetComponent<EvolutionGhost>();
-            playerInfoText.text += "Charge: " + (ghost.CurrentEmissionTimeLeft/ ghost.MaxEmissionTime * 100.0f).ToString("0") + "%\n";
+            playerInfoText.text += "Charge: " + (ghost.CurrentEmissionTimeLeft / ghost.MaxEmissionTime * 100.0f).ToString("0") + "%\n";
             playerInfoText.text += "Usable: " + !ghost.HitZero + "\n";
         }
     }
