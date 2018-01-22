@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerState<TPlayerController>where TPlayerController : PlayerController {
+public class PlayerState {
 
-    protected TPlayerController playerController;
+    protected PlayerControllerHub playerController;
     public bool stateAvailable = true;
 
     protected ptrStateFct curUpdateFct;
@@ -25,7 +25,7 @@ public class PlayerState<TPlayerController>where TPlayerController : PlayerContr
     #endregion
 
 
-    public PlayerState(TPlayerController _playerController)
+    public PlayerState(PlayerControllerHub _playerController)
     {
         playerController = _playerController;
     }

@@ -7,7 +7,7 @@ using Cinemachine;
 
 
 public delegate void ptrStateFct();
-public class PlayerHubState : PlayerState<PlayerControllerHub> {
+public class PlayerHubState : PlayerState {
 
     float dragForce = 0.025f;
     float dragForceDash = 0.01f; // Dash value

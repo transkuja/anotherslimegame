@@ -9,9 +9,7 @@ public class PlayerController : MonoBehaviour {
     protected Player player;
 
     public PlayerIndex playerIndex;
-
     #region getterSetters
-
     public Rigidbody Rb
     {
         get
