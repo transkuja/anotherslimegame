@@ -2,7 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
+public enum ViewMode {
+    thirdPerson3d, // Camera + deplacement comme dans  hub
+    sideView3d, // Camera avec orientation quasie fixe sur coté + deplacement 3d  
+    sideView2d// Camera avec orientation quasie fixe + deplacement 2d 
+} 
 public enum MiniGame { None, KickThemAll, Size }
 
 abstract public class GameMode : MonoBehaviour
@@ -13,7 +17,9 @@ abstract public class GameMode : MonoBehaviour
     [SerializeField] private bool takesDamageFromPlayer = true;
     // Use to remove damage on points based on gamemode when players collide with a trap. Players will still be expulsed
     [SerializeField] private bool takesDamageFromTraps = true;
+    [SerializeField] private ViewMode viewMode = ViewMode.thirdPerson3d;
 
+    #region getterSetters
     public bool TakesDamageFromPlayer
     {
         get
@@ -29,6 +35,9 @@ abstract public class GameMode : MonoBehaviour
             return takesDamageFromTraps;
         }
     }
+
+    public ViewMode ViewMode{get{return viewMode;}}
+#endregion
 
     public void Awake()
     {
@@ -66,6 +75,11 @@ abstract public class GameMode : MonoBehaviour
     {
         throw new NotImplementedException();
     }
+    /// <summary>
+    ///  Ne pas utiliser
+    ///  /// </summary>
+    /// <param name="_miniGame"></param>
+    /// <returns></returns>
     public static string GetSceneNameFromMinigame(MiniGame _miniGame)
     {
         if (_miniGame == MiniGame.KickThemAll)

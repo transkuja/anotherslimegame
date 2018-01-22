@@ -77,22 +77,66 @@ public class PlayerState {
         return initialVelocity;
     }
 
-    public virtual void Move(Vector3 initialVelocity)
+    public Vector3 GetVelocity3DThirdPerson(Vector3 initialVelocity)
     {
         Vector3 camVectorForward = new Vector3(playerController.Player.cameraReference.transform.GetChild(0).forward.x, 0.0f, playerController.Player.cameraReference.transform.GetChild(0).forward.z);
         camVectorForward.Normalize();
+
+        Vector3 velocityVec = initialVelocity.z * camVectorForward + Vector3.up * playerController.Player.Rb.velocity.y;
+        // MENU peter a cause de cette condition tu sais pourquoi c'est la antho ? sinon je peux faire une exception pour le menu
+        if (!playerController.IsGrounded && playerController.jumpState.nbJumpMade == 2)
+            velocityVec += initialVelocity.x * playerController.Player.cameraReference.transform.GetChild(0).right * airControlFactor;
+        else
+            velocityVec += initialVelocity.x * playerController.Player.cameraReference.transform.GetChild(0).right;
+
+        return velocityVec;
+    }
+    public Vector3 GetVelocity3DSideView(Vector3 initialVelocity)
+    {
+        Debug.LogError("GetVelocity3DSideView Not Impleented");
+        return Vector3.zero;
+    }
+    /// <summary>
+    ///  I assume a side2d scene is still in the same orientation ( z = profondeur.)
+    /// </summary>
+    /// <param name="initialVelocity"></param>
+    /// <returns></returns>
+    public Vector3 GetVelocity2DSideView(Vector3 initialVelocity)
+    {
+        Vector3 velocityVec =  Vector3.up * playerController.Player.Rb.velocity.y;
+        // MENU peter a cause de cette condition tu sais pourquoi c'est la antho ? sinon je peux faire une exception pour le menu
+        if (!playerController.IsGrounded && playerController.jumpState.nbJumpMade == 2)
+            velocityVec += initialVelocity.x * Vector3.right * airControlFactor;
+        else
+            velocityVec += initialVelocity.x * Vector3.right;
+        return velocityVec;
+    }
+
+    public virtual void Move(Vector3 initialVelocity)
+    {
+
+        Vector3 velocityVec = Vector3.zero;
+        switch (GameManager.Instance.CurrentGameMode.ViewMode)
+        {
+            case ViewMode.thirdPerson3d:
+                velocityVec = GetVelocity3DThirdPerson(initialVelocity);
+                break;
+            case ViewMode.sideView3d:
+                velocityVec = GetVelocity3DSideView(initialVelocity);
+                break;
+            case ViewMode.sideView2d:
+                velocityVec = GetVelocity2DSideView(initialVelocity);
+                break;
+            default:
+                Debug.LogError("Invalid view in GameMode");
+                break;
+        }
 
         if (initialVelocity.magnitude > 1f)
         {
             if (!playerController.forceCameraRecenter)
             {
-                Vector3 velocityVec = initialVelocity.z * camVectorForward + Vector3.up * playerController.Player.Rb.velocity.y;
                 // MENU peter a cause de cette condition tu sais pourquoi c'est la antho ? sinon je peux faire une exception pour le menu
-                if (!playerController.IsGrounded && playerController.jumpState.nbJumpMade == 2)
-                    velocityVec += initialVelocity.x * playerController.Player.cameraReference.transform.GetChild(0).right * airControlFactor;
-                else
-                    velocityVec += initialVelocity.x * playerController.Player.cameraReference.transform.GetChild(0).right;
-
                 playerController.Player.Rb.velocity = velocityVec;
                 playerController.transform.LookAt(playerController.transform.position + new Vector3(velocityVec.x, 0.0f, velocityVec.z) + initialVelocity.x * playerController.Player.cameraReference.transform.GetChild(0).right);
             }
