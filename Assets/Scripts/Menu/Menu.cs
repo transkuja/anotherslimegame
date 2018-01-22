@@ -22,13 +22,14 @@ public class Menu : MonoBehaviour {
     List<GameObject> playerCustomScreens = new List<GameObject>();
 
     public List<Color> customColors;
+    private List<Color> usedCustomColors;
 
     GamePadState[] prevControllerStates = new GamePadState[4];
     GamePadState[] controllerStates = new GamePadState[4];
 
     int[] selectedColors = new int[4];
     int[] selectedFaces = new int[4];
-    int maxFacesNumber = 5;
+    int maxFacesNumber; // Set in start
     int[] currentCursorsRow = new int[4];
     bool[] selectedColorFades = new bool[4];
 
@@ -49,6 +50,18 @@ public class Menu : MonoBehaviour {
 
     private void Start()
     {
+        // Faces unlocked ?
+        maxFacesNumber = 0;
+        for (int i = 0; i < GameManager.Instance.data.faces.Count; i++)
+            if (GameManager.Instance.data.faces["" + i])
+                maxFacesNumber++;
+
+        // Colors unlocked ?
+        usedCustomColors = new List<Color>();
+        for (int i = 0; i < GameManager.Instance.data.colors.Count; i++)
+            if (GameManager.Instance.data.colors["" + i])
+                usedCustomColors.Add(customColors[i]);
+
         SetState(MenuState.TitleScreen);
     }
 
@@ -240,17 +253,17 @@ public class Menu : MonoBehaviour {
     void UpdatePlayerPreviewColor(int _playerIndex)
     {
         if (selectedColors[_playerIndex] < 0)
-            selectedColors[_playerIndex] = customColors.Count;
+            selectedColors[_playerIndex] = usedCustomColors.Count;
         else
-            selectedColors[_playerIndex] = selectedColors[_playerIndex] % (customColors.Count + 1);
+            selectedColors[_playerIndex] = selectedColors[_playerIndex] % (usedCustomColors.Count + 1);
         // Update text and character
         playerCustomScreens[_playerIndex].transform.GetChild(1).GetComponent<Text>().text = (selectedColors[_playerIndex] + 1).ToString();
-        if (selectedColors[_playerIndex] == customColors.Count)
+        if (selectedColors[_playerIndex] == usedCustomColors.Count)
             playerCustomScreens[_playerIndex].transform.GetChild(3).GetComponentInChildren<PlayerCosmetics>().UseColorFade = true;
         else
         {
             playerCustomScreens[_playerIndex].transform.GetChild(3).GetComponentInChildren<PlayerCosmetics>().UseColorFade = false;
-            playerCustomScreens[_playerIndex].transform.GetChild(3).GetComponentInChildren<PlayerCosmetics>().SetUniqueColor(customColors[selectedColors[_playerIndex]]);
+            playerCustomScreens[_playerIndex].transform.GetChild(3).GetComponentInChildren<PlayerCosmetics>().SetUniqueColor(usedCustomColors[selectedColors[_playerIndex]]);
         }
     }
 
@@ -317,7 +330,7 @@ public class Menu : MonoBehaviour {
                 if (nbPlayers == 4)
                     go.transform.localPosition = new Vector3(-(300) + (i * (200)), 0.0f, 0.0f);
 
-                go.transform.GetChild(3).GetComponentInChildren<PlayerCosmetics>().SetUniqueColor(customColors[0]);
+                go.transform.GetChild(3).GetComponentInChildren<PlayerCosmetics>().SetUniqueColor(usedCustomColors[0]);
                 go.transform.GetChild(3).GetComponentInChildren<PlayerCosmetics>().FaceType = 0;
 
                 playerCustomScreens.Add(go);
@@ -375,12 +388,12 @@ public class Menu : MonoBehaviour {
         Color[] sc = new Color[nbPlayers];
         for (int i = 0; i < nbPlayers; i++)
         {
-            if (selectedColors[i] == customColors.Count)
+            if (selectedColors[i] == usedCustomColors.Count)
                 selectedColorFades[i] = true;
             else
             {
                 selectedColorFades[i] = false; // Line needed in case we come back from minigame selection screen
-                sc[i] = customColors[selectedColors[i]];
+                sc[i] = usedCustomColors[selectedColors[i]];
             }
         }
         dataContainer.SaveData(nbPlayers, sc, selectedFaces, selectedColorFades);

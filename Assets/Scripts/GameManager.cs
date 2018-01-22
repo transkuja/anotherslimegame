@@ -35,6 +35,10 @@ public class GameManager : MonoBehaviour {
     public bool[][] playerEvolutionTutoShown;
     public bool[] playerCostAreaTutoShown;
 
+    // data
+    public PersistenceData data;
+    public PersistenceLoader persistenceLoader;
+
     public static GameManager Instance
     {
         get
@@ -42,6 +46,9 @@ public class GameManager : MonoBehaviour {
             if (instance == null)
             {
                 instance = new GameObject("GameManager").AddComponent<GameManager>();
+                PersistenceLoader persistenceLoader = new PersistenceLoader();
+                persistenceLoader.Load();
+                instance.data = persistenceLoader.Data;
                 DontDestroyOnLoad(instance);
             }
             return instance;
