@@ -9,6 +9,8 @@ public class Menu : MonoBehaviour {
     public enum MenuState { Common, TitleScreen, ModeSelection, NumberOfPlayers, CustomisationScreen, MinigameSelection }
     MenuState currentState = MenuState.TitleScreen;
 
+    public Database dataref;
+
     int currentCursor = 0;
 
     int selectedMode = -1;
@@ -22,14 +24,14 @@ public class Menu : MonoBehaviour {
     List<GameObject> playerCustomScreens = new List<GameObject>();
 
     public List<Color> customColors;
-    private List<Color> usedCustomColors;
+    private List<Color> usedCustomColors = new List<Color>();
 
     GamePadState[] prevControllerStates = new GamePadState[4];
     GamePadState[] controllerStates = new GamePadState[4];
 
     int[] selectedColors = new int[4];
     int[] selectedFaces = new int[4];
-    int maxFacesNumber; // Set in start
+    int maxFacesNumber;
     int[] currentCursorsRow = new int[4];
     bool[] selectedColorFades = new bool[4];
 
@@ -50,17 +52,35 @@ public class Menu : MonoBehaviour {
 
     private void Start()
     {
+        //dataref.colors[0].isUnlocked = true;
+        dataref.UnlockedAll();
+
+
+        foreach(MinigameData d in dataref.minigames)
+        {
+            Debug.Log(d.Id);
+        }
+        dataref.SetUnlock<MinigameData>("minigameDantho", true);
+        dataref.SetUnlock<ColorData>("Color1", true);
+
+
+        // TMP replacement
+        maxFacesNumber = 5;
+
+        for (int i = 0; i < customColors.Count; i++)
+            usedCustomColors.Add(customColors[i]);
+
         // Faces unlocked ?
-        maxFacesNumber = 0;
-        for (int i = 0; i < GameManager.Instance.data.faces.Count; i++)
-            if (GameManager.Instance.data.faces["" + i])
-                maxFacesNumber++;
+        //maxFacesNumber = 0;
+        //for (int i = 0; i < GameManager.Instance.data.faces.Count; i++)
+        //    if (GameManager.Instance.data.faces["" + i])
+        //        maxFacesNumber++;
 
         // Colors unlocked ?
-        usedCustomColors = new List<Color>();
-        for (int i = 0; i < GameManager.Instance.data.colors.Count; i++)
-            if (GameManager.Instance.data.colors["" + i])
-                usedCustomColors.Add(customColors[i]);
+        //usedCustomColors = new List<Color>();
+        //for (int i = 0; i < GameManager.Instance.data.colors.Count; i++)
+        //    if (GameManager.Instance.data.colors["" + i])
+        //        usedCustomColors.Add(customColors[i]);
 
         SetState(MenuState.TitleScreen);
     }
