@@ -348,8 +348,10 @@ public class SpawnManager : MonoBehaviour{
         dicSpawnEvolutionIslandLocations.Remove(idToUnregister);
     }
 
+    [System.Obsolete("This is an obsolete method")]
     private void SpawnEvolutionIsland(int idLocation, GameObject associatedShelter, bool forceSpawn)
     {
+        /*
         if (dicSpawnEvolutionIslandLocations.ContainsKey(idLocation) == false)
         {
             Debug.Log("Error : invalid location");
@@ -403,8 +405,6 @@ public class SpawnManager : MonoBehaviour{
             Debug.LogWarning("WARNING: Panneau should be second on shelter");
             return;
         }
-
-        //go.GetComponent<Collectable>().panneau = panneau.gameObject;
 
         switch (evolutionType)
         {
@@ -467,6 +467,7 @@ public class SpawnManager : MonoBehaviour{
                 }
             } 
         }
+        */
     }
 
     CollectableType GetNextEvolutionType()
@@ -504,8 +505,10 @@ public class SpawnManager : MonoBehaviour{
         dicSpawnPointsIslandLocations.Remove(idToUnregister);
     }
 
+    [System.Obsolete("This is an obsolete method")]
     private void SpawnPointIsland(int idLocation, bool forceSpawn)
     {
+        /*
         if (dicSpawnPointsIslandLocations.ContainsKey(idLocation) == false)
         {
             Debug.Log("Error : invalid location");
@@ -524,6 +527,7 @@ public class SpawnManager : MonoBehaviour{
             dicSpawnPointsIslandLocations[idLocation].transform.rotation,
             dicSpawnPointsIslandLocations[idLocation].transform
         );
+        */
     }
     #endregion
 

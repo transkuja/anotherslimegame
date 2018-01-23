@@ -16,7 +16,6 @@ public class HUBManager : MonoBehaviour
 
     public GameObject CostAreaMiniGamePush;
     public SpawnManager spawnManagerRef;
-    public IslandSpawner islandSpawner;
 
     public WaterState WaterState = WaterState.Clear;
 
@@ -39,7 +38,6 @@ public class HUBManager : MonoBehaviour
     public void Awake()
     {
         instance = this;
-        islandSpawner = GetComponent<IslandSpawner>();
     }
     #endregion
     // End modif tmp
