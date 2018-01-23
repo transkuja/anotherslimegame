@@ -27,10 +27,6 @@ public class GameManager : MonoBehaviour {
 
     public bool[] unlockedMinigames = new bool[(int)MiniGame.Size];
 
-
-    private int runes = 0;
-    private int globalMoney = 0;
-
     // Players persistence
     public int[][] playerCollectables;
     public bool[][] playerEvolutionTutoShown;
@@ -172,12 +168,12 @@ public class GameManager : MonoBehaviour {
     {
         get
         {
-            return runes;
+            return dataContainer.databaseReference.nbRunes;
         }
 
         set
         {
-            runes = Mathf.Clamp(value, 0, Utils.GetMaxValueForCollectable(CollectableType.Rune));
+            dataContainer.databaseReference.nbRunes = Mathf.Clamp(value, 0, Utils.GetMaxValueForCollectable(CollectableType.Rune));
             // TODO: Runes UI update should be handled here
         }
     }
@@ -186,14 +182,14 @@ public class GameManager : MonoBehaviour {
     {
         get
         {
-            return globalMoney;
+            return dataContainer.databaseReference.Money;
         }
 
         set
         {
             // TODO: clamp it?
             //globalMoney = Mathf.Clamp(value, 0, Utils.GetMaxValueForCollectable(CollectableType.Rune));
-            globalMoney = value;
+            dataContainer.databaseReference.Money = value;
             // TODO: update UI
 
         }
