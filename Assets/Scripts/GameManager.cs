@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour {
 
     public bool[] unlockedMinigames = new bool[(int)MiniGame.Size];
 
+
     private int runes = 0;
     private int globalMoney = 0;
 
@@ -35,14 +36,13 @@ public class GameManager : MonoBehaviour {
     public bool[][] playerEvolutionTutoShown;
     public bool[] playerCostAreaTutoShown;
 
-    // data
-
     public static GameManager Instance
     {
         get
         {
             if (instance == null)
             {
+
                 instance = new GameObject("GameManager").AddComponent<GameManager>();
                 DontDestroyOnLoad(instance);
             }

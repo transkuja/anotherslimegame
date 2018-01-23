@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Collectable : MonoBehaviour
@@ -15,8 +16,6 @@ public class Collectable : MonoBehaviour
 
     bool isAttracted = false;
     Player playerTarget;
-
-    //public GameObject panneau;
 
     public bool hasBeenSpawned = false;
     public Player lastOwner;
@@ -46,7 +45,6 @@ public class Collectable : MonoBehaviour
             isAttracted = value;
         }
     }
-
     private void OnEnable()
     {
         if (GetComponent<PoolChild>())
