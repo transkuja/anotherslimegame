@@ -215,7 +215,8 @@ public class PlayerStart : MonoBehaviour {
 
     void InitializeScorePanel()
     {
-        GameManager.Instance.ScoreScreenReference.Init();
+        if(GameManager.Instance.ScoreScreenReference != null)
+            GameManager.Instance.ScoreScreenReference.Init();
     }
 
     void InitializePlayersUI()
