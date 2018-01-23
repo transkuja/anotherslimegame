@@ -119,7 +119,10 @@ public class PlayerStart : MonoBehaviour {
 
         if (GameManager.Instance.DataContainer != null)
         {
-            activePlayersAtStart = (uint)GameManager.Instance.DataContainer.nbPlayers;
+            if (DEBUG_playXPlayers)
+                activePlayersAtStart = DEBUG_NbPlayers;
+            else
+                activePlayersAtStart = (uint)GameManager.Instance.DataContainer.nbPlayers;
         }
 
         for (int i = 0; i < activePlayersAtStart; i++)

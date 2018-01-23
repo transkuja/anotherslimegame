@@ -4,7 +4,7 @@ using UnityEngine;
 using DatabaseClass;
 
 public class SlimeDataContainer : MonoBehaviour {
-
+    public static SlimeDataContainer instance = null;
     public int nbPlayers = -1;
     public Color[] selectedColors = new Color[4];
     public int[] selectedFaces = new int[4];
@@ -13,9 +13,17 @@ public class SlimeDataContainer : MonoBehaviour {
     public Database databaseReference;
 
     void Start () {
-        DontDestroyOnLoad(this);
-        if (GameManager.Instance != null)
-            GameManager.Instance.RegisterDataContainer(this);
+        if (instance != null)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            DontDestroyOnLoad(this);
+            if (GameManager.Instance != null)
+                GameManager.Instance.RegisterDataContainer(this);
+        }
+
     }
 	
 	public void SaveData(int _nbPlayers, Color[] _selectedColors, int[] _selectedFaces, bool[] _colorFadeSelected = null)
