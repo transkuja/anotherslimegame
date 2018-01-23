@@ -3,6 +3,7 @@ using UnityEditor;
 using UnityEngine;
 
 using DatabaseClass;
+using System;
 
 namespace DatabaseClass
 {
@@ -18,7 +19,7 @@ namespace DatabaseClass
         public int nbRunesToUnlock = -1;
 
         [SerializeField]
-        public int cout = -1;
+        public int costToUnlock = -1;
 
     }
 
@@ -54,7 +55,7 @@ namespace DatabaseClass
         }
 
     }
-   
+
     [CreateAssetMenu(fileName = "Database", menuName = "Custom/Database", order = 1)]
     public class Database : ScriptableObject
     {
@@ -73,15 +74,6 @@ namespace DatabaseClass
         [SerializeField]
         public List<MinigameData> minigames;
 
-        public void UnlockedAll()
-        {
-            foreach ( Unlockable a in colors)
-                a.isUnlocked = true;
-            foreach (Unlockable a in faces)
-                a.isUnlocked = true;
-            foreach (Unlockable a in minigames)
-                a.isUnlocked = true;
-        }
         public void SetUnlock<T>(string _id, bool isUnlocked) where T : Unlockable
         {
             if (typeof(T) == typeof(ColorData))
@@ -106,7 +98,7 @@ namespace DatabaseClass
             {
                 if (colors.Find(a => a.Id == _id) != null)
                     return colors.Find(a => a.Id == _id).isUnlocked;
-            } 
+            }
             else if (typeof(T) == typeof(FaceData))
             {
                 if (faces.Find(a => a.Id == _id) != null)
@@ -125,15 +117,76 @@ namespace DatabaseClass
                 if (_id < colors.Count)
                     return colors[_id].isUnlocked;
             }
-            else if (typeof(T) == typeof(FaceData)) { 
+            else if (typeof(T) == typeof(FaceData)) {
                 if (_id < faces.Count)
                     return faces[_id].isUnlocked;
             }
-            else if (typeof(T) == typeof(MinigameData)) { 
+            else if (typeof(T) == typeof(MinigameData)) {
                 if (_id < minigames.Count)
                     return minigames[_id].isUnlocked;
             }
             return false;
+        }
+
+
+
+        public void UnlockedAll()
+        {
+            foreach (Unlockable a in colors)
+                a.isUnlocked = true;
+            foreach (Unlockable a in faces)
+                a.isUnlocked = true;
+            foreach (Unlockable a in minigames)
+                a.isUnlocked = true;
+        }
+        public void ResetAll() {
+            colors = new List<ColorData>();
+            faces = new List<FaceData>();
+            minigames = new List<MinigameData>();
+
+            Money = 0;
+            nbRunes = 0;
+
+            // Adding colors
+            int idColors = 0;
+            string[] strColor = { "Rouge", "Bleu", "Magenta", "Jaune" };
+            Color[] tabColor = { new Color(255, 73, 73, 0) / 255, new Color(21, 255, 243, 0) / 255, new Color(255, 34, 249, 0) / 255, new Color(241, 255, 0, 0) / 255 };
+            colors.Add(new ColorData { Id = strColor[idColors], color = tabColor[idColors], isUnlocked = true });
+            colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = true });
+            colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = true });
+            colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = true });
+
+            // Adding faces
+            int idFaces = 0;
+            string[] strFace = { "Tete de con", "Tete de bite", "Tete de cul", "Tete de gland", "Tete de caca" };
+            faces.Add(new FaceData { Id = strFace[idFaces], indiceForShader = idFaces, isUnlocked = true });
+            faces.Add(new FaceData { Id = strFace[++idFaces], indiceForShader = idFaces, isUnlocked = true });
+            faces.Add(new FaceData { Id = strFace[++idFaces], indiceForShader = idFaces, isUnlocked = true });
+            faces.Add(new FaceData { Id = strFace[++idFaces], indiceForShader = idFaces, isUnlocked = true });
+            faces.Add(new FaceData { Id = strFace[++idFaces], indiceForShader = idFaces, isUnlocked = true });
+
+            // Adding minigames
+            int idMinigames = 0;
+            string[] strMinigame = { "MinigameDantho", "MinigameDeMatthieu" };
+            minigames.Add(new MinigameData { Id = strMinigame[idMinigames], costToUnlock = -1, nbRunesToUnlock = -1, spriteImage = "", isUnlocked = true });
+            minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = -1, spriteImage = "", isUnlocked = true });
+        }
+        public void AllCostToZero()
+        {
+            foreach (MinigameData a in minigames)
+            {
+                a.costToUnlock = 0;
+                a.nbRunesToUnlock = 0;
+            }
+        }
+
+        public void TestCost()
+        {
+            foreach (MinigameData a in minigames)
+            {
+                a.costToUnlock = 100;
+                a.nbRunesToUnlock = -1;
+            }
         }
     }
 
@@ -153,39 +206,16 @@ public class DatabaseEditor : Editor
     public override void OnInspectorGUI()
     {
         if (GUILayout.Button("Reset Database"))
-        {   
-            comp.colors = new List<ColorData>();
-            comp.faces = new List<FaceData>();
-            comp.minigames = new List<MinigameData>();
+            comp.ResetAll();
 
-            comp.Money = 0;
-            comp.nbRunes = 0;
-
-            // Adding colors
-            int idColors = 0;
-            string[] strColor = { "Rouge", "Bleu", "Magenta", "Jaune" };
-            Color[] tabColor = { new Color(255, 73, 73, 0) / 255, new Color(21, 255, 243, 0) / 255, new Color(255, 34, 249, 0) / 255, new Color(241, 255, 0, 0) / 255 };
-            comp.colors.Add(new ColorData { Id = strColor[idColors], color = tabColor[idColors], isUnlocked = true });
-            comp.colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = true });
-            comp.colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = true });
-            comp.colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = true });
+        if (GUILayout.Button("Unlock All"))
+            comp.UnlockedAll();
         
-            // Adding faces
-            int idFaces = 0;
-            string[] strFace = { "Tete de con", "Tete de bite", "Tete de cul", "Tete de gland", "Tete de caca" };
-            comp.faces.Add(new FaceData { Id = strFace[idFaces], indiceForShader = idFaces, isUnlocked = true });
-            comp.faces.Add(new FaceData { Id = strFace[++idFaces], indiceForShader = idFaces, isUnlocked = true });
-            comp.faces.Add(new FaceData { Id = strFace[++idFaces], indiceForShader = idFaces, isUnlocked = true });
-            comp.faces.Add(new FaceData { Id = strFace[++idFaces], indiceForShader = idFaces, isUnlocked = true });
-            comp.faces.Add(new FaceData { Id = strFace[++idFaces], indiceForShader = idFaces, isUnlocked = true });
+        if (GUILayout.Button("All Cost to Zero"))
+            comp.AllCostToZero();
 
-            // Adding minigames
-            int idMinigames = 0;
-            string[] strMinigame = { "MinigameDantho", "MinigameDeMatthieu" };
-            comp.minigames.Add(new MinigameData { Id = strMinigame[idMinigames], cout = -1, nbRunesToUnlock = -1, spriteImage = "", isUnlocked = true });
-            comp.minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], cout = -1, nbRunesToUnlock = -1, spriteImage = "", isUnlocked = true });
-
-        }
+        if (GUILayout.Button("All rune to -1 cost to 100"))
+            comp.TestCost();
 
         base.OnInspectorGUI();
        
