@@ -174,6 +174,17 @@ public class GameManager : MonoBehaviour {
         set
         {
             dataContainer.databaseReference.nbRunes = Mathf.Clamp(value, 0, Utils.GetMaxValueForCollectable(CollectableType.Rune));
+
+
+            // Unlock minigame base
+            foreach( DatabaseClass.MinigameData minigame in dataContainer.databaseReference.minigames)
+            {
+                if (dataContainer.databaseReference.nbRunes >= minigame.nbRunesToUnlock && minigame.nbRunesToUnlock != -1 && !dataContainer.databaseReference.IsUnlock<DatabaseClass.MinigameData>(minigame.Id))
+                {
+                    // TODO: Notifier le joueur
+                    dataContainer.databaseReference.SetUnlock<DatabaseClass.MinigameData>(minigame.Id, true);
+                }
+            }
             // TODO: Runes UI update should be handled here
         }
     }
