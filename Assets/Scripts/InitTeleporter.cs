@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class InitTeleporter : MonoBehaviour {
-    public CollectableType evolutionType;
     bool isTeleporterActive = false;
     Color startColor;
     bool teleportToMinigame = false;
@@ -62,8 +61,7 @@ public class InitTeleporter : MonoBehaviour {
         }
 
         // TODO; dev here the day we want multiple evolution component behaviour
-        if (Utils.CheckEvolutionAndCollectableTypeCompatibility(evolutionType, collision.transform.GetComponent<EvolutionComponent>())
-            || teleportToMinigame)
+        if (teleportToMinigame)
         {
             GetComponent<PlatformGameplay>().isATeleporter = true;
             isTeleporterActive = true;
@@ -129,8 +127,7 @@ public class InitTeleporter : MonoBehaviour {
             return;
 
         if (isTeleporterActive && 
-            (Utils.CheckEvolutionAndCollectableTypeCompatibility(evolutionType, collision.transform.GetComponent<EvolutionComponent>())
-            || teleportToMinigame))
+            teleportToMinigame)
         {
             if (meshRenderer != null)
             {
