@@ -79,6 +79,40 @@ public class CostArea : MonoBehaviour {
 
     public void Start()
     {
+        // Desactive la cost area si le minijeu a deja été debloqué
+        if (costAreaType == CostAreaType.PayAndUnlockMiniGame)
+        {
+            if (GetComponent<CreateMinigameEnumFromDatabase>() == null)
+            {
+                Debug.LogError("Start :It's a rune, it need a createEnumFromDatabase component link to the associated rune");
+                return;
+            }
+
+            string s = GetComponent<CreateMinigameEnumFromDatabase>().HideString;
+            if (DatabaseManager.Db.IsUnlock<DatabaseClass.MinigameData>(s))
+            {
+                gameObject.SetActive(false);
+                return;
+            }
+        }
+
+        // Desactive la cost area si la rune a deja été acheté
+        if (costAreaType == CostAreaType.PayAndGetItem && rewardType == CollectableType.Rune)
+        {
+            if (GetComponent<CreateRuneEnumFromDatabase>() == null)
+            {
+                Debug.LogError("Start :It's a rune, it need a createEnumFromDatabase component link to the associated rune");
+                return;
+            }
+            string s = GetComponent<CreateRuneEnumFromDatabase>().HideString;
+            if (DatabaseManager.Db.IsUnlock<DatabaseClass.RuneData>(s))
+            {
+                gameObject.SetActive(false);
+                return;
+            }
+        }
+
+
         initialColor = halo.GetComponent<ParticleSystem>().main.startColor.color; // <======8 WTFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF???!
         if (!Utils.IsAnEvolutionCollectable(rewardType))
             Init();
@@ -207,6 +241,18 @@ public class CostArea : MonoBehaviour {
         if (costAreaType == CostAreaType.PayAndGetItem)
         {
             _player.Player.UpdateCollectableValue(rewardType, rewardQuantity);
+
+            // @Remi debloque la rune si
+            if (rewardType == CollectableType.Rune)
+            {
+                if (GetComponent<CreateRuneEnumFromDatabase>() == null)
+                {
+                    Debug.LogError("Attract fct : It's a rune, it need a createEnumFromDatabase component link to the associated rune");
+                    return;
+                }
+                string s = GetComponent<CreateRuneEnumFromDatabase>().HideString;
+                DatabaseManager.Db.SetUnlock<DatabaseClass.RuneData>(s, true);
+            }
         }
         else if (costAreaType == CostAreaType.PayAndCallEvent)
         {
@@ -224,8 +270,18 @@ public class CostArea : MonoBehaviour {
         }
         else
         {
+            ///TODO : teleporter toujours activé
             GameManager.Instance.unlockedMinigames[(int)minigameToUnlock] = true;
             UnlockAssociatedMinigame();
+
+            // debloque le minijeu
+            if (GetComponent<CreateMinigameEnumFromDatabase>() == null)
+            {
+                Debug.LogError("createEnumFromDatabase component link to the associated rune");
+                return;
+            }
+            string s = GetComponent<CreateMinigameEnumFromDatabase>().HideString;
+            DatabaseManager.Db.SetUnlock<DatabaseClass.MinigameData>(s, true);
         }
     }
 

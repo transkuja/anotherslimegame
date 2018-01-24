@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEditor;
 
 [ExecuteInEditMode]
-public class CreateEnumFromDatabase : MonoBehaviour {
+public class CreateMinigameEnumFromDatabase : MonoBehaviour {
 
     [SerializeField]
     public System.Enum enumeration;
@@ -22,7 +22,7 @@ public class CreateEnumFromDatabase : MonoBehaviour {
     {
         db = Resources.Load("Database") as DatabaseClass.Database;
         runesList = new List<string>();
-        foreach (DatabaseClass.RuneData s in db.runes)
+        foreach (DatabaseClass.MinigameData s in db.minigames)
         {
             runesList.Add(s.Id);
         }
@@ -34,16 +34,15 @@ public class CreateEnumFromDatabase : MonoBehaviour {
 
 }
 
-[CustomEditor(typeof(CreateEnumFromDatabase))]
-[CanEditMultipleObjects]
-public class MyCustomEditor : Editor
+[CustomEditor(typeof(CreateMinigameEnumFromDatabase))]
+public class MyCustomEditor2 : Editor
 {
 
-    CreateEnumFromDatabase test;
+    CreateMinigameEnumFromDatabase minigameEnum;
 
     public void OnEnable()
     {
-        test = (CreateEnumFromDatabase)target;
+        minigameEnum = (CreateMinigameEnumFromDatabase)target;
 
     }
 
@@ -51,10 +50,10 @@ public class MyCustomEditor : Editor
     {
         base.DrawDefaultInspector();
 
-        test.enumeration = EditorGUILayout.EnumPopup(test.enumeration);
-        test.HideString = test.enumeration.ToString();
-        test.HideInt = (int)test.enumeration.GetType().GetField(test.HideString).GetValue(test.enumeration);
+        minigameEnum.enumeration = EditorGUILayout.EnumPopup(minigameEnum.enumeration);
+        minigameEnum.HideString = minigameEnum.enumeration.ToString();
+        minigameEnum.HideInt = (int)minigameEnum.enumeration.GetType().GetField(minigameEnum.HideString).GetValue(minigameEnum.enumeration);
 
-        EditorUtility.SetDirty(test);
+        EditorUtility.SetDirty(minigameEnum);
     }
 }

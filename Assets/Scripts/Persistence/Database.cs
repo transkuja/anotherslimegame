@@ -24,13 +24,6 @@ namespace DatabaseClass
     }
 
     [System.Serializable]
-    public class CostAreaData : Unlockable
-    {
-        // Empty
-    }
-
-
-    [System.Serializable]
     public class RuneData : Unlockable
     {
         // Empty
@@ -87,8 +80,6 @@ namespace DatabaseClass
         [SerializeField]
         public List<MinigameData> minigames;
 
-        [SerializeField]
-        public List<CostAreaData> costAreas;
 
         [SerializeField]
         public List<RuneData> runes;
@@ -109,11 +100,6 @@ namespace DatabaseClass
             {
                 if (minigames.Find(a => a.Id == _id) != null)
                     minigames.Find(a => a.Id == _id).isUnlocked = isUnlocked;
-            }
-            else if (typeof(T) == typeof(CostAreaData))
-            {
-                if (costAreas.Find(a => a.Id == _id) != null)
-                    costAreas.Find(a => a.Id == _id).isUnlocked = isUnlocked;
             }
             else if (typeof(T) == typeof(RuneData))
             {
@@ -138,11 +124,6 @@ namespace DatabaseClass
                 if (minigames.Find(a => a.Id == _id) != null)
                     return minigames.Find(a => a.Id == _id).isUnlocked;
             }
-            else if (typeof(T) == typeof(CostAreaData))
-            {
-                if (costAreas.Find(a => a.Id == _id) != null)
-                    return costAreas.Find(a => a.Id == _id).isUnlocked;
-            }
             else if (typeof(T) == typeof(RuneData))
             {
                 if (runes.Find(a => a.Id == _id) != null)
@@ -164,11 +145,6 @@ namespace DatabaseClass
                 if (_id < minigames.Count)
                     return minigames[_id].isUnlocked;
             }
-            else if (typeof(T) == typeof(CostAreaData))
-            {
-                if (_id < minigames.Count)
-                    return minigames[_id].isUnlocked;
-            }
             else if (typeof(T) == typeof(RuneData))
             {
                 if (_id < minigames.Count)
@@ -187,8 +163,6 @@ namespace DatabaseClass
                 a.isUnlocked = true;
             foreach (Unlockable a in minigames)
                 a.isUnlocked = true;
-            foreach (Unlockable a in costAreas)
-                a.isUnlocked = true;
             foreach (Unlockable a in runes)
                 a.isUnlocked = true;
         }
@@ -196,7 +170,6 @@ namespace DatabaseClass
             colors = new List<ColorData>();
             faces = new List<FaceData>();
             minigames = new List<MinigameData>();
-            costAreas = new List<CostAreaData>();
             runes = new List<RuneData>();
 
             Money = 0;
@@ -228,18 +201,16 @@ namespace DatabaseClass
             minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = -1, spriteImage = "", isUnlocked = true });
 
             // Adding costArea
-            int idCostArea = 0;
-            string[] strCostArea = { "CostArea1", "CostArea2" };
-            costAreas.Add(new CostAreaData { Id = strCostArea[idCostArea], isUnlocked = false });
-            costAreas.Add(new CostAreaData { Id = strCostArea[++idCostArea], isUnlocked = false });
-
-            // Adding costArea
             int idRune = 0;
-            string[] strRune = { "Rune1", "Rune2", "Rune3", "Rune4" };
+            string[] strRune = { "Rune1", "Rune2", "Rune3", "Rune4", "RuneFromCostArea1", "RuneFromCostArea2" };
             runes.Add(new RuneData { Id = strRune[idRune], isUnlocked = false });
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
+
+            runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
+            runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
+
         }
         public void AllCostToZero()
         {
