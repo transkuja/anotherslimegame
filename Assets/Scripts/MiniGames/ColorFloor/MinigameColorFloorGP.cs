@@ -64,7 +64,7 @@ public class MinigameColorFloorGP : MonoBehaviour {
             float x = controllerStates[i].ThumbSticks.Left.X;
             float y = controllerStates[i].ThumbSticks.Left.Y;
             if (Utils.Abs(x) < 0.1f && Utils.Abs(y) < 0.1f)
-                return;
+                continue;
 
             Vector3 dir = (Utils.Abs(x) > Utils.Abs(y)) ? Vector3.right * x : Vector3.forward * y;
             dir.Normalize();
