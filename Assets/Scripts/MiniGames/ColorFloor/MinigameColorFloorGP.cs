@@ -43,8 +43,7 @@ public class MinigameColorFloorGP : MonoBehaviour {
             if (thisCollider.transform.childCount > 0)
             {
                 ColorFloorPickUp pickupComponent = thisCollider.transform.GetChild(0).GetComponent<ColorFloorPickUp>();
-                if (pickupComponent.pickupType == ColorFloorPickUpType.Score)
-                    ColorFloorHandler.ScorePoints((int)pc.playerIndex);
+                pickupComponent.Collect((int)pc.playerIndex);
 
                 Destroy(pickupComponent.gameObject);
                 pickupHandler.pickupSpawned--;
