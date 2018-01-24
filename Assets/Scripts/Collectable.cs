@@ -56,8 +56,7 @@ public class Collectable : MonoBehaviour
                 return;
             }
             string s = GetComponent<CreateEnumFromDatabase>().HideString;
-            DatabaseClass.Database db = Resources.Load("Database") as DatabaseClass.Database;
-            if (db.IsUnlock<DatabaseClass.RuneData>(s))
+            if (DatabaseManager.Db.IsUnlock<DatabaseClass.RuneData>(s))
             {
                 gameObject.SetActive(false);
             }
@@ -144,7 +143,7 @@ public class Collectable : MonoBehaviour
                     return;
                 }
                 string s = GetComponent<CreateEnumFromDatabase>().HideString;
-                GameManager.Instance.DataContainer.databaseReference.SetUnlock<DatabaseClass.RuneData>(s, true);
+                DatabaseManager.Db.SetUnlock<DatabaseClass.RuneData>(s, true);
             }
 
             if (AudioManager.Instance != null && AudioManager.Instance.coinFX != null) AudioManager.Instance.PlayOneShot(AudioManager.Instance.coinFX);

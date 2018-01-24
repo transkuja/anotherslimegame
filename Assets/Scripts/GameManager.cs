@@ -168,21 +168,21 @@ public class GameManager : MonoBehaviour {
     {
         get
         {
-            return dataContainer.databaseReference.nbRunes;
+            return DatabaseManager.Db.nbRunes;
         }
 
         set
         {
-            dataContainer.databaseReference.nbRunes = Mathf.Clamp(value, 0, Utils.GetMaxValueForCollectable(CollectableType.Rune));
+            DatabaseManager.Db.nbRunes = Mathf.Clamp(value, 0, Utils.GetMaxValueForCollectable(CollectableType.Rune));
 
 
             // Unlock minigame base
-            foreach( DatabaseClass.MinigameData minigame in dataContainer.databaseReference.minigames)
+            foreach( DatabaseClass.MinigameData minigame in DatabaseManager.Db.minigames)
             {
-                if (dataContainer.databaseReference.nbRunes >= minigame.nbRunesToUnlock && minigame.nbRunesToUnlock != -1 && !dataContainer.databaseReference.IsUnlock<DatabaseClass.MinigameData>(minigame.Id))
+                if (DatabaseManager.Db.nbRunes >= minigame.nbRunesToUnlock && minigame.nbRunesToUnlock != -1 && !DatabaseManager.Db.IsUnlock<DatabaseClass.MinigameData>(minigame.Id))
                 {
                     // TODO: Notifier le joueur
-                    dataContainer.databaseReference.SetUnlock<DatabaseClass.MinigameData>(minigame.Id, true);
+                    DatabaseManager.Db.SetUnlock<DatabaseClass.MinigameData>(minigame.Id, true);
                 }
             }
             // TODO: Runes UI update should be handled here
@@ -193,14 +193,14 @@ public class GameManager : MonoBehaviour {
     {
         get
         {
-            return dataContainer.databaseReference.Money;
+            return DatabaseManager.Db.Money;
         }
 
         set
         {
             // TODO: clamp it?
             //globalMoney = Mathf.Clamp(value, 0, Utils.GetMaxValueForCollectable(CollectableType.Rune));
-            dataContainer.databaseReference.Money = value;
+            DatabaseManager.Db.Money = value;
             // TODO: update UI
 
         }

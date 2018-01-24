@@ -48,13 +48,13 @@ public class Menu : MonoBehaviour {
 
     private void Start()
     {
-        foreach (DatabaseClass.ColorData c in dataContainer.databaseReference.colors)
+        foreach (DatabaseClass.ColorData c in DatabaseManager.Db.colors)
         {
             if (c.isUnlocked)
                 unlockedCustomColors.Add(c);
         }
 
-        foreach (DatabaseClass.FaceData f in dataContainer.databaseReference.faces)
+        foreach (DatabaseClass.FaceData f in DatabaseManager.Db.faces)
         {
             if (f.isUnlocked)
                 unlockedFaces.Add(f);

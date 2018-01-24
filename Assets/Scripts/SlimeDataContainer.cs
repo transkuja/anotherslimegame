@@ -10,7 +10,6 @@ public class SlimeDataContainer : MonoBehaviour {
     public int[] selectedFaces = new int[4];
     public bool[] colorFadeSelected = new bool[4];
 
-    public Database databaseReference;
 
     void Start () {
         if (instance != null)
@@ -20,8 +19,7 @@ public class SlimeDataContainer : MonoBehaviour {
         else
         {
             DontDestroyOnLoad(this);
-            if (GameManager.Instance != null)
-                GameManager.Instance.RegisterDataContainer(this);
+            GameManager.Instance.RegisterDataContainer(this);
         }
 
     }

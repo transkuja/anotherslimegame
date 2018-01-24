@@ -238,7 +238,7 @@ namespace DatabaseClass
             string[] strRune = { "Rune1", "Rune2", "Rune3", "Rune4" };
             runes.Add(new RuneData { Id = strRune[idRune], isUnlocked = false });
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
-            runes.Add(new RuneData { Id = strRune[idRune], isUnlocked = false });
+            runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
         }
         public void AllCostToZero()
