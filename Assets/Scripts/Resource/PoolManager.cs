@@ -93,6 +93,7 @@ public class PoolManager : MonoBehaviour {
     public Pool ghostTrailPool;
     public Pool moneyPool;
     public Pool colorFloorScorePickUpPool;
+    public Pool runnerBlocPool;
 
     void Start () {
 
@@ -149,6 +150,14 @@ public class PoolManager : MonoBehaviour {
         for (int i = 0; i < colorFloorScorePickUpPool.poolSize; i++)
             colorFloorScorePickUpPool.CreateRandomPoolItem();
         /* =============================================================================== */
-    }
 
+        /* =============================================================================== */
+        GameObject runnerBlocPoolPoolParent = new GameObject("runnerBlocPool");
+        runnerBlocPoolPoolParent.transform.SetParent(transform);
+        runnerBlocPool.PoolParent = runnerBlocPoolPoolParent.transform;
+        for (int i = 0; i < runnerBlocPool.poolSize; i++)
+            runnerBlocPool.CreateRandomPoolItem();
+        /* =============================================================================== */
+    }
 }
+
