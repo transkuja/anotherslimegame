@@ -28,12 +28,32 @@ public class RunnerLevelGenerator : MonoBehaviour {
         blocLen.x = levelSize.x/ RunnerBlocs.DefaultSize.x;
         blocLen.z = levelSize.z/ RunnerBlocs.DefaultSize.z;
 
+        bool[,] mask = new bool[(int)blocLen.z, (int)blocLen.x];
+
+        int posInLine = Random.Range(0, (int)blocLen.x);
+        mask[0, posInLine] = true;
+
+        for (int z = 1; z < blocLen.z; z++)
+        {
+            posInLine += Random.Range(-1, 2);
+            posInLine = posInLine < 0 ? posInLine + 1 : posInLine;
+            posInLine = posInLine >= blocLen.x ?(int)blocLen.x-1 : posInLine;
+            mask[z, posInLine] = true;
+        }
+
+
+
+
         for (int x = 0; x < blocLen.x; x++)
         {
             for (int z = 0; z < blocLen.z; z++)
             {
-                Vector3 position = new Vector3(x * RunnerBlocs.DefaultSize.x, 0, z * RunnerBlocs.DefaultSize.z);
-                runnerBlocPool.GetItem(transform, position, Quaternion.identity).SetActive(true);
+                if (mask[z,x])
+                {
+                    Vector3 position = new Vector3(x * RunnerBlocs.DefaultSize.x, 0, z * RunnerBlocs.DefaultSize.z);
+                    runnerBlocPool.GetItem(transform, position, Quaternion.identity).SetActive(true);
+                }
+               
             }
         }
     }
@@ -41,11 +61,18 @@ public class RunnerLevelGenerator : MonoBehaviour {
     public void Start()
     {
         runnerBlocPool = ResourceUtils.Instance.poolManager.runnerBlocPool;
-        Invoke("Generate2D", 0.4f);
+        //Invoke("Generate2D", 0.4f);
+
     }
     public void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            for (int z = 0; z < transform.childCount; z++)
+            {
+                Destroy(transform.GetChild(z).gameObject);
+            }
             Generate2D();
+        }
     }
 }
