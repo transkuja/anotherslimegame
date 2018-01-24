@@ -24,6 +24,19 @@ namespace DatabaseClass
     }
 
     [System.Serializable]
+    public class CostAreaData : Unlockable
+    {
+        // Empty
+    }
+
+
+    [System.Serializable]
+    public class RuneData : Unlockable
+    {
+        // Empty
+    }
+
+    [System.Serializable]
     public class ColorData : Unlockable
     {
         [SerializeField]
@@ -74,6 +87,12 @@ namespace DatabaseClass
         [SerializeField]
         public List<MinigameData> minigames;
 
+        [SerializeField]
+        public List<CostAreaData> costAreas;
+
+        [SerializeField]
+        public List<RuneData> runes;
+
         public void SetUnlock<T>(string _id, bool isUnlocked) where T : Unlockable
         {
             if (typeof(T) == typeof(ColorData))
@@ -90,6 +109,16 @@ namespace DatabaseClass
             {
                 if (minigames.Find(a => a.Id == _id) != null)
                     minigames.Find(a => a.Id == _id).isUnlocked = isUnlocked;
+            }
+            else if (typeof(T) == typeof(CostAreaData))
+            {
+                if (costAreas.Find(a => a.Id == _id) != null)
+                    costAreas.Find(a => a.Id == _id).isUnlocked = isUnlocked;
+            }
+            else if (typeof(T) == typeof(RuneData))
+            {
+                if (runes.Find(a => a.Id == _id) != null)
+                    runes.Find(a => a.Id == _id).isUnlocked = isUnlocked;
             }
         }
         public bool IsUnlock<T>(string _id) where T : Unlockable
@@ -109,6 +138,16 @@ namespace DatabaseClass
                 if (minigames.Find(a => a.Id == _id) != null)
                     return minigames.Find(a => a.Id == _id).isUnlocked;
             }
+            else if (typeof(T) == typeof(CostAreaData))
+            {
+                if (costAreas.Find(a => a.Id == _id) != null)
+                    return costAreas.Find(a => a.Id == _id).isUnlocked;
+            }
+            else if (typeof(T) == typeof(RuneData))
+            {
+                if (runes.Find(a => a.Id == _id) != null)
+                    return runes.Find(a => a.Id == _id).isUnlocked;
+            }
             return false;
         }
         public bool IsUnlock<T>(int _id) where T : Unlockable
@@ -125,6 +164,16 @@ namespace DatabaseClass
                 if (_id < minigames.Count)
                     return minigames[_id].isUnlocked;
             }
+            else if (typeof(T) == typeof(CostAreaData))
+            {
+                if (_id < minigames.Count)
+                    return minigames[_id].isUnlocked;
+            }
+            else if (typeof(T) == typeof(RuneData))
+            {
+                if (_id < minigames.Count)
+                    return minigames[_id].isUnlocked;
+            }
             return false;
         }
 
@@ -138,11 +187,17 @@ namespace DatabaseClass
                 a.isUnlocked = true;
             foreach (Unlockable a in minigames)
                 a.isUnlocked = true;
+            foreach (Unlockable a in costAreas)
+                a.isUnlocked = true;
+            foreach (Unlockable a in runes)
+                a.isUnlocked = true;
         }
         public void ResetAll() {
             colors = new List<ColorData>();
             faces = new List<FaceData>();
             minigames = new List<MinigameData>();
+            costAreas = new List<CostAreaData>();
+            runes = new List<RuneData>();
 
             Money = 0;
             nbRunes = 0;
@@ -155,7 +210,7 @@ namespace DatabaseClass
             colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = true });
             colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = true });
             colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = true });
-            colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = true });
+            colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = false });
 
             // Adding faces
             int idFaces = 0;
@@ -171,6 +226,18 @@ namespace DatabaseClass
             string[] strMinigame = { "MinigameDantho", "MinigameDeMatthieu" };
             minigames.Add(new MinigameData { Id = strMinigame[idMinigames], costToUnlock = -1, nbRunesToUnlock = -1, spriteImage = "", isUnlocked = true });
             minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = -1, spriteImage = "", isUnlocked = true });
+
+            // Adding costArea
+            int idCostArea = 0;
+            string[] strCostArea = { "CostArea1", "CostArea2" };
+            costAreas.Add(new CostAreaData { Id = strCostArea[idCostArea], isUnlocked = false });
+            costAreas.Add(new CostAreaData { Id = strCostArea[++idCostArea], isUnlocked = false });
+
+            // Adding costArea
+            int idRune = 0;
+            string[] strRune = { "Rune1", "Rune2" };
+            runes.Add(new RuneData { Id = strRune[idRune], isUnlocked = false });
+            runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
         }
         public void AllCostToZero()
         {
