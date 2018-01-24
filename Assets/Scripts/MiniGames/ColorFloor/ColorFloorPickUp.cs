@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ColorFloorPickUpType { Score }
+public enum ColorFloorPickUpType { Score, ColorArrow, ColorAround, SpeedUp, Bomb, Missile }
 public class ColorFloorPickUp : MonoBehaviour {
 
     public ColorFloorPickUpType pickupType;
