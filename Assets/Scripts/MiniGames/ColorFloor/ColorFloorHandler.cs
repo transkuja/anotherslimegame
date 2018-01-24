@@ -58,21 +58,28 @@ public static class ColorFloorHandler {
     {
         if (_pickupComponent.pickupType == ColorFloorPickUpType.ColorAround)
         {
-            Transform positionInLevel = _pickupComponent.transform.parent;
-            int floorSiblingIndex = positionInLevel.GetSiblingIndex();
-            int lineIndex = positionInLevel.parent.GetSiblingIndex();
+            Transform floorPosition = _pickupComponent.transform.parent;
+            Transform lineTransform = floorPosition.parent;
+            int floorIndex = floorPosition.GetSiblingIndex();
+            int lineIndex = lineTransform.GetSiblingIndex();
 
             // Register the 2 sides
-            if (floorSiblingIndex > 0)
-                RegisterFloor(_playerIndex, positionInLevel.parent.GetChild(floorSiblingIndex - 1).GetComponent<Collider>());
-            if (floorSiblingIndex < positionInLevel.parent.childCount - 1)
-                RegisterFloor(_playerIndex, positionInLevel.parent.GetChild(floorSiblingIndex + 1).GetComponent<Collider>());
+            if (floorIndex > 0)
+                RegisterFloor(_playerIndex, lineTransform.GetChild(floorIndex - 1).GetComponent<Collider>());
+            if (floorIndex < floorPosition.parent.childCount - 1)
+                RegisterFloor(_playerIndex, lineTransform.GetChild(floorIndex + 1).GetComponent<Collider>());
 
             // Register 3 above
             if (lineIndex > 0)
-            { }
-            if (lineIndex < positionInLevel.parent.parent.childCount - 1)
-            { }
+            {
+                for (int i = -1; i < 1; i++)
+                    RegisterFloor(_playerIndex, lineTransform.parent.GetChild(lineIndex - 1).GetChild(floorIndex + i).GetComponent<Collider>());
+            }
+            if (lineIndex < floorPosition.parent.parent.childCount - 1)
+            {
+                for (int i = -1; i < 1; i++)
+                    RegisterFloor(_playerIndex, lineTransform.parent.GetChild(lineIndex + 1).GetChild(floorIndex + i).GetComponent<Collider>());
+            }
 
             // Register 3 under
 
