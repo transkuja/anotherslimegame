@@ -58,12 +58,16 @@ public class ScoreScreen : MonoBehaviour {
 
         if(GameManager.Instance.CurrentGameMode.IsMiniGame())
         {
-            transform.GetChild(rank - 1).GetComponent<PlayerScore>().SetScoreMiniGamePtsOnly(
-                (int)player.PlayerController.PlayerIndex,
-                (player.Collectables[(int)CollectableType.Points]).ToString()
-            );
+            if (transform.childCount >= rank - 1) // who did this ugly line?
+            {
+                transform.GetChild(rank - 1).GetComponent<PlayerScore>().SetScoreMiniGamePtsOnly(
+                    (int)player.PlayerController.PlayerIndex,
+                    (player.Collectables[(int)CollectableType.Points]).ToString()
+                );
 
-            transform.GetChild(rank - 1).gameObject.SetActive(true);
+                transform.GetChild(rank - 1).gameObject.SetActive(true);
+
+            }
         }
         else
         {
@@ -72,12 +76,17 @@ public class ScoreScreen : MonoBehaviour {
                 GameManager.Instance.LaunchFinalTimer();
             }
 
-            transform.GetChild(rank - 1).GetComponent<PlayerScore>().SetScoreDefault(
-                (int)player.PlayerController.PlayerIndex,
-                GameManager.Instance.isTimeOver ? "Timeout" : timeStr,
-                (player.Collectables[(int)CollectableType.Points]).ToString()
-            );
-            transform.GetChild(rank - 1).gameObject.SetActive(true);
+            if (transform.childCount >= rank - 1) // who did this ugly line?
+            {
+                transform.GetChild(rank - 1).GetComponent<PlayerScore>().SetScoreDefault(
+                    (int)player.PlayerController.PlayerIndex,
+                    GameManager.Instance.isTimeOver ? "Timeout" : timeStr,
+                    (player.Collectables[(int)CollectableType.Points]).ToString()
+                );
+
+                transform.GetChild(rank - 1).gameObject.SetActive(true);
+
+            }
         }
         player.rank = rank;
 

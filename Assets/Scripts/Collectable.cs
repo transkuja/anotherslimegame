@@ -45,6 +45,27 @@ public class Collectable : MonoBehaviour
             isAttracted = value;
         }
     }
+
+    public void Start()
+    {
+        if( type == CollectableType.Rune)
+        {
+            if(GetComponent<CreateEnumFromDatabase>() == null)
+            {
+                Debug.LogError("Start :It's a rune, it need a createEnumFromDatabase component link to the associated rune");
+                return;
+            }
+            string s = GetComponent<CreateEnumFromDatabase>().HideString;
+            DatabaseClass.Database db = Resources.Load("Database") as DatabaseClass.Database;
+            if (db.IsUnlock<DatabaseClass.RuneData>(s))
+            {
+                gameObject.SetActive(false);
+            }
+        }
+
+    }
+
+
     private void OnEnable()
     {
         if (GetComponent<PoolChild>())
@@ -113,7 +134,18 @@ public class Collectable : MonoBehaviour
         GetComponent<Rigidbody>().MovePosition(transform.position + direction * movementSpeed * Time.deltaTime);
         if (Vector3.Distance(playerTarget.transform.position, transform.position) < GetComponent<BoxCollider>().bounds.extents.magnitude)
         {
-            playerTarget.UpdateCollectableValue(GetComponent<Collectable>().type, (int)GetComponent<Collectable>().Value);
+            playerTarget.UpdateCollectableValue(type, (int)Value);
+
+            if (type == CollectableType.Rune)
+            {
+                if (GetComponent<CreateEnumFromDatabase>() == null)
+                {
+                    Debug.LogError("Attract fct : It's a rune, it need a createEnumFromDatabase component link to the associated rune");
+                    return;
+                }
+                string s = GetComponent<CreateEnumFromDatabase>().HideString;
+                GameManager.Instance.DataContainer.databaseReference.SetUnlock<DatabaseClass.RuneData>(s, true);
+            }
 
             if (AudioManager.Instance != null && AudioManager.Instance.coinFX != null) AudioManager.Instance.PlayOneShot(AudioManager.Instance.coinFX);
 
