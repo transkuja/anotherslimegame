@@ -9,6 +9,9 @@ public class PlayerController : MonoBehaviour {
     protected Player player;
 
     public PlayerIndex playerIndex;
+
+    protected bool playerIndexSet = false;
+
     #region getterSetters
     public Rigidbody Rb
     {
@@ -44,6 +47,19 @@ public class PlayerController : MonoBehaviour {
         set
         {
             playerIndex = value;
+        }
+    }
+
+
+    public bool PlayerIndexSet
+    {
+        get
+        {
+            return playerIndexSet;
+        }
+        set
+        {
+            playerIndexSet = value;
         }
     }
 

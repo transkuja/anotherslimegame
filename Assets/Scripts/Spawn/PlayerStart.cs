@@ -134,13 +134,11 @@ public class PlayerStart : MonoBehaviour {
             Player currentPlayer = go.GetComponent<Player>();
             currentPlayer.respawnPoint = playerSpawn;
 
-            PlayerControllerHub playerController = go.GetComponent<PlayerControllerHub>();
+            PlayerController playerController = go.GetComponent<PlayerController>();
             
             playerController.PlayerIndex = (PlayerIndex)i;
-            playerController.IsUsingAController = true;
             playerController.PlayerIndexSet = true;
 
-            
             if (GameManager.Instance.DataContainer != null)
             {
                 if (GameManager.Instance.DataContainer.colorFadeSelected[i])

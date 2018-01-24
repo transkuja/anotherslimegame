@@ -24,7 +24,6 @@ public class PlayerControllerHub : PlayerController
     int selectedEvolution = 0;
 
     //  others
-    bool playerIndexSet = false;
     public bool isGravityEnabled = true;
     float maxDistanceOffset = 2.0f;
 
@@ -145,18 +144,6 @@ public class PlayerControllerHub : PlayerController
         set
         {
             isUsingAController = value;
-        }
-    }
-
-    public bool PlayerIndexSet
-    {
-        get
-        {
-            return playerIndexSet;
-        }
-        set
-        {
-            playerIndexSet = value;
         }
     }
 

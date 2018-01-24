@@ -65,7 +65,6 @@ abstract public class GameMode : MonoBehaviour
     {
         if (cameraReferences.Length == 0)
         {
-            Debug.LogError("No camera assigned in playerStart");
             return;
         }
         // By default, cameraP2 is set for 2-Player mode, so we only update cameraP1

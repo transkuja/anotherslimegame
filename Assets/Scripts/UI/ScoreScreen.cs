@@ -153,24 +153,16 @@ public class ScoreScreen : MonoBehaviour {
     {
 
         // TODO : Multi to be handle
-        if (!GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerControllerHub>().PlayerIndexSet)
+        if (!GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerController>().PlayerIndexSet)
             return;
 
-        if (GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerControllerHub>().IsUsingAController)
+        if (GamePad.GetState(GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerController>().playerIndex).Buttons.Start == ButtonState.Pressed)
         {
-            if (GamePad.GetState(GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerControllerHub>().playerIndex).Buttons.Start == ButtonState.Pressed)
+            if (GameManager.Instance.CurrentGameMode.IsMiniGame())
             {
-                if (GameManager.Instance.CurrentGameMode.IsMiniGame())
-                {
-                    SceneManager.LoadScene(1); // ugly?
-                }
-                //ExitToMainMenu();
+                SceneManager.LoadScene(1); // ugly?
             }
-        }
-        else
-        {
-            if (Input.GetKeyDown(KeyCode.Escape))
-                ExitToMainMenu();
+            //ExitToMainMenu();
         }
         // TODO: handle pause input here?
     }
