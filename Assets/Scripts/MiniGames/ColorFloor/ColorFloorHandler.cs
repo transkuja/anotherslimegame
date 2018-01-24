@@ -54,10 +54,27 @@ public static class ColorFloorHandler {
         currentlyColoredByPlayer[_playerIndex].Clear();
     }
 
-    public static void ColorFloorWithPickup(ColorFloorPickUp _pickupComponent)
+    public static void ColorFloorWithPickup(ColorFloorPickUp _pickupComponent, int _playerIndex)
     {
         if (_pickupComponent.pickupType == ColorFloorPickUpType.ColorAround)
         {
+            Transform positionInLevel = _pickupComponent.transform.parent;
+            int floorSiblingIndex = positionInLevel.GetSiblingIndex();
+            int lineIndex = positionInLevel.parent.GetSiblingIndex();
+
+            // Register the 2 sides
+            if (floorSiblingIndex > 0)
+                RegisterFloor(_playerIndex, positionInLevel.parent.GetChild(floorSiblingIndex - 1).GetComponent<Collider>());
+            if (floorSiblingIndex < positionInLevel.parent.childCount - 1)
+                RegisterFloor(_playerIndex, positionInLevel.parent.GetChild(floorSiblingIndex + 1).GetComponent<Collider>());
+
+            // Register 3 above
+            if (lineIndex > 0)
+            { }
+            if (lineIndex < positionInLevel.parent.parent.childCount - 1)
+            { }
+
+            // Register 3 under
 
         }
         else if (_pickupComponent.pickupType == ColorFloorPickUpType.ColorArrow)

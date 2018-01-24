@@ -17,7 +17,7 @@ public class ColorFloorPickUp : MonoBehaviour {
                 break;
             case ColorFloorPickUpType.ColorArrow:
             case ColorFloorPickUpType.ColorAround:
-                ColorFloorHandler.ColorFloorWithPickup(this);
+                ColorFloorHandler.ColorFloorWithPickup(this, _playerIndex);
                 break;
             // Stock item on pickup then have to press a button to use it
             case ColorFloorPickUpType.Bomb:
