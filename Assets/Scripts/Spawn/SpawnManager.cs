@@ -326,7 +326,7 @@ public class SpawnManager : MonoBehaviour{
 
     // Won't work if there is no hub manager
     #region Evolution Islands 
-    public int RegisterSpawnEvolutionIslandLocation(Transform mySpawnLocation, GameObject associatedShelter, bool needSpawn = false, bool forceSpawn = false)
+    public int RegisterSpawnEvolutionIslandLocation(Transform mySpawnLocation, bool needSpawn = false, bool forceSpawn = false)
     {
         if (dicSpawnEvolutionIslandLocations.ContainsKey(lastInsertedKeySpawnEvolutionIsland))
         {
@@ -336,7 +336,7 @@ public class SpawnManager : MonoBehaviour{
 
         if (needSpawn)
         {
-            SpawnEvolutionIsland(lastInsertedKeySpawnEvolutionIsland, associatedShelter, forceSpawn);
+            SpawnEvolutionIsland(lastInsertedKeySpawnEvolutionIsland, forceSpawn);
         }
 
         return lastInsertedKeySpawnEvolutionIsland++;
@@ -349,7 +349,7 @@ public class SpawnManager : MonoBehaviour{
     }
 
     [System.Obsolete("This is an obsolete method")]
-    private void SpawnEvolutionIsland(int idLocation, GameObject associatedShelter, bool forceSpawn)
+    private void SpawnEvolutionIsland(int idLocation, bool forceSpawn)
     {
         /*
         if (dicSpawnEvolutionIslandLocations.ContainsKey(idLocation) == false)

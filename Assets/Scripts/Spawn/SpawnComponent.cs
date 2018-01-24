@@ -25,8 +25,6 @@ public class SpawnComponent : MonoBehaviour {
 
     public float circleRadius = 1.0f;
 
-    public GameObject associatedShelter;
-
 	// Use this for initialization
 	void Start () {
 
@@ -49,7 +47,7 @@ public class SpawnComponent : MonoBehaviour {
                 mySpawnId = HUBManager.instance.spawnManagerRef.RegisterSpawnMonsterLocation(transform, myMonsterType, needSpawn, forceSpawn);
                 break;
             case SpawnType.EvolutionIsland:
-                mySpawnId = HUBManager.instance.spawnManagerRef.RegisterSpawnEvolutionIslandLocation(transform, associatedShelter, needSpawn, forceSpawn);
+                mySpawnId = HUBManager.instance.spawnManagerRef.RegisterSpawnEvolutionIslandLocation(transform, needSpawn, forceSpawn);
                 break;
             case SpawnType.PointIsland:
                 mySpawnId = HUBManager.instance.spawnManagerRef.RegisterSpawnPointsIslandLocation(transform, needSpawn, forceSpawn);
