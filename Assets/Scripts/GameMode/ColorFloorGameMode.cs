@@ -56,8 +56,4 @@ public class ColorFloorGameMode : GameMode {
         }
     }
 
-    public override void PlayerHasFinished(Player player)
-    {
-        GameManager.Instance.ScoreScreenReference.RankPlayersByPoints();
-    }
 }
