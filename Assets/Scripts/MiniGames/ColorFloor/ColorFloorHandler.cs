@@ -53,4 +53,21 @@ public static class ColorFloorHandler {
 
         currentlyColoredByPlayer[_playerIndex].Clear();
     }
+
+    public static void ColorFloorWithPickup(ColorFloorPickUp _pickupComponent)
+    {
+        if (_pickupComponent.pickupType == ColorFloorPickUpType.ColorAround)
+        {
+
+        }
+        else if (_pickupComponent.pickupType == ColorFloorPickUpType.ColorArrow)
+        {
+
+        }
+        else
+        {
+            Debug.LogWarning(_pickupComponent.pickupType + " is not a proper type for the function ColorFloorWithPickup.");
+            return;
+        }
+    }
 }
