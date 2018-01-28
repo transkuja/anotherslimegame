@@ -142,6 +142,8 @@ namespace Runner3D
                 MoveCursor(i);
                 yield return new WaitForSeconds(0.5f);
             }
+            MoveCursor(-nbRowUpInFrontFirst-1);
+            MoveCursor(-1);
             yield return null;
         }
     }
