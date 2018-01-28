@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class RunnerBlocs : MonoBehaviour {
 
-    public static Vector3 DefaultSize = Vector3.one * 20;
     [SerializeField] Vector3 size;
+    [SerializeField] Vector3 blockSize;
+    public void OnValidate()
+    {
+        
+    }
 }
