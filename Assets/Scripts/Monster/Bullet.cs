@@ -12,7 +12,7 @@ public class Bullet : MonoBehaviour {
     [SerializeField]
     GameObject hitParticles;
     [SerializeField]
-    CollectableType damageOn = CollectableType.Points;
+    PlayerUIStat damageOn = PlayerUIStat.Points;
 
     public void Init(GameObject launcher)
     {
@@ -66,8 +66,15 @@ public class Bullet : MonoBehaviour {
                 if (AudioManager.Instance != null && AudioManager.Instance.punchFx != null)
                     AudioManager.Instance.PlayOneShot(AudioManager.Instance.punchFx);
                 UWPAndXInput.GamePad.VibrateForSeconds(playerController.playerIndex, 0.9f, 0.9f, .2f);
+                
                 if (GameManager.Instance.CurrentGameMode.TakesDamageFromTraps)
-                    playerCollision.DamagePlayer(other.GetComponent<Player>(), damageOn);
+                {
+                    if(GameManager.Instance.IsInHub())
+                        playerCollision.DamagePlayerHub();
+                    else
+                        playerCollision.DamagePlayer(other.GetComponent<Player>(), damageOn);
+                }
+        
                 playerCollision.ExpulsePlayer(other.ClosestPoint(transform.position), other.GetComponent<Rigidbody>(), 50);
                 GetComponent<PoolChild>().ReturnToPool();
             }

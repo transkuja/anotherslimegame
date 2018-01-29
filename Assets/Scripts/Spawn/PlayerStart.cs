@@ -54,6 +54,7 @@ public class PlayerStart : MonoBehaviour {
         {
             InitializeScorePanel();
             InitializePlayersUI();
+            GameManager.Instance.PlayerUI.Init();
         }
         gameMode.StartGame(playersReference);
 

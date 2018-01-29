@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
-using System.Collections.Generic;
 
 public enum GameState { Normal, Paused, ForcedPause }
+
 public class GameManager : MonoBehaviour {
 
     private static GameManager instance = null;
@@ -26,7 +26,6 @@ public class GameManager : MonoBehaviour {
     public GameObject activeTutoTextForAll;
 
     // Players persistence
-    public int[][] playerCollectables;
     public bool[][] playerEvolutionTutoShown;
     public bool[] playerCostAreaTutoShown;
 
@@ -80,14 +79,6 @@ public class GameManager : MonoBehaviour {
         }
     }
 
-    //public static GameModeManager GameModeManager
-    //{
-    //    get
-    //    {
-    //        return gameModeManager;
-    //    }
-    //}
-
     public static GameState CurrentState
     {
         get
@@ -107,6 +98,11 @@ public class GameManager : MonoBehaviour {
         {
             currentGameMode = value;
         }
+    }
+
+    public bool IsInHub()
+    {
+        return CurrentGameMode.GetType() == typeof(HubMode);
     }
 
     public PlayerStart PlayerStart

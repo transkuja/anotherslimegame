@@ -319,17 +319,15 @@ public class PlayerCollisionCenter : MonoBehaviour {
     {
 
         // Damage Behavior
-        // TODO: should change target depending if it's in minigame or not, needs more thinking but it's not the right moment
         if (GameManager.Instance.CurrentGameMode.TakesDamageFromPlayer)
-            DamagePlayer(playerImpacted, CollectableType.Points);
-        //Physics.IgnoreCollision()
-        // ExpluseForce
-
-        //if (_PlayerController.StrengthState == SkillState.Dashing) repulsionMultiplier *= -2;
+        {
+            if (GameManager.Instance.IsInHub())
+                DamagePlayerHub();
+            else
+                DamagePlayer(playerImpacted, PlayerUIStat.Points);
+        }
         
         ExpulsePlayer(playerImpacted.GetComponent<Collider>().ClosestPoint(transform.position), playerImpacted.Rb, repulsionFactor);
-        //RepulseRigibody(playersCollided[i].ClosestPoint(transform.position), playersCollided[i].GetComponent<Rigidbody>(), repulsionFactor);
-
     }
 
     public void DefaultCollision(Collision collision, Player playerImpacted)
@@ -355,61 +353,47 @@ public class PlayerCollisionCenter : MonoBehaviour {
         }
     }
 
-    public void DamagePlayer(Player player, CollectableType _damageOn)
+
+
+    public void DamagePlayerHub()
+    {
+        if (GameManager.Instance.GlobalMoney == 0)
+            return;
+
+        int numberOfCollectablesToDrop = (int)Mathf.Clamp(((float)GameManager.Instance.GlobalMoney / Utils.GetDefaultCollectableValue((int)CollectableType.Money)), 1, 6);
+
+        GameManager.Instance.GlobalMoney -= numberOfCollectablesToDrop * Utils.GetDefaultCollectableValue((int)CollectableType.Money);
+
+        for (int i = 0; i < numberOfCollectablesToDrop; i++)
+        {
+            GameObject go = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.Money).GetItem(null, transform.position + Vector3.up * 0.5f, player.transform.rotation, true);
+            go.GetComponent<Collectable>().Disperse(i);
+        }
+    }
+
+    public void DamagePlayer(Player player, PlayerUIStat _damageOn)
     {
         // Damage Behavior
         int typeCollectable = (int)_damageOn;
-        //switch (GameManager.CurrentGameMode.gameModeType)
-        //{
-        //    case GameModeType.Escape:
-        //        typeCollectable = (int)CollectableType.Points; break;
-        //    case GameModeType.Arena:
-        //        typeCollectable = (int)CollectableType.Points; break;
-        //    default:
-        //        break;
-        //}
+        int quantity = 0;
+        if (_damageOn == PlayerUIStat.Life)
+            quantity = player.NbLife;
+        else if (_damageOn == PlayerUIStat.Points)
+            quantity = player.NbPoints;
 
-        //if (typeCollectable == -1) return;
+        if (quantity == 0)
+            return;
 
-        if (player.Collectables[(int)CollectableType.Rune] > 0)
+        int numberOfCollectablesToDrop = (int)Mathf.Clamp(((float)quantity / Utils.GetDefaultCollectableValue(typeCollectable)), 1, 6);
+
+        player.UpdateCollectableValue((CollectableType)typeCollectable, -numberOfCollectablesToDrop * Utils.GetDefaultCollectableValue(typeCollectable));
+
+        // Drop Points
+        for (int i = 0; i < numberOfCollectablesToDrop; i++)
         {
-            int random = Random.Range(1, Utils.GetMaxValueForCollectable(CollectableType.Rune)+1);
-            if(random > Utils.GetMaxValueForCollectable(CollectableType.Rune) - player.Collectables[(int)CollectableType.Rune])
-                typeCollectable = (int)CollectableType.Rune;
-        } 
-
-
-        if (player.Collectables[typeCollectable] > 0)
-        {
-            int numberOfCollectablesToDrop;
-            if (typeCollectable == (int)CollectableType.Rune)
-                numberOfCollectablesToDrop = 1;
-            else if (typeCollectable == (int)CollectableType.Money)
-                numberOfCollectablesToDrop = (int)Mathf.Clamp(((float)(GameManager.Instance.GlobalMoney) / Utils.GetDefaultCollectableValue(typeCollectable)), 1, 6);
-            else
-                numberOfCollectablesToDrop = (int)Mathf.Clamp(((float)(player.Collectables[typeCollectable]) / Utils.GetDefaultCollectableValue(typeCollectable)), 1, 6);
-
-            for (int i = 0; i < numberOfCollectablesToDrop; i++)
+            if (_damageOn == PlayerUIStat.Points)
             {
-                player.UpdateCollectableValue((CollectableType)typeCollectable, -Utils.GetDefaultCollectableValue(typeCollectable));
-
-                GameObject go;
-                // TMP !!! DOUX pool thing + alternate key for collision check
-                if (typeCollectable == (int)CollectableType.Rune)
-                {
-                    go = ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(transform.position + Vector3.up * 2f, transform.rotation, null, CollectableType.Rune);
-                    go.GetComponent<Collectable>().Init();
-                    go.GetComponent<Collectable>().hasBeenSpawned = true;
-                    go.GetComponent<Collectable>().lastOwner = player;
-                }
-                else
-                {
-                    if (typeCollectable == (int)CollectableType.Money)
-                        go = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.Money).GetItem(null, transform.position + Vector3.up * 0.5f, player.transform.rotation, true);
-                    else
-                        go = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.CollectablePoints).GetItem(null, transform.position + Vector3.up * 0.5f, player.transform.rotation, true);
-                }
-
+                GameObject go = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.CollectablePoints).GetItem(null, transform.position + Vector3.up * 0.5f, player.transform.rotation, true);
                 go.GetComponent<Collectable>().Disperse(i);
             }
         }

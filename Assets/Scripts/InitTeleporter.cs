@@ -117,7 +117,6 @@ public class InitTeleporter : MonoBehaviour {
         for (int i = 0; i < players.Count; i++)
         {
             Player currentPlayer = players[i].GetComponent<Player>();
-            GameManager.Instance.playerCollectables[i] = currentPlayer.Collectables;
             GameManager.Instance.playerCostAreaTutoShown[i] = currentPlayer.costAreaTutoShown;
             GameManager.Instance.playerEvolutionTutoShown[i] = currentPlayer.evolutionTutoShown;
         }

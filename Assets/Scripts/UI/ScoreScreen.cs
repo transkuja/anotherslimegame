@@ -34,11 +34,11 @@ public class ScoreScreen : MonoBehaviour {
     public void Init()
     {
 
-        //for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
-        //{
-        //    GameObject playerScore = Instantiate(prefabPlayerScore, scorePanel.transform);
-        //    scorePanelPlayer.Add(GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<Player>(), playerScore);
-        //}
+        for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
+        {
+            GameObject playerScore = Instantiate(prefabPlayerScore, scorePanel.transform);
+            scorePanelPlayer.Add(GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<Player>(), playerScore);
+        }
     }
 
     public void RefreshScores(Player player)
@@ -62,7 +62,7 @@ public class ScoreScreen : MonoBehaviour {
             {
                 transform.GetChild(rank - 1).GetComponent<PlayerScore>().SetScoreMiniGamePtsOnly(
                     (int)player.PlayerController.PlayerIndex,
-                    (player.Collectables[(int)CollectableType.Points]).ToString()
+                    player.NbPoints.ToString()
                 );
 
                 transform.GetChild(rank - 1).gameObject.SetActive(true);
@@ -81,7 +81,7 @@ public class ScoreScreen : MonoBehaviour {
                 transform.GetChild(rank - 1).GetComponent<PlayerScore>().SetScoreDefault(
                     (int)player.PlayerController.PlayerIndex,
                     GameManager.Instance.isTimeOver ? "Timeout" : timeStr,
-                    (player.Collectables[(int)CollectableType.Points]).ToString()
+                    player.NbPoints.ToString()
                 );
 
                 transform.GetChild(rank - 1).gameObject.SetActive(true);
@@ -113,7 +113,7 @@ public class ScoreScreen : MonoBehaviour {
             {
                 _curPlayer.HasFinishedTheRun = true;
                 if (remainingPlayers.Count == 0
-                    || remainingPlayers[remainingPlayers.Count - 1].Collectables[(int)CollectableType.Points] > _curPlayer.Collectables[(int)CollectableType.Points])
+                    || remainingPlayers[remainingPlayers.Count - 1].NbPoints > _curPlayer.NbPoints)
                 {
                     remainingPlayers.Add(_curPlayer);
                 }

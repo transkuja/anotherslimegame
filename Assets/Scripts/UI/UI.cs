@@ -1,23 +1,17 @@
-﻿using UnityEngine;
+﻿    using UnityEngine;
 using UnityEngine.UI;
 using System;
 
 public class UI : MonoBehaviour {
 
-    Text evolutionText;
     Text timerText;
 
     private void Start()
     {
         GameManager.UiReference = this;
-        evolutionText = GetComponentInChildren<Text>();
         timerText = transform.GetChild(1).GetComponent<Text>();
     }
 
-    public void NeedUpdate(string value)
-    {
-        evolutionText.text = value;
-    }
 
     public void TimerNeedUpdate(float _currentGameFinalTimer)
     {

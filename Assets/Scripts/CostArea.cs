@@ -225,7 +225,15 @@ public class CostArea : MonoBehaviour {
 
     bool Pay(PlayerControllerHub _player)
     {
-        int money = _player.Player.Collectables[(int)currency];
+        int money = 0;
+        if(currency == CollectableType.Money)
+        {
+            money = GameManager.Instance.GlobalMoney;
+        }
+        else if (currency == CollectableType.Rune)
+        {
+            money = GameManager.Instance.Runes;
+        }
         if (money >= cost)
         {
             _player.Player.UpdateCollectableValue(Currency, -Cost);

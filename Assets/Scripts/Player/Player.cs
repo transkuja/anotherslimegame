@@ -1,7 +1,10 @@
 ﻿using UnityEngine;
 
 public enum PlayerChildren { SlimeMesh, ShadowProjector, BubbleParticles, SplashParticles, CameraTarget, DustTrailParticles, DashParticles, LandingParticles };
-public enum KeyFrom { Shelter, CostArea };
+
+public enum PlayerUIStat { Life, Points, Size}
+
+public delegate void UIfct(int _newValue);
 
 public class Player : MonoBehaviour {
 
@@ -22,6 +25,13 @@ public class Player : MonoBehaviour {
     public bool isEdgeAssistActive = true;
     PlayerControllerHub playerController;
 
+    // UI [] typeCollectable
+    public UIfct[] OnValuesChange;
+
+    // for miniGame Push
+    [SerializeField] private int nbLife = -1;
+    [SerializeField] private int nbPoints = -1;
+
     public bool[] evolutionTutoShown = new bool[(int)Powers.Size];
     public bool costAreaTutoShown = false;
 
@@ -41,9 +51,7 @@ public class Player : MonoBehaviour {
     // Ugly
     public bool isInMainTower = false;
 
-    // for miniGame Push
-    [SerializeField]private int nbLife = -1;
-    //
+
 
 #region Accessors
     public Rigidbody Rb
@@ -136,19 +144,6 @@ public class Player : MonoBehaviour {
         }
     }
 
-    public int NbLife
-    {
-        get
-        {
-            return nbLife;
-        }
-
-        set
-        {
-            nbLife = value;
-        }
-    }
-
     public GameObject PendingTutoText
     {
         get
@@ -167,18 +162,34 @@ public class Player : MonoBehaviour {
         }
     }
 
-    public int[] Collectables
+    public int NbLife
     {
         get
         {
-            return collectables;
+            return nbLife;
         }
 
         set
         {
-            collectables = value;
+            nbLife = value;
+            CallOnValueChange(PlayerUIStat.Life, nbLife);
         }
     }
+
+    public int NbPoints
+    {
+        get
+        {
+            return nbPoints;
+        }
+
+        set
+        {
+            nbPoints = value;
+            CallOnValueChange(PlayerUIStat.Points, nbPoints);
+        }
+    }
+
     #endregion
 
     private void Awake()
@@ -189,29 +200,29 @@ public class Player : MonoBehaviour {
 
     public void UpdateCollectableValue(CollectableType type, int pickedValue)
     {
-        if (type == CollectableType.Rune)
+        switch (type)
         {
-            GameManager.Instance.Runes += 1;
-        }
-		else if (type == CollectableType.Money)
-		{
-			GameManager.Instance.GlobalMoney += pickedValue;
-		}
+            case CollectableType.Rune:
+                GameManager.Instance.Runes += 1;
+                break;
+            case CollectableType.Money:
+                GameManager.Instance.GlobalMoney += pickedValue;
+                break;
+            case CollectableType.Points:
+                NbPoints += pickedValue;
+                break;
+            default:
+                EvolutionCheck(type);
+                break;
+        }     
+    }
 
-		// All collectables that are not money or runes should be handled like this
-        else
-        {
-            collectables[(int)type] = Mathf.Clamp(collectables[(int)type] + pickedValue, 0, Utils.GetMaxValueForCollectable(type));
-			if (type == CollectableType.Points)
-			{
-				GameManager.Instance.PlayerUI.RefreshPointsPlayerUi(this, collectables[(int)type], cameraReference.transform.GetSiblingIndex());
-			}
-        }
-
-        if (!Utils.IsAnEvolutionCollectable(type))
-            return;
-
-        EvolutionCheck(type);
+    public void CallOnValueChange(PlayerUIStat type, int _newValue)
+    {
+        if (OnValuesChange != null)
+            if (OnValuesChange.Length > 0)
+                if (OnValuesChange[(int)type] != null)
+                        OnValuesChange[(int)type](_newValue);            
     }
 
     public bool EvolutionCheck(CollectableType type, bool _launchProcessOnSucess = true)

@@ -10,9 +10,8 @@ public class HubMode : GameMode
     {
         base.StartGame(playerReferences);
         int activePlayersAtStart = playerReferences.Count;
-        if (GameManager.Instance.playerCollectables == null)
+        if (GameManager.Instance.playerEvolutionTutoShown == null)
         {
-            GameManager.Instance.playerCollectables = new int[activePlayersAtStart][];
             GameManager.Instance.playerEvolutionTutoShown = new bool[activePlayersAtStart][];
             GameManager.Instance.playerCostAreaTutoShown = new bool[activePlayersAtStart];
         }
@@ -21,7 +20,6 @@ public class HubMode : GameMode
             for (int i = 0; i < activePlayersAtStart; i++)
             {
                 Player currentPlayer = playerReferences[i].GetComponent<Player>();
-                currentPlayer.Collectables = GameManager.Instance.playerCollectables[i];
                 currentPlayer.evolutionTutoShown = GameManager.Instance.playerEvolutionTutoShown[i];
                 currentPlayer.costAreaTutoShown = GameManager.Instance.playerCostAreaTutoShown[i];
             }

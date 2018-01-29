@@ -206,7 +206,8 @@ public class DebugTools : MonoBehaviour {
                 // Reset player
                 if (Input.GetKeyDown(KeyCode.Alpha0))
                 {
-                    DebugPlayerSelected.Collectables = new int[(int)CollectableType.Size];
+                    DebugPlayerSelected.NbPoints = 0;
+                    DebugPlayerSelected.NbLife = 0;
                     if (DebugPlayerSelected.GetComponent<EvolutionStrength>()) Destroy(DebugPlayerSelected.GetComponent<EvolutionStrength>());
                     if (DebugPlayerSelected.GetComponent<EvolutionAgile>()) Destroy(DebugPlayerSelected.GetComponent<EvolutionAgile>());
                     if (DebugPlayerSelected.GetComponent<EvolutionPlatformist>()) Destroy(DebugPlayerSelected.GetComponent<EvolutionPlatformist>());
