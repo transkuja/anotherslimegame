@@ -53,9 +53,11 @@ public class PlayerStart : MonoBehaviour {
         if (SceneManager.GetActiveScene() != SceneManager.GetSceneByBuildIndex(0))
         {
             InitializeScorePanel();
-            InitializePlayersUI();
-            GameManager.Instance.PlayerUI.Init();
+
         }
+
+        if( !GameManager.Instance.IsInHub())
+            GameManager.Instance.SpecificPlayerUI.Init();
         gameMode.StartGame(playersReference);
 
         // Pour chaque joueur
@@ -216,10 +218,5 @@ public class PlayerStart : MonoBehaviour {
     {
         if(GameManager.Instance.ScoreScreenReference != null)
             GameManager.Instance.ScoreScreenReference.Init();
-    }
-
-    void InitializePlayersUI()
-    {
-        GameManager.Instance.PlayerUI.Init();
     }
 }

@@ -44,10 +44,6 @@ public class Player : MonoBehaviour {
 
     public int rank = 0;
 
-    private bool feedbackCantPayActive = false;
-    float timerFeedbackCantPay = 2.0f;
-    float currentFeedbackCantPay = 0.0f;
-
     // Ugly
     public bool isInMainTower = false;
 
@@ -129,21 +125,6 @@ public class Player : MonoBehaviour {
         }
     }
 
-    public bool FeedbackCantPayActive
-    {
-        get
-        {
-            return feedbackCantPayActive;
-        }
-
-        set
-        {
-            if (value == true)
-                currentFeedbackCantPay = timerFeedbackCantPay;
-            feedbackCantPayActive = value;
-        }
-    }
-
     public GameObject PendingTutoText
     {
         get
@@ -203,7 +184,7 @@ public class Player : MonoBehaviour {
         switch (type)
         {
             case CollectableType.Rune:
-                GameManager.Instance.Runes += 1;
+                GameManager.Instance.Runes += pickedValue;
                 break;
             case CollectableType.Money:
                 GameManager.Instance.GlobalMoney += pickedValue;
@@ -247,16 +228,6 @@ public class Player : MonoBehaviour {
 
     private void Update()
     {
-        if (FeedbackCantPayActive)
-        {
-            currentFeedbackCantPay -= Time.deltaTime;
-            if (currentFeedbackCantPay < 0.0f)
-            {
-                GameManager.Instance.PlayerUI.HandleFeedbackNotEnoughPoints(this, false);
-                FeedbackCantPayActive = false;
-            }
-        }
-
         if (tutoTextIsPending)
         {
             currentTimerPendingTutoText -= Time.deltaTime;

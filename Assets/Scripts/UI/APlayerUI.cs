@@ -30,29 +30,4 @@ public abstract class APlayerUI : MonoBehaviour {
     {
         // feedback 
     }
-
-    public void HandleFeedbackMoney(TextChange ptsText)
-    {
-        if (ptsText.GetComponent<AnimTextCantPay>())
-            return;
-
-        ptsText.GetComponent<Outline>().effectColor = Color.red;
-        ptsText.GetComponent<Text>().fontSize += 20;
-        ptsText.gameObject.AddComponent<AnimTextCantPay>();
-
-        StartCoroutine(ReturnToNormalState(ptsText));
-    }
-
-    public IEnumerator ReturnToNormalState(TextChange txt)
-    {
-        yield return new WaitForSeconds(1f);
-
-        txt.GetComponent<Outline>().effectColor = txt.originalState.GetComponent<Outline>().effectColor;
-        txt.GetComponent<Text>().fontSize = txt.originalState.GetComponent<Text>().fontSize;
-        if (txt.GetComponent<AnimTextCantPay>())
-            Destroy(txt.GetComponent<AnimTextCantPay>());
-
-
-        txt.transform.localScale = txt.originalState.transform.localScale;
-    }
 }

@@ -10,15 +10,6 @@ public class TextChange : MonoBehaviour {
 
     public int[] associatedPlayers;
 
-    private TextChange instance;
-    public GameObject originalState;
-
-    public void Start()
-    {
-        instance = this;
-        originalState = gameObject;
-    }
-
     public void Init()
     {
         foreach (int i in associatedPlayers)
@@ -38,7 +29,7 @@ public class TextChange : MonoBehaviour {
 
     public void OnValueChange(int _newValue)
     {
-        GameManager.Instance.PlayerUI.OnValueChange(this);
+        GameManager.Instance.SpecificPlayerUI.OnValueChange(this);
         this.GetComponentInChildren<Text>().text = "" + _newValue;
     }
 }

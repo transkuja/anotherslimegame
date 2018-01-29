@@ -25,9 +25,6 @@ public class PrefabLoot : MonoBehaviour {
 
 
     [Header("UI")]
-    public GameObject prefabKeySprite;
-    public GameObject prefabPointSpriteRight;
-    public GameObject prefabPointSpriteLeft;
     public GameObject prefabLifeSpriteRight;
     public GameObject prefabLifeSpriteLeft;
 

@@ -215,7 +215,7 @@ public class CostArea : MonoBehaviour {
                 else
                 {
                     // Feedback visuel/sonore
-                    GameManager.Instance.PlayerUI.HandleFeedbackNotEnoughPoints(playerComponent.Player, true);
+                    GameManager.UiReference.HandleFeedback(currency);
                     if (AudioManager.Instance != null && AudioManager.Instance.cantPayFx != null)
                         AudioManager.Instance.PlayOneShot(AudioManager.Instance.cantPayFx);
                 }
@@ -227,13 +227,10 @@ public class CostArea : MonoBehaviour {
     {
         int money = 0;
         if(currency == CollectableType.Money)
-        {
             money = GameManager.Instance.GlobalMoney;
-        }
         else if (currency == CollectableType.Rune)
-        {
             money = GameManager.Instance.Runes;
-        }
+
         if (money >= cost)
         {
             _player.Player.UpdateCollectableValue(Currency, -Cost);
