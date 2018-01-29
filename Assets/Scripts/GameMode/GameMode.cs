@@ -53,7 +53,7 @@ abstract public class GameMode : MonoBehaviour
     }
     public virtual bool IsMiniGame()
     {
-        return this is HubMode;
+        return !(this is HubMode);
     }
 
     public virtual void StartGame(List<GameObject> playerReferences)

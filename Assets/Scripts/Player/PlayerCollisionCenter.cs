@@ -374,15 +374,27 @@ public class PlayerCollisionCenter : MonoBehaviour {
     public void DamagePlayer(Player player, PlayerUIStat _damageOn)
     {
         // Damage Behavior
-        int typeCollectable = (int)_damageOn;
+        int typeCollectable = -1;
         int quantity = 0;
-        if (_damageOn == PlayerUIStat.Life)
-            quantity = player.NbLife;
-        else if (_damageOn == PlayerUIStat.Points)
-            quantity = player.NbPoints;
 
-        if (quantity == 0)
+        if (_damageOn == PlayerUIStat.Life)
+        {
+            quantity = player.NbLife;
+            // TMP
+            typeCollectable = (int)CollectableType.Points;
+        }
+
+        else if (_damageOn == PlayerUIStat.Points)
+        {
+            quantity = player.NbPoints;
+            // TMP
+            typeCollectable = (int)CollectableType.Points;
+        }
+
+        if (quantity == 0 || typeCollectable == -1)
             return;
+
+
 
         int numberOfCollectablesToDrop = (int)Mathf.Clamp(((float)quantity / Utils.GetDefaultCollectableValue(typeCollectable)), 1, 6);
 

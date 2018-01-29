@@ -13,8 +13,7 @@ public class TextChange : MonoBehaviour {
     public void Init()
     {
         foreach (int i in associatedPlayers)
-        {
-            if (GameManager.Instance.PlayerStart.PlayersReference[associatedPlayers[i]] != null)
+        { 
             {
                 if(GameManager.Instance.PlayerStart.PlayersReference[associatedPlayers[i]].GetComponent<Player>()!= null)
                 {

@@ -30,7 +30,7 @@ public class Player : MonoBehaviour {
 
     // for miniGame Push
     [SerializeField] private int nbLife = -1;
-    [SerializeField] private int nbPoints = -1;
+    [SerializeField] private int nbPoints = 0;
 
     public bool[] evolutionTutoShown = new bool[(int)Powers.Size];
     public bool costAreaTutoShown = false;
@@ -190,7 +190,7 @@ public class Player : MonoBehaviour {
                 GameManager.Instance.GlobalMoney += pickedValue;
                 break;
             case CollectableType.Points:
-                NbPoints += pickedValue;
+                NbPoints += pickedValue;  
                 break;
             default:
                 EvolutionCheck(type);

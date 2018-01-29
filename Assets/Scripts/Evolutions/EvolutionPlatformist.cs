@@ -62,7 +62,6 @@ public class EvolutionPlatformist : EvolutionComponent {
             timerPlatform = value;
             if (timerPlatform >= cooldownPlatform)
             {
-                //GetComponent<PlayerController>().PlatformistState = SkillState.Ready;
                 timerPlatform = 0.0f;
             }
         }

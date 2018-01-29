@@ -16,19 +16,19 @@ public abstract class APlayerUI : MonoBehaviour {
     {
         for (int i = 0; i < UIref.transform.childCount; i++)
         {
-            if (GameManager.Instance.PlayerStart.ActivePlayersAtStart >= i)
+            if (GameManager.Instance.PlayerStart.ActivePlayersAtStart > i)
                 UIref.transform.GetChild(i).gameObject.SetActive(true);
             else
                 UIref.transform.GetChild(i).gameObject.SetActive(false);
         }
         foreach (GameObject p in GameManager.Instance.PlayerStart.PlayersReference)
-            p.GetComponent<Player>().OnValuesChange = new UIfct[(int)CollectableType.Size];
+            p.GetComponent<Player>().OnValuesChange = new UIfct[(int)PlayerUIStat.Size];
 
-        //foreach (TextChange obj in GameObject.FindObjectsOfType<TextChange>())
-        //{
-        //    if(obj.transform.parent.gameObject.activeSelf)
-        //        obj.Init();
-        //}
+        foreach (TextChange obj in GameObject.FindObjectsOfType<TextChange>())
+        {
+            if (obj.transform.parent.gameObject.activeSelf)
+                obj.Init();
+        }
 
     }
 

@@ -56,7 +56,7 @@ public class PlayerStart : MonoBehaviour {
 
         }
 
-        if( !GameManager.Instance.IsInHub())
+        if( !GameManager.Instance.IsInHub() && GameManager.Instance.SpecificPlayerUI != null)
             GameManager.Instance.SpecificPlayerUI.Init();
         gameMode.StartGame(playersReference);
 
@@ -197,7 +197,7 @@ public class PlayerStart : MonoBehaviour {
         for (int i = 0; i < activePlayersAtStart; i++)
         {
             GameObject go = PlayersReference[i];
-            if (SceneManager.GetActiveScene().name == "SceneMinigamePush")
+            if (SceneManager.GetActiveScene().name == "MinigamePush")
             {
                 //cameraPlayerReferences[i].transform.GetChild(1).GetComponent<Cinemachine.CinemachineVirtualCamera>().LookAt = go.transform;
             }
