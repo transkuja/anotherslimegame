@@ -171,7 +171,8 @@ public class GameManager : MonoBehaviour {
                     DatabaseManager.Db.SetUnlock<DatabaseClass.MinigameData>(minigame.Id, true);
                 }
             }
-            GameManager.UiReference.UpdateRunes();
+            UiReference.UpdateRunes();
+            UiReference.TooglePersistenceUI(true);
         }
     }
 
@@ -184,10 +185,9 @@ public class GameManager : MonoBehaviour {
 
         set
         {
-            // TODO: clamp it?
-            //globalMoney = Mathf.Clamp(value, 0, Utils.GetMaxValueForCollectable(CollectableType.Rune));
             DatabaseManager.Db.Money = value;
-            GameManager.UiReference.UpdateGlobalMoney();
+            UiReference.UpdateGlobalMoney();
+            UiReference.TooglePersistenceUI(true);
 
         }
     }
