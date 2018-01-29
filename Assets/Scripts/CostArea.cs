@@ -11,7 +11,7 @@ public enum CostAreaEvent { None, EndGame, IncreaseWater }
 public enum CostAreaReactivationMode { None, OverTime, OnEvent }
 public class CostArea : MonoBehaviour {
     [SerializeField]
-    CostAreaType costAreaType;
+    public CostAreaType costAreaType;
 
     [SerializeField]
     CostAreaEvent costAreaEvent;
@@ -47,7 +47,7 @@ public class CostArea : MonoBehaviour {
 
     [Header("Reward")]
     [SerializeField]
-    CollectableType rewardType;
+    public CollectableType rewardType;
     [SerializeField]
     int rewardQuantity;
     [SerializeField]
@@ -82,13 +82,13 @@ public class CostArea : MonoBehaviour {
         // Desactive la cost area si le minijeu a deja été debloqué
         if (costAreaType == CostAreaType.PayAndUnlockMiniGame)
         {
-            if (GetComponent<CreateMinigameEnumFromDatabase>() == null)
+            if (GetComponent<CreateEnumFromDatabase>() == null)
             {
                 Debug.LogError("Start :It's a rune, it need a createEnumFromDatabase component link to the associated rune");
                 return;
             }
 
-            string s = GetComponent<CreateMinigameEnumFromDatabase>().HideString;
+            string s = GetComponent<CreateEnumFromDatabase>().enumFromList[GetComponent<CreateEnumFromDatabase>().HideInt];
             if (DatabaseManager.Db.IsUnlock<DatabaseClass.MinigameData>(s))
             {
                 gameObject.SetActive(false);
@@ -99,12 +99,12 @@ public class CostArea : MonoBehaviour {
         // Desactive la cost area si la rune a deja été acheté
         if (costAreaType == CostAreaType.PayAndGetItem && rewardType == CollectableType.Rune)
         {
-            if (GetComponent<CreateRuneEnumFromDatabase>() == null)
+            if (GetComponent<CreateEnumFromDatabase>() == null)
             {
                 Debug.LogError("Start :It's a rune, it need a createEnumFromDatabase component link to the associated rune");
                 return;
             }
-            string s = GetComponent<CreateRuneEnumFromDatabase>().HideString;
+            string s = GetComponent<CreateEnumFromDatabase>().enumFromList[GetComponent<CreateEnumFromDatabase>().HideInt];
             if (DatabaseManager.Db.IsUnlock<DatabaseClass.RuneData>(s))
             {
                 gameObject.SetActive(false);
@@ -245,12 +245,12 @@ public class CostArea : MonoBehaviour {
             // @Remi debloque la rune si
             if (rewardType == CollectableType.Rune)
             {
-                if (GetComponent<CreateRuneEnumFromDatabase>() == null)
+                if (GetComponent<CreateEnumFromDatabase>() == null)
                 {
                     Debug.LogError("Attract fct : It's a rune, it need a createEnumFromDatabase component link to the associated rune");
                     return;
                 }
-                string s = GetComponent<CreateRuneEnumFromDatabase>().HideString;
+                string s = GetComponent<CreateEnumFromDatabase>().enumFromList[GetComponent<CreateEnumFromDatabase>().HideInt];
                 DatabaseManager.Db.SetUnlock<DatabaseClass.RuneData>(s, true);
             }
         }
@@ -275,12 +275,12 @@ public class CostArea : MonoBehaviour {
             UnlockAssociatedMinigame();
 
             // debloque le minijeu
-            if (GetComponent<CreateMinigameEnumFromDatabase>() == null)
+            if (GetComponent<CreateEnumFromDatabase>() == null)
             {
                 Debug.LogError("createEnumFromDatabase component link to the associated rune");
                 return;
             }
-            string s = GetComponent<CreateMinigameEnumFromDatabase>().HideString;
+            string s = GetComponent<CreateEnumFromDatabase>().enumFromList[GetComponent<CreateEnumFromDatabase>().HideInt];
             DatabaseManager.Db.SetUnlock<DatabaseClass.MinigameData>(s, true);
         }
     }

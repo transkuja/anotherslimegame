@@ -50,12 +50,12 @@ public class Collectable : MonoBehaviour
     {
         if( type == CollectableType.Rune)
         {
-            if(GetComponent<CreateRuneEnumFromDatabase>() == null)
+            if(GetComponent<CreateEnumFromDatabase>() == null)
             {
                 Debug.LogError("Start :It's a rune, it need a createEnumFromDatabase component link to the associated rune");
                 return;
             }
-            string s = GetComponent<CreateRuneEnumFromDatabase>().HideString;
+            string s = GetComponent<CreateEnumFromDatabase>().enumFromList[GetComponent<CreateEnumFromDatabase>().HideInt];
             if (DatabaseManager.Db.IsUnlock<DatabaseClass.RuneData>(s))
             {
                 gameObject.SetActive(false);
@@ -138,12 +138,12 @@ public class Collectable : MonoBehaviour
 
             if (type == CollectableType.Rune)
             {
-                if (GetComponent<CreateRuneEnumFromDatabase>() == null)
+                if (GetComponent<CreateEnumFromDatabase>() == null)
                 {
                     Debug.LogError("Attract fct : It's a rune, it need a createEnumFromDatabase component link to the associated rune");
                     return;
                 }
-                string s = GetComponent<CreateRuneEnumFromDatabase>().HideString;
+                string s = GetComponent<CreateEnumFromDatabase>().enumFromList[GetComponent<CreateEnumFromDatabase>().HideInt];
                 DatabaseManager.Db.SetUnlock<DatabaseClass.RuneData>(s, true);
             }
 
