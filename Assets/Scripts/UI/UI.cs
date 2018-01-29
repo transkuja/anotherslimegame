@@ -52,7 +52,6 @@ public class UI : MonoBehaviour {
 
     public void HandleFeedback(CollectableType type)
     {
-        Debug.Log(type.ToString());
         if (type == CollectableType.Rune)
             HandleFeedback(runeText, runeTextOriginalState);
         if( type == CollectableType.Money)
