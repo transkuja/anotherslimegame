@@ -32,5 +32,11 @@ public class Respawner
         }
         player.transform.position = player.respawnPoint.position;
         player.transform.rotation = player.respawnPoint.rotation;
+
+        if(player.GetComponent<Rigidbody>())
+            player.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        if (player.GetComponent<Rigidbody2D>())
+            player.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+
     }
 }
