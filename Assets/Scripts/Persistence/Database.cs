@@ -196,9 +196,11 @@ namespace DatabaseClass
 
             // Adding minigames
             int idMinigames = 0;
-            string[] strMinigame = { "MinigameDantho", "MinigameDeMatthieu" };
-            minigames.Add(new MinigameData { Id = strMinigame[idMinigames], costToUnlock = -1, nbRunesToUnlock = -1, spriteImage = "", isUnlocked = true });
-            minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = -1, spriteImage = "", isUnlocked = true });
+            string[] strMinigame = { "MinigameAntho", "MinigameKart", "SceneMinigamePush", "Scene3dRunner"  };
+            minigames.Add(new MinigameData { Id = strMinigame[idMinigames], costToUnlock = -1, nbRunesToUnlock = -1, spriteImage = "", isUnlocked = false });
+            minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = -1, spriteImage = "", isUnlocked = false });
+            minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = -1, spriteImage = "", isUnlocked = false });
+            minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = -1, spriteImage = "", isUnlocked = false });
 
             // Adding costArea
             int idRune = 0;

@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using DatabaseClass;
 using UnityEngine;
-using DatabaseClass;
 
 public class DatabaseManager : MonoBehaviour {
 
     public static DatabaseManager instance;
 
-    private DatabaseClass.Database db;
+    private Database db;
 
     public static Database Db
     {

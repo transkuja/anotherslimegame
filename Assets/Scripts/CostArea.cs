@@ -89,7 +89,6 @@ public class CostArea : MonoBehaviour {
             string s = GetComponent<CreateEnumFromDatabase>().enumFromList[GetComponent<CreateEnumFromDatabase>().HideInt];
             if (DatabaseManager.Db.IsUnlock<DatabaseClass.MinigameData>(s))
             {
-                gameObject.SetActive(false);
                 UnlockAssociatedMinigame(s);
                 return;
             }
