@@ -279,23 +279,3 @@ public class Player : MonoBehaviour {
             isInMainTower = false;
     }
 }
-
-public class KeyReset
-{
-    public Transform initialTransform;
-    public KeyFrom from;
-
-    public Vector3 initialPosition;
-    public Quaternion initialRotation;
-
-    public KeyReset(Transform _initialTransform, KeyFrom _from)
-    {
-        initialTransform = _initialTransform;
-        if (_initialTransform != null)
-        {
-            initialPosition = _initialTransform.position;
-            initialRotation = _initialTransform.rotation;
-        }
-        from = _from;
-    }
-}
