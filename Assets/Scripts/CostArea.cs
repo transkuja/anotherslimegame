@@ -50,8 +50,6 @@ public class CostArea : MonoBehaviour {
     public CollectableType rewardType;
     [SerializeField]
     int rewardQuantity;
-    [SerializeField]
-    MiniGame minigameToUnlock;
 
     [Header("Currency Sprites")]
     [SerializeField]
@@ -92,6 +90,7 @@ public class CostArea : MonoBehaviour {
             if (DatabaseManager.Db.IsUnlock<DatabaseClass.MinigameData>(s))
             {
                 gameObject.SetActive(false);
+                UnlockAssociatedMinigame(s);
                 return;
             }
         }
@@ -270,10 +269,6 @@ public class CostArea : MonoBehaviour {
         }
         else
         {
-            ///TODO : teleporter toujours activé
-            GameManager.Instance.unlockedMinigames[(int)minigameToUnlock] = true;
-            UnlockAssociatedMinigame();
-
             // debloque le minijeu
             if (GetComponent<CreateEnumFromDatabase>() == null)
             {
@@ -282,15 +277,16 @@ public class CostArea : MonoBehaviour {
             }
             string s = GetComponent<CreateEnumFromDatabase>().enumFromList[GetComponent<CreateEnumFromDatabase>().HideInt];
             DatabaseManager.Db.SetUnlock<DatabaseClass.MinigameData>(s, true);
+            UnlockAssociatedMinigame(s);
         }
     }
 
-    public void UnlockAssociatedMinigame()
+    public void UnlockAssociatedMinigame(string minigameIdFromDatabase)
     {
         if (costAreaType == CostAreaType.PayAndUnlockMiniGame)
         {
             isActive = false;
-            teleporterToMiniGame.TeleportToMinigame(GameMode.GetSceneNameFromMinigame(minigameToUnlock));
+            teleporterToMiniGame.TeleportToMinigame(minigameIdFromDatabase);
             // Replace by the child
             costText.transform.parent.gameObject.SetActive(false);
             rewardPreview.gameObject.SetActive(false);

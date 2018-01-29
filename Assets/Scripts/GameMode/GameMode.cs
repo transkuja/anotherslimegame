@@ -7,7 +7,6 @@ public enum ViewMode {
     sideView3d, // Camera avec orientation quasie fixe sur coté + deplacement 3d  
     sideView2d// Camera avec orientation quasie fixe + deplacement 2d 
 } 
-public enum MiniGame { None, KickThemAll, Size, }
 
 public class GameModeData
 {
@@ -82,13 +81,6 @@ abstract public class GameMode : MonoBehaviour
     public virtual  void PlayerHasFinished(Player player)
     {
         throw new NotImplementedException();
-    }
-    
-    public static string GetSceneNameFromMinigame(MiniGame _miniGame)
-    {
-        if (_miniGame == MiniGame.KickThemAll)
-            return "SceneMinigamePush";
-        return "";
     }
 }
 

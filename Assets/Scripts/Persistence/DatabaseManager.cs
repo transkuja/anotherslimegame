@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using DatabaseClass;
 using UnityEngine;
+using DatabaseClass;
 
 public class DatabaseManager : MonoBehaviour {
 
@@ -27,7 +28,7 @@ public class DatabaseManager : MonoBehaviour {
         if (instance == null)
         {
             instance = this;
-            Db = Resources.Load("Database") as DatabaseClass.Database;
+            Db = Resources.Load("Database") as Database;
         }
 
         else

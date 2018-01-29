@@ -25,8 +25,6 @@ public class GameManager : MonoBehaviour {
 
     public GameObject activeTutoTextForAll;
 
-    public bool[] unlockedMinigames = new bool[(int)MiniGame.Size];
-
     // Players persistence
     public int[][] playerCollectables;
     public bool[][] playerEvolutionTutoShown;

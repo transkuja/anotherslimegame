@@ -40,18 +40,6 @@ public class HUBManager : MonoBehaviour
         instance = this;
     }
     #endregion
-    // End modif tmp
-
-    public void Start()
-    {
-        UpdateHUBWithData(GameManager.Instance.unlockedMinigames);
-
-    }
-
-    public void UpdateHUBWithData(bool[] _activateMinigames)
-    {
-        if (_activateMinigames[(int)MiniGame.KickThemAll]) CostAreaMiniGamePush.GetComponent<CostArea>().UnlockAssociatedMinigame();
-    }
 
     // HUB events
     // Water

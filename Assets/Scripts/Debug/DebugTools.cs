@@ -392,7 +392,13 @@ public class DebugTools : MonoBehaviour {
                 // Finish current mini game
                 if (Input.GetKeyDown(KeyCode.F))
                 {
-                    if (SceneManager.GetActiveScene().name == GameMode.GetSceneNameFromMinigame(MiniGame.KickThemAll))
+                    if (DatabaseManager.Db.minigames.Count == 0)
+                    {
+                        Debug.LogError("Reset your database");
+                        return;
+                    }
+
+                    if (SceneManager.GetActiveScene().name == DatabaseManager.Db.minigames[0].Id)
                     {
                         GameManager.Instance.ScoreScreenReference.RankPlayersByPoints();
                     }
