@@ -34,7 +34,7 @@ public class ColorFloorPickupHandler : MonoBehaviour {
                 while (transform.GetChild(randChild/lineCount).GetChild(randChild%lineSize).childCount > 0)
                     randChild = Random.Range(0, mapSize);
 
-                ResourceUtils.Instance.poolManager.colorFloorScorePickUpPool.GetItem(
+                ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.ColorFloorScorePickUp).GetItem(
                     transform.GetChild(randChild / lineCount).GetChild(randChild % lineSize),
                     Vector3.up, 
                     Quaternion.identity,

@@ -9,7 +9,7 @@ namespace Runner3D
 
         //  ref vers la pool. 
         //TODO: A transformer en tableau pour contrôler la fréquence des blocs
-        Pool runnerBlocPool;
+        PoolLeader runnerBlocPool;
         Player[] playerRef;
 
         RunnerBlocs[,] blockMap;
@@ -119,7 +119,7 @@ namespace Runner3D
 
         public void Start()
         {
-            runnerBlocPool = ResourceUtils.Instance.poolManager.runnerBlocPool;
+            runnerBlocPool = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.RunnerBloc);
             Invoke("Generate2D", 0.4f);
         }
         public void Update()

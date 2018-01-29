@@ -182,7 +182,8 @@ public class MonsterShooter : MonoBehaviour {
     }
     public void CreateBullet()
     {
-        GameObject bulletGo = ResourceUtils.Instance.poolManager.monsterShotsPool.GetItem(transform, bulletSpawn.position, Quaternion.identity, true, true);
+        GameObject bulletGo = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.MonsterShots).GetItem(transform, bulletSpawn.position, Quaternion.identity, true, true);
+        Debug.Log(bulletGo);
         Bullet bullet = bulletGo.GetComponent<Bullet>();
         bullet.Init(this.gameObject);
         bullet.Fire(transform.forward, bulletSpeed, bulletDistance);

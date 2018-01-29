@@ -405,9 +405,9 @@ public class PlayerCollisionCenter : MonoBehaviour {
                 else
                 {
                     if (typeCollectable == (int)CollectableType.Money)
-                        go = ResourceUtils.Instance.poolManager.moneyPool.GetItem(null, transform.position + Vector3.up * 0.5f, player.transform.rotation, true);
+                        go = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.Money).GetItem(null, transform.position + Vector3.up * 0.5f, player.transform.rotation, true);
                     else
-                        go = ResourceUtils.Instance.poolManager.collectablePointsPool.GetItem(null, transform.position + Vector3.up * 0.5f, player.transform.rotation, true);
+                        go = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.CollectablePoints).GetItem(null, transform.position + Vector3.up * 0.5f, player.transform.rotation, true);
                 }
 
                 go.GetComponent<Collectable>().Disperse(i);

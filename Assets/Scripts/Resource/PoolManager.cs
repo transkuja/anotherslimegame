@@ -6,12 +6,13 @@ using UnityEngine;
 public class Pool
 {
     Transform poolParent;
-    public List<GameObject> prefabs;
-    public int poolSize = 50;
     List<GameObject> itemPool;
     public float timerReturnToPool = -1;
 
-    Pool() { }
+    public Pool(Transform _poolParent, float _timerReturnToPool) {
+        poolParent = _poolParent;
+        timerReturnToPool = _timerReturnToPool;
+    }
 
     public List<GameObject> ItemPool
     {
@@ -35,14 +36,57 @@ public class Pool
             poolParent = value;
         }
     }
+}
 
-    public GameObject GetItem(bool activeObjectOnRetrieval = false)
+[System.Serializable]
+public class PoolLeader
+{
+    public PoolName poolName;
+    Transform poolParent;
+    [SerializeField]
+    List<GameObject> prefabs;
+
+    [SerializeField]
+    [Tooltip("Create a subpool for each prefab.")]
+    bool separatePrefabsIntoDifferentPools = false;
+
+    [SerializeField]
+    int poolSize = 50;
+    List<Pool> subPools;
+    public float timerReturnToPool = -1;
+
+    PoolLeader() { }
+
+    List<Pool> SubPools
+    {
+        get
+        {
+            if (subPools == null)
+                subPools = new List<Pool>();
+            return subPools;
+        }
+    }
+
+    public Transform PoolParent
+    {
+        get
+        {
+            return poolParent;
+        }
+
+        set
+        {
+            poolParent = value;
+        }
+    }
+
+    public GameObject GetItem(bool activeObjectOnRetrieval = false, int subpoolNumber = 0)
     {
         GameObject returnGameObject;
-        if (poolParent.childCount == 0)
-            returnGameObject = CreateRandomPoolItem();
+        if (poolParent.GetChild(subpoolNumber).childCount == 0)
+            returnGameObject = CreateRandomPoolItem(subpoolNumber);
         else
-            returnGameObject = poolParent.GetChild(0).gameObject;
+            returnGameObject = poolParent.GetChild(subpoolNumber).GetChild(0).gameObject;
 
         returnGameObject.transform.SetParent(null);
         if (activeObjectOnRetrieval) returnGameObject.SetActive(true);
@@ -50,13 +94,13 @@ public class Pool
         return returnGameObject;
     }
 
-    public GameObject GetItem(Transform _newParent, Vector3 _newPosition, Quaternion _newRotation, bool activeObjectOnRetrieval = false, bool spawnInWorldspace = false)
+    public GameObject GetItem(Transform _newParent, Vector3 _newPosition, Quaternion _newRotation, bool activeObjectOnRetrieval = false, bool spawnInWorldspace = false, int subpoolNumber = 0)
     {
         GameObject returnGameObject;
-        if (poolParent.childCount == 0)
-            returnGameObject = CreateRandomPoolItem();
+        if (poolParent.GetChild(subpoolNumber).childCount == 0)
+            returnGameObject = CreateRandomPoolItem(subpoolNumber);
         else
-            returnGameObject = poolParent.GetChild(0).gameObject;
+            returnGameObject = poolParent.GetChild(subpoolNumber).GetChild(0).gameObject;
 
         returnGameObject.transform.SetParent(_newParent);
         if (spawnInWorldspace)
@@ -75,89 +119,83 @@ public class Pool
 
     }
 
-    public GameObject CreateRandomPoolItem()
+    public void InitializePool()
     {
-        GameObject item = GameObject.Instantiate(prefabs[Random.Range(0, prefabs.Count)], poolParent);
-        item.AddComponent<PoolChild>().Pool = this;
+        if (prefabs == null || prefabs.Count == 0)
+        {
+            Debug.LogWarning("Cannot initialize pool " + poolParent.name + " because no prefabs are linked.");
+            return;
+        }
+
+        if (poolSize <= 0)
+        {
+            Debug.LogWarning("Cannot initialize pool because pool size is null or negative.");
+            return;
+        }
+
+        for (int i = 0; i < ((separatePrefabsIntoDifferentPools) ? prefabs.Count : 1); i++)
+        {
+            if (poolParent.childCount <= i)
+            {
+                GameObject poolContainer = new GameObject("Pool Container " + i);
+                poolContainer.transform.parent = poolParent;
+            }
+
+            SubPools.Add(new Pool(poolParent.GetChild(i), timerReturnToPool));
+            for (int j = 0; j < poolSize / ((separatePrefabsIntoDifferentPools) ? prefabs.Count : 1); j++)
+            {
+                CreateRandomPoolItem(i);
+            }
+        }
+    }
+
+    GameObject CreateRandomPoolItem(int _subpoolIndex)
+    {
+        int prefabIndex = (separatePrefabsIntoDifferentPools) ? _subpoolIndex : Random.Range(0, prefabs.Count);
+        GameObject item = GameObject.Instantiate(prefabs[prefabIndex], poolParent.GetChild(_subpoolIndex));
+        item.AddComponent<PoolChild>().Pool = SubPools[_subpoolIndex];
         item.SetActive(false);
-        ItemPool.Add(item);
+        SubPools[_subpoolIndex].ItemPool.Add(item);
         return item;
     }
 }
 
+/*
+ * Update this enum with your new pool's name 
+ */
+public enum PoolName { BreakablePieces, CollectablePoints, MonsterShots, GhostTrail, Money, ColorFloorScorePickUp, RunnerBloc }
 public class PoolManager : MonoBehaviour {
 
-    public Pool breakablePiecesPool;
-    public Pool collectablePointsPool;
-    public Pool monsterShotsPool;
-    public Pool ghostTrailPool;
-    public Pool moneyPool;
-    public Pool colorFloorScorePickUpPool;
-    public Pool runnerBlocPool;
+    // TODO: externalize this to be set up from inspector
+    [SerializeField]
+    List<PoolLeader> poolLeaders;
+
+    public PoolLeader GetPoolByName(PoolName _poolName)
+    {
+        foreach (PoolLeader leader in poolLeaders)
+        {
+            if (leader.poolName == _poolName)
+                return leader;
+        }
+
+        return null;
+    }
 
     void Start () {
 
-        /* =============================================================================== */
-        GameObject breakablePiecesPoolParent = new GameObject("BreakablePiecesPool");
-        breakablePiecesPoolParent.transform.SetParent(transform);
-        breakablePiecesPool.PoolParent = breakablePiecesPoolParent.transform;
+        if (poolLeaders == null || poolLeaders.Count == 0)
+        {
+            Debug.LogWarning("There are no pool leaders defined in Pool Manager.");
+            return;
+        }
 
-        for (int i = 0; i < breakablePiecesPool.poolSize; i++)
-            breakablePiecesPool.CreateRandomPoolItem();
-        /* =============================================================================== */
-
-        /* =============================================================================== */
-        GameObject collectablePointsPoolParent = new GameObject("CollectablePointsPool");
-        collectablePointsPoolParent.transform.SetParent(transform);
-        collectablePointsPool.PoolParent = collectablePointsPoolParent.transform;
-
-        for (int i = 0; i < collectablePointsPool.poolSize; i++)
-            collectablePointsPool.CreateRandomPoolItem();
-        /* =============================================================================== */
-
-        /* =============================================================================== */
-        GameObject monsterShotsPoolParent = new GameObject("MonsterShotsPool");
-        monsterShotsPoolParent.transform.SetParent(transform);
-        monsterShotsPool.PoolParent = monsterShotsPoolParent.transform;
-
-        for (int i = 0; i < monsterShotsPool.poolSize; i++)
-            monsterShotsPool.CreateRandomPoolItem();
-        /* =============================================================================== */
-
-        /* =============================================================================== */
-        GameObject ghostTrailPoolParent = new GameObject("GhostTrailPool");
-        ghostTrailPoolParent.transform.SetParent(transform);
-        ghostTrailPool.PoolParent = ghostTrailPoolParent.transform;
-
-        for (int i = 0; i < ghostTrailPool.poolSize; i++)
-            ghostTrailPool.CreateRandomPoolItem();
-        /* =============================================================================== */
-
-        /* =============================================================================== */
-        GameObject moneyPoolParent = new GameObject("MoneyPool");
-        moneyPoolParent.transform.SetParent(transform);
-        moneyPool.PoolParent = moneyPoolParent.transform;
-
-        for (int i = 0; i < moneyPool.poolSize; i++)
-            moneyPool.CreateRandomPoolItem();
-        /* =============================================================================== */
-
-        /* =============================================================================== */
-        GameObject colorFloorScorePickUpPoolParent = new GameObject("ColorFloorScorePickUpPool");
-        colorFloorScorePickUpPoolParent.transform.SetParent(transform);
-        colorFloorScorePickUpPool.PoolParent = colorFloorScorePickUpPoolParent.transform;
-
-        for (int i = 0; i < colorFloorScorePickUpPool.poolSize; i++)
-            colorFloorScorePickUpPool.CreateRandomPoolItem();
-        /* =============================================================================== */
-
-        /* =============================================================================== */
-        GameObject runnerBlocPoolPoolParent = new GameObject("runnerBlocPool");
-        runnerBlocPoolPoolParent.transform.SetParent(transform);
-        runnerBlocPool.PoolParent = runnerBlocPoolPoolParent.transform;
-        for (int i = 0; i < runnerBlocPool.poolSize; i++)
-            runnerBlocPool.CreateRandomPoolItem();
-        /* =============================================================================== */
+        foreach (PoolLeader leader in poolLeaders)
+        {
+            GameObject poolParent = new GameObject(leader.poolName.ToString());
+            poolParent.transform.SetParent(transform);
+            leader.PoolParent = poolParent.transform;
+            leader.InitializePool();
+        }
     }
 }
 

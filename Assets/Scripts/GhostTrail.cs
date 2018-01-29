@@ -21,7 +21,7 @@ public class GhostTrail : MonoBehaviour {
     private void OnEnable()
     {
         lifeTimer = 0.0f;
-        lifeTime = ResourceUtils.Instance.poolManager.ghostTrailPool.timerReturnToPool;
+        lifeTime = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.GhostTrail).timerReturnToPool;
         fadeOutTimer = 0.0f;
         mr = GetComponent<MeshRenderer>();
         ps = GetComponentInChildren<ParticleSystem>();

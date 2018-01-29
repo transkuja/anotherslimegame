@@ -202,7 +202,7 @@ public class EvolutionGhost : EvolutionComponent
                     RaycastHit hit = new RaycastHit();
                     if(Physics.Raycast(ray, out hit, 1.0f, ~(1 << LayerMask.NameToLayer("GhostTrail"))))
                     {
-                        GameObject trailPane = ResourceUtils.Instance.poolManager.ghostTrailPool.GetItem(null, hit.point + Vector3.up * 0.01f, Quaternion.identity, true, true);
+                        GameObject trailPane = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.GhostTrail).GetItem(null, hit.point + Vector3.up * 0.01f, Quaternion.identity, true, true);
                         float scale = Random.Range(0.8f, 1.2f);
                         trailPane.transform.localScale *= scale;
                         timeSinceLastTrailComponentSpawned = 0.0f;

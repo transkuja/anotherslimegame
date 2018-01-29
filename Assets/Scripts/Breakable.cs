@@ -49,7 +49,7 @@ public class Breakable : MonoBehaviour {
             int nbFragments = Random.Range(minFragments, maxFragments);
             for (int i = 0; i < nbFragments; i++)
             {
-                GameObject fragment = ResourceUtils.Instance.poolManager.breakablePiecesPool.GetItem();
+                GameObject fragment = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.BreakablePieces).GetItem();
                 fragment.transform.SetParent(transform);
                 fragment.transform.localPosition = Vector3.up * 0.5f;
                 fragment.SetActive(true);
@@ -66,7 +66,7 @@ public class Breakable : MonoBehaviour {
         int numberOfCollectablesToDrop = Random.Range(minCollectableDropOnBreak, maxCollectableDropOnBreak);
         for (int i = 0; i < numberOfCollectablesToDrop; i++)
         {
-            GameObject go = ResourceUtils.Instance.poolManager.collectablePointsPool.GetItem(null, transform.position + Vector3.up * 0.5f, Quaternion.identity, true);
+            GameObject go = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.CollectablePoints).GetItem(null, transform.position + Vector3.up * 0.5f, Quaternion.identity, true);
 
             go.GetComponent<Collectable>().Disperse(i);
         }
