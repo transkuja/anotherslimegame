@@ -3,35 +3,46 @@ using System.Collections.Generic;
 using DatabaseClass;
 using UnityEngine;
 
+[ExecuteInEditMode]
 public class DatabaseManager : MonoBehaviour {
 
     public static DatabaseManager instance;
 
-    private Database db;
+    private static Database db;
 
     public static Database Db
     {
         get
         {
-            return instance.db;
+            return db;
         }
 
         set
         {
-            instance.db = value;
+            db = value;
         }
     }
 
     // Use this for initialization
-    void Awake () {
-        if (instance == null)
+    public void Awake () {
+        if (LoadDb())
         {
             instance = this;
-            Db = Resources.Load("Database") as Database;
-        }
-
-        else
             DontDestroyOnLoad(instance);
+        }
+        else
+            Destroy(this);
 	}
 
+
+    public static bool LoadDb()
+
+    {
+        if (instance == null)
+        {
+            Db = Resources.Load("Database") as Database;
+            return true;
+        }
+        return false;
+    }
 }

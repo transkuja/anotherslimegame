@@ -16,11 +16,6 @@ public class CreateEnumFromDatabase : MonoBehaviour {
 
     [SerializeField, HideInInspector]
     public Database db;
-
-    public void Awake()
-    {
-        db = DatabaseManager.Db;
-    }
 }
 
 [CustomEditor(typeof(CreateEnumFromDatabase))]
@@ -28,10 +23,18 @@ public class DatabaseEnumEditor : Editor
 {
 
     CreateEnumFromDatabase dynamicChoice;
+    DatabaseManager instance;
+
+
+    private void Awake()
+    {
+        dynamicChoice = (CreateEnumFromDatabase)target;
+    }
 
     public void OnEnable()
     {
-        dynamicChoice = (CreateEnumFromDatabase)target;
+        DatabaseManager.LoadDb();
+        dynamicChoice.db = DatabaseManager.Db;
 
         bool isARune = dynamicChoice.GetComponent<Collectable>() || (dynamicChoice.GetComponent<CostArea>() && dynamicChoice.GetComponent<CostArea>().costAreaType == CostAreaType.PayAndGetItem && dynamicChoice.GetComponent<CostArea>() && dynamicChoice.GetComponent<CostArea>().rewardType == CollectableType.Rune);
         bool isAMinigame = dynamicChoice.GetComponent<CostArea>() && dynamicChoice.GetComponent<CostArea>().costAreaType == CostAreaType.PayAndUnlockMiniGame;
@@ -57,8 +60,8 @@ public class DatabaseEnumEditor : Editor
     public override void OnInspectorGUI()
     {
         base.DrawDefaultInspector();
-
-        if(dynamicChoice.enumFromList.Count > 0)
+     
+        if (dynamicChoice.enumFromList.Count > 0)
             dynamicChoice.HideInt = EditorGUILayout.Popup(dynamicChoice.HideInt, dynamicChoice.enumFromList.ToArray());
         if (GUI.changed)
         {
