@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using DatabaseClass;
 using UnityEngine;
 
-[ExecuteInEditMode]
 public class DatabaseManager : MonoBehaviour {
 
     public static DatabaseManager instance;
