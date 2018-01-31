@@ -50,7 +50,6 @@ public class MinigameColorFloorGP : MonoBehaviour {
             }
 
             ColorFloorHandler.RegisterFloor((int)pc.playerIndex, thisCollider);
-            thisCollider.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", GameManager.Instance.PlayerStart.colorPlayer[(int)pc.playerIndex]);
         }
     }
 

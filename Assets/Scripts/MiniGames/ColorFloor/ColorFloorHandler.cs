@@ -24,7 +24,10 @@ public static class ColorFloorHandler {
 
         ColorFloorHandler.UnregisterFloor(_toRegister);
         if (!currentlyColoredByPlayer[_playerIndex].Contains(_toRegister))
+        {
             currentlyColoredByPlayer[_playerIndex].Add(_toRegister);
+            _toRegister.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", GameManager.Instance.PlayerStart.colorPlayer[_playerIndex]);
+        }
     }
 
     // Unregister a floor from any player
@@ -72,16 +75,21 @@ public static class ColorFloorHandler {
             // Register 3 above
             if (lineIndex > 0)
             {
-                for (int i = -1; i < 1; i++)
-                    RegisterFloor(_playerIndex, lineTransform.parent.GetChild(lineIndex - 1).GetChild(floorIndex + i).GetComponent<Collider>());
+                for (int i = -1; i <= 1; i++)
+                {
+                    if (floorIndex + i >= 0 && (floorIndex + i) <= (lineTransform.parent.GetChild(lineIndex - 1).childCount - 1))
+                        RegisterFloor(_playerIndex, lineTransform.parent.GetChild(lineIndex - 1).GetChild(floorIndex + i).GetComponent<Collider>());
+                }
             }
+            // Register 3 under
             if (lineIndex < floorPosition.parent.parent.childCount - 1)
             {
-                for (int i = -1; i < 1; i++)
-                    RegisterFloor(_playerIndex, lineTransform.parent.GetChild(lineIndex + 1).GetChild(floorIndex + i).GetComponent<Collider>());
+                for (int i = -1; i <= 1; i++)
+                {
+                    if (floorIndex + i >= 0 && (floorIndex + i) <= (lineTransform.parent.GetChild(lineIndex + 1).childCount - 1))
+                        RegisterFloor(_playerIndex, lineTransform.parent.GetChild(lineIndex + 1).GetChild(floorIndex + i).GetComponent<Collider>());
+                }
             }
-
-            // Register 3 under
 
         }
         else if (_pickupComponent.pickupType == ColorFloorPickUpType.ColorArrow)
