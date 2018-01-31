@@ -59,13 +59,13 @@ public static class ColorFloorHandler {
 
     public static void ColorFloorWithPickup(ColorFloorPickUp _pickupComponent, int _playerIndex)
     {
+        Transform floorPosition = _pickupComponent.transform.parent;
+        Transform lineTransform = floorPosition.parent;
+        int floorIndex = floorPosition.GetSiblingIndex();
+        int lineIndex = lineTransform.GetSiblingIndex();
+
         if (_pickupComponent.pickupType == ColorFloorPickUpType.ColorAround)
         {
-            Transform floorPosition = _pickupComponent.transform.parent;
-            Transform lineTransform = floorPosition.parent;
-            int floorIndex = floorPosition.GetSiblingIndex();
-            int lineIndex = lineTransform.GetSiblingIndex();
-
             // Register the 2 sides
             if (floorIndex > 0)
                 RegisterFloor(_playerIndex, lineTransform.GetChild(floorIndex - 1).GetComponent<Collider>());
@@ -94,7 +94,32 @@ public static class ColorFloorHandler {
         }
         else if (_pickupComponent.pickupType == ColorFloorPickUpType.ColorArrow)
         {
+            Vector3 pickupForward = _pickupComponent.transform.forward;
+            bool colorOnX = pickupForward.x > pickupForward.z;
+            int unit, nextIndex = floorIndex;
 
+            if (colorOnX)
+            {
+                unit = ((pickupForward.x > 0.0f) ? 1 : -1);
+                nextIndex += unit;
+
+                while (nextIndex > 0 && nextIndex < lineTransform.childCount)
+                {
+                    RegisterFloor(_playerIndex, lineTransform.GetChild(nextIndex).GetComponent<Collider>());
+                    nextIndex += unit;
+                }            
+            }
+            else
+            {
+                unit = ((pickupForward.y > 0.0f) ? 1 : -1);
+                nextIndex += unit;
+
+                while (nextIndex > 0 && nextIndex < lineTransform.parent.childCount)
+                {
+                    RegisterFloor(_playerIndex, lineTransform.parent.GetChild(nextIndex).GetChild(floorIndex).GetComponent<Collider>());
+                    nextIndex += unit;
+                }
+            }
         }
         else
         {
@@ -102,4 +127,5 @@ public static class ColorFloorHandler {
             return;
         }
     }
+
 }
