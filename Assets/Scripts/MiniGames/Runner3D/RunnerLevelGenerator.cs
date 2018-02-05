@@ -10,6 +10,8 @@ namespace Runner3D
         //  ref vers la pool. 
         //TODO: A transformer en tableau pour contrôler la fréquence des blocs
         PoolLeader runnerBlocPool;
+        [SerializeField] GameObject arrivalPrefab;
+
         Player[] playerRef;
 
         RunnerBlocs[,] blockMap;
@@ -34,7 +36,6 @@ namespace Runner3D
         {
             blockMap = new RunnerBlocs[(int)levelUnit.x, (int)levelUnit.z];
             int extentsX = Mathf.FloorToInt((levelUnit.x + 1) * 0.5f);
-            //int extentsZ = Mathf.FloorToInt((levelUnit.z + 1) * 0.5f);
 
             for (int x = 0; x < levelUnit.x; x++)
             {
@@ -42,7 +43,7 @@ namespace Runner3D
                 {
                     if (mask[z, x])
                     {
-                        Vector3 position = startPos+ new Vector3(x * defaultBlockSize.x, 0, z * defaultBlockSize.z);
+                        Vector3 position = startPos + new Vector3(x * defaultBlockSize.x, 0, z * defaultBlockSize.z);
                         position.x -= extentsX;
                         GameObject bloc = runnerBlocPool.GetItem(transform, position, Quaternion.identity);
                         bloc.SetActive(true);
@@ -50,6 +51,8 @@ namespace Runner3D
                     }
                 }
             }
+
+            Instantiate(arrivalPrefab, Vector3.forward * (defaultBlockSize.z + levelUnit.z * defaultBlockSize.z), Quaternion.identity,transform);
         }
         #endregion
 
@@ -79,7 +82,9 @@ namespace Runner3D
         public void Generate2D()
         {
             bool[,] mask = GenerateLevelMask();
-            GenerateLevelBlock(mask,defaultBlockSize.z*Vector3.forward*0.5f);
+            GenerateLevelBlock(mask, Vector3.forward * defaultBlockSize.z * 0.5f
+                                    - Vector3.right * defaultBlockSize.x * 0.5f
+                                    - Vector3.right * levelUnit.x * defaultBlockSize.x * 0.25f);
             StartCoroutine(LevelPresentation());
         }
 
@@ -135,7 +140,7 @@ namespace Runner3D
                 int playerZBlockPos = Mathf.RoundToInt(farthestZ / defaultBlockSize.z);
             }
         }
-
+        #endregion
         public void Start()
         {
             runnerBlocPool = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.RunnerBloc);
@@ -151,6 +156,7 @@ namespace Runner3D
                 }
                 Generate2D();
             }
+
         }
         public IEnumerator LevelPresentation()
         {
@@ -165,7 +171,7 @@ namespace Runner3D
             MoveCursor(-1);
             yield return null;
         }
-#endregion
+
         public void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.black;

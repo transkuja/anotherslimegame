@@ -93,7 +93,7 @@ namespace Runner3D
         }
         public void OnDrawGizmosSelected()
         {
-            Gizmos.color = Color.black;
+            Gizmos.color = Color.grey;
             Gizmos.DrawWireCube(transform.position, Vector3.Scale(blockSize, RunnerLevelGenerator.defaultBlockSize));
         }
     }
