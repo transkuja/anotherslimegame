@@ -26,7 +26,9 @@ namespace Runner3D
             leveFinalSize.y = levelUnit.y * defaultBlockSize.y;
             leveFinalSize.z = levelUnit.z * defaultBlockSize.z;
         }
+        #region LevelGeneration
 
+        #region blocsCreation
         // Fill the level according to the mask.
         public void GenerateLevelBlock(bool[,] mask,Vector3 startPos)
         {
@@ -49,11 +51,13 @@ namespace Runner3D
                 }
             }
         }
-        public bool[,] GenerateLevelMask()
-        {
-            bool[,] mask = new bool[(int)levelUnit.z, (int)levelUnit.x];
+        #endregion
 
-            // random walker algorithme to fill the level mask
+        #region MaskCreation
+
+        /// random walker algorithme to fill the level mask
+        public void WritePathIntoLevelMask(bool[,] mask)
+        {
             int posInLine = Random.Range(0, (int)levelUnit.x);
             mask[0, posInLine] = true;
 
@@ -64,6 +68,12 @@ namespace Runner3D
                 posInLine = posInLine >= levelUnit.x ? (int)levelUnit.x - 1 : posInLine;
                 mask[z, posInLine] = true;
             }
+        }
+        public bool[,] GenerateLevelMask()
+        {
+            bool[,] mask = new bool[(int)levelUnit.z, (int)levelUnit.x];
+            for (int i = 0;i < 2;i++)
+                WritePathIntoLevelMask(mask);
             return mask;
         }
         public void Generate2D()
@@ -96,6 +106,11 @@ namespace Runner3D
                 Debug.LogWarning("This function shouldn't be called");
             firstPlayerZPos = newCursorValue;
         }
+        #endregion
+
+        #endregion
+
+        #region LevelMovement
         public void LerpMessage(int row,Direction dir)
         {
             if (row < 0 || row >= levelUnit.z)
@@ -150,6 +165,7 @@ namespace Runner3D
             MoveCursor(-1);
             yield return null;
         }
+#endregion
         public void OnDrawGizmosSelected()
         {
             Gizmos.color = Color.black;
