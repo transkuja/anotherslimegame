@@ -35,7 +35,17 @@ public class PlayerScore : MonoBehaviour {
 
     public void SetScoreMiniGameTimeOnly(int _playerIndex, string _time)
     {
+        Transform scorePanel = transform.GetChild(1);
+        float offset = scorePanel.GetChild((int)ScorePanel.PlayerIndex).localPosition.y / 2.0f;
+        scorePanel.GetChild((int)ScorePanel.PlayerIndex).localPosition = offset * Vector2.up;
+        scorePanel.GetChild((int)ScorePanel.PlayerIndex).GetComponent<Text>().text = "P" + (_playerIndex + 1);
+        scorePanel.GetChild((int)ScorePanel.Points).gameObject.SetActive(false);
+        scorePanel.GetChild((int)ScorePanel.Time).localPosition = -offset * Vector2.up;
+        scorePanel.GetChild((int)ScorePanel.Time).GetComponent<Text>().text = _time;
 
+        scorePanel.GetChild((int)ScorePanel.Time).GetComponent<Text>().fontSize = 20;
+        scorePanel.GetChild((int)ScorePanel.Time).GetComponent<Outline>().enabled = true;
+        scorePanel.GetChild((int)ScorePanel.Time).GetComponent<AnimText>().enabled = true;
     }
 
     public void SetScoreMiniGamePtsOnly(int _playerIndex, string _points)
