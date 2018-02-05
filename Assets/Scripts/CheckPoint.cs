@@ -7,6 +7,15 @@ public class CheckPoint : MonoBehaviour {
     int index = 0;
     [SerializeField]
     bool isStart = false;
+
+    public int Index
+    {
+        get
+        {
+            return index;
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         Player player = other.gameObject.GetComponent<Player>();
@@ -14,7 +23,7 @@ public class CheckPoint : MonoBehaviour {
         {
             if(isStart)
                 player.respawnPoint = transform;
-            else
+            else if(player.respawnPoint.GetComponent<CheckPoint>() && player.respawnPoint.GetComponent<CheckPoint>().Index == index-1)
             {
                 player.respawnPoint = transform;
             }
