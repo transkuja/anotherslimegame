@@ -64,7 +64,6 @@ namespace Runner3D
                     }
                 }
             }
-
             Instantiate(arrivalPrefab, Vector3.forward * (defaultBlockSize.z * .75f + levelUnit.z * defaultBlockSize.z), Quaternion.identity, transform);
         }
         #endregion
