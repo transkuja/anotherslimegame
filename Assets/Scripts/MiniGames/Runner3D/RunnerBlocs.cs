@@ -4,7 +4,6 @@ using UnityEngine;
 
 namespace Runner3D
 {
-
     public enum Direction
     {
         Up,
@@ -92,7 +91,11 @@ namespace Runner3D
                 }
             yield return null;
         }
-
-
+        public void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.black;
+            Gizmos.DrawWireCube(transform.position, Vector3.Scale(blockSize, RunnerLevelGenerator.defaultBlockSize));
+        }
     }
+    
 }

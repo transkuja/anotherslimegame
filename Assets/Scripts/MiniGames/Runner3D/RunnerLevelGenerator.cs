@@ -28,16 +28,20 @@ namespace Runner3D
         }
 
         // Fill the level according to the mask.
-        public void GenerateLevelBlock(bool[,] mask)
+        public void GenerateLevelBlock(bool[,] mask,Vector3 startPos)
         {
             blockMap = new RunnerBlocs[(int)levelUnit.x, (int)levelUnit.z];
+            int extentsX = Mathf.FloorToInt((levelUnit.x + 1) * 0.5f);
+            //int extentsZ = Mathf.FloorToInt((levelUnit.z + 1) * 0.5f);
+
             for (int x = 0; x < levelUnit.x; x++)
             {
                 for (int z = 0; z < levelUnit.z; z++)
                 {
                     if (mask[z, x])
                     {
-                        Vector3 position = new Vector3(x * defaultBlockSize.x, 0, z * defaultBlockSize.z);
+                        Vector3 position = startPos+ new Vector3(x * defaultBlockSize.x, 0, z * defaultBlockSize.z);
+                        position.x -= extentsX;
                         GameObject bloc = runnerBlocPool.GetItem(transform, position, Quaternion.identity);
                         bloc.SetActive(true);
                         blockMap[x, z] = bloc.GetComponent<RunnerBlocs>();
@@ -65,7 +69,7 @@ namespace Runner3D
         public void Generate2D()
         {
             bool[,] mask = GenerateLevelMask();
-            GenerateLevelBlock(mask);
+            GenerateLevelBlock(mask,defaultBlockSize.z*Vector3.forward*0.5f);
             StartCoroutine(LevelPresentation());
         }
 
@@ -145,6 +149,11 @@ namespace Runner3D
             MoveCursor(-nbRowUpInFrontFirst-1);
             MoveCursor(-1);
             yield return null;
+        }
+        public void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.black;
+            Gizmos.DrawWireCube(Vector3.left * levelUnit.x*0.5f + Vector3.forward * levelUnit.z * 0.5f* defaultBlockSize.z, Vector3.Scale(levelUnit, defaultBlockSize));
         }
     }
 }
