@@ -21,13 +21,20 @@ namespace Runner3D
         {
             baseYPos = new float[transform.childCount];
             baseScale = new Vector3[transform.childCount];
-            for (int i = 0; i < transform.childCount;i++)
+            SaveStartPos();
+        }
+        public void SaveStartPos()
+        {
+            for (int i = 0; i < transform.childCount; i++)
             {
-                    // register base position
-                baseYPos[i] = transform.position.y;
-                baseScale[i] = transform.localScale;
+                // register base position
+                baseYPos[i] = transform.GetChild(i).position.y;
+                baseScale[i] = transform.GetChild(i).localScale;
                 // goDown at beginning : 
+                if (transform.GetChild(i).GetComponent<PlatformGameplay>())
+                    transform.GetChild(i).GetComponent<PlatformGameplay>().enabled = false;
             }
+
         }
         public void Start()
         {
@@ -40,6 +47,7 @@ namespace Runner3D
                 Transform child = transform.GetChild(i);
                 child.position = new Vector3(child.position.x, child.position.y - yInterval, child.position.z);
                 child.localScale = Vector3.zero;
+                
             }
         }
 
@@ -51,21 +59,23 @@ namespace Runner3D
         }
         public void LauchLerp(Direction dir)
         {
-            StartCoroutine(LerpDown(dir));
+            StartCoroutine(Lerp(dir));
         }
-        IEnumerator LerpDown(Direction dir)
+        IEnumerator Lerp(Direction dir)
         {
+            if (dir == Direction.Down)
+                SaveStartPos();
             float timer = 0;
             while (timer < 1) 
             {
-                timer += Time.deltaTime*0.85f;
+                timer += Time.deltaTime * 0.85f;
                 float factor = Ease.Evaluate(Ease.EASE_TYPE.BOUNCE_OUT, timer);
                 for (int i = 0; i < transform.childCount;i++)
                 {
                     Transform child = transform.GetChild(i);
                     if (child.GetComponent<PlatformGameplay>())
                     {
-                        child.GetComponent<PlatformGameplay>().IsMoving = false;
+                        child.GetComponent<PlatformGameplay>().enabled = false;
                     }
                     Vector3 nextPosition = child.position;
                     if (dir == Direction.Up)
@@ -87,7 +97,9 @@ namespace Runner3D
                 {
                     Transform child = transform.GetChild(i);
                     if (child.GetComponent<PlatformGameplay>())
-                        child.GetComponent<PlatformGameplay>().IsMoving = true;
+                    {
+                        child.GetComponent<PlatformGameplay>().enabled = true;
+                    }
                 }
             yield return null;
         }
