@@ -25,6 +25,9 @@ public class ColorFloorPickUp : MonoBehaviour {
                 break;
             // Get buff on pickup
             case ColorFloorPickUpType.SpeedUp:
+                GameManager.EvolutionManager.AddEvolutionComponent(
+                    GameManager.Instance.PlayerStart.PlayersReference[_playerIndex], GameManager.EvolutionManager.GetEvolutionByPowerName(Powers.Agile)
+                );
                 break;
         }
     }

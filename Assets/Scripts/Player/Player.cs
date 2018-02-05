@@ -225,7 +225,7 @@ public class Player : MonoBehaviour {
 
     private void PermanentEvolution(Evolution evolution)
     {
-        GameManager.EvolutionManager.AddEvolutionComponent(gameObject, evolution, true);
+        GameManager.EvolutionManager.AddEvolutionComponent(gameObject, evolution);
     }
 
 

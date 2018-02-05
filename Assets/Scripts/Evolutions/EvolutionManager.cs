@@ -71,7 +71,7 @@ public class EvolutionManager {
     Evolution platformistEvolution = new Evolution(Powers.Platformist, 3, CollectableType.PlatformistEvolution1, 30, BodyPart.Staff);
     Evolution ghostEvolution = new Evolution(Powers.Ghost, 3, CollectableType.GhostEvolution1, 30, BodyPart.Ghost);
 
-    public Evolution GetEvolutionByPowerName(Powers _powerName, bool isPermanent = false)
+    public Evolution GetEvolutionByPowerName(Powers _powerName, bool overrideEvolutionDuration = false, float evolutionDuration = 0.0f)
     {
         Evolution tmpEvolution;
 
@@ -80,7 +80,7 @@ public class EvolutionManager {
             case Powers.Strength:
                 tmpEvolution = strengthEvolution;
                 break;
-                case Powers.Agile:
+            case Powers.Agile:
                 tmpEvolution = agileEvolution;
                 break;
             case Powers.Platformist:
@@ -94,31 +94,40 @@ public class EvolutionManager {
                 return null;
         }
 
-        if (isPermanent) tmpEvolution.duration = 0.0f;
+        if (overrideEvolutionDuration)
+            tmpEvolution.duration = evolutionDuration;
         return tmpEvolution;
     }
 
-    public void AddEvolutionComponent(GameObject gameObject, Evolution evolution, bool isPermanent = false)
+    public void AddEvolutionComponent(GameObject gameObject, Evolution evolution, float evolutionDuration = 0.0f)
     {
         Powers power = (Powers)evolution.Id;
         switch (power)
         {
             case Powers.Strength:
-                if (gameObject.GetComponent<EvolutionStrength>() != null) gameObject.GetComponent<EvolutionStrength>().Timer = (isPermanent) ? 0.0f : evolution.duration;
-                else
-                    gameObject.AddComponent<EvolutionStrength>(); break;
+                if (gameObject.GetComponent<EvolutionStrength>() == null)
+                    gameObject.AddComponent<EvolutionStrength>();
+
+                gameObject.GetComponent<EvolutionStrength>().Timer = evolutionDuration;
+                break;
             case Powers.Agile:
-                if (gameObject.GetComponent<EvolutionAgile>() != null) gameObject.GetComponent<EvolutionAgile>().Timer = (isPermanent) ? 0.0f : evolution.duration;
-                else
-                    gameObject.AddComponent<EvolutionAgile>(); break;
+                if (gameObject.GetComponent<EvolutionAgile>() == null)
+                    gameObject.AddComponent<EvolutionAgile>();
+
+                gameObject.GetComponent<EvolutionAgile>().Timer = evolutionDuration;
+                break;
             case Powers.Platformist:
-                if (gameObject.GetComponent<EvolutionPlatformist>() != null) gameObject.GetComponent<EvolutionPlatformist>().Timer = (isPermanent) ? 0.0f : evolution.duration;
-                else
-                    gameObject.AddComponent<EvolutionPlatformist>(); break;
+                if (gameObject.GetComponent<EvolutionPlatformist>() == null)
+                    gameObject.AddComponent<EvolutionPlatformist>();
+
+                gameObject.GetComponent<EvolutionPlatformist>().Timer = evolutionDuration;
+                break;
             case Powers.Ghost:
-                if (gameObject.GetComponent<EvolutionGhost>() != null) gameObject.GetComponent<EvolutionGhost>().Timer = (isPermanent) ? 0.0f : evolution.duration;
-                else
-                    gameObject.AddComponent<EvolutionGhost>(); break;
+                if (gameObject.GetComponent<EvolutionGhost>() == null)
+                    gameObject.AddComponent<EvolutionGhost>();
+
+                gameObject.GetComponent<EvolutionGhost>().Timer = evolutionDuration;
+                break;
             default:
                 Debug.Log("Unknown power, something went wrong");
                 break;
