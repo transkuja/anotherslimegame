@@ -4,20 +4,33 @@ using UnityEngine;
 
 namespace Runner3D
 {
+
+    enum State
+    {
+        Loading,
+        LevelPresentation,
+        InGame,
+    }
     public class RunnerLevelGenerator : MonoBehaviour
     {
-
-        //  ref vers la pool. 
-        //TODO: A transformer en tableau pour contrôler la fréquence des blocs
-        PoolLeader runnerBlocPool;
+        public static readonly Vector3 defaultBlockSize = Vector3.one * 20; // Taille du plus petit bloc possible
         [SerializeField] GameObject arrivalPrefab;
 
-        Player[] playerRef;
+        //  ref vers la pool. 
+        //TODO: A transformer en dynamique pour contrôler la fréquence des blocs
+        PoolLeader runnerBlocPool;
+        List <GameObject> playerRef;
 
         RunnerBlocs[,] blockMap;
-        public static readonly Vector3 defaultBlockSize = Vector3.one * 20; // Taille du plus petit bloc possible
         [SerializeField] Vector3 levelUnit; // taille d'un niveau en nb de blocs
         [SerializeField] Vector3 leveFinalSize;  // taille réelle du niveau
+
+
+        [SerializeField]int firstPlayerZRow = 0;
+        int nbRowUpBehindFirst = 2;
+        int nbRowUpInFrontFirst = 2;
+        State state;
+
         public void OnValidate()
         {
             levelUnit.x = Mathf.Round(levelUnit.x);
@@ -52,7 +65,7 @@ namespace Runner3D
                 }
             }
 
-            Instantiate(arrivalPrefab, Vector3.forward * (defaultBlockSize.z + levelUnit.z * defaultBlockSize.z), Quaternion.identity,transform);
+            Instantiate(arrivalPrefab, Vector3.forward * (defaultBlockSize.z * .75f + levelUnit.z * defaultBlockSize.z), Quaternion.identity, transform);
         }
         #endregion
 
@@ -67,7 +80,7 @@ namespace Runner3D
             for (int z = 1; z < levelUnit.z; z++)
             {
                 posInLine += Random.Range(-1, 2);
-                posInLine = posInLine < 0 ? posInLine + 1 : posInLine;
+                posInLine = posInLine < 0 ?  0 : posInLine;
                 posInLine = posInLine >= levelUnit.x ? (int)levelUnit.x - 1 : posInLine;
                 mask[z, posInLine] = true;
             }
@@ -88,35 +101,31 @@ namespace Runner3D
             StartCoroutine(LevelPresentation());
         }
 
-        int firstPlayerZPos = 0;
-        int nbRowUpBehindFirst = 2;
-        int nbRowUpInFrontFirst = 2;
+
         public void MoveCursor(int newCursorValue)
         {
-            int variation = newCursorValue - firstPlayerZPos;
+            int variation = newCursorValue - firstPlayerZRow;
             if (variation > 0)
             {
-                for (int i = firstPlayerZPos + 1; i <= firstPlayerZPos + variation; i++)
+                for (int i = firstPlayerZRow + 1; i <= firstPlayerZRow + variation; i++)
                 {
-                    LerpMessage(i + nbRowUpInFrontFirst, Direction.Up);
-                    LerpMessage(i - nbRowUpBehindFirst, Direction.Down);
+                    LerpMessage(i + nbRowUpInFrontFirst, DirLerpState.Up);
+                    LerpMessage(i - nbRowUpBehindFirst, DirLerpState.Down);
                 }
             }
             else if (variation < 0) // Pas encore testé.
-                for (int i = firstPlayerZPos; i >= firstPlayerZPos - variation; i--)
-                {
-                    LerpMessage(firstPlayerZPos + i, Direction.Down);
-                }
+                for (int i = firstPlayerZRow; i >= firstPlayerZRow - variation; i--)
+                    LerpMessage(firstPlayerZRow + nbRowUpInFrontFirst, DirLerpState.Down);
             else
                 Debug.LogWarning("This function shouldn't be called");
-            firstPlayerZPos = newCursorValue;
+            firstPlayerZRow = newCursorValue;
         }
         #endregion
 
         #endregion
 
         #region LevelMovement
-        public void LerpMessage(int row,Direction dir)
+        public void LerpMessage(int row,DirLerpState dir)
         {
             if (row < 0 || row >= levelUnit.z)
                 return;
@@ -130,19 +139,24 @@ namespace Runner3D
 
         public void UpdatePlayerPos()
         {
-            Vector3[] playerNewPos = new Vector3[playerRef.Length];
-            float farthestZ = 0;
-            for (int i = 0; i < playerRef.Length; i++)
-                farthestZ = Mathf.Max(playerRef[i].transform.position.z, farthestZ);
-            if (farthestZ != firstPlayerZPos)
+            Vector3[] playerNewPos = new Vector3[playerRef.Count];
+            int farthestZ = 0;
+            for (int i = 0; i < playerRef.Count; i++)
+                farthestZ = Mathf.Max(Mathf.RoundToInt(playerRef[i].transform.position.z), farthestZ);
+            int playerZBlockPos = Mathf.FloorToInt((farthestZ) / defaultBlockSize.z);
+            if (playerZBlockPos != firstPlayerZRow)
             {
-                float test = farthestZ / defaultBlockSize.z;
-                int playerZBlockPos = Mathf.RoundToInt(farthestZ / defaultBlockSize.z);
+                MoveCursor(playerZBlockPos);
             }
+            firstPlayerZRow = playerZBlockPos;
         }
         #endregion
+
+
         public void Start()
         {
+            playerRef = GameManager.Instance.PlayerStart.PlayersReference;
+            state = State.Loading;
             runnerBlocPool = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.RunnerBloc);
             Invoke("Generate2D", 0.4f);
         }
@@ -156,12 +170,25 @@ namespace Runner3D
                 }
                 Generate2D();
             }
+            switch (state)
+            {
+                case State.Loading:
+                    break;
+                case State.LevelPresentation:
+                    break;
+                case State.InGame:
+                    UpdatePlayerPos();
+                    break;
+                default:
+                    break;
+            }
 
         }
         public IEnumerator LevelPresentation()
         {
+            state = State.LevelPresentation;
             yield return new WaitForSeconds(0.5f);
-            firstPlayerZPos = -nbRowUpInFrontFirst - 1;
+            firstPlayerZRow = -nbRowUpInFrontFirst - 1;
             for (int i = - nbRowUpInFrontFirst; i < levelUnit.z+ nbRowUpBehindFirst; i++)
             {
                 MoveCursor(i);
@@ -169,6 +196,7 @@ namespace Runner3D
             }
             MoveCursor(-nbRowUpInFrontFirst-1);
             MoveCursor(-1);
+            state = State.InGame;
             yield return null;
         }
 

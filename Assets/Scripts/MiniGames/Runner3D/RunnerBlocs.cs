@@ -4,16 +4,18 @@ using UnityEngine;
 
 namespace Runner3D
 {
-    public enum Direction
+    public enum DirLerpState
     {
         Up,
         Down,
+        Moving
     }
 
     public class RunnerBlocs : MonoBehaviour {
 
         float[] baseYPos;
         Vector3[] baseScale;
+        [SerializeField] DirLerpState curState;
 
         static float yInterval = 10;
         [SerializeField] Vector3 blockSize;
@@ -22,6 +24,7 @@ namespace Runner3D
             baseYPos = new float[transform.childCount];
             baseScale = new Vector3[transform.childCount];
             SaveStartPos();
+            curState = DirLerpState.Up;
         }
         public void SaveStartPos()
         {
@@ -47,7 +50,6 @@ namespace Runner3D
                 Transform child = transform.GetChild(i);
                 child.position = new Vector3(child.position.x, child.position.y - yInterval, child.position.z);
                 child.localScale = Vector3.zero;
-                
             }
         }
 
@@ -57,18 +59,24 @@ namespace Runner3D
             blockSize.y = Mathf.Round(blockSize.y);
             blockSize.z = Mathf.Round(blockSize.z);
         }
-        public void LauchLerp(Direction dir)
+        public void LauchLerp(DirLerpState dir)
         {
             StartCoroutine(Lerp(dir));
         }
-        IEnumerator Lerp(Direction dir)
+        IEnumerator Lerp(DirLerpState dir)
         {
-            if (dir == Direction.Down)
+            if (curState == DirLerpState.Moving)
+            {
+                Debug.Log("OrderToFast");
+            }
+            curState = DirLerpState.Moving;
+
+            if (dir == DirLerpState.Down)
                 SaveStartPos();
             float timer = 0;
             while (timer < 1) 
             {
-                timer += Time.deltaTime * 0.85f;
+                timer += Time.deltaTime * 0.95f;
                 float factor = Ease.Evaluate(Ease.EASE_TYPE.BOUNCE_OUT, timer);
                 for (int i = 0; i < transform.childCount;i++)
                 {
@@ -78,7 +86,7 @@ namespace Runner3D
                         child.GetComponent<PlatformGameplay>().enabled = false;
                     }
                     Vector3 nextPosition = child.position;
-                    if (dir == Direction.Up)
+                    if (dir == DirLerpState.Up)
                     {
                         nextPosition.y = Mathf.Lerp(baseYPos[i] - yInterval, baseYPos[i], factor);
                         child.localScale = Vector3.Lerp(Vector3.zero, baseScale[i], factor);
@@ -92,7 +100,7 @@ namespace Runner3D
                 }
                 yield return null;
             }
-            if (dir == Direction.Up)
+            if (dir == DirLerpState.Up)
                 for (int i = 0; i < transform.childCount; i++)
                 {
                     Transform child = transform.GetChild(i);
@@ -101,6 +109,7 @@ namespace Runner3D
                         child.GetComponent<PlatformGameplay>().enabled = true;
                     }
                 }
+            curState = dir;
             yield return null;
         }
         public void OnDrawGizmosSelected()

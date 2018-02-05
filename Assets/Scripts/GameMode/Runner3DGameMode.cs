@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UWPAndXInput;
-
+using Runner3D;
 public class Runner3DGameMode : GameMode {
 
-    
     // identique au hub bad copie collé
     public override void AttributeCamera(uint activePlayersAtStart, GameObject[] cameraReferences, List<GameObject> playersReference)
     {
