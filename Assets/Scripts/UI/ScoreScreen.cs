@@ -138,7 +138,8 @@ public class ScoreScreen : MonoBehaviour {
             for (int i = 0; i < players.Count; i++)
             {
                 Player curPlayer = players[i].GetComponent<Player>();
-                curPlayer.cameraReference.SetActive(false);
+                if(curPlayer.cameraReference)
+                    curPlayer.cameraReference.SetActive(false);
                 curPlayer.transform.SetParent(podium.GetChild(curPlayer.rank));
                 curPlayer.transform.localPosition = Vector3.zero;
                 curPlayer.transform.localRotation = Quaternion.identity;
@@ -152,7 +153,7 @@ public class ScoreScreen : MonoBehaviour {
     void Update()
     {
 
-        // TODO : Multi to be handle
+        // TODO : Multi to be handled
         if (!GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerController>().PlayerIndexSet)
             return;
 

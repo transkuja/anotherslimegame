@@ -24,7 +24,7 @@ public class Player : MonoBehaviour {
 
     public bool isEdgeAssistActive = true;
     [SerializeField]
-    PlayerControllerHub playerController;
+    PlayerController playerController;
 
     // UI [] typeCollectable
     public UIfct[] OnValuesChange;
@@ -95,12 +95,12 @@ public class Player : MonoBehaviour {
         }
     }
 
-    public PlayerControllerHub PlayerController
+    public PlayerController PlayerController
     {
         get
         {
             if (playerController == null)
-                playerController = GetComponent<PlayerControllerHub>();
+                playerController = GetComponent<PlayerController>();
             return playerController;
         }
 

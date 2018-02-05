@@ -81,7 +81,7 @@ public class DebugPanel : MonoBehaviour {
         playerInfoText.text += "Is grounded: " + playerController.IsGrounded + "\n";
         playerInfoText.text += "Current state: " + playerController.PlayerState + "\n";
         playerInfoText.text += "Has been teleported: " + DebugTools.DebugPlayerSelected.hasBeenTeleported + "\n";
-        playerInfoText.text += "NbJumpMade: " + DebugTools.DebugPlayerSelected.PlayerController.jumpState.nbJumpMade + "\n";
+        playerInfoText.text += "NbJumpMade: " + ((PlayerControllerHub)DebugTools.DebugPlayerSelected.PlayerController).jumpState.nbJumpMade + "\n";
 
         if (playerController.GetComponent<EvolutionPlatformist>())
         {
