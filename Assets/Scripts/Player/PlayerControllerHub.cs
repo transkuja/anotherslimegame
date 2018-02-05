@@ -281,6 +281,8 @@ public class PlayerControllerHub : PlayerController
         platformistChargedState = new PlatformistChargedState(this);
         restrainedByGhostState = new RestrainedByGhostState(this);
         frozenState = new FrozenState(this);
+        PlayerState = freeState;
+
     }
 
     void Start()
@@ -291,7 +293,6 @@ public class PlayerControllerHub : PlayerController
         //deformer = GetComponentInChildren<DeformerComputeShader>();
         if (Player == null)
             Debug.Log("Player should not be null");
-        PlayerState = freeState;
         raycastOffsetPlayer = GetComponent<SphereCollider>().radius;
     }
 
@@ -401,6 +402,7 @@ public class PlayerControllerHub : PlayerController
     public void OnCollisionEnter(Collision collision)
     {
         PlayerState.CollisionEnter(collision);
+
         float force = 20f;
         ////float forceOffset = 0.1f;
         // If we hit the floor
