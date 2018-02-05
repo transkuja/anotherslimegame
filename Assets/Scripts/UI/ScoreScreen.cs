@@ -41,11 +41,10 @@ public class ScoreScreen : MonoBehaviour {
         }
     }
 
-    public void RefreshScores(Player player, float _time = -1)
+    public void RefreshScores(Player player, float _time = -1, TimeFormat timeFormat = TimeFormat.MinSec)
     {
         float time = (_time == -1) ? Time.timeSinceLevelLoad : _time;
-        int minutes = Mathf.FloorToInt(time / 60);
-        int seconds = (int)time % 60;
+
         rank++;
         if (rank > 4)
         {
@@ -54,7 +53,7 @@ public class ScoreScreen : MonoBehaviour {
             return;
         }
 
-        String timeStr = string.Format("{0:00} : {1:00}", minutes, seconds);
+        String timeStr = TimeFormatUtils.GetFormattedTime(time, timeFormat);
 
         if(GameManager.Instance.CurrentGameMode.IsMiniGame())
         {

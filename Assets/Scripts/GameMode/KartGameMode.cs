@@ -33,6 +33,6 @@ public class KartGameMode : GameMode {
 
     public override void PlayerHasFinished(Player player)
     {
-        GameManager.Instance.ScoreScreenReference.RefreshScores(player, timer);
+        GameManager.Instance.ScoreScreenReference.RefreshScores(player, timer, TimeFormat.MinSecMil);
     }
 }
