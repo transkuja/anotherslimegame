@@ -80,8 +80,8 @@ public class PlayerControllerKart : PlayerController {
     {
         if(collision.gameObject.GetComponent<PlayerControllerKart>())
         {
-            collision.gameObject.GetComponent<Rigidbody>().AddForce(-collision.contacts[0].normal * 10.0f, ForceMode.Impulse);
-            Rb.AddForce(collision.contacts[0].normal * collision.impulse.magnitude, ForceMode.Impulse);
+            collision.gameObject.GetComponent<Rigidbody>().AddForce(-collision.contacts[0].normal * 50.0f, ForceMode.Impulse);
+            //Rb.AddForce(collision.contacts[0].normal * collision.impulse.magnitude * 2.0f, ForceMode.Impulse);
         }
     }
 
