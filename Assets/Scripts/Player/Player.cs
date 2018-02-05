@@ -231,27 +231,7 @@ public class Player : MonoBehaviour {
 
     private void Start()
     {
-        //Ne marche pas dans le start pour l'instant
-        //Debug.Log(playerController);
-        //if (playerController.playerIndex == UWPAndXInput.PlayerIndex.One)
-        //{
-        //    associateFruit = Fruit.Clementine;
-        //}
 
-        //if (playerController.playerIndex == UWPAndXInput.PlayerIndex.Two)
-        //{
-        //    associateFruit = Fruit.Pomme;
-        //}
-
-        //if (playerController.playerIndex == UWPAndXInput.PlayerIndex.Three)
-        //{
-        //    associateFruit = Fruit.Kiwi;
-        //}
-
-        //if (playerController.playerIndex == UWPAndXInput.PlayerIndex.Four)
-        //{
-        //    associateFruit = Fruit.Fraise;
-        //}
     }
 
     private void Update()

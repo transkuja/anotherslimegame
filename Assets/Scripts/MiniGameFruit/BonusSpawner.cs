@@ -14,10 +14,14 @@ public class BonusSpawner : MonoBehaviour {
     [SerializeField]
     float aspiratorFruitSpawnDelay = 25.0f;
 
+    [SerializeField]
+    public Fruit type;
+
     void Start()
     {
 		StartCoroutine(SpawnBonus(BonusType.ChangeFruit, changeFruitSpawnDelay));
 		StartCoroutine(SpawnBonus(BonusType.Aspirator, aspiratorFruitSpawnDelay));
+        type = GetComponentInParent<FruitsSpawner>().GetComponentInChildren<FruitType>().typeFruit;
     }
 
 	IEnumerator SpawnBonus(BonusType _type, float _time)
@@ -46,13 +50,29 @@ public class BonusSpawner : MonoBehaviour {
     }
 
 
-    public void changerFruit()
+    public void ChangerFruit()
     {
-
+        //Checkez le type de fruit du joueur
+        //Fruit typeToChange = GetComponentInParent<Player>().associateFruit;
+        /*foreach (Fruit fruit in PoolManager.poolFruit)
+        {
+            GetComponentInParent<FruitsSpawner>().GetComponentInChildren<FruitType>().typeFruit = typeToChange;
+        }*/
     }
 
     public void AspireFruit()
     {
+        //Checker tout les fruits de la pool
+        /*foreach (Fruit fruit in PoolManager.poolFruit)
+        {
+            //Si le type correspond a celui du joueur, on le recupere
+            //if(type == GetComponentInParent<Player>().associateFruit)
+            {
+                Appeler Attract() uniquement pour les fruits qui sont du type ?
+                Remove tout les fruits du type de la scene et attribuer les points ?
+            }
+
+        }*/
 
     }
 }
