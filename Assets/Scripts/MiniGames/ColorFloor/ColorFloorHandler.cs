@@ -97,12 +97,11 @@ public static class ColorFloorHandler {
             Vector3 pickupForward = _pickupComponent.transform.forward;
             bool colorOnX = Utils.Abs(pickupForward.x) > Utils.Abs(pickupForward.z);
             int unit, nextIndex;
-            Debug.Log(pickupForward + " " + colorOnX);
+
             if (colorOnX)
             {
                 unit = ((pickupForward.x > 0.0f) ? 1 : -1);
                 nextIndex = floorIndex + unit;
-                Debug.Log("unit" + unit);
                 while (nextIndex >= 0 && nextIndex < lineTransform.childCount)
                 {
                     RegisterFloor(_playerIndex, lineTransform.GetChild(nextIndex).GetComponent<Collider>());
@@ -113,11 +112,9 @@ public static class ColorFloorHandler {
             {
                 unit = ((pickupForward.z > 0.0f) ? -1 : 1);
                 nextIndex = lineIndex + unit;
-                Debug.Log("unit" + unit);
                 
                 while (nextIndex >= 0 && nextIndex < lineTransform.parent.childCount)
                 {
-                    Debug.Log(nextIndex);
                     RegisterFloor(_playerIndex, lineTransform.parent.GetChild(nextIndex).GetChild(floorIndex).GetComponent<Collider>());
                     nextIndex += unit;
                 }
