@@ -5,7 +5,9 @@ using UnityEngine;
 using UWPAndXInput;
 public class KartGameMode : GameMode {
 
-    public float timer;
+    bool hasTimerStarted = false;
+
+    float timer;
 
     public override void StartGame(List<GameObject> playerReferences)
     {
@@ -16,8 +18,13 @@ public class KartGameMode : GameMode {
 
     public void LaunchTimer()
     {
-        GameManager.Instance.GameFinalTimer = timer;
-        GameManager.Instance.LaunchFinalTimer();
+        hasTimerStarted = true;
+        timer = 0.0f;
+    }
+
+    private void Update()
+    {
+        timer += Time.deltaTime;
     }
 
     public override void AttributeCamera(uint activePlayersAtStart, GameObject[] cameraReferences, List<GameObject> playersReference)
@@ -26,6 +33,6 @@ public class KartGameMode : GameMode {
 
     public override void PlayerHasFinished(Player player)
     {
-        GameManager.Instance.ScoreScreenReference.RankPlayersByPoints();
+        GameManager.Instance.ScoreScreenReference.RefreshScores(player, timer);
     }
 }
