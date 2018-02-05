@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ColorFloorPickupHandler : MonoBehaviour {
+public class ColorFloorPickupHandler : MonoBehaviour
+{
 
     [SerializeField]
     float pickupDelay = 0.5f;
@@ -41,7 +42,10 @@ public class ColorFloorPickupHandler : MonoBehaviour {
                     Quaternion.identity,
                     true
                 );
+
+                pickupSpawned++;
             }
         }
     }
+
 }
