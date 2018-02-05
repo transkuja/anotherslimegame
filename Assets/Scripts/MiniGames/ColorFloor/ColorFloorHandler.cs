@@ -95,15 +95,15 @@ public static class ColorFloorHandler {
         else if (_pickupComponent.pickupType == ColorFloorPickUpType.ColorArrow)
         {
             Vector3 pickupForward = _pickupComponent.transform.forward;
-            bool colorOnX = pickupForward.x > pickupForward.z;
-            int unit, nextIndex = floorIndex;
-
+            bool colorOnX = Utils.Abs(pickupForward.x) > Utils.Abs(pickupForward.z);
+            int unit, nextIndex;
+            Debug.Log(pickupForward + " " + colorOnX);
             if (colorOnX)
             {
                 unit = ((pickupForward.x > 0.0f) ? 1 : -1);
-                nextIndex += unit;
-
-                while (nextIndex > 0 && nextIndex < lineTransform.childCount)
+                nextIndex = floorIndex + unit;
+                Debug.Log("unit" + unit);
+                while (nextIndex >= 0 && nextIndex < lineTransform.childCount)
                 {
                     RegisterFloor(_playerIndex, lineTransform.GetChild(nextIndex).GetComponent<Collider>());
                     nextIndex += unit;
@@ -111,11 +111,13 @@ public static class ColorFloorHandler {
             }
             else
             {
-                unit = ((pickupForward.y > 0.0f) ? 1 : -1);
-                nextIndex += unit;
-
-                while (nextIndex > 0 && nextIndex < lineTransform.parent.childCount)
+                unit = ((pickupForward.z > 0.0f) ? -1 : 1);
+                nextIndex = lineIndex + unit;
+                Debug.Log("unit" + unit);
+                
+                while (nextIndex >= 0 && nextIndex < lineTransform.parent.childCount)
                 {
+                    Debug.Log(nextIndex);
                     RegisterFloor(_playerIndex, lineTransform.parent.GetChild(nextIndex).GetChild(floorIndex).GetComponent<Collider>());
                     nextIndex += unit;
                 }
