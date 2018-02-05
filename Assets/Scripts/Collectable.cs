@@ -11,7 +11,7 @@ public class Collectable : MonoBehaviour
     private Vector3 direction;
 
     uint movementSpeed = 40;
-    private float value;
+    private int value = 5;
     public bool haveToDisperse = false;
 
     bool isAttracted = false;
@@ -20,7 +20,7 @@ public class Collectable : MonoBehaviour
     public bool hasBeenSpawned = false;
     public Player lastOwner;
 
-    public float Value
+    public int Value
     {
         get
         {
