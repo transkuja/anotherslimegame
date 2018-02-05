@@ -191,7 +191,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
                 }
             }
         }
-
+        
         collectablesCollided = Physics.OverlapSphere(transform.position, sphereCheckRadiusCollectables, separationMask2);
         if (collectablesCollided.Length > 0)
         {

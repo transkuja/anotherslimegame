@@ -41,9 +41,16 @@ public class ColorFloorPickupHandler : MonoBehaviour {
                     true
                 );
 
-                pickupSpawned++;
-            }
-        }
-	}
+  //              ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.ColorFloorScorePickUp).GetItem(
+  //                  transform.GetChild(randChild / lineCount).GetChild(randChild % lineSize),
+  //                  Vector3.up, 
+  //                  Quaternion.identity,
+  //                  true
+  //              );
+
+  //              pickupSpawned++;
+  //          }
+  //      }
+	//}
 
 }

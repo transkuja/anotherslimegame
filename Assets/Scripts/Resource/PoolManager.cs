@@ -160,6 +160,76 @@ public class PoolLeader
     }
 }
 
+public class PoolManager : MonoBehaviour {
+
+    public Pool breakablePiecesPool;
+    public Pool collectablePointsPool;
+    public Pool monsterShotsPool;
+    public Pool ghostTrailPool;
+    public Pool moneyPool;
+    public Pool colorFloorScorePickUpPool;
+
+    void Start () {
+
+        /* =============================================================================== */
+        GameObject breakablePiecesPoolParent = new GameObject("BreakablePiecesPool");
+        breakablePiecesPoolParent.transform.SetParent(transform);
+        breakablePiecesPool.PoolParent = breakablePiecesPoolParent.transform;
+
+        for (int i = 0; i < breakablePiecesPool.poolSize; i++)
+            breakablePiecesPool.CreateRandomPoolItem();
+        /* =============================================================================== */
+
+        /* =============================================================================== */
+        GameObject collectablePointsPoolParent = new GameObject("CollectablePointsPool");
+        collectablePointsPoolParent.transform.SetParent(transform);
+        collectablePointsPool.PoolParent = collectablePointsPoolParent.transform;
+
+        for (int i = 0; i < collectablePointsPool.poolSize; i++)
+            collectablePointsPool.CreateRandomPoolItem();
+        /* =============================================================================== */
+
+        /* =============================================================================== */
+        GameObject monsterShotsPoolParent = new GameObject("MonsterShotsPool");
+        monsterShotsPoolParent.transform.SetParent(transform);
+        monsterShotsPool.PoolParent = monsterShotsPoolParent.transform;
+
+        for (int i = 0; i < monsterShotsPool.poolSize; i++)
+            monsterShotsPool.CreateRandomPoolItem();
+        /* =============================================================================== */
+
+        /* =============================================================================== */
+        GameObject ghostTrailPoolParent = new GameObject("GhostTrailPool");
+        ghostTrailPoolParent.transform.SetParent(transform);
+        ghostTrailPool.PoolParent = ghostTrailPoolParent.transform;
+
+        for (int i = 0; i < ghostTrailPool.poolSize; i++)
+            ghostTrailPool.CreateRandomPoolItem();
+        /* =============================================================================== */
+
+        /* =============================================================================== */
+        GameObject moneyPoolParent = new GameObject("MoneyPool");
+        moneyPoolParent.transform.SetParent(transform);
+        moneyPool.PoolParent = moneyPoolParent.transform;
+
+        for (int i = 0; i < moneyPool.poolSize; i++)
+            moneyPool.CreateRandomPoolItem();
+        /* =============================================================================== */
+
+        /* =============================================================================== */
+        GameObject colorFloorScorePickUpPoolParent = new GameObject("ColorFloorScorePickUpPool");
+        colorFloorScorePickUpPoolParent.transform.SetParent(transform);
+        colorFloorScorePickUpPool.PoolParent = colorFloorScorePickUpPoolParent.transform;
+
+        for (int i = 0; i < colorFloorScorePickUpPool.poolSize; i++)
+            colorFloorScorePickUpPool.CreateRandomPoolItem();
+        /* =============================================================================== */
+    }
+
+}
+
+}
+
 /*
  * Update this enum with your new pool's name 
  */
@@ -169,7 +239,6 @@ public class PoolManager : MonoBehaviour {
     // TODO: externalize this to be set up from inspector
     [SerializeField]
     List<PoolLeader> poolLeaders;
-
     public PoolLeader GetPoolByName(PoolName _poolName)
     {
         foreach (PoolLeader leader in poolLeaders)
@@ -177,10 +246,8 @@ public class PoolManager : MonoBehaviour {
             if (leader.poolName == _poolName)
                 return leader;
         }
-
         return null;
     }
-
     void Start () {
 
         if (poolLeaders == null || poolLeaders.Count == 0)
