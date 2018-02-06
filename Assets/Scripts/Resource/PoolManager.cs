@@ -163,7 +163,7 @@ public class PoolLeader
 /*
  * Update this enum with your new pool's name 
  */
-public enum PoolName { BreakablePieces, CollectablePoints, MonsterShots, GhostTrail, Money, ColorFloorScorePickUp, RunnerBloc, Fruits }
+public enum PoolName { BreakablePieces, CollectablePoints, MonsterShots, GhostTrail, Money, ColorFloorPickUps, RunnerBloc, Fruits }
 public class PoolManager : MonoBehaviour {
 
     [SerializeField]

@@ -17,6 +17,10 @@ public class ColorFloorPickupHandler : MonoBehaviour
     int lineCount;
     int lineSize;
 
+    [SerializeField]
+    int maxPickupsSpawnedWithoutScore = 3;
+    int pickupsSpawnedSinceLastScore = 0;
+
     IEnumerator Start()
     {
         lineCount = transform.childCount;
@@ -36,12 +40,23 @@ public class ColorFloorPickupHandler : MonoBehaviour
                 while (transform.GetChild(randChild / lineCount).GetChild(randChild % lineSize).childCount > 0)
                     randChild = Random.Range(0, mapSize);
 
-                ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.ColorFloorScorePickUp).GetItem(
+                int subpoolIndex;
+                if (pickupsSpawnedSinceLastScore < maxPickupsSpawnedWithoutScore)
+                    subpoolIndex = Random.Range(0, ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.ColorFloorPickUps).PoolParent.childCount);
+                else
+                    subpoolIndex = 0;
+
+                ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.ColorFloorPickUps).GetItem(
                     transform.GetChild(randChild / lineCount).GetChild(randChild % lineSize),
                     Vector3.up,
                     Quaternion.identity,
-                    true
+                    true,
+                    false,
+                    subpoolIndex
                 );
+
+                if (subpoolIndex == 0)
+                    pickupsSpawnedSinceLastScore = 0;
 
                 pickupSpawned++;
             }
