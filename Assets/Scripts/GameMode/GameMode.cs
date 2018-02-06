@@ -61,6 +61,8 @@ abstract public class GameMode : MonoBehaviour
 
     public virtual void StartGame(List<GameObject> playerReferences)
     {
+        if (IsMiniGame())
+            GameManager.ChangeState(GameState.ForcedPauseMGRules);
     }
 
     public virtual void AttributeCamera(uint activePlayersAtStart, GameObject[] cameraReferences, List<GameObject> playersReference)

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public enum GameState { Normal, Paused, ForcedPause }
+public enum GameState { Normal, Paused, ForcedPauseMGRules }
 
 public class GameManager : MonoBehaviour {
 
@@ -248,8 +248,6 @@ public class GameManager : MonoBehaviour {
                 for (int i = 0; i < instance.playerStart.ActivePlayersAtStart; i++)
                     instance.playerStart.cameraPlayerReferences[i].transform.GetChild(0).GetComponent<Cinemachine.CinemachineBrain>().enabled = false;
             }
-
-
         }
 
         else if (_newState == GameState.Normal)
@@ -260,6 +258,11 @@ public class GameManager : MonoBehaviour {
                 pauseMenuReference.gameObject.SetActive(false);
                 for (int i = 0; i < instance.playerStart.ActivePlayersAtStart; i++)
                     instance.playerStart.cameraPlayerReferences[i].transform.GetChild(1).GetComponent<Cinemachine.CinemachineBrain>().enabled = true;
+            }
+            // Unlock pause after player has read rules + timer said GO!
+            else if (currentState == GameState.ForcedPauseMGRules)
+            {
+
             }
         }
     }
