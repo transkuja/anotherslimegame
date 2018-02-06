@@ -50,6 +50,7 @@ public class Player : MonoBehaviour {
 
     public Fruit associateFruit;
 
+    public MinigamePickUp currentStoredPickup;
 
 #region Accessors
     public Rigidbody Rb

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum PickUpType { Score, ColorArrow, ColorAround, SpeedUp, Bomb, Missile }
-public class ColorFloorPickUp : MonoBehaviour {
+public class MinigamePickUp : MonoBehaviour {
 
     [SerializeField]
     float speedBoostDuration = 10.0f;
@@ -12,8 +12,11 @@ public class ColorFloorPickUp : MonoBehaviour {
     float colorArrowRotationDelay = 2.0f;
 
     public PickUpType pickupType;
+    public delegate void Collect(int _playerIndex);
+    public delegate void Use(int _playerIndex);
 
-    Coroutine spinLittlePickupCoroutine;
+    public Collect collectPickup;
+    public Use usePickup;
 
     IEnumerator Start()
     {
@@ -27,7 +30,7 @@ public class ColorFloorPickUp : MonoBehaviour {
         }
     }
 
-    public void Collect(int _playerIndex)
+    public void StoreAndUseLater(int _playerIndex)
     {
         switch (pickupType)
         {
@@ -52,7 +55,26 @@ public class ColorFloorPickUp : MonoBehaviour {
         }
     }
 
+    public void InstantUse(int _playerIndex)
+    {
 
+    }
 
+    public void SetCollectBehaviourForPickup(PickUpType _pickupType)
+    {
+        switch (_pickupType)
+        {
+            case PickUpType.Score:
+            case PickUpType.ColorArrow:
+            case PickUpType.ColorAround:
+            case PickUpType.SpeedUp:
+                collectPickup = InstantUse;
+                break;
 
+            default:
+                collectPickup = StoreAndUseLater;
+                break;
+        }
+
+    }
 }

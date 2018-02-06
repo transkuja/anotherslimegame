@@ -57,7 +57,7 @@ public static class ColorFloorHandler {
         currentlyColoredByPlayer[_playerIndex].Clear();
     }
 
-    public static void ColorFloorWithPickup(ColorFloorPickUp _pickupComponent, int _playerIndex)
+    public static void ColorFloorWithPickup(MinigamePickUp _pickupComponent, int _playerIndex)
     {
         Transform floorPosition = _pickupComponent.transform.parent;
         Transform lineTransform = floorPosition.parent;
