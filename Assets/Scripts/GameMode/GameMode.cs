@@ -87,15 +87,15 @@ abstract public class GameMode : MonoBehaviour
     }
 }
 
-// TODO: @Anthony, a revoir, une enum avec les touches possibles?
+// TODO: @Anthony, move these elsewhere
 public class ControlDetails
 {
-    //public GamePadButtons button;
+    public ControlType button;
     public string description;
 
-    public ControlDetails(string _description)
+    public ControlDetails(ControlType _button,  string _description)
     {
-        //button = _button;
+        button = _button;
         description = _description;
     }
 }
@@ -103,10 +103,10 @@ public class ControlDetails
 public class PossiblePickup
 {
     // TODO: @Anthony, ColorFloorPickup should be generic pickup
-    public ColorFloorPickUpType pickupType;
+    public PickUpType pickupType;
     public string description;
 
-    public PossiblePickup(ColorFloorPickUpType _pickupType, string _description)
+    public PossiblePickup(PickUpType _pickupType, string _description)
     {
         pickupType = _pickupType;
         description = _description;
@@ -142,16 +142,18 @@ public class MinigameRules
         possiblePickups = _possiblePickups;
     }
 
-    public void AddControl(string _effect)
+    public void AddControl(ControlType _newButton, string _effect)
     {
-        controls.Add(new ControlDetails(_effect));
+        controls.Add(new ControlDetails(_newButton, _effect));
     }
 
-    public void AddPossiblePickup(ColorFloorPickUpType _newPossiblePickupType, string _effect)
+    public void AddPossiblePickup(PickUpType _newPossiblePickupType, string _effect)
     {
         possiblePickups.Add(new PossiblePickup(_newPossiblePickupType, _effect));
     }
 }
+
+public enum ControlType { Movement, Jump, Action, RightTrigger }
 
 /*
  * Handles gamemodes with an internal database in code

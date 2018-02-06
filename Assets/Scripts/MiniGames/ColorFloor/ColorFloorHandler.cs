@@ -64,7 +64,7 @@ public static class ColorFloorHandler {
         int floorIndex = floorPosition.GetSiblingIndex();
         int lineIndex = lineTransform.GetSiblingIndex();
 
-        if (_pickupComponent.pickupType == ColorFloorPickUpType.ColorAround)
+        if (_pickupComponent.pickupType == PickUpType.ColorAround)
         {
             // Register the 2 sides
             if (floorIndex > 0)
@@ -92,7 +92,7 @@ public static class ColorFloorHandler {
             }
 
         }
-        else if (_pickupComponent.pickupType == ColorFloorPickUpType.ColorArrow)
+        else if (_pickupComponent.pickupType == PickUpType.ColorArrow)
         {
             Vector3 pickupForward = _pickupComponent.transform.forward;
             bool colorOnX = Utils.Abs(pickupForward.x) > Utils.Abs(pickupForward.z);

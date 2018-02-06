@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum ColorFloorPickUpType { Score, ColorArrow, ColorAround, SpeedUp, Bomb, Missile }
+public enum PickUpType { Score, ColorArrow, ColorAround, SpeedUp, Bomb, Missile }
 public class ColorFloorPickUp : MonoBehaviour {
 
     [SerializeField]
@@ -11,13 +11,13 @@ public class ColorFloorPickUp : MonoBehaviour {
     [SerializeField]
     float colorArrowRotationDelay = 2.0f;
 
-    public ColorFloorPickUpType pickupType;
+    public PickUpType pickupType;
 
     Coroutine spinLittlePickupCoroutine;
 
     IEnumerator Start()
     {
-        if (pickupType == ColorFloorPickUpType.ColorArrow)
+        if (pickupType == PickUpType.ColorArrow)
         {
             while (true)
             {
@@ -32,19 +32,19 @@ public class ColorFloorPickUp : MonoBehaviour {
         switch (pickupType)
         {
             // Action on pickup
-            case ColorFloorPickUpType.Score:
+            case PickUpType.Score:
                 ColorFloorHandler.ScorePoints(_playerIndex);
                 break;
-            case ColorFloorPickUpType.ColorArrow:
-            case ColorFloorPickUpType.ColorAround:
+            case PickUpType.ColorArrow:
+            case PickUpType.ColorAround:
                 ColorFloorHandler.ColorFloorWithPickup(this, _playerIndex);
                 break;
             // Stock item on pickup then have to press a button to use it
-            case ColorFloorPickUpType.Bomb:
-            case ColorFloorPickUpType.Missile:
+            case PickUpType.Bomb:
+            case PickUpType.Missile:
                 break;
             // Get buff on pickup
-            case ColorFloorPickUpType.SpeedUp:
+            case PickUpType.SpeedUp:
                 GameManager.EvolutionManager.AddEvolutionComponent(
                     GameManager.Instance.PlayerStart.PlayersReference[_playerIndex], GameManager.EvolutionManager.GetEvolutionByPowerName(Powers.Agile), speedBoostDuration
                 );

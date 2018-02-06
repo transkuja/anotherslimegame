@@ -78,12 +78,12 @@ public static class MinigameDataUtils
 
         if (curGameMode is ColorFloorGameMode)
         {
-            possiblePickups.Add(new PossiblePickup(ColorFloorPickUpType.Score, "Collect to score points"));
-            possiblePickups.Add(new PossiblePickup(ColorFloorPickUpType.Bomb, "Collect to do smthg"));
-            possiblePickups.Add(new PossiblePickup(ColorFloorPickUpType.Missile, "Collect to do smthg else"));
-            possiblePickups.Add(new PossiblePickup(ColorFloorPickUpType.ColorAround, "Collect to do whatever"));
-            possiblePickups.Add(new PossiblePickup(ColorFloorPickUpType.ColorArrow, "Collect to do"));
-            possiblePickups.Add(new PossiblePickup(ColorFloorPickUpType.SpeedUp, "Collect to do pouet"));
+            possiblePickups.Add(new PossiblePickup(PickUpType.Score, "Collect to score points"));
+            possiblePickups.Add(new PossiblePickup(PickUpType.Bomb, "Collect to do smthg"));
+            possiblePickups.Add(new PossiblePickup(PickUpType.Missile, "Collect to do smthg else"));
+            possiblePickups.Add(new PossiblePickup(PickUpType.ColorAround, "Collect to do whatever"));
+            possiblePickups.Add(new PossiblePickup(PickUpType.ColorArrow, "Collect to do"));
+            possiblePickups.Add(new PossiblePickup(PickUpType.SpeedUp, "Collect to do pouet"));
         }
         else if (curGameMode is KartGameMode)
         {
