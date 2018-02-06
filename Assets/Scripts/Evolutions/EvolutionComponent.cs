@@ -18,7 +18,7 @@ public class EvolutionComponent : MonoBehaviour {
 
     public virtual void Start()
     {
-        
+        isTimerInitialized = false;
     }
 
     public float Timer
@@ -31,7 +31,7 @@ public class EvolutionComponent : MonoBehaviour {
         set
         {
             timer = value;
-            if (timer >= 0.0f)
+            if (timer > 0.0f)
                 isTimerInitialized = true;
         }
     }

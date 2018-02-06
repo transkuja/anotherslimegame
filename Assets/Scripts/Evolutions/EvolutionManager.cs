@@ -99,7 +99,7 @@ public class EvolutionManager {
         return tmpEvolution;
     }
 
-    public void AddEvolutionComponent(GameObject gameObject, Evolution evolution, bool overrideEvolutionDuration = false, float evolutionDuration = 10.0f)
+    public void AddEvolutionComponent(GameObject gameObject, Evolution evolution, bool overrideEvolutionDuration = false, float evolutionDuration = 0.0f)
     {
         Powers power = (Powers)evolution.Id;
         float duration = (overrideEvolutionDuration) ? evolutionDuration : evolution.duration;
