@@ -81,7 +81,7 @@ public class EvolutionComponent : MonoBehaviour {
         }
     }
 
-    protected void OnDestroy()
+    protected virtual void OnDestroy()
     {
         GetComponent<Player>().activeEvolutions--;
         affectedPart.transform.SetParent(transform.GetChild((int)PlayerChildren.SlimeMesh));
