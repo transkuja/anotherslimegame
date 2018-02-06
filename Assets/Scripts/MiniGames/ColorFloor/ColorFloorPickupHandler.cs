@@ -27,6 +27,8 @@ public class ColorFloorPickupHandler : MonoBehaviour
         for (int i = 0; i < transform.childCount; i++)
             mapSize += transform.GetChild(i).childCount;
 
+        yield return new WaitUntil(() => GameManager.CurrentState != GameState.ForcedPauseMGRules);
+
         while (true)
         {
             yield return new WaitForSeconds(pickupDelay);
