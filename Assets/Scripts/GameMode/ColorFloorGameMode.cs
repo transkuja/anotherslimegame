@@ -5,6 +5,7 @@ using UnityEngine;
 using UWPAndXInput;
 public class ColorFloorGameMode : GameMode {
 
+    [Header("ColorFloor settings")]
     public float timer;
     public bool freeMovement = true;
     public float restrainedMovementTick;
@@ -22,6 +23,8 @@ public class ColorFloorGameMode : GameMode {
     public override void StartGame(List<GameObject> playerReferences)
     {
         base.StartGame(playerReferences);
+        rules = new MinigameRules(this);
+
         if (!freeMovement)
         {
             for (int i = 0; i < playerReferences.Count; i++)

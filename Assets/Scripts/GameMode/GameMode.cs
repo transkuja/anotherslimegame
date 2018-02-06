@@ -17,6 +17,7 @@ public class GameModeData
     }
 }
 
+
 abstract public class GameMode : MonoBehaviour
 {
     [SerializeField] protected int nbPlayersMin;
@@ -26,6 +27,8 @@ abstract public class GameMode : MonoBehaviour
     // Use to remove damage on points based on gamemode when players collide with a trap. Players will still be expulsed
     [SerializeField] private bool takesDamageFromTraps = true;
     [SerializeField] private ViewMode viewMode = ViewMode.thirdPerson3d;
+
+    protected MinigameRules rules;
 
     #region getterSetters
     public bool TakesDamageFromPlayer
@@ -58,8 +61,8 @@ abstract public class GameMode : MonoBehaviour
 
     public virtual void StartGame(List<GameObject> playerReferences)
     {
-        
     }
+
     public virtual void AttributeCamera(uint activePlayersAtStart, GameObject[] cameraReferences, List<GameObject> playersReference)
     {
         if (cameraReferences.Length == 0)
@@ -84,7 +87,71 @@ abstract public class GameMode : MonoBehaviour
     }
 }
 
+// TODO: @Anthony, a revoir, une enum avec les touches possibles?
+public class ControlDetails
+{
+    //public GamePadButtons button;
+    public string description;
 
+    public ControlDetails(string _description)
+    {
+        //button = _button;
+        description = _description;
+    }
+}
+
+public class PossiblePickup
+{
+    // TODO: @Anthony, ColorFloorPickup should be generic pickup
+    public ColorFloorPickUpType pickupType;
+    public string description;
+
+    public PossiblePickup(ColorFloorPickUpType _pickupType, string _description)
+    {
+        pickupType = _pickupType;
+        description = _description;
+    }
+}
+
+public class MinigameRules
+{
+    public string title;
+    public string howToPlay;
+    public List<ControlDetails> controls = new List<ControlDetails>();
+    public List<PossiblePickup> possiblePickups = new List<PossiblePickup>();
+
+    public MinigameRules(GameMode _curGameMode)
+    {
+        title = MinigameDataUtils.GetTitle(_curGameMode);
+        howToPlay = MinigameDataUtils.GetDescription(_curGameMode);
+        controls = MinigameDataUtils.GetControls(_curGameMode);
+        possiblePickups = MinigameDataUtils.GetPossiblePickups(_curGameMode);
+    }
+
+    public MinigameRules(string _title, string _howToPlay)
+    {
+        title = _title;
+        howToPlay = _howToPlay;
+    }
+
+    public MinigameRules(string _title, string _howToPlay, List<ControlDetails> _controls, List<PossiblePickup> _possiblePickups)
+    {
+        title = _title;
+        howToPlay = _howToPlay;
+        controls = _controls;
+        possiblePickups = _possiblePickups;
+    }
+
+    public void AddControl(string _effect)
+    {
+        controls.Add(new ControlDetails(_effect));
+    }
+
+    public void AddPossiblePickup(ColorFloorPickUpType _newPossiblePickupType, string _effect)
+    {
+        possiblePickups.Add(new PossiblePickup(_newPossiblePickupType, _effect));
+    }
+}
 
 /*
  * Handles gamemodes with an internal database in code
