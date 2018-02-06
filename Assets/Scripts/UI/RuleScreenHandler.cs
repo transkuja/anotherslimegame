@@ -27,7 +27,7 @@ public class RuleScreenHandler : MonoBehaviour {
         CurState = RuleScreenState.FirstPage;
     }
 
-    void ChangeState(bool _stateForward)
+    public void ChangeState(bool _stateForward)
     {
         if (_stateForward && curState != RuleScreenState.PickupPage)
             CurState = (RuleScreenState)(int)curState + 1;

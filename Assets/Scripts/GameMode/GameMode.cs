@@ -131,11 +131,11 @@ abstract public class GameMode : MonoBehaviour
 
             if (prevState.Buttons.A == ButtonState.Released && curState.Buttons.A == ButtonState.Pressed)
             {
-                // Next page
+                GameManager.UiReference.RuleScreen.GetComponent<RuleScreenHandler>().ChangeState(true);
             }
             else if (prevState.Buttons.B == ButtonState.Released && curState.Buttons.B == ButtonState.Pressed)
             {
-                // Previous page
+                GameManager.UiReference.RuleScreen.GetComponent<RuleScreenHandler>().ChangeState(false);
             }
         }
     }
