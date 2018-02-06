@@ -31,7 +31,7 @@ public class EvolutionComponent : MonoBehaviour {
         set
         {
             timer = value;
-            if (timer != 0.0f)
+            if (timer >= 0.0f)
                 isTimerInitialized = true;
         }
     }
@@ -74,7 +74,7 @@ public class EvolutionComponent : MonoBehaviour {
         if (isTimerInitialized)
         {
             timer -= Time.deltaTime;
-            if (timer <= 0.0f)
+            if (timer < 0.0f)
             {
                 Destroy(this);
             }

@@ -99,34 +99,36 @@ public class EvolutionManager {
         return tmpEvolution;
     }
 
-    public void AddEvolutionComponent(GameObject gameObject, Evolution evolution, float evolutionDuration = 0.0f)
+    public void AddEvolutionComponent(GameObject gameObject, Evolution evolution, bool overrideEvolutionDuration = false, float evolutionDuration = 10.0f)
     {
         Powers power = (Powers)evolution.Id;
+        float duration = (overrideEvolutionDuration) ? evolutionDuration : evolution.duration;
+
         switch (power)
         {
             case Powers.Strength:
                 if (gameObject.GetComponent<EvolutionStrength>() == null)
                     gameObject.AddComponent<EvolutionStrength>();
 
-                gameObject.GetComponent<EvolutionStrength>().Timer = evolutionDuration;
+                gameObject.GetComponent<EvolutionStrength>().Timer = duration;
                 break;
             case Powers.Agile:
                 if (gameObject.GetComponent<EvolutionAgile>() == null)
                     gameObject.AddComponent<EvolutionAgile>();
 
-                gameObject.GetComponent<EvolutionAgile>().Timer = evolutionDuration;
+                gameObject.GetComponent<EvolutionAgile>().Timer = duration;
                 break;
             case Powers.Platformist:
                 if (gameObject.GetComponent<EvolutionPlatformist>() == null)
                     gameObject.AddComponent<EvolutionPlatformist>();
 
-                gameObject.GetComponent<EvolutionPlatformist>().Timer = evolutionDuration;
+                gameObject.GetComponent<EvolutionPlatformist>().Timer = duration;
                 break;
             case Powers.Ghost:
                 if (gameObject.GetComponent<EvolutionGhost>() == null)
                     gameObject.AddComponent<EvolutionGhost>();
 
-                gameObject.GetComponent<EvolutionGhost>().Timer = evolutionDuration;
+                gameObject.GetComponent<EvolutionGhost>().Timer = duration;
                 break;
             default:
                 Debug.Log("Unknown power, something went wrong");

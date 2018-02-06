@@ -64,8 +64,9 @@ public class MinigamePickUp : MonoBehaviour {
     void UseSpeedUp(int _playerIndex)
     {
         GameManager.EvolutionManager.AddEvolutionComponent(
-            GameManager.Instance.PlayerStart.PlayersReference[_playerIndex], 
-            GameManager.EvolutionManager.GetEvolutionByPowerName(Powers.Agile), 
+            GameManager.Instance.PlayerStart.PlayersReference[_playerIndex],
+            GameManager.EvolutionManager.GetEvolutionByPowerName(Powers.Agile),
+            true,
             speedBoostDuration
         );
     }
