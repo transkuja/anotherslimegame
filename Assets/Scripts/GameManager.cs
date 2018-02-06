@@ -8,7 +8,7 @@ public class GameManager : MonoBehaviour {
     private static EvolutionManager evolutionManager = new EvolutionManager();
     //private static GameModeManager gameModeManager = new GameModeManager();
     private GameMode currentGameMode;
-    private static GameState currentState = GameState.Normal;
+    private static GameState currentState;
     [SerializeField]
     private PlayerStart playerStart;
     private APlayerUI specificPlayerUI;
@@ -262,8 +262,13 @@ public class GameManager : MonoBehaviour {
             // Unlock pause after player has read rules + timer said GO!
             else if (currentState == GameState.ForcedPauseMGRules)
             {
-
+                currentState = GameState.Normal;
             }
+
+        }
+        else if (_newState == GameState.ForcedPauseMGRules)
+        {
+            currentState = GameState.ForcedPauseMGRules;
         }
     }
 

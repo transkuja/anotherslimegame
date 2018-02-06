@@ -68,6 +68,9 @@ abstract public class GameMode : MonoBehaviour
     {
         if (IsMiniGame())
             GameManager.ChangeState(GameState.ForcedPauseMGRules);
+        else
+            GameManager.ChangeState(GameState.Normal);
+
     }
 
     public virtual void OpenRuleScreen()
@@ -85,6 +88,7 @@ abstract public class GameMode : MonoBehaviour
             GameObject controlDetailsPage = new GameObject("ControlDetailsPage");
             controlDetailsPage.transform.SetParent(ruleScreenRef);
             controlDetailsPage.transform.localPosition = Vector3.zero;
+            controlDetailsPage.transform.localScale = Vector3.one;
             controlDetailsPage.SetActive(false);
 
             int i = 0;
@@ -103,6 +107,7 @@ abstract public class GameMode : MonoBehaviour
             GameObject possiblePickupsPage = new GameObject("PossiblePickupsPagePage");
             possiblePickupsPage.transform.SetParent(ruleScreenRef);
             possiblePickupsPage.transform.localPosition = Vector3.zero;
+            possiblePickupsPage.transform.localScale = Vector3.one;
             possiblePickupsPage.SetActive(false);
 
             int i = 0;
@@ -120,6 +125,8 @@ abstract public class GameMode : MonoBehaviour
                 i++;
             }
         }
+
+        ruleScreenRef.gameObject.SetActive(true);
     }
 
     private void Update()
