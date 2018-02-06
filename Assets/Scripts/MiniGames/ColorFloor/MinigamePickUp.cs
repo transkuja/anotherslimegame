@@ -20,6 +20,7 @@ public class MinigamePickUp : MonoBehaviour {
 
     IEnumerator Start()
     {
+        InitializeDelegates(pickupType);
         if (pickupType == PickUpType.ColorArrow)
         {
             while (true)
@@ -32,35 +33,44 @@ public class MinigamePickUp : MonoBehaviour {
 
     public void StoreAndUseLater(int _playerIndex)
     {
-        switch (pickupType)
-        {
-            // Action on pickup
-            case PickUpType.Score:
-                ColorFloorHandler.ScorePoints(_playerIndex);
-                break;
-            case PickUpType.ColorArrow:
-            case PickUpType.ColorAround:
-                ColorFloorHandler.ColorFloorWithPickup(this, _playerIndex);
-                break;
-            // Stock item on pickup then have to press a button to use it
-            case PickUpType.Bomb:
-            case PickUpType.Missile:
-                break;
-            // Get buff on pickup
-            case PickUpType.SpeedUp:
-                GameManager.EvolutionManager.AddEvolutionComponent(
-                    GameManager.Instance.PlayerStart.PlayersReference[_playerIndex], GameManager.EvolutionManager.GetEvolutionByPowerName(Powers.Agile), speedBoostDuration
-                );
-                break;
-        }
+        GameManager.Instance.PlayerStart.PlayersReference[_playerIndex].GetComponent<Player>().currentStoredPickup = this;
     }
 
     public void InstantUse(int _playerIndex)
     {
+        usePickup(_playerIndex);
+    }
+
+    void ScorePoints(int _playerIndex)
+    {
+        ColorFloorHandler.ScorePoints(_playerIndex);
+    }
+
+    void ColorFloorWithPickup(int _playerIndex)
+    {
+        ColorFloorHandler.ColorFloorWithPickup(this, _playerIndex);
+    }
+
+    void UseBomb(int _playerIndex)
+    {
 
     }
 
-    public void SetCollectBehaviourForPickup(PickUpType _pickupType)
+    void UseMissile(int _playerIndex)
+    {
+
+    }
+
+    void UseSpeedUp(int _playerIndex)
+    {
+        GameManager.EvolutionManager.AddEvolutionComponent(
+            GameManager.Instance.PlayerStart.PlayersReference[_playerIndex], 
+            GameManager.EvolutionManager.GetEvolutionByPowerName(Powers.Agile), 
+            speedBoostDuration
+        );
+    }
+
+    void InitializeDelegates(PickUpType _pickupType)
     {
         switch (_pickupType)
         {
@@ -76,5 +86,27 @@ public class MinigamePickUp : MonoBehaviour {
                 break;
         }
 
+        switch (_pickupType)
+        {
+            case PickUpType.Score:
+                usePickup = ScorePoints;
+                break;
+            case PickUpType.ColorArrow:
+            case PickUpType.ColorAround:
+                usePickup = ColorFloorWithPickup;
+                break;
+            case PickUpType.SpeedUp:
+                usePickup = UseSpeedUp;
+                break;
+            case PickUpType.Missile:
+                usePickup = UseMissile;
+                break;
+            case PickUpType.Bomb:
+                usePickup = UseBomb;
+                break;
+        }
+
+        if (usePickup == null)
+            Debug.LogWarning("No use method defined for pickup " + _pickupType);
     }
 }
