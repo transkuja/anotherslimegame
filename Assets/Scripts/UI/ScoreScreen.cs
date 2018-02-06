@@ -11,9 +11,6 @@ public class ScoreScreen : MonoBehaviour {
 
     public GameObject prefabPlayerScore;
 
-    private int valueCoins = 5;
-    private int valueTime = 100;
-
     public Dictionary<Player, GameObject> scorePanelPlayer = new Dictionary<Player, GameObject>();
     public int rank = 0;
 
