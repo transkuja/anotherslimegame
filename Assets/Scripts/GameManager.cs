@@ -274,7 +274,7 @@ public class GameManager : MonoBehaviour {
 
     private void Update()
     {
-        if (finalTimerInitialized)
+        if (finalTimerInitialized && CurrentState == GameState.Normal)
         {
             currentGameFinalTimer -= Time.deltaTime;
             if (currentGameFinalTimer < 0.0f)

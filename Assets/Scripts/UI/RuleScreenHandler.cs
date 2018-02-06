@@ -29,10 +29,24 @@ public class RuleScreenHandler : MonoBehaviour {
 
     public void ChangeState(bool _stateForward)
     {
-        if (_stateForward && curState != RuleScreenState.PickupPage)
-            CurState = (RuleScreenState)(int)curState + 1;
+        if (_stateForward)
+        {
+            if (curState != RuleScreenState.PickupPage)
+                CurState = (RuleScreenState)(int)curState + 1;
+            else
+                CleanUpAndStart();
+        }
 
         if (!_stateForward && curState != RuleScreenState.FirstPage)
             CurState = (RuleScreenState)(int)curState - 1;
+
+    }
+
+    void CleanUpAndStart()
+    {
+        Destroy(transform.GetChild(2).gameObject);
+        Destroy(transform.GetChild(3).gameObject);
+        GameManager.ChangeState(GameState.Normal);
+        gameObject.SetActive(false);
     }
 }
