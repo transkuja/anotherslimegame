@@ -98,6 +98,17 @@ public class ControlDetails
         button = _button;
         description = _description;
     }
+
+    public ControlDetails(ControlType _button)
+    {
+        if (_button == ControlType.Movement)
+            description = "Use this to move";
+
+        else if (_button == ControlType.Jump)
+            description = "Press this to jump";
+
+        button = _button;
+    }
 }
 
 public class PossiblePickup

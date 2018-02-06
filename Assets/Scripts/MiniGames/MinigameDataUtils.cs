@@ -56,8 +56,9 @@ public static class MinigameDataUtils
 
         if (curGameMode is ColorFloorGameMode)
         {
-            //controls.Add(new ControlDetails(, "Collect to score points"));
-
+            controls.Add(new ControlDetails(ControlType.Movement));
+            controls.Add(new ControlDetails(ControlType.Jump));
+            controls.Add(new ControlDetails(ControlType.Action, "Use item"));
         }
         else if (curGameMode is KartGameMode)
         {
