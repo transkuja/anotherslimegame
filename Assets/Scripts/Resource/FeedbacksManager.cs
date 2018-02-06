@@ -20,21 +20,73 @@ public class FeedbacksManager : MonoBehaviour
     public GameObject prefabCostAreaTrophyFeedback;
     public GameObject prefabCostAreaWaterFeedback;
 
+    [Header("Pickup previews")]
+    public GameObject bombPreview;
+    public GameObject missilePreview;
+    public GameObject speedUpPreview;
+    public GameObject colorAroundPreview;
+    public GameObject colorArrowPreview;
+    public GameObject colorFloorScorePreview;
 
     public GameObject GetShelterFeedbackFromEvolutionName(CollectableType evolutionType)
     {
+        GameObject result = null;
+
         switch (evolutionType)
         {
             case CollectableType.AgileEvolution1:
-                return prefabShelterAgilityFeedback;
+                result = prefabShelterAgilityFeedback;
+                break;
             case CollectableType.PlatformistEvolution1:
-                return prefabShelterPlatformistFeedback;
+                result = prefabShelterPlatformistFeedback;
+                break;
             case CollectableType.StrengthEvolution1:
-                return prefabShelterStrengthFeedback;
+                result = prefabShelterStrengthFeedback;
+                break;
             case CollectableType.GhostEvolution1:
-                return prefabShelterGhostFeedback;
+                result = prefabShelterGhostFeedback;
+                break;
             default:
                 return null;
         }
+
+
+        if (result == null)
+            Debug.LogWarning("No specified shelter feedback for evolution " + evolutionType);
+
+        return result;
+    }
+
+    public GameObject GetPickupPreview(PickUpType _type)
+    {
+        GameObject result = null;
+        switch (_type)
+        {
+            case PickUpType.Bomb:
+                result = bombPreview;
+                break;
+            case PickUpType.ColorAround:
+                result = colorAroundPreview;
+                break;
+            case PickUpType.ColorArrow:
+                result = colorArrowPreview;
+                break;
+            case PickUpType.Missile:
+                result = missilePreview;
+                break;
+            case PickUpType.Score:
+                result = colorFloorScorePreview;
+                break;
+            case PickUpType.SpeedUp:
+                result = speedUpPreview;
+                break;
+            default:
+                return null;
+        }
+
+        if (result == null)
+            Debug.LogWarning("No specified preview prefab for pickup type " + _type);
+
+        return result;
     }
 }

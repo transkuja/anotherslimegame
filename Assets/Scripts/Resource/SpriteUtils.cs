@@ -32,4 +32,38 @@ public class SpriteUtils : MonoBehaviour {
     [SerializeField]
     public Texture Platformist;
 
+    [Header("Controls sprites")]
+    public Sprite movementSprite;
+    public Sprite jumpSprite;
+    public Sprite actionSprite;
+    public Sprite rightTriggerSprite;
+
+    public Sprite GetControlSprite(ControlType _type)
+    {
+        Sprite result = null;
+        switch(_type)
+        {
+            case ControlType.Action:
+                result = actionSprite;
+                break;
+            case ControlType.Movement:
+                result = movementSprite;
+                break;
+            case ControlType.Jump:
+                result = jumpSprite;
+                break;
+            case ControlType.RightTrigger:
+                result = rightTriggerSprite;
+                break;
+            default:
+                return null;
+        }
+
+        if (result == null)
+            Debug.LogWarning("No specified sprite for control type " + _type);
+
+        return result;
+    }
+
+    
 }
