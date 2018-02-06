@@ -21,13 +21,14 @@ public class FeedbacksManager : MonoBehaviour
     public GameObject prefabCostAreaWaterFeedback;
 
     [Header("Pickup previews")]
+    public GameObject ruleScreenShortPrefab;
     public GameObject bombPreview;
     public GameObject missilePreview;
     public GameObject speedUpPreview;
     public GameObject colorAroundPreview;
     public GameObject colorArrowPreview;
     public GameObject colorFloorScorePreview;
-
+    
     public GameObject GetShelterFeedbackFromEvolutionName(CollectableType evolutionType)
     {
         GameObject result = null;

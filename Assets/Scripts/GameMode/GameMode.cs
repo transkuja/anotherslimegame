@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UWPAndXInput;
 
 public enum ViewMode {
     thirdPerson3d, // Camera + deplacement comme dans  hub
@@ -29,6 +31,9 @@ abstract public class GameMode : MonoBehaviour
     [SerializeField] private ViewMode viewMode = ViewMode.thirdPerson3d;
 
     protected MinigameRules rules;
+
+    GamePadState prevState;
+    GamePadState curState;
 
     #region getterSetters
     public bool TakesDamageFromPlayer
@@ -65,6 +70,76 @@ abstract public class GameMode : MonoBehaviour
             GameManager.ChangeState(GameState.ForcedPauseMGRules);
     }
 
+    public virtual void OpenRuleScreen()
+    {
+        if (!IsMiniGame())
+            return;
+
+        Transform ruleScreenRef = GameManager.UiReference.RuleScreen;
+
+        ruleScreenRef.GetComponentInChildren<Text>().text = rules.title;
+        ruleScreenRef.GetChild(1).GetComponent<Text>().text = rules.howToPlay;
+
+        if (rules.controls.Count > 0)
+        {
+            GameObject controlDetailsPage = new GameObject("ControlDetailsPage");
+            controlDetailsPage.transform.SetParent(ruleScreenRef);
+            controlDetailsPage.transform.localPosition = Vector3.zero;
+            controlDetailsPage.SetActive(false);
+
+            int i = 0;
+            foreach (ControlDetails control in rules.controls)
+            {
+                GameObject entry = Instantiate(ResourceUtils.Instance.feedbacksManager.ruleScreenShortPrefab, controlDetailsPage.transform);
+                entry.transform.localPosition = new Vector2(0, 100 * (1 - i));
+                entry.GetComponentInChildren<Image>().sprite = ResourceUtils.Instance.spriteUtils.GetControlSprite(control.button);
+                entry.GetComponentInChildren<Text>().text = control.description;
+                i++;
+            }
+        }
+
+        if (rules.possiblePickups.Count > 0)
+        {
+            GameObject possiblePickupsPage = new GameObject("PossiblePickupsPagePage");
+            possiblePickupsPage.transform.SetParent(ruleScreenRef);
+            possiblePickupsPage.transform.localPosition = Vector3.zero;
+            possiblePickupsPage.SetActive(false);
+
+            int i = 0;
+            foreach (PossiblePickup pickup in rules.possiblePickups)
+            {
+                GameObject entry = Instantiate(ResourceUtils.Instance.feedbacksManager.ruleScreenShortPrefab, possiblePickupsPage.transform);
+                entry.transform.localPosition = new Vector2(0, 100 * (1 - i));
+
+                GameObject pickupPreview = Instantiate(ResourceUtils.Instance.feedbacksManager.GetPickupPreview(pickup.pickupType), entry.GetComponentInChildren<Image>().transform);
+                pickupPreview.transform.localPosition = Vector3.zero;
+                pickupPreview.transform.localScale *= 25.0f;
+                entry.GetComponentInChildren<Image>().enabled = false;
+
+                entry.GetComponentInChildren<Text>().text = pickup.description;
+                i++;
+            }
+        }
+    }
+
+    private void Update()
+    {
+        if (GameManager.CurrentState == GameState.ForcedPauseMGRules)
+        {
+            prevState = curState;
+            curState = GamePad.GetState(0);
+
+            if (prevState.Buttons.A == ButtonState.Released && curState.Buttons.A == ButtonState.Pressed)
+            {
+                // Next page
+            }
+            else if (prevState.Buttons.B == ButtonState.Released && curState.Buttons.B == ButtonState.Pressed)
+            {
+                // Previous page
+            }
+        }
+    }
+
     public virtual void AttributeCamera(uint activePlayersAtStart, GameObject[] cameraReferences, List<GameObject> playersReference)
     {
         if (cameraReferences.Length == 0)
@@ -83,7 +158,7 @@ abstract public class GameMode : MonoBehaviour
             cameraReferences[1].transform.GetChild(0).GetComponent<Camera>().rect = new Rect(0.5f, 0.5f, 0.5f, 0.5f);
         }
     }
-    public virtual  void PlayerHasFinished(Player player)
+    public virtual void PlayerHasFinished(Player player)
     {
         throw new NotImplementedException();
     }
