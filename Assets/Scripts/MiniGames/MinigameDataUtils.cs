@@ -32,7 +32,7 @@ public static class MinigameDataUtils
         GameMode curGameMode = _curGameMode;
         if (curGameMode is ColorFloorGameMode)
         {
-            return "Color the floor like a boss to win.";
+            return "Color the floor and collect score pickup to earn points. Be the one with the most points to win!";
         }
         else if (curGameMode is KartGameMode)
         {
@@ -58,7 +58,7 @@ public static class MinigameDataUtils
         {
             controls.Add(new ControlDetails(ControlType.Movement));
             controls.Add(new ControlDetails(ControlType.Jump));
-            controls.Add(new ControlDetails(ControlType.Action, "Use item"));
+            controls.Add(new ControlDetails(ControlType.Action, "Dash forward with X"));
         }
         else if (curGameMode is KartGameMode)
         {
@@ -80,11 +80,11 @@ public static class MinigameDataUtils
         if (curGameMode is ColorFloorGameMode)
         {
             possiblePickups.Add(new PossiblePickup(PickUpType.Score, "Collect to score points"));
-            possiblePickups.Add(new PossiblePickup(PickUpType.Bomb, "Collect to do smthg"));
-            possiblePickups.Add(new PossiblePickup(PickUpType.Missile, "Collect to do smthg else"));
-            possiblePickups.Add(new PossiblePickup(PickUpType.ColorAround, "Collect to do whatever"));
-            possiblePickups.Add(new PossiblePickup(PickUpType.ColorArrow, "Collect to do"));
-            possiblePickups.Add(new PossiblePickup(PickUpType.SpeedUp, "Collect to do pouet"));
+            //possiblePickups.Add(new PossiblePickup(PickUpType.Bomb, "Collect to do smthg"));
+            //possiblePickups.Add(new PossiblePickup(PickUpType.Missile, "Collect to do smthg else"));
+            possiblePickups.Add(new PossiblePickup(PickUpType.ColorAround, "Color near stones"));
+            possiblePickups.Add(new PossiblePickup(PickUpType.ColorArrow, "Color stones in a direction"));
+            possiblePickups.Add(new PossiblePickup(PickUpType.SpeedUp, "Speeds you up"));
         }
         else if (curGameMode is KartGameMode)
         {

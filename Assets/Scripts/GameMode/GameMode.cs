@@ -186,10 +186,10 @@ public class ControlDetails
     public ControlDetails(ControlType _button)
     {
         if (_button == ControlType.Movement)
-            description = "Use this to move";
+            description = "Move with L stick";
 
         else if (_button == ControlType.Jump)
-            description = "Press this to jump";
+            description = "Jump with A";
 
         button = _button;
     }
