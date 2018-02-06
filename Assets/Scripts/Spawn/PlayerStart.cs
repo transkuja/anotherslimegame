@@ -59,6 +59,7 @@ public class PlayerStart : MonoBehaviour {
         if( !GameManager.Instance.IsInHub() && GameManager.Instance.SpecificPlayerUI != null)
             GameManager.Instance.SpecificPlayerUI.Init();
         gameMode.StartGame(playersReference);
+        gameMode.OpenRuleScreen();
 
         // Pour chaque joueur
         //for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
