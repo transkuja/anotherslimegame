@@ -31,6 +31,10 @@ abstract public class GameMode : MonoBehaviour
     [SerializeField] private ViewMode viewMode = ViewMode.thirdPerson3d;
 
     protected MinigameRules rules;
+    protected string runeToUnlockId;
+    public delegate bool CheckRuneObjective();
+
+    protected CheckRuneObjective checkRuneObjective;
 
     GamePadState prevState;
     GamePadState curState;
@@ -81,7 +85,7 @@ abstract public class GameMode : MonoBehaviour
         Transform ruleScreenRef = GameManager.UiReference.RuleScreen;
 
         ruleScreenRef.GetComponentInChildren<Text>().text = rules.title;
-        ruleScreenRef.GetChild(1).GetComponent<Text>().text = rules.howToPlay;
+        ruleScreenRef.GetChild(1).GetComponent<Text>().text = rules.howToPlay + "\n\nRune objective:\n" + rules.runeObtention;
 
         if (rules.controls.Count > 0)
         {

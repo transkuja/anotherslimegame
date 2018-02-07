@@ -12,6 +12,8 @@ public class ColorFloorGameMode : GameMode {
     [SerializeField]
     List<GameObject> restrainedMovementStarters;
 
+    public int necessaryPointsForRune;
+
     public List<GameObject> RestrainedMovementStarters
     {
         get
@@ -24,6 +26,7 @@ public class ColorFloorGameMode : GameMode {
     {
         base.StartGame(playerReferences);
         rules = new MinigameRules(this);
+        checkRuneObjective = CheckRuneObjectiveForColorFloor;
 
         if (!freeMovement)
         {
@@ -58,6 +61,18 @@ public class ColorFloorGameMode : GameMode {
             cameraReferences[i].SetActive(true);
 
         }
+    }
+
+    bool CheckRuneObjectiveForColorFloor()
+    {
+        int pointsObjective = 0;
+        int curScore = 0;
+        foreach (GameObject go in GameManager.Instance.PlayerStart.PlayersReference)
+        {
+            curScore += go.GetComponent<Player>().NbPoints;
+            pointsObjective += necessaryPointsForRune;
+        }
+        return curScore >= pointsObjective;
     }
 
 }

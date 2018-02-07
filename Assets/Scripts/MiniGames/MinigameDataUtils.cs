@@ -98,5 +98,27 @@ public static class MinigameDataUtils
         return possiblePickups;
     }
 
+    public static string GetRuneInformation(GameMode _curGameMode)
+    {
+        GameMode curGameMode = _curGameMode;
+        if (curGameMode is ColorFloorGameMode)
+        {
+            return "Score " + ((ColorFloorGameMode)_curGameMode).necessaryPointsForRune * GameManager.Instance.ActivePlayersAtStart + " points.";
+        }
+        else if (curGameMode is KartGameMode)
+        {
+            return "";
+        }
+        else if (curGameMode is Runner3DGameMode)
+        {
+            return "";
+        }
+        else if (curGameMode is FruitGameMode)
+        {
+            return "";
+        }
+        return "";
+    }
+
 
 }

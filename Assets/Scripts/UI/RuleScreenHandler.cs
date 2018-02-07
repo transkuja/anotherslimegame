@@ -96,6 +96,7 @@ public class MinigameRules
 {
     public string title;
     public string howToPlay;
+    public string runeObtention;
     public List<ControlDetails> controls = new List<ControlDetails>();
     public List<PossiblePickup> possiblePickups = new List<PossiblePickup>();
 
@@ -105,20 +106,7 @@ public class MinigameRules
         howToPlay = MinigameDataUtils.GetDescription(_curGameMode);
         controls = MinigameDataUtils.GetControls(_curGameMode);
         possiblePickups = MinigameDataUtils.GetPossiblePickups(_curGameMode);
-    }
-
-    public MinigameRules(string _title, string _howToPlay)
-    {
-        title = _title;
-        howToPlay = _howToPlay;
-    }
-
-    public MinigameRules(string _title, string _howToPlay, List<ControlDetails> _controls, List<PossiblePickup> _possiblePickups)
-    {
-        title = _title;
-        howToPlay = _howToPlay;
-        controls = _controls;
-        possiblePickups = _possiblePickups;
+        runeObtention = MinigameDataUtils.GetRuneInformation(_curGameMode);
     }
 
     public void AddControl(ControlType _newButton, string _effect)
