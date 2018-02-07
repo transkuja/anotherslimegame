@@ -13,6 +13,7 @@ public class UI : MonoBehaviour {
     Transform runeTextOriginalState;
 
     Transform UIref;
+    [HideInInspector]
     public Transform RuleScreen;
 
     public void Awake()
@@ -96,6 +97,10 @@ public class UI : MonoBehaviour {
         {
             UpdateGlobalMoney();
             UpdateRunes();
+
+            // TMP
+            StartCoroutine(ReturnToNormalState(runeText, runeTextOriginalState));
+            StartCoroutine(ReturnToNormalState(ptsText, ptsTextOriginalState));
         }
     }
 
