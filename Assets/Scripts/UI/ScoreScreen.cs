@@ -24,6 +24,8 @@ public class ScoreScreen : MonoBehaviour {
     [SerializeField]
     GameObject minigameUI;
 
+    bool goToRuneScreen = false;
+
     private void Awake()
     {
         GameManager.Instance.RegisterScoreScreenPanel(this);
@@ -164,8 +166,8 @@ public class ScoreScreen : MonoBehaviour {
                 if (GameManager.Instance.CurrentGameMode.checkRuneObjective())
                 {
                     GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<Player>().UpdateCollectableValue(CollectableType.Rune);
-                    GameManager.Instance.CurrentGameMode.UnlockRune(); // TODO: @Remi, we need to talk about this
-                    // TODO: feedback
+                    GameManager.Instance.CurrentGameMode.UnlockRune();
+                    goToRuneScreen = true;
                 }
             }
         }
@@ -185,6 +187,18 @@ public class ScoreScreen : MonoBehaviour {
                 SceneManager.LoadScene(1); // ugly?
             }
             //ExitToMainMenu();
+        }
+
+        if (goToRuneScreen)
+        {
+            if (GamePad.GetState(GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerController>().playerIndex).Buttons.A == ButtonState.Pressed)
+            {
+                for (int i = 1; i < podium.transform.childCount - 1; i++)
+                    podium.transform.GetChild(i).gameObject.SetActive(false);
+                for (int i = 0; i < transform.childCount; i++)
+                    transform.GetChild(i).GetChild(0).gameObject.SetActive(false);
+                goToRuneScreen = false;
+            }
         }
         // TODO: handle pause input here?
     }
