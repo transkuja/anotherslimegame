@@ -10,6 +10,9 @@ public class ColorFloorPickUp : MinigamePickUp {
     [SerializeField]
     float colorArrowRotationDelay = 2.0f;
 
+    [SerializeField]
+    float missileSpeed = 10.0f;
+
     IEnumerator Start()
     {
         InitializeDelegates(pickupType);
@@ -40,7 +43,25 @@ public class ColorFloorPickUp : MinigamePickUp {
 
     void UseMissile(int _playerIndex)
     {
+        GameObject owner = GameManager.Instance.PlayerStart.PlayersReference[_playerIndex];
+        GameObject missile = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.ColorFloorPickUps)
+            .GetItem(
+            null,
+            owner.transform.position + owner.transform.forward,
+            Quaternion.LookRotation(owner.transform.forward),
+            true,
+            false,       
+            4 // Missile index
+       );
 
+        Rigidbody rb = missile.AddComponent<Rigidbody>();
+        rb.useGravity = false;
+        rb.constraints = RigidbodyConstraints.FreezeRotation;
+        rb.drag = 0.0f;
+        rb.velocity = missile.transform.forward * missileSpeed;
+
+        missile.AddComponent<BoxCollider>();
+        missile.AddComponent<MissileBehaviour>();
     }
 
     void UseSpeedUp(int _playerIndex)
