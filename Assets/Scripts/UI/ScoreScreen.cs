@@ -25,6 +25,9 @@ public class ScoreScreen : MonoBehaviour {
     GameObject minigameUI;
 
     bool goToRuneScreen = false;
+    bool canExit = false;
+    float timerCanExit = 2.0f;
+    float timerPlayGetRuneAnimation = 5.0f;
 
     private void Awake()
     {
@@ -36,7 +39,7 @@ public class ScoreScreen : MonoBehaviour {
 
     public void Init()
     {
-
+        timerCanExit = 2.0f;
         for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
         {
             GameObject playerScore = Instantiate(prefabPlayerScore, scorePanel.transform);
@@ -175,20 +178,16 @@ public class ScoreScreen : MonoBehaviour {
 
     void Update()
     {
+        if (!canExit)
+            timerCanExit -= Time.deltaTime;
+        else
+            canExit = true;
 
         // TODO : Multi to be handled
         if (!GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerController>().PlayerIndexSet)
             return;
 
-        if (GamePad.GetState(GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerController>().playerIndex).Buttons.Start == ButtonState.Pressed)
-        {
-            if (GameManager.Instance.CurrentGameMode.IsMiniGame())
-            {
-                SceneManager.LoadScene(1); // ugly?
-            }
-            //ExitToMainMenu();
-        }
-
+        
         if (goToRuneScreen)
         {
             if (GamePad.GetState(GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerController>().playerIndex).Buttons.A == ButtonState.Pressed)
@@ -198,6 +197,19 @@ public class ScoreScreen : MonoBehaviour {
                 for (int i = 0; i < transform.childCount; i++)
                     transform.GetChild(i).GetChild(0).gameObject.SetActive(false);
                 goToRuneScreen = false;
+            }
+        }
+
+        if (canExit)
+        {
+            if (GamePad.GetState(GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerController>().playerIndex).Buttons.Start == ButtonState.Pressed
+                || GamePad.GetState(GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerController>().playerIndex).Buttons.A == ButtonState.Pressed)
+            {
+                if (GameManager.Instance.CurrentGameMode.IsMiniGame())
+                {
+                    SceneManager.LoadScene(1); // ugly?
+                }
+                //ExitToMainMenu();
             }
         }
         // TODO: handle pause input here?
