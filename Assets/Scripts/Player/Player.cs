@@ -182,7 +182,7 @@ public class Player : MonoBehaviour {
         collectables = new int[(int)CollectableType.Size];
     }
 
-    public void UpdateCollectableValue(CollectableType type, int pickedValue)
+    public void UpdateCollectableValue(CollectableType type, int pickedValue = 1)
     {
         switch (type)
         {

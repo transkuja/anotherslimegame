@@ -158,7 +158,8 @@ public class ScoreScreen : MonoBehaviour {
             {
                 if (GameManager.Instance.CurrentGameMode.checkRuneObjective())
                 {
-                    GameManager.Instance.CurrentGameMode.UnlockRune();
+                    GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<Player>().UpdateCollectableValue(CollectableType.Rune);
+                    GameManager.Instance.CurrentGameMode.UnlockRune(); // TODO: @Remi, we need to talk about this
                     // TODO: feedback
                 }
             }

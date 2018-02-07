@@ -205,7 +205,7 @@ namespace DatabaseClass
 
             // Adding costArea
             int idRune = 0;
-            string[] strRune = { "Rune1", "Rune2", "Rune3", "Rune4", "RuneFromCostArea1", "RuneFromCostArea2" };
+            string[] strRune = { "Rune1", "Rune2", "Rune3", "Rune4", "RuneFromCostArea1", "RuneFromCostArea2", "RuneColorFloor" };
             runes.Add(new RuneData { Id = strRune[idRune], isUnlocked = false });
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
@@ -213,7 +213,7 @@ namespace DatabaseClass
 
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
-
+            runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
         }
         public void AllCostToZero()
         {
