@@ -63,9 +63,12 @@ public class PlayerStart : MonoBehaviour {
         gameMode.OpenRuleScreen();
 
         // Disable debug behaviour in build
-    #if UNITY_EDITOR
+#if UNITY_EDITOR
         if (DEBUG_SkipMinigamesRuleScreen)
+        {
             GameManager.UiReference.RuleScreen.GetComponent<RuleScreenHandler>().CleanUpAndStart();
+            GameManager.ChangeState(GameState.Normal);
+        }
     #endif
 
         // Pour chaque joueur

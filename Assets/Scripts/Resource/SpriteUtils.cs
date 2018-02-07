@@ -4,23 +4,17 @@ using UnityEngine;
 
 public class SpriteUtils : MonoBehaviour {
 
+    public GameObject spawnableSpriteUI;
+
     [Header("Victory panel")]
     [SerializeField]
-    Sprite victoryPanel_1;
+    public Sprite victoryNumber1;
     [SerializeField]
-    Sprite victoryPanel_2;
+    public Sprite victoryNumber2;
     [SerializeField]
-    Sprite victoryPanel_3;
+    public Sprite victoryNumber3;
     [SerializeField]
-    Sprite victoryPanel_4;
-    [SerializeField]
-    Sprite victoryNumber1;
-    [SerializeField]
-    Sprite victoryNumber2;
-    [SerializeField]
-    Sprite victoryNumber3;
-    [SerializeField]
-    Sprite victoryNumber4;
+    public Sprite victoryNumber4;
 
     [Header("Texture Panneau sur les iles")]
     [SerializeField]

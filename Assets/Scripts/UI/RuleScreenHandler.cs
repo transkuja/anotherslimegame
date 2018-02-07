@@ -34,7 +34,11 @@ public class RuleScreenHandler : MonoBehaviour {
             if (curState != RuleScreenState.PickupPage)
                 CurState = (RuleScreenState)(int)curState + 1;
             else
+            {
                 CleanUpAndStart();
+                GameObject readySetGo = Instantiate(ResourceUtils.Instance.spriteUtils.spawnableSpriteUI, GameManager.UiReference.transform);
+                readySetGo.AddComponent<ReadySetGo>();
+            }
         }
 
         if (!_stateForward && curState != RuleScreenState.FirstPage)
@@ -45,9 +49,9 @@ public class RuleScreenHandler : MonoBehaviour {
     // WARNING, should only be called from the outside in player start for debug purpose
     public void CleanUpAndStart()
     {
+        // TODO: may consider destroying on creation instead, so we can show it back later through pause menu
         Destroy(transform.GetChild(2).gameObject);
         Destroy(transform.GetChild(3).gameObject);
-        GameManager.ChangeState(GameState.Normal);
         gameObject.SetActive(false);
     }
 }
