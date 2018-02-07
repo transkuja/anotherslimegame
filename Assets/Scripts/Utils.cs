@@ -16,7 +16,8 @@ public static class Utils {
             9999,          // Max points
             3,              // Max Runes
             99999,           // Max money
-            9999            // Max Fruits
+            9999,           // Max Fruits
+            0               //Bonus
         };
 
     static int[] defaultValueCollectable =
@@ -28,7 +29,8 @@ public static class Utils {
         5,                // points
         1,                  // Rune
         5,                  // Money
-        1                   //Fruit
+        1,                   //Fruit
+        0                   //Bonus
     };
 
     /*

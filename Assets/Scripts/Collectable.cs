@@ -20,6 +20,7 @@ public class Collectable : MonoBehaviour
     public bool hasBeenSpawned = false;
     public Player lastOwner;
 
+
     public int Value
     {
         get
@@ -142,6 +143,16 @@ public class Collectable : MonoBehaviour
         {
             if (GetComponent<FruitType>())
             {
+                if (name == "fruitChanger")
+                {
+                    Debug.Log("changement");
+                    GetComponentInParent<Transform>().GetComponentInParent<BonusSpawner>().canChange = true;
+                }
+                if (name == "Aspirator")
+                {
+                    Debug.Log("Aspirate");
+                    GetComponentInParent<Transform>().GetComponentInParent<BonusSpawner>().canAspirate = true;
+                }
                 if (playerTarget.GetComponent<Player>().associateFruit == GetComponent<FruitType>().typeFruit)
                 {
                     playerTarget.UpdateCollectableValue(type, value * 6);

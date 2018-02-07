@@ -34,5 +34,5 @@ public class EnumUtils {
 
 }
 
-public enum CollectableType { StrengthEvolution1, PlatformistEvolution1, AgileEvolution1, GhostEvolution1, Points, Rune, Money, Fruits, Size };
+public enum CollectableType { StrengthEvolution1, PlatformistEvolution1, AgileEvolution1, GhostEvolution1, Points, Rune, Money, Fruits, Bonus, Size };
 public enum Fruit { Clementine, Pomme, Kiwi, Fraise };

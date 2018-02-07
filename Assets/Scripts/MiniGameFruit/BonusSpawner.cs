@@ -15,13 +15,16 @@ public class BonusSpawner : MonoBehaviour {
     float aspiratorFruitSpawnDelay = 25.0f;
 
     [SerializeField]
-    public Fruit type;
+    private Fruit type;
+
+    public bool canChange;
+    public bool canAspirate;
 
     void Start()
     {
 		StartCoroutine(SpawnBonus(BonusType.ChangeFruit, changeFruitSpawnDelay));
 		StartCoroutine(SpawnBonus(BonusType.Aspirator, aspiratorFruitSpawnDelay));
-        type = GetComponentInParent<FruitsSpawner>().GetComponentInChildren<FruitType>().typeFruit;
+        //type = GetComponentInParent<FruitsSpawner>().GetComponentInChildren<FruitType>().typeFruit;
     }
 
 	IEnumerator SpawnBonus(BonusType _type, float _time)
@@ -49,15 +52,30 @@ public class BonusSpawner : MonoBehaviour {
         return null;
     }
 
+    public void Update()
+    {
+        if(canChange)
+        {
+            ChangerFruit();
+            canChange = false;
+        }
+
+        if(canAspirate)
+        {
+            AspireFruit();
+            canAspirate = false;
+        }
+
+    }
 
     public void ChangerFruit()
     {
-        //Checkez le type de fruit du joueur
-        //Fruit typeToChange = GetComponentInParent<Player>().associateFruit;
-        /*foreach (Fruit fruit in PoolManager.poolFruit)
+        Fruit typeToChange = GetComponentInParent<Player>().associateFruit;
+        Transform[] tabTest = GameObject.Find("Pool Container 0").GetComponentsInChildren<Transform>();
+        foreach (Transform transformFruit in tabTest)
         {
-            GetComponentInParent<FruitsSpawner>().GetComponentInChildren<FruitType>().typeFruit = typeToChange;
-        }*/
+            GetComponent<FruitType>().typeFruit = typeToChange;
+        }
     }
 
     public void AspireFruit()
