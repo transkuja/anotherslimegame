@@ -26,6 +26,7 @@ public class ScoreScreen : MonoBehaviour {
 
     bool goToRuneScreen = false;
     bool canExit = false;
+    bool startExitTimer = false;
     float timerCanExit = 2.0f;
     float timerPlayGetRuneAnimation = 5.0f;
 
@@ -39,7 +40,18 @@ public class ScoreScreen : MonoBehaviour {
 
     public void Init()
     {
+        goToRuneScreen = false;
+        canExit = false;
+        startExitTimer = false;
         timerCanExit = 2.0f;
+        for (int i = 1; i < podium.transform.childCount - 1; i++)
+            podium.transform.GetChild(i).gameObject.SetActive(true);
+        podium.transform.GetChild(5).gameObject.SetActive(false);
+
+        for (int i = 0; i < transform.childCount; i++)
+            transform.GetChild(i).GetChild(0).gameObject.SetActive(true);
+        gameObject.SetActive(false);
+
         for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
         {
             GameObject playerScore = Instantiate(prefabPlayerScore, scorePanel.transform);
@@ -171,16 +183,21 @@ public class ScoreScreen : MonoBehaviour {
                     GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<Player>().UpdateCollectableValue(CollectableType.Rune);
                     GameManager.Instance.CurrentGameMode.UnlockRune();
                     goToRuneScreen = true;
+                    timerCanExit = timerPlayGetRuneAnimation;
                 }
+                else
+                    startExitTimer = true;
             }
+            else
+                startExitTimer = true;
         }
     }
 
     void Update()
     {
-        if (!canExit)
+        if (startExitTimer)
             timerCanExit -= Time.deltaTime;
-        else
+        if (timerCanExit < 0.0f)
             canExit = true;
 
         // TODO : Multi to be handled
@@ -197,24 +214,20 @@ public class ScoreScreen : MonoBehaviour {
                 for (int i = 0; i < transform.childCount; i++)
                     transform.GetChild(i).GetChild(0).gameObject.SetActive(false);
                 goToRuneScreen = false;
+                startExitTimer = true;
             }
         }
 
+        Debug.Log(timerCanExit);
+        Debug.Log(canExit);
         if (canExit)
         {
             if (GamePad.GetState(GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerController>().playerIndex).Buttons.Start == ButtonState.Pressed
                 || GamePad.GetState(GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerController>().playerIndex).Buttons.A == ButtonState.Pressed)
             {
+                Debug.Log("z");
                 if (GameManager.Instance.CurrentGameMode.IsMiniGame())
                 {
-                    for (int i = 1; i < podium.transform.childCount - 1; i++)
-                        podium.transform.GetChild(i).gameObject.SetActive(true);
-                    podium.transform.GetChild(5).gameObject.SetActive(false);
-
-                    for (int i = 0; i < transform.childCount; i++)
-                        transform.GetChild(i).GetChild(0).gameObject.SetActive(true);
-                    gameObject.SetActive(false);
-
                     SceneManager.LoadScene(1); // ugly?
                 }
                 //ExitToMainMenu();
