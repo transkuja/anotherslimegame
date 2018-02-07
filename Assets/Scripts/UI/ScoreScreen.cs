@@ -168,6 +168,11 @@ public class ScoreScreen : MonoBehaviour {
                 if(curPlayer.cameraReference)
                     curPlayer.cameraReference.SetActive(false);
                 curPlayer.transform.SetParent(podium.GetChild(curPlayer.rank));
+                if(curPlayer.GetComponent<Rigidbody>())
+                {
+                    curPlayer.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                    curPlayer.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+                }
                 curPlayer.transform.localPosition = Vector3.zero;
                 curPlayer.transform.localRotation = Quaternion.identity;
             }
