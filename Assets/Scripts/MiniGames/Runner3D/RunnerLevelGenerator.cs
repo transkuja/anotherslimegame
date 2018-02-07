@@ -129,7 +129,6 @@ namespace Runner3D
         {
             if (row < 0 || row >= levelUnit.z)
                 return;
-            Debug.Log("Line : " + row + "go " + dir);
             for (int x = 0; x < levelUnit.x; x++)
             {
                 if (blockMap[x, row] != null)
