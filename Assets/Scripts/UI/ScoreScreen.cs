@@ -20,6 +20,10 @@ public class ScoreScreen : MonoBehaviour {
     [SerializeField]
     Transform podium;
 
+    // The root gameobject containing UI for minigame 
+    [SerializeField]
+    GameObject minigameUI;
+
     private void Awake()
     {
         GameManager.Instance.RegisterScoreScreenPanel(this);
@@ -152,6 +156,7 @@ public class ScoreScreen : MonoBehaviour {
             }
             podium.GetChild(5).gameObject.SetActive(true);
             GameManager.UiReference.gameObject.SetActive(false);
+            minigameUI.SetActive(false);
             gameObject.SetActive(true);
 
             if (!GameManager.Instance.CurrentGameMode.IsRuneUnlocked())
