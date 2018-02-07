@@ -42,7 +42,8 @@ public class RuleScreenHandler : MonoBehaviour {
 
     }
 
-    void CleanUpAndStart()
+    // WARNING, should only be called from the outside in player start for debug purpose
+    public void CleanUpAndStart()
     {
         Destroy(transform.GetChild(2).gameObject);
         Destroy(transform.GetChild(3).gameObject);

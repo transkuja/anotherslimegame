@@ -16,6 +16,7 @@ public class PlayerStart : MonoBehaviour {
     public bool DEBUG_playXPlayers = true;
     [Range(1,4)]
     public uint DEBUG_NbPlayers = 1;
+    public bool DEBUG_SkipMinigamesRuleScreen = false;
 
     List<GameObject> playersReference = new List<GameObject>();
     [SerializeField]
@@ -60,6 +61,12 @@ public class PlayerStart : MonoBehaviour {
             GameManager.Instance.SpecificPlayerUI.Init();
         gameMode.StartGame(playersReference);
         gameMode.OpenRuleScreen();
+
+        // Disable debug behaviour in build
+    #if UNITY_EDITOR
+        if (DEBUG_SkipMinigamesRuleScreen)
+            GameManager.UiReference.RuleScreen.GetComponent<RuleScreenHandler>().CleanUpAndStart();
+    #endif
 
         // Pour chaque joueur
         //for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
