@@ -128,6 +128,9 @@ namespace Runner3D
         {
             Transform child = transform.GetChild(i);
 
+            if (dir == DirLerpState.Down && child.GetComponent<PlatformGameplay>())
+                    child.GetComponent<PlatformGameplay>().enabled = false;
+
             float angle = Random.Range(100, 179);
             if (angle %2>0)
                 angle = Random.Range(-100, -179);
@@ -135,10 +138,7 @@ namespace Runner3D
             {
                 timer += Time.deltaTime * 0.95f;
                 float factor = Ease.Evaluate(Ease.EASE_TYPE.BOUNCE_OUT, timer);
-                if (child.GetComponent<PlatformGameplay>())
-                {
-                    child.GetComponent<PlatformGameplay>().enabled = false;
-                }
+                
                 Vector3 nextPosition = child.position;
                 if (dir == DirLerpState.Up)
                 {
@@ -156,6 +156,9 @@ namespace Runner3D
 
                 yield return null;
             }
+            if (dir == DirLerpState.Up)
+            if (child.GetComponent<PlatformGameplay>())
+                child.GetComponent<PlatformGameplay>().enabled = true;
             yield return null;
         }
 
