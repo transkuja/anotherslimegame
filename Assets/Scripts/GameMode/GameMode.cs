@@ -87,49 +87,44 @@ abstract public class GameMode : MonoBehaviour
         ruleScreenRef.GetComponentInChildren<Text>().text = rules.title;
         ruleScreenRef.GetChild(1).GetComponent<Text>().text = rules.howToPlay + "\n\nRune objective:\n" + rules.runeObtention;
 
-        if (rules.controls.Count > 0)
-        {
-            GameObject controlDetailsPage = new GameObject("ControlDetailsPage");
-            controlDetailsPage.transform.SetParent(ruleScreenRef);
-            controlDetailsPage.transform.localPosition = Vector3.zero;
-            controlDetailsPage.transform.localRotation = Quaternion.identity;
-            controlDetailsPage.transform.localScale = Vector3.one;
-            controlDetailsPage.SetActive(false);
+        GameObject controlDetailsPage = new GameObject("ControlDetailsPage");
+        controlDetailsPage.transform.SetParent(ruleScreenRef);
+        controlDetailsPage.transform.localPosition = Vector3.zero;
+        controlDetailsPage.transform.localRotation = Quaternion.identity;
+        controlDetailsPage.transform.localScale = Vector3.one;
+        controlDetailsPage.SetActive(false);
 
-            int i = 0;
-            foreach (ControlDetails control in rules.controls)
-            {
-                GameObject entry = Instantiate(ResourceUtils.Instance.feedbacksManager.ruleScreenShortPrefab, controlDetailsPage.transform);
-                entry.transform.localPosition = new Vector2(0, 100 * (1 - i));
-                entry.GetComponentInChildren<Image>().sprite = ResourceUtils.Instance.spriteUtils.GetControlSprite(control.button);
-                entry.GetComponentInChildren<Text>().text = control.description;
-                i++;
-            }
+        int i = 0;
+        foreach (ControlDetails control in rules.controls)
+        {
+            GameObject entry = Instantiate(ResourceUtils.Instance.feedbacksManager.ruleScreenShortPrefab, controlDetailsPage.transform);
+            entry.transform.localPosition = new Vector2(0, 100 * (1 - i));
+            entry.GetComponentInChildren<Image>().sprite = ResourceUtils.Instance.spriteUtils.GetControlSprite(control.button);
+            entry.GetComponentInChildren<Text>().text = control.description;
+            i++;
         }
+        
 
-        if (rules.possiblePickups.Count > 0)
+        GameObject possiblePickupsPage = new GameObject("PossiblePickupsPagePage");
+        possiblePickupsPage.transform.SetParent(ruleScreenRef);
+        possiblePickupsPage.transform.localPosition = Vector3.zero;
+        possiblePickupsPage.transform.localRotation = Quaternion.identity;
+        possiblePickupsPage.transform.localScale = Vector3.one;
+        possiblePickupsPage.SetActive(false);
+
+        i = 0;
+        foreach (PossiblePickup pickup in rules.possiblePickups)
         {
-            GameObject possiblePickupsPage = new GameObject("PossiblePickupsPagePage");
-            possiblePickupsPage.transform.SetParent(ruleScreenRef);
-            possiblePickupsPage.transform.localPosition = Vector3.zero;
-            possiblePickupsPage.transform.localRotation = Quaternion.identity;
-            possiblePickupsPage.transform.localScale = Vector3.one;
-            possiblePickupsPage.SetActive(false);
+            GameObject entry = Instantiate(ResourceUtils.Instance.feedbacksManager.ruleScreenShortPrefab, possiblePickupsPage.transform);
+            entry.transform.localPosition = new Vector2(0, 100 * (1 - i));
 
-            int i = 0;
-            foreach (PossiblePickup pickup in rules.possiblePickups)
-            {
-                GameObject entry = Instantiate(ResourceUtils.Instance.feedbacksManager.ruleScreenShortPrefab, possiblePickupsPage.transform);
-                entry.transform.localPosition = new Vector2(0, 100 * (1 - i));
+            GameObject pickupPreview = Instantiate(ResourceUtils.Instance.feedbacksManager.GetPickupPreview(pickup.pickupType), entry.GetComponentInChildren<Image>().transform);
+            pickupPreview.transform.localPosition = Vector3.zero;
+            pickupPreview.transform.localScale *= 25.0f;
+            entry.GetComponentInChildren<Image>().enabled = false;
 
-                GameObject pickupPreview = Instantiate(ResourceUtils.Instance.feedbacksManager.GetPickupPreview(pickup.pickupType), entry.GetComponentInChildren<Image>().transform);
-                pickupPreview.transform.localPosition = Vector3.zero;
-                pickupPreview.transform.localScale *= 25.0f;
-                entry.GetComponentInChildren<Image>().enabled = false;
-
-                entry.GetComponentInChildren<Text>().text = pickup.description;
-                i++;
-            }
+            entry.GetComponentInChildren<Text>().text = pickup.description;
+            i++;
         }
 
         ruleScreenRef.gameObject.SetActive(true);
