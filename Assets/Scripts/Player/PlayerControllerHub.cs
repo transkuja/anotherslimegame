@@ -54,6 +54,10 @@ public class PlayerControllerHub : PlayerController
     public RestrainedByGhostState restrainedByGhostState;
     public FrozenState frozenState;
 
+    // Delegate events :
+    public delegate void OnPlayerDeath(int id);
+    public OnPlayerDeath OnDeathEvent;
+
     [SerializeField] public Stats stats;
     [SerializeField] bool isGrounded = true;
     public bool DEBUG_hasBeenSpawnedFromTool = false;
@@ -556,5 +560,11 @@ public class PlayerControllerHub : PlayerController
             tr.m_YDamping = _newValues;
             tr.m_ZDamping = _newValues;
         }
+    }
+    public void OnDeath()
+    {
+        Respawner.RespawnProcess(GetComponent<Player>());
+        if (OnDeathEvent!=null)
+            OnDeathEvent((int)playerIndex);
     }
 }

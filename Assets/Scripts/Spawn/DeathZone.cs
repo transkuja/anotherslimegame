@@ -5,9 +5,9 @@ public class DeathZone : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<Player>() != null)
+        if (other.GetComponent<PlayerControllerHub>() != null)
         {
-            Respawner.RespawnProcess(other.GetComponent<Player>());
+            other.GetComponent<PlayerControllerHub>().OnDeath();
         }
     }
 }

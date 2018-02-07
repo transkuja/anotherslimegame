@@ -13,11 +13,17 @@ public class RunnerUI : APlayerUI {
     // je dois prévoir le reload. 
     [SerializeField]GameObject deathScreenModel;
 
+    public override void Init()
+    {
+        base.Init();
+        foreach (GameObject p in GameManager.Instance.PlayerStart.PlayersReference)
+            p.GetComponent<PlayerControllerHub>().OnDeathEvent += OnPlayerDeath;
+    }
 
-    public void OnPlayerDeath(int playerId,int maxPlayerNb)
+    public void OnPlayerDeath(int playerId)
     {
         GameObject deathScreen = Instantiate(deathScreenModel, Vector3.zero, Quaternion.identity, transform);
-
+        int maxPlayerNb = GameManager.Instance.PlayerStart.PlayersReference.Count;
             // if 4 player invert player screen places
         if (maxPlayerNb>2)
             playerId = (playerId + 2) % 4;
