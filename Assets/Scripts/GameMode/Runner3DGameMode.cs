@@ -5,6 +5,12 @@ using UWPAndXInput;
 using Runner3D;
 public class Runner3DGameMode : GameMode {
 
+    public override void StartGame(List<GameObject> playerReferences)
+    {
+        base.StartGame(playerReferences);
+        rules = new MinigameRules(this);
+    }
+
     // identique au hub bad copie collé
     public override void AttributeCamera(uint activePlayersAtStart, GameObject[] cameraReferences, List<GameObject> playersReference)
     {

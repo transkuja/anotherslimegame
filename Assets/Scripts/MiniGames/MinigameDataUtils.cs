@@ -18,7 +18,7 @@ public static class MinigameDataUtils
         }
         else if (curGameMode is Runner3DGameMode)
         {
-            return "";
+            return "Runner";
         }
         else if (curGameMode is FruitGameMode)
         {
@@ -40,7 +40,7 @@ public static class MinigameDataUtils
         }
         else if (curGameMode is Runner3DGameMode)
         {
-            return "";
+            return "Run";
         }
         else if (curGameMode is FruitGameMode)
         {
@@ -65,6 +65,8 @@ public static class MinigameDataUtils
         }
         else if (curGameMode is Runner3DGameMode)
         {
+            controls.Add(new ControlDetails(ControlType.Movement));
+            controls.Add(new ControlDetails(ControlType.Jump));
         }
         else if (curGameMode is FruitGameMode)
         {
@@ -111,7 +113,7 @@ public static class MinigameDataUtils
         }
         else if (curGameMode is Runner3DGameMode)
         {
-            return "";
+            return "Beat 1:00";
         }
         else if (curGameMode is FruitGameMode)
         {

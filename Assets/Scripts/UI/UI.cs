@@ -13,7 +13,6 @@ public class UI : MonoBehaviour {
     Transform runeTextOriginalState;
 
     Transform UIref;
-    [HideInInspector]
     public Transform RuleScreen;
 
     public void Awake()
