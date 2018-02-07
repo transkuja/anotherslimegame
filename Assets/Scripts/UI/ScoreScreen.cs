@@ -153,6 +153,15 @@ public class ScoreScreen : MonoBehaviour {
             podium.GetChild(5).gameObject.SetActive(true);
             GameManager.UiReference.gameObject.SetActive(false);
             gameObject.SetActive(true);
+
+            if (!GameManager.Instance.CurrentGameMode.IsRuneUnlocked())
+            {
+                if (GameManager.Instance.CurrentGameMode.checkRuneObjective())
+                {
+                    GameManager.Instance.CurrentGameMode.UnlockRune();
+                    // TODO: feedback
+                }
+            }
         }
     }
 
