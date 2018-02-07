@@ -11,6 +11,8 @@ public class PlayerUIPushGame : APlayerUI {
         {
             if(SlimeDataContainer.instance != null)
                 UIref.transform.GetChild(i).GetChild(0).GetComponent<Image>().color = (SlimeDataContainer.instance.colorFadeSelected[i] ? SlimeDataContainer.instance.selectedColors[i] : Color.white);
+
+            GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<Player>().CallOnValueChange(PlayerUIStat.Points, 0);
         }
 
     }
