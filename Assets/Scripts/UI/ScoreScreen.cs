@@ -207,6 +207,14 @@ public class ScoreScreen : MonoBehaviour {
             {
                 if (GameManager.Instance.CurrentGameMode.IsMiniGame())
                 {
+                    for (int i = 1; i < podium.transform.childCount - 1; i++)
+                        podium.transform.GetChild(i).gameObject.SetActive(true);
+                    podium.transform.GetChild(5).gameObject.SetActive(false);
+
+                    for (int i = 0; i < transform.childCount; i++)
+                        transform.GetChild(i).GetChild(0).gameObject.SetActive(true);
+                    gameObject.SetActive(false);
+
                     SceneManager.LoadScene(1); // ugly?
                 }
                 //ExitToMainMenu();
