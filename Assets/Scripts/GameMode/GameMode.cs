@@ -31,7 +31,7 @@ abstract public class GameMode : MonoBehaviour
     [SerializeField] private ViewMode viewMode = ViewMode.thirdPerson3d;
     [SerializeField] private string runeToUnlockId;
 
-    protected MinigameRules rules;
+    public MinigameRules rules;
     public delegate bool CheckRuneObjective();
 
     public CheckRuneObjective checkRuneObjective;

@@ -5,6 +5,9 @@ using UnityEngine;
 public class RuleScreenHandler : MonoBehaviour {
     enum RuleScreenState { FirstPage, ControlsPage, PickupPage }
     RuleScreenState curState = RuleScreenState.FirstPage;
+    bool skipControlsPage = false;
+    bool skipPickupsPage = false;
+    bool minigameLaunched = false;
 
     private RuleScreenState CurState {
         set
@@ -25,25 +28,62 @@ public class RuleScreenHandler : MonoBehaviour {
 
     void Start () {
         CurState = RuleScreenState.FirstPage;
+        skipControlsPage = GameManager.Instance.CurrentGameMode.rules.controls.Count == 0;
+        skipPickupsPage = GameManager.Instance.CurrentGameMode.rules.possiblePickups.Count == 0;
     }
 
     public void ChangeState(bool _stateForward)
     {
+        if (minigameLaunched)
+            return;
+
         if (_stateForward)
         {
-            if (curState != RuleScreenState.PickupPage)
-                CurState = (RuleScreenState)(int)curState + 1;
+            if (curState == RuleScreenState.FirstPage)
+            {
+                if (skipControlsPage)
+                {
+                    CurState = RuleScreenState.ControlsPage;
+                    if (skipPickupsPage)
+                        StartMinigame();
+                }
+                else
+                    CurState = RuleScreenState.ControlsPage;
+            }
+            else if (curState == RuleScreenState.ControlsPage)
+            {
+                if (skipPickupsPage)
+                    StartMinigame();
+                else
+                    CurState = RuleScreenState.PickupPage;
+            }
             else
             {
-                CleanUpAndStart();
-                GameObject readySetGo = Instantiate(ResourceUtils.Instance.spriteUtils.spawnableSpriteUI, GameManager.UiReference.transform);
-                readySetGo.AddComponent<ReadySetGo>();
+                StartMinigame();
             }
         }
 
         if (!_stateForward && curState != RuleScreenState.FirstPage)
-            CurState = (RuleScreenState)(int)curState - 1;
+        {
+            if (curState == RuleScreenState.PickupPage)
+            {
+                if (skipControlsPage)
+                    CurState = RuleScreenState.FirstPage;
+                else
+                    CurState = RuleScreenState.ControlsPage;
+            }
+            else
+                CurState = (RuleScreenState)(int)curState - 1;
+        }
 
+    }
+
+    void StartMinigame()
+    {
+        minigameLaunched = true;
+        CleanUpAndStart();
+        GameObject readySetGo = Instantiate(ResourceUtils.Instance.spriteUtils.spawnableSpriteUI, GameManager.UiReference.transform);
+        readySetGo.AddComponent<ReadySetGo>();
     }
 
     // WARNING, should only be called from the outside in player start for debug purpose
