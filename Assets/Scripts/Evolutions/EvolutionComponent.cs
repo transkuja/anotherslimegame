@@ -8,7 +8,6 @@ using UnityEngine.UI
 public class EvolutionComponent : MonoBehaviour {
     Evolution evolution;
     float timer;
-    bool isTimerInitialized = false;
     protected PlayerControllerHub playerController;
     protected bool isSpecialActionPushedOnce = false;
     protected bool isSpecialActionPushed = false;
@@ -18,7 +17,7 @@ public class EvolutionComponent : MonoBehaviour {
 
     public virtual void Start()
     {
-        isTimerInitialized = false;
+        timer = -1;
     }
 
     public float Timer
@@ -31,8 +30,6 @@ public class EvolutionComponent : MonoBehaviour {
         set
         {
             timer = value;
-            if (timer > 0.0f)
-                isTimerInitialized = true;
         }
     }
 
@@ -49,7 +46,7 @@ public class EvolutionComponent : MonoBehaviour {
     protected void SetPower(Powers powerName)
     {
         GetComponent<Player>().activeEvolutions++;
-        evolution = GameManager.EvolutionManager.GetEvolutionByPowerName(powerName,true);
+        evolution = GameManager.EvolutionManager.GetEvolutionByPowerName(powerName);
         if((int)evolution.BodyPart < transform.GetChild((int)PlayerChildren.SlimeMesh).childCount)
             affectedPart = transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)evolution.BodyPart).gameObject;
         if (evolution.BodyPart == BodyPart.Hammer)
@@ -65,13 +62,12 @@ public class EvolutionComponent : MonoBehaviour {
         }
         affectedPart.SetActive(true);
 
-        Timer = evolution.duration;
         playerController = GetComponent<PlayerControllerHub>();
     }
 
     public virtual void Update()
     {
-        if (isTimerInitialized)
+        if (timer > 0.0f)
         {
             timer -= Time.deltaTime;
             if (timer < 0.0f)
