@@ -144,16 +144,16 @@ public class Collectable : MonoBehaviour
             {
                 if (playerTarget.GetComponent<Player>().associateFruit == GetComponent<FruitType>().typeFruit)
                 {
-                    playerTarget.UpdateCollectableValue(type, (int)value);
+                    playerTarget.UpdateCollectableValue(type, value * 6);
                 }
                 else
                 {
-                    playerTarget.UpdateCollectableValue(type, (int)value);
+                    playerTarget.UpdateCollectableValue(type, -value * 2);
                 }
             }
             else
             {
-				playerTarget.UpdateCollectableValue(type, (int)value);
+				playerTarget.UpdateCollectableValue(type, value);
             }
 
             if (type == CollectableType.Rune)

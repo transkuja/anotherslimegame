@@ -196,6 +196,7 @@ public class Player : MonoBehaviour {
                 NbPoints += pickedValue;  
                 break;
             case CollectableType.Fruits:
+                NbPoints += pickedValue;
                 break;
             default:
                 EvolutionCheck(type);
