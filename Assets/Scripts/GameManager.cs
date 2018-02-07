@@ -295,7 +295,6 @@ public class GameManager : MonoBehaviour {
     {
         currentGameFinalTimer = GameFinalTimer;
         finalTimerInitialized = true;
-        uiReference.TimerNeedUpdate(currentGameFinalTimer);
     }
 
     [SerializeField] float maxMovementSpeed = 35.0f;
