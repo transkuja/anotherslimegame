@@ -70,7 +70,7 @@ public class PlayerControllerKart : PlayerController {
        
         //float directionFactor = Mathf.Round((state.Triggers.Right) + (state.Triggers.Left * -1));
 
-        rb.AddForce(Vector3.down * Time.deltaTime * 4000.0f);
+        rb.AddForce(Vector3.down * Time.deltaTime * 20000.0f);
 
 
         previousState = state;
