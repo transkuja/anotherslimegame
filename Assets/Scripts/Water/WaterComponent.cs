@@ -31,6 +31,7 @@ public class WaterComponent : MonoBehaviour {
             {
                 other.transform.GetChild((int)PlayerChildren.BubbleParticles).GetComponent<ParticleSystem>().Play();
                 other.transform.GetChild((int)PlayerChildren.SplashParticles).GetComponent<ParticleSystem>().Play();
+                other.transform.GetChild((int)PlayerChildren.WaterTrailParticles).GetComponent<ParticleSystem>().Play();
             }
      
             
@@ -53,9 +54,9 @@ public class WaterComponent : MonoBehaviour {
             PlayerControllerHub playerController = other.GetComponent<PlayerControllerHub>();
             if (other.transform.GetChild((int)PlayerChildren.BubbleParticles).GetComponent<ParticleSystem>())
             {
-                // SEB C'est pour toi
                 other.transform.GetChild((int)PlayerChildren.BubbleParticles).GetComponent<ParticleSystem>().Stop();
             }
+            other.transform.GetChild((int)PlayerChildren.WaterTrailParticles).GetComponent<ParticleSystem>().Stop();
 
             if (waterResistance != 0)
             {
