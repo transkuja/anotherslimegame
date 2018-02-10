@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 using UWPAndXInput;
 
-public enum CostAreaType { PayAndGetItem, PayAndCallEvent, PayAndUnlockMiniGame }
+public enum CostAreaType { PayAndGetItem, PayAndCallEvent, PayAndUnlockMiniGame, DontPlayAndUnlockMinigame }
 public enum CostAreaEvent { None, EndGame, IncreaseWater }
 public enum CostAreaReactivationMode { None, OverTime, OnEvent }
 public class CostArea : MonoBehaviour {
@@ -78,7 +78,7 @@ public class CostArea : MonoBehaviour {
     public void Start()
     {
         // Desactive la cost area si le minijeu a deja été debloqué
-        if (costAreaType == CostAreaType.PayAndUnlockMiniGame)
+        if (costAreaType == CostAreaType.PayAndUnlockMiniGame || costAreaType == CostAreaType.DontPlayAndUnlockMinigame )
         {
             if (GetComponent<CreateEnumFromDatabase>() == null)
             {
@@ -198,6 +198,11 @@ public class CostArea : MonoBehaviour {
                         return;
                 }
 
+                if (costAreaType == CostAreaType.DontPlayAndUnlockMinigame)
+                {
+                    return;
+                }
+
                 if (Pay(playerComponent))
                 {
                     isActive = false;
@@ -287,7 +292,7 @@ public class CostArea : MonoBehaviour {
 
     public void UnlockAssociatedMinigame(string minigameIdFromDatabase)
     {
-        if (costAreaType == CostAreaType.PayAndUnlockMiniGame)
+        if (costAreaType == CostAreaType.PayAndUnlockMiniGame || costAreaType == CostAreaType.DontPlayAndUnlockMinigame)
         {
             isActive = false;
             teleporterToMiniGame.TeleportToMinigame(minigameIdFromDatabase);

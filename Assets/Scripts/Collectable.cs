@@ -167,17 +167,6 @@ public class Collectable : MonoBehaviour
 				playerTarget.UpdateCollectableValue(type, value);
             }
 
-            if (type == CollectableType.Rune)
-            {
-                if (GetComponent<CreateEnumFromDatabase>() == null)
-                {
-                    Debug.LogError("Attract fct : It's a rune, it need a createEnumFromDatabase component link to the associated rune");
-                    return;
-                }
-                string s = GetComponent<CreateEnumFromDatabase>().enumFromList[GetComponent<CreateEnumFromDatabase>().HideInt];
-                DatabaseManager.Db.SetUnlock<DatabaseClass.RuneData>(s, true);
-            }
-
             if (AudioManager.Instance != null && AudioManager.Instance.coinFX != null) AudioManager.Instance.PlayOneShot(AudioManager.Instance.coinFX);
 
             if (GetComponent<PoolChild>())
