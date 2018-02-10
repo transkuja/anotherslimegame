@@ -184,7 +184,11 @@ public class ScoreScreen : MonoBehaviour {
                 curPlayer.transform.localRotation = Quaternion.identity;
             }
             podium.GetChild(5).gameObject.SetActive(true);
-            GameManager.UiReference.gameObject.SetActive(false);
+            // Hide timer
+            GameManager.UiReference.transform.GetChild(1).gameObject.SetActive(false);
+            // Change render mode so we can see the UI updating
+            GameManager.UiReference.GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
+
             minigameUI.SetActive(false);
             gameObject.SetActive(true);
 
@@ -276,9 +280,8 @@ public class ScoreScreen : MonoBehaviour {
 
         if (GameManager.Instance.CurrentGameMode.checkRuneObjective())
         {
-            GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<Player>().UpdateCollectableValue(CollectableType.Rune);
-            GameManager.Instance.CurrentGameMode.UnlockRune();
             PlayGetRuneAnimation();
+            Invoke("ShowUiUpdating", 1.0f);
         }
         else
         {
@@ -287,6 +290,19 @@ public class ScoreScreen : MonoBehaviour {
 
         startExitTimer = true;
     }
+
+    void ShowUiUpdating()
+    {
+        GameManager.UiReference.GetComponent<UI>().TooglePersistenceUI(true);
+        Invoke("ShowUiUpdatingNextStep", 0.5f);
+    }
+
+    void ShowUiUpdatingNextStep()
+    {
+        GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<Player>().UpdateCollectableValue(CollectableType.Rune);
+        GameManager.Instance.CurrentGameMode.UnlockRune();
+    }
+
 
     void PlayFailedObjectiveAnimation()
     {
@@ -356,6 +372,7 @@ public class ScoreScreen : MonoBehaviour {
             {
                 if (GameManager.Instance.CurrentGameMode.IsMiniGame())
                 {
+                    GameManager.UiReference.GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceCamera;
                     SceneManager.LoadScene(1); // ugly?
                 }
                 //ExitToMainMenu();

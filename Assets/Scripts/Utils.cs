@@ -14,7 +14,7 @@ public static class Utils {
             50,            // CollectableType Evolution4 (Agile)
             50,            // CollectableType Evolution4 (Ghost)
             9999,          // Max points
-            3,              // Max Runes
+            30,              // Max Runes
             99999,           // Max money
             9999,           // Max Fruits
             0               //Bonus
