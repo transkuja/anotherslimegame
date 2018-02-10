@@ -26,6 +26,7 @@ public static class ColorFloorHandler {
         if (!currentlyColoredByPlayer[_playerIndex].Contains(_toRegister))
         {
             currentlyColoredByPlayer[_playerIndex].Add(_toRegister);
+            _toRegister.GetComponent<MeshRenderer>().material.EnableKeyword("_EMISSION");
             _toRegister.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", GameManager.Instance.PlayerStart.colorPlayer[_playerIndex]);
         }
     }
