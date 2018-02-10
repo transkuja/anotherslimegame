@@ -239,13 +239,14 @@ public class ScoreScreen : MonoBehaviour {
         Player player = GameManager.Instance.PlayerStart.PlayersReference[currentPlayerIndex].GetComponent<Player>();
         transform.GetChild(0).GetChild(1).GetChild(2).GetComponent<Text>().fontSize *= 2;
         transform.GetChild(0).GetChild(1).GetChild(2).GetComponent<AnimText>().enabled = true;
+        int curPlayerScore = player.NbPoints;
 
         while (currentPlayerIndex < 2)
         {
-            if (player.NbPoints - step < 0)
+            if (curPlayerScore - step < 0)
             {
-                totalScore += player.NbPoints;
-                player.NbPoints = 0;
+                totalScore += curPlayerScore;
+                curPlayerScore = 0;
                 transform.GetChild(currentPlayerIndex).GetChild(1).GetChild(2).GetComponent<Text>().text = "0pts";
                 transform.GetChild(currentPlayerIndex).GetChild(1).GetChild(2).GetComponent<Text>().fontSize /= 2;
                 transform.GetChild(0).GetChild(1).GetChild(2).GetComponent<AnimText>().enabled = false;
@@ -256,17 +257,18 @@ public class ScoreScreen : MonoBehaviour {
                     transform.GetChild(currentPlayerIndex).GetChild(1).GetChild(2).GetComponent<Text>().fontSize *= 2;
                     transform.GetChild(0).GetChild(1).GetChild(2).GetComponent<AnimText>().enabled = true;
                     player = GameManager.Instance.PlayerStart.PlayersReference[currentPlayerIndex].GetComponent<Player>();
+                    curPlayerScore = player.NbPoints;
                 }
                 else
                     tick = 0.0f;
             }
             else
-            {           
-                player.NbPoints -= step;
+            {
+                curPlayerScore -= step;
                 totalScore += step;
             }
 
-            transform.GetChild(currentPlayerIndex).GetChild(1).GetChild(2).GetComponent<Text>().text = player.NbPoints + "pts";
+            transform.GetChild(currentPlayerIndex).GetChild(1).GetChild(2).GetComponent<Text>().text = curPlayerScore + "pts";
             runeObjectiveUI.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = totalScore.ToString();
 
             yield return new WaitForSeconds(tick);
@@ -283,17 +285,33 @@ public class ScoreScreen : MonoBehaviour {
             PlayFailedObjectiveAnimation();
         }
 
-        canExit = true;
+        startExitTimer = true;
     }
 
     void PlayFailedObjectiveAnimation()
     {
+        Text failedText = runeObjectiveUI.transform.GetChild(1).GetComponent<Text>();
+        failedText.text = "Failed";
+        failedText.color = Color.red;
+
         runeObjectiveUI.transform.GetChild(1).gameObject.SetActive(true);
     }
 
     void PlayGetRuneAnimation()
     {
+        Text wellDoneText = runeObjectiveUI.transform.GetChild(1).GetComponent<Text>();
+        wellDoneText.text = "Well done!";
+        wellDoneText.color = Color.green;
 
+        runeObjectiveUI.transform.GetChild(1).gameObject.SetActive(true);
+
+        GameObject runePreview = podium.transform.GetChild(0).GetChild(0).gameObject;
+        runePreview.transform.position += Vector3.up * 4;
+        Material mat = runePreview.GetComponentInChildren<MeshRenderer>().material;
+        Color newColor = mat.color;
+        newColor.a = 1.0f;
+        mat.color = newColor;
+        mat.SetColor("_EmissionColor", Color.magenta);
     }
 
 
@@ -315,8 +333,13 @@ public class ScoreScreen : MonoBehaviour {
             {
                 for (int i = 1; i < podium.transform.childCount - 1; i++)
                     podium.transform.GetChild(i).gameObject.SetActive(false);
+
+                // Activate rune preview
+                podium.transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
+
                 for (int i = 0; i < transform.childCount-1; i++)
                     transform.GetChild(i).GetChild(0).gameObject.SetActive(false);
+                // Activate objective texts
                 transform.GetChild(transform.childCount - 1).gameObject.SetActive(true);
                 goToRuneScreen = false;
 
