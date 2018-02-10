@@ -24,11 +24,11 @@ public abstract class APlayerUI : MonoBehaviour {
         foreach (GameObject p in GameManager.Instance.PlayerStart.PlayersReference)
             p.GetComponent<Player>().OnValuesChange = new UIfct[(int)PlayerUIStat.Size];
 
-        //foreach (TextChange obj in GameObject.FindObjectsOfType<TextChange>())
-        //{
-        //    if (obj.transform.parent.gameObject.activeSelf)
-        //        obj.Init();
-        //}
+        foreach (TextChange obj in GameObject.FindObjectsOfType<TextChange>())
+        {
+            if (obj.transform.parent.gameObject.activeSelf)
+                obj.Init();
+        }
 
     }
 
