@@ -36,7 +36,7 @@ public static class MinigameDataUtils
         }
         else if (_minigameId == "MinigameKart")
         {
-            return "";
+            return "Kart";
         }
         else if (_minigameId == "Minigame3dRunner")
         {
@@ -48,7 +48,7 @@ public static class MinigameDataUtils
         }
         else if (_minigameId == "MinigamePush")
         {
-
+            return "Arena Fighting";
         }
         return "";
     }
