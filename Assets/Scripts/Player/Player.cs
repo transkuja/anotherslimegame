@@ -209,9 +209,15 @@ public class Player : MonoBehaviour {
     public void CallOnValueChange(PlayerUIStat type, int _newValue)
     {
         if (OnValuesChange != null)
+        {
             if (OnValuesChange.Length > 0)
+            {
                 if (OnValuesChange[(int)type] != null)
-                        OnValuesChange[(int)type](_newValue);            
+                {
+                    OnValuesChange[(int)type](_newValue);
+                }
+            }
+        }
     }
 
     public bool EvolutionCheck(CollectableType type, bool _launchProcessOnSucess = true)

@@ -223,14 +223,11 @@ public class ScoreScreen : MonoBehaviour {
             }
         }
 
-        Debug.Log(timerCanExit);
-        Debug.Log(canExit);
         if (canExit)
         {
             if (GamePad.GetState(GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerController>().playerIndex).Buttons.Start == ButtonState.Pressed
                 || GamePad.GetState(GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerController>().playerIndex).Buttons.A == ButtonState.Pressed)
             {
-                Debug.Log("z");
                 if (GameManager.Instance.CurrentGameMode.IsMiniGame())
                 {
                     SceneManager.LoadScene(1); // ugly?
