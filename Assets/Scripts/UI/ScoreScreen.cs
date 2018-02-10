@@ -304,44 +304,33 @@ public class ScoreScreen : MonoBehaviour {
     {
         float step = 0.2f;
         float totalTime = 0.0f;
-        int currentPlayerIndex = 0;
         float maxTime = 2.0f;
 
+        //transform.GetChild(0).GetChild(1).GetChild(2).GetComponent<Text>().fontSize *= 2;
+        //transform.GetChild(0).GetChild(1).GetChild(2).GetComponent<AnimText>().enabled = true;
 
-        Player player = GameManager.Instance.PlayerStart.PlayersReference[currentPlayerIndex].GetComponent<Player>();
-        transform.GetChild(0).GetChild(1).GetChild(2).GetComponent<Text>().fontSize *= 2;
-        transform.GetChild(0).GetChild(1).GetChild(2).GetComponent<AnimText>().enabled = true;
-        float curPlayerTime = player.FinishTime;
-        float tick = maxTime / (curPlayerTime / step);
-
-        while (currentPlayerIndex < 2)
+        //Find the shortest time from all the players
+        float shortestTime = Mathf.Infinity;
+        foreach(GameObject pGo in GameManager.Instance.PlayerStart.PlayersReference)
         {
-            if (curPlayerTime - step < 0)
-            {
-                totalTime += curPlayerTime;
-                curPlayerTime = 0.0f;
-                transform.GetChild(currentPlayerIndex).GetChild(1).GetChild(2).GetComponent<Text>().text = "00:00:00 s";
-                transform.GetChild(currentPlayerIndex).GetChild(1).GetChild(2).GetComponent<Text>().fontSize /= 2;
-                transform.GetChild(0).GetChild(1).GetChild(2).GetComponent<AnimText>().enabled = false;
+            if(pGo.GetComponent<Player>().FinishTime < shortestTime);
+            shortestTime = pGo.GetComponent<Player>().FinishTime;
+        }
 
-                currentPlayerIndex++;
-                if (currentPlayerIndex < GameManager.Instance.ActivePlayersAtStart)
-                {
-                    transform.GetChild(currentPlayerIndex).GetChild(1).GetChild(2).GetComponent<Text>().fontSize *= 2;
-                    transform.GetChild(0).GetChild(1).GetChild(2).GetComponent<AnimText>().enabled = true;
-                    player = GameManager.Instance.PlayerStart.PlayersReference[currentPlayerIndex].GetComponent<Player>();
-                    curPlayerTime = player.NbPoints;
-                }
-                else
-                    tick = 0.0f;
-            }
-            else
-            {
-                curPlayerTime -= step;
-                totalTime += step;
-            }
+        float curPlayerTime = shortestTime;
+        float tick = maxTime / (curPlayerTime / step);
+        bool isDone = false;
+        while (!isDone)
+        {
+            curPlayerTime -= step;
+            totalTime += step;
 
-            //transform.GetChild(currentPlayerIndex).GetChild(1).GetChild(2).GetComponent<Text>().text = curPlayerTime + "s";
+            if (totalTime >= shortestTime)
+            {
+                totalTime = shortestTime;
+                isDone = true;
+            }
+            
             runeObjectiveUI.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = TimeFormatUtils.GetFormattedTime(totalTime, TimeFormat.MinSecMil);
 
             yield return new WaitForSeconds(tick);
