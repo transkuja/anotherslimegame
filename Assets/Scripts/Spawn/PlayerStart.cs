@@ -142,12 +142,21 @@ public class PlayerStart : MonoBehaviour {
         for (int i = 0; i < activePlayersAtStart; i++)
         {
             GameObject go = Instantiate(playerPrefab);
-            Transform playerSpawn = playerStart[i];
-            go.transform.position = playerSpawn.position;
-            go.transform.rotation = playerSpawn.rotation;
-            Player currentPlayer = go.GetComponent<Player>();
-            currentPlayer.respawnPoint = playerSpawn;
-
+            if (GameManager.Instance.IsInHub() && GameManager.Instance.savedPositionInHub != Vector3.zero)
+            {
+                go.transform.position = GameManager.Instance.savedPositionInHub + Vector3.right * i;
+                go.transform.rotation = Quaternion.identity;
+                Player currentPlayer = go.GetComponent<Player>();
+                currentPlayer.respawnPoint = playerStart[i];
+            }
+            else
+            {
+                Transform playerSpawn = playerStart[i];
+                go.transform.position = playerSpawn.position;
+                go.transform.rotation = playerSpawn.rotation;
+                Player currentPlayer = go.GetComponent<Player>();
+                currentPlayer.respawnPoint = playerSpawn;
+            }
             PlayerController playerController = go.GetComponent<PlayerController>();
             
             playerController.PlayerIndex = (PlayerIndex)i;

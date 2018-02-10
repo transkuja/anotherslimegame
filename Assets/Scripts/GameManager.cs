@@ -29,6 +29,8 @@ public class GameManager : MonoBehaviour {
     public bool[][] playerEvolutionTutoShown;
     public bool[] playerCostAreaTutoShown;
 
+    public Vector3 savedPositionInHub = Vector3.zero;
+
     public static GameManager Instance
     {
         get

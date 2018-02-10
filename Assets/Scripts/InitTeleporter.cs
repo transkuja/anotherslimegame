@@ -120,6 +120,7 @@ public class InitTeleporter : MonoBehaviour {
             GameManager.Instance.playerCostAreaTutoShown[i] = currentPlayer.costAreaTutoShown;
             GameManager.Instance.playerEvolutionTutoShown[i] = currentPlayer.evolutionTutoShown;
         }
+        GameManager.Instance.savedPositionInHub = transform.position + Vector3.forward;
         SceneManager.LoadScene(minigameSceneToTeleportTo);
     }
 
