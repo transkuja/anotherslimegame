@@ -16,7 +16,8 @@ public class AnimText : MonoBehaviour {
 	void Start () {
         text = GetComponent<Text>();
         outline = GetComponent<Outline>();
-        outlineColor = outline.effectColor;
+        if (outline != null)
+            outlineColor = outline.effectColor;
     }
 	
 	void Update () {
