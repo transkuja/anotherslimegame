@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using System;
+using System.Collections;
 using UnityEngine.UI;
 
 
@@ -197,6 +198,8 @@ public class ScoreScreen : MonoBehaviour {
                     {
                         runeObjectiveUI.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "0";
                         runeObjectiveUI.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = GameManager.Instance.CurrentGameMode.necessaryPointsForRune.ToString();
+                        runeObjectiveUI.transform.GetChild(0).GetChild(0).position += Vector3.right * 60;
+                        runeObjectiveUI.transform.GetChild(0).GetChild(1).position += Vector3.left * 60;
                     }
                     else if (runeObjective == RuneObjective.Time)
                     {
@@ -206,18 +209,6 @@ public class ScoreScreen : MonoBehaviour {
 
                     goToRuneScreen = true;
                     timerCanExit = timerPlayGetRuneAnimation;
-                    PlayAddToScoreAnimation(runeObjective);
-
-                    if (GameManager.Instance.CurrentGameMode.checkRuneObjective())
-                    {
-                        GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<Player>().UpdateCollectableValue(CollectableType.Rune);
-                        GameManager.Instance.CurrentGameMode.UnlockRune();
-                        PlayGetRuneAnimation();
-                    }
-                    else
-                    {
-                        PlayFailedObjectiveAnimation();
-                    }
                 }
                 else
                     startExitTimer = true;
@@ -229,13 +220,68 @@ public class ScoreScreen : MonoBehaviour {
     {
         if (_objectiveType == RuneObjective.Points)
         {
-
+            StartCoroutine(AddScoreToTotalPoints());
         }
         else if (_objectiveType == RuneObjective.Time)
         {
 
         }
         
+    }
+
+    IEnumerator AddScoreToTotalPoints()
+    {
+        int step = 5;
+        float tick = 0.25f;
+        int totalScore = 0;
+        int currentPlayerIndex = 0;
+
+        Player player = GameManager.Instance.PlayerStart.PlayersReference[currentPlayerIndex].GetComponent<Player>();
+        transform.GetChild(0).GetChild(1).GetChild(2).GetComponent<Text>().fontSize *= 2;
+        transform.GetChild(0).GetChild(1).GetChild(2).GetComponent<AnimText>().enabled = true;
+
+        while (currentPlayerIndex < 2)
+        {
+            if (player.NbPoints - step < 0)
+            {
+                totalScore += player.NbPoints;
+                player.NbPoints = 0;
+                transform.GetChild(currentPlayerIndex).GetChild(1).GetChild(2).GetComponent<Text>().text = "0pts";
+                transform.GetChild(currentPlayerIndex).GetChild(1).GetChild(2).GetComponent<Text>().fontSize /= 2;
+                transform.GetChild(0).GetChild(1).GetChild(2).GetComponent<AnimText>().enabled = false;
+
+                currentPlayerIndex++;
+                if (currentPlayerIndex < GameManager.Instance.ActivePlayersAtStart)
+                {
+                    transform.GetChild(currentPlayerIndex).GetChild(1).GetChild(2).GetComponent<Text>().fontSize *= 2;
+                    transform.GetChild(0).GetChild(1).GetChild(2).GetComponent<AnimText>().enabled = true;
+                    player = GameManager.Instance.PlayerStart.PlayersReference[currentPlayerIndex].GetComponent<Player>();
+                }
+            }
+            else
+            {           
+                player.NbPoints -= step;
+                totalScore += step;
+            }
+
+            transform.GetChild(currentPlayerIndex).GetChild(1).GetChild(2).GetComponent<Text>().text = player.NbPoints + "pts";
+            runeObjectiveUI.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = totalScore.ToString();
+
+            yield return new WaitForSeconds(tick);
+        }
+
+        if (GameManager.Instance.CurrentGameMode.checkRuneObjective())
+        {
+            GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<Player>().UpdateCollectableValue(CollectableType.Rune);
+            GameManager.Instance.CurrentGameMode.UnlockRune();
+            PlayGetRuneAnimation();
+        }
+        else
+        {
+            PlayFailedObjectiveAnimation();
+        }
+
+        canExit = true;
     }
 
     void PlayFailedObjectiveAnimation()
@@ -267,10 +313,13 @@ public class ScoreScreen : MonoBehaviour {
             {
                 for (int i = 1; i < podium.transform.childCount - 1; i++)
                     podium.transform.GetChild(i).gameObject.SetActive(false);
-                for (int i = 0; i < transform.childCount; i++)
+                for (int i = 0; i < transform.childCount-1; i++)
                     transform.GetChild(i).GetChild(0).gameObject.SetActive(false);
+                transform.GetChild(transform.childCount - 1).gameObject.SetActive(true);
                 goToRuneScreen = false;
-                startExitTimer = true;
+
+                PlayAddToScoreAnimation(GameManager.Instance.CurrentGameMode.runeObjective);
+                //startExitTimer = true;
             }
         }
 
