@@ -14,7 +14,7 @@ public static class MinigameDataUtils
         }
         else if (curGameMode is KartGameMode)
         {
-            return "";
+            return "Kart";
         }
         else if (curGameMode is Runner3DGameMode)
         {
@@ -62,7 +62,7 @@ public static class MinigameDataUtils
         }
         else if (curGameMode is KartGameMode)
         {
-            return "";
+            return "Win the race.";
         }
         else if (curGameMode is Runner3DGameMode)
         {
@@ -88,6 +88,10 @@ public static class MinigameDataUtils
         }
         else if (curGameMode is KartGameMode)
         {
+            controls.Add(new ControlDetails(ControlType.DrivingForward));
+            controls.Add(new ControlDetails(ControlType.DrivingReverse));
+            controls.Add(new ControlDetails(ControlType.Steering));
+            controls.Add(new ControlDetails(ControlType.Action, "Use your items with X"));
         }
         else if (curGameMode is Runner3DGameMode)
         {

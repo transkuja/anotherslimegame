@@ -96,7 +96,7 @@ public class RuleScreenHandler : MonoBehaviour {
     }
 }
 
-public enum ControlType { Movement, Jump, Action, RightTrigger }
+public enum ControlType { Movement, Jump, Action, RightTrigger, DrivingForward, DrivingReverse, Steering }
 public class ControlDetails
 {
     public ControlType button;
@@ -115,6 +115,12 @@ public class ControlDetails
 
         else if (_button == ControlType.Jump)
             description = "Jump with A";
+        else if (_button == ControlType.DrivingForward)
+            description = "Accelerate with RT";
+        else if (_button == ControlType.DrivingReverse)
+            description = "Reverse with LT";
+        else if (_button == ControlType.Steering)
+            description = "Steer with L stick";
 
         button = _button;
     }

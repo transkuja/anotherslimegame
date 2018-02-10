@@ -9,10 +9,13 @@ public class KartGameMode : GameMode {
 
     float timer;
 
+    float firstFinishTime = -1.0f;
+
     public override void StartGame(List<GameObject> playerReferences)
     {
         base.StartGame(playerReferences);
-
+        rules = new MinigameRules(this);
+        checkRuneObjective = CheckRuneObjectiveForKart;
         LaunchTimer();
     }
 
@@ -33,6 +36,17 @@ public class KartGameMode : GameMode {
 
     public override void PlayerHasFinished(Player player)
     {
+        if(Mathf.Approximately(firstFinishTime, -1.0f))
+        {
+            firstFinishTime = timer;
+        }
+
+        player.FinishTime = timer;
         GameManager.Instance.ScoreScreenReference.RefreshScores(player, timer, TimeFormat.MinSecMil);
+    }
+
+    public bool CheckRuneObjectiveForKart()
+    {
+        return firstFinishTime <= necessaryTimeForRune;
     }
 }

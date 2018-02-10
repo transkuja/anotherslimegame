@@ -228,7 +228,7 @@ public class ScoreScreen : MonoBehaviour {
         }
         else if (_objectiveType == RuneObjective.Time)
         {
-
+            StartCoroutine(AddTimeToTotalTime());
         }
         
     }
@@ -287,6 +287,69 @@ public class ScoreScreen : MonoBehaviour {
             yield return new WaitForSeconds(tick);
         }
 
+        if (GameManager.Instance.CurrentGameMode.checkRuneObjective())
+        {
+            PlayGetRuneAnimation();
+            Invoke("ShowUiUpdating", 1.0f);
+        }
+        else
+        {
+            PlayFailedObjectiveAnimation();
+        }
+
+        startExitTimer = true;
+    }
+
+    IEnumerator AddTimeToTotalTime()
+    {
+        float step = 0.2f;
+        float totalTime = 0.0f;
+        int currentPlayerIndex = 0;
+        float maxTime = 2.0f;
+
+
+        Player player = GameManager.Instance.PlayerStart.PlayersReference[currentPlayerIndex].GetComponent<Player>();
+        transform.GetChild(0).GetChild(1).GetChild(2).GetComponent<Text>().fontSize *= 2;
+        transform.GetChild(0).GetChild(1).GetChild(2).GetComponent<AnimText>().enabled = true;
+        float curPlayerTime = player.FinishTime;
+        float tick = maxTime / (curPlayerTime / step);
+
+        while (currentPlayerIndex < 2)
+        {
+            if (curPlayerTime - step < 0)
+            {
+                totalTime += curPlayerTime;
+                curPlayerTime = 0.0f;
+                transform.GetChild(currentPlayerIndex).GetChild(1).GetChild(2).GetComponent<Text>().text = "00:00:00 s";
+                transform.GetChild(currentPlayerIndex).GetChild(1).GetChild(2).GetComponent<Text>().fontSize /= 2;
+                transform.GetChild(0).GetChild(1).GetChild(2).GetComponent<AnimText>().enabled = false;
+
+                currentPlayerIndex++;
+                if (currentPlayerIndex < GameManager.Instance.ActivePlayersAtStart)
+                {
+                    transform.GetChild(currentPlayerIndex).GetChild(1).GetChild(2).GetComponent<Text>().fontSize *= 2;
+                    transform.GetChild(0).GetChild(1).GetChild(2).GetComponent<AnimText>().enabled = true;
+                    player = GameManager.Instance.PlayerStart.PlayersReference[currentPlayerIndex].GetComponent<Player>();
+                    curPlayerTime = player.NbPoints;
+                }
+                else
+                    tick = 0.0f;
+            }
+            else
+            {
+                curPlayerTime -= step;
+                totalTime += step;
+            }
+
+            //transform.GetChild(currentPlayerIndex).GetChild(1).GetChild(2).GetComponent<Text>().text = curPlayerTime + "s";
+            runeObjectiveUI.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = TimeFormatUtils.GetFormattedTime(totalTime, TimeFormat.MinSecMil);
+
+            yield return new WaitForSeconds(tick);
+        }
+        if(GameManager.Instance.CurrentGameMode.checkRuneObjective == null && GameManager.Instance.CurrentGameMode.GetType() == typeof(KartGameMode))
+        {
+            GameManager.Instance.CurrentGameMode.checkRuneObjective = ((KartGameMode)GameManager.Instance.CurrentGameMode).CheckRuneObjectiveForKart;
+        }
         if (GameManager.Instance.CurrentGameMode.checkRuneObjective())
         {
             PlayGetRuneAnimation();

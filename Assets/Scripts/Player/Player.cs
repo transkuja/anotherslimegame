@@ -33,6 +33,9 @@ public class Player : MonoBehaviour {
     [SerializeField] private int nbLife = -1;
     [SerializeField] private int nbPoints = 0;
 
+    //for minigame Kart
+    [SerializeField] private float finishTime = -1.0f;
+
     public bool[] evolutionTutoShown = new bool[(int)Powers.Size];
     public bool costAreaTutoShown = false;
 
@@ -172,6 +175,12 @@ public class Player : MonoBehaviour {
             nbPoints = value;
             CallOnValueChange(PlayerUIStat.Points, nbPoints);
         }
+    }
+
+    public float FinishTime
+    {
+        get { return finishTime; }
+        set { finishTime = value; }
     }
 
     #endregion
