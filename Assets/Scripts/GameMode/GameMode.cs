@@ -10,6 +10,14 @@ public enum ViewMode {
     sideView2d// Camera avec orientation quasie fixe + deplacement 2d 
 } 
 
+public enum RuneObjective
+{
+    None,
+    Points,
+    Time,
+    PointsAndTime    
+}
+
 public class GameModeData
 {
 
@@ -39,6 +47,11 @@ abstract public class GameMode : MonoBehaviour
     GamePadState prevState;
     GamePadState curState;
 
+    public RuneObjective runeObjective;
+    public int necessaryPointsForRune;
+    public float necessaryTimeForRune;
+    protected int currentScore = 0;
+
     #region getterSetters
     public bool TakesDamageFromPlayer
     {
@@ -57,7 +70,15 @@ abstract public class GameMode : MonoBehaviour
     }
 
     public ViewMode ViewMode{get{return viewMode;}}
-#endregion
+
+    public int CurrentScore
+    {
+        get
+        {
+            return currentScore;
+        }
+    }
+    #endregion
 
     public void Awake()
     {
@@ -82,10 +103,17 @@ abstract public class GameMode : MonoBehaviour
         if (!IsMiniGame())
             return;
 
+        // Rune can't be obtained from minigame selection screen
+        if (GameManager.Instance.DataContainer != null)
+        {
+            if (GameManager.Instance.DataContainer.launchedFromMinigameScreen)
+                runeObjective = RuneObjective.None;
+        }
+
         Transform ruleScreenRef = GameManager.UiReference.RuleScreen;
 
         ruleScreenRef.GetComponentInChildren<Text>().text = rules.title;
-        ruleScreenRef.GetChild(1).GetComponent<Text>().text = rules.howToPlay + "\n\nRune objective:\n" + rules.runeObtention;
+        ruleScreenRef.GetChild(1).GetComponent<Text>().text = rules.howToPlay + ((runeObjective != RuneObjective.None) ? "\n\nRune objective:\n" + rules.runeObtention : "");
 
         GameObject controlDetailsPage = new GameObject("ControlDetailsPage");
         controlDetailsPage.transform.SetParent(ruleScreenRef);

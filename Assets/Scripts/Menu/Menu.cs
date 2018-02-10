@@ -10,6 +10,7 @@ public class Menu : MonoBehaviour {
 
     int currentCursor = 0;
 
+    // -1 None, 0 Story/Hub, 1 minigame selection
     int selectedMode = -1;
     int nbPlayers = -1;
 
@@ -399,6 +400,6 @@ public class Menu : MonoBehaviour {
                 sc[i] = unlockedCustomColors[selectedColors[i]].color;
             }
         }
-        dataContainer.SaveData(nbPlayers, sc, selectedFaces, selectedColorFades);
+        dataContainer.SaveData(nbPlayers, sc, selectedFaces, selectedColorFades, selectedMode == 1);
     }
 }
