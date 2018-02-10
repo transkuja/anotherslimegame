@@ -257,6 +257,8 @@ public class ScoreScreen : MonoBehaviour {
                     transform.GetChild(0).GetChild(1).GetChild(2).GetComponent<AnimText>().enabled = true;
                     player = GameManager.Instance.PlayerStart.PlayersReference[currentPlayerIndex].GetComponent<Player>();
                 }
+                else
+                    tick = 0.0f;
             }
             else
             {           
@@ -319,7 +321,6 @@ public class ScoreScreen : MonoBehaviour {
                 goToRuneScreen = false;
 
                 PlayAddToScoreAnimation(GameManager.Instance.CurrentGameMode.runeObjective);
-                //startExitTimer = true;
             }
         }
 
