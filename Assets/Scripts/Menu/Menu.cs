@@ -9,6 +9,7 @@ public class Menu : MonoBehaviour {
     MenuState currentState = MenuState.TitleScreen;
 
     int currentCursor = 0;
+    int[] minigameCurrentCursor = new int[2];
 
     // -1 None, 0 Story/Hub, 1 minigame selection
     int selectedMode = -1;
@@ -18,11 +19,14 @@ public class Menu : MonoBehaviour {
     bool buttonNeedUpdate = false;
 
     public GameObject playerCustomScreenPrefab;
+    public GameObject minigameScreenButtonPrefab;
 
     List<GameObject> playerCustomScreens = new List<GameObject>();
+    List<GameObject> minigameButtonsInstantiated = new List<GameObject>();
 
     private List<DatabaseClass.ColorData> unlockedCustomColors = new List<DatabaseClass.ColorData>();
     private List<DatabaseClass.FaceData> unlockedFaces = new List<DatabaseClass.FaceData>();
+    private List<DatabaseClass.MinigameData> unlockedMinigames = new List<DatabaseClass.MinigameData>();
 
     GamePadState[] prevControllerStates = new GamePadState[4];
     GamePadState[] controllerStates = new GamePadState[4];
@@ -59,6 +63,12 @@ public class Menu : MonoBehaviour {
         {
             if (f.isUnlocked)
                 unlockedFaces.Add(f);
+        }
+
+        foreach (DatabaseClass.MinigameData f in DatabaseManager.Db.minigames)
+        {
+            if (f.isUnlocked)
+                unlockedMinigames.Add(f);
         }
 
         SetState(MenuState.TitleScreen);
@@ -104,30 +114,21 @@ public class Menu : MonoBehaviour {
         // Standard states input
         if (currentState != MenuState.CustomisationScreen)
         {
-            if ((controllerStates[0].ThumbSticks.Left.X > 0.5f && prevControllerStates[0].ThumbSticks.Left.X < 0.5f)
-                    || (controllerStates[0].ThumbSticks.Left.Y < -0.75f && prevControllerStates[0].ThumbSticks.Left.Y > -0.75f))
-            {
-                buttonNeedUpdate = true;
-                currentCursor++;
-            }
-            else if ((controllerStates[0].ThumbSticks.Left.X < -0.5f && prevControllerStates[0].ThumbSticks.Left.X > -0.5f)
-                    || (controllerStates[0].ThumbSticks.Left.Y > 0.75f && prevControllerStates[0].ThumbSticks.Left.Y < 0.75f))
-            {
-                buttonNeedUpdate = true;
-                currentCursor--;
-            }
-        
-
+            if (currentState == MenuState.MinigameSelection)
+                MinigameSelectionCursorControls();
+            else
+                DefaultCursorControls();
+            
             // Update visual feedback
             if (buttonNeedUpdate)
             {
                 if (currentState == MenuState.NumberOfPlayers && selectedMode == 1)
                 {
-                    UpdateSelectionVisual(4, 1);                   
+                    UpdateSelectionVisual(4, 1);
                 }
                 else if (currentState == MenuState.MinigameSelection)
                 {
-                  //  UpdateSelectionVisual()
+                    UpdateSelectionVisualForMinigame();
                 }
                 else
                 {
@@ -237,6 +238,38 @@ public class Menu : MonoBehaviour {
         }
     }
 
+    private void DefaultCursorControls()
+    {
+        if ((controllerStates[0].ThumbSticks.Left.X > 0.5f && prevControllerStates[0].ThumbSticks.Left.X < 0.5f)
+                            || (controllerStates[0].ThumbSticks.Left.Y < -0.75f && prevControllerStates[0].ThumbSticks.Left.Y > -0.75f))
+        {
+            buttonNeedUpdate = true;
+            currentCursor++;
+        }
+        else if ((controllerStates[0].ThumbSticks.Left.X < -0.5f && prevControllerStates[0].ThumbSticks.Left.X > -0.5f)
+                || (controllerStates[0].ThumbSticks.Left.Y > 0.75f && prevControllerStates[0].ThumbSticks.Left.Y < 0.75f))
+        {
+            buttonNeedUpdate = true;
+            currentCursor--;
+        }
+    }
+
+    private void MinigameSelectionCursorControls()
+    {
+        if ((controllerStates[0].ThumbSticks.Left.X > 0.5f && prevControllerStates[0].ThumbSticks.Left.X < 0.5f)
+            || (controllerStates[0].ThumbSticks.Left.X < -0.5f && prevControllerStates[0].ThumbSticks.Left.X > -0.5f))
+        {
+            buttonNeedUpdate = true;
+            minigameCurrentCursor[0]++;
+        }
+        else if ((controllerStates[0].ThumbSticks.Left.Y < -0.75f && prevControllerStates[0].ThumbSticks.Left.Y > -0.75f)
+            || (controllerStates[0].ThumbSticks.Left.Y > 0.75f && prevControllerStates[0].ThumbSticks.Left.Y < 0.75f))
+        {
+            buttonNeedUpdate = true;
+            minigameCurrentCursor[1]++;
+        }
+    }
+
     // Move the button cursor and highlight it
     void UpdateSelectionVisual(int _nbButtons, int _childOffset)
     {
@@ -245,6 +278,15 @@ public class Menu : MonoBehaviour {
         else
             currentCursor = currentCursor % _nbButtons;
         currentlySelectedButton = transform.GetChild((int)currentState).GetChild(_childOffset).GetChild(currentCursor).GetComponent<Button>();
+        currentlySelectedButton.Select();
+    }
+
+    void UpdateSelectionVisualForMinigame()
+    {
+        minigameCurrentCursor[0] %= 2;
+        minigameCurrentCursor[1] %= 2;
+        int childIndex = minigameCurrentCursor[0] + 2 * minigameCurrentCursor[1];
+        currentlySelectedButton = transform.GetChild((int)currentState).GetChild(childIndex).GetComponentInChildren<Button>();
         currentlySelectedButton.Select();
     }
 
@@ -286,6 +328,7 @@ public class Menu : MonoBehaviour {
     public void SetState(MenuState _newState)
     {
         currentCursor = 0;
+        minigameCurrentCursor = new int[2];
         transform.GetChild((int)currentState).gameObject.SetActive(false);
         currentState = _newState;
         transform.GetChild((int)currentState).gameObject.SetActive(true);
@@ -338,17 +381,47 @@ public class Menu : MonoBehaviour {
                 go.transform.GetChild(3).GetComponentInChildren<PlayerCosmetics>().FaceType = 0;
 
                 playerCustomScreens.Add(go);
+
+                currentlySelectedButton = transform.GetChild((int)currentState).GetChild(0).GetComponentInChildren<Button>();
+                currentlySelectedButton.Select();
             }
         }
 
+        // Minigame screen reset
+        if (currentState == MenuState.MinigameSelection)
+        {
+            if (minigameButtonsInstantiated.Count > 0)
+            {
+                foreach (GameObject go in minigameButtonsInstantiated)
+                    Destroy(go);
+            }
+
+            minigameButtonsInstantiated.Clear();
+
+            for (int i = 0; i < unlockedMinigames.Count; i++)
+            {
+                GameObject go = Instantiate(minigameScreenButtonPrefab, transform.GetChild((int)MenuState.MinigameSelection));
+                go.GetComponentInChildren<Text>().text = MinigameDataUtils.GetTitle(unlockedMinigames[i].Id);
+                // TODO: have preview for minigames
+                //go.GetComponentInChildren<Image>().sprite = (Sprite)Resources.Load(unlockedMinigames[i].spriteImage);
+
+                go.transform.localPosition = new Vector2(200.0f * Mathf.Pow(-1, i + 1), (i < 2) ? 190.0f : -30.0f);
+                go.SetActive(i < 4);
+
+                minigameButtonsInstantiated.Add(go);
+            }
+        }
     }
 
     void GoToNextState()
     {
         // Go to next state if not story + customisation or minigames and minigame selection
-        if ((selectedMode == 0 && currentState == MenuState.CustomisationScreen)
-            || (selectedMode == 1 && currentState == MenuState.MinigameSelection))
+        if (selectedMode == 0 && currentState == MenuState.CustomisationScreen)
             return;
+
+        if (selectedMode == 1 && currentState == MenuState.MinigameSelection)
+            GoToNextStateFromMinigameSelection();
+
         SetState((MenuState)((int)currentState + 1));
     }
 
@@ -385,6 +458,13 @@ public class Menu : MonoBehaviour {
             return;
         }
     }
+
+    void GoToNextStateFromMinigameSelection()
+    {
+        int minigameIndex = minigameCurrentCursor[0] + 2 * minigameCurrentCursor[1];
+        SceneManager.LoadScene(unlockedMinigames[minigameIndex].Id);
+    }
+
 
     void SendDataToContainer()
     {

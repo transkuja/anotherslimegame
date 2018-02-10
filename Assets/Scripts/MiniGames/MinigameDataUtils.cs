@@ -27,6 +27,32 @@ public static class MinigameDataUtils
         return "";
     }
 
+    public static string GetTitle(string _minigameId)
+    {
+        // "MinigameAntho", "MinigameKart", "MinigamePush", "Minigame3dRunner"
+        if (_minigameId == "MinigameAntho")
+        {
+            return "Color Floor";
+        }
+        else if (_minigameId == "MinigameKart")
+        {
+            return "";
+        }
+        else if (_minigameId == "Minigame3dRunner")
+        {
+            return "Runner";
+        }
+        else if (_minigameId == "Fruits")
+        {
+            return "";
+        }
+        else if (_minigameId == "MinigamePush")
+        {
+
+        }
+        return "";
+    }
+
     public static string GetDescription(GameMode _curGameMode)
     {
         GameMode curGameMode = _curGameMode;
