@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UWPAndXInput;
 
 public class RuleScreenHandler : MonoBehaviour {
     enum RuleScreenState { FirstPage, ControlsPage, PickupPage }
@@ -8,6 +9,9 @@ public class RuleScreenHandler : MonoBehaviour {
     bool skipControlsPage = false;
     bool skipPickupsPage = false;
     bool minigameLaunched = false;
+
+    GamePadState prevState;
+    GamePadState curPadState;
 
     private RuleScreenState CurState {
         set
@@ -30,6 +34,24 @@ public class RuleScreenHandler : MonoBehaviour {
         CurState = RuleScreenState.FirstPage;
         skipControlsPage = GameManager.Instance.CurrentGameMode.rules.controls.Count == 0;
         skipPickupsPage = GameManager.Instance.CurrentGameMode.rules.possiblePickups.Count == 0;
+    }
+
+    private void Update()
+    {
+        if (GameManager.CurrentState == GameState.ForcedPauseMGRules)
+        {
+            prevState = curPadState;
+            curPadState = GamePad.GetState(0);
+
+            if (prevState.Buttons.A == ButtonState.Released && curPadState.Buttons.A == ButtonState.Pressed)
+            {
+                ChangeState(true);
+            }
+            else if (prevState.Buttons.B == ButtonState.Released && curPadState.Buttons.B == ButtonState.Pressed)
+            {
+                ChangeState(false);
+            }
+        }
     }
 
     public void ChangeState(bool _stateForward)

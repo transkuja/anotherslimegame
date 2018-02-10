@@ -44,9 +44,6 @@ abstract public class GameMode : MonoBehaviour
 
     public CheckRuneObjective checkRuneObjective;
 
-    GamePadState prevState;
-    GamePadState curState;
-
     public RuneObjective runeObjective;
     public int necessaryPointsForRune;
     public float necessaryTimeForRune;
@@ -160,20 +157,7 @@ abstract public class GameMode : MonoBehaviour
 
     protected virtual void Update()
     {
-        if (GameManager.CurrentState == GameState.ForcedPauseMGRules)
-        {
-            prevState = curState;
-            curState = GamePad.GetState(0);
-
-            if (prevState.Buttons.A == ButtonState.Released && curState.Buttons.A == ButtonState.Pressed)
-            {
-                GameManager.UiReference.RuleScreen.GetComponent<RuleScreenHandler>().ChangeState(true);
-            }
-            else if (prevState.Buttons.B == ButtonState.Released && curState.Buttons.B == ButtonState.Pressed)
-            {
-                GameManager.UiReference.RuleScreen.GetComponent<RuleScreenHandler>().ChangeState(false);
-            }
-        }
+        
     }
 
     public virtual void AttributeCamera(uint activePlayersAtStart, GameObject[] cameraReferences, List<GameObject> playersReference)
