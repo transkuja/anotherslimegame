@@ -462,6 +462,7 @@ public class Menu : MonoBehaviour {
     void GoToNextStateFromMinigameSelection()
     {
         int minigameIndex = minigameCurrentCursor[0] + 2 * minigameCurrentCursor[1];
+        SendDataToContainer();
         SceneManager.LoadScene(unlockedMinigames[minigameIndex].Id);
     }
 
