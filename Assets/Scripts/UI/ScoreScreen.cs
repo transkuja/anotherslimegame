@@ -381,7 +381,6 @@ public class ScoreScreen : MonoBehaviour {
             {
                 if (GameManager.Instance.CurrentGameMode.IsMiniGame())
                 {
-                    GameManager.UiReference.GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceCamera;
                     SceneManager.LoadScene(1); // ugly?
                 }
                 //ExitToMainMenu();
