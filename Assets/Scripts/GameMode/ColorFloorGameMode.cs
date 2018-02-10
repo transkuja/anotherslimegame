@@ -12,8 +12,6 @@ public class ColorFloorGameMode : GameMode {
     [SerializeField]
     List<GameObject> restrainedMovementStarters;
 
-    public int necessaryPointsForRune;
-
     public List<GameObject> RestrainedMovementStarters
     {
         get
@@ -72,6 +70,7 @@ public class ColorFloorGameMode : GameMode {
             curScore += go.GetComponent<Player>().NbPoints;
             pointsObjective += necessaryPointsForRune;
         }
+        currentScore = curScore;
         return curScore >= pointsObjective;
     }
 

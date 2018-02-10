@@ -3,6 +3,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using System;
+using UnityEngine.UI;
+
 
 public class ScoreScreen : MonoBehaviour {
     enum ScoreScreenChildren { ScorePanel }
@@ -23,6 +25,10 @@ public class ScoreScreen : MonoBehaviour {
     // The root gameobject containing UI for minigame 
     [SerializeField]
     GameObject minigameUI;
+
+    // The child gameobject receiving data about rune objective
+    [SerializeField]
+    GameObject runeObjectiveUI;
 
     bool goToRuneScreen = false;
     bool canExit = false;
@@ -165,10 +171,10 @@ public class ScoreScreen : MonoBehaviour {
             for (int i = 0; i < players.Count; i++)
             {
                 Player curPlayer = players[i].GetComponent<Player>();
-                if(curPlayer.cameraReference)
+                if (curPlayer.cameraReference)
                     curPlayer.cameraReference.SetActive(false);
                 curPlayer.transform.SetParent(podium.GetChild(curPlayer.rank));
-                if(curPlayer.GetComponent<Rigidbody>())
+                if (curPlayer.GetComponent<Rigidbody>())
                 {
                     curPlayer.GetComponent<Rigidbody>().velocity = Vector3.zero;
                     curPlayer.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
@@ -181,22 +187,67 @@ public class ScoreScreen : MonoBehaviour {
             minigameUI.SetActive(false);
             gameObject.SetActive(true);
 
-            if (!GameManager.Instance.CurrentGameMode.IsRuneUnlocked())
+            RuneObjective runeObjective = GameManager.Instance.CurrentGameMode.runeObjective;
+            if (runeObjective != RuneObjective.None)
             {
-                if (GameManager.Instance.CurrentGameMode.checkRuneObjective())
+                if (!GameManager.Instance.CurrentGameMode.IsRuneUnlocked())
                 {
-                    GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<Player>().UpdateCollectableValue(CollectableType.Rune);
-                    GameManager.Instance.CurrentGameMode.UnlockRune();
+                    // Initialize rune objective screen values
+                    if (runeObjective == RuneObjective.Points)
+                    {
+                        runeObjectiveUI.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "0";
+                        runeObjectiveUI.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = GameManager.Instance.CurrentGameMode.necessaryPointsForRune.ToString();
+                    }
+                    else if (runeObjective == RuneObjective.Time)
+                    {
+                        runeObjectiveUI.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "00:00:00";
+                        runeObjectiveUI.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = TimeFormatUtils.GetFormattedTime(GameManager.Instance.CurrentGameMode.necessaryTimeForRune, TimeFormat.MinSecMil);
+                    }
+
                     goToRuneScreen = true;
                     timerCanExit = timerPlayGetRuneAnimation;
+                    PlayAddToScoreAnimation(runeObjective);
+
+                    if (GameManager.Instance.CurrentGameMode.checkRuneObjective())
+                    {
+                        GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<Player>().UpdateCollectableValue(CollectableType.Rune);
+                        GameManager.Instance.CurrentGameMode.UnlockRune();
+                        PlayGetRuneAnimation();
+                    }
+                    else
+                    {
+                        PlayFailedObjectiveAnimation();
+                    }
                 }
                 else
                     startExitTimer = true;
             }
-            else
-                startExitTimer = true;
         }
     }
+
+    void PlayAddToScoreAnimation(RuneObjective _objectiveType)
+    {
+        if (_objectiveType == RuneObjective.Points)
+        {
+
+        }
+        else if (_objectiveType == RuneObjective.Time)
+        {
+
+        }
+        
+    }
+
+    void PlayFailedObjectiveAnimation()
+    {
+        runeObjectiveUI.transform.GetChild(1).gameObject.SetActive(true);
+    }
+
+    void PlayGetRuneAnimation()
+    {
+
+    }
+
 
     void Update()
     {
