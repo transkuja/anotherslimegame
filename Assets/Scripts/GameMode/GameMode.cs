@@ -158,7 +158,7 @@ abstract public class GameMode : MonoBehaviour
         ruleScreenRef.gameObject.SetActive(true);
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         if (GameManager.CurrentState == GameState.ForcedPauseMGRules)
         {

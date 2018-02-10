@@ -25,8 +25,9 @@ public class KartGameMode : GameMode {
         timer = 0.0f;
     }
 
-    private void Update()
+    protected override void Update()
     {
+        base.Update();
         timer += Time.deltaTime;
     }
 
