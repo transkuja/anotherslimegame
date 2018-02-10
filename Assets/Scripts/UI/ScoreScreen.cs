@@ -244,7 +244,11 @@ public class ScoreScreen : MonoBehaviour {
         transform.GetChild(0).GetChild(1).GetChild(2).GetComponent<Text>().fontSize *= 2;
         transform.GetChild(0).GetChild(1).GetChild(2).GetComponent<AnimText>().enabled = true;
         int curPlayerScore = player.NbPoints;
-        float tick = maxTime/(curPlayerScore/(float)step);
+        float tick;
+        if (curPlayerScore == 0)
+            tick = 0;
+        else
+            tick = maxTime/(curPlayerScore/(float)step);
 
         while (currentPlayerIndex < 2)
         {
@@ -263,6 +267,10 @@ public class ScoreScreen : MonoBehaviour {
                     transform.GetChild(0).GetChild(1).GetChild(2).GetComponent<AnimText>().enabled = true;
                     player = GameManager.Instance.PlayerStart.PlayersReference[currentPlayerIndex].GetComponent<Player>();
                     curPlayerScore = player.NbPoints;
+                    if (curPlayerScore == 0)
+                        tick = 0;
+                    else
+                        tick = maxTime / (curPlayerScore / (float)step);
                 }
                 else
                     tick = 0.0f;
