@@ -139,7 +139,7 @@ public static class MinigameDataUtils
         }
         else if (curGameMode is KartGameMode)
         {
-            return "";
+            return "Finish the race in less than 30s";
         }
         else if (curGameMode is Runner3DGameMode)
         {

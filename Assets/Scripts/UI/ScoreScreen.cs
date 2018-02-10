@@ -306,15 +306,12 @@ public class ScoreScreen : MonoBehaviour {
         float totalTime = 0.0f;
         float maxTime = 2.0f;
 
-        //transform.GetChild(0).GetChild(1).GetChild(2).GetComponent<Text>().fontSize *= 2;
-        //transform.GetChild(0).GetChild(1).GetChild(2).GetComponent<AnimText>().enabled = true;
-
         //Find the shortest time from all the players
         float shortestTime = Mathf.Infinity;
         foreach(GameObject pGo in GameManager.Instance.PlayerStart.PlayersReference)
         {
-            if(pGo.GetComponent<Player>().FinishTime < shortestTime);
-            shortestTime = pGo.GetComponent<Player>().FinishTime;
+            if(pGo.GetComponent<Player>().FinishTime < shortestTime)
+                shortestTime = pGo.GetComponent<Player>().FinishTime;
         }
 
         float curPlayerTime = shortestTime;
@@ -335,6 +332,8 @@ public class ScoreScreen : MonoBehaviour {
 
             yield return new WaitForSeconds(tick);
         }
+
+        //Temp fix until we know why it was detached in the first place
         if(GameManager.Instance.CurrentGameMode.checkRuneObjective == null && GameManager.Instance.CurrentGameMode.GetType() == typeof(KartGameMode))
         {
             GameManager.Instance.CurrentGameMode.checkRuneObjective = ((KartGameMode)GameManager.Instance.CurrentGameMode).CheckRuneObjectiveForKart;
