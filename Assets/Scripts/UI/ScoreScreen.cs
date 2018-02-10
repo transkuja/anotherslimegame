@@ -312,6 +312,8 @@ public class ScoreScreen : MonoBehaviour {
         newColor.a = 1.0f;
         mat.color = newColor;
         mat.SetColor("_EmissionColor", Color.magenta);
+
+        runePreview.transform.GetChild(1).gameObject.SetActive(true);
     }
 
 
