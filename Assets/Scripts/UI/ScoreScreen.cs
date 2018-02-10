@@ -236,14 +236,15 @@ public class ScoreScreen : MonoBehaviour {
     IEnumerator AddScoreToTotalPoints()
     {
         int step = 5;
-        float tick = 0.25f;
         int totalScore = 0;
         int currentPlayerIndex = 0;
+        float maxTime = 2.0f;
 
         Player player = GameManager.Instance.PlayerStart.PlayersReference[currentPlayerIndex].GetComponent<Player>();
         transform.GetChild(0).GetChild(1).GetChild(2).GetComponent<Text>().fontSize *= 2;
         transform.GetChild(0).GetChild(1).GetChild(2).GetComponent<AnimText>().enabled = true;
         int curPlayerScore = player.NbPoints;
+        float tick = maxTime/(curPlayerScore/(float)step);
 
         while (currentPlayerIndex < 2)
         {
