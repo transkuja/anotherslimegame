@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using System;
 using System.Collections;
-
+using UnityEngine.SceneManagement;
 public class UI : MonoBehaviour {
 
     Text timerText;
@@ -22,10 +22,24 @@ public class UI : MonoBehaviour {
         {
             GameManager.UiReference = this;
             DontDestroyOnLoad(this);
+            SceneManager.activeSceneChanged += DestroyOnMenuScreen;
         }
         else
         {
             Destroy(this.gameObject);
+        }
+    }
+
+
+    void DestroyOnMenuScreen(Scene oldScene, Scene newScene)
+    {
+        if (newScene.buildIndex == 0) //could compare Scene.name instead
+        {
+            // test
+            GameManager.UiReference = null;
+            Destroy(this); //change as appropriate
+            Destroy(this.gameObject); //change as appropriate
+      
         }
     }
 
