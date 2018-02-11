@@ -173,12 +173,23 @@ public class CostArea : MonoBehaviour {
                 Reactivate();
             }
         }
+
+        // Notification pour le joueur la cost area si le minijeu a deja été debloqué
+        if (isActive && (costAreaType == CostAreaType.PayAndUnlockMiniGame || costAreaType == CostAreaType.DontPayAndUnlockMinigame)
+             && GameManager.Instance.IsInHub() && GetComponent<CreateEnumFromDatabase>() != null)
+        {
+            string s = GetComponent<CreateEnumFromDatabase>().enumFromList[GetComponent<CreateEnumFromDatabase>().HideInt];
+            if (DatabaseManager.Db.minigames.Find(a => a.Id == s).nbRunesToUnlock == GameManager.Instance.Runes && DatabaseManager.Db.IsUnlock<DatabaseClass.MinigameData>(s))
+            {
+                UnlockAssociatedMinigame(s);
+            }
+        }
     }
 
     private void OnTriggerStay(Collider other)
     {
         PlayerControllerHub playerComponent = other.GetComponent<PlayerControllerHub>();
-        if (!isActive)
+        if (!isActive || costAreaType == CostAreaType.DontPayAndUnlockMinigame)
             return;
 
         if (playerComponent != null)
@@ -196,11 +207,6 @@ public class CostArea : MonoBehaviour {
                 {
                     if (playerComponent.Player.EvolutionCheck(rewardType, false) == false)
                         return;
-                }
-
-                if (costAreaType == CostAreaType.DontPayAndUnlockMinigame)
-                {
-                    return;
                 }
 
                 if (Pay(playerComponent))

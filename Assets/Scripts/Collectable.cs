@@ -7,19 +7,16 @@ public class Collectable : MonoBehaviour
     [SerializeField]
     public CollectableType type;
     public bool needInitialisation = true;
+    public bool haveToDisperse = false;
 
     private Vector3 direction;
 
-    uint movementSpeed = 40;
+    private uint movementSpeed = 40;
     private int value = 5;
-    public bool haveToDisperse = false;
 
-    bool isAttracted = false;
+
+    private bool isAttracted = false;
     Player playerTarget;
-
-    public bool hasBeenSpawned = false;
-    public Player lastOwner;
-
 
     public int Value
     {

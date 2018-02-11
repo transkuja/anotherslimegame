@@ -80,7 +80,6 @@ namespace DatabaseClass
         [SerializeField]
         public List<MinigameData> minigames;
 
-
         [SerializeField]
         public List<RuneData> runes;
 
@@ -107,6 +106,7 @@ namespace DatabaseClass
                     runes.Find(a => a.Id == _id).isUnlocked = isUnlocked;
             }
         }
+
         public bool IsUnlock<T>(string _id) where T : Unlockable
         {
             if (typeof(T) == typeof(ColorData))
@@ -131,29 +131,6 @@ namespace DatabaseClass
             }
             return false;
         }
-        public bool IsUnlock<T>(int _id) where T : Unlockable
-        {
-            if (typeof(T) == typeof(ColorData)) {
-                if (_id < colors.Count)
-                    return colors[_id].isUnlocked;
-            }
-            else if (typeof(T) == typeof(FaceData)) {
-                if (_id < faces.Count)
-                    return faces[_id].isUnlocked;
-            }
-            else if (typeof(T) == typeof(MinigameData)) {
-                if (_id < minigames.Count)
-                    return minigames[_id].isUnlocked;
-            }
-            else if (typeof(T) == typeof(RuneData))
-            {
-                if (_id < minigames.Count)
-                    return minigames[_id].isUnlocked;
-            }
-            return false;
-        }
-
-
 
         public void UnlockedAll()
         {
@@ -166,6 +143,7 @@ namespace DatabaseClass
             foreach (Unlockable a in runes)
                 a.isUnlocked = true;
         }
+
         public void ResetAll() {
             colors = new List<ColorData>();
             faces = new List<FaceData>();
@@ -205,16 +183,13 @@ namespace DatabaseClass
 
             // Adding costArea
             int idRune = 0;
-            string[] strRune = { "Rune1", "Rune2", "Rune3", "Rune4", "RuneFromCostArea1", "RuneFromCostArea2", "RuneColorFloor" };
+            string[] strRune = { "Rune1Hub1", "Rune2Hub1", "Rune3Hub1", "Rune4Hub1", "RuneColorFloor" };
             runes.Add(new RuneData { Id = strRune[idRune], isUnlocked = false });
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
-
-            runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
-            runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
-            runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
         }
+
         public void AllCostToZero()
         {
             foreach (MinigameData a in minigames)
