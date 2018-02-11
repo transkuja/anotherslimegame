@@ -226,7 +226,7 @@ public class CostArea : MonoBehaviour {
                 else
                 {
                     // Feedback visuel/sonore
-                    GameManager.UiReference.HandleFeedback(currency);
+                    GameManager.UiReference.HandleFeedbackCantPay(currency);
                     if (AudioManager.Instance != null && AudioManager.Instance.cantPayFx != null)
                         AudioManager.Instance.PlayOneShot(AudioManager.Instance.cantPayFx);
                 }

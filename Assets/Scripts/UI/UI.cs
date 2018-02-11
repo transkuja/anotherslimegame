@@ -70,11 +70,26 @@ public class UI : MonoBehaviour {
     {
         if (type == CollectableType.Rune)
             HandleFeedback(runeText, runeTextOriginalState);
-        if( type == CollectableType.Money)
+        if (type == CollectableType.Money)
             HandleFeedback(ptsText, ptsTextOriginalState);
     }
 
     public void HandleFeedback(Transform txtToChange, Transform originalState)
+    {
+        TooglePersistenceUI(true);
+        txtToChange.GetComponent<Text>().fontSize += 20;
+        StartCoroutine(ReturnToNormalState(txtToChange, originalState));
+    }
+
+    public void HandleFeedbackCantPay(CollectableType type)
+    {
+        if (type == CollectableType.Rune)
+            HandleFeedbackCantPay(runeText, runeTextOriginalState);
+        if( type == CollectableType.Money)
+            HandleFeedbackCantPay(ptsText, ptsTextOriginalState);
+    }
+
+    public void HandleFeedbackCantPay(Transform txtToChange, Transform originalState)
     {
         TooglePersistenceUI(true);
         if (txtToChange.GetComponent<AnimTextCantPay>())
@@ -104,17 +119,12 @@ public class UI : MonoBehaviour {
 
     public void TooglePersistenceUI(bool active)
     {
-        UIref.gameObject.SetActive(active);
-
         if (active)
         {
             UpdateGlobalMoney();
             UpdateRunes();
-
-            // TMP
-            StartCoroutine(ReturnToNormalState(runeText, runeTextOriginalState));
-            StartCoroutine(ReturnToNormalState(ptsText, ptsTextOriginalState));
         }
+        UIref.gameObject.SetActive(active);
     }
 
 

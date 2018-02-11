@@ -174,7 +174,7 @@ public class GameManager : MonoBehaviour {
                 }
             }
             UiReference.UpdateRunes();
-            UiReference.TooglePersistenceUI(true);
+            UiReference.HandleFeedback(CollectableType.Rune);
         }
     }
 
@@ -188,9 +188,7 @@ public class GameManager : MonoBehaviour {
         set
         {
             DatabaseManager.Db.Money = value;
-            UiReference.UpdateGlobalMoney();
-            UiReference.TooglePersistenceUI(true);
-
+            UiReference.HandleFeedback(CollectableType.Money);
         }
     }
 
