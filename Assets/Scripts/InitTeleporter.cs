@@ -18,6 +18,9 @@ public class InitTeleporter : MonoBehaviour {
     Vector3 originPosition;
     Vector3 endPosition;
 
+    [SerializeField]
+    Transform respawnFromMinigame;
+
     private void Start()
     {
         if (GetComponentInChildren<MeshRenderer>() != null)
@@ -120,7 +123,16 @@ public class InitTeleporter : MonoBehaviour {
             GameManager.Instance.playerCostAreaTutoShown[i] = currentPlayer.costAreaTutoShown;
             GameManager.Instance.playerEvolutionTutoShown[i] = currentPlayer.evolutionTutoShown;
         }
-        GameManager.Instance.savedPositionInHub = transform.position + Vector3.forward;
+        if (respawnFromMinigame)
+        {
+            GameManager.Instance.savedPositionInHub = respawnFromMinigame.position;
+            GameManager.Instance.savedRotationInHub = respawnFromMinigame.rotation;
+        }
+        else
+        {
+            GameManager.Instance.savedPositionInHub = transform.position + transform.forward * -6.0f;
+            GameManager.Instance.savedRotationInHub = Quaternion.LookRotation(-transform.forward);
+        }
         SceneManager.LoadScene(minigameSceneToTeleportTo);
     }
 

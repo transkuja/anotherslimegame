@@ -110,7 +110,7 @@ public class PlayerStart : MonoBehaviour {
             {
                 if (GameManager.Instance.DataContainer == null)
                     activePlayersAtStart = 1;
-
+                
                 activePlayersAtStart = (uint)Mathf.Max(1, GameManager.Instance.DataContainer.nbPlayers);
             }
                 
@@ -122,7 +122,7 @@ public class PlayerStart : MonoBehaviour {
             if (GameManager.Instance.IsInHub() && GameManager.Instance.savedPositionInHub != Vector3.zero)
             {
                 go.transform.position = GameManager.Instance.savedPositionInHub + Vector3.right * i;
-                go.transform.rotation = Quaternion.identity;
+                go.transform.rotation = GameManager.Instance.savedRotationInHub;
                 Player currentPlayer = go.GetComponent<Player>();
                 currentPlayer.respawnPoint = playerStart[i];
             }

@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour {
     public bool[] playerCostAreaTutoShown;
 
     public Vector3 savedPositionInHub = Vector3.zero;
+    public Quaternion savedRotationInHub = Quaternion.identity;
 
     public static GameManager Instance
     {
