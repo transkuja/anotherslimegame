@@ -445,7 +445,9 @@ public class Menu : MonoBehaviour {
                 GameObject go = Instantiate(minigameScreenButtonPrefab, transform.GetChild((int)MenuState.MinigameSelection));
                 go.GetComponentInChildren<Text>().text = MinigameDataUtils.GetTitle(unlockedMinigames[i].Id);
                 // TODO: have preview for minigames
-                //go.GetComponentInChildren<Image>().sprite = (Sprite)Resources.Load(unlockedMinigames[i].spriteImage);
+
+                if(unlockedMinigames[i].spriteImage != string.Empty)
+                go.GetComponentInChildren<Image>().sprite = (Sprite)Resources.Load(unlockedMinigames[i].spriteImage);
 
                 go.transform.localPosition = new Vector2(200.0f * Mathf.Pow(-1, i + 1), (i < 2) ? 190.0f : -30.0f);
                 go.SetActive(i < 4);
