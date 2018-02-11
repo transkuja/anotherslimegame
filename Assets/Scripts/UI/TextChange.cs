@@ -15,12 +15,11 @@ public class TextChange : MonoBehaviour {
         foreach (int i in associatedPlayers)
         { 
             {
-                if(GameManager.Instance.PlayerStart.PlayersReference[associatedPlayers[i]].GetComponent<Player>()!= null)
+                if(GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<Player>()!= null)
                 {
-                    if (GameManager.Instance.PlayerStart.PlayersReference[associatedPlayers[i]].GetComponent<Player>().OnValuesChange != null)
-                        GameManager.Instance.PlayerStart.PlayersReference[associatedPlayers[i]].GetComponent<Player>().OnValuesChange[(int)type] += OnValueChange;
+                    if (GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<Player>().OnValuesChange != null)
+                        GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<Player>().OnValuesChange[(int)type] += OnValueChange;
                 }
-   
             }
         }
 
