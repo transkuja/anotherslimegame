@@ -191,7 +191,7 @@ public class CostArea : MonoBehaviour {
              && GameManager.Instance.IsInHub() && GetComponent<CreateEnumFromDatabase>() != null)
         {
             string s = GetComponent<CreateEnumFromDatabase>().enumFromList[GetComponent<CreateEnumFromDatabase>().HideInt];
-            if (DatabaseManager.Db.minigames.Find(a => a.Id == s).nbRunesToUnlock == -1)
+            if (DatabaseManager.Db.minigames.Find(a => a.Id == s).nbRunesToUnlock == -1 && DatabaseManager.Db.minigames.Find(a => a.Id == s).costToUnlock == -1)
             {
                 // to avoid checking at each frame if a -1 minigame have been unlocked
                 isActive = false;
