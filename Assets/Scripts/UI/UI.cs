@@ -37,6 +37,7 @@ public class UI : MonoBehaviour {
         runeText = UIref.GetChild(1).GetComponentInChildren<Text>().transform;
         RuleScreen = transform.GetChild(2);
 
+        // Merde copy de reference ..
         ptsTextOriginalState = ptsText;
         runeTextOriginalState = runeText;
 
@@ -94,7 +95,6 @@ public class UI : MonoBehaviour {
         TooglePersistenceUI(true);
         if (txtToChange.GetComponent<AnimTextCantPay>())
             return;
-
         txtToChange.GetComponent<Outline>().effectColor = Color.red;
         txtToChange.GetComponent<Text>().fontSize += 20;
         txtToChange.gameObject.AddComponent<AnimTextCantPay>();
@@ -105,15 +105,14 @@ public class UI : MonoBehaviour {
     public IEnumerator ReturnToNormalState(Transform txtToChange, Transform originalState)
     {
         yield return new WaitForSeconds(2f);
-
-        TooglePersistenceUI(false);
-        txtToChange.GetComponent<Outline>().effectColor = originalState.GetComponent<Outline>().effectColor;
-        txtToChange.GetComponent<Text>().fontSize = originalState.GetComponent<Text>().fontSize;
         if (txtToChange.GetComponent<AnimTextCantPay>())
             Destroy(txtToChange.GetComponent<AnimTextCantPay>());
 
-
+        txtToChange.GetComponent<Outline>().effectColor = Color.blue;
+        txtToChange.GetComponent<Text>().fontSize = originalState.GetComponent<Text>().fontSize;
+    
         txtToChange.transform.localScale = originalState.transform.localScale;
+        TooglePersistenceUI(false);
     }
 
 
