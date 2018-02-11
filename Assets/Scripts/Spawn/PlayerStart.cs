@@ -95,37 +95,8 @@ public class PlayerStart : MonoBehaviour {
         return playerStart[playerIndex];
     }
 
-
-    void CheckNumberOfActivePlayers()
-    {
-#if UNITY_EDITOR
-        if (DEBUG_playXPlayers)
-        {
-            activePlayersAtStart = DEBUG_NbPlayers;
-            return;
-        }
-#endif
-        for (int i = 0; i < 4; ++i)
-        {
-            PlayerIndex testPlayerIndex = (PlayerIndex)i;
-            GamePadState testState = GamePad.GetState(testPlayerIndex);
-            if (testState.IsConnected)
-            {
-#if UNITY_EDITOR
-                Debug.Log(string.Format("GamePad found {0}", testPlayerIndex));
-#endif
-                activePlayersAtStart++;
-            }
-        }
-
-        // There should always be one player
-        if (activePlayersAtStart == 0) activePlayersAtStart++;
-    }
-
     public void SpawnPlayers()
     {
-        CheckNumberOfActivePlayers();
-
         if (GameManager.Instance.DataContainer == null)
         {
             GameManager.Instance.RegisterDataContainer(FindObjectOfType<SlimeDataContainer>());
@@ -136,7 +107,13 @@ public class PlayerStart : MonoBehaviour {
             if (DEBUG_playXPlayers)
                 activePlayersAtStart = DEBUG_NbPlayers;
             else
-                activePlayersAtStart = (uint)GameManager.Instance.DataContainer.nbPlayers;
+            {
+                if (GameManager.Instance.DataContainer == null)
+                    activePlayersAtStart = 1;
+
+                activePlayersAtStart = (uint)Mathf.Max(1, GameManager.Instance.DataContainer.nbPlayers);
+            }
+                
         }
 
         for (int i = 0; i < activePlayersAtStart; i++)
