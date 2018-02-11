@@ -38,7 +38,13 @@ public class PlayerCollisionCenter : MonoBehaviour {
     int separationMask;
     Collider[] playersCollided;
     float sphereCheckRadius;
- 
+
+
+    private List<RabiteAI> impactedRabite = new List<RabiteAI>();
+    int separationMaskRabite;
+    Collider[] rabiteCollided;
+    float sphereCheckRadiusRabite;
+
     int separationMask2;
     Collider[] collectablesCollided;
     float sphereCheckRadiusCollectables;
@@ -103,6 +109,10 @@ public class PlayerCollisionCenter : MonoBehaviour {
         playerController = GetComponent<PlayerControllerHub>();
         rb = GetComponent<Rigidbody>();
         repulsionFactor = 35;
+        impactedRabite = new List<RabiteAI>();
+
+        separationMaskRabite = LayerMask.GetMask(new string[] { "Rabite" });
+        sphereCheckRadiusRabite = 5.0f;
 
         separationMask = LayerMask.GetMask(new string[] { "Player", "GhostPlayer" });
         sphereCheckRadius = 5.0f;
@@ -191,7 +201,80 @@ public class PlayerCollisionCenter : MonoBehaviour {
                 }
             }
         }
-        
+
+
+        if (playerController.PlayerState is DashState || playerController.PlayerState is DashDownState)
+        {
+            rabiteCollided = Physics.OverlapSphere(transform.position, sphereCheckRadiusRabite, separationMaskRabite);
+            if (rabiteCollided.Length > 0)
+            {
+                for (int i = 0; i < rabiteCollided.Length; i++)
+                {
+                    Vector3 rabiteToTarget = rabiteCollided[i].transform.position - transform.position;
+                    Vector3 rabiteCenterToTargetCenter = (rabiteCollided[i].transform.position + Vector3.up * 0.5f) - (transform.position + Vector3.up * 0.5f);
+
+                    if (playerController.PlayerState is DashDownState)
+                    {
+                        if (!impactedRabite.Contains(rabiteCollided[i].GetComponent<RabiteAI>()))
+                        {
+                            Physics.IgnoreCollision(rabiteCollided[i].GetComponent<Collider>(), GetComponent<Collider>(), true);
+                            // Don't reimpacted the same player twice see invicibilityFrame
+                            impactedRabite.Add(rabiteCollided[i].GetComponent<RabiteAI>());
+                            GameObject go = Instantiate(hitParticles);
+                            go.transform.position = transform.position + Vector3.up * 0.5f + rabiteCenterToTargetCenter / 2.0f;
+                            go.transform.rotation = Quaternion.LookRotation(rabiteToTarget, Vector3.up);
+                            Destroy(go, 10.0f);
+                            hasCollidedWithAPlayer = true;
+                            currentTimerStop = timerStopOnDashCollision;
+
+                            playerController.PlayerState = playerController.frozenState;
+
+                            //rabiteCollided[i].GetComponent<PlayerControllerHub>().PlayerState = playersCollided[i].GetComponent<PlayerControllerHub>().frozenState;
+                            velocityOnImpact = playerController.Rb.velocity;
+                            playerController.Rb.velocity = Vector3.zero;
+
+                            rabiteCollided[i].GetComponent<Rigidbody>().velocity = Vector3.zero;
+
+                            //Set vibrations
+                            UWPAndXInput.GamePad.VibrateForSeconds(playerController.playerIndex, 0.8f, 0.8f, .1f);
+
+                            if (AudioManager.Instance != null && AudioManager.Instance.punchFx != null)
+                                AudioManager.Instance.PlayOneShot(AudioManager.Instance.punchFx);
+                        }
+                    }
+
+                    else if (rabiteCollided[i].transform != transform && Vector3.Angle(rabiteToTarget, transform.forward) < 45) // Verification en cone
+                    {
+                        if (!impactedRabite.Contains(rabiteCollided[i].GetComponent<RabiteAI>()))
+                        {
+                            Physics.IgnoreCollision(rabiteCollided[i].GetComponent<Collider>(), GetComponent<Collider>(), true);
+                            // Don't reimpacted the same player twice see invicibilityFrame
+                            impactedRabite.Add(rabiteCollided[i].GetComponent<RabiteAI>());
+                            GameObject go = Instantiate(hitParticles);
+                            go.transform.position = transform.position + Vector3.up * 0.5f + rabiteCenterToTargetCenter / 2.0f;
+                            go.transform.rotation = Quaternion.LookRotation(rabiteToTarget, Vector3.up);
+                            Destroy(go, 10.0f);
+                            hasCollidedWithAPlayer = true;
+                            currentTimerStop = timerStopOnDashCollision;
+
+                            playerController.PlayerState = playerController.frozenState;
+                          
+                            velocityOnImpact = playerController.Rb.velocity;
+                            playerController.Rb.velocity = Vector3.zero;
+                            rabiteCollided[i].GetComponent<Rigidbody>().velocity = Vector3.zero;
+
+                            //Set vibrations
+                            UWPAndXInput.GamePad.VibrateForSeconds(playerController.playerIndex, 0.8f, 0.8f, .1f);
+
+                            if (AudioManager.Instance != null && AudioManager.Instance.punchFx != null)
+                                AudioManager.Instance.PlayOneShot(AudioManager.Instance.punchFx);
+                        }
+                    }
+                }
+            }
+        }
+
+
         collectablesCollided = Physics.OverlapSphere(transform.position, sphereCheckRadiusCollectables, separationMask2);
         if (collectablesCollided.Length > 0)
         {
@@ -239,6 +322,10 @@ public class PlayerCollisionCenter : MonoBehaviour {
                 {
                     impactedPlayers[i].GetComponent<PlayerControllerHub>().PlayerState = impactedPlayers[i].GetComponent<PlayerControllerHub>().freeState;
                     ImpactHandling(impactedPlayers[i]);
+                }
+                for (int i = 0; i < impactedRabite.Count; i++)
+                {
+                    ImpactHandling(impactedRabite[i]);
                 }
                 hasCollidedWithAPlayer = false;
             }
@@ -330,6 +417,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
         ExpulsePlayer(playerImpacted.GetComponent<Collider>().ClosestPoint(transform.position), playerImpacted.Rb, repulsionFactor);
     }
 
+
     public void DefaultCollision(Collision collision, Player playerImpacted)
     {
         //PlayerBouncyPhysics
@@ -420,6 +508,8 @@ public class PlayerCollisionCenter : MonoBehaviour {
         ForcedJump(direction, repulsionFactor, rbPlayerToExpulse);
         StartCoroutine(ReactivateCollider(rbPlayerToExpulse.GetComponent<Player>()));
     }
+
+
 
     public void RepulseRigibody(Vector3 collisionPoint, Rigidbody rbPlayerToExpulse, float repulsionFactor)
     {
@@ -531,5 +621,38 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
             }
         }
+    }
+
+
+
+    public void ImpactHandling(RabiteAI rabite)
+    {
+
+        //// Damage Behavior
+        //if (GameManager.Instance.CurrentGameMode.TakesDamageFromPlayer)
+        //{
+        //    if (GameManager.Instance.IsInHub())
+        //        DamagePlayerHub();
+        //}
+        rabite.CurrentState = RabiteAI.RabiteState.Dead;
+        ExpulseRabite(rabite.GetComponent<Collider>().ClosestPoint(transform.position), rabite.Rb, repulsionFactor);
+    }
+
+    public void ExpulseRabite(Vector3 collisionPoint, Rigidbody rbPlayerToExpulse, float repulsionFactor)
+    {
+        Vector3 direction = rbPlayerToExpulse.position - collisionPoint;
+        direction.y = 0;
+
+        direction.Normalize() ;
+        rbPlayerToExpulse.velocity = new Vector3(direction.x * repulsionFactor, rbPlayerToExpulse.velocity.y, direction.z * repulsionFactor);
+        StartCoroutine(ReactivateCollider(rbPlayerToExpulse.GetComponent<RabiteAI>()));
+    }
+
+    public IEnumerator ReactivateCollider(RabiteAI p)
+    {
+        yield return new WaitForSeconds(invicibilityFrame);
+        impactedRabite.Remove(p);
+        Physics.IgnoreCollision(p.GetComponent<Collider>(), GetComponent<Collider>(), false);
+        yield return null;
     }
 }
