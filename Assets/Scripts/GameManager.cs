@@ -32,6 +32,8 @@ public class GameManager : MonoBehaviour {
     public Vector3 savedPositionInHub = Vector3.zero;
     public Quaternion savedRotationInHub = Quaternion.identity;
 
+    public int[] consecutiveVictories = new int[4];
+
     public static GameManager Instance
     {
         get

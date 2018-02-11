@@ -77,6 +77,9 @@ public class ScoreScreen : MonoBehaviour {
         float time = (_time == -1) ? Time.timeSinceLevelLoad : _time;
 
         rank++;
+        if (rank == 1)
+            GameManager.Instance.consecutiveVictories[(int)player.PlayerController.playerIndex]++;
+
         if (rank > 4)
         {
             Debug.LogWarning("RefreshScores should not have been called or rank has not been reset ...");
