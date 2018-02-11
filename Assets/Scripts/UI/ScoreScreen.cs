@@ -38,8 +38,7 @@ public class ScoreScreen : MonoBehaviour {
     bool goToRuneScreen = false;
     bool canExit = false;
     bool startExitTimer = false;
-    float timerCanExit = 2.0f;
-    float timerPlayGetRuneAnimation = 5.0f;
+    float timerCanExit = 1.0f;
     bool objectiveFailedWhenRelevant = false;
 
     private void Awake()
@@ -219,7 +218,6 @@ public class ScoreScreen : MonoBehaviour {
                     }
 
                     goToRuneScreen = true;
-                    timerCanExit = timerPlayGetRuneAnimation;
                 }
                 else
                     startExitTimer = true;
