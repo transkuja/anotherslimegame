@@ -74,6 +74,32 @@ public class Menu : MonoBehaviour {
         SetState(MenuState.TitleScreen);
     }
 
+    private void OnLevelWasLoaded(int level)
+    {
+        if (dataContainer.launchedFromMinigameScreen)
+        {
+            nbPlayers = dataContainer.nbPlayers;
+            selectedFaces = dataContainer.selectedFaces;
+            selectedColorFades = dataContainer.colorFadeSelected;
+            selectedMode = (dataContainer.launchedFromMinigameScreen) ? 1 : 0;
+
+            selectedColors = new int[4];
+            for (int i = 0; i < nbPlayers; i++)
+            {
+                for (int j = 0; j < unlockedCustomColors.Count; j++)
+                {
+                    if (dataContainer.selectedColors[i] == unlockedCustomColors[j].color)
+                    {
+                        selectedColors[i] = j;
+                        break;
+                    }
+                }              
+            }
+        }
+
+        SetState(MenuState.MinigameSelection);
+    }
+
     void TitleScreenInputHandling()
     {
         if (Input.anyKey)
