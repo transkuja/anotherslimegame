@@ -91,7 +91,6 @@ public class CostArea : MonoBehaviour {
             {
                 // is active -> false
                 UnlockAssociatedMinigame(s);
-                return;
             }
         }
 
@@ -187,17 +186,23 @@ public class CostArea : MonoBehaviour {
             }
         }
 
-        // Notification pour le joueur la cost area si le minijeu a deja été debloqué
+        // Force unlock minigame
         if (isActive && (costAreaType == CostAreaType.PayAndUnlockMiniGame || costAreaType == CostAreaType.DontPayAndUnlockMinigame)
              && GameManager.Instance.IsInHub() && GetComponent<CreateEnumFromDatabase>() != null)
         {
             string s = GetComponent<CreateEnumFromDatabase>().enumFromList[GetComponent<CreateEnumFromDatabase>().HideInt];
-            if (DatabaseManager.Db.minigames.Find(a => a.Id == s).nbRunesToUnlock == GameManager.Instance.Runes && DatabaseManager.Db.IsUnlock<DatabaseClass.MinigameData>(s))
+            if (DatabaseManager.Db.minigames.Find(a => a.Id == s).nbRunesToUnlock == -1)
+                isActive = false;
+            else if (DatabaseManager.Db.minigames.Find(a => a.Id == s).nbRunesToUnlock <= GameManager.Instance.Runes)
             {
-                // Notifiier le joueur ici ? 
+                // Force unlock
+                DatabaseManager.Db.SetUnlock<DatabaseClass.MinigameData>(s, true);
 
                 UnlockAssociatedMinigame(s);
+                // Notifiier le joueur ici ? 
             }
+
+
         }
     }
 
@@ -327,7 +332,8 @@ public class CostArea : MonoBehaviour {
             teleporterToMiniGame.TeleportToMinigame(minigameIdFromDatabase);
             // Replace by the child
             costText.transform.parent.gameObject.SetActive(false);
-            rewardPreview.gameObject.SetActive(false);
+            //rewardPreview.gameObject.SetActive(false);
+            rewardPreview.transform.localPosition += new Vector3(0.0f, 1.0f, 0.0f);
             halo.gameObject.SetActive(false);
             teleporterToMiniGame.gameObject.SetActive(true);
         }
