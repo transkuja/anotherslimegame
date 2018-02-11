@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 using DatabaseClass;
 
 public class SlimeDataContainer : MonoBehaviour {
@@ -11,14 +13,19 @@ public class SlimeDataContainer : MonoBehaviour {
     public bool[] colorFadeSelected = new bool[4];
     public bool launchedFromMinigameScreen = false;
 
-    void Start () {
+    void Awake () {
         if (instance != null)
         {
             Destroy(this.gameObject);
         }
         else
         {
+            instance = this;
             DontDestroyOnLoad(this);
+
+            if (SceneManager.GetActiveScene().buildIndex == 0)
+                FindObjectOfType<Menu>().DataContainer = this;
+
             GameManager.Instance.RegisterDataContainer(this);
         }
 

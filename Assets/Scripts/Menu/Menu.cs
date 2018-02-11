@@ -41,6 +41,21 @@ public class Menu : MonoBehaviour {
 
     bool[] areReady;
 
+    public SlimeDataContainer DataContainer
+    {
+        get
+        {
+            if (dataContainer == null)
+                dataContainer = FindObjectOfType<SlimeDataContainer>();
+            return dataContainer;
+        }
+
+        set
+        {
+            dataContainer = value;
+        }
+    }
+
     public void SetMode(int _modeSelected)
     {
         selectedMode = _modeSelected;
@@ -71,12 +86,8 @@ public class Menu : MonoBehaviour {
                 unlockedMinigames.Add(f);
         }
 
-        SetState(MenuState.TitleScreen);
-    }
-
-    private void OnLevelWasLoaded(int level)
-    {
-        if (dataContainer.launchedFromMinigameScreen)
+        // Load data from container if players come from a minigame. Menu initialized on minigame selection screen.
+        if (DataContainer.launchedFromMinigameScreen)
         {
             nbPlayers = dataContainer.nbPlayers;
             selectedFaces = dataContainer.selectedFaces;
@@ -93,11 +104,13 @@ public class Menu : MonoBehaviour {
                         selectedColors[i] = j;
                         break;
                     }
-                }              
+                }
             }
+            SetState(MenuState.MinigameSelection);
         }
-
-        SetState(MenuState.MinigameSelection);
+        // Default behaviour. Start on title screen.
+        else
+            SetState(MenuState.TitleScreen);
     }
 
     void TitleScreenInputHandling()
@@ -428,7 +441,7 @@ public class Menu : MonoBehaviour {
                 currentlySelectedButton.Select();
             }
         }
-
+        Debug.Log(currentState);
         // Minigame screen reset
         if (currentState == MenuState.MinigameSelection)
         {
