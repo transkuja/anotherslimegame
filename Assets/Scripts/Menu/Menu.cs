@@ -447,7 +447,10 @@ public class Menu : MonoBehaviour {
                 // TODO: have preview for minigames
 
                 if(unlockedMinigames[i].spriteImage != string.Empty)
-                go.GetComponentInChildren<Image>().sprite = (Sprite)Resources.Load(unlockedMinigames[i].spriteImage);
+                {
+                    go.GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>(unlockedMinigames[i].spriteImage) as Sprite;
+                }
+               
 
                 go.transform.localPosition = new Vector2(200.0f * Mathf.Pow(-1, i + 1), (i < 2) ? 190.0f : -30.0f);
                 go.SetActive(i < 4);
