@@ -68,15 +68,19 @@ public class UI : MonoBehaviour {
 
     private void OnLevelWasLoaded(int level)
     {
-        if (!GameManager.Instance.IsInHub())
+        if( level != 0)
         {
-            GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceCamera;
-            GetComponent<Canvas>().worldCamera = Camera.main;
+            if (!GameManager.Instance.IsInHub())
+            {
+                GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceCamera;
+                GetComponent<Canvas>().worldCamera = Camera.main;
+            }
+            else
+            {
+                GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
+            }
         }
-        else
-        {
-            GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
-        }
+      
     }
 
     public void TimerNeedUpdate(float _currentGameFinalTimer)

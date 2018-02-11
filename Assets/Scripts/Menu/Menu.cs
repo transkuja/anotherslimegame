@@ -453,8 +453,12 @@ public class Menu : MonoBehaviour {
                 minigameButtonsInstantiated.Add(go);
             }
 
-            currentlySelectedButton = transform.GetChild((int)currentState).GetChild(0).GetComponentInChildren<Button>();
-            currentlySelectedButton.Select();
+            if (transform.GetChild((int)currentState).childCount > 0)
+            {
+                currentlySelectedButton = transform.GetChild((int)currentState).GetChild(0).GetComponentInChildren<Button>();
+                currentlySelectedButton.Select();
+            }
+      
         }
     }
 

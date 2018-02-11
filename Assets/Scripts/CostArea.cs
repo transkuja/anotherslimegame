@@ -186,18 +186,23 @@ public class CostArea : MonoBehaviour {
             }
         }
 
-        // Force unlock minigame
+        // Force unlock minigame : checking at each frame if a minigame have been unlocked
         if (isActive && (costAreaType == CostAreaType.PayAndUnlockMiniGame || costAreaType == CostAreaType.DontPayAndUnlockMinigame)
              && GameManager.Instance.IsInHub() && GetComponent<CreateEnumFromDatabase>() != null)
         {
             string s = GetComponent<CreateEnumFromDatabase>().enumFromList[GetComponent<CreateEnumFromDatabase>().HideInt];
             if (DatabaseManager.Db.minigames.Find(a => a.Id == s).nbRunesToUnlock == -1)
+            {
+                // to avoid checking at each frame if a -1 minigame have been unlocked
                 isActive = false;
+            }
+
             else if (DatabaseManager.Db.minigames.Find(a => a.Id == s).nbRunesToUnlock <= GameManager.Instance.Runes)
             {
-                // Force unlock
+                // Force unlock if not already ( case at runtime )
                 DatabaseManager.Db.SetUnlock<DatabaseClass.MinigameData>(s, true);
 
+                // Will avoid checking afterwards : isactive -> false
                 UnlockAssociatedMinigame(s);
                 // Notifiier le joueur ici ? 
             }
