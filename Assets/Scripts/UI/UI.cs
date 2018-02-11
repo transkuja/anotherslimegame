@@ -41,6 +41,15 @@ public class UI : MonoBehaviour {
         ptsTextOriginalState = ptsText;
         runeTextOriginalState = runeText;
 
+        if (!GameManager.Instance.IsInHub())
+        {
+            GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceCamera;
+            GetComponent<Canvas>().worldCamera = Camera.main;
+        }
+        else
+        {
+            GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
+        }
     }
 
     private void OnLevelWasLoaded(int level)
