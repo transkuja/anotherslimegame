@@ -31,11 +31,16 @@ public class ScoreScreen : MonoBehaviour {
     [SerializeField]
     GameObject runeObjectiveUI;
 
+    // The child gameobject containing the "Replay?" screen
+    [SerializeField]
+    GameObject replayScreen;
+
     bool goToRuneScreen = false;
     bool canExit = false;
     bool startExitTimer = false;
     float timerCanExit = 2.0f;
     float timerPlayGetRuneAnimation = 5.0f;
+    bool objectiveFailedWhenRelevant = false;
 
     private void Awake()
     {
@@ -57,6 +62,8 @@ public class ScoreScreen : MonoBehaviour {
 
         for (int i = 0; i < transform.childCount; i++)
             transform.GetChild(i).GetChild(0).gameObject.SetActive(true);
+        replayScreen.SetActive(false);
+        runeObjectiveUI.SetActive(false);
         gameObject.SetActive(false);
 
         for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
@@ -217,6 +224,8 @@ public class ScoreScreen : MonoBehaviour {
                 else
                     startExitTimer = true;
             }
+            else
+                startExitTimer = true;
         }
     }
 
@@ -371,6 +380,7 @@ public class ScoreScreen : MonoBehaviour {
         failedText.color = Color.red;
 
         runeObjectiveUI.transform.GetChild(1).gameObject.SetActive(true);
+        objectiveFailedWhenRelevant = true;
     }
 
     void PlayGetRuneAnimation()
@@ -415,10 +425,10 @@ public class ScoreScreen : MonoBehaviour {
                 // Activate rune preview
                 podium.transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
 
-                for (int i = 0; i < transform.childCount-1; i++)
+                for (int i = 0; i < transform.childCount-2; i++)
                     transform.GetChild(i).GetChild(0).gameObject.SetActive(false);
                 // Activate objective texts
-                transform.GetChild(transform.childCount - 1).gameObject.SetActive(true);
+                runeObjectiveUI.SetActive(true);
                 goToRuneScreen = false;
 
                 PlayAddToScoreAnimation(GameManager.Instance.CurrentGameMode.runeObjective);
@@ -432,7 +442,15 @@ public class ScoreScreen : MonoBehaviour {
             {
                 if (GameManager.Instance.CurrentGameMode.IsMiniGame())
                 {
-                    SceneManager.LoadScene(1); // ugly?
+                    Debug.Log(GameManager.Instance.DataContainer.launchedFromMinigameScreen);
+                    if (GameManager.Instance.DataContainer.launchedFromMinigameScreen || objectiveFailedWhenRelevant)
+                    {
+                        replayScreen.SetActive(true);
+                    }
+                    else
+                    {
+                        SceneManager.LoadScene(1); // ugly?
+                    }
                 }
                 //ExitToMainMenu();
             }

@@ -241,13 +241,13 @@ public class Menu : MonoBehaviour {
     private void DefaultCursorControls()
     {
         if ((controllerStates[0].ThumbSticks.Left.X > 0.5f && prevControllerStates[0].ThumbSticks.Left.X < 0.5f)
-                            || (controllerStates[0].ThumbSticks.Left.Y < -0.75f && prevControllerStates[0].ThumbSticks.Left.Y > -0.75f))
+            || (controllerStates[0].ThumbSticks.Left.Y < -0.75f && prevControllerStates[0].ThumbSticks.Left.Y > -0.75f))
         {
             buttonNeedUpdate = true;
             currentCursor++;
         }
         else if ((controllerStates[0].ThumbSticks.Left.X < -0.5f && prevControllerStates[0].ThumbSticks.Left.X > -0.5f)
-                || (controllerStates[0].ThumbSticks.Left.Y > 0.75f && prevControllerStates[0].ThumbSticks.Left.Y < 0.75f))
+            || (controllerStates[0].ThumbSticks.Left.Y > 0.75f && prevControllerStates[0].ThumbSticks.Left.Y < 0.75f))
         {
             buttonNeedUpdate = true;
             currentCursor--;
@@ -420,7 +420,10 @@ public class Menu : MonoBehaviour {
             return;
 
         if (selectedMode == 1 && currentState == MenuState.MinigameSelection)
+        {
             GoToNextStateFromMinigameSelection();
+            return;
+        }
 
         SetState((MenuState)((int)currentState + 1));
     }
