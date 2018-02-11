@@ -38,6 +38,7 @@ public class DatabaseEnumEditor : Editor
 
         bool isARune = dynamicChoice.GetComponent<Collectable>() || (dynamicChoice.GetComponent<CostArea>() && dynamicChoice.GetComponent<CostArea>().costAreaType == CostAreaType.PayAndGetItem && dynamicChoice.GetComponent<CostArea>() && dynamicChoice.GetComponent<CostArea>().rewardType == CollectableType.Rune);
         bool isAMinigame = dynamicChoice.GetComponent<CostArea>() && dynamicChoice.GetComponent<CostArea>().costAreaType == CostAreaType.PayAndUnlockMiniGame;
+        bool isAColor = dynamicChoice.GetComponent<Collectable>() || (dynamicChoice.GetComponent<CostArea>() && dynamicChoice.GetComponent<CostArea>().costAreaType == CostAreaType.PayAndGetItem && dynamicChoice.GetComponent<CostArea>() && dynamicChoice.GetComponent<CostArea>().rewardType == CollectableType.Color);
 
         if (isARune)
         {
@@ -51,6 +52,14 @@ public class DatabaseEnumEditor : Editor
         {
             dynamicChoice.enumFromList = new List<string>();
             foreach (MinigameData s in dynamicChoice.db.minigames)
+            {
+                dynamicChoice.enumFromList.Add(s.Id);
+            }
+        }
+        else if (isAColor)
+        {
+            dynamicChoice.enumFromList = new List<string>();
+            foreach (ColorData s in dynamicChoice.db.colors)
             {
                 dynamicChoice.enumFromList.Add(s.Id);
             }

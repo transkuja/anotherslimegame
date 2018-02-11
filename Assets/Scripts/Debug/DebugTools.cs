@@ -101,6 +101,7 @@ public class DebugTools : MonoBehaviour {
         debugPanelComponent.AddToDebugPanelInfos("2", "5", CollectableType.PlatformistEvolution1.ToString());
         debugPanelComponent.AddToDebugPanelInfos("2", "6", CollectableType.AgileEvolution1.ToString());
         debugPanelComponent.AddToDebugPanelInfos("2", "7", CollectableType.GhostEvolution1.ToString());
+        debugPanelComponent.AddToDebugPanelInfos("2", "8", CollectableType.Money.ToString());
         hasUpdatedDebugPanel = true;
     }
 
@@ -159,21 +160,15 @@ public class DebugTools : MonoBehaviour {
             // Spawn a collectable
             else if (Input.GetKey(KeyCode.Alpha2))
             {
-                if (Input.GetKeyDown(KeyCode.Alpha8))
+                if (Input.GetKeyDown(KeyCode.Alpha1))
                 {
-                    // TODO: broken
-                    //ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
-                    //    DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.Points).GetComponent<Collectable>().Init();
                     DebugPlayerSelected.UpdateCollectableValue(CollectableType.Points, 10);
-                    Debug.Log("Pop some " + CollectableType.Points + " on the ground!");
+                    Debug.Log("Adding " + CollectableType.Points + " to the player");
                 }
                 if (Input.GetKeyDown(KeyCode.Alpha3))
                 {
-                    // TODO: broken
-                    //ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
-                    //    DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.Key).GetComponent<Collectable>().Init();
                     DebugPlayerSelected.UpdateCollectableValue(CollectableType.Rune, 1);
-                    Debug.Log("Pop some " + CollectableType.Rune + " on the ground!");
+                    Debug.Log("Adding " + CollectableType.Rune + " to the player");
                 }
                 if (Input.GetKeyDown(KeyCode.Alpha4))
                 {
@@ -198,6 +193,11 @@ public class DebugTools : MonoBehaviour {
                     ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
                         DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.GhostEvolution1).GetComponent<Collectable>().Init();
                     Debug.Log("Pop some " + CollectableType.GhostEvolution1 + " on the ground!");
+                }
+                if (Input.GetKeyDown(KeyCode.Alpha8))
+                {
+                    DebugPlayerSelected.UpdateCollectableValue(CollectableType.Money, 9999);
+                    Debug.Log("Adding " + CollectableType.Money + " to the player");
                 }
 
             }
