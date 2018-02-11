@@ -31,6 +31,7 @@ public class SpriteUtils : MonoBehaviour {
     public Sprite jumpSprite;
     public Sprite actionSprite;
     public Sprite rightTriggerSprite;
+    public Sprite leftTriggerSprite;
 
     public Sprite GetControlSprite(ControlType _type)
     {
@@ -48,6 +49,15 @@ public class SpriteUtils : MonoBehaviour {
                 break;
             case ControlType.RightTrigger:
                 result = rightTriggerSprite;
+                break;
+            case ControlType.DrivingForward:
+                result = rightTriggerSprite;
+                break;
+            case ControlType.DrivingReverse:
+                result = leftTriggerSprite;
+                break;
+            case ControlType.Steering:
+                result = movementSprite;
                 break;
             default:
                 return null;
