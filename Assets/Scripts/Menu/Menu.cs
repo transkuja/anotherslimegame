@@ -448,7 +448,7 @@ public class Menu : MonoBehaviour {
 
                 if(unlockedMinigames[i].spriteImage != string.Empty)
                 {
-                    go.GetComponentInChildren<Image>().sprite = Resources.Load<Sprite>(unlockedMinigames[i].spriteImage) as Sprite;
+                    go.GetComponentsInChildren<Image>()[1].sprite = Resources.Load<Sprite>(unlockedMinigames[i].spriteImage) as Sprite;
                 }
                
 
