@@ -283,8 +283,24 @@ public class Menu : MonoBehaviour {
 
     void UpdateSelectionVisualForMinigame()
     {
-        minigameCurrentCursor[0] %= 2;
-        minigameCurrentCursor[1] %= 2;
+        if (minigameButtonsInstantiated.Count == 4)
+        {
+            minigameCurrentCursor[0] %= 2;
+            minigameCurrentCursor[1] %= 2;
+        }
+        else if (minigameButtonsInstantiated.Count == 3)
+        {
+            if (minigameCurrentCursor[0] == 1 && minigameCurrentCursor[1] == 1)
+                minigameCurrentCursor[0] = 0;
+
+            minigameCurrentCursor[0] %= 2;
+            minigameCurrentCursor[1] %= 2;
+        }
+        if (minigameButtonsInstantiated.Count <= 2)
+            minigameCurrentCursor[1] = 0;
+        if (minigameButtonsInstantiated.Count == 1)
+            minigameCurrentCursor[0] = 0;
+
         int childIndex = minigameCurrentCursor[0] + 2 * minigameCurrentCursor[1];
         currentlySelectedButton = transform.GetChild((int)currentState).GetChild(childIndex).GetComponentInChildren<Button>();
         currentlySelectedButton.Select();
