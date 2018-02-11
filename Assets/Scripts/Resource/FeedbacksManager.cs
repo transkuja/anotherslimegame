@@ -5,11 +5,11 @@ using UnityEngine;
 public class FeedbacksManager : MonoBehaviour
 {
 
-    [Header("Shelter Feedbacks")]
-    public GameObject prefabShelterPlatformistFeedback;
-    public GameObject prefabShelterStrengthFeedback;
-    public GameObject prefabShelterAgilityFeedback;
-    public GameObject prefabShelterGhostFeedback;
+    [Header("Minigame Feedbacks")]
+    public GameObject prefabRunnerFeedback;
+    public GameObject prefabJumpFeedback;
+    public GameObject prefabKartFeedback;
+    public GameObject prefabPushFeedback;
 
     [Header("Cost Area Feedbacks")]
     public GameObject prefabCostAreaPlatformistFeedback;
@@ -28,35 +28,6 @@ public class FeedbacksManager : MonoBehaviour
     public GameObject colorAroundPreview;
     public GameObject colorArrowPreview;
     public GameObject colorFloorScorePreview;
-    
-    public GameObject GetShelterFeedbackFromEvolutionName(CollectableType evolutionType)
-    {
-        GameObject result = null;
-
-        switch (evolutionType)
-        {
-            case CollectableType.AgileEvolution1:
-                result = prefabShelterAgilityFeedback;
-                break;
-            case CollectableType.PlatformistEvolution1:
-                result = prefabShelterPlatformistFeedback;
-                break;
-            case CollectableType.StrengthEvolution1:
-                result = prefabShelterStrengthFeedback;
-                break;
-            case CollectableType.GhostEvolution1:
-                result = prefabShelterGhostFeedback;
-                break;
-            default:
-                return null;
-        }
-
-
-        if (result == null)
-            Debug.LogWarning("No specified shelter feedback for evolution " + evolutionType);
-
-        return result;
-    }
 
     public GameObject GetPickupPreview(PickUpType _type)
     {

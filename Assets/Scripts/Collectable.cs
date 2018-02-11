@@ -60,9 +60,7 @@ public class Collectable : MonoBehaviour
                 return;
             }
         }
-
     }
-
 
     private void OnEnable()
     {

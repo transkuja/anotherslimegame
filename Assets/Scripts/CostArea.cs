@@ -339,6 +339,19 @@ public class CostArea : MonoBehaviour {
                         return ResourceUtils.Instance.feedbacksManager.prefabCostAreaWaterFeedback;
                 }
                 break;
+            case CostAreaType.DontPayAndUnlockMinigame:
+                switch (GetComponent<CreateEnumFromDatabase>().HideInt)
+                {
+                    case 0:
+                        return ResourceUtils.Instance.feedbacksManager.prefabJumpFeedback;
+                    case 1:
+                        return ResourceUtils.Instance.feedbacksManager.prefabPushFeedback;
+                    case 2:
+                        return ResourceUtils.Instance.feedbacksManager.prefabKartFeedback;
+                    case 3:
+                        return ResourceUtils.Instance.feedbacksManager.prefabRunnerFeedback;
+                }
+                break;
             default:
                 return null;
         }
