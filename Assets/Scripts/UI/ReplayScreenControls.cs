@@ -33,7 +33,7 @@ public class ReplayScreenControls : MonoBehaviour {
             transform.GetChild((cursor == 0) ? 2 : 1).GetComponent<Text>().color = newColor;
         }
 
-        if (controllerState.Buttons.A == ButtonState.Pressed)
+        if (prevControllerState.Buttons.A == ButtonState.Released && controllerState.Buttons.A == ButtonState.Pressed)
         {
             if (cursor == 0)
             {
