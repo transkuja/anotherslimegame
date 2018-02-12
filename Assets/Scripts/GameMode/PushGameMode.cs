@@ -25,7 +25,7 @@ public class PushGameMode : GameMode {
     }
     public void LaunchTimer()
     {
-        GameManager.Instance.GameFinalTimer = 60;// 1 minutes
+        GameManager.Instance.GameFinalTimer = timer;
         GameManager.Instance.LaunchFinalTimer();
     }
     public override void AttributeCamera(uint activePlayersAtStart, GameObject[] cameraReferences, List<GameObject> playersReference)
