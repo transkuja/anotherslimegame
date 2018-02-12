@@ -108,9 +108,10 @@ abstract public class GameMode : MonoBehaviour
         }
 
         Transform ruleScreenRef = GameManager.UiReference.RuleScreen;
-
+        
         ruleScreenRef.GetComponentInChildren<Text>().text = rules.title;
         ruleScreenRef.GetChild(1).GetComponent<Text>().text = rules.howToPlay + ((runeObjective != RuneObjective.None) ? "\n\nRune objective:\n" + rules.runeObtention : "");
+        ruleScreenRef.GetChild(1).gameObject.SetActive(true);
 
         GameObject controlDetailsPage = new GameObject("ControlDetailsPage");
         controlDetailsPage.transform.SetParent(ruleScreenRef);

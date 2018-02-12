@@ -38,7 +38,7 @@ public class ReplayScreenControls : MonoBehaviour {
             if (cursor == 0)
             {
                 // Reload scene
-                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             }
             else
             {

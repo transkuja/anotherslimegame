@@ -76,6 +76,7 @@ public class DebugPanel : MonoBehaviour {
             return;
 
         playerInfoText.text = "";
+        playerInfoText.text += "Game state: " + GameManager.CurrentState + "\n";
         playerInfoText.text += "Player index: " + (int)playerController.PlayerIndex + "\n";
         playerInfoText.text += "Use a controller: " + playerController.IsUsingAController + "\n";
         playerInfoText.text += "Is grounded: " + playerController.IsGrounded + "\n";
