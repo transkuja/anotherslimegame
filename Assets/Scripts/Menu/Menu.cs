@@ -97,6 +97,7 @@ public class Menu : MonoBehaviour {
             selectedColors = new int[4];
             for (int i = 0; i < nbPlayers; i++)
             {
+                selectedColors[i] = -1;
                 for (int j = 0; j < unlockedCustomColors.Count; j++)
                 {
                     if (dataContainer.selectedColors[i] == unlockedCustomColors[j].color)
@@ -105,6 +106,9 @@ public class Menu : MonoBehaviour {
                         break;
                     }
                 }
+                // Handle color fade
+                if (selectedColors[i] == -1)
+                    selectedColors[i] = unlockedCustomColors.Count;
             }
             SetState(MenuState.MinigameSelection);
         }
@@ -442,6 +446,15 @@ public class Menu : MonoBehaviour {
                     go.transform.GetChild(3).GetComponentInChildren<PlayerCosmetics>().FaceType = 0;
 
                     playerCustomScreens.Add(go);
+
+                    if (DataContainer.launchedFromMinigameScreen)
+                    {
+                        go.transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
+                        go.transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+
+                        UpdatePlayerPreviewColor(i);
+                        UpdatePlayerPreviewFace(i);
+                    }
 
                     currentlySelectedButton = transform.GetChild((int)currentState).GetChild(0).GetComponentInChildren<Button>();
                     currentlySelectedButton.Select();
