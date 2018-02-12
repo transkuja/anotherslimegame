@@ -24,6 +24,10 @@ public static class MinigameDataUtils
         {
             return "";
         }
+        else if (curGameMode is PushGameMode)
+        {
+            return "Arena Fighting";
+        }
         return "";
     }
 
@@ -72,6 +76,10 @@ public static class MinigameDataUtils
         {
             return "";
         }
+        else if (curGameMode is PushGameMode)
+        {
+            return "Steal other players' coins!";
+        }
         return "";
     }
 
@@ -100,6 +108,13 @@ public static class MinigameDataUtils
         }
         else if (curGameMode is FruitGameMode)
         {
+        }
+        else if (curGameMode is PushGameMode)
+        {
+            controls.Add(new ControlDetails(ControlType.Movement));
+            controls.Add(new ControlDetails(ControlType.Jump));
+            controls.Add(new ControlDetails(ControlType.Action, "Dash forward with X"));
+            // TODO: add Y button for stomp
         }
         return controls;
     }

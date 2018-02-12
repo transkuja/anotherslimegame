@@ -5,11 +5,13 @@ using UnityEngine;
 using UWPAndXInput;
 public class PushGameMode : GameMode {
 
+    [SerializeField]
+    float timer;
 
     public override void StartGame(List<GameObject> playerReferences)
     {
         base.StartGame(playerReferences);
-        Utils.PopTutoTextForAll("Steal their coins!", "Dash with X or crush them by pressing Y in the air");
+        rules = new MinigameRules(this);
 
         Player player;
         for (int i = 0; i < playerReferences.Count; i++)
@@ -19,9 +21,9 @@ public class PushGameMode : GameMode {
             player.NbLife = 3;
             player.UpdateCollectableValue(CollectableType.Points, 500);
         }
-        Invoke("LauchTimer", Utils.timerTutoText);
+        Invoke("LaunchTimer", Utils.timerTutoText);
     }
-    public void LauchTimer()
+    public void LaunchTimer()
     {
         GameManager.Instance.GameFinalTimer = 60;// 1 minutes
         GameManager.Instance.LaunchFinalTimer();
