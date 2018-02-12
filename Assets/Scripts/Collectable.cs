@@ -138,14 +138,12 @@ public class Collectable : MonoBehaviour
         {
             if (GetComponent<FruitType>())
             {
-                if (name == "fruitChanger")
+                if (name == "fruitChanger(Clone)")
                 {
-                    Debug.Log("changement");
                     GetComponentInParent<Transform>().GetComponentInParent<BonusSpawner>().canChange = true;
                 }
-                if (name == "Aspirator")
+                if (name == "Aspirator(Clone)")
                 {
-                    Debug.Log("Aspirate");
                     GetComponentInParent<Transform>().GetComponentInParent<BonusSpawner>().canAspirate = true;
                 }
                 if (playerTarget.GetComponent<Player>().associateFruit == GetComponent<FruitType>().typeFruit)

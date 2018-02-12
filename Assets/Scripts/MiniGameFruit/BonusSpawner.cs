@@ -70,11 +70,14 @@ public class BonusSpawner : MonoBehaviour {
 
     public void ChangerFruit()
     {
-        Fruit typeToChange = GetComponentInParent<Player>().associateFruit;
-        Transform[] tabTest = GameObject.Find("Pool Container 0").GetComponentsInChildren<Transform>();
-        foreach (Transform transformFruit in tabTest)
+        Fruit typeToChange = GameObject.Find("Player(Clone)").GetComponent<Player>().associateFruit; //Voir a recuperer l'info sans passer par GameObject.Find()
+        FruitType[] tabTest = GameObject.Find("Fruits").transform.GetChild(0).GetComponentInChildren<Transform>().GetComponentsInChildren<FruitType>(); // Verifier pourquoi ça récupere pas les bons trucs !!!
+        Debug.Log(tabTest.Length);
+        for (int i = 0; i < tabTest.Length; i++)
         {
-            GetComponent<FruitType>().typeFruit = typeToChange;
+            FruitType transformFruit = tabTest[i];
+            Debug.Log(transformFruit);
+            transformFruit.GetComponent<FruitType>().typeFruit = typeToChange;
         }
     }
 
