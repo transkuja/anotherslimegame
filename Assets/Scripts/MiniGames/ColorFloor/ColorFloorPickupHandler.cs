@@ -57,6 +57,7 @@ public class ColorFloorPickupHandler : MonoBehaviour
                     subpoolIndex
                 );
 
+                pickupsSpawnedSinceLastScore++;
                 if (subpoolIndex == 0)
                     pickupsSpawnedSinceLastScore = 0;
 
