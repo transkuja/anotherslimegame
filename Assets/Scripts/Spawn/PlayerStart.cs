@@ -102,18 +102,14 @@ public class PlayerStart : MonoBehaviour {
             GameManager.Instance.RegisterDataContainer(FindObjectOfType<SlimeDataContainer>());
         }
 
-        if (GameManager.Instance.DataContainer != null)
+        if (DEBUG_playXPlayers)
+            activePlayersAtStart = DEBUG_NbPlayers;
+        else
         {
-            if (DEBUG_playXPlayers)
-                activePlayersAtStart = DEBUG_NbPlayers;
-            else
-            {
-                if (GameManager.Instance.DataContainer == null)
-                    activePlayersAtStart = 1;
-                
+            if (GameManager.Instance.DataContainer != null)
                 activePlayersAtStart = (uint)Mathf.Max(1, GameManager.Instance.DataContainer.nbPlayers);
-            }
-                
+            else
+                activePlayersAtStart = 1;
         }
 
         for (int i = 0; i < activePlayersAtStart; i++)

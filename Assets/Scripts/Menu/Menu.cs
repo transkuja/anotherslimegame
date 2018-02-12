@@ -441,7 +441,7 @@ public class Menu : MonoBehaviour {
                 currentlySelectedButton.Select();
             }
         }
-        Debug.Log(currentState);
+
         // Minigame screen reset
         if (currentState == MenuState.MinigameSelection)
         {
