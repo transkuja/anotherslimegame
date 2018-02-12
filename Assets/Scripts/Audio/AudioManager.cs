@@ -18,6 +18,8 @@ public class AudioManager : MonoBehaviour
     public AudioClip breakFx;
     public AudioClip cantPayFx;
 
+    public AudioClip musicAssenseur;
+
     private AudioClip musicToPlay;
     private AudioClip previousMusic;
     
@@ -114,6 +116,7 @@ public class AudioManager : MonoBehaviour
             {
                 timerFade = 0.0f;
                 sourceMusic.volume = volumeMusic;
+                if (musicToPlay == musicAssenseur) sourceMusic.volume *= 4;
                 sourceMusic.clip = musicToPlay;
                 sourceMusic.Play();
                 isFading = false;
@@ -121,11 +124,13 @@ public class AudioManager : MonoBehaviour
             else
             {
                 sourceMusic.volume = timerFade * volumeMusic;
+                if (musicToPlay == musicAssenseur) sourceMusic.volume *= 4;
             }
         }
         else
         {
             sourceMusic.volume = volumeMusic;
+            if (musicToPlay == musicAssenseur) sourceMusic.volume *= 4;
         }
 
     }
