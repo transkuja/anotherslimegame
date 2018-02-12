@@ -68,10 +68,13 @@ public class Menu : MonoBehaviour {
             if (currentlySelectedButton != null)
                 currentlySelectedButton.GetComponent<AnimButton>().enabled = false;
             currentlySelectedButton = value;
-            if (currentlySelectedButton.GetComponent<AnimButton>() == null)
-                currentlySelectedButton.gameObject.AddComponent<AnimButton>();
-            else
-                currentlySelectedButton.GetComponent<AnimButton>().enabled = true;
+            if (currentlySelectedButton != null)
+            {
+                if (currentlySelectedButton.GetComponent<AnimButton>() == null)
+                    currentlySelectedButton.gameObject.AddComponent<AnimButton>();
+                else
+                    currentlySelectedButton.GetComponent<AnimButton>().enabled = true;
+            }
         }
     }
 
@@ -470,7 +473,7 @@ public class Menu : MonoBehaviour {
                         UpdatePlayerPreviewFace(i);
                     }
 
-                    CurrentlySelectedButton = transform.GetChild((int)currentState).GetChild(0).GetComponentInChildren<Button>();
+                    CurrentlySelectedButton = null;
                 }
             }
         }
