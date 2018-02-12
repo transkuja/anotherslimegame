@@ -30,6 +30,7 @@ public class SpriteUtils : MonoBehaviour {
     public Sprite movementSprite;
     public Sprite jumpSprite;
     public Sprite actionSprite;
+    public Sprite specialActionSprite;
     public Sprite rightTriggerSprite;
     public Sprite leftTriggerSprite;
 
@@ -40,6 +41,9 @@ public class SpriteUtils : MonoBehaviour {
         {
             case ControlType.Action:
                 result = actionSprite;
+                break;
+            case ControlType.SpecialAction:
+                result = specialActionSprite;
                 break;
             case ControlType.Movement:
                 result = movementSprite;

@@ -114,7 +114,7 @@ public static class MinigameDataUtils
             controls.Add(new ControlDetails(ControlType.Movement));
             controls.Add(new ControlDetails(ControlType.Jump));
             controls.Add(new ControlDetails(ControlType.Action, "Dash forward with X"));
-            // TODO: add Y button for stomp
+            controls.Add(new ControlDetails(ControlType.SpecialAction, "Stomp the ground with Y"));
         }
         return controls;
     }
