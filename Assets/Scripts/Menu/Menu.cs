@@ -56,6 +56,25 @@ public class Menu : MonoBehaviour {
         }
     }
 
+    Button CurrentlySelectedButton
+    {
+        get
+        {
+            return currentlySelectedButton;
+        }
+
+        set
+        {
+            if (currentlySelectedButton != null)
+                currentlySelectedButton.GetComponent<AnimButton>().enabled = false;
+            currentlySelectedButton = value;
+            if (currentlySelectedButton.GetComponent<AnimButton>() == null)
+                currentlySelectedButton.gameObject.AddComponent<AnimButton>();
+            else
+                currentlySelectedButton.GetComponent<AnimButton>().enabled = true;
+        }
+    }
+
     public void SetMode(int _modeSelected)
     {
         selectedMode = _modeSelected;
@@ -182,9 +201,9 @@ public class Menu : MonoBehaviour {
 
             if (prevControllerStates[0].Buttons.A == ButtonState.Released && controllerStates[0].Buttons.A == ButtonState.Pressed)
             {
-                if (currentlySelectedButton != null)
+                if (CurrentlySelectedButton != null)
                 {
-                    currentlySelectedButton.onClick.Invoke();
+                    CurrentlySelectedButton.onClick.Invoke();
                     GoToNextState();
                 }
             }
@@ -320,8 +339,7 @@ public class Menu : MonoBehaviour {
             currentCursor = _nbButtons - 1;
         else
             currentCursor = currentCursor % _nbButtons;
-        currentlySelectedButton = transform.GetChild((int)currentState).GetChild(_childOffset).GetChild(currentCursor).GetComponent<Button>();
-        currentlySelectedButton.Select();
+        CurrentlySelectedButton = transform.GetChild((int)currentState).GetChild(_childOffset).GetChild(currentCursor).GetComponent<Button>();
     }
 
     void UpdateSelectionVisualForMinigame()
@@ -345,8 +363,7 @@ public class Menu : MonoBehaviour {
             minigameCurrentCursor[0] = 0;
 
         int childIndex = minigameCurrentCursor[0] + 2 * minigameCurrentCursor[1];
-        currentlySelectedButton = transform.GetChild((int)currentState).GetChild(childIndex).GetComponentInChildren<Button>();
-        currentlySelectedButton.Select();
+        CurrentlySelectedButton = transform.GetChild((int)currentState).GetChild(childIndex).GetComponentInChildren<Button>();
     }
 
     // Change the player color according to current selection
@@ -395,16 +412,14 @@ public class Menu : MonoBehaviour {
         // Mode selection step reset
         if (currentState == MenuState.ModeSelection)
         {
-            currentlySelectedButton = transform.GetChild((int)currentState).GetChild(0).GetChild(currentCursor).GetComponent<Button>();
-            currentlySelectedButton.Select();
+            CurrentlySelectedButton = transform.GetChild((int)currentState).GetChild(0).GetChild(currentCursor).GetComponent<Button>();
             selectedMode = -1;
         }
 
         // Nb of players selection step reset
         if (currentState == MenuState.NumberOfPlayers)
         {
-            currentlySelectedButton = transform.GetChild((int)currentState).GetChild(selectedMode).GetChild(currentCursor).GetComponent<Button>();
-            currentlySelectedButton.Select();
+            CurrentlySelectedButton = transform.GetChild((int)currentState).GetChild(selectedMode).GetChild(currentCursor).GetComponent<Button>();
             nbPlayers = -1;
         }
 
@@ -419,8 +434,7 @@ public class Menu : MonoBehaviour {
                 {
                     playerCustomScreens[i].transform.GetChild(4).gameObject.SetActive(false);
 
-                    currentlySelectedButton = transform.GetChild((int)currentState).GetChild(0).GetComponentInChildren<Button>();
-                    currentlySelectedButton.Select();
+                    CurrentlySelectedButton = transform.GetChild((int)currentState).GetChild(0).GetComponentInChildren<Button>();
                 }
             }
             else
@@ -456,8 +470,7 @@ public class Menu : MonoBehaviour {
                         UpdatePlayerPreviewFace(i);
                     }
 
-                    currentlySelectedButton = transform.GetChild((int)currentState).GetChild(0).GetComponentInChildren<Button>();
-                    currentlySelectedButton.Select();
+                    CurrentlySelectedButton = transform.GetChild((int)currentState).GetChild(0).GetComponentInChildren<Button>();
                 }
             }
         }
@@ -493,8 +506,8 @@ public class Menu : MonoBehaviour {
 
             if (transform.GetChild((int)currentState).childCount > 0)
             {
-                currentlySelectedButton = transform.GetChild((int)currentState).GetChild(0).GetComponentInChildren<Button>();
-                currentlySelectedButton.Select();
+                CurrentlySelectedButton = transform.GetChild((int)currentState).GetChild(0).GetComponentInChildren<Button>();
+                CurrentlySelectedButton.GetComponent<AnimButton>().enabled = true;
             }
       
         }
@@ -576,6 +589,6 @@ public class Menu : MonoBehaviour {
 
     private void OnDestroy()
     {
-        currentlySelectedButton = null;
+        CurrentlySelectedButton = null;
     }
 }

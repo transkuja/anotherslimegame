@@ -9,12 +9,14 @@ public class AnimText : MonoBehaviour {
     Color outlineColor;
     bool scaleIncreasing = true;
     bool alphaIncreasing = true;
+    Vector3 initialScale;
 
     [SerializeField]
     bool scaleOnly = false;
 
 	void Start () {
         text = GetComponent<Text>();
+        initialScale = transform.localScale;
         outline = GetComponent<Outline>();
         if (outline != null)
             outlineColor = outline.effectColor;
@@ -33,7 +35,12 @@ public class AnimText : MonoBehaviour {
         text.transform.localScale = new Vector3(text.transform.localScale.x + ((scaleIncreasing) ? Time.deltaTime : -Time.deltaTime) / 4,
                                                     text.transform.localScale.y + ((scaleIncreasing) ? Time.deltaTime : -Time.deltaTime) / 4,
                                                     1);
-        if (text.transform.localScale.x > 1.05f) scaleIncreasing = false;
-        else if (text.transform.localScale.x < 0.95f) scaleIncreasing = true;
+        if (text.transform.localScale.x > initialScale.x * 1.05f) scaleIncreasing = false;
+        else if (text.transform.localScale.x < initialScale.x * 0.95f) scaleIncreasing = true;
+    }
+
+    private void OnDisable()
+    {
+        text.transform.localScale = initialScale;
     }
 }
