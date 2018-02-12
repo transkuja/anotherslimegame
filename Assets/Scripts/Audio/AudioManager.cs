@@ -124,7 +124,7 @@ public class AudioManager : MonoBehaviour
             else
             {
                 sourceMusic.volume = timerFade * volumeMusic;
-                if (musicToPlay == musicAssenseur) sourceMusic.volume *= 4;
+                //if (musicToPlay == musicAssenseur) sourceMusic.volume *= 4;
             }
         }
         else
