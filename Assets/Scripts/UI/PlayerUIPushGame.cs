@@ -9,8 +9,10 @@ public class PlayerUIPushGame : APlayerUI {
         base.Init();        
         for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
         {
-            if(SlimeDataContainer.instance != null)
-                UIref.transform.GetChild(i).GetChild(0).GetComponent<Image>().color = (SlimeDataContainer.instance.colorFadeSelected[i] ? SlimeDataContainer.instance.selectedColors[i] : Color.white);
+            if (SlimeDataContainer.instance != null)
+                //UIref.transform.GetChild(i).GetChild(0).GetComponent<Image>().color = (SlimeDataContainer.instance.colorFadeSelected[i] ? SlimeDataContainer.instance.selectedColors[i] : Color.white);
+                // TMP
+                UIref.transform.GetChild(i).GetChild(0).GetComponent<Image>().color = Color.white;
 
             GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<Player>().CallOnValueChange(PlayerUIStat.Points, 0);
         }
