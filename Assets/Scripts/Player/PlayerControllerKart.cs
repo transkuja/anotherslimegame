@@ -30,7 +30,13 @@ public class PlayerControllerKart : PlayerController {
     }
 
 	void Update () {
-        RaycastHit hit;
+
+        rb.AddForce(Vector3.down * Time.deltaTime * 20000.0f);
+
+        if (GameManager.CurrentState != GameState.Normal)
+            return;
+
+            RaycastHit hit;
         if(Physics.Raycast(transform.position + transform.up, -transform.up, out hit))
         {
             if(hit.collider.GetComponent<DeathZone>())
@@ -66,12 +72,9 @@ public class PlayerControllerKart : PlayerController {
             targetForward = transform.forward;
         //transform.rotation = Quaternion.LookRotation(Vector3.Lerp(transform.forward, targetForward, Time.deltaTime * 6.0f * Mathf.Clamp(rb.velocity.magnitude/2.0f, 0.0f, 1.0f)), Vector3.up);
         //transform.rotation = Quaternion.LookRotation(Vector3.Lerp(transform.forward, rb.velocity.normalized, Time.deltaTime * 10.0f));
-
+        
        
         //float directionFactor = Mathf.Round((state.Triggers.Right) + (state.Triggers.Left * -1));
-
-        rb.AddForce(Vector3.down * Time.deltaTime * 20000.0f);
-
 
         previousState = state;
 	}

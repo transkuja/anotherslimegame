@@ -28,6 +28,8 @@ public class KartGameMode : GameMode {
     protected override void Update()
     {
         base.Update();
+        if (GameManager.CurrentState != GameState.Normal)
+            return;
         timer += Time.deltaTime;
     }
 
