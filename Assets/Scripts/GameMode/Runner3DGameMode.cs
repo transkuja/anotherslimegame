@@ -8,16 +8,18 @@ public class Runner3DGameMode : GameMode {
     enum Mode
     {
         SoloInfinite,
+        Finite,
         LastRemaining
     }
     private Mode mode = Mode.LastRemaining;
 
-    int nbRemainingPlayer;
+    int nbDeadPlayers;
+    int nbPlayerArrived;
     public override void StartGame(List<GameObject> playerReferences)
     {
         base.StartGame(playerReferences);
         rules = new MinigameRules(this);
-        nbRemainingPlayer = playerReferences.Count;
+        nbDeadPlayers = 0;
         for (int i = 0; i < playerReferences.Count; i++)
         {
             PlayerControllerHub playerControllerHub = playerReferences[i].GetComponent<PlayerControllerHub>();
@@ -52,19 +54,32 @@ public class Runner3DGameMode : GameMode {
     public void OnPlayerDeath(int id)
     {
         GameManager.Instance.PlayerStart.PlayersReference[id].gameObject.SetActive(false);
+        nbDeadPlayers++;
+        CheckVictory();
+    }
+    public void CheckVictory()
+    {
         switch (mode)
         {
             case Mode.SoloInfinite:
                 throw new NotImplementedException();
             case Mode.LastRemaining:
-                nbRemainingPlayer--;
-                if (nbRemainingPlayer == 1)
-                    Debug.Log("EndGame");
+                if (nbDeadPlayers == 1)
+                    EndGame();
+                break;
+            case Mode.Finite:
+                nbPlayerArrived++;
+                if (nbPlayerArrived == curNbPlayers)
+                    EndGame();
+                if (nbPlayerArrived + nbDeadPlayers == curNbPlayers)
+                    EndGame();
                 break;
             default:
                 break;
         }
+    }
+    public void EndGame()
+    {
 
-        
     }
 }

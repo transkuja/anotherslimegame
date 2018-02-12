@@ -58,22 +58,25 @@ namespace Runner3D
             blockSize.y = Mathf.Round(blockSize.y);
             blockSize.z = Mathf.Round(blockSize.z);
         }
-        public void LauchLerp(DirLerpState dir)
+       
+        public void LauchLerp(DirLerpState dir,float waitTime = 0)
         {
             if (curState == DirLerpState.Moving)
                 Debug.Log("OrderToFast");
             curState = DirLerpState.Moving;
-            if (dir == DirLerpState.Down)
-                SaveStartPos();
+            //if (dir == DirLerpState.Down)
+            //    SaveStartPos();
             float[] timer = new float[transform.childCount];
             for (int i = 0; i < transform.childCount; i++)
             {
                 timer[i] = Random.Range(-0.2f, 0.2f);
-                StartCoroutine(LerpItem(timer[i], i, dir));
+                StartCoroutine(LerpItem(timer[i], i, dir, waitTime));
             }
         }
-        IEnumerator LerpItem(float timer,int i, DirLerpState dir)
+        IEnumerator LerpItem(float timer,int i, DirLerpState dir,float waitTime = 0)
         {
+            yield return new WaitForSeconds(waitTime);
+
             Transform child = transform.GetChild(i);
 
             if (dir == DirLerpState.Down && child.GetComponent<PlatformGameplay>())

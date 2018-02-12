@@ -39,6 +39,8 @@ abstract public class GameMode : MonoBehaviour
     [SerializeField] private ViewMode viewMode = ViewMode.thirdPerson3d;
     [SerializeField] private string runeToUnlockId;
 
+    public int curNbPlayers;
+
     public MinigameRules rules;
     public delegate bool CheckRuneObjective();
 
@@ -88,6 +90,7 @@ abstract public class GameMode : MonoBehaviour
 
     public virtual void StartGame(List<GameObject> playerReferences)
     {
+        curNbPlayers = playerReferences.Count;
         if (IsMiniGame())
             GameManager.ChangeState(GameState.ForcedPauseMGRules);
         else

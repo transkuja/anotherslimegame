@@ -26,9 +26,10 @@ namespace Runner3D
         [SerializeField] Vector3 leveFinalSize;  // taille réelle du niveau
 
 
-        [SerializeField]int firstPlayerZRow = 0;
+        [SerializeField]int firstPlayerZRow = -1;
         int nbRowUpBehindFirst = 2;
         int nbRowUpInFrontFirst = 2;
+        float timeBeforeFalling = 12;
         State state;
 
         public void OnValidate()
@@ -65,7 +66,7 @@ namespace Runner3D
                 }
             }
 
-            Instantiate(arrivalPrefab, Vector3.forward * (defaultBlockSize.z*.05f + levelUnit.z * defaultBlockSize.z), Quaternion.identity,transform);
+            Instantiate(arrivalPrefab, Vector3.forward * (defaultBlockSize.z*.5f + levelUnit.z * defaultBlockSize.z), Quaternion.identity,transform);
         }
         #endregion
 
@@ -75,7 +76,7 @@ namespace Runner3D
         public void WritePathIntoLevelMask(bool[,] mask)
         {
             int posInLine = Random.Range(0, (int)levelUnit.x);
-            mask[0, posInLine] = true;
+            mask[0, Mathf.FloorToInt((levelUnit.x)*0.5f)] = true;
 
             for (int z = 1; z < levelUnit.z; z++)
             {
@@ -98,7 +99,8 @@ namespace Runner3D
             GenerateLevelBlock(mask, Vector3.forward * defaultBlockSize.z * 0.5f
                                     - Vector3.right * defaultBlockSize.x * 0.5f
                                     - Vector3.right * levelUnit.x * defaultBlockSize.x * 0.25f);
-            StartCoroutine(LevelPresentation());
+            //StartCoroutine(LevelPresentation());
+            LevelBegin();
         }
 
 
@@ -110,14 +112,15 @@ namespace Runner3D
                 for (int i = firstPlayerZRow + 1; i <= firstPlayerZRow + variation; i++)
                 {
                     LerpMessage(i + nbRowUpInFrontFirst, DirLerpState.Up);
-                    LerpMessage(i - nbRowUpBehindFirst, DirLerpState.Down);
+                    LerpMessage(i + nbRowUpInFrontFirst, DirLerpState.Down, timeBeforeFalling);
+                    //LerpMessage(i - nbRowUpBehindFirst, DirLerpState.Down, timeBeforeFalling);
                 }
             }
-            else if (variation < 0) // Pas encore testé.
-                for (int i = firstPlayerZRow; i >= firstPlayerZRow - variation; i--)
-                    LerpMessage(firstPlayerZRow + nbRowUpInFrontFirst, DirLerpState.Down);
-            else
-                Debug.LogWarning("This function shouldn't be called");
+            //else if (variation < 0) 
+            //    for (int i = firstPlayerZRow; i >= firstPlayerZRow - variation; i--)
+            //        //LerpMessage(firstPlayerZRow + nbRowUpInFrontFirst, DirLerpState.Down);
+            //else
+            //    Debug.LogWarning("This function shouldn't be called");
             firstPlayerZRow = newCursorValue;
         }
         #endregion
@@ -125,14 +128,15 @@ namespace Runner3D
         #endregion
 
         #region LevelMovement
-        public void LerpMessage(int row,DirLerpState dir)
+        public void LerpMessage(int row,DirLerpState dir,float waitTime = 0)
         {
+            Debug.Log("Lauch " + row + "at " + dir);
             if (row < 0 || row >= levelUnit.z)
                 return;
             for (int x = 0; x < levelUnit.x; x++)
             {
                 if (blockMap[x, row] != null)
-                    blockMap[x, row].LauchLerp(dir);
+                    blockMap[x, row].LauchLerp(dir, waitTime);
             }
         }
 
@@ -150,7 +154,6 @@ namespace Runner3D
             firstPlayerZRow = playerZBlockPos;
         }
         #endregion
-
 
         public void Start()
         {
@@ -182,6 +185,11 @@ namespace Runner3D
                     break;
             }
 
+        }
+        public void LevelBegin()
+        {
+            MoveCursor(-nbRowUpInFrontFirst-1);
+            state = State.InGame;
         }
         public IEnumerator LevelPresentation()
         {
