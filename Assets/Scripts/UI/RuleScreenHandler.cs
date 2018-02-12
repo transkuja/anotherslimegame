@@ -30,7 +30,6 @@ public class RuleScreenHandler : MonoBehaviour {
         }
     }
 
-    void Start () {
     void OnEnable() {
         CurState = RuleScreenState.FirstPage;
         skipControlsPage = GameManager.Instance.CurrentGameMode.rules.controls.Count == 0;
