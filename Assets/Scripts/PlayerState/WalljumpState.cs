@@ -16,7 +16,7 @@ public class WalljumpState : PlayerState
         base.OnBegin();
         curFixedUpdateFct = PushedFromWall;
         pushTime = 0.5f;
-        pushForce = 700;
+        pushForce = 1000;
         timer = 0;
         JumpManager jm;
         if (jm = playerController.GetComponent<JumpManager>())
