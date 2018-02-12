@@ -378,9 +378,9 @@ public class CostArea : MonoBehaviour {
                 {
                     case 0:
                         return ResourceUtils.Instance.feedbacksManager.prefabJumpFeedback;
-                    case 1:
-                        return ResourceUtils.Instance.feedbacksManager.prefabPushFeedback;
                     case 2:
+                        return ResourceUtils.Instance.feedbacksManager.prefabPushFeedback;
+                    case 1:
                         return ResourceUtils.Instance.feedbacksManager.prefabKartFeedback;
                     case 3:
                         return ResourceUtils.Instance.feedbacksManager.prefabRunnerFeedback;
