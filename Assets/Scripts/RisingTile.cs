@@ -21,14 +21,23 @@ public class RisingTile : MonoBehaviour {
     [SerializeField]
     float moveDuration = 1.0f;
 
+    [SerializeField]
+    bool useLocalUp = true;
+
     float timer = 0.0f;
     Vector3 startPos;
+
+    Vector3 axis;
 
     bool isUp = false;
 	void Start () {
         startPos = transform.position;
         timer = -offsetTime;
-	}
+        if (useLocalUp)
+            axis = transform.up;
+        else
+            axis = Vector3.up;
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -54,13 +63,14 @@ public class RisingTile : MonoBehaviour {
     IEnumerator Rise()
     {
         float riseTimer = 0.0f;
+
         if (moveDuration == 0.0f)
             moveDuration = 0.01f;
         while(riseTimer < moveDuration)
         {
             yield return null;
             riseTimer += Time.deltaTime;
-            transform.position = startPos + Vector3.up * riseCurve.Evaluate(riseTimer / moveDuration) * maxHeight;
+            transform.position = startPos + axis * riseCurve.Evaluate(riseTimer / moveDuration) * maxHeight;
         }
     }
 
@@ -73,7 +83,7 @@ public class RisingTile : MonoBehaviour {
         {
             yield return null;
             downTimer += Time.deltaTime;
-            transform.position = startPos + Vector3.up * downCurve.Evaluate(downTimer / moveDuration) * maxHeight;
+            transform.position = startPos + axis * downCurve.Evaluate(downTimer / moveDuration) * maxHeight;
         }
     }
 }
