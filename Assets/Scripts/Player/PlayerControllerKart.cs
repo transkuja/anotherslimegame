@@ -13,16 +13,20 @@ public class PlayerControllerKart : PlayerController {
     float turnSpeed = 200.0f;
     [SerializeField]
     float dashForce = 100.0f;
+    [SerializeField]
+    float dashCooldown = 1.0f;
 
     [SerializeField]
     CheckPoint LastCheckpoint;
 
     GamePadState previousState;
     Vector3 targetForward;
+    float dashTimer = 0.0f;
 
     bool DisableInputs = false;
 
     void Start () {
+        dashTimer = dashCooldown;
         player = GetComponent<Player>();
         Rb = GetComponent<Rigidbody>();
         targetForward = transform.forward;
@@ -32,7 +36,7 @@ public class PlayerControllerKart : PlayerController {
 	void Update () {
 
         rb.AddForce(Vector3.down * Time.deltaTime * 20000.0f);
-
+        
         if (GameManager.CurrentState != GameState.Normal)
             return;
 
@@ -45,6 +49,8 @@ public class PlayerControllerKart : PlayerController {
                 return;
             }
         }
+        if(dashTimer < dashCooldown)
+            dashTimer += Time.deltaTime;
         if (DisableInputs)
             return;
         GamePadState state = GamePad.GetState(PlayerIndex);
@@ -63,9 +69,10 @@ public class PlayerControllerKart : PlayerController {
 
         //rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxVelocityMagnitude);
 
-        if (state.Buttons.X == ButtonState.Pressed && previousState.Buttons.X == ButtonState.Released)
+        if (dashTimer >= dashCooldown && state.Buttons.X == ButtonState.Pressed && previousState.Buttons.X == ButtonState.Released)
         {
             rb.AddForce(transform.forward * dashForce, ForceMode.Impulse);
+            dashTimer = 0.0f;
         }
         targetForward = new Vector3(state.ThumbSticks.Left.X, 0, state.ThumbSticks.Left.Y);
         if (targetForward == Vector3.zero)
