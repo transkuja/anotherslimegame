@@ -573,4 +573,9 @@ public class Menu : MonoBehaviour {
         }
         dataContainer.SaveData(nbPlayers, sc, selectedFaces, selectedColorFades, selectedMode == 1);
     }
+
+    private void OnDestroy()
+    {
+        currentlySelectedButton = null;
+    }
 }
