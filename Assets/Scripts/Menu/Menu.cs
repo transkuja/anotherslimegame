@@ -411,34 +411,41 @@ public class Menu : MonoBehaviour {
 
             if (playerCustomScreens.Count > 0)
             {
-                foreach (GameObject go in playerCustomScreens)
-                    Destroy(go);
+                for (int i = 0; i < nbPlayers; i++)
+                {
+                    playerCustomScreens[i].transform.GetChild(4).gameObject.SetActive(false);
+
+                    currentlySelectedButton = transform.GetChild((int)currentState).GetChild(0).GetComponentInChildren<Button>();
+                    currentlySelectedButton.Select();
+                }
             }
-
-            playerCustomScreens.Clear();
-            for (int i = 0; i < nbPlayers; i++)
+            else
             {
-                GameObject go = Instantiate(playerCustomScreenPrefab, transform.GetChild((int)MenuState.CustomisationScreen));
-                go.GetComponentInChildren<Text>().text = "Player " + (i + 1);
 
-                if (nbPlayers == 1)
-                    go.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
-                if (nbPlayers == 2)
-                    go.transform.localPosition = new Vector3(-(250) + (2 * i) * (250), 0.0f, 0.0f);
-                if (nbPlayers == 3)
-                    go.transform.localPosition = new Vector3((-(250) + i * (250)), 0.0f, 0.0f);
-                if (nbPlayers == 4)
-                    go.transform.localPosition = new Vector3(-(300) + (i * (200)), 0.0f, 0.0f);
+                for (int i = 0; i < nbPlayers; i++)
+                {
+                    GameObject go = Instantiate(playerCustomScreenPrefab, transform.GetChild((int)MenuState.CustomisationScreen));
+                    go.GetComponentInChildren<Text>().text = "Player " + (i + 1);
 
-                go.transform.GetChild(1).GetComponent<Text>().text = unlockedCustomColors[0].Id;
-                go.transform.GetChild(2).GetComponent<Text>().text = unlockedFaces[0].Id;
-                go.transform.GetChild(3).GetComponentInChildren<PlayerCosmetics>().SetUniqueColor(unlockedCustomColors[0].color);
-                go.transform.GetChild(3).GetComponentInChildren<PlayerCosmetics>().FaceType = 0;
+                    if (nbPlayers == 1)
+                        go.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
+                    if (nbPlayers == 2)
+                        go.transform.localPosition = new Vector3(-(250) + (2 * i) * (250), 0.0f, 0.0f);
+                    if (nbPlayers == 3)
+                        go.transform.localPosition = new Vector3((-(250) + i * (250)), 0.0f, 0.0f);
+                    if (nbPlayers == 4)
+                        go.transform.localPosition = new Vector3(-(300) + (i * (200)), 0.0f, 0.0f);
 
-                playerCustomScreens.Add(go);
+                    go.transform.GetChild(1).GetComponent<Text>().text = unlockedCustomColors[0].Id;
+                    go.transform.GetChild(2).GetComponent<Text>().text = unlockedFaces[0].Id;
+                    go.transform.GetChild(3).GetComponentInChildren<PlayerCosmetics>().SetUniqueColor(unlockedCustomColors[0].color);
+                    go.transform.GetChild(3).GetComponentInChildren<PlayerCosmetics>().FaceType = 0;
 
-                currentlySelectedButton = transform.GetChild((int)currentState).GetChild(0).GetComponentInChildren<Button>();
-                currentlySelectedButton.Select();
+                    playerCustomScreens.Add(go);
+
+                    currentlySelectedButton = transform.GetChild((int)currentState).GetChild(0).GetComponentInChildren<Button>();
+                    currentlySelectedButton.Select();
+                }
             }
         }
 
