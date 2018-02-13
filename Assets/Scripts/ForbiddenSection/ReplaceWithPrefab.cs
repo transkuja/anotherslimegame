@@ -54,6 +54,7 @@ public class ReplaceWithPrefab : MonoBehaviour {
             ReplaceEVERYTHING("Parapet", parapetNormal, parapetMossy);
             ReplaceEVERYTHING("Dalle", dalleNormal, dalleMossy);
             ReplaceEVERYTHING("Pillier", colonneNormal, colonneMossy);
+            ReplaceEVERYTHING("Pilier", colonneNormal, colonneMossy);
             ReplaceEVERYTHING("Haut", colonneNormal, colonneMossy, true);
             ReplaceEVERYTHING("Mid", colonneNormal, colonneMossy, true);
             ReplaceEVERYTHING("Bas", colonneNormal, colonneMossy, true);
