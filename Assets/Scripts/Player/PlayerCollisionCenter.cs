@@ -635,7 +635,8 @@ public class PlayerCollisionCenter : MonoBehaviour {
         //        DamagePlayerHub();
         //}
         rabite.CurrentState = RabiteAI.RabiteState.Dead;
-        ExpulseRabite(rabite.GetComponent<Collider>().ClosestPoint(transform.position), rabite.Rb, repulsionFactor);
+        rabite.GetComponent<AIRabite>().CurrentState = AIRabite.RabiteState.Dead;
+        ExpulseRabite(rabite.GetComponent<Collider>().ClosestPoint(transform.position), rabite.GetComponent<Rigidbody>(), repulsionFactor);
     }
 
     public void ExpulseRabite(Vector3 collisionPoint, Rigidbody rbPlayerToExpulse, float repulsionFactor)
@@ -644,12 +645,13 @@ public class PlayerCollisionCenter : MonoBehaviour {
         direction.y = 0;
 
         direction.Normalize() ;
-        rbPlayerToExpulse.velocity = new Vector3(direction.x * repulsionFactor, rbPlayerToExpulse.velocity.y, direction.z * repulsionFactor);
+        rbPlayerToExpulse.AddForce(new Vector3(direction.x * repulsionFactor, rbPlayerToExpulse.velocity.y, direction.z * repulsionFactor), ForceMode.Impulse);
         StartCoroutine(ReactivateCollider(rbPlayerToExpulse.GetComponent<RabiteAI>()));
     }
 
     public IEnumerator ReactivateCollider(RabiteAI p)
     {
+        Debug.Log("hey");
         yield return new WaitForSeconds(invicibilityFrame);
         impactedRabite.Remove(p);
         Physics.IgnoreCollision(p.GetComponent<Collider>(), GetComponent<Collider>(), false);

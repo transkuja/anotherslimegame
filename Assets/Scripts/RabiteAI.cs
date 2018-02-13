@@ -132,16 +132,16 @@ public class RabiteAI : MonoBehaviour {
                 case RabiteState.Detect:
                     CurrentState = RabiteState.Move;
                     velocity = playerToTarget.normalized * 3;
-
-                    transform.LookAt(playerToLookAt);
+                    transform.rotation = Quaternion.LookRotation(playerToLookAt.transform.position - transform.position, Vector3.up);
+                    //transform.LookAt(playerToLookAt);
                     rabiteAnimator.SetBool("Ismoving", true);
                     cooldown = 0.0f;
                     timer = 4.0f;
                     break;
                 case RabiteState.Attack:
                     velocity = playerToTarget.normalized * 2;
-                    
-                    transform.LookAt(playerToLookAt);
+                    transform.rotation = Quaternion.LookRotation(playerToLookAt.transform.position - transform.position, Vector3.up);
+                    //transform.LookAt(playerToLookAt);
                     rabiteAnimator.SetBool("IsAttacking", true);
                     break;
                 case RabiteState.Dead:
@@ -149,10 +149,12 @@ public class RabiteAI : MonoBehaviour {
                     playerToTarget = Vector3.zero; // useless but
                     return;
             }
+            cooldown = 0.0f;
+            velocity += Vector3.down * 9.81f;
         }
 
-        if (cooldown > 1f)
-        {
+        //if (cooldown > 1f)
+        //{
             Rb.velocity = velocity;
             if(CurrentState == RabiteState.Attack && cooldown > 2.0f)
             {
@@ -163,7 +165,7 @@ public class RabiteAI : MonoBehaviour {
                 playerToTarget = Vector3.zero;
             }
    
-        }
+        //}
 
     }
 }
