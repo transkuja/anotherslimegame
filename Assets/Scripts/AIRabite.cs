@@ -41,6 +41,18 @@ public class AIRabite : MonoBehaviour {
 
     public RabiteState CurrentState;
 
+    private void OnDrawGizmosSelected()
+    {
+        if(CurrentState == RabiteState.Wander)
+        {
+            if(currentWanderPosTarget != null)
+            {
+                Gizmos.color = Color.red;
+                Gizmos.DrawWireSphere(currentWanderPosTarget, 2.0f);
+            }
+        }
+    }
+
     GameObject currentTarget = null;
     private Animator rabiteAnimator;
     private Rigidbody rb;
@@ -149,7 +161,7 @@ public class AIRabite : MonoBehaviour {
 
     Vector3 GetRandomPointInZone()
     {
-        return new Vector3(Random.Range(0.0f, zoneHalfExtent), transform.position.y, Random.Range(0.0f, zoneHalfExtent));
+        return zonePosition + new Vector3(Random.Range(0.0f, zoneHalfExtent), 0, Random.Range(0.0f, zoneHalfExtent));
     }
 
     void Pursuit()
