@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PoolChild : MonoBehaviour {
 
@@ -24,6 +25,11 @@ public class PoolChild : MonoBehaviour {
         }
     }
 
+    private void Start()
+    {
+        SceneManager.sceneUnloaded += OnSceneUnloaded;    
+    }
+
     private void OnEnable()
     {
         if (Pool != null)
@@ -33,6 +39,11 @@ public class PoolChild : MonoBehaviour {
         }
     }
 
+    private void OnSceneUnloaded(Scene scene)
+    {
+        ReturnToPool();
+    }
+   
     void Update () {
         if (isReady)
         {
