@@ -184,10 +184,20 @@ public class ScoreScreen : MonoBehaviour {
                 if (curPlayer.cameraReference)
                     curPlayer.cameraReference.SetActive(false);
                 curPlayer.transform.SetParent(podium.GetChild(curPlayer.rank));
-                if (curPlayer.GetComponent<Rigidbody>())
+                if(curPlayer.GetComponent<PlayerController>())
                 {
-                    curPlayer.GetComponent<Rigidbody>().velocity = Vector3.zero;
-                    curPlayer.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+                    curPlayer.GetComponent<PlayerController>().enabled = false;
+                }
+
+                if(curPlayer.GetComponent<Rigidbody>())
+                {
+                    curPlayer.GetComponentInChildren<Rigidbody>().velocity = Vector3.zero;
+                    curPlayer.GetComponentInChildren<Rigidbody>().angularVelocity = Vector3.zero;
+                }
+                if (curPlayer.GetComponent<JumpManager>())
+                {
+                    curPlayer.GetComponent<JumpManager>().enabled = false;
+                    curPlayer.Anim.SetBool("isExpulsed", false);
                 }
                 curPlayer.transform.localPosition = Vector3.zero;
                 curPlayer.transform.localRotation = Quaternion.identity;
@@ -227,6 +237,10 @@ public class ScoreScreen : MonoBehaviour {
             }
             else
                 startExitTimer = true;
+        }
+        else
+        {
+            Debug.Log("prout");
         }
     }
 
