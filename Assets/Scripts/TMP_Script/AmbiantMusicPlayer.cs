@@ -11,7 +11,7 @@ public class AmbiantMusicPlayer : MonoBehaviour {
 
             if (AudioManager.Instance != null && AudioManager.Instance.musicAssenseur != null)
             {
-                AudioManager.Instance.Fade(AudioManager.Instance.musicAssenseur, 0.5f);
+                AudioManager.Instance.Fade(AudioManager.Instance.musicAssenseur, 0.5f, 3.0f);
             }
         
         }

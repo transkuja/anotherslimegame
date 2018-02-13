@@ -25,9 +25,12 @@ public class AudioManager : MonoBehaviour
     
 
     [SerializeField]
-    private float volumeMusic = 0.5f;
+    private float volumeMusic = 0.015f;
     [SerializeField]
-    private float volumeFXs = 1.0f;
+    private float volumeFXs = 0.01f;
+
+
+    private float currentVolume;
 
     public static AudioManager Instance
     {
@@ -41,13 +44,13 @@ public class AudioManager : MonoBehaviour
     {
         get
         {
-            return volumeMusic;
+            return currentVolume;
         }
 
         set
         {
-            volumeMusic = value;
-            sourceMusic.volume = volumeMusic;
+            currentVolume = value;
+            sourceMusic.volume = currentVolume;
         }
     }
 
@@ -81,17 +84,19 @@ public class AudioManager : MonoBehaviour
 
     void Start()
     {
+        currentVolume = volumeMusic;
         sourceMusic.Play();
     }
 
     private bool isFading = false;
     private float timerFade = 0.0f;
 
-    public void Fade(AudioClip _music, float timer = 1.0f)
+    public void Fade(AudioClip _music, float timer = 1.0f, float multiplierVolume = 1.0f)
     {
         if (sourceMusic.clip != _music)
         {
             musicToPlay = _music;
+            currentVolume = multiplierVolume * volumeMusic;
             timerFade = timer;
             isFading = true;
         }
@@ -102,7 +107,7 @@ public class AudioManager : MonoBehaviour
     {
         isFading = false;
         sourceMusic.clip = clip;
-        sourceMusic.volume = volumeMusic;
+        sourceMusic.volume = currentVolume;
         sourceMusic.Play();
     }
 
@@ -115,22 +120,19 @@ public class AudioManager : MonoBehaviour
             if (timerFade < 0)
             {
                 timerFade = 0.0f;
-                sourceMusic.volume = volumeMusic;
-                if (musicToPlay == musicAssenseur) sourceMusic.volume *= 4;
+                sourceMusic.volume = currentVolume;
                 sourceMusic.clip = musicToPlay;
                 sourceMusic.Play();
                 isFading = false;
             }
             else
             {
-                sourceMusic.volume = timerFade * volumeMusic;
-                //if (musicToPlay == musicAssenseur) sourceMusic.volume *= 4;
+                sourceMusic.volume = timerFade * currentVolume;
             }
         }
         else
         {
-            sourceMusic.volume = volumeMusic;
-            if (musicToPlay == musicAssenseur) sourceMusic.volume *= 4;
+            sourceMusic.volume = currentVolume;
         }
 
     }
