@@ -20,6 +20,15 @@ public class AIRabite : MonoBehaviour {
     Collider DeadCollider;
     [SerializeField]
     float playerDetectionRadius = 10.0f;
+    [SerializeField]
+    float pursuitMaxRange = 40.0f;
+
+    [SerializeField]
+    float attackRange = 2.0f;
+
+    [SerializeField]
+    float attackMaxRange = 3.0f;
+
     int separationMask;
 
     public enum RabiteState
@@ -148,12 +157,12 @@ public class AIRabite : MonoBehaviour {
         Vector3 transformToTarget = currentTarget.transform.position - transform.position;
         transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(transformToTarget, Vector3.up), Time.deltaTime * 8.0f);
         rb.AddForce(transformToTarget.normalized * 2500.0f * Time.deltaTime);
-        if (Vector3.Distance(currentTarget.transform.position, transform.position) < 2.0f)
+        if (Vector3.Distance(currentTarget.transform.position, transform.position) < attackRange)
         {
             rabiteAnimator.SetBool("Ismoving", false);
             CurrentState = RabiteState.Attack;
         }
-        else if(Vector3.Distance(currentTarget.transform.position, transform.position) > 40.0f)
+        else if(Vector3.Distance(currentTarget.transform.position, transform.position) > pursuitMaxRange)
         {
             CurrentState = RabiteState.Wander;
         }
@@ -162,7 +171,7 @@ public class AIRabite : MonoBehaviour {
     void Attack()
     {
         rabiteAnimator.SetBool("IsAttacking", true);
-        if(Vector3.Distance(currentTarget.transform.position, transform.position) > 3.0f)
+        if(Vector3.Distance(currentTarget.transform.position, transform.position) > attackMaxRange)
         {
             rabiteAnimator.SetBool("IsAttacking", false);
             rabiteAnimator.SetBool("Ismoving", true);
