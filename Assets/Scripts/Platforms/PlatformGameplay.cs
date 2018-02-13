@@ -195,11 +195,6 @@ public class PlatformGameplay : MonoBehaviour {
         lerpOriginPosition = transform.position;
         lerpNewPosition = transform.position + movingDistance * ((isAWorldAxis) ? movingAxis : (transform.rotation * movingAxis));
         delayTimer = delayBetweenMovements;
-        if (GetComponent<Ground>() == null && tag != "Ground")
-        {
-            Debug.LogWarning("There's nothing indicating that the platform is part of the ground. Adding Ground component.");
-            gameObject.AddComponent<Ground>();
-        }
 
         if (isBouncy)
         {
