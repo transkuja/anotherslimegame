@@ -35,6 +35,7 @@ public class Menu : MonoBehaviour {
     int[] selectedFaces = new int[4];
     int[] currentCursorsRow = new int[4];
     bool[] selectedColorFades = new bool[4];
+    bool[] selectedRabbits = new bool[4];
 
     [SerializeField]
     SlimeDataContainer dataContainer;
@@ -114,6 +115,7 @@ public class Menu : MonoBehaviour {
             nbPlayers = dataContainer.nbPlayers;
             selectedFaces = dataContainer.selectedFaces;
             selectedColorFades = dataContainer.colorFadeSelected;
+            selectedRabbits = dataContainer.rabbitSelected;
             selectedMode = (dataContainer.launchedFromMinigameScreen) ? 1 : 0;
 
             selectedColors = new int[4];
@@ -277,8 +279,11 @@ public class Menu : MonoBehaviour {
                 {
                     if (currentCursorsRow[i] == 0)
                     {
-                        selectedColors[i]++;
-                        UpdatePlayerPreviewColor(i);
+                        if (selectedFaces[i] != unlockedFaces.Count)
+                        {
+                            selectedColors[i]++;
+                            UpdatePlayerPreviewColor(i);
+                        }
                     }
                     else
                     {
@@ -290,8 +295,11 @@ public class Menu : MonoBehaviour {
                 {
                     if (currentCursorsRow[i] == 0)
                     {
-                        selectedColors[i]--;
-                        UpdatePlayerPreviewColor(i);
+                        if (selectedFaces[i] != unlockedFaces.Count)
+                        {
+                            selectedColors[i]--;
+                            UpdatePlayerPreviewColor(i);
+                        }
                     }
                     else
                     {
@@ -372,6 +380,9 @@ public class Menu : MonoBehaviour {
     // Change the player color according to current selection
     void UpdatePlayerPreviewColor(int _playerIndex)
     {
+        if (selectedFaces[_playerIndex] == unlockedFaces.Count)
+            return;
+
         if (selectedColors[_playerIndex] < 0)
             selectedColors[_playerIndex] = unlockedCustomColors.Count;
         else
@@ -394,13 +405,26 @@ public class Menu : MonoBehaviour {
     void UpdatePlayerPreviewFace(int _playerIndex)
     {
         if (selectedFaces[_playerIndex] < 0)
-            selectedFaces[_playerIndex] = unlockedFaces.Count - 1;
+            selectedFaces[_playerIndex] = unlockedFaces.Count;
         else
-            selectedFaces[_playerIndex] = selectedFaces[_playerIndex] % unlockedFaces.Count;
+            selectedFaces[_playerIndex] = selectedFaces[_playerIndex] % (unlockedFaces.Count + 1);
 
         // Update text and character
-        playerCustomScreens[_playerIndex].transform.GetChild(2).GetComponent<Text>().text = unlockedFaces[selectedFaces[_playerIndex]].Id;
-        playerCustomScreens[_playerIndex].transform.GetChild(3).GetComponentInChildren<PlayerCosmetics>().FaceType = (FaceType)unlockedFaces[selectedFaces[_playerIndex]].indiceForShader;
+        Debug.Log(selectedFaces[_playerIndex]);
+        if (selectedFaces[_playerIndex] == unlockedFaces.Count)
+        {
+            playerCustomScreens[_playerIndex].transform.GetChild(1).GetComponent<Text>().text = "Yellow";
+            playerCustomScreens[_playerIndex].transform.GetChild(2).GetComponent<Text>().text = "Rabbit";
+            playerCustomScreens[_playerIndex].transform.GetChild(3).GetChild(0).gameObject.SetActive(false);
+            playerCustomScreens[_playerIndex].transform.GetChild(3).GetChild(1).gameObject.SetActive(true);
+        }
+        else
+        {
+            playerCustomScreens[_playerIndex].transform.GetChild(2).GetComponent<Text>().text = unlockedFaces[selectedFaces[_playerIndex]].Id;
+            playerCustomScreens[_playerIndex].transform.GetChild(3).GetChild(0).gameObject.SetActive(true);
+            playerCustomScreens[_playerIndex].transform.GetChild(3).GetChild(1).gameObject.SetActive(false);
+            playerCustomScreens[_playerIndex].transform.GetChild(3).GetComponentInChildren<PlayerCosmetics>().FaceType = (FaceType)unlockedFaces[selectedFaces[_playerIndex]].indiceForShader;
+        }
     }
 
 
@@ -598,8 +622,13 @@ public class Menu : MonoBehaviour {
                 selectedColorFades[i] = false; // Line needed in case we come back from minigame selection screen
                 sc[i] = unlockedCustomColors[selectedColors[i]].color;
             }
+
+            if (selectedFaces[i] == unlockedFaces.Count)
+                selectedRabbits[i] = true;
+            else
+                selectedRabbits[i] = false; // Line needed in case we come back from minigame selection screen
         }
-        dataContainer.SaveData(nbPlayers, sc, selectedFaces, selectedColorFades, selectedMode == 1);
+        dataContainer.SaveData(nbPlayers, sc, selectedFaces, selectedColorFades, selectedRabbits, selectedMode == 1);
     }
 
     private void OnDestroy()

@@ -8,6 +8,8 @@ public class PlayerStart : MonoBehaviour {
 
     Transform[] playerStart;
     public GameObject playerPrefab;
+    public GameObject playerRabbitPrefab;
+
     [SerializeField] GameObject PlayerUI;
     [SerializeField] GameMode gameMode;
 
@@ -114,7 +116,14 @@ public class PlayerStart : MonoBehaviour {
 
         for (int i = 0; i < activePlayersAtStart; i++)
         {
-            GameObject go = Instantiate(playerPrefab);
+            GameObject go;
+            if (GameManager.Instance.DataContainer != null && GameManager.Instance.DataContainer.rabbitSelected[i])
+            {
+                go = Instantiate(playerRabbitPrefab);
+            }
+            else
+                go = Instantiate(playerPrefab);
+
             if (GameManager.Instance.IsInHub() && GameManager.Instance.savedPositionInHub != Vector3.zero)
             {
                 go.transform.position = GameManager.Instance.savedPositionInHub + Vector3.right * i;
@@ -137,22 +146,25 @@ public class PlayerStart : MonoBehaviour {
 
             if (GameManager.Instance.DataContainer != null)
             {
-                if (GameManager.Instance.DataContainer.colorFadeSelected[i])
-                    go.transform.GetComponentInChildren<PlayerCosmetics>().UseColorFade = true;
-                else
-                    go.transform.GetComponentInChildren<PlayerCosmetics>().SetUniqueColor(GameManager.Instance.DataContainer.selectedColors[i]);
-                go.transform.GetComponentInChildren<PlayerCosmetics>().FaceType = (FaceType)GameManager.Instance.DataContainer.selectedFaces[i];
+                if (go.transform.GetComponentInChildren<PlayerCosmetics>() != null)
+                {
+                    if (GameManager.Instance.DataContainer.colorFadeSelected[i])
+                        go.transform.GetComponentInChildren<PlayerCosmetics>().UseColorFade = true;
+                    else
+                        go.transform.GetComponentInChildren<PlayerCosmetics>().SetUniqueColor(GameManager.Instance.DataContainer.selectedColors[i]);
+                    go.transform.GetComponentInChildren<PlayerCosmetics>().FaceType = (FaceType)GameManager.Instance.DataContainer.selectedFaces[i];
+                }
             }
             else
             {
                 if (i > 0)
                 {
-                    go.transform.GetChild(0).GetChild(0).GetComponent<MeshRenderer>().material.SetColor("_Color", colorPlayer[i - 1]);
-                    go.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<MeshRenderer>().material.SetColor("_Color", colorPlayer[i - 1]);
-                    go.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(1).GetComponent<MeshRenderer>().material.SetColor("_Color", colorPlayer[i - 1]);
+                    go.transform.GetChild(0).GetChild(0).GetComponent<Renderer>().material.SetColor("_Color", colorPlayer[i - 1]);
+                    go.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<Renderer>().material.SetColor("_Color", colorPlayer[i - 1]);
+                    go.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(1).GetComponent<Renderer>().material.SetColor("_Color", colorPlayer[i - 1]);
 
-                    go.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetComponent<MeshRenderer>().material.SetColor("_Color", colorPlayer[i - 1]);
-                    go.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(1).GetComponent<MeshRenderer>().material.SetColor("_Color", colorPlayer[i - 1]);
+                    go.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetComponent<Renderer>().material.SetColor("_Color", colorPlayer[i - 1]);
+                    go.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(1).GetComponent<Renderer>().material.SetColor("_Color", colorPlayer[i - 1]);
                 }
             }
 
