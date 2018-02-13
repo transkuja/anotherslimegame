@@ -48,13 +48,30 @@ public class AIRabite : MonoBehaviour {
 
     private void OnDrawGizmosSelected()
     {
-        if(CurrentState == RabiteState.Wander)
+        switch (CurrentState)
         {
-            if(currentWanderPosTarget != null)
-            {
+            case RabiteState.Wander:
+                if (currentWanderPosTarget != null)
+                {
+                    Gizmos.color = Color.red;
+                    Gizmos.DrawWireSphere(currentWanderPosTarget, 2.0f);
+
+                    Gizmos.color = Color.blue;
+                    Gizmos.DrawWireSphere(transform.position, playerDetectionRadius);
+                }
+                break;
+            case RabiteState.Pursuit:
                 Gizmos.color = Color.red;
-                Gizmos.DrawWireSphere(currentWanderPosTarget, 2.0f);
-            }
+                Gizmos.DrawWireSphere(currentTarget.transform.position, attackRange);
+                Gizmos.color = Color.green;
+                Gizmos.DrawWireSphere(transform.position, pursuitMaxRange);
+                break;
+            case RabiteState.Attack:
+                Gizmos.color = Color.green;
+                Gizmos.DrawWireSphere(currentTarget.transform.position, attackMaxRange);
+                break;
+            case RabiteState.Dead:
+                break;
         }
     }
 
@@ -99,9 +116,11 @@ public class AIRabite : MonoBehaviour {
                     Die();
                 break;
         }
+    }
 
-
-        
+    void MoveTowards(Vector3 direction)
+    {
+        rb.AddForce(direction.normalized * moveSpeed * Time.deltaTime);
     }
 
     enum WanderState
@@ -118,6 +137,7 @@ public class AIRabite : MonoBehaviour {
     Vector3 currentWanderPosTarget;
     Vector3 playerToWanderTarget;
     Collider[] playersCollided;
+
     void Wander()
     {
         wanderTimer += Time.deltaTime;
@@ -139,7 +159,7 @@ public class AIRabite : MonoBehaviour {
         if(currentWanderState == WanderState.Moving)
         {
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(playerToWanderTarget, Vector3.up), Time.deltaTime*8.0f);
-            rb.AddForce(playerToWanderTarget.normalized * moveSpeed * Time.deltaTime);
+            MoveTowards(playerToWanderTarget);
             if(Vector3.Distance(currentWanderPosTarget, transform.position) < 2.0f)
             {
                 rabiteAnimator.SetBool("Ismoving", false);
@@ -176,7 +196,9 @@ public class AIRabite : MonoBehaviour {
     {
         Vector3 transformToTarget = currentTarget.transform.position - transform.position;
         transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(transformToTarget, Vector3.up), Time.deltaTime * 8.0f);
-        rb.AddForce(transformToTarget.normalized * moveSpeed * Time.deltaTime);
+
+        MoveTowards(transformToTarget);
+
         if (Vector3.Distance(currentTarget.transform.position, transform.position) < attackRange)
         {
             rabiteAnimator.SetBool("Ismoving", false);
@@ -191,7 +213,8 @@ public class AIRabite : MonoBehaviour {
     void Attack()
     {
         rabiteAnimator.SetBool("IsAttacking", true);
-        if(Vector3.Distance(currentTarget.transform.position, transform.position) > attackMaxRange)
+        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(currentTarget.transform.position - transform.position, Vector3.up), Time.deltaTime * 8.0f);
+        if (Vector3.Distance(currentTarget.transform.position, transform.position) > attackMaxRange)
         {
             rabiteAnimator.SetBool("IsAttacking", false);
             rabiteAnimator.SetBool("Ismoving", true);
@@ -207,5 +230,6 @@ public class AIRabite : MonoBehaviour {
         AliveCollider.enabled = false;
         DeadCollider.material.bounciness = 0.75f;
         rb.drag = 0.2f;
+        isDead = true;
     }
 }
