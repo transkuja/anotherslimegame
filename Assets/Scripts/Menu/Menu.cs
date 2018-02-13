@@ -438,7 +438,19 @@ public class Menu : MonoBehaviour {
                     playerCustomScreens[i].transform.GetChild(4).gameObject.SetActive(false);
 
                     CurrentlySelectedButton = transform.GetChild((int)currentState).GetChild(0).GetComponentInChildren<Button>();
+
+                    if (nbPlayers == 1)
+                        playerCustomScreens[i].transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
+                    if (nbPlayers == 2)
+                        playerCustomScreens[i].transform.localPosition = new Vector3(-(250) + (2 * i) * (250), 0.0f, 0.0f);
+                    if (nbPlayers == 3)
+                        playerCustomScreens[i].transform.localPosition = new Vector3((-(250) + i * (250)), 0.0f, 0.0f);
+                    if (nbPlayers == 4)
+                        playerCustomScreens[i].transform.localPosition = new Vector3(-(300) + (i * (200)), 0.0f, 0.0f);
                 }
+
+                for (int i = nbPlayers; i < playerCustomScreens.Count; i++)
+                    Destroy(playerCustomScreens[i]);
             }
             else
             {
