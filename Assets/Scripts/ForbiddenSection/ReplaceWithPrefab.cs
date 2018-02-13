@@ -37,7 +37,7 @@ public class ReplaceWithPrefab : MonoBehaviour {
     GameObject parapetMossy;
 
     [SerializeField]
-    bool replace = true;
+    bool replace = false;
 	// Use this for initialization
 	void Start () {
 		
