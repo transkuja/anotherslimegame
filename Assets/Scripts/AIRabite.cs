@@ -13,11 +13,16 @@ public class AIRabite : MonoBehaviour {
     [SerializeField]
     float zoneHalfExtent = 30.0f;
 
+    [Header("Colliders")]
     [SerializeField]
     Collider AliveCollider;
 
     [SerializeField]
     Collider DeadCollider;
+
+    [Header("Parameters")]
+    [SerializeField]
+    float moveSpeed = 2500.0f;
     [SerializeField]
     float playerDetectionRadius = 10.0f;
     [SerializeField]
@@ -72,19 +77,22 @@ public class AIRabite : MonoBehaviour {
 
     private void Update()
     {
+        if (CurrentState != RabiteState.Dead)
+            ApplyGravity();
+
+        if (GameManager.CurrentState != GameState.Normal)
+            return;
+
         switch(CurrentState)
         {
             case RabiteState.Wander:
                 Wander();
-                ApplyGravity();
                 break;
             case RabiteState.Pursuit:
                 Pursuit();
-                ApplyGravity();
                 break;
             case RabiteState.Attack:
                 Attack();
-                ApplyGravity();
                 break;
             case RabiteState.Dead:
                 if (!isDead)
@@ -131,7 +139,7 @@ public class AIRabite : MonoBehaviour {
         if(currentWanderState == WanderState.Moving)
         {
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(playerToWanderTarget, Vector3.up), Time.deltaTime*8.0f);
-            rb.AddForce(playerToWanderTarget.normalized * 2500.0f * Time.deltaTime);
+            rb.AddForce(playerToWanderTarget.normalized * moveSpeed * Time.deltaTime);
             if(Vector3.Distance(currentWanderPosTarget, transform.position) < 2.0f)
             {
                 rabiteAnimator.SetBool("Ismoving", false);
@@ -168,7 +176,7 @@ public class AIRabite : MonoBehaviour {
     {
         Vector3 transformToTarget = currentTarget.transform.position - transform.position;
         transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(transformToTarget, Vector3.up), Time.deltaTime * 8.0f);
-        rb.AddForce(transformToTarget.normalized * 2500.0f * Time.deltaTime);
+        rb.AddForce(transformToTarget.normalized * moveSpeed * Time.deltaTime);
         if (Vector3.Distance(currentTarget.transform.position, transform.position) < attackRange)
         {
             rabiteAnimator.SetBool("Ismoving", false);
