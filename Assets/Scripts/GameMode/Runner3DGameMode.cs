@@ -5,16 +5,25 @@ using UWPAndXInput;
 using Runner3D;
 public class Runner3DGameMode : GameMode {
 
-    enum Mode
+    public enum EMode
     {
         SoloInfinite,
         Finite,
         LastRemaining
     }
-    private Mode mode = Mode.LastRemaining;
+    private EMode mode = EMode.Finite;
 
     int nbDeadPlayers;
     int nbPlayerArrived;
+
+    public EMode Mode
+    {
+        get
+        {
+            return mode;
+        }
+    }
+
     public override void StartGame(List<GameObject> playerReferences)
     {
         base.StartGame(playerReferences);
@@ -59,15 +68,15 @@ public class Runner3DGameMode : GameMode {
     }
     public void CheckVictory()
     {
-        switch (mode)
+        switch (Mode)
         {
-            case Mode.SoloInfinite:
+            case EMode.SoloInfinite:
                 throw new NotImplementedException();
-            case Mode.LastRemaining:
+            case EMode.LastRemaining:
                 if (nbDeadPlayers == 1)
                     EndGame();
                 break;
-            case Mode.Finite:
+            case EMode.Finite:
                 nbPlayerArrived++;
                 if (nbPlayerArrived == curNbPlayers)
                     EndGame();

@@ -21,16 +21,40 @@ namespace Runner3D
         PoolLeader runnerBlocPool;
         List <GameObject> playerRef;
 
-        RunnerBlocs[,] blockMap;
+        List<RunnerBlocs[]> blockLineList;
+        //RunnerBlocs[,] blockMap;
         [SerializeField] Vector3 levelUnit; // taille d'un niveau en nb de blocs
         [SerializeField] Vector3 leveFinalSize;  // taille réelle du niveau
+        Runner3DGameMode runnerMode;
 
-
+            // Legacy à virer. 
         [SerializeField]int firstPlayerZRow = -1;
         int nbRowUpBehindFirst = 2;
         int nbRowUpInFrontFirst = 2;
         float timeBeforeFalling = 12;
+
+            
         State state;
+        bool[,] levelMask; // Pas nécessaire de l'enregistrer.
+
+            // infnite generation : 
+        Vector3 curChunkOffset;
+        List<int> lastChunkLineBlocPos;
+
+        public Runner3DGameMode RunnerMode
+        {
+            get
+            {
+                if (runnerMode == null)
+                    runnerMode = GameManager.Instance.CurrentGameMode as Runner3DGameMode;
+                return runnerMode;
+            }
+
+            set
+            {
+                runnerMode = value;
+            }
+        }
 
         public void OnValidate()
         {
@@ -48,12 +72,13 @@ namespace Runner3D
         // Fill the level according to the mask.
         public void GenerateLevelBlock(bool[,] mask,Vector3 startPos)
         {
-            blockMap = new RunnerBlocs[(int)levelUnit.x, (int)levelUnit.z];
             int extentsX = Mathf.FloorToInt((levelUnit.x + 1) * 0.5f);
 
-            for (int x = 0; x < levelUnit.x; x++)
+            
+            for (int z = 0; z < levelUnit.z; z++)
             {
-                for (int z = 0; z < levelUnit.z; z++)
+                RunnerBlocs[] runnerblocsLine = new RunnerBlocs[(int)levelUnit.x];
+                for (int x = 0; x < levelUnit.x; x++)
                 {
                     if (mask[z, x])
                     {
@@ -61,24 +86,31 @@ namespace Runner3D
                         position.x -= extentsX;
                         GameObject bloc = runnerBlocPool.GetItem(transform, position, Quaternion.identity);
                         bloc.SetActive(true);
-                        blockMap[x, z] = bloc.GetComponent<RunnerBlocs>();
+                        runnerblocsLine[x] = bloc.GetComponent<RunnerBlocs>();
                     }
                 }
+                blockLineList.Add(runnerblocsLine);
             }
+            curChunkOffset += levelUnit.z * defaultBlockSize.z * Vector3.forward;
 
-            Instantiate(arrivalPrefab, Vector3.forward * (defaultBlockSize.z*.5f + levelUnit.z * defaultBlockSize.z), Quaternion.identity,transform);
+                // génération unique si 
+            if (RunnerMode.Mode == Runner3DGameMode.EMode.Finite)
+                Instantiate(arrivalPrefab, Vector3.forward * (defaultBlockSize.z*.5f + levelUnit.z * defaultBlockSize.z), Quaternion.identity,transform);
         }
         #endregion
 
         #region MaskCreation
 
         /// random walker algorithme to fill the level mask
-        public void WritePathIntoLevelMask(bool[,] mask)
+        public void WritePathIntoLevelMask(bool[,] mask,int? lastPosInLine = null)
         {
-            int posInLine = Random.Range(0, (int)levelUnit.x);
-            mask[0, Mathf.FloorToInt((levelUnit.x)*0.5f)] = true;
+            int posInLine;
+            if (lastPosInLine.HasValue)
+                posInLine = lastPosInLine.Value;
+            else
+                posInLine =  Random.Range(0, (int)levelUnit.x);
 
-            for (int z = 1; z < levelUnit.z; z++)
+            for (int z = 0; z < levelUnit.z; z++)
             {
                 posInLine += Random.Range(-1, 2);
                 posInLine = posInLine < 0 ?  0 : posInLine;
@@ -88,18 +120,35 @@ namespace Runner3D
         }
         public bool[,] GenerateLevelMask()
         {
-            bool[,] mask = new bool[(int)levelUnit.z, (int)levelUnit.x];
-            for (int i = 0;i < 2;i++)
-                WritePathIntoLevelMask(mask);
-            return mask;
+                // if first itération of bloc creation : 
+            if (lastChunkLineBlocPos.Count == 0)
+            {
+                levelMask = new bool[(int)levelUnit.z, (int)levelUnit.x];
+                for (int i = 0; i < 2; i++)
+                    WritePathIntoLevelMask(levelMask);
+            }
+            else
+            {
+                levelMask = new bool[(int)levelUnit.z, (int)levelUnit.x];
+                for (int i = 0; i < 2; i++)
+                    WritePathIntoLevelMask(levelMask, lastChunkLineBlocPos[i % lastChunkLineBlocPos.Count]);
+            }
+
+                // save last line bloc pos for next génération. 
+            for( int i = 0; i< levelUnit.x;i++)
+            {
+                if (levelMask[(int)levelUnit.z-1,i])
+                    lastChunkLineBlocPos.Add(i);
+            }
+            return levelMask;
         }
         public void Generate2D()
         {
-            bool[,] mask = GenerateLevelMask();
-            GenerateLevelBlock(mask, Vector3.forward * defaultBlockSize.z * 0.5f
+            GenerateLevelMask();
+            Vector3 centerStartPos = Vector3.forward * defaultBlockSize.z * 0.5f
                                     - Vector3.right * defaultBlockSize.x * 0.5f
-                                    - Vector3.right * levelUnit.x * defaultBlockSize.x * 0.25f);
-            //StartCoroutine(LevelPresentation());
+                                    - Vector3.right * levelUnit.x * defaultBlockSize.x * 0.25f;
+            GenerateLevelBlock(levelMask, curChunkOffset + centerStartPos);
             LevelBegin();
         }
 
@@ -113,14 +162,8 @@ namespace Runner3D
                 {
                     LerpMessage(i + nbRowUpInFrontFirst, DirLerpState.Up);
                     LerpMessage(i + nbRowUpInFrontFirst, DirLerpState.Down, timeBeforeFalling);
-                    //LerpMessage(i - nbRowUpBehindFirst, DirLerpState.Down, timeBeforeFalling);
                 }
             }
-            //else if (variation < 0) 
-            //    for (int i = firstPlayerZRow; i >= firstPlayerZRow - variation; i--)
-            //        //LerpMessage(firstPlayerZRow + nbRowUpInFrontFirst, DirLerpState.Down);
-            //else
-            //    Debug.LogWarning("This function shouldn't be called");
             firstPlayerZRow = newCursorValue;
         }
         #endregion
@@ -135,8 +178,11 @@ namespace Runner3D
                 return;
             for (int x = 0; x < levelUnit.x; x++)
             {
-                if (blockMap[x, row] != null)
-                    blockMap[x, row].LauchLerp(dir, waitTime);
+                if (blockLineList[row][x]!=null)
+                    blockLineList[row][x].LauchLerp(dir, waitTime);
+
+                //if (blockMap[x, row] != null)
+                //    blockMap[x, row].LauchLerp(dir, waitTime);
             }
         }
 
@@ -154,7 +200,12 @@ namespace Runner3D
             firstPlayerZRow = playerZBlockPos;
         }
         #endregion
-
+        public void Awake()
+        {
+            lastChunkLineBlocPos = new List<int>();
+            blockLineList = new List<RunnerBlocs[]>();
+            curChunkOffset = Vector3.zero;
+        }
         public void Start()
         {
             playerRef = GameManager.Instance.PlayerStart.PlayersReference;
