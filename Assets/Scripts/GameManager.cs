@@ -50,6 +50,11 @@ public class GameManager : MonoBehaviour {
         private set { }
     }
 
+    public void DEBUG_IncreaseFinalCountdown(int _increaseValue)
+    {
+        currentGameFinalTimer += _increaseValue;
+    }
+
     public static float MaxMovementSpeed
     {
         get

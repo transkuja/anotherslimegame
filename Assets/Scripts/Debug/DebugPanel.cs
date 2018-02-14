@@ -5,12 +5,14 @@ using UnityEngine.UI;
 
 
 public class DebugPanel : MonoBehaviour {
-    enum DebugPanelChildren { EvolutionsState, CollectablesState, PlayerInfo, Infos };
+    enum DebugPanelChildren { EvolutionsState, CollectablesState, PlayerInfo, Infos, ActivationText };
 
     public Transform evolutions;
     public Transform collectables;
     public Transform playerInfo;
     public Transform helpPanel;
+    public Text activationText;
+
     Text evolutionsText;
     Text collectablesText;
     Text playerInfoText;
