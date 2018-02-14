@@ -101,7 +101,7 @@ public class DebugTools : MonoBehaviour {
         debugPanelComponent.AddToDebugPanelInfos("Ctrl", "RShift", "Activation/Deactivation");
         debugPanelComponent.AddToDebugPanelInfos("U", "I", "Show debug UI");
 
-        debugPanelComponent.AddToDebugPanelInfos("", "", "\nCommon controls\n");
+        debugPanelComponent.AddToDebugPanelInfos("", "", "\n Common controls\n");
         debugPanelComponent.AddToDebugPanelInfos("0", "", "Reset player");
         debugPanelComponent.AddToDebugPanelInfos("9", "", "Respawn player");
         debugPanelComponent.AddToDebugPanelInfos("Space", "", "Spawn a player");
@@ -129,7 +129,7 @@ public class DebugTools : MonoBehaviour {
         debugPanelComponent.AddToDebugPanelInfos("7", "", CollectableType.Money.ToString());
 
         debugPanelComponent.AddToDebugPanelInfos("\n F3", "", "Switch to ChangeData mode then:");
-        debugPanelComponent.AddToDebugPanelInfos("LeftShift", "", "Change increase/decrease unit to 10");
+        debugPanelComponent.AddToDebugPanelInfos("LeftShift", "", "Change unit to 10");
         debugPanelComponent.AddToDebugPanelInfos("1", "", "Add points");
         debugPanelComponent.AddToDebugPanelInfos("2", "", "Remove points");
         debugPanelComponent.AddToDebugPanelInfos("3", "", "Add life");
