@@ -21,25 +21,27 @@ namespace Runner3D
         PoolLeader runnerBlocPool;
         List <GameObject> playerRef;
 
-        List<RunnerBlocs[]> blockLineList;
-        //RunnerBlocs[,] blockMap;
+
         [SerializeField] Vector3 levelUnit; // taille d'un niveau en nb de blocs
         [SerializeField] Vector3 leveFinalSize;  // taille réelle du niveau
         Runner3DGameMode runnerMode;
 
-            // Legacy à virer. 
         [SerializeField]int firstPlayerZRow = -1;
-        int nbRowUpBehindFirst = 2;
         int nbRowUpInFrontFirst = 2;
         float timeBeforeFalling = 12;
 
-            
-        State state;
+        int nbBlockLineDestroyed;
+        List<RunnerBlocs[]> blockLineList;
+
+
+        [SerializeField] State state;
         bool[,] levelMask; // Pas nécessaire de l'enregistrer.
 
-            // infnite generation : 
-        Vector3 curChunkOffset;
+        // infnite generation : 
+        //Vector3 curChunkOffset;
+        int chunkLine = 0;
         List<int> lastChunkLineBlocPos;
+        int nextZChunkOffset;
 
         public Runner3DGameMode RunnerMode
         {
@@ -87,13 +89,14 @@ namespace Runner3D
                         GameObject bloc = runnerBlocPool.GetItem(transform, position, Quaternion.identity);
                         bloc.SetActive(true);
                         runnerblocsLine[x] = bloc.GetComponent<RunnerBlocs>();
+                        runnerblocsLine[x].SaveStartPos();
                     }
                 }
                 blockLineList.Add(runnerblocsLine);
             }
-            curChunkOffset += levelUnit.z * defaultBlockSize.z * Vector3.forward;
+            nextZChunkOffset += (int)levelUnit.z * (int)defaultBlockSize.z;
 
-                // génération unique si 
+                // Si finite on fait apparraitre l'arrivée. 
             if (RunnerMode.Mode == Runner3DGameMode.EMode.Finite)
                 Instantiate(arrivalPrefab, Vector3.forward * (defaultBlockSize.z*.5f + levelUnit.z * defaultBlockSize.z), Quaternion.identity,transform);
         }
@@ -142,14 +145,13 @@ namespace Runner3D
             }
             return levelMask;
         }
-        public void Generate2D()
+        public void Generate2DChunk()
         {
             GenerateLevelMask();
             Vector3 centerStartPos = Vector3.forward * defaultBlockSize.z * 0.5f
                                     - Vector3.right * defaultBlockSize.x * 0.5f
                                     - Vector3.right * levelUnit.x * defaultBlockSize.x * 0.25f;
-            GenerateLevelBlock(levelMask, curChunkOffset + centerStartPos);
-            LevelBegin();
+            GenerateLevelBlock(levelMask, nextZChunkOffset*Vector3.forward + centerStartPos);
         }
 
 
@@ -165,6 +167,7 @@ namespace Runner3D
                 }
             }
             firstPlayerZRow = newCursorValue;
+            
         }
         #endregion
 
@@ -173,16 +176,14 @@ namespace Runner3D
         #region LevelMovement
         public void LerpMessage(int row,DirLerpState dir,float waitTime = 0)
         {
+         
             Debug.Log("Lauch " + row + "at " + dir);
-            if (row < 0 || row >= levelUnit.z)
+            if (row < 0 || row >= blockLineList.Count)
                 return;
             for (int x = 0; x < levelUnit.x; x++)
             {
                 if (blockLineList[row][x]!=null)
                     blockLineList[row][x].LauchLerp(dir, waitTime);
-
-                //if (blockMap[x, row] != null)
-                //    blockMap[x, row].LauchLerp(dir, waitTime);
             }
         }
 
@@ -195,23 +196,35 @@ namespace Runner3D
             int playerZBlockPos = Mathf.FloorToInt((farthestZ) / defaultBlockSize.z);
             if (playerZBlockPos != firstPlayerZRow)
             {
+                // si le joueur est preque arrivé à la fin du niveau on génère de nouveaux blocs
+                if ((playerZBlockPos + nbRowUpInFrontFirst + 1) * defaultBlockSize.z > nextZChunkOffset)
+                    Generate2DChunk();
+
                 MoveCursor(playerZBlockPos);
             }
             firstPlayerZRow = playerZBlockPos;
+
         }
         #endregion
         public void Awake()
         {
             lastChunkLineBlocPos = new List<int>();
             blockLineList = new List<RunnerBlocs[]>();
-            curChunkOffset = Vector3.zero;
+            
         }
         public void Start()
         {
             playerRef = GameManager.Instance.PlayerStart.PlayersReference;
             state = State.Loading;
             runnerBlocPool = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.RunnerBloc);
-            Invoke("Generate2D", 0.4f);
+            Generate2DChunk();
+            LevelBegin();
+        }
+        public void LevelBegin()
+        {
+            MoveCursor(-nbRowUpInFrontFirst - 1);
+            state = State.InGame;
+            chunkLine = 0;
         }
         public void Update()
         {
@@ -221,7 +234,7 @@ namespace Runner3D
                 {
                     Destroy(transform.GetChild(z).gameObject);
                 }
-                Generate2D();
+                Generate2DChunk();
             }
             switch (state)
             {
@@ -236,26 +249,6 @@ namespace Runner3D
                     break;
             }
 
-        }
-        public void LevelBegin()
-        {
-            MoveCursor(-nbRowUpInFrontFirst-1);
-            state = State.InGame;
-        }
-        public IEnumerator LevelPresentation()
-        {
-            state = State.LevelPresentation;
-            yield return new WaitForSeconds(0.5f);
-            firstPlayerZRow = -nbRowUpInFrontFirst - 1;
-            for (int i = - nbRowUpInFrontFirst; i < levelUnit.z+ nbRowUpBehindFirst; i++)
-            {
-                MoveCursor(i);
-                yield return new WaitForSeconds(0.5f);
-            }
-            MoveCursor(-nbRowUpInFrontFirst-1);
-            MoveCursor(-1);
-            state = State.InGame;
-            yield return null;
         }
 
         public void OnDrawGizmosSelected()

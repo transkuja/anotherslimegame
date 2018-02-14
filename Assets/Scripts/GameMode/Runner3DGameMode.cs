@@ -11,7 +11,7 @@ public class Runner3DGameMode : GameMode {
         Finite,
         LastRemaining
     }
-    private EMode mode = EMode.Finite;
+    [SerializeField]private EMode mode = EMode.SoloInfinite;
 
     int nbDeadPlayers;
     int nbPlayerArrived;
