@@ -1,11 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class ResourceUtils : MonoBehaviour
 {
 
     private static ResourceUtils instance = null;
+
+    void FindPoolManager(Scene scene, LoadSceneMode mode)
+    {
+        poolManager = FindObjectOfType<PoolManager>();
+    }
 
     public void Awake()
     {
@@ -18,11 +24,12 @@ public class ResourceUtils : MonoBehaviour
             refPrefabPlatform = GetComponentInChildren<PrefabPlatform>();
             refPrefabGhost = GetComponentInChildren<PrefabGhost>();
             debugTools = GetComponentInChildren<DebugTools>();
-            poolManager = GetComponentInChildren<PoolManager>();
             particleSystemManager = GetComponentInChildren<ParticleSystemManager>();
             spriteUtils = GetComponentInChildren<SpriteUtils>();
             prefabIle = GetComponentInChildren<PrefabIle>();
             feedbacksManager = GetComponentInChildren<FeedbacksManager>();
+
+            SceneManager.sceneLoaded += FindPoolManager;
 
             DontDestroyOnLoad(Instance);
         }

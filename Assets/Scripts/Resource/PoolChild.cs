@@ -25,11 +25,6 @@ public class PoolChild : MonoBehaviour {
         }
     }
 
-    private void Start()
-    {
-        SceneManager.sceneUnloaded += OnSceneUnloaded;    
-    }
-
     private void OnEnable()
     {
         if (Pool != null)
@@ -37,11 +32,6 @@ public class PoolChild : MonoBehaviour {
             currentTimer = Pool.timerReturnToPool;
             if (currentTimer == -1) noReturn = true;
         }
-    }
-
-    private void OnSceneUnloaded(Scene scene)
-    {
-        ReturnToPool();
     }
    
     void Update () {
