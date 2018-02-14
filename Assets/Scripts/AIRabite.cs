@@ -205,6 +205,8 @@ public class AIRabite : MonoBehaviour {
 
         if (Vector3.Distance(currentTarget.transform.position, transform.position) < attackRange)
         {
+            if (GameManager.Instance.DataContainer.GetComponent<SlimeDataContainer>().rabbitSelected[GameManager.Instance.PlayerStart.PlayersReference.IndexOf(currentTarget)])
+                return;
             rabiteAnimator.SetBool("Ismoving", false);
             CurrentState = RabiteState.Attack;
         }
