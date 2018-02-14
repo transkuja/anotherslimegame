@@ -20,6 +20,7 @@ namespace Runner3D
 
         static float yInterval = 10;
         [SerializeField] Vector3 blockSize;
+        bool[] hasFinished;
         public void Awake()
         {
             baseYPos = new float[transform.childCount];
@@ -38,6 +39,7 @@ namespace Runner3D
                 // goDown at beginning : 
                 if (transform.GetChild(i).GetComponent<PlatformGameplay>())
                     transform.GetChild(i).GetComponent<PlatformGameplay>().enabled = false;
+                hasFinished[i] = false;
             }
             TpDown();
         }
@@ -113,7 +115,18 @@ namespace Runner3D
             curState = dir;
             yield return null;
         }
-
+        public void HasFinishedBeenUsed(int childI)
+        {
+            hasFinished[childI] = true;
+            bool allChildsAreFinished = true;
+            for (int i = 0; i < transform.childCount; i++)
+                if (hasFinished[i] == false)
+                    allChildsAreFinished = false;
+            if (allChildsAreFinished)
+            {
+                // return bloc to pool
+            }
+        }
 
         public void OnDrawGizmosSelected()
         {
