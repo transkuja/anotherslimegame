@@ -238,10 +238,6 @@ public class ScoreScreen : MonoBehaviour {
             else
                 startExitTimer = true;
         }
-        else
-        {
-            Debug.Log("prout");
-        }
     }
 
     void PlayAddToScoreAnimation(RuneObjective _objectiveType)
