@@ -33,7 +33,7 @@ public class KartArrival : MonoBehaviour {
                 if (dicLapsPerPlayer[player] >= NumberOfLaps)
                 {
                     //The current player finished the race, disable his controls and save the scores
-                    player.GetComponent<PlayerControllerKart>().DisableControls();
+                    player.GetComponent<PlayerControllerKart>().CurrentState = PlayerControllerKart.KartPlayerState.FinishedRace;
                     GameManager.Instance.CurrentGameMode.PlayerHasFinished(player);
                 }
             }

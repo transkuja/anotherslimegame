@@ -5,6 +5,13 @@ using UWPAndXInput;
 
 public class PlayerControllerKart : PlayerController {
 
+    public enum KartPlayerState
+    {
+        Normal,
+        Hit,
+        FinishedRace
+    }
+
     [SerializeField]
     float forwardSpeed = 20000.0f;
     [SerializeField]
@@ -17,45 +24,89 @@ public class PlayerControllerKart : PlayerController {
     float dashCooldown = 1.0f;
 
     [SerializeField]
+    float hitRecoveryTime = 0.75f;
+
+    [SerializeField]
     CheckPoint LastCheckpoint;
 
+    KartPlayerState currentState = KartPlayerState.Normal;
+    GamePadState state;
     GamePadState previousState;
     Vector3 targetForward;
     float dashTimer = 0.0f;
+    float hitTimer = 0.0f;
 
-    bool DisableInputs = false;
+    public KartPlayerState CurrentState
+    {
+        get
+        {
+            return currentState;
+        }
+
+        set
+        {
+            currentState = value;
+            if(currentState == KartPlayerState.Hit)
+            {
+                hitTimer = 0.0f;
+            }
+        }
+    }
 
     void Start () {
         dashTimer = dashCooldown;
         player = GetComponent<Player>();
         Rb = GetComponent<Rigidbody>();
         targetForward = transform.forward;
-        previousState = GamePad.GetState(PlayerIndex);
+        state = GamePad.GetState(PlayerIndex);
+        previousState = state;
     }
 
 	void Update () {
 
+        state = GamePad.GetState(PlayerIndex);
+        switch(CurrentState)
+        {
+            case KartPlayerState.Normal:
+                HandleNormalState();
+                break;
+            case KartPlayerState.Hit:
+                HandleHitState();
+                break;
+            case KartPlayerState.FinishedRace:
+                HandleFinishedRaceState();
+                break;
+        }
+
+        previousState = state;
+	}
+
+    void ApplyGravity()
+    {
         rb.AddForce(Vector3.down * Time.deltaTime * 20000.0f);
-        
+    }
+
+    void HandleNormalState()
+    {
+        ApplyGravity();
         if (GameManager.CurrentState != GameState.Normal)
             return;
 
-            RaycastHit hit;
-        if(Physics.Raycast(transform.position + transform.up, -transform.up, out hit))
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position + transform.up, -transform.up, out hit))
         {
-            if(hit.collider.GetComponent<DeathZone>())
+            if (hit.collider.GetComponent<DeathZone>())
             {
                 rb.AddForce(-transform.up * 300.0f + rb.velocity * Time.deltaTime);
                 return;
             }
         }
-        if(dashTimer < dashCooldown)
+        if (dashTimer < dashCooldown)
             dashTimer += Time.deltaTime;
-        if (DisableInputs)
-            return;
-        GamePadState state = GamePad.GetState(PlayerIndex);
+
         // -1 if we're reversing, 1 if going forward
         float directionFactor = Vector3.Dot(rb.velocity, transform.forward) < -0.2f ? -1.0f : 1.0f;
+
         // Clamp Rotation speed relative to maxVelocity
         float velocityRatio = directionFactor * ((rb.velocity.magnitude > maxVelocityMagnitude) ? 1.0f : (rb.velocity.magnitude / maxVelocityMagnitude));
 
@@ -65,7 +116,7 @@ public class PlayerControllerKart : PlayerController {
 
         rb.AddForce(transform.forward * Time.deltaTime * forwardSpeed * state.Triggers.Right);
 
-        rb.AddForce(-transform.forward * Time.deltaTime * forwardSpeed/2.0f * state.Triggers.Left);
+        rb.AddForce(-transform.forward * Time.deltaTime * forwardSpeed / 2.0f * state.Triggers.Left);
 
         //rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxVelocityMagnitude);
 
@@ -79,12 +130,27 @@ public class PlayerControllerKart : PlayerController {
             targetForward = transform.forward;
         //transform.rotation = Quaternion.LookRotation(Vector3.Lerp(transform.forward, targetForward, Time.deltaTime * 6.0f * Mathf.Clamp(rb.velocity.magnitude/2.0f, 0.0f, 1.0f)), Vector3.up);
         //transform.rotation = Quaternion.LookRotation(Vector3.Lerp(transform.forward, rb.velocity.normalized, Time.deltaTime * 10.0f));
-        
-       
+
+
         //float directionFactor = Mathf.Round((state.Triggers.Right) + (state.Triggers.Left * -1));
 
-        previousState = state;
-	}
+    }
+
+    void HandleHitState()
+    {
+        ApplyGravity();
+        hitTimer += Time.deltaTime;
+        if(hitTimer >= hitRecoveryTime)
+        {
+            hitTimer = 0.0f;
+            CurrentState = KartPlayerState.Normal;
+        }
+    }
+
+    void HandleFinishedRaceState()
+    {
+        ApplyGravity();
+    }
 
     private void OnCollisionEnter(Collision collision)
     {
@@ -95,21 +161,4 @@ public class PlayerControllerKart : PlayerController {
         }
     }
 
-    public void DisableControls()
-    {
-        //StartCoroutine(Disable());
-
-        DisableInputs = true;
-    }
-
-    //IEnumerator Disable()
-    //{
-    //    DisableInputs = true;
-    //    for(int i = 0; i < 30; i++)
-    //    {
-    //        rb.AddForce(transform.forward * forwardSpeed/3.0f * Time.deltaTime);
-    //        yield return new WaitForSeconds(0.1f);
-    //    }
-    //    enabled = false;
-    //}
 }
