@@ -42,9 +42,5 @@ public class HubMode : GameMode
             cameraReferences[i].SetActive(true);
         }
     }
-    public override void PlayerHasFinished(Player _player)
-    {
-        _player.HasFinishedTheRun = true;
-        GameManager.Instance.ScoreScreenReference.RefreshScores(_player);
-    }
+
 }

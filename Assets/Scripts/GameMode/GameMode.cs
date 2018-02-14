@@ -182,6 +182,11 @@ abstract public class GameMode : MonoBehaviour
             cameraReferences[1].transform.GetChild(0).GetComponent<Camera>().rect = new Rect(0.5f, 0.5f, 0.5f, 0.5f);
         }
     }
+
+    /* 
+     * This method should only be overriden if players can finish the minigame separately. 
+     * Else, end game is already called by GameManager final countdown (tududuuuu duuuu     tududu du duuuu).
+     */
     public virtual void PlayerHasFinished(Player player)
     {
         throw new NotImplementedException();

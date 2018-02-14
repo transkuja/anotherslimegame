@@ -33,8 +33,4 @@ public class FruitGameMode : GameMode {
         }
     }
 
-    public override void PlayerHasFinished(Player player)
-    {
-        GameManager.Instance.ScoreScreenReference.RankPlayersByPoints();
-    }
 }
