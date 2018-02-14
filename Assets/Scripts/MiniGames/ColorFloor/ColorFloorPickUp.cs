@@ -43,11 +43,12 @@ public class ColorFloorPickUp : MinigamePickUp {
 
     void UseMissile(int _playerIndex)
     {
+        Debug.Log("truc");
         GameObject owner = GameManager.Instance.PlayerStart.PlayersReference[_playerIndex];
         GameObject missile = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.ColorFloorPickUps)
             .GetItem(
             null,
-            owner.transform.position + owner.transform.forward,
+            owner.transform.position + owner.transform.forward * 2.0f,
             Quaternion.LookRotation(owner.transform.forward),
             true,
             false,       
@@ -58,7 +59,7 @@ public class ColorFloorPickUp : MinigamePickUp {
         rb.useGravity = false;
         rb.constraints = RigidbodyConstraints.FreezeRotation;
         rb.drag = 0.0f;
-        rb.velocity = missile.transform.forward * missileSpeed;
+        rb.AddForce(missile.transform.forward * missileSpeed, ForceMode.Acceleration);
 
         missile.AddComponent<BoxCollider>();
         missile.AddComponent<MissileBehaviour>();

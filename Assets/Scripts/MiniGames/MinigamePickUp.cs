@@ -17,12 +17,21 @@ public class MinigamePickUp : MonoBehaviour {
 
     public void StoreAndUseLater(int _playerIndex)
     {
-        GameManager.Instance.PlayerStart.PlayersReference[_playerIndex].GetComponent<Player>().currentStoredPickup = this;
+        GameManager.Instance.PlayerStart.PlayersReference[_playerIndex].GetComponent<Player>().currentStoredPickup = usePickup;
     }
 
     public void InstantUse(int _playerIndex)
     {
         usePickup(_playerIndex);
+    }
+
+    protected MinigamePickUp() { }
+
+    MinigamePickUp(MinigamePickUp _toCopy)
+    {
+        pickupType = _toCopy.pickupType;
+        collectPickup = _toCopy.collectPickup;
+        usePickup = _toCopy.usePickup;
     }
 
     // Should be overriden in child class then called in child class' Start method

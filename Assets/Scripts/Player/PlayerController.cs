@@ -4,6 +4,10 @@ using UWPAndXInput;
 
 public class PlayerController : MonoBehaviour {
 
+    // gamePad
+    protected GamePadState state;
+    protected GamePadState prevState;
+    protected bool isUsingAController = false;
 
     protected Rigidbody rb;
     protected Player player;
@@ -63,5 +67,68 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    public bool IsUsingAController
+    {
+        get
+        {
+            return isUsingAController;
+        }
+
+        set
+        {
+            isUsingAController = value;
+        }
+    }
+
+    public GamePadState State
+    {
+        get
+        {
+            return state;
+        }
+
+        set
+        {
+            state = value;
+        }
+    }
+
+    public GamePadState PrevState
+    {
+        get
+        {
+            return prevState;
+        }
+
+        set
+        {
+            prevState = value;
+        }
+    }
+
     #endregion
+
+    public virtual void Update()
+    {
+        prevState = state;
+        state = GamePad.GetState(playerIndex);
+
+        if (GameManager.CurrentState == GameState.Normal)
+        {
+            UsePickupControls();
+        }
+    }
+
+    void UsePickupControls()
+    {
+        if (PrevState.Buttons.B == ButtonState.Released && State.Buttons.B == ButtonState.Pressed)
+        {
+            if (player.currentStoredPickup != null)
+            {
+                player.currentStoredPickup((int)playerIndex);
+                player.currentStoredPickup = null;
+            }
+
+        }
+    }
 }

@@ -15,11 +15,6 @@ public class PlayerControllerHub : PlayerController
     private PlayerState previousPlayerState;
     private JumpManager jumpManager;
 
-    // gamePad
-    GamePadState state;
-    GamePadState prevState;
-    bool isUsingAController = false;
-
     // evolution : 
     int selectedEvolution = 0;
 
@@ -134,46 +129,6 @@ public class PlayerControllerHub : PlayerController
             }
 
             isGrounded = value;
-        }
-    }
-
-
-    public bool IsUsingAController
-    {
-        get
-        {
-            return isUsingAController;
-        }
-
-        set
-        {
-            isUsingAController = value;
-        }
-    }
-
-    public GamePadState State
-    {
-        get
-        {
-            return state;
-        }
-
-        set
-        {
-            state = value;
-        }
-    }
-
-    public GamePadState PrevState
-    {
-        get
-        {
-            return prevState;
-        }
-
-        set
-        {
-            prevState = value;
         }
     }
 
@@ -301,8 +256,7 @@ public class PlayerControllerHub : PlayerController
     }
 
 
-    // Update is called once per frame
-    void Update()
+    public override void Update()
     {
         if (PlayerState != null)
             PlayerState.OnUpdate();
@@ -334,9 +288,7 @@ public class PlayerControllerHub : PlayerController
 
         if (isUsingAController)
         {
-            // TODO: optimize?
-            prevState = state;
-            state = GamePad.GetState(playerIndex);
+            base.Update();
 
             if (GameManager.CurrentState == GameState.Normal)
             {
