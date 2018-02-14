@@ -53,6 +53,19 @@ public class PlayerControllerKart : PlayerController {
         }
     }
 
+    public float HitRecoveryTime
+    {
+        get
+        {
+            return hitRecoveryTime;
+        }
+
+        set
+        {
+            hitRecoveryTime = value;
+        }
+    }
+
     void Start () {
         dashTimer = dashCooldown;
         player = GetComponent<Player>();

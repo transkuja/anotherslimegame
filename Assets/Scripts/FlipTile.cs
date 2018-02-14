@@ -15,17 +15,25 @@ public class FlipTile : MonoBehaviour {
     float timer = 0.0f;
     
     Quaternion startLocalRotation;
+    
+    bool isUp = false; // is needed if we don't want the tile to go down immediately
 
-    bool isUp = false;
     [SerializeField]
     bool goDownImmediately = true;
-    bool isMoving = false;
-	// Use this for initialization
+
+    bool isMovingUp = false;
+
+
+    // I need to disable the collider when down to prevent some weird physics bugs
+    Collider Collider;
+    
 	void Start () {
         startLocalRotation = transform.localRotation;
+        timer = offsetTime;
+        Collider = GetComponentInChildren<Collider>();
+        Collider.enabled = false;
 	}
 	
-	// Update is called once per frame
 	void Update () {
         timer += Time.deltaTime;
         if (timer >= frequency)
@@ -48,7 +56,8 @@ public class FlipTile : MonoBehaviour {
 
     IEnumerator Flip()
     {
-        isMoving = true;
+        Collider.enabled = true;
+        isMovingUp = true;
         float flipTimer = 0.0f;
 
         if (moveDuration == 0.0f)
@@ -59,7 +68,7 @@ public class FlipTile : MonoBehaviour {
             flipTimer += Time.deltaTime;
             transform.localRotation = Quaternion.Lerp(startLocalRotation, Quaternion.Euler(startLocalRotation.eulerAngles + new Vector3(-85.0f, 0.0f, 0.0f)), flipTimer/moveDuration);
         }
-        isMoving = false;
+        isMovingUp = false;
         if (goDownImmediately)
         {
             isUp = false;
@@ -69,7 +78,6 @@ public class FlipTile : MonoBehaviour {
 
     IEnumerator GoDown()
     {
-        isMoving = true;
         float downTimer = 0.0f;
         if (moveDuration == 0.0f)
             moveDuration = 0.01f;
@@ -79,15 +87,26 @@ public class FlipTile : MonoBehaviour {
             downTimer += Time.deltaTime;
             transform.localRotation = Quaternion.Lerp(Quaternion.Euler(startLocalRotation.eulerAngles + new Vector3(-85.0f, 0.0f, 0.0f)), startLocalRotation, downTimer / moveDuration);
         }
-        isMoving = false;
+        Collider.enabled = false;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(isMoving && collision.rigidbody && collision.rigidbody.GetComponent<PlayerControllerKart>())
+        if(isMovingUp && collision.rigidbody && collision.rigidbody.GetComponent<PlayerControllerKart>())
         {
             collision.rigidbody.GetComponent<PlayerControllerKart>().CurrentState = PlayerControllerKart.KartPlayerState.Hit;
             collision.rigidbody.AddForce(-transform.forward * 200.0f + transform.up * 200.0f, ForceMode.Impulse);
+            Physics.IgnoreCollision(collision.collider, GetComponentInChildren<Collider>(), true);
+            StartCoroutine(ReactivateColliders(collision.collider, collision.rigidbody.GetComponent<PlayerControllerKart>().HitRecoveryTime));
+        }
+    }
+
+    IEnumerator ReactivateColliders(Collider col, float waitForSeconds)
+    {
+        yield return new WaitForSeconds(waitForSeconds);
+        if (col != null)
+        {
+            Physics.IgnoreCollision(col.GetComponent<Collider>(), GetComponentInChildren<Collider>(), false);
         }
     }
 }
