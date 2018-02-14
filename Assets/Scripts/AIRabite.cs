@@ -94,8 +94,7 @@ public class AIRabite : MonoBehaviour {
 
     private void Update()
     {
-        if (CurrentState != RabiteState.Dead)
-            ApplyGravity();
+        ApplyGravity();
 
         if (GameManager.CurrentState != GameState.Normal)
             return;
@@ -184,7 +183,12 @@ public class AIRabite : MonoBehaviour {
 
     void ApplyGravity()
     {
-        rb.AddForce(Vector3.down * 9.81f * 500.0f * Time.deltaTime);
+        if(CurrentState == RabiteState.Dead)
+        {
+            rb.AddForce(Vector3.down * 9.81f * 50.0f * Time.deltaTime);
+        }
+        else
+            rb.AddForce(Vector3.down * 9.81f * 500.0f * Time.deltaTime);
     }
 
     Vector3 GetRandomPointInZone()

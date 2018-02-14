@@ -644,14 +644,13 @@ public class PlayerCollisionCenter : MonoBehaviour {
         direction.y = 0;
 
         direction.Normalize() ;
-        rbPlayerToExpulse.AddForce(new Vector3(direction.x * repulsionFactor, rbPlayerToExpulse.velocity.y, direction.z * repulsionFactor), ForceMode.Impulse);
+        rbPlayerToExpulse.AddForce(new Vector3(direction.x * repulsionFactor, rbPlayerToExpulse.velocity.y + 15.0f, direction.z * repulsionFactor), ForceMode.Impulse);
         StartCoroutine(ReactivateCollider(rbPlayerToExpulse.GetComponent<AIRabite>()));
     }
 
     public IEnumerator ReactivateCollider(AIRabite p)
     {
-        Debug.Log("hey");
-        yield return new WaitForSeconds(invicibilityFrame);
+        yield return new WaitForSeconds(invicibilityFrame/2.0f);
         impactedRabite.Remove(p);
         Physics.IgnoreCollision(p.GetComponent<Collider>(), GetComponent<Collider>(), false);
         yield return null;
