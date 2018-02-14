@@ -446,6 +446,7 @@ public class Menu : MonoBehaviour {
         // Nb of players selection step reset
         if (currentState == MenuState.NumberOfPlayers)
         {
+            transform.GetChild((int)currentState).GetChild(selectedMode).gameObject.SetActive(true);
             CurrentlySelectedButton = transform.GetChild((int)currentState).GetChild(selectedMode).GetChild(currentCursor).GetComponent<Button>();
             nbPlayers = -1;
         }
@@ -455,13 +456,13 @@ public class Menu : MonoBehaviour {
         {
             areReady = new bool[nbPlayers];
 
+            // If a selection has already been made
             if (playerCustomScreens.Count > 0)
             {
-                for (int i = 0; i < nbPlayers; i++)
+                // Reset positions of existing ones, hide "Ready!"
+                for (int i = 0; i < playerCustomScreens.Count; i++)
                 {
                     playerCustomScreens[i].transform.GetChild(4).gameObject.SetActive(false);
-
-                    CurrentlySelectedButton = transform.GetChild((int)currentState).GetChild(0).GetComponentInChildren<Button>();
 
                     if (nbPlayers == 1)
                         playerCustomScreens[i].transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
@@ -473,32 +474,33 @@ public class Menu : MonoBehaviour {
                         playerCustomScreens[i].transform.localPosition = new Vector3(-(300) + (i * (200)), 0.0f, 0.0f);
                 }
 
-                for (int i = nbPlayers; i < playerCustomScreens.Count; i++)
-                    Destroy(playerCustomScreens[i]);
+                // Instantiate new screen if more players are selected
+                if (nbPlayers > playerCustomScreens.Count)
+                {
+                    for (int i = playerCustomScreens.Count; i < nbPlayers; i++)
+                    {
+                        CreatePlayerCustomScreen(i);
+                    }
+                }
+                // Destroy previous screen if less players are selected
+                else
+                {
+                    while (playerCustomScreens.Count > nbPlayers)
+                    {
+                        Destroy(playerCustomScreens[playerCustomScreens.Count - 1]);
+                        playerCustomScreens.RemoveAt(playerCustomScreens.Count - 1);
+                    }
+                }
+
+                
             }
+            // Default
             else
             {
 
                 for (int i = 0; i < nbPlayers; i++)
                 {
-                    GameObject go = Instantiate(playerCustomScreenPrefab, transform.GetChild((int)MenuState.CustomisationScreen));
-                    go.GetComponentInChildren<Text>().text = "Player " + (i + 1);
-
-                    if (nbPlayers == 1)
-                        go.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
-                    if (nbPlayers == 2)
-                        go.transform.localPosition = new Vector3(-(250) + (2 * i) * (250), 0.0f, 0.0f);
-                    if (nbPlayers == 3)
-                        go.transform.localPosition = new Vector3((-(250) + i * (250)), 0.0f, 0.0f);
-                    if (nbPlayers == 4)
-                        go.transform.localPosition = new Vector3(-(300) + (i * (200)), 0.0f, 0.0f);
-
-                    go.transform.GetChild(1).GetComponent<Text>().text = unlockedCustomColors[0].Id;
-                    go.transform.GetChild(2).GetComponent<Text>().text = unlockedFaces[0].Id;
-                    go.transform.GetChild(3).GetComponentInChildren<PlayerCosmetics>().SetUniqueColor(unlockedCustomColors[0].color);
-                    go.transform.GetChild(3).GetComponentInChildren<PlayerCosmetics>().FaceType = 0;
-
-                    playerCustomScreens.Add(go);
+                    GameObject go = CreatePlayerCustomScreen(i);
 
                     if (DataContainer.launchedFromMinigameScreen)
                     {
@@ -509,8 +511,8 @@ public class Menu : MonoBehaviour {
                         UpdatePlayerPreviewFace(i);
                     }
 
-                    CurrentlySelectedButton = null;
                 }
+                CurrentlySelectedButton = null;
             }
         }
 
@@ -550,6 +552,30 @@ public class Menu : MonoBehaviour {
             }
       
         }
+    }
+
+    GameObject CreatePlayerCustomScreen(int _newPlayerIndex)
+    {
+        GameObject go = Instantiate(playerCustomScreenPrefab, transform.GetChild((int)MenuState.CustomisationScreen));
+        go.GetComponentInChildren<Text>().text = "Player " + (_newPlayerIndex + 1);
+
+        if (nbPlayers == 1)
+            go.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
+        if (nbPlayers == 2)
+            go.transform.localPosition = new Vector3(-(250) + (2 * _newPlayerIndex) * (250), 0.0f, 0.0f);
+        if (nbPlayers == 3)
+            go.transform.localPosition = new Vector3((-(250) + _newPlayerIndex * (250)), 0.0f, 0.0f);
+        if (nbPlayers == 4)
+            go.transform.localPosition = new Vector3(-(300) + (_newPlayerIndex * (200)), 0.0f, 0.0f);
+
+        go.transform.GetChild(1).GetComponent<Text>().text = unlockedCustomColors[0].Id;
+        go.transform.GetChild(2).GetComponent<Text>().text = unlockedFaces[0].Id;
+        go.transform.GetChild(3).GetComponentInChildren<PlayerCosmetics>().SetUniqueColor(unlockedCustomColors[0].color);
+        go.transform.GetChild(3).GetComponentInChildren<PlayerCosmetics>().FaceType = 0;
+
+        playerCustomScreens.Add(go);
+
+        return go;
     }
 
     void GoToNextState()
