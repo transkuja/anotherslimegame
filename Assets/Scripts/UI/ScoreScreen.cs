@@ -41,6 +41,12 @@ public class ScoreScreen : MonoBehaviour {
     float timerCanExit = 1.0f;
     bool objectiveFailedWhenRelevant = false;
 
+    public void DEBUG_SetMinigameReplayable()
+    {
+        objectiveFailedWhenRelevant = true;
+        canExit = true;
+    }
+
     private void Awake()
     {
         GameManager.Instance.RegisterScoreScreenPanel(this);

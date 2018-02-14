@@ -21,13 +21,16 @@ public class PushGameMode : GameMode {
             player.NbLife = 3;
             player.UpdateCollectableValue(CollectableType.Points, 500);
         }
-        Invoke("LaunchTimer", Utils.timerTutoText);
+
+        LaunchTimer();
     }
+
     public void LaunchTimer()
     {
         GameManager.Instance.GameFinalTimer = timer;
         GameManager.Instance.LaunchFinalTimer();
     }
+
     public override void AttributeCamera(uint activePlayersAtStart, GameObject[] cameraReferences, List<GameObject> playersReference)
     {
         base.AttributeCamera(activePlayersAtStart, cameraReferences, playersReference);

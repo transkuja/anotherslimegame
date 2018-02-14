@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UWPAndXInput;
+using System;
 
 public class DebugTools : MonoBehaviour {
     public static bool isDebugModeActive = false;
@@ -393,15 +394,30 @@ public class DebugTools : MonoBehaviour {
                 // Finish current mini game
                 if (Input.GetKeyDown(KeyCode.F))
                 {
-                    if (DatabaseManager.Db.minigames.Count == 0)
+                    if (GameManager.Instance.CurrentGameMode.IsMiniGame())
                     {
-                        Debug.LogError("Reset your database");
-                        return;
-                    }
+                        try
+                        {
+                            foreach (GameObject go in GameManager.Instance.PlayerStart.PlayersReference)
+                                GameManager.Instance.CurrentGameMode.PlayerHasFinished(go.GetComponent<Player>());
+                        }
+                        catch (NotImplementedException e)
+                        {
+                            // Stop timer
+                            GameManager.Instance.DEBUG_EndFinalCountdown();
+                            // Hide rule screen
+                            GameManager.UiReference.RuleScreen.gameObject.SetActive(false);
+                            // Destroy '3 2 1 Go' timer
+                            ReadySetGo readySetGoComp = FindObjectOfType<ReadySetGo>();
+                            if (readySetGoComp != null)
+                                Destroy(readySetGoComp.gameObject);
 
-                    if (SceneManager.GetActiveScene().name == DatabaseManager.Db.minigames[0].Id)
-                    {
-                        GameManager.Instance.ScoreScreenReference.RankPlayersByPoints();
+                            // Call end game and make sure we can replay right away
+                            ScoreScreen screenRef = GameManager.Instance.ScoreScreenReference;
+                            screenRef.RankPlayersByPoints();
+                            screenRef.DEBUG_SetMinigameReplayable();
+
+                        }
                     }
                 }
             }

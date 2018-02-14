@@ -294,6 +294,14 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    public void DEBUG_EndFinalCountdown()
+    {
+        currentGameFinalTimer = 0.0f;
+        finalTimerInitialized = false;
+        isTimeOver = true;
+        uiReference.TimerNeedUpdate(currentGameFinalTimer);
+    }
+
     public void LaunchFinalTimer()
     {
         currentGameFinalTimer = GameFinalTimer;
