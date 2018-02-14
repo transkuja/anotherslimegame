@@ -30,7 +30,7 @@ public class RuleScreenHandler : MonoBehaviour {
         }
     }
 
-    void OnEnable() {
+    void Start() {
         CurState = RuleScreenState.FirstPage;
         skipControlsPage = GameManager.Instance.CurrentGameMode.rules.controls.Count == 0;
         skipPickupsPage = GameManager.Instance.CurrentGameMode.rules.possiblePickups.Count == 0;

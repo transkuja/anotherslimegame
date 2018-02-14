@@ -21,12 +21,6 @@ public class UI : MonoBehaviour {
         if (GameManager.UiReference == null)
         {
             GameManager.UiReference = this;
-            DontDestroyOnLoad(this);
-            SceneManager.activeSceneChanged += DestroyOnMenuScreen;
-        }
-        else
-        {
-            Destroy(this.gameObject);
         }
     }
 
