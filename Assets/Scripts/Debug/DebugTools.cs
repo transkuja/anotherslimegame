@@ -6,8 +6,14 @@ using UWPAndXInput;
 using System;
 
 /*
+ * DebugTools V3.0 
+ *  - DebugTools now has a state machine for inputs. 
+ *  - Press F1, F2 or F3 to switch controls.
+ *  - Some controls can be used regardless of the current state.
+ *  - Current state is shown in the right corner. Defaults are ChangeGameplayData for minigames and AddEvolution for Hub.
+ *  
  * New ideas:
- *  -
+ *  - ReadySetGo skip?
  */
 public class DebugTools : MonoBehaviour {
     public static bool isDebugModeActive = false;
@@ -95,6 +101,7 @@ public class DebugTools : MonoBehaviour {
         debugPanelComponent.AddToDebugPanelInfos("Ctrl", "RShift", "Activation/Deactivation");
         debugPanelComponent.AddToDebugPanelInfos("U", "I", "Show debug UI");
 
+        debugPanelComponent.AddToDebugPanelInfos("", "", "\nCommon controls\n");
         debugPanelComponent.AddToDebugPanelInfos("0", "", "Reset player");
         debugPanelComponent.AddToDebugPanelInfos("9", "", "Respawn player");
         debugPanelComponent.AddToDebugPanelInfos("Space", "", "Spawn a player");
@@ -105,58 +112,61 @@ public class DebugTools : MonoBehaviour {
         debugPanelComponent.AddToDebugPanelInfos("L", "", "Enable torchlights on player");
         debugPanelComponent.AddToDebugPanelInfos("F", "", "Finish current minigame");
 
-        debugPanelComponent.AddToDebugPanelInfos("", "", "Fill player data");
-        debugPanelComponent.AddToDebugPanelInfos("LeftCtrl", "1", "Add points");
-        debugPanelComponent.AddToDebugPanelInfos("LeftShift", "1", "Remove points");
-        debugPanelComponent.AddToDebugPanelInfos("LeftCtrl", "2", "Add life");
-        debugPanelComponent.AddToDebugPanelInfos("LeftShift", "2", "Remove life");
+        debugPanelComponent.AddToDebugPanelInfos("\n F1", "", "Switch to AddEvolution mode then:");
+        debugPanelComponent.AddToDebugPanelInfos("1", "", "Strength");
+        debugPanelComponent.AddToDebugPanelInfos("2", "", "Agile");
+        debugPanelComponent.AddToDebugPanelInfos("3", "", "Platformist");
+        debugPanelComponent.AddToDebugPanelInfos("4", "", "Ghost");
+        debugPanelComponent.AddToDebugPanelInfos("5", "", "Platformist debug");
 
-        debugPanelComponent.AddToDebugPanelInfos("", "", "Add evolution");
-        debugPanelComponent.AddToDebugPanelInfos("1", "2", "Strength");
-        debugPanelComponent.AddToDebugPanelInfos("1", "3", "Agile");
-        debugPanelComponent.AddToDebugPanelInfos("1", "4", "Platformist");
-        debugPanelComponent.AddToDebugPanelInfos("1", "5", "Ghost");
-        debugPanelComponent.AddToDebugPanelInfos("1", "6", "Platformist debug");
+        debugPanelComponent.AddToDebugPanelInfos("\n F2", "", "Switch to SpawnCollectable mode then:");
+        debugPanelComponent.AddToDebugPanelInfos("1", "", CollectableType.Points.ToString());
+        debugPanelComponent.AddToDebugPanelInfos("2", "", CollectableType.Rune.ToString());
+        debugPanelComponent.AddToDebugPanelInfos("3", "", CollectableType.StrengthEvolution1.ToString());
+        debugPanelComponent.AddToDebugPanelInfos("4", "", CollectableType.PlatformistEvolution1.ToString());
+        debugPanelComponent.AddToDebugPanelInfos("5", "", CollectableType.AgileEvolution1.ToString());
+        debugPanelComponent.AddToDebugPanelInfos("6", "", CollectableType.GhostEvolution1.ToString());
+        debugPanelComponent.AddToDebugPanelInfos("7", "", CollectableType.Money.ToString());
 
-        debugPanelComponent.AddToDebugPanelInfos("", "", "Spawn a collectable");
-        debugPanelComponent.AddToDebugPanelInfos("2", "1", CollectableType.Points.ToString());
-        debugPanelComponent.AddToDebugPanelInfos("2", "3", CollectableType.Rune.ToString());
-        debugPanelComponent.AddToDebugPanelInfos("2", "4", CollectableType.StrengthEvolution1.ToString());
-        debugPanelComponent.AddToDebugPanelInfos("2", "5", CollectableType.PlatformistEvolution1.ToString());
-        debugPanelComponent.AddToDebugPanelInfos("2", "6", CollectableType.AgileEvolution1.ToString());
-        debugPanelComponent.AddToDebugPanelInfos("2", "7", CollectableType.GhostEvolution1.ToString());
-        debugPanelComponent.AddToDebugPanelInfos("2", "8", CollectableType.Money.ToString());
+        debugPanelComponent.AddToDebugPanelInfos("\n F3", "", "Switch to ChangeData mode then:");
+        debugPanelComponent.AddToDebugPanelInfos("LeftShift", "", "Change increase/decrease unit to 10");
+        debugPanelComponent.AddToDebugPanelInfos("1", "", "Add points");
+        debugPanelComponent.AddToDebugPanelInfos("2", "", "Remove points");
+        debugPanelComponent.AddToDebugPanelInfos("3", "", "Add life");
+        debugPanelComponent.AddToDebugPanelInfos("4", "", "Remove life");
+        debugPanelComponent.AddToDebugPanelInfos("5", "", "Increase timer");
+
         hasUpdatedDebugPanel = true;
     }
 
     void AddEvolutionControls()
     {
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             if (DebugPlayerSelected.GetComponent<EvolutionStrength>() == null)
                 GameManager.EvolutionManager.AddEvolutionComponent(DebugPlayerSelected.gameObject, GameManager.EvolutionManager.GetEvolutionByPowerName(Powers.Strength));
             Debug.Log("Added Strength on player " + DebugPlayerSelected.GetComponent<PlayerControllerHub>().PlayerIndex);
         }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
+        if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             if (DebugPlayerSelected.GetComponent<EvolutionAgile>() == null)
                 GameManager.EvolutionManager.AddEvolutionComponent(DebugPlayerSelected.gameObject, GameManager.EvolutionManager.GetEvolutionByPowerName(Powers.Agile));
             Debug.Log("Added Agile on player " + DebugPlayerSelected.GetComponent<PlayerControllerHub>().PlayerIndex);
         }
-        if (Input.GetKeyDown(KeyCode.Alpha4))
+        if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             if (DebugPlayerSelected.GetComponent<EvolutionPlatformist>() == null)
                 GameManager.EvolutionManager.AddEvolutionComponent(DebugPlayerSelected.gameObject, GameManager.EvolutionManager.GetEvolutionByPowerName(Powers.Platformist));
             Debug.Log("Added Platformist on player " + DebugPlayerSelected.GetComponent<PlayerControllerHub>().PlayerIndex);
         }
-        if (Input.GetKeyDown(KeyCode.Alpha5))
+        if (Input.GetKeyDown(KeyCode.Alpha4))
         {
             if (DebugPlayerSelected.GetComponent<EvolutionGhost>() == null)
                 GameManager.EvolutionManager.AddEvolutionComponent(DebugPlayerSelected.gameObject, GameManager.EvolutionManager.GetEvolutionByPowerName(Powers.Ghost));
             Debug.Log("Added Ghost on player" + DebugPlayerSelected.GetComponent<PlayerControllerHub>().PlayerIndex);
         }
         // Debug platformist
-        if (Input.GetKeyDown(KeyCode.Alpha6))
+        if (Input.GetKeyDown(KeyCode.Alpha5))
         {
             if (DebugPlayerSelected.GetComponent<EvolutionPlatformist>() == null)
                 GameManager.EvolutionManager.AddEvolutionComponent(DebugPlayerSelected.gameObject, GameManager.EvolutionManager.GetEvolutionByPowerName(Powers.Platformist));
@@ -176,36 +186,36 @@ public class DebugTools : MonoBehaviour {
             DebugPlayerSelected.UpdateCollectableValue(CollectableType.Points, 10);
             Debug.Log("Adding " + CollectableType.Points + " to the player");
         }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
+        if (Input.GetKeyDown(KeyCode.Alpha2))
         {
             DebugPlayerSelected.UpdateCollectableValue(CollectableType.Rune, 1);
             Debug.Log("Adding " + CollectableType.Rune + " to the player");
         }
-        if (Input.GetKeyDown(KeyCode.Alpha4))
+        if (Input.GetKeyDown(KeyCode.Alpha3))
         {
             ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
                 DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.StrengthEvolution1).GetComponent<Collectable>().Init();
             Debug.Log("Pop some " + CollectableType.StrengthEvolution1 + " on the ground!");
         }
-        if (Input.GetKeyDown(KeyCode.Alpha5))
+        if (Input.GetKeyDown(KeyCode.Alpha4))
         {
             ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
                 DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.PlatformistEvolution1).GetComponent<Collectable>().Init();
             Debug.Log("Pop some " + CollectableType.PlatformistEvolution1 + " on the ground!");
         }
-        if (Input.GetKeyDown(KeyCode.Alpha6))
+        if (Input.GetKeyDown(KeyCode.Alpha5))
         {
             ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
                 DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.AgileEvolution1).GetComponent<Collectable>().Init();
             Debug.Log("Pop some " + CollectableType.AgileEvolution1 + " on the ground!");
         }
-        if (Input.GetKeyDown(KeyCode.Alpha7))
+        if (Input.GetKeyDown(KeyCode.Alpha6))
         {
             ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(
                 DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f, Quaternion.identity, null, CollectableType.GhostEvolution1).GetComponent<Collectable>().Init();
             Debug.Log("Pop some " + CollectableType.GhostEvolution1 + " on the ground!");
         }
-        if (Input.GetKeyDown(KeyCode.Alpha8))
+        if (Input.GetKeyDown(KeyCode.Alpha7))
         {
             DebugPlayerSelected.UpdateCollectableValue(CollectableType.Money, 9999);
             Debug.Log("Adding " + CollectableType.Money + " to the player");
@@ -215,16 +225,16 @@ public class DebugTools : MonoBehaviour {
     void ChangeGameplayDataControls()
     {
         int increaseStep = Input.GetKey(KeyCode.LeftShift) ? 10 : 1;
-        if (Input.GetKeyDown(KeyCode.Alpha1))
+        if (Input.GetKey(KeyCode.Alpha1))
             debugPlayerSelected.NbPoints += increaseStep;
 
-        if (Input.GetKeyDown(KeyCode.Alpha2))
+        if (Input.GetKey(KeyCode.Alpha2))
             debugPlayerSelected.NbPoints -= increaseStep;
 
-        if (Input.GetKeyDown(KeyCode.Alpha3))
+        if (Input.GetKey(KeyCode.Alpha3))
             debugPlayerSelected.NbLife += increaseStep;
 
-        if (Input.GetKeyDown(KeyCode.Alpha4))
+        if (Input.GetKey(KeyCode.Alpha4))
             debugPlayerSelected.NbLife -= increaseStep;
 
         if (Input.GetKey(KeyCode.Alpha5))
