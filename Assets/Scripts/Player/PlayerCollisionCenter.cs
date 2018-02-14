@@ -644,7 +644,9 @@ public class PlayerCollisionCenter : MonoBehaviour {
         direction.y = 0;
 
         direction.Normalize() ;
-        rbPlayerToExpulse.AddForce(new Vector3(direction.x * repulsionFactor, rbPlayerToExpulse.velocity.y + 15.0f, direction.z * repulsionFactor), ForceMode.Impulse);
+        //rbPlayerToExpulse.AddForce(new Vector3(direction.x * repulsionFactor, rbPlayerToExpulse.velocity.y + 15.0f, direction.z * repulsionFactor), ForceMode.Impulse);
+        rbPlayerToExpulse.AddForceAtPosition(new Vector3(direction.x * repulsionFactor, rbPlayerToExpulse.velocity.y + 15.0f, direction.z * repulsionFactor), rbPlayerToExpulse.position + Vector3.up,ForceMode.Impulse);
+
         StartCoroutine(ReactivateCollider(rbPlayerToExpulse.GetComponent<AIRabite>()));
     }
 
