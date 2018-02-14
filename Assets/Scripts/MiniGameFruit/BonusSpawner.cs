@@ -56,7 +56,7 @@ public class BonusSpawner : MonoBehaviour {
     {
         if(canChange)
         {
-            ChangerFruit();
+            StartCoroutine(ChangerFruit());
             canChange = false;
         }
 
@@ -68,32 +68,37 @@ public class BonusSpawner : MonoBehaviour {
 
     }
 
-    public void ChangerFruit()
+    public IEnumerator ChangerFruit()
     {
         Fruit typeToChange = GameObject.Find("Player(Clone)").GetComponent<Player>().associateFruit; //Voir a recuperer l'info sans passer par GameObject.Find()
-        FruitType[] tabTest = GameObject.Find("Fruits").transform.GetChild(0).GetComponentInChildren<Transform>().GetComponentsInChildren<FruitType>(); // Verifier pourquoi ça récupere pas les bons trucs !!!
-        Debug.Log(tabTest.Length);
+        FruitType[] tabTest = GameObject.Find("FruitSpawner").GetComponent<FruitsSpawner>().GetComponentsInChildren<FruitType>();
+        Fruit[] typeToSave = new Fruit[tabTest.Length];
         for (int i = 0; i < tabTest.Length; i++)
         {
-            FruitType transformFruit = tabTest[i];
-            Debug.Log(transformFruit);
-            transformFruit.GetComponent<FruitType>().typeFruit = typeToChange;
+            typeToSave[i] = tabTest[i].typeFruit;
+            tabTest[i].typeFruit = typeToChange;
+        }
+        yield return new WaitForSeconds(2.0f);
+        for(int j = 0; j < tabTest.Length; j++)
+        {
+            for(int k = 0; k < typeToSave.Length; k++)
+            {
+                tabTest[j].typeFruit = typeToSave[k];
+            }
         }
     }
-
+    
     public void AspireFruit()
     {
-        //Checker tout les fruits de la pool
-        /*foreach (Fruit fruit in PoolManager.poolFruit)
+        Fruit typeFruitPlayer = GameObject.Find("Player(Clone)").GetComponent<Player>().associateFruit; //Voir a recuperer l'info sans passer par GameObject.Find()
+        FruitType[] tabTestAspirate = GameObject.Find("FruitSpawner").GetComponent<FruitsSpawner>().GetComponentsInChildren<FruitType>();
+        foreach(FruitType type in tabTestAspirate)
         {
-            //Si le type correspond a celui du joueur, on le recupere
-            //if(type == GetComponentInParent<Player>().associateFruit)
+            if(typeFruitPlayer == type.typeFruit)
             {
-                Appeler Attract() uniquement pour les fruits qui sont du type ?
-                Remove tout les fruits du type de la scene et attribuer les points ?
+                type.GetComponent<Collectable>().Attract();
             }
-
-        }*/
+        }
 
     }
 }
