@@ -43,6 +43,8 @@ public class DynamicJoystickCameraController : MonoBehaviour {
         // Ugly shit due to camera prefab being shitty
         cameraXAdjuster = 0.4f;
         cameraYAdjuster = 0.4f;
+        cameraXAdjuster = 0.25f;
+        cameraYAdjuster = 0.05f;
         notGroundedAttenuationFactor = 0.33f;
         lerpTendToMiddleRigSpeed = 0.85f;
         ///////////////////////////////////////////////////
