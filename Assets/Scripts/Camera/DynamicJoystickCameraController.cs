@@ -39,9 +39,13 @@ public class DynamicJoystickCameraController : MonoBehaviour {
     float defaultMinDistanceFromTarget = 0.6f;
     float extremeMinDistanceFromTarget = 5.0f;
     [SerializeField]
-    float smallAreaMaxDistanceForRaycast = 15.0f;
+    float smallAreaHeight = 15.0f;
     [SerializeField]
-    float verySmallAreaMaxDistanceForRaycast = 7.0f;
+    float verySmallAreaHeight = 7.0f;
+
+    enum CameraState { Default, SmallArea, VerySmallArea }
+
+    CameraState currentState = CameraState.Default;
 
     void Start () {
         freelookCamera = GetComponent<Cinemachine.CinemachineFreeLook>();
@@ -56,55 +60,10 @@ public class DynamicJoystickCameraController : MonoBehaviour {
         lerpTendToMiddleRigSpeed = 0.85f;
         defaultMinDistanceFromTarget = 0.6f;
         extremeMinDistanceFromTarget = 5.0f;
-        smallAreaMaxDistanceForRaycast = 15.0f;
-        verySmallAreaMaxDistanceForRaycast = 7.0f;
+        smallAreaHeight = 15.0f;
+        verySmallAreaHeight = 7.0f;
+        currentState = CameraState.Default;
         ///////////////////////////////////////////////////
-    }
-
-    void SmallAreaBehaviour()
-    {
-        RaycastHit hitUp;
-        RaycastHit hitDown;
-        if (Physics.Raycast(associatedPlayerController.transform.position + Vector3.up * 0.5f, Vector3.down, out hitDown, smallAreaMaxDistanceForRaycast)
-            && Physics.Raycast(associatedPlayerController.transform.position + Vector3.up * 0.5f, Vector3.up, out hitUp, smallAreaMaxDistanceForRaycast))
-        {
-            float areaHeight = hitUp.point.y - hitDown.point.y;
-            Debug.Log(areaHeight);
-            if (areaHeight < smallAreaMaxDistanceForRaycast)
-            {
-                // Small area
-                forceMiddleRig = true;
-                freelookCamera.m_YAxis.Value = 0.5f;
-                if (areaHeight < verySmallAreaMaxDistanceForRaycast)
-                {
-                    // Very small area
-                    freelookCamera.Follow = null;
-                    freelookCamera.GetComponent<Cinemachine.CinemachineCollider>().m_MinimumDistanceFromTarget = extremeMinDistanceFromTarget;
-                }
-                else
-                {
-
-                    if (freelookCamera.Follow == null)
-                        freelookCamera.Follow = associatedPlayerController.transform;
-                    freelookCamera.GetComponent<Cinemachine.CinemachineCollider>().m_MinimumDistanceFromTarget = defaultMinDistanceFromTarget;
-                }
-            }
-        }
-        // Default behaviour
-        else
-        {
-            forceMiddleRig = false;
-            freelookCamera.GetComponent<Cinemachine.CinemachineCollider>().m_MinimumDistanceFromTarget = defaultMinDistanceFromTarget;
-            if (freelookCamera.Follow == null)
-                freelookCamera.Follow = associatedPlayerController.transform;
-        }
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.magenta;
-        Gizmos.DrawLine(associatedPlayerController.transform.position + Vector3.up * 0.5f, associatedPlayerController.transform.position + Vector3.up * (0.5f + smallAreaMaxDistanceForRaycast));
-        Gizmos.DrawLine(associatedPlayerController.transform.position + Vector3.up * 0.5f, associatedPlayerController.transform.position + Vector3.up * 0.5f + Vector3.down * smallAreaMaxDistanceForRaycast);
     }
 
     void Update () {
@@ -116,6 +75,7 @@ public class DynamicJoystickCameraController : MonoBehaviour {
             prevState = state;
             state = GamePad.GetState(playerIndex);
 
+            // TODO: small area check could be done using on trigger enter (avoid using 2 raycast every frame)
             SmallAreaBehaviour();
             RecenterBehaviour();
             CameraStickBehaviour();
@@ -135,6 +95,60 @@ public class DynamicJoystickCameraController : MonoBehaviour {
             if (!forceMiddleRig)
                 TendToMiddleRig(associatedPlayerController);
         }
+    }
+
+    /// <summary>
+    /// Handle camera states 
+    /// </summary>
+    /// <param name="_newState"></param>
+    void ChangeCameraState(CameraState _newState)
+    {
+        if (_newState == currentState)
+            return;
+
+        currentState = _newState;
+        switch (_newState)
+        {
+            case CameraState.SmallArea:
+                forceMiddleRig = true;
+                freelookCamera.m_YAxis.Value = 0.5f;
+                freelookCamera.Follow = associatedPlayerController.transform;
+                freelookCamera.GetComponent<Cinemachine.CinemachineCollider>().m_MinimumDistanceFromTarget = defaultMinDistanceFromTarget;
+                break;
+            case CameraState.VerySmallArea:
+                forceMiddleRig = true;
+                freelookCamera.m_YAxis.Value = 0.5f;
+                freelookCamera.Follow = null;
+                freelookCamera.GetComponent<Cinemachine.CinemachineCollider>().m_MinimumDistanceFromTarget = extremeMinDistanceFromTarget;
+                break;
+            default:
+                forceMiddleRig = false;
+                freelookCamera.GetComponent<Cinemachine.CinemachineCollider>().m_MinimumDistanceFromTarget = defaultMinDistanceFromTarget;
+                freelookCamera.Follow = associatedPlayerController.transform;
+                break;
+        }
+    }
+
+    /// <summary>
+    /// Throw raycasts to check if the player is in a small area, then change camera state if necessary
+    /// </summary>
+    void SmallAreaBehaviour()
+    {
+        RaycastHit hitUp;
+        RaycastHit hitDown;
+        if (Physics.Raycast(associatedPlayerController.transform.position + Vector3.up * 0.5f, Vector3.up, out hitUp, smallAreaHeight)
+            && Physics.Raycast(associatedPlayerController.transform.position + Vector3.up * 0.5f, Vector3.down, out hitDown, smallAreaHeight))
+        {
+            if (hitUp.point.y - hitDown.point.y < smallAreaHeight)
+            {
+                if (hitUp.point.y - hitDown.point.y < verySmallAreaHeight)
+                    ChangeCameraState(CameraState.VerySmallArea);
+                else
+                    ChangeCameraState(CameraState.SmallArea);
+            }
+        }
+        else
+            ChangeCameraState(CameraState.Default);
     }
 
     /// <summary>
