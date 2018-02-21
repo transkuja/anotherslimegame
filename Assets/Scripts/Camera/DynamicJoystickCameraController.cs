@@ -34,6 +34,15 @@ public class DynamicJoystickCameraController : MonoBehaviour {
 
     bool previouslyTendedToMiddleRig = true;
 
+    // Small areas settings
+    bool forceBottomRig = false;
+    float defaultMinDistanceFromTarget = 0.6f;
+    float extremeMinDistanceFromTarget = 5.0f;
+    [SerializeField]
+    float smallAreaMaxDistanceForRaycast = 4.0f;
+    [SerializeField]
+    float verySmallAreaMaxDistanceForRaycast = 2.0f;
+
     void Start () {
         freelookCamera = GetComponent<Cinemachine.CinemachineFreeLook>();
         startHighOffset = (freelookCamera.GetRig(0).GetCinemachineComponent<CinemachineComposer>()).m_TrackedObjectOffset;
@@ -48,6 +57,37 @@ public class DynamicJoystickCameraController : MonoBehaviour {
         ///////////////////////////////////////////////////
     }
 
+    void SmallAreaBehaviour()
+    {
+        RaycastHit hit;
+        if (Physics.Raycast(associatedPlayerController.transform.position + Vector3.up * 0.5f, Vector3.up, out hit, smallAreaMaxDistanceForRaycast))
+        {
+            // Small area
+            forceBottomRig = true;
+            if (hit.transform.position.y - associatedPlayerController.transform.position.y < verySmallAreaMaxDistanceForRaycast)
+            {
+                // Very small area
+                freelookCamera.Follow = null;
+                freelookCamera.GetComponent<Cinemachine.CinemachineCollider>().m_MinimumDistanceFromTarget = extremeMinDistanceFromTarget;
+                Debug.Log("hit");
+            }
+            else
+            {
+                if (freelookCamera.Follow == null)
+                    freelookCamera.Follow = associatedPlayerController.transform;
+                freelookCamera.GetComponent<Cinemachine.CinemachineCollider>().m_MinimumDistanceFromTarget = defaultMinDistanceFromTarget;
+            }
+        }
+        // Default behaviour
+        else
+        {
+            forceBottomRig = false;
+            freelookCamera.GetComponent<Cinemachine.CinemachineCollider>().m_MinimumDistanceFromTarget = defaultMinDistanceFromTarget;
+            if (freelookCamera.Follow == null)
+                freelookCamera.Follow = associatedPlayerController.transform;
+        }
+    }
+
     void Update () {
         if (associatedPlayerController == null)
             return;
@@ -57,11 +97,12 @@ public class DynamicJoystickCameraController : MonoBehaviour {
             prevState = state;
             state = GamePad.GetState(playerIndex);
 
+            SmallAreaBehaviour();
             RecenterBehaviour();
             CameraStickBehaviour();
 
             // Handle camera behaviour when the player is moving on the sides
-            if (TurnCameraWithLThumb)
+            if (TurnCameraWithLThumb && !forceBottomRig)
                 freelookCamera.m_XAxis.m_InputAxisValue += UpdateCameraXAxisValue(state.ThumbSticks.Left.X);
             
 
@@ -72,7 +113,8 @@ public class DynamicJoystickCameraController : MonoBehaviour {
                 lerpValue = 0.0f;
             }
 
-            TendToMiddleRig(associatedPlayerController);
+            if (!forceBottomRig)
+                TendToMiddleRig(associatedPlayerController);
         }
     }
 
