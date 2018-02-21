@@ -35,13 +35,13 @@ public class DynamicJoystickCameraController : MonoBehaviour {
     bool previouslyTendedToMiddleRig = true;
 
     // Small areas settings
-    bool forceBottomRig = false;
+    bool forceMiddleRig = false;
     float defaultMinDistanceFromTarget = 0.6f;
     float extremeMinDistanceFromTarget = 5.0f;
     [SerializeField]
-    float smallAreaMaxDistanceForRaycast = 4.0f;
+    float smallAreaMaxDistanceForRaycast = 15.0f;
     [SerializeField]
-    float verySmallAreaMaxDistanceForRaycast = 2.0f;
+    float verySmallAreaMaxDistanceForRaycast = 7.0f;
 
     void Start () {
         freelookCamera = GetComponent<Cinemachine.CinemachineFreeLook>();
@@ -54,38 +54,57 @@ public class DynamicJoystickCameraController : MonoBehaviour {
         cameraYAdjuster = 0.05f;
         notGroundedAttenuationFactor = 0.33f;
         lerpTendToMiddleRigSpeed = 0.85f;
+        defaultMinDistanceFromTarget = 0.6f;
+        extremeMinDistanceFromTarget = 5.0f;
+        smallAreaMaxDistanceForRaycast = 15.0f;
+        verySmallAreaMaxDistanceForRaycast = 7.0f;
         ///////////////////////////////////////////////////
     }
 
     void SmallAreaBehaviour()
     {
-        RaycastHit hit;
-        if (Physics.Raycast(associatedPlayerController.transform.position + Vector3.up * 0.5f, Vector3.up, out hit, smallAreaMaxDistanceForRaycast))
+        RaycastHit hitUp;
+        RaycastHit hitDown;
+        if (Physics.Raycast(associatedPlayerController.transform.position + Vector3.up * 0.5f, Vector3.down, out hitDown, smallAreaMaxDistanceForRaycast)
+            && Physics.Raycast(associatedPlayerController.transform.position + Vector3.up * 0.5f, Vector3.up, out hitUp, smallAreaMaxDistanceForRaycast))
         {
-            // Small area
-            forceBottomRig = true;
-            if (hit.transform.position.y - associatedPlayerController.transform.position.y < verySmallAreaMaxDistanceForRaycast)
+            float areaHeight = hitUp.point.y - hitDown.point.y;
+            Debug.Log(areaHeight);
+            if (areaHeight < smallAreaMaxDistanceForRaycast)
             {
-                // Very small area
-                freelookCamera.Follow = null;
-                freelookCamera.GetComponent<Cinemachine.CinemachineCollider>().m_MinimumDistanceFromTarget = extremeMinDistanceFromTarget;
-                Debug.Log("hit");
-            }
-            else
-            {
-                if (freelookCamera.Follow == null)
-                    freelookCamera.Follow = associatedPlayerController.transform;
-                freelookCamera.GetComponent<Cinemachine.CinemachineCollider>().m_MinimumDistanceFromTarget = defaultMinDistanceFromTarget;
+                // Small area
+                forceMiddleRig = true;
+                freelookCamera.m_YAxis.Value = 0.5f;
+                if (areaHeight < verySmallAreaMaxDistanceForRaycast)
+                {
+                    // Very small area
+                    freelookCamera.Follow = null;
+                    freelookCamera.GetComponent<Cinemachine.CinemachineCollider>().m_MinimumDistanceFromTarget = extremeMinDistanceFromTarget;
+                }
+                else
+                {
+
+                    if (freelookCamera.Follow == null)
+                        freelookCamera.Follow = associatedPlayerController.transform;
+                    freelookCamera.GetComponent<Cinemachine.CinemachineCollider>().m_MinimumDistanceFromTarget = defaultMinDistanceFromTarget;
+                }
             }
         }
         // Default behaviour
         else
         {
-            forceBottomRig = false;
+            forceMiddleRig = false;
             freelookCamera.GetComponent<Cinemachine.CinemachineCollider>().m_MinimumDistanceFromTarget = defaultMinDistanceFromTarget;
             if (freelookCamera.Follow == null)
                 freelookCamera.Follow = associatedPlayerController.transform;
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.magenta;
+        Gizmos.DrawLine(associatedPlayerController.transform.position + Vector3.up * 0.5f, associatedPlayerController.transform.position + Vector3.up * (0.5f + smallAreaMaxDistanceForRaycast));
+        Gizmos.DrawLine(associatedPlayerController.transform.position + Vector3.up * 0.5f, associatedPlayerController.transform.position + Vector3.up * 0.5f + Vector3.down * smallAreaMaxDistanceForRaycast);
     }
 
     void Update () {
@@ -102,7 +121,7 @@ public class DynamicJoystickCameraController : MonoBehaviour {
             CameraStickBehaviour();
 
             // Handle camera behaviour when the player is moving on the sides
-            if (TurnCameraWithLThumb && !forceBottomRig)
+            if (TurnCameraWithLThumb && !forceMiddleRig)
                 freelookCamera.m_XAxis.m_InputAxisValue += UpdateCameraXAxisValue(state.ThumbSticks.Left.X);
             
 
@@ -113,7 +132,7 @@ public class DynamicJoystickCameraController : MonoBehaviour {
                 lerpValue = 0.0f;
             }
 
-            if (!forceBottomRig)
+            if (!forceMiddleRig)
                 TendToMiddleRig(associatedPlayerController);
         }
     }
@@ -134,16 +153,19 @@ public class DynamicJoystickCameraController : MonoBehaviour {
         else
             freelookCamera.m_XAxis.m_InputAxisValue = 0;
 
-        if (Utils.Abs(state.ThumbSticks.Right.Y) > 0.1f)
+        if (!forceMiddleRig)
         {
-            TurnCameraWithLThumb = false;
-            freelookCamera.m_YAxis.m_InputAxisValue = state.ThumbSticks.Right.Y * cameraYAdjuster;
-            freelookCamera.m_RecenterToTargetHeading.m_enabled = false;
-            needToTendToMiddleRig = false;
+            if (Utils.Abs(state.ThumbSticks.Right.Y) > 0.1f)
+            {
+                TurnCameraWithLThumb = false;
+                freelookCamera.m_YAxis.m_InputAxisValue = state.ThumbSticks.Right.Y * cameraYAdjuster;
+                freelookCamera.m_RecenterToTargetHeading.m_enabled = false;
+                needToTendToMiddleRig = false;
 
+            }
+            else
+                freelookCamera.m_YAxis.m_InputAxisValue = 0;
         }
-        else
-            freelookCamera.m_YAxis.m_InputAxisValue = 0;
 
         if ((Utils.Abs(state.ThumbSticks.Right.X) + Utils.Abs(state.ThumbSticks.Right.Y)) < 0.1f)
             TurnCameraWithLThumb = true;
