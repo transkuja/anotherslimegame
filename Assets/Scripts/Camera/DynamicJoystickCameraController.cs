@@ -41,8 +41,6 @@ public class DynamicJoystickCameraController : MonoBehaviour {
         startLowOffset = (freelookCamera.GetRig(2).GetCinemachineComponent<CinemachineComposer>()).m_TrackedObjectOffset;
 
         // Ugly shit due to camera prefab being shitty
-        cameraXAdjuster = 0.4f;
-        cameraYAdjuster = 0.4f;
         cameraXAdjuster = 0.25f;
         cameraYAdjuster = 0.05f;
         notGroundedAttenuationFactor = 0.33f;
@@ -151,11 +149,15 @@ public class DynamicJoystickCameraController : MonoBehaviour {
     {
         if (needToTendToMiddleRig && lerpValue < 1.0f)
         {
-            bool _tendToTopRig = 
-                (associatedPlayerController.GetComponentInParent<PlatformGameplay>() != null || !associatedPlayerController.IsGrounded)
+            bool _tendToTopRig =
+                // Camera should tend to top rig if player is on a platformGameplay ...
+                (associatedPlayerController.GetComponentInParent<PlatformGameplay>() != null) //|| !associatedPlayerController.IsGrounded) 
+                // ... if the player is not charging to spawn platforms ...
                 && associatedPlayerController.PlayerState != associatedPlayerController.platformistChargedState
+                // ... or if the player is in main tower (may be deprecated)
                 && !associatedPlayerController.Player.isInMainTower;
 
+            // Reset lerp value only if lerp target changed (from middle rig to top)
             if (previouslyTendedToMiddleRig && _tendToTopRig)
             {
                 previouslyTendedToMiddleRig = false;
@@ -167,11 +169,15 @@ public class DynamicJoystickCameraController : MonoBehaviour {
                 previouslyTendedToMiddleRig = true;
             }
 
-            lerpValue += Time.deltaTime * lerpTendToMiddleRigSpeed;
-            float rigTarget = _tendToTopRig ? 1.0f : 0.5f;
-            freelookCamera.m_YAxis.Value = Mathf.Lerp(lerpOldValue, rigTarget, lerpValue);
-            if (lerpValue > 1.0f)
-                needToTendToMiddleRig = false;
+            // Lerp camera only on ground
+            if (associatedPlayerController.IsGrounded)
+            {
+                lerpValue += Time.deltaTime * lerpTendToMiddleRigSpeed;
+                float rigTarget = _tendToTopRig ? 1.0f : 0.5f;
+                freelookCamera.m_YAxis.Value = Mathf.Lerp(lerpOldValue, rigTarget, lerpValue);
+                if (lerpValue > 1.0f)
+                    needToTendToMiddleRig = false;
+            }
         }
     }
 
