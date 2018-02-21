@@ -57,82 +57,13 @@ public class DynamicJoystickCameraController : MonoBehaviour {
             prevState = state;
             state = GamePad.GetState(playerIndex);
 
-            if (((prevState.Buttons.RightStick == ButtonState.Released && state.Buttons.RightStick == ButtonState.Pressed)
-                || (prevState.Buttons.LeftShoulder == ButtonState.Released && state.Buttons.LeftShoulder == ButtonState.Pressed))
-                && associatedPlayerController.IsGrounded)
-            {
+            RecenterBehaviour();
+            CameraStickBehaviour();
 
-                timer = 0.0f;
-
-                float dotProduct = Vector3.Dot(transform.parent.GetChild(0).forward.normalized, associatedPlayerController.transform.forward.normalized);
-                // TODO: this content may be written better
-                if (associatedPlayerController.Rb.velocity.magnitude > 0.0f)
-                {
-                    if (dotProduct < -0.8f)
-                    {
-                        freelookCamera.m_RecenterToTargetHeading.m_RecenteringTime = 0.4f;
-                        associatedPlayerController.forceCameraRecenter = true;
-                        freelookCamera.m_RecenterToTargetHeading.m_enabled = true;
-                    }
-                    else if (dotProduct > 0.0f)
-                    {
-                        freelookCamera.m_RecenterToTargetHeading.m_RecenteringTime = 0.7f;
-                        freelookCamera.m_RecenterToTargetHeading.m_enabled = true;
-                        associatedPlayerController.forceCameraRecenter = false;
-                    }
-                }
-                else
-                {
-                    freelookCamera.m_RecenterToTargetHeading.m_RecenteringTime = 0.7f;
-                    freelookCamera.m_RecenterToTargetHeading.m_enabled = true;
-                    associatedPlayerController.forceCameraRecenter = false;
-                }
-            }
-
-            if (freelookCamera.m_RecenterToTargetHeading.m_enabled)
-            {
-                timer += Time.deltaTime;
-                if (timer >= freelookCamera.m_RecenterToTargetHeading.m_RecenterWaitTime + freelookCamera.m_RecenterToTargetHeading.m_RecenteringTime)
-                {
-                    freelookCamera.m_RecenterToTargetHeading.m_enabled = false;
-                    associatedPlayerController.forceCameraRecenter = false;
-                }
-            }
-
-            if (Utils.Abs(state.ThumbSticks.Right.X) > 0.1f)
-            {
-                TurnCameraWithLThumb = false;
-                freelookCamera.m_XAxis.m_InputAxisValue = -state.ThumbSticks.Right.X * cameraXAdjuster;
-                freelookCamera.m_RecenterToTargetHeading.m_enabled = false;
-                needToTendToMiddleRig = false;
-            }
-            else
-                freelookCamera.m_XAxis.m_InputAxisValue = 0;
-
-            if (Utils.Abs(state.ThumbSticks.Right.Y) > 0.1f)
-            {
-                TurnCameraWithLThumb = false;
-                freelookCamera.m_YAxis.m_InputAxisValue = state.ThumbSticks.Right.Y * cameraYAdjuster;
-                freelookCamera.m_RecenterToTargetHeading.m_enabled = false;
-                needToTendToMiddleRig = false;
-
-            }
-            else
-                freelookCamera.m_YAxis.m_InputAxisValue = 0;
-
-            if ((Utils.Abs(state.ThumbSticks.Right.X) + Utils.Abs(state.ThumbSticks.Right.Y)) < 0.1f)
-                TurnCameraWithLThumb = true;
-
+            // Handle camera behaviour when the player is moving on the sides
             if (TurnCameraWithLThumb)
-            {
-                ////Need a more complex function ?
-                freelookCamera.m_XAxis.m_InputAxisValue += 
-                        Utils.Abs(state.ThumbSticks.Left.X) > 0.1f ? 
-                            ((freelookCamera.m_XAxis.m_InvertAxis ? -1 : 1) * state.ThumbSticks.Left.X * Mathf.Lerp(0.5f, 1.0f, Utils.Abs(state.ThumbSticks.Left.X)) / 2.0f) *
-                                ((associatedPlayerController.IsGrounded) ? 1 : notGroundedAttenuationFactor)
-                            : 0
-                        ;
-            }
+                freelookCamera.m_XAxis.m_InputAxisValue += UpdateCameraXAxisValue(state.ThumbSticks.Left.X);
+            
 
             if (Utils.Abs(state.ThumbSticks.Left.Y) > 0.1f)
             {
@@ -143,6 +74,105 @@ public class DynamicJoystickCameraController : MonoBehaviour {
 
             TendToMiddleRig(associatedPlayerController);
         }
+    }
+
+    /// <summary>
+    /// Handle behaviours when moving right stick
+    /// </summary>
+    void CameraStickBehaviour()
+    {
+
+        if (Utils.Abs(state.ThumbSticks.Right.X) > 0.1f)
+        {
+            TurnCameraWithLThumb = false;
+            freelookCamera.m_XAxis.m_InputAxisValue = -state.ThumbSticks.Right.X * cameraXAdjuster;
+            freelookCamera.m_RecenterToTargetHeading.m_enabled = false;
+            needToTendToMiddleRig = false;
+        }
+        else
+            freelookCamera.m_XAxis.m_InputAxisValue = 0;
+
+        if (Utils.Abs(state.ThumbSticks.Right.Y) > 0.1f)
+        {
+            TurnCameraWithLThumb = false;
+            freelookCamera.m_YAxis.m_InputAxisValue = state.ThumbSticks.Right.Y * cameraYAdjuster;
+            freelookCamera.m_RecenterToTargetHeading.m_enabled = false;
+            needToTendToMiddleRig = false;
+
+        }
+        else
+            freelookCamera.m_YAxis.m_InputAxisValue = 0;
+
+        if ((Utils.Abs(state.ThumbSticks.Right.X) + Utils.Abs(state.ThumbSticks.Right.Y)) < 0.1f)
+            TurnCameraWithLThumb = true;
+    }
+
+    /// <summary>
+    /// Handle camera recenter when pressing the proper button
+    /// </summary>
+    void RecenterBehaviour()
+    {
+        if (((prevState.Buttons.RightStick == ButtonState.Released && state.Buttons.RightStick == ButtonState.Pressed)
+                || (prevState.Buttons.LeftShoulder == ButtonState.Released && state.Buttons.LeftShoulder == ButtonState.Pressed))
+                && associatedPlayerController.IsGrounded)
+        {
+
+            timer = 0.0f;
+
+            float dotProduct = Vector3.Dot(transform.parent.GetChild(0).forward.normalized, associatedPlayerController.transform.forward.normalized);
+            // TODO: this content may be written better
+            if (associatedPlayerController.Rb.velocity.magnitude > 0.0f)
+            {
+                if (dotProduct < -0.8f)
+                {
+                    freelookCamera.m_RecenterToTargetHeading.m_RecenteringTime = 0.4f;
+                    associatedPlayerController.forceCameraRecenter = true;
+                    freelookCamera.m_RecenterToTargetHeading.m_enabled = true;
+                }
+                else if (dotProduct > 0.0f)
+                {
+                    freelookCamera.m_RecenterToTargetHeading.m_RecenteringTime = 0.7f;
+                    freelookCamera.m_RecenterToTargetHeading.m_enabled = true;
+                    associatedPlayerController.forceCameraRecenter = false;
+                }
+            }
+            else
+            {
+                freelookCamera.m_RecenterToTargetHeading.m_RecenteringTime = 0.7f;
+                freelookCamera.m_RecenterToTargetHeading.m_enabled = true;
+                associatedPlayerController.forceCameraRecenter = false;
+            }
+        }
+
+        if (freelookCamera.m_RecenterToTargetHeading.m_enabled)
+        {
+            timer += Time.deltaTime;
+            if (timer >= freelookCamera.m_RecenterToTargetHeading.m_RecenterWaitTime + freelookCamera.m_RecenterToTargetHeading.m_RecenteringTime)
+            {
+                freelookCamera.m_RecenterToTargetHeading.m_enabled = false;
+                associatedPlayerController.forceCameraRecenter = false;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Handle camera behaviour when moving on sides
+    /// </summary>
+    /// <param name="_leftStickXInput"></param>
+    /// <returns></returns>
+    float UpdateCameraXAxisValue(float _leftStickXInput)
+    {
+        float updateValue = 0.0f;
+
+        if (Utils.Abs(_leftStickXInput) > 0.1f)
+        {
+            updateValue = (freelookCamera.m_XAxis.m_InvertAxis) ? -1 : 1;     
+            updateValue *= (_leftStickXInput * Mathf.Lerp(0.5f, 1.0f, Utils.Abs(_leftStickXInput)) / 2.0f);
+
+            if (!associatedPlayerController.IsGrounded) updateValue *= notGroundedAttenuationFactor;
+        }
+
+        return updateValue;
     }
 
     public void TendToMiddleRig(PlayerControllerHub _pc)
