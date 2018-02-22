@@ -1,15 +1,16 @@
 using UnityEngine;
 
-public class CinemachineExampleWindow : MonoBehaviour
+namespace Cinemachine.Examples
 {
-    [SerializeField]
-    private string m_Title;
+
+[AddComponentMenu("")] // Don't display in add component menu
+public class ExampleHelpWindow : MonoBehaviour
+{
+    public string m_Title;
     [Multiline]
-    [SerializeField]
-    private string m_Description;
+    public string m_Description;
 
     private bool mShowingHelpWindow = true;
-
     private const float kPadding = 40f;
 
     private void OnGUI()
@@ -38,4 +39,6 @@ public class CinemachineExampleWindow : MonoBehaviour
             mShowingHelpWindow = false;
         }
     }
+}
+
 }

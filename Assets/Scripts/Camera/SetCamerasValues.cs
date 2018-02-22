@@ -38,8 +38,8 @@ public class SetCamerasValues : MonoBehaviour {
             {
                 //Axis Control
                 cam.m_YAxis.m_MaxSpeed = 30;
-                cam.m_YAxis.m_AccelTime = 3;
-                cam.m_YAxis.m_DecelTime = .5f;
+                cam.m_YAxis.m_AccelTime = .15f;
+                cam.m_YAxis.m_DecelTime = .15f;
 
                 cam.m_XAxis.m_MaxSpeed = 500;
                 cam.m_XAxis.m_AccelTime = .15f;

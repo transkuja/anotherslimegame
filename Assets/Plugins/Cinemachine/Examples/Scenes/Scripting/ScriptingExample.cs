@@ -1,7 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using Cinemachine;
+
+namespace Cinemachine.Examples
+{
 
 public class ScriptingExample : MonoBehaviour
 {
@@ -48,10 +48,12 @@ public class ScriptingExample : MonoBehaviour
     void Update()
     {
         // Switch cameras from time to time to show blending
-        if (Time.realtimeSinceStartup - lastSwapTime > 10.0f)
+        if (Time.realtimeSinceStartup - lastSwapTime > 5)
         {
             freelook.enabled = !freelook.enabled;
             lastSwapTime = Time.realtimeSinceStartup;
         }
     }
+}
+
 }
