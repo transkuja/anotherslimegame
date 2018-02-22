@@ -59,7 +59,7 @@ public class PlayerControllerHub : PlayerController
 
     public bool canDoubleJump = true; // A Priori c'es du legacy, mais j'ai pas toutpigé.
 
-    public float raycastDist = 0.75f;
+    public float raycastDist = 1.5f;
     float raycastOffsetPlayer;
 
     public bool IsUnderWater = false;
