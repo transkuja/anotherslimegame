@@ -114,17 +114,20 @@ public class DynamicJoystickCameraController : MonoBehaviour {
                 freelookCamera.m_YAxis.Value = 0.5f;
                 freelookCamera.Follow = associatedPlayerController.transform;
                 freelookCamera.GetComponent<Cinemachine.CinemachineCollider>().m_MinimumDistanceFromTarget = defaultMinDistanceFromTarget;
+                freelookCamera.GetComponent<Cinemachine.CinemachineCollider>().m_AvoidObstacles = true;
                 break;
             case CameraState.VerySmallArea:
                 forceMiddleRig = true;
                 freelookCamera.m_YAxis.Value = 0.5f;
                 freelookCamera.Follow = null;
                 freelookCamera.GetComponent<Cinemachine.CinemachineCollider>().m_MinimumDistanceFromTarget = extremeMinDistanceFromTarget;
+                freelookCamera.GetComponent<Cinemachine.CinemachineCollider>().m_AvoidObstacles = false;
                 break;
             default:
                 forceMiddleRig = false;
                 freelookCamera.GetComponent<Cinemachine.CinemachineCollider>().m_MinimumDistanceFromTarget = defaultMinDistanceFromTarget;
                 freelookCamera.Follow = associatedPlayerController.transform;
+                freelookCamera.GetComponent<Cinemachine.CinemachineCollider>().m_AvoidObstacles = true;
                 break;
         }
     }
