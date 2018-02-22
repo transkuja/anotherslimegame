@@ -109,7 +109,7 @@ public class Jump  {
             curParabola = fallingParabola;
         }
     }
-    Vector3 lastVelocity;
+    float lastVelocity;
     public void JumpFixedUpdate()
     {
             // on applique la gravité personnalisé pour saut.
@@ -117,11 +117,11 @@ public class Jump  {
         {
             controllerRb.AddForce(curParabola.CurGravity * Vector3.up, ForceMode.Acceleration);
             //Debug.Log("curGravity :" + curParabola.CurGravity);
-            if (controllerRb.velocity.y <= 0 && lastVelocity.y > 0 )
+            if (controllerRb.velocity.y <= 0 && lastVelocity > 0 )
             {
                 AtPeakOfJump();
             }
-            lastVelocity = controllerRb.velocity;
+            lastVelocity = controllerRb.velocity.y;
         }
     }
 

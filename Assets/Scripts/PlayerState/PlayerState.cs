@@ -82,7 +82,7 @@ public class PlayerState {
         Vector3 camVectorForward = new Vector3(playerController.Player.cameraReference.transform.GetChild(0).forward.x, 0.0f, playerController.Player.cameraReference.transform.GetChild(0).forward.z);
         camVectorForward.Normalize();
 
-        Vector3 velocityVec = initialVelocity.z * camVectorForward + Vector3.up * playerController.Player.Rb.velocity.y;
+        Vector3 velocityVec = initialVelocity.z * camVectorForward;
         // MENU peter a cause de cette condition tu sais pourquoi c'est la antho ? sinon je peux faire une exception pour le menu
         if (!playerController.IsGrounded && playerController.jumpState.nbJumpMade == 2)
             velocityVec += initialVelocity.x * playerController.Player.cameraReference.transform.GetChild(0).right * airControlFactor;
@@ -134,41 +134,53 @@ public class PlayerState {
 
         if (initialVelocity.magnitude > 1f)
         {
+            playerController.Rb.drag = 0.0f;
             if (!playerController.forceCameraRecenter)
             {
                 // MENU peter a cause de cette condition tu sais pourquoi c'est la antho ? sinon je peux faire une exception pour le menu
-                playerController.Player.Rb.velocity = velocityVec;
-                playerController.transform.LookAt(playerController.transform.position + new Vector3(velocityVec.x, 0.0f, velocityVec.z) + initialVelocity.x * playerController.Player.cameraReference.transform.GetChild(0).right);
+                playerController.Rb.AddForce(velocityVec * playerController.stats.Get(Stats.StatType.GROUND_SPEED));
+                Vector3 xzVelocity = new Vector3(playerController.Rb.velocity.x, 0, playerController.Player.Rb.velocity.z);
+                xzVelocity = Vector3.ClampMagnitude(xzVelocity, playerController.stats.Get(Stats.StatType.GROUND_SPEED));
+                Debug.Log(playerController.Rb.velocity.y);
+                playerController.Rb.velocity = ((playerController.IsGrounded) ? 0 : playerController.Rb.velocity.y) * Vector3.up + xzVelocity;
+                //playerController.transform.LookAt(playerController.transform.position + new Vector3(velocityVec.x, 0.0f, velocityVec.z) + initialVelocity.x * playerController.Player.cameraReference.transform.GetChild(0).right);
+                playerController.transform.LookAt(playerController.transform.position + xzVelocity);
             }
         }
         else
         {
-            Vector3 tmp = new Vector3(playerController.Player.Rb.velocity.x, 0.0f, playerController.Player.Rb.velocity.z);
-            Vector3 fwd = playerController.transform.forward;
-
-            float dragForceUsed = dragForce;//(playerController.PreviousPlayerState == playerController.dashState) ? dragForceDash : dragForce;
-
-            if (tmp.sqrMagnitude > 7.0f)// && Vector3.Dot(playerController.transform.forward, tmp) > 0)
-            {
-                if ((tmp.x > 0 && playerController.Player.Rb.velocity.x - tmp.x * fwd.x * dragForceUsed < 0)
-                || (tmp.x < 0 && playerController.Player.Rb.velocity.x - tmp.x * fwd.x * dragForceUsed > 0)
-                || (tmp.z > 0 && playerController.Player.Rb.velocity.z - tmp.z * fwd.z * dragForceUsed < 0)
-                || (tmp.z < 0 && playerController.Player.Rb.velocity.z - tmp.z * fwd.z * dragForceUsed > 0))
-                    playerController.Player.Rb.velocity = playerController.Player.Rb.velocity.y * Vector3.up;
-                else
-                    playerController.Player.Rb.velocity -= (tmp.normalized * dragForceUsed * tmp.sqrMagnitude) * ((Time.deltaTime / timerApplyDrag));
-
-                tmp = new Vector3(playerController.Player.Rb.velocity.x, 0.0f, playerController.Player.Rb.velocity.z);
-
-                if (Vector3.Dot(fwd, tmp) < 0)
-                    playerController.Player.Rb.velocity = playerController.Player.Rb.velocity.y * Vector3.up;
-
-            }
+            if (playerController.IsGrounded)
+                playerController.Rb.drag = 10.0f;
             else
-            {
-                playerController.Player.Rb.velocity = playerController.Player.Rb.velocity.y * Vector3.up;
-            }
+                playerController.Rb.drag = 0.0f;
         }
+        //{
+        //    Vector3 tmp = new Vector3(playerController.Player.Rb.velocity.x, 0.0f, playerController.Player.Rb.velocity.z);
+        //    Vector3 fwd = playerController.transform.forward;
+
+        //    float dragForceUsed = dragForce;//(playerController.PreviousPlayerState == playerController.dashState) ? dragForceDash : dragForce;
+
+        //    if (tmp.sqrMagnitude > 7.0f)// && Vector3.Dot(playerController.transform.forward, tmp) > 0)
+        //    {
+        //        if ((tmp.x > 0 && playerController.Player.Rb.velocity.x - tmp.x * fwd.x * dragForceUsed < 0)
+        //        || (tmp.x < 0 && playerController.Player.Rb.velocity.x - tmp.x * fwd.x * dragForceUsed > 0)
+        //        || (tmp.z > 0 && playerController.Player.Rb.velocity.z - tmp.z * fwd.z * dragForceUsed < 0)
+        //        || (tmp.z < 0 && playerController.Player.Rb.velocity.z - tmp.z * fwd.z * dragForceUsed > 0))
+        //            playerController.Player.Rb.velocity = playerController.Player.Rb.velocity.y * Vector3.up;
+        //        else
+        //            playerController.Player.Rb.velocity -= (tmp.normalized * dragForceUsed * tmp.sqrMagnitude) * ((Time.deltaTime / timerApplyDrag));
+
+        //        tmp = new Vector3(playerController.Player.Rb.velocity.x, 0.0f, playerController.Player.Rb.velocity.z);
+
+        //        if (Vector3.Dot(fwd, tmp) < 0)
+        //            playerController.Player.Rb.velocity = playerController.Player.Rb.velocity.y * Vector3.up;
+
+        //    }
+        //    else
+        //    {
+        //        playerController.Player.Rb.velocity = playerController.Player.Rb.velocity.y * Vector3.up;
+        //    }
+        //}
 
     }
 
@@ -176,7 +188,7 @@ public class PlayerState {
     {
         if (playerController.isGravityEnabled)
         {
-            float gravity = playerController.GetComponent<JumpManager>().GetGravity();
+            float gravity = 90;
             playerController.Player.Rb.AddForce(gravity * Vector3.down, ForceMode.Acceleration);
         }
     }
