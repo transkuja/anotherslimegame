@@ -132,17 +132,30 @@ public class PlayerState {
                 break;
         }
 
+        //velocityVec.Normalize();
         if (initialVelocity.magnitude > 1f)
         {
             playerController.Rb.drag = 0.0f;
             if (!playerController.forceCameraRecenter)
             {
-                // MENU peter a cause de cette condition tu sais pourquoi c'est la antho ? sinon je peux faire une exception pour le menu
-                playerController.Rb.AddForce(velocityVec * playerController.stats.Get(Stats.StatType.GROUND_SPEED));
+                float maxForceMagnitude = playerController.stats.Get(Stats.StatType.GROUND_SPEED);
+                float maxSpeed = maxForceMagnitude;
+                if (!playerController.IsGrounded/* && playerController.jumpState.nbJumpMade == 2*/)
+                {
+                    maxForceMagnitude *= airControlFactor;
+                    Debug.Log(maxForceMagnitude);
+                }
+
+                if (Utils.Abs(playerController.State.ThumbSticks.Left.X) + Utils.Abs(playerController.State.ThumbSticks.Left.Y) < 0.95f)
+                {
+                    maxForceMagnitude /= 2;
+                    maxSpeed /= 2;
+                }
+
+                playerController.Rb.AddForce(velocityVec * maxForceMagnitude);
                 Vector3 xzVelocity = new Vector3(playerController.Rb.velocity.x, 0, playerController.Player.Rb.velocity.z);
-                xzVelocity = Vector3.ClampMagnitude(xzVelocity, playerController.stats.Get(Stats.StatType.GROUND_SPEED));
-                Debug.Log(playerController.Rb.velocity.y);
-                playerController.Rb.velocity = ((playerController.IsGrounded) ? 0 : playerController.Rb.velocity.y) * Vector3.up + xzVelocity;
+                xzVelocity = Vector3.ClampMagnitude(xzVelocity, maxSpeed);
+                playerController.Rb.velocity = (/*(playerController.IsGrounded) ? 0 : */playerController.Rb.velocity.y) * Vector3.up + xzVelocity;
                 //playerController.transform.LookAt(playerController.transform.position + new Vector3(velocityVec.x, 0.0f, velocityVec.z) + initialVelocity.x * playerController.Player.cameraReference.transform.GetChild(0).right);
                 playerController.transform.LookAt(playerController.transform.position + xzVelocity);
             }
@@ -150,7 +163,7 @@ public class PlayerState {
         else
         {
             if (playerController.IsGrounded)
-                playerController.Rb.drag = 10.0f;
+                playerController.Rb.drag = 15.0f;
             else
                 playerController.Rb.drag = 0.0f;
         }
@@ -189,7 +202,7 @@ public class PlayerState {
         if (playerController.isGravityEnabled)
         {
             float gravity = 90;
-            playerController.Player.Rb.AddForce(gravity * Vector3.down, ForceMode.Acceleration);
+            playerController.Player.Rb.AddForce(gravity * Vector3.down);
         }
     }
     public virtual void OnJumpPressed()

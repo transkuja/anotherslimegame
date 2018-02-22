@@ -21,6 +21,9 @@ public class JumpManager : MonoBehaviour
     private Jump curJump;
     public Jump[] jumpTab;
 
+    float timerForForcedStop = 1.0f;
+    Coroutine forceStopCoroutine;
+
     public void Awake()
     {
         rb = GetComponent<Rigidbody>();
@@ -36,16 +39,25 @@ public class JumpManager : MonoBehaviour
     void SetGravity()
     {
         pc.isGravityEnabled = false;
+        forceStopCoroutine = StartCoroutine("ForceStop");
+    }
+
+    IEnumerator ForceStop()
+    {
+        yield return new WaitForSeconds(timerForForcedStop);
+        Stop();
     }
 
     public void Jump(JumpEnum type)
     {
-        SetGravity();
         if (jumpTab != null && jumpTab.Length >= (int)type) 
             curJump = jumpTab[(int) type];
 
         if (curJump != null)
+        {
             curJump.InitJump(rb);
+            SetGravity();
+        }
     }
 
     public void FixedUpdate()
@@ -55,6 +67,11 @@ public class JumpManager : MonoBehaviour
     }
     public void Stop()
     {
+        if (forceStopCoroutine != null)
+        {
+            StopCoroutine("ForceStop");
+            forceStopCoroutine = null;
+        }
         if (curJump != null)
         {
             curJump = null;
