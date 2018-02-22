@@ -54,7 +54,7 @@ public class DynamicJoystickCameraController : MonoBehaviour {
         startLowOffset = (freelookCamera.GetRig(2).GetCinemachineComponent<CinemachineComposer>()).m_TrackedObjectOffset;
 
         // Ugly shit due to camera prefab being shitty
-        cameraXAdjuster = 0.25f;
+        cameraXAdjuster = 0.3f;
         cameraYAdjuster = 0.05f;
         notGroundedAttenuationFactor = 0.33f;
         lerpTendToMiddleRigSpeed = 0.85f;
