@@ -143,7 +143,6 @@ public class PlayerState {
                 if (!playerController.IsGrounded/* && playerController.jumpState.nbJumpMade == 2*/)
                 {
                     maxForceMagnitude *= airControlFactor;
-                    Debug.Log(maxForceMagnitude);
                 }
 
                 if (Utils.Abs(playerController.State.ThumbSticks.Left.X) + Utils.Abs(playerController.State.ThumbSticks.Left.Y) < 0.95f)

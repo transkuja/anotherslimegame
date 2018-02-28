@@ -131,7 +131,7 @@ public class Collectable : MonoBehaviour
 
     public void Attract()
     {
-        Vector3 direction = (playerTarget.transform.position - transform.position).normalized;
+        direction = (playerTarget.transform.position - transform.position).normalized;
 
         GetComponent<Rigidbody>().MovePosition(transform.position + direction * movementSpeed * Time.deltaTime);
         if (Vector3.Distance(playerTarget.transform.position, transform.position) < GetComponent<BoxCollider>().bounds.extents.magnitude)
