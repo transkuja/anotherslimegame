@@ -161,7 +161,7 @@ public class PlayerState {
         }
         else
         {
-            if (playerController.IsGrounded)
+            if (playerController.IsGrounded || playerController.collisionCenter.surfaceWaterAnimLaunched)
                 playerController.Rb.drag = 15.0f;
             else
                 playerController.Rb.drag = 0.0f;
@@ -200,13 +200,14 @@ public class PlayerState {
     {
         if (playerController.isGravityEnabled)
         {
-            float gravity = 90;
-            playerController.Player.Rb.AddForce(gravity * Vector3.down);
+            playerController.Player.Rb.AddForce(90 * Vector3.down);
         }
+
+       
     }
     public virtual void OnJumpPressed()
     {
-        if (playerController.jumpState.nbJumpMade < playerController.stats.Get(Stats.StatType.JUMP_NB))
+        if (playerController.wallJumpState.WallJumpTest())
         {
             playerController.PlayerState = playerController.jumpState;
         }
@@ -253,3 +254,6 @@ public class PlayerState {
     public virtual void DrawGizmo()
     {}
 }
+
+        playerController.Rb.constraints = RigidbodyConstraints.FreezeRotation;
+        if (playerController.wallJumpState.WallJumpTest())

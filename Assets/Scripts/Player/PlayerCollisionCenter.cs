@@ -75,6 +75,8 @@ public class PlayerCollisionCenter : MonoBehaviour {
     public float waterUpliftStrength;
     [Range(0.01f, 1.0f)]
     public float modulateWaterForceFactor;
+    public bool surfaceWaterAnimLaunched = false;
+
     PlayerControllerHub _PlayerController
     {
         get
@@ -555,7 +557,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<WaterComponent>())
+        if (other.GetComponent<WaterComponent>() && !surfaceWaterAnimLaunched)
         {
             waterComponentEntered = other.GetComponent<WaterComponent>();
             waterLevel = other.transform.position.y;
@@ -567,32 +569,33 @@ public class PlayerCollisionCenter : MonoBehaviour {
     private void OnTriggerExit(Collider other)
     {
         if (other.GetComponent<WaterComponent>())
+        {
             waterComponentEntered = null;
+            playerController.isGravityEnabled = true;
+            surfaceWaterAnimLaunched = false;
+        }
     }
 
     private void OnTriggerStay(Collider other)
     {
         if (waterComponentEntered != null)
         {
-            float forceFactor = 1f - transform.position.y + waterLevel;
             playerController.jumpState.nbJumpMade = 0;
+            playerController.isGravityEnabled = false;
 
-            if (transform.position.y > waterLevel - waterTolerance)
+            // Underwater
+            if (!surfaceWaterAnimLaunched)
             {
-                playerController.isGravityEnabled = true;
-            }
-            // Sous l'eau
-            else
-            {
-                if (transform.position.y < waterLevel - 2 * waterTolerance)
+                if (transform.position.y < waterLevel - waterTolerance)
                 {
-                    playerController.isGravityEnabled = false;
-
-                    if (forceFactor > 0f)
-                    {
-                        Vector3 uplift = ((forceFactor - rb.velocity.y * modulateWaterForceFactor)) * Vector3.up * waterUpliftStrength;
-                        rb.AddForceAtPosition(uplift, transform.position);
-                    }
+                    playerController.Player.Rb.AddForce(30 * Vector3.up);
+                }
+                else
+                {
+                    // TODO: play anim water surface
+                    surfaceWaterAnimLaunched = true;
+                    playerController.Rb.constraints = RigidbodyConstraints.FreezePositionY;
+                    playerController.Rb.drag = 15.0f;
                 }
             }
 

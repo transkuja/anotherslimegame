@@ -66,6 +66,9 @@ public class PlayerControllerHub : PlayerController
 
     public bool forceCameraRecenter = false;
 
+    public PlayerCollisionCenter collisionCenter;
+
+
 #if UNITY_EDITOR
     [SerializeField] public string curStateName; // debug purpose only
 #endif
@@ -249,6 +252,8 @@ public class PlayerControllerHub : PlayerController
         Player = GetComponent<Player>();
         Rb = GetComponent<Rigidbody>();
         deformer = GetComponentInChildren<MeshDeformer>();
+        collisionCenter = GetComponent<PlayerCollisionCenter>();
+
         //deformer = GetComponentInChildren<DeformerComputeShader>();
         if (Player == null)
             Debug.Log("Player should not be null");
