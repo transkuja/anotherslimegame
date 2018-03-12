@@ -63,8 +63,8 @@ namespace Runner3D
        
         public void LauchLerp(DirLerpState dir,float waitTime = 0)
         {
-            if (curState == DirLerpState.Moving)
-                Debug.Log("OrderToFast");
+            //if (curState == DirLerpState.Moving)
+            //    Debug.Log("OrderToFast");
             curState = DirLerpState.Moving;
             //if (dir == DirLerpState.Down)
             //    SaveStartPos();

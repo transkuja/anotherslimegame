@@ -71,7 +71,8 @@ public class Runner3DGameMode : GameMode {
         switch (Mode)
         {
             case EMode.SoloInfinite:
-                throw new NotImplementedException();
+                EndGame();
+                break;
             case EMode.LastRemaining:
                 if (nbDeadPlayers == 1)
                     EndGame();

@@ -194,17 +194,33 @@ namespace Runner3D
             for (int i = 0; i < playerRef.Count; i++)
                 farthestZ = Mathf.Max(Mathf.RoundToInt(playerRef[i].transform.position.z), farthestZ);
             int playerZBlockPos = Mathf.FloorToInt((farthestZ) / defaultBlockSize.z);
-            if (playerZBlockPos != firstPlayerZRow)
+            if (playerZBlockPos != firstPlayerZRow && playerZBlockPos+ nbRowUpInFrontFirst < levelUnit.z)
             {
                 // si le joueur est preque arrivé à la fin du niveau on génère de nouveaux blocs
                 if ((playerZBlockPos + nbRowUpInFrontFirst + 1) * defaultBlockSize.z > nextZChunkOffset)
                     Generate2DChunk();
-
                 MoveCursor(playerZBlockPos);
             }
             firstPlayerZRow = playerZBlockPos;
 
         }
+        void InfiniteModeUpdate()
+        {
+            Vector3[] playerNewPos = new Vector3[playerRef.Count];
+            int farthestZ = 0;
+            for (int i = 0; i < playerRef.Count; i++)
+                farthestZ = Mathf.Max(Mathf.RoundToInt(playerRef[i].transform.position.z), farthestZ);
+            int playerZBlockPos = Mathf.FloorToInt((farthestZ) / defaultBlockSize.z);
+            if (playerZBlockPos != firstPlayerZRow)
+            {
+                // si le joueur est preque arrivé à la fin du niveau on génère de nouveaux blocs
+                if ((playerZBlockPos + nbRowUpInFrontFirst + 1) * defaultBlockSize.z > nextZChunkOffset)
+                    Generate2DChunk();
+                MoveCursor(playerZBlockPos);
+            }
+            firstPlayerZRow = playerZBlockPos;
+        }
+
         #endregion
         public void Awake()
         {
@@ -243,7 +259,21 @@ namespace Runner3D
                 case State.LevelPresentation:
                     break;
                 case State.InGame:
-                    UpdatePlayerPos();
+                    switch (runnerMode.Mode)
+                    {
+                        case Runner3DGameMode.EMode.SoloInfinite:
+                            InfiniteModeUpdate();
+                            break;
+                        case Runner3DGameMode.EMode.LastRemaining:
+                            InfiniteModeUpdate();
+                            break;
+                        case Runner3DGameMode.EMode.Finite:
+                            UpdatePlayerPos();
+                            break;
+                        default:
+                            break;
+                    }
+                    
                     break;
                 default:
                     break;
