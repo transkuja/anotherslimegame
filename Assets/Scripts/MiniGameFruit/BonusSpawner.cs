@@ -90,7 +90,7 @@ public class BonusSpawner : MonoBehaviour {
         {
             typeToSave[i] = tabTest[i].typeFruit;
             tabTest[i].typeFruit = typeToChange;
-            //changer le material
+            //changer le material ?
         }
         yield return new WaitForSeconds(2.0f);
         for(int j = 0; j < tabTest.Length; j++)
@@ -98,7 +98,7 @@ public class BonusSpawner : MonoBehaviour {
             for(int k = 0; k < typeToSave.Length; k++)
             {
                 tabTest[j].typeFruit = typeToSave[k];
-                //Rechanger le material
+                //Rechanger le material ?
             }
         }
     }
