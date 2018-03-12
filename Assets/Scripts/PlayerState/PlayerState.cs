@@ -207,7 +207,8 @@ public class PlayerState {
     }
     public virtual void OnJumpPressed()
     {
-        if (playerController.wallJumpState.WallJumpTest())
+        playerController.Rb.constraints = RigidbodyConstraints.FreezeRotation;
+        if (playerController.jumpState.nbJumpMade < playerController.stats.Get(Stats.StatType.JUMP_NB))
         {
             playerController.PlayerState = playerController.jumpState;
         }
@@ -254,6 +255,4 @@ public class PlayerState {
     public virtual void DrawGizmo()
     {}
 }
-
-        playerController.Rb.constraints = RigidbodyConstraints.FreezeRotation;
-        if (playerController.wallJumpState.WallJumpTest())
+
