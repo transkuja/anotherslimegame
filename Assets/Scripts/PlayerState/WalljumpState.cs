@@ -8,25 +8,39 @@ public class WalljumpState : PlayerState
     float pushTime;
     public Vector3 pushDirection;
     float timer;
+
     public WalljumpState(PlayerControllerHub _playerController) : base(_playerController)
     {
+        maxCoolDown = 0.2f;
     }
     public override void OnBegin()
     {
         base.OnBegin();
         curFixedUpdateFct = PushedFromWall;
-        pushTime = 0.5f;
-        pushForce = 1000;
+        pushTime = 0.27f;
+        pushForce = 880;
         timer = 0;
-        JumpManager jm;
-        if (jm = playerController.GetComponent<JumpManager>())
-            jm.Jump(JumpManager.JumpEnum.Basic);
-        playerController.Rb.AddForce(pushDirection.normalized * pushForce);
-        //playerController.Rb.velocity = ;
+
+        playerController.jumpState.nbJumpMade = 2;
+
+        // Se tourner vers l'exterieur
+        playerController.transform.rotation =
+           Quaternion.LookRotation(pushDirection, Vector3.up);
+        ;
+
+        // Freeze la velocity en xz
+        playerController.Rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
+        playerController.Rb.drag = 13f;
     }
     public override void OnEnd()
     {
+    
         base.OnEnd();
+
+
+        playerController.Rb.constraints = RigidbodyConstraints.FreezeRotation;
+        playerController.Rb.drag = 0.0f;
+
     }
     public void PushedFromWall()
     {
@@ -35,34 +49,6 @@ public class WalljumpState : PlayerState
         {
             playerController.PlayerState = playerController.freeState;
         }
-    }
-   
-
-    public bool WallJumpTest()
-    {
-        if (playerController.GetComponent<EvolutionAgile>() != null)
-            if (!playerController.IsGrounded)
-            {
-                Collider[] collTab;
-
-                LayerMask layer = LayerMask.GetMask(new string[] { "Default" });
-                collTab = Physics.OverlapSphere(playerController.transform.position, 2.0f, layer);
-                if (collTab != null)
-                {
-                    for (int i = 0; i < collTab.Length; i++)
-                    {
-                        // il faudra vérifier quel est le mur le plus proche. 
-                        Vector3 contact = collTab[i].ClosestPointOnBounds(playerController.transform.position);
-                        Vector3 normal = (playerController.transform.position - contact).normalized;
-                        if (Vector3.Angle(Vector3.up, normal) > 65 || normal == Vector3.zero) // a partir de quel moment le mur est trop incliné, (marche dessus plutot que sauter)
-                        {
-                            playerController.wallJumpState.pushDirection = normal;
-                            return true; // arrêt de la boucle
-                        }
-                    }
-                }
-            }
-        return false;
     }
 
     public override void Move(Vector3 initialVelocity)
@@ -76,5 +62,22 @@ public class WalljumpState : PlayerState
     }
     public override void OnJumpPressed()
     {
+        if(playerController.jumpState.nbJumpMade <= 2)
+        {
+            JumpManager jm;
+
+            playerController.Rb.constraints = RigidbodyConstraints.FreezeRotation;
+            playerController.Rb.drag = 0.0f;
+
+            if (jm = playerController.GetComponent<JumpManager>())
+                jm.Jump(JumpManager.JumpEnum.Basic);
+            playerController.Rb.AddForce(pushDirection.normalized * pushForce);
+
+            playerController.jumpState.nbJumpMade = 20;
+            timer = 0;
+            PushedFromWall();
+        }
+        
     }
+
 }

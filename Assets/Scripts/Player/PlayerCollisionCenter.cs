@@ -39,6 +39,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
     Collider[] playersCollided;
     float sphereCheckRadius;
 
+    LayerMask defaultMask;
 
     private List<AIRabite> impactedRabite = new List<AIRabite>();
     int separationMaskRabite;
@@ -110,6 +111,10 @@ public class PlayerCollisionCenter : MonoBehaviour {
         rb = GetComponent<Rigidbody>();
         repulsionFactor = 35;
         impactedRabite = new List<AIRabite>();
+
+        // default mask
+        defaultMask = 0;
+        defaultMask = LayerMask.GetMask(new string[] { "Default" });
 
         separationMaskRabite = LayerMask.GetMask(new string[] { "Rabite" });
         sphereCheckRadiusRabite = 5.0f;
@@ -345,44 +350,12 @@ public class PlayerCollisionCenter : MonoBehaviour {
                 && !(collidedPlayerController.PlayerState is DashState))
             {
                 // Default interaction no one is dashing of using an abilty
-                // Could be reduce to thisPlayerController.BrainState == BrainState.Occupied && collidedPlayerController.BrainState == BrainState.Occupied
                 // Can't confirm implications
                 DefaultCollision(collision, collision.transform.gameObject.GetComponent<Player>());
 
                 if (AudioManager.Instance != null && AudioManager.Instance.wahhFx != null)
                     if (!AudioManager.Instance.sourceFX.isPlaying)
                         AudioManager.Instance.PlayOneShot(AudioManager.Instance.wahhFx);
-            }
-        }
-
-        if (collision.gameObject.tag == "HardBreakable")
-        {
-            // marche pas pour dash down ( on est déjà sortis de DashDownState quand on touche le sol)(j'ai mis une cheville dans DashDownState en attendant
-            if ((playerController.PlayerState is DashState || playerController.PlayerState is DashDownState) && playerController.GetComponent<EvolutionStrength>())
-            {
-                if (collision.gameObject.GetComponent<Rigidbody>() != null)
-                {
-                    // TMP impredictable
-                    collision.gameObject.GetComponent<Rigidbody>().isKinematic = false;
-                    collision.gameObject.transform.parent = null;
-                    RepulseRigibody(collision.contacts[0].point, collision.gameObject.GetComponent<Rigidbody>(), repulsionFactor);
-                    //Destroy(collision.gameObject, 4);
-                }
-            }
-        }
-
-        if (collision.gameObject.tag == "Breakable")
-        {
-            if ((playerController.PlayerState is DashState || playerController.PlayerState is DashDownState) && playerController.GetComponent<EvolutionStrength>())
-            {
-                if (collision.gameObject.GetComponent<Rigidbody>() != null)
-                {
-                    // TMP impredictable
-                    collision.gameObject.GetComponent<Rigidbody>().isKinematic = false;
-                    collision.gameObject.transform.parent = null;
-                    RepulseRigibody(collision.contacts[0].point, collision.gameObject.GetComponent<Rigidbody>(), repulsionFactor);
-                    //Destroy(collision.gameObject, 4);
-                }
             }
         }
 
@@ -400,6 +373,25 @@ public class PlayerCollisionCenter : MonoBehaviour {
                 }
             }
         }
+    }
+
+    public void OnCollisionStay(Collision collision)
+    {
+        // Wall jump
+        if (playerController.GetComponent<EvolutionAgile>() != null)
+        {
+            if (!playerController.IsGrounded && !(playerController.PlayerState == playerController.wallJumpState) && collision.gameObject.layer == defaultMask.value)
+            {
+                if (Vector3.Angle(Vector3.up, collision.contacts[0].normal) > 65 || collision.contacts[0].normal == Vector3.zero) // a partir de quel moment le mur est trop incliné, (marche dessus plutot que sauter)
+                {
+                    playerController.wallJumpState.pushDirection = collision.contacts[0].normal;
+                    playerController.PlayerState = playerController.wallJumpState;
+                }
+            }
+
+        }
+
+   
     }
 
     public void ImpactHandling(Player playerImpacted)
@@ -622,7 +614,6 @@ public class PlayerCollisionCenter : MonoBehaviour {
             }
         }
     }
-
 
 
     public void ImpactHandling(AIRabite rabite)

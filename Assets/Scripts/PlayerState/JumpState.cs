@@ -60,11 +60,7 @@ public class JumpState : PlayerState
         if (hasJumpButtonBeenReleased)
         {
             hasJumpButtonBeenReleased = false;
-            if (playerController.wallJumpState.WallJumpTest())
-            {
-                playerController.PlayerState = playerController.wallJumpState;
-            }
-            else if (nbJumpMade < playerController.stats.Get(Stats.StatType.JUMP_NB))
+            if (nbJumpMade < playerController.stats.Get(Stats.StatType.JUMP_NB))
             {
                 if (nbJumpMade > 1)
                 {

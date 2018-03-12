@@ -206,11 +206,7 @@ public class PlayerState {
     }
     public virtual void OnJumpPressed()
     {
-        if (playerController.wallJumpState.WallJumpTest())
-        {
-            playerController.PlayerState = playerController.wallJumpState;
-        }
-        else if (playerController.jumpState.nbJumpMade < playerController.stats.Get(Stats.StatType.JUMP_NB))
+        if (playerController.jumpState.nbJumpMade < playerController.stats.Get(Stats.StatType.JUMP_NB))
         {
             playerController.PlayerState = playerController.jumpState;
         }
