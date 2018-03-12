@@ -20,6 +20,12 @@ public class BonusSpawner : MonoBehaviour {
     public bool canChange;
     public bool canAspirate;
 
+    public BoxCollider boxColliderSpawn;
+    public float minX;
+    public float minZ;
+    public float maxX;
+    public float maxZ;
+
     void Start()
     {
 		StartCoroutine(SpawnBonus(BonusType.ChangeFruit, changeFruitSpawnDelay));
@@ -32,13 +38,20 @@ public class BonusSpawner : MonoBehaviour {
 		while (true)
         {
             yield return new WaitForSeconds(_time);
-            int randChild = Random.Range(0, transform.childCount);
+
+            minX = boxColliderSpawn.transform.position.x -(boxColliderSpawn.transform.localScale.x / 2);
+            maxX = boxColliderSpawn.transform.position.x + boxColliderSpawn.transform.localScale.x / 2;
+
+            minZ = boxColliderSpawn.transform.position.z - (boxColliderSpawn.transform.localScale.z / 2);
+            maxZ = boxColliderSpawn.transform.position.z + boxColliderSpawn.transform.localScale.z / 2;
+
+            //int randChild = Random.Range(0, transform.childCount);
             GameObject toInstantiate = GetBonusPrefabByType(_type);
 
             if (toInstantiate == null)
                 Debug.Log("There's no prefab for the type " + _type + " , can't instantiate Bonus.");
             else
-                Instantiate(toInstantiate, transform.GetChild(randChild).position + Vector3.up * 0.25f, Quaternion.identity, transform.GetChild(randChild));
+                Instantiate(toInstantiate, new Vector3(Random.Range(minX, maxX), 35, Random.Range(minZ, maxZ)), Quaternion.identity, transform);
 		}
 	}
 	
