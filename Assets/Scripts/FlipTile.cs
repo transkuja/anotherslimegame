@@ -12,6 +12,8 @@ public class FlipTile : MonoBehaviour {
     [SerializeField]
     float moveDuration = .25f;
 
+    [SerializeField]
+    float expulsionForce = 150.0f;
     float timer = 0.0f;
     
     Quaternion startLocalRotation;
@@ -97,7 +99,7 @@ public class FlipTile : MonoBehaviour {
             if (collision.rigidbody.GetComponent<PlayerControllerKart>())
             {
                 collision.rigidbody.GetComponent<PlayerControllerKart>().CurrentState = PlayerControllerKart.KartPlayerState.Hit;
-                collision.rigidbody.AddForce(-transform.forward * 200.0f + transform.up * 200.0f, ForceMode.Impulse);
+                collision.rigidbody.AddForce(-transform.forward * expulsionForce + transform.up * expulsionForce, ForceMode.Impulse);
                 Physics.IgnoreCollision(collision.collider, GetComponentInChildren<Collider>(), true);
                 StartCoroutine(ReactivateColliders(collision.collider, collision.rigidbody.GetComponent<PlayerControllerKart>().HitRecoveryTime));
             }
