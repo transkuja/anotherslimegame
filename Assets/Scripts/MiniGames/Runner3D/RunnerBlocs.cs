@@ -26,6 +26,7 @@ namespace Runner3D
             baseYPos = new float[transform.childCount];
             baseScale = new Vector3[transform.childCount];
             baseOrientation = new Quaternion[transform.childCount];
+            hasFinished = new bool[transform.childCount];
             curState = DirLerpState.Up;
         }
         public void SaveStartPos()
