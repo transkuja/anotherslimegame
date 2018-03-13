@@ -52,6 +52,9 @@ public class UnderwaterState : PlayerState
             playerController.Player.Anim.SetBool("isBoobbing", true);
         }
 
+        // Critical case
+        if (playerController.transform.position.y > waterLevel)
+            playerController.PlayerState = playerController.freeState;
     }
 
     public override void OnJumpPressed()
