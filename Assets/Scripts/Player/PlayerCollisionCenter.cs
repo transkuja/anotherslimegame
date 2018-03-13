@@ -559,6 +559,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
     {
         if (other.GetComponent<WaterComponent>() && !surfaceWaterAnimLaunched)
         {
+            Debug.Log("trigger enter");
             waterComponentEntered = other.GetComponent<WaterComponent>();
             waterLevel = other.transform.position.y;
             waterTolerance = GetComponent<SphereCollider>().radius;
@@ -568,11 +569,15 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.GetComponent<WaterComponent>())
+        if (other.GetComponent<WaterComponent>() && surfaceWaterAnimLaunched)
         {
+            playerController.Player.Rb.AddForce(30 * Vector3.up);
+
+            Debug.Log("trigger ex");
             waterComponentEntered = null;
             playerController.isGravityEnabled = true;
             surfaceWaterAnimLaunched = false;
+            playerController.Rb.constraints = RigidbodyConstraints.FreezeRotation;
         }
     }
 
@@ -595,9 +600,10 @@ public class PlayerCollisionCenter : MonoBehaviour {
                     // TODO: play anim water surface
                     surfaceWaterAnimLaunched = true;
                     playerController.Rb.constraints = RigidbodyConstraints.FreezePositionY;
-                    playerController.Rb.drag = 15.0f;
                 }
             }
+
+            playerController.Rb.drag = (playerController.IsGrounded ? 15.0f : 0.0f);
 
             if (PlayerComponent.cameraReference)
             {
@@ -613,7 +619,6 @@ public class PlayerCollisionCenter : MonoBehaviour {
                         waterImmersionCamera.isImmerge = false;
                     }
                 }
-
             }
         }
     }

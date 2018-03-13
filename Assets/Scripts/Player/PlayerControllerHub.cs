@@ -111,7 +111,7 @@ public class PlayerControllerHub : PlayerController
         {
             if (value == true)
             {
-                jumpState.nbJumpMade = 20; // Very high value, reset when releasing button AND being grounded
+                jumpState.nbJumpMade = (IsUnderWater) ? 0 : 20; // Very high value, reset when releasing button AND being grounded
                 downDashState.nbDashDownMade = 0;
                 dashState.nbDashMade = 0;
                 if (GetComponent<JumpManager>() != null)
@@ -333,7 +333,11 @@ public class PlayerControllerHub : PlayerController
         //    //    IsGrounded = true;
         //    //}
         //}
-        if (Rb.velocity.y < 0.0f && IsGrounded)
+        if (IsUnderWater)
+        {
+            IsGrounded = true;
+        }
+        else if (Rb.velocity.y < 0.0f && IsGrounded)
         {
             if (!Physics.Raycast(transform.position + Vector3.up * 0.5f + raycastOffsetPlayer * transform.forward, Vector3.down, raycastDist)
                     && !Physics.Raycast(transform.position + Vector3.up * 0.5f - raycastOffsetPlayer * transform.forward, Vector3.down, raycastDist)
@@ -394,7 +398,11 @@ public class PlayerControllerHub : PlayerController
             }
         }
 
-        if (!collision.transform.GetComponent<Player>() && !IsUnderWater)
+        if (IsUnderWater)
+        {
+            IsGrounded = true;
+        }
+        else if (!collision.transform.GetComponent<Player>())
         {
             if (Physics.Raycast(transform.position + Vector3.up * 0.5f + raycastOffsetPlayer * transform.forward, Vector3.down, raycastDist)
                     || Physics.Raycast(transform.position + Vector3.up * 0.5f - raycastOffsetPlayer * transform.forward, Vector3.down, raycastDist)
