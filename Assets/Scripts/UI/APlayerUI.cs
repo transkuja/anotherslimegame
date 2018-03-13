@@ -41,33 +41,39 @@ public abstract class APlayerUI : MonoBehaviour {
         {
             // 1P: - X 00:00 - -
             case 1:
-                UIrefLeft.transform.GetChild(0).gameObject.SetActive(false);
-                UIrefLeft.transform.GetChild(1).gameObject.SetActive(true);
-                UIrefRight.transform.GetChild(0).gameObject.SetActive(false);
-                UIrefRight.transform.GetChild(1).gameObject.SetActive(false);
+                ShowPlayerUi(UIrefLeft.transform.GetChild(0), false);
+                ShowPlayerUi(UIrefLeft.transform.GetChild(1), true);
+                ShowPlayerUi(UIrefRight.transform.GetChild(0), false);
+                ShowPlayerUi(UIrefRight.transform.GetChild(1), false);
                 break;
             // 2P: - X 00:00 X -
             case 2:
-                UIrefLeft.transform.GetChild(0).gameObject.SetActive(false);
-                UIrefLeft.transform.GetChild(1).gameObject.SetActive(true);
-                UIrefRight.transform.GetChild(0).gameObject.SetActive(true);
-                UIrefRight.transform.GetChild(1).gameObject.SetActive(false);
+                ShowPlayerUi(UIrefLeft.transform.GetChild(0), false);
+                ShowPlayerUi(UIrefLeft.transform.GetChild(1), true);
+                ShowPlayerUi(UIrefRight.transform.GetChild(0), true);
+                ShowPlayerUi(UIrefRight.transform.GetChild(1), false);
                 break;
             // 3P: X X 00:00 X -
             case 3:
-                UIrefLeft.transform.GetChild(0).gameObject.SetActive(true);
-                UIrefLeft.transform.GetChild(1).gameObject.SetActive(true);
-                UIrefRight.transform.GetChild(0).gameObject.SetActive(true);
-                UIrefRight.transform.GetChild(1).gameObject.SetActive(false);
+                ShowPlayerUi(UIrefLeft.transform.GetChild(0), true);
+                ShowPlayerUi(UIrefLeft.transform.GetChild(1), true);
+                ShowPlayerUi(UIrefRight.transform.GetChild(0), true);
+                ShowPlayerUi(UIrefRight.transform.GetChild(1), false);
                 break;
             // 4P: X X 00:00 X -
             default:
-                UIrefLeft.transform.GetChild(0).gameObject.SetActive(true);
-                UIrefLeft.transform.GetChild(1).gameObject.SetActive(true);
-                UIrefRight.transform.GetChild(0).gameObject.SetActive(true);
-                UIrefRight.transform.GetChild(1).gameObject.SetActive(true);
+                ShowPlayerUi(UIrefLeft.transform.GetChild(0), true);
+                ShowPlayerUi(UIrefLeft.transform.GetChild(1), true);
+                ShowPlayerUi(UIrefRight.transform.GetChild(0), true);
+                ShowPlayerUi(UIrefRight.transform.GetChild(1), true);
                 break;
         }
+    }
+
+    void ShowPlayerUi(Transform _uiPlayer, bool _enable)
+    {
+        _uiPlayer.GetChild(0).gameObject.SetActive(_enable);
+        _uiPlayer.GetChild(1).gameObject.SetActive(_enable);
     }
 
     void HandleTextChangeInit(uint _nbrPlayers)
