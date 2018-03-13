@@ -82,7 +82,6 @@ public class DebugPanel : MonoBehaviour {
         playerInfoText.text += "Player index: " + (int)playerController.PlayerIndex + "\n";
         playerInfoText.text += "Use a controller: " + playerController.IsUsingAController + "\n";
         playerInfoText.text += "Is grounded: " + playerController.IsGrounded + "\n";
-        playerInfoText.text += "Is under water: " + playerController.IsUnderWater + "\n";
         playerInfoText.text += "Gravity enabled: " + playerController.isGravityEnabled + "\n";
         playerInfoText.text += "Current state: " + playerController.PlayerState + "\n";
         playerInfoText.text += "Has been teleported: " + DebugTools.DebugPlayerSelected.hasBeenTeleported + "\n";

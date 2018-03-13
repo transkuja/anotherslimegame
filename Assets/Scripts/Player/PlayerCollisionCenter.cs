@@ -375,6 +375,15 @@ public class PlayerCollisionCenter : MonoBehaviour {
                 }
             }
         }
+
+        // Collision with ground when underwater
+        if (playerController.PlayerState == playerController.underwaterState && playerController.underwaterState.hasReachedTheSurface)
+        {
+            if (collision.gameObject.layer == defaultMask)
+            {
+                playerController.PlayerState = playerController.freeState;
+            }
+        }
     }
 
     public void OnCollisionStay(Collision collision)
@@ -554,75 +563,6 @@ public class PlayerCollisionCenter : MonoBehaviour {
             Gizmos.DrawSphere(transform.position, 5.0f);
         }
     }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.GetComponent<WaterComponent>() && !surfaceWaterAnimLaunched)
-        {
-            Debug.Log("trigger enter");
-            waterComponentEntered = other.GetComponent<WaterComponent>();
-            waterLevel = other.transform.position.y;
-            waterTolerance = GetComponent<SphereCollider>().radius;
-        }
-
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.GetComponent<WaterComponent>() && surfaceWaterAnimLaunched)
-        {
-            playerController.Player.Rb.AddForce(30 * Vector3.up);
-
-            Debug.Log("trigger ex");
-            waterComponentEntered = null;
-            playerController.isGravityEnabled = true;
-            surfaceWaterAnimLaunched = false;
-            playerController.Rb.constraints = RigidbodyConstraints.FreezeRotation;
-        }
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if (waterComponentEntered != null)
-        {
-            playerController.jumpState.nbJumpMade = 0;
-            playerController.isGravityEnabled = false;
-
-            // Underwater
-            if (!surfaceWaterAnimLaunched)
-            {
-                if (transform.position.y < waterLevel - waterTolerance)
-                {
-                    playerController.Player.Rb.AddForce(30 * Vector3.up);
-                }
-                else
-                {
-                    // TODO: play anim water surface
-                    surfaceWaterAnimLaunched = true;
-                    playerController.Rb.constraints = RigidbodyConstraints.FreezePositionY;
-                }
-            }
-
-            playerController.Rb.drag = (playerController.IsGrounded ? 15.0f : 0.0f);
-
-            if (PlayerComponent.cameraReference)
-            {
-                WaterImmersionCamera waterImmersionCamera = PlayerComponent.cameraReference.transform.GetChild(0).GetComponent<WaterImmersionCamera>();
-                if (waterImmersionCamera)
-                {
-                    if (PlayerComponent.cameraReference.transform.GetChild(0).position.y < waterLevel +0.8f)
-                    {
-                        waterImmersionCamera.isImmerge = true;
-                    }
-                    else
-                    {
-                        waterImmersionCamera.isImmerge = false;
-                    }
-                }
-            }
-        }
-    }
-
 
     public void ImpactHandling(AIRabite rabite)
     {

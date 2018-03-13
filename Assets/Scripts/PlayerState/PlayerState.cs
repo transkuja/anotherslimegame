@@ -161,7 +161,7 @@ public class PlayerState {
         }
         else
         {
-            if (playerController.IsGrounded || playerController.collisionCenter.surfaceWaterAnimLaunched)
+            if (playerController.IsGrounded)
                 playerController.Rb.drag = 15.0f;
             else
                 playerController.Rb.drag = 0.0f;

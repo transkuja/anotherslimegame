@@ -48,6 +48,8 @@ public class PlayerControllerHub : PlayerController
     public PlatformistChargedState platformistChargedState;
     public RestrainedByGhostState restrainedByGhostState;
     public FrozenState frozenState;
+    public UnderwaterState underwaterState;
+
 
     // Delegate events :
     public delegate void OnPlayerDeath(int id);
@@ -61,8 +63,6 @@ public class PlayerControllerHub : PlayerController
 
     public float raycastDist = 1.5f;
     float raycastOffsetPlayer;
-
-    public bool IsUnderWater = false;
 
     public bool forceCameraRecenter = false;
 
@@ -111,7 +111,7 @@ public class PlayerControllerHub : PlayerController
         {
             if (value == true)
             {
-                jumpState.nbJumpMade = (IsUnderWater) ? 0 : 20; // Very high value, reset when releasing button AND being grounded
+                jumpState.nbJumpMade = 20; // Very high value, reset when releasing button AND being grounded
                 downDashState.nbDashDownMade = 0;
                 dashState.nbDashMade = 0;
                 if (GetComponent<JumpManager>() != null)
@@ -243,6 +243,7 @@ public class PlayerControllerHub : PlayerController
         platformistChargedState = new PlatformistChargedState(this);
         restrainedByGhostState = new RestrainedByGhostState(this);
         frozenState = new FrozenState(this);
+        underwaterState = new UnderwaterState(this);
         PlayerState = freeState;
 
     }
@@ -333,11 +334,7 @@ public class PlayerControllerHub : PlayerController
         //    //    IsGrounded = true;
         //    //}
         //}
-        if (IsUnderWater)
-        {
-            IsGrounded = true;
-        }
-        else if (Rb.velocity.y < 0.0f && IsGrounded)
+        if (Rb.velocity.y < 0.0f && IsGrounded)
         {
             if (!Physics.Raycast(transform.position + Vector3.up * 0.5f + raycastOffsetPlayer * transform.forward, Vector3.down, raycastDist)
                     && !Physics.Raycast(transform.position + Vector3.up * 0.5f - raycastOffsetPlayer * transform.forward, Vector3.down, raycastDist)
@@ -398,11 +395,7 @@ public class PlayerControllerHub : PlayerController
             }
         }
 
-        if (IsUnderWater)
-        {
-            IsGrounded = true;
-        }
-        else if (!collision.transform.GetComponent<Player>())
+        if (!collision.transform.GetComponent<Player>())
         {
             if (Physics.Raycast(transform.position + Vector3.up * 0.5f + raycastOffsetPlayer * transform.forward, Vector3.down, raycastDist)
                     || Physics.Raycast(transform.position + Vector3.up * 0.5f - raycastOffsetPlayer * transform.forward, Vector3.down, raycastDist)
