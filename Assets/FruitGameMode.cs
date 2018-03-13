@@ -11,6 +11,9 @@ public class FruitGameMode : GameMode {
         base.StartGame(playerReferences);
         rules = new MinigameRules(this);
 
+        foreach (GameObject player in playerReferences)
+            player.GetComponent<Player>().associateFruit = (Fruit)(int)(player.GetComponent<Player>().PlayerController.playerIndex);
+
         LaunchTimer();
     }
 

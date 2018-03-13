@@ -189,27 +189,7 @@ public class Player : MonoBehaviour {
     {
         rb = GetComponent<Rigidbody>();
         collectables = new int[(int)CollectableType.Size];
-        //associateFruit = GetComponent<PlayerControllerHub>().playerIndex.
-        if(GetComponent<PlayerControllerHub>().playerIndex == UWPAndXInput.PlayerIndex.One)
-        {
-            associateFruit = Fruit.Clementine;
-            Debug.Log("Clementine");
-        }
-        else if (GetComponent<PlayerControllerHub>().playerIndex == UWPAndXInput.PlayerIndex.Two)
-        {
-            associateFruit = Fruit.Pomme;
-            Debug.Log("Pomme");
-        }
-        else if (GetComponent<PlayerControllerHub>().playerIndex == UWPAndXInput.PlayerIndex.Three)
-        {
-            associateFruit = Fruit.Kiwi;
-            Debug.Log("Kiwi");
-        }
-        else if (GetComponent<PlayerControllerHub>().playerIndex == UWPAndXInput.PlayerIndex.Four)
-        {
-            associateFruit = Fruit.Fraise;
-            Debug.Log("Fraise");
-        }
+
     }
 
     public void UpdateCollectableValue(CollectableType type, int pickedValue = 1)
