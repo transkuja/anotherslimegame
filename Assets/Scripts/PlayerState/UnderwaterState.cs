@@ -25,11 +25,18 @@ public class UnderwaterState : PlayerState
     public override void OnEnd()
     {
         base.OnEnd();
+        hasReachedTheSurface = false;
     }
 
     public override void OnFixedUpdate()
     {
         base.OnFixedUpdate();
+    }
+
+    // No dash underwater
+    public override void OnDashPressed()
+    {
+
     }
 
     public override void OnUpdate()
