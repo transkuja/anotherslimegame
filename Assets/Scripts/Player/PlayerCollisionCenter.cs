@@ -377,7 +377,8 @@ public class PlayerCollisionCenter : MonoBehaviour {
         }
 
         // Collision with ground when underwater
-        if (playerController.PlayerState == playerController.underwaterState && playerController.underwaterState.hasReachedTheSurface)
+        if (playerController.PlayerState == playerController.underwaterState && 
+            (playerController.underwaterState.hasReachedTheSurface || transform.position.y > playerController.underwaterState.waterLevel))
         {
             if (collision.gameObject.layer == defaultMask)
             {
