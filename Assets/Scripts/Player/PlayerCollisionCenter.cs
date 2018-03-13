@@ -116,7 +116,6 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
         // default mask
         defaultMask = 0;
-        defaultMask = LayerMask.GetMask(new string[] { "Default" });
 
         separationMaskRabite = LayerMask.GetMask(new string[] { "Rabite" });
         sphereCheckRadiusRabite = 5.0f;
@@ -128,6 +127,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
         sphereCheckRadiusCollectables = 3.0f;
 
         separationMask3 = LayerMask.GetMask(new string[] { "Breakable" });
+
     }
 
     private void Update()
