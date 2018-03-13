@@ -25,6 +25,7 @@ public class WaterComponent : MonoBehaviour {
                 other.transform.GetChild((int)PlayerChildren.BubbleParticles).GetComponent<ParticleSystem>().Play();
                 other.transform.GetChild((int)PlayerChildren.SplashParticles).GetComponent<ParticleSystem>().Play();
                 other.transform.GetChild((int)PlayerChildren.WaterTrailParticles).GetComponent<ParticleSystem>().Play();
+                other.transform.GetChild((int)PlayerChildren.DustTrailParticles).GetComponent<ParticleSystem>().Stop();
             }
           
             playerController.underwaterState.waterLevel = transform.position.y;
@@ -43,6 +44,8 @@ public class WaterComponent : MonoBehaviour {
                 other.transform.GetChild((int)PlayerChildren.BubbleParticles).GetComponent<ParticleSystem>().Stop();
             }
             other.transform.GetChild((int)PlayerChildren.WaterTrailParticles).GetComponent<ParticleSystem>().Stop();
+            other.transform.GetChild((int)PlayerChildren.DustTrailParticles).GetComponent<ParticleSystem>().Play();
+
 
         }
 
