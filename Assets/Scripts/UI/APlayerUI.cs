@@ -26,12 +26,7 @@ public abstract class APlayerUI : MonoBehaviour {
         ShowXPlayersUI(GameManager.Instance.PlayerStart.ActivePlayersAtStart);
         foreach (GameObject p in GameManager.Instance.PlayerStart.PlayersReference)
             p.GetComponent<Player>().OnValuesChange = new UIfct[(int)PlayerUIStat.Size];
-
-        foreach (TextChange obj in GameObject.FindObjectsOfType<TextChange>())
-        {
-            if (obj.transform.parent.gameObject.activeSelf)
-                obj.Init();
-        }
+        HandleTextChangeInit(GameManager.Instance.PlayerStart.ActivePlayersAtStart);
 
     }
 
@@ -72,6 +67,19 @@ public abstract class APlayerUI : MonoBehaviour {
                 UIrefRight.transform.GetChild(0).gameObject.SetActive(true);
                 UIrefRight.transform.GetChild(1).gameObject.SetActive(true);
                 break;
+        }
+    }
+
+    void HandleTextChangeInit(uint _nbrPlayers)
+    {
+        int i = 0;
+        foreach (TextChange obj in GameObject.FindObjectsOfType<TextChange>())
+        {
+            if (obj.transform.parent.gameObject.activeSelf)
+            {
+                obj.Init(i);
+                i++;
+            }
         }
     }
 }

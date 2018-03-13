@@ -79,8 +79,28 @@ public class UI : MonoBehaviour {
 
     public void TimerNeedUpdate(float _currentGameFinalTimer)
     {
-        if (!timerText.gameObject.activeInHierarchy) timerText.gameObject.SetActive(true);
+        if (!timerText.gameObject.activeInHierarchy)
+        {
+            // Init timer visual
+            timerText.color = Color.white;
+            timerText.GetComponent<AnimText>().enabled = false;
+            timerText.gameObject.SetActive(true);
+        }
 
+        // Set timer red with feedback under 10 seconds
+        if (_currentGameFinalTimer < 10.0f && !timerText.GetComponent<AnimText>().isActiveAndEnabled)
+        {
+            timerText.color = Color.red;
+            timerText.GetComponent<AnimText>().enabled = true;
+        }
+
+        // DEBUG, only to have fancy debug, reset timer settings if we increase the time left
+        if (timerText.GetComponent<AnimText>().isActiveAndEnabled && _currentGameFinalTimer > 10.0f)
+        {
+            timerText.color = Color.white;
+            timerText.GetComponent<AnimText>().enabled = false;
+        }
+        
         int minutes = Mathf.FloorToInt(_currentGameFinalTimer / 60);
         int seconds = (int)_currentGameFinalTimer % 60;
         String timeStr = string.Format("{0:00}:{1:00}", minutes, seconds);

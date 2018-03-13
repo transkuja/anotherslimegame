@@ -10,10 +10,11 @@ public class TextChange : MonoBehaviour {
 
     public int[] associatedPlayers;
 
-    public void Init()
+    public void Init(int _playerIndex)
     {
+        associatedPlayers[0] = _playerIndex; // Ugly, is the foreach necessary @Rémi?
         foreach (int i in associatedPlayers)
-        { 
+        {
             {
                 if(GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<Player>()!= null)
                 {
