@@ -117,9 +117,12 @@ public class PlayerControllerHub : PlayerController
                 if (GetComponent<JumpManager>() != null)
                     GetComponent<JumpManager>().Stop();
                 GetComponent<Player>().Anim.SetBool("isExpulsed", false);
-                if (dustTrailParticles && dustTrailParticles.GetComponent<ParticleSystem>() != null)
+                if (PlayerState != underwaterState)
                 {
-                    dustTrailParticles.GetComponent<ParticleSystem>().Play();
+                    if (dustTrailParticles && dustTrailParticles.GetComponent<ParticleSystem>() != null)
+                    {
+                        dustTrailParticles.GetComponent<ParticleSystem>().Play();
+                    }
                 }
             }
             else
