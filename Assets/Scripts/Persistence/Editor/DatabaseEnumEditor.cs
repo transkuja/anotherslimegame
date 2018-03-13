@@ -1,22 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using DatabaseClass;
-
-[ExecuteInEditMode]
-public class CreateEnumFromDatabase : MonoBehaviour {
-
-    [SerializeField, HideInInspector]
-    public int HideInt = 0;
-
-    [SerializeField, HideInInspector]
-    public List<string> enumFromList;
-
-    [SerializeField, HideInInspector]
-    public Database db;
-}
+using UnityEngine;
 
 [CustomEditor(typeof(CreateEnumFromDatabase))]
 public class DatabaseEnumEditor : Editor
@@ -69,7 +56,7 @@ public class DatabaseEnumEditor : Editor
     public override void OnInspectorGUI()
     {
         base.DrawDefaultInspector();
-     
+
         if (dynamicChoice.enumFromList.Count > 0)
             dynamicChoice.HideInt = EditorGUILayout.Popup(dynamicChoice.HideInt, dynamicChoice.enumFromList.ToArray());
         if (GUI.changed)
@@ -78,6 +65,6 @@ public class DatabaseEnumEditor : Editor
 
             EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
         }
-   
+
     }
 }
