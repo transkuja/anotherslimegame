@@ -26,9 +26,10 @@ namespace Runner3D
         [SerializeField] Vector3 leveFinalSize;  // taille réelle du niveau
         Runner3DGameMode runnerMode;
 
-        [SerializeField]int firstPlayerZRow = -1;
-        int nbRowUpInFrontFirst = 2;
-        float timeBeforeFalling = 12;
+        int lastPlayerZRow; // // a quelle distance du début est le dernier  joueur en LevelUnit
+        int firstPlayerZRow = -1; // a quelle distance du début est le premier joueur en LevelUnit
+        int nbRowUpInFrontFirst = 2; // marge de pop des platforme par rapport au premier joueur.
+        float timeBeforeFalling = 12; // temps que met une platforme à disparaître après avoir spawn
 
         int nbBlockLineDestroyed;
         List<RunnerBlocs[]> blockLineList;
@@ -70,7 +71,7 @@ namespace Runner3D
         }
         #region LevelGeneration
 
-        #region blocsCreation
+        #region PrefabInstantiation
         // Fill the level according to the mask.
         public void GenerateLevelBlock(bool[,] mask,Vector3 startPos)
         {
@@ -100,6 +101,60 @@ namespace Runner3D
             if (RunnerMode.Mode == Runner3DGameMode.EMode.Finite)
                 Instantiate(arrivalPrefab, Vector3.forward * (defaultBlockSize.z*.5f + levelUnit.z * defaultBlockSize.z), Quaternion.identity,transform);
         }
+
+        [SerializeField]GameObject wallModel;
+        GameObject[] wallsInGame; // Contient les rangées de mur à droite et gauche du joueur. 
+        //GameObject[,] wallsInGame; // Contient les rangées de mur à droite et gauche du joueur. 
+        // Fill With Walls
+        //public void InitWalls()
+        //{
+        //    int wallNb = 3;
+        //    int wallRows = 2;
+        //    wallsInGame = new GameObject[wallNb, wallRows];
+        //    Vector3 wallPosition = Vector3.zero;
+        //    for (int zUnits = 0; zUnits < wallNb; zUnits++)
+        //    {
+        //        wallPosition.z = wallModel.transform.localScale.z * (zUnits- (wallNb/2.0f));
+        //                // Init left walls :
+        //        wallPosition.x = leveFinalSize.x;
+        //        wallsInGame[zUnits, 0] = Instantiate<GameObject>(wallModel);
+
+        //                // init right Walls :
+        //        wallPosition.x = -leveFinalSize.x;
+        //        wallsInGame[zUnits, 1] = Instantiate<GameObject>(wallModel);
+        //    }
+        //}
+        public void InitWalls()
+        {
+            int wallRows = 2;
+            wallsInGame = new GameObject[wallRows];
+            Vector3 wallPosition = Vector3.zero;
+            // Init left walls :
+            wallPosition.x = leveFinalSize.x;
+            wallsInGame[0] = Instantiate(wallModel,wallPosition,Quaternion.identity);
+
+            // init right Walls :
+            wallPosition.x = -leveFinalSize.x;
+            wallsInGame[1] = Instantiate(wallModel, wallPosition, Quaternion.identity);
+        }
+        public void UpdateWallPos()
+        {
+            int test = 0;
+            if (wallsInGame[0].transform.position.z < firstPlayerZRow * defaultBlockSize.z)
+            {
+                Material wallMat = wallModel.GetComponent<MeshRenderer>().sharedMaterial;
+                float tiling = wallMat.mainTextureScale.x;
+                float moveStep = wallModel.transform.localScale.z / tiling;
+                for (int i = 0; i < wallsInGame.Length; i++)
+                    wallsInGame[i].transform.position += Vector3.forward * moveStep;
+                if (test++>1000)
+                {
+                    Debug.LogError("Failure");
+                    return;
+                }
+            }
+        }
+
         #endregion
 
         #region MaskCreation
@@ -177,7 +232,7 @@ namespace Runner3D
         public void LerpMessage(int row,DirLerpState dir,float waitTime = 0)
         {
          
-            Debug.Log("Lauch " + row + "at " + dir);
+            //Debug.Log("Lauch " + row + "at " + dir);
             if (row < 0 || row >= blockLineList.Count)
                 return;
             for (int x = 0; x < levelUnit.x; x++)
@@ -208,6 +263,8 @@ namespace Runner3D
         {
             Vector3[] playerNewPos = new Vector3[playerRef.Count];
             int farthestZ = 0;
+
+                // compute where first player is and pop platform if necessary
             for (int i = 0; i < playerRef.Count; i++)
                 farthestZ = Mathf.Max(Mathf.RoundToInt(playerRef[i].transform.position.z), farthestZ);
             int playerZBlockPos = Mathf.FloorToInt((farthestZ) / defaultBlockSize.z);
@@ -219,6 +276,10 @@ namespace Runner3D
                 MoveCursor(playerZBlockPos);
             }
             firstPlayerZRow = playerZBlockPos;
+
+            // compute last player pos : 
+            for (int i = 0; i < playerRef.Count; i++)
+                lastPlayerZRow = Mathf.Min(Mathf.RoundToInt(playerRef[i].transform.position.z), farthestZ);
         }
 
         #endregion
@@ -233,6 +294,7 @@ namespace Runner3D
             playerRef = GameManager.Instance.PlayerStart.PlayersReference;
             state = State.Loading;
             runnerBlocPool = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.RunnerBloc);
+            InitWalls();
             Generate2DChunk();
             LevelBegin();
         }
@@ -244,6 +306,7 @@ namespace Runner3D
         }
         public void Update()
         {
+            UpdateWallPos();
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 for (int z = 0; z < transform.childCount; z++)
