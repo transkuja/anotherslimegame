@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: e21cfc9d21a1c484fb4c6faa8cdfd67a
+timeCreated: 1521043743
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Walkway UltraCondensed
+  fontNames:
+  - Walkway UltraCondensed
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

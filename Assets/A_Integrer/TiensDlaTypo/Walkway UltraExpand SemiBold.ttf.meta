@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: e9f5ccb87e3f45e4595b9fbd5072d8ec
+timeCreated: 1521043744
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Walkway UltraExpand SemiBold
+  fontNames:
+  - Walkway UltraExpand SemiBold
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

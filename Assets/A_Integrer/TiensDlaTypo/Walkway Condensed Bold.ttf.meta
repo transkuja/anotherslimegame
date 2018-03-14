@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 17b31e296f088fa4c9ced3a3cf9e79f1
+timeCreated: 1521043740
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Walkway Condensed Bold
+  fontNames:
+  - Walkway Condensed Bold
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

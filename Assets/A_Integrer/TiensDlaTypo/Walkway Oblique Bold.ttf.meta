@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 92d74f6aa55dced4b8669f3bd0aa64ef
+timeCreated: 1521043742
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Walkway Oblique Bold
+  fontNames:
+  - Walkway Oblique Bold
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

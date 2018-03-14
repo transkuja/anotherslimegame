@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 48a31f2154f453749b1dee16b605db77
+timeCreated: 1521043740
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Spring is Coming
+  fontNames:
+  - Spring is Coming
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 350d6b1ac632df14d93c453d1e8b1adb, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

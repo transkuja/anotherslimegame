@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 6d48d206d0535394d8565b12a4a53ae4
+timeCreated: 1521043741
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Walkway UltraCondensed Semi
+  fontNames:
+  - Walkway UltraCondensed Semi
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
