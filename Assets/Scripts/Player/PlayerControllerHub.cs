@@ -23,7 +23,6 @@ public class PlayerControllerHub : PlayerController
     float maxDistanceOffset = 2.0f;
 
     // jump
-    public float chargeFactor = 0.0f;
     [Range(5, 1000)] float jumpChargeSpeed = 15.0f;
 
     // plateformisttmp
@@ -112,7 +111,6 @@ public class PlayerControllerHub : PlayerController
         {
             if (value == true)
             {
-                jumpState.nbJumpMade = 20; // Very high value, reset when releasing button AND being grounded
                 downDashState.nbDashDownMade = 0;
                 dashState.nbDashMade = 0;
                 if (GetComponent<JumpManager>() != null)
@@ -333,29 +331,10 @@ public class PlayerControllerHub : PlayerController
         }
 
 
-
         // handle stateFunction
         if (PlayerState != null)
             PlayerState.OnFixedUpdate();
 
-        // Handle Grounded
-        //if (player.Rb.velocity.y < 0.01f && !isGrounded)
-        //{
-        //    RaycastHit hitInfo;
-        //    // Need to be removed
-        //    if (Physics.SphereCast(transform.position + Vector3.up, 1f, -transform.up, out hitInfo, maxDistanceOffset))
-        //    {
-        //        if (hitInfo.transform.GetComponentInParent<Ground>() != null || hitInfo.transform.gameObject.layer == LayerMask.NameToLayer("Ground"))
-        //        {
-        //            IsGrounded = true;
-        //        }
-        //    }
-        //    //// test
-        //    //if (Physics.SphereCast(transform.position + Vector3.up, 1f, -transform.up, out hitInfo, maxDistanceOffset, 1 << LayerMask.NameToLayer("Ground")))
-        //    //{
-        //    //    IsGrounded = true;
-        //    //}
-        //}
         if (Rb.velocity.y < 0.0f && IsGrounded)
         {
             if (!Physics.Raycast(transform.position + Vector3.up * 0.5f + raycastOffsetPlayer * transform.forward, Vector3.down, raycastDist)
@@ -388,7 +367,7 @@ public class PlayerControllerHub : PlayerController
         PlayerState.CollisionEnter(collision);
 
         float force = 20f;
-        ////float forceOffset = 0.1f;
+
         // If we hit the floor
         float dotProduct = Vector3.Dot(collision.contacts[0].normal, Vector3.up);
 
@@ -448,29 +427,14 @@ public class PlayerControllerHub : PlayerController
    
     private void HandleJumpWithController()
     {
-        // Charge jump if A button is pressed for a "long" time and only if on the ground
-        //if (isGrounded)
-
-
-        if (state.Buttons.A == ButtonState.Pressed && chargeFactor < 1.0f)
-        {
-            chargeFactor += jumpChargeSpeed * Time.unscaledDeltaTime;
-            // Force max charge jump if the charge reach maximum charge
-            if (chargeFactor > 1.0f)
-            {
-                playerState.OnJumpPressed();
-            }
-        }
-        else if (prevState.Buttons.A == ButtonState.Pressed && state.Buttons.A == ButtonState.Released)
+        if (prevState.Buttons.A == ButtonState.Released && state.Buttons.A == ButtonState.Pressed)
         {
             playerState.OnJumpPressed();
         }
 
-
         if (state.Buttons.A == ButtonState.Released)
         {
             if (IsGrounded) jumpState.nbJumpMade = 0;
-            chargeFactor = 0.0f;
         }
 
     }
