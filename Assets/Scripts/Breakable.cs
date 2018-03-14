@@ -23,7 +23,47 @@ public class Breakable : MonoBehaviour {
                 )
            )
         {
-            // impact
+            //OnBreakEvent
+            if (GetComponent<BreakEvent>() != null)
+            {
+                if (_player.GetComponent<EvolutionComponent>() != null)
+                {
+                    return;
+                }
+
+                //Collectable collectableData = GetComponentInChildren<Collectable>();
+                //if (collectableData != null)
+                //{
+                //    switch(collectableData.type)
+                //    {
+                //        case CollectableType.AgileEvolution1:
+                //            if (_player.GetComponent<EvolutionAgile>() != null)
+                //                return;
+                //            break;
+                //        case CollectableType.PlatformistEvolution1:
+                //            if (_player.GetComponent<EvolutionPlatformist>() != null)
+                //                return;
+                //            break;
+                //        case CollectableType.StrengthEvolution1:
+                //            if (_player.GetComponent<EvolutionStrength>() != null)
+                //                return;
+                //            break;
+                //        case CollectableType.GhostEvolution1:
+                //            if (_player.GetComponent<EvolutionGhost>() != null)
+                //                return;
+                //            break;
+                //        default:
+                //            break;
+
+                //    }
+                    GetComponent<BreakEvent>().OnBreakEvent();
+                //}
+            }
+
+            // deep impact
+
+
+
             // TODO: may externalize this behaviour to avoid duplication
             Vector3 playerToTarget = transform.position - _player.transform.position;
             Vector3 playerCenterToTargetCenter = (transform.position + Vector3.up * 0.5f) - (_player.transform.position + Vector3.up * 0.5f);
@@ -53,6 +93,9 @@ public class Breakable : MonoBehaviour {
             DropCollectableOnGround();
             if (AudioManager.Instance != null && AudioManager.Instance.breakFx != null)
                 AudioManager.Instance.PlayOneShot(AudioManager.Instance.breakFx);
+
+
+
         }
     }
 

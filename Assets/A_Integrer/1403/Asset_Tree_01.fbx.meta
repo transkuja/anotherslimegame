@@ -1,17 +1,15 @@
 fileFormatVersion: 2
-guid: 86cdb81664a534f49887b9f0ccc2073c
-timeCreated: 1511791414
+guid: b875508daa567fc43bb5257bce7f6559
+timeCreated: 1521038614
 licenseType: Free
 ModelImporter:
   serializedVersion: 21
   fileIDToRecycleName:
     100000: //RootNode
-    100002: PLATFROME_baguette
     400000: //RootNode
-    400002: PLATFROME_baguette
-    2300000: PLATFROME_baguette
-    3300000: PLATFROME_baguette
-    4300000: PLATFROME_baguette
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: Asset_Tree_01
     9500000: //RootNode
   materials:
     importMaterials: 1
@@ -40,7 +38,7 @@ ModelImporter:
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 20
+    globalScale: 1
     meshCompression: 0
     addColliders: 0
     importVisibility: 1
