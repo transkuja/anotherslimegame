@@ -41,6 +41,9 @@ public class AnimText : MonoBehaviour {
 
     private void OnDisable()
     {
+        if (text == null)
+            text = GetComponent<Text>();
+
         text.transform.localScale = initialScale;
     }
 }

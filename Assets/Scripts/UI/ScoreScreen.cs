@@ -459,7 +459,7 @@ public class ScoreScreen : MonoBehaviour {
             {
                 if (GameManager.Instance.CurrentGameMode.IsMiniGame())
                 {
-                    if (GameManager.Instance.DataContainer.launchedFromMinigameScreen || objectiveFailedWhenRelevant)
+                    if ((GameManager.Instance.DataContainer != null && GameManager.Instance.DataContainer.launchedFromMinigameScreen) || objectiveFailedWhenRelevant)
                     {
                         replayScreen.SetActive(true);
                     }

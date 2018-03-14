@@ -447,6 +447,11 @@ public class DebugTools : MonoBehaviour {
                 }
                 catch (NotImplementedException e)
                 {
+                    Debug.Log("??");
+  
+                }
+                finally
+                {
                     // Stop timer
                     GameManager.Instance.DEBUG_EndFinalCountdown();
                     // Hide rule screen
@@ -460,7 +465,6 @@ public class DebugTools : MonoBehaviour {
                     ScoreScreen screenRef = GameManager.Instance.ScoreScreenReference;
                     screenRef.RankPlayersByPoints();
                     screenRef.DEBUG_SetMinigameReplayable();
-
                 }
             }
         }
