@@ -34,6 +34,8 @@ public class GameManager : MonoBehaviour {
 
     public int[] consecutiveVictories = new int[4];
 
+    public int playerWhoPausedTheGame = -1;
+
     public static GameManager Instance
     {
         get
@@ -240,27 +242,7 @@ public class GameManager : MonoBehaviour {
     {
         if (_newState == GameState.Paused)
         {
-            if (currentState == GameState.Paused)
-            {
-                currentState = GameState.Normal;
-                pauseMenuReference.gameObject.SetActive(false);
-                UiReference.TooglePersistenceUI(false);
-                for (int i = 0; i < instance.playerStart.ActivePlayersAtStart; i++)
-                {
-                    PlayerControllerHub curPlayerController = instance.playerStart.PlayersReference[i].GetComponent<PlayerControllerHub>();
-
-                    // TODO: dash missing but we'll see after refacto
-                    if (curPlayerController.PreviousPlayerState == curPlayerController.underwaterState)
-                    {
-                        Utils.GetUnderwaterStateDataFromPausedState(curPlayerController.underwaterState, curPlayerController.pausedState);
-                        curPlayerController.PlayerState = curPlayerController.underwaterState;
-                    }
-                    else
-                        curPlayerController.PlayerState = curPlayerController.freeState;
-
-                }
-            }
-            else if (currentState == GameState.Normal)
+            if (currentState == GameState.Normal)
             {
                 currentState = GameState.Paused;
                 pauseMenuReference.gameObject.SetActive(true);
@@ -283,8 +265,21 @@ public class GameManager : MonoBehaviour {
             {
                 currentState = GameState.Normal;
                 pauseMenuReference.gameObject.SetActive(false);
+                UiReference.TooglePersistenceUI(false);
                 for (int i = 0; i < instance.playerStart.ActivePlayersAtStart; i++)
-                    instance.playerStart.cameraPlayerReferences[i].transform.GetChild(1).GetComponent<Cinemachine.CinemachineBrain>().enabled = true;
+                {
+                    PlayerControllerHub curPlayerController = instance.playerStart.PlayersReference[i].GetComponent<PlayerControllerHub>();
+
+                    // TODO: dash missing but we'll see after refacto
+                    if (curPlayerController.PreviousPlayerState == curPlayerController.underwaterState)
+                    {
+                        Utils.GetUnderwaterStateDataFromPausedState(curPlayerController.underwaterState, curPlayerController.pausedState);
+                        curPlayerController.PlayerState = curPlayerController.underwaterState;
+                    }
+                    else
+                        curPlayerController.PlayerState = curPlayerController.freeState;
+
+                }
             }
             // Unlock pause after player has read rules + timer said GO!
             else if (currentState == GameState.ForcedPauseMGRules)

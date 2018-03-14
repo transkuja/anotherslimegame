@@ -24,6 +24,11 @@ public class AnimButton : MonoBehaviour {
 
     private void OnDisable()
     {
+        if (button == null)
+        {
+            button = GetComponent<Button>();
+            initialScale = transform.localScale;
+        }
         button.transform.localScale = initialScale;
     }
 }

@@ -311,8 +311,25 @@ public class PlayerControllerHub : PlayerController
             }
             // TODO: Externalize "state" to handle pause in PauseMenu? //  Remi : Can't manage GamePade(IndexPlayer) Instead, copy not working
             if (SceneManager.GetActiveScene() != SceneManager.GetSceneByBuildIndex(0))
+            {
                 if (prevState.Buttons.Start == ButtonState.Released && state.Buttons.Start == ButtonState.Pressed)
-                    GameManager.ChangeState(GameState.Paused);
+                {
+                    // Only the player who paused the game can remove the pause
+                    if (GameManager.CurrentState == GameState.Paused)
+                    {
+                        // Check if player index match to remove pause
+                        if ((int)playerIndex == GameManager.Instance.playerWhoPausedTheGame)
+                        {
+                            GameManager.ChangeState(GameState.Normal);
+                        }
+                    }
+                    else
+                    {
+                        GameManager.Instance.playerWhoPausedTheGame = (int)playerIndex;
+                        GameManager.ChangeState(GameState.Paused);
+                    }
+                }
+            }
         }
 
 
