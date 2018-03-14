@@ -26,9 +26,11 @@ public class BonusSpawner : MonoBehaviour {
     public float maxX;
     public float maxZ;
 
+    public Player playerTest;
+    //Fruit typeToChange;
     void Start()
     {
-		StartCoroutine(SpawnBonus(BonusType.ChangeFruit, changeFruitSpawnDelay));
+        StartCoroutine(SpawnBonus(BonusType.ChangeFruit, changeFruitSpawnDelay));
 		StartCoroutine(SpawnBonus(BonusType.Aspirator, aspiratorFruitSpawnDelay));
         //type = GetComponentInParent<FruitsSpawner>().GetComponentInChildren<FruitType>().typeFruit;
     }
@@ -83,7 +85,8 @@ public class BonusSpawner : MonoBehaviour {
 
     public IEnumerator ChangerFruit()
     {
-        Fruit typeToChange = GameObject.Find("Player(Clone)").GetComponent<Player>().associateFruit; //Voir a recuperer l'info sans passer par GameObject.Find()
+
+        Fruit typeToChange = playerTest.associateFruit;
         FruitType[] tabTest = GameObject.Find("FruitSpawner").GetComponent<FruitsSpawner>().GetComponentsInChildren<FruitType>();
         Fruit[] typeToSave = new Fruit[tabTest.Length];
         for (int i = 0; i < tabTest.Length; i++)
@@ -105,13 +108,13 @@ public class BonusSpawner : MonoBehaviour {
     
     public void AspireFruit()
     {
-        Fruit typeFruitPlayer = GameObject.Find("Player(Clone)").GetComponent<Player>().associateFruit; //Voir a recuperer l'info sans passer par GameObject.Find()
+        Fruit typeFruitPlayer = playerTest.associateFruit;
         FruitType[] tabTestAspirate = GameObject.Find("FruitSpawner").GetComponent<FruitsSpawner>().GetComponentsInChildren<FruitType>();
         foreach(FruitType type in tabTestAspirate)
         {
             if(typeFruitPlayer == type.typeFruit)
             {
-                type.GetComponent<Collectable>().PickUp(GameObject.Find("Player(Clone)").GetComponent<Player>());
+                type.GetComponent<Collectable>().PickUp(playerTest);
             }
         }
 
