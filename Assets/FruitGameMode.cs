@@ -12,7 +12,7 @@ public class FruitGameMode : GameMode {
         rules = new MinigameRules(this);
 
         foreach (GameObject player in playerReferences)
-            player.GetComponent<Player>().associateFruit = (Fruit)(int)(player.GetComponent<Player>().PlayerController.playerIndex);
+            player.GetComponent<Player>().associateFruit = (Fruit)(player.GetComponent<Player>().PlayerController.playerIndex);
 
         LaunchTimer();
     }
