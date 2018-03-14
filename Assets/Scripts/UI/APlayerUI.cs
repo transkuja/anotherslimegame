@@ -23,6 +23,9 @@ public abstract class APlayerUI : MonoBehaviour {
 
     public virtual void Init()
     {
+        if (UIrefLeft == null || UIrefRight == null)
+            return;
+
         ShowXPlayersUI(GameManager.Instance.PlayerStart.ActivePlayersAtStart);
         foreach (GameObject p in GameManager.Instance.PlayerStart.PlayersReference)
             p.GetComponent<Player>().OnValuesChange = new UIfct[(int)PlayerUIStat.Size];
