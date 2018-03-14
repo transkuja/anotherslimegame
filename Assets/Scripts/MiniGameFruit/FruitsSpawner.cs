@@ -30,7 +30,7 @@ public class FruitsSpawner : MonoBehaviour {
             // Spawn fruit
             //int randChild = Random.Range(0, transform.childCount);
 
-            ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.Fruits).GetItem(transform/*.GetChild(randChild)*/, new Vector3(Random.Range(minX, maxX), 35, Random.Range(minZ, maxZ)), Quaternion.identity, true);
+            ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.Fruits).GetItem(transform, new Vector3(Random.Range(minX, maxX), 15, Random.Range(minZ, maxZ)), Quaternion.identity, true);
         }
     }
 }
