@@ -99,7 +99,7 @@ public class JumpManager : MonoBehaviour
             }
         }
         Debug.Log("Error Gravity : Player has no basicJump : gravity set to 90");
-        return -90;
+        return -Gravity.defaultGravity;
     }
     public float GetJumpHeight()
     {

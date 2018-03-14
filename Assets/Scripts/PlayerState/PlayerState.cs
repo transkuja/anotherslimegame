@@ -200,7 +200,7 @@ public class PlayerState {
     {
         if (playerController.isGravityEnabled)
         {
-            playerController.Player.Rb.AddForce(90 * Vector3.down);
+            playerController.Player.Rb.AddForce(Gravity.defaultGravity * Vector3.down);
         }
 
        

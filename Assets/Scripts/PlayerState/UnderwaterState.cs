@@ -79,12 +79,12 @@ public class UnderwaterState : PlayerState
 
         if (!hasReachedTheSurface && hasStartedGoingUp)
         {
-            playerController.Player.Rb.AddForce(30 * Vector3.up);
+            playerController.Player.Rb.AddForce(Gravity.underwaterGravity * Vector3.down);
         }
 
         if (!hasStartedGoingUp && playerController.transform.position.y < waterLevel - waterTolerance && playerController.transform.position.y > waterLevel - waterTolerance - 1f)
         {
-            playerController.Player.Rb.AddForce(90 * Vector3.down);
+            playerController.Player.Rb.AddForce(Gravity.defaultGravity * Vector3.down);
         }
 
         if (hasReachedTheSurface)
