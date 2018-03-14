@@ -84,6 +84,7 @@ public class DebugPanel : MonoBehaviour {
         playerInfoText.text += "Is grounded: " + playerController.IsGrounded + "\n";
         playerInfoText.text += "Gravity enabled: " + playerController.isGravityEnabled + "\n";
         playerInfoText.text += "Current state: " + playerController.PlayerState + "\n";
+        playerInfoText.text += "NbDashMade: " + ((PlayerControllerHub)DebugTools.DebugPlayerSelected.PlayerController).dashState.nbDashMade + "\n";
         playerInfoText.text += "Has been teleported: " + DebugTools.DebugPlayerSelected.hasBeenTeleported + "\n";
         playerInfoText.text += "NbJumpMade: " + ((PlayerControllerHub)DebugTools.DebugPlayerSelected.PlayerController).jumpState.nbJumpMade + "\n";
 

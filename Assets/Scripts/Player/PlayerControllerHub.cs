@@ -68,7 +68,27 @@ public class PlayerControllerHub : PlayerController
 
     public PlayerCollisionCenter collisionCenter;
 
+    // Stop dash
+    Coroutine dashStopCoroutine;
+    IEnumerator StopDash()
+    {
+        yield return new WaitForSeconds(0.3f);
+        if (PlayerState == dashState)
+        {
+            PlayerState = freeState;
+            yield return new WaitForSeconds(0.5f);
+            dashState.nbDashMade = 0;
+        }
+    }
 
+    public void ForceStopDashCoroutineToStop()
+    {
+        if (dashStopCoroutine != null)
+        {
+            StopCoroutine("StopDash");
+            dashStopCoroutine = null;
+        }
+    }
 #if UNITY_EDITOR
     [SerializeField] public string curStateName; // debug purpose only
 #endif
@@ -443,6 +463,7 @@ public class PlayerControllerHub : PlayerController
         if (PrevState.Buttons.X == ButtonState.Released && State.Buttons.X == ButtonState.Pressed)
         {
             playerState.OnDashPressed();
+            dashStopCoroutine = StartCoroutine("StopDash");
         }
         if (GetComponent<EvolutionStrength>() != null)
             if (PrevState.Buttons.Y == ButtonState.Released && State.Buttons.Y == ButtonState.Pressed)

@@ -24,6 +24,7 @@ public class DashState : PlayerState
     float impactPropagationThreshold;
 
     public int nbDashMade = 0;
+    float oldDrag;
 
     public DashState(PlayerControllerHub _playerController) : base(_playerController)
     {
@@ -40,30 +41,41 @@ public class DashState : PlayerState
         dashingTimer = dashingMaxTimer;
         playerController.isGravityEnabled = false;
         CurFixedUpdateFct = OnDashState;
+        oldDrag = playerController.Player.Rb.drag;
 
         //playerController.ChangeDampingValuesCameraFreeLook(0.9f);
     }
 
+    
+
     public override void OnEnd()
     {
         playerController.isGravityEnabled = true;
-        if (playerController.IsGrounded) nbDashMade = 0;
+        playerController.Player.Rb.drag = oldDrag;
+        playerController.ForceStopDashCoroutineToStop();
         //playerController.ChangeDampingValuesCameraFreeLook(0.0f);
         base.OnEnd();
     }
 
     public virtual void OnDashState()
-{
-        playerController.Player.Rb.velocity = playerController.transform.forward * dashingVelocity;
-        dashingTimer -= Time.fixedDeltaTime;
-        if (dashingTimer <= 0.0f)
+    {
+        if (nbDashMade == 0)
         {
-            playerController.PlayerState = playerController.freeState;
- 
+            playerController.Player.Rb.drag = 0.0f;
+            playerController.Player.Rb.velocity = playerController.transform.forward * dashingVelocity;            nbDashMade++;
         }
     }
-   
+    //public override void OnUpdate()
+    //{
+    //    base.OnUpdate();
+    //    Debug.Log(playerController.Player.Rb.velocity.magnitude);
+    //    Debug.Log(playerController.stats.Get(Stats.StatType.GROUND_SPEED) + 1);
+    //    if (playerController.Player.Rb.velocity.magnitude < (playerController.stats.Get(Stats.StatType.GROUND_SPEED) + 1))
+    //    {
+    //        playerController.PlayerState = playerController.freeState;
+    //    }
 
+    //}
     // override des actions : 
     public override void HandleGravity()
     {
@@ -71,30 +83,55 @@ public class DashState : PlayerState
     public override void Move(Vector3 initialVelocity)
     {
         Vector3 tmp = new Vector3(playerController.Player.Rb.velocity.x, 0.0f, playerController.Player.Rb.velocity.z);
+
         Vector3 fwd = playerController.transform.forward;
+
+
 
         float dragForceUsed = 0.02f;//(playerController.PreviousPlayerState == playerController.dashState) ? dragForceDash : dragForce;
 
+
+
         if (tmp.sqrMagnitude > 7.0f)// && Vector3.Dot(playerController.transform.forward, tmp) > 0)
+
         {
+
             if ((tmp.x > 0 && playerController.Player.Rb.velocity.x - tmp.x * fwd.x * dragForceUsed < 0)
+
             || (tmp.x < 0 && playerController.Player.Rb.velocity.x - tmp.x * fwd.x * dragForceUsed > 0)
+
             || (tmp.z > 0 && playerController.Player.Rb.velocity.z - tmp.z * fwd.z * dragForceUsed < 0)
+
             || (tmp.z < 0 && playerController.Player.Rb.velocity.z - tmp.z * fwd.z * dragForceUsed > 0))
+
                 playerController.Player.Rb.velocity = playerController.Player.Rb.velocity.y * Vector3.up;
+
             else
+
                 playerController.Player.Rb.velocity -= (tmp.normalized * dragForceUsed * tmp.sqrMagnitude) * ((Time.deltaTime / 0.05f));
+
+
 
             tmp = new Vector3(playerController.Player.Rb.velocity.x, 0.0f, playerController.Player.Rb.velocity.z);
 
+
+
             if (Vector3.Dot(fwd, tmp) < 0)
+
                 playerController.Player.Rb.velocity = playerController.Player.Rb.velocity.y * Vector3.up;
 
+
+
         }
+
         else
+
         {
+
             playerController.Player.Rb.velocity = playerController.Player.Rb.velocity.y * Vector3.up;
+
         }
+
     }
 
     public override void OnDownDashPressed()
