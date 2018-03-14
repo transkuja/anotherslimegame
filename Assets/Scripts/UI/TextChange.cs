@@ -10,6 +10,9 @@ public class TextChange : MonoBehaviour {
 
     public int[] associatedPlayers;
 
+    public string prefix = "";
+    public string suffix = "";
+
     public void Init(int _playerIndex)
     {
         associatedPlayers[0] = _playerIndex; // Ugly, is the foreach necessary @Rémi?
@@ -29,6 +32,6 @@ public class TextChange : MonoBehaviour {
     public void OnValueChange(int _newValue)
     {
         GameManager.Instance.SpecificPlayerUI.OnValueChange(this);
-        this.GetComponentInChildren<Text>().text = "" + _newValue;
+        this.GetComponentInChildren<Text>().text = prefix + _newValue + suffix;
     }
 }

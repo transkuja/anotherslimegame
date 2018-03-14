@@ -11,6 +11,8 @@ public class KartGameMode : GameMode {
 
     float firstFinishTime = -1.0f;
 
+    public KartArrival Arrival;
+
     public override void StartGame(List<GameObject> playerReferences)
     {
         base.StartGame(playerReferences);

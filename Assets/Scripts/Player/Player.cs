@@ -2,7 +2,7 @@
 
 public enum PlayerChildren { SlimeMesh, ShadowProjector, BubbleParticles, SplashParticles, WaterTrailParticles, CameraTarget, DustTrailParticles, DashParticles, LandingParticles };
 
-public enum PlayerUIStat { Life, Points, Size}
+public enum PlayerUIStat { Life, Points, Laps, Size}
 
 public delegate void UIfct(int _newValue);
 

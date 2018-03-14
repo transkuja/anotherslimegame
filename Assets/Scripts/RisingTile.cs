@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class RisingTile : MonoBehaviour {
     [SerializeField]
-    float frequency = 2.0f;
+    float timeUp = 3.0f;
+
+    [SerializeField]
+    float timeDown = 6.0f;
 
     [SerializeField]
     float offsetTime = 0.0f;
@@ -26,10 +29,10 @@ public class RisingTile : MonoBehaviour {
 
     float timer = 0.0f;
     Vector3 startPos;
-
     Vector3 axis;
 
     bool isUp = false;
+
 	void Start () {
         startPos = transform.position;
         timer = -offsetTime;
@@ -42,10 +45,9 @@ public class RisingTile : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         timer += Time.deltaTime;
-        if(timer >= frequency)
+        if((isUp && timer >= timeUp) || (!isUp && timer >= timeDown))
         {
-            isUp = !isUp;
-            if (isUp)
+            if (!isUp)
             {
                 StopCoroutine(GoDown());
                 StartCoroutine(Rise());
@@ -72,6 +74,8 @@ public class RisingTile : MonoBehaviour {
             riseTimer += Time.deltaTime;
             transform.position = startPos + axis * riseCurve.Evaluate(riseTimer / moveDuration) * maxHeight;
         }
+        isUp = true;
+        timer = 0.0f;
     }
 
     IEnumerator GoDown()
@@ -85,5 +89,7 @@ public class RisingTile : MonoBehaviour {
             downTimer += Time.deltaTime;
             transform.position = startPos + axis * downCurve.Evaluate(downTimer / moveDuration) * maxHeight;
         }
+        isUp = false;
+        timer = 0.0f;
     }
 }

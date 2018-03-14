@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class KartArrival : MonoBehaviour {
     [SerializeField]
-    int NumberOfLaps = 3;
+    public int NumberOfLaps = 3;
 
     [SerializeField]
     CheckPoint lastCheckpoint;
@@ -13,6 +14,7 @@ public class KartArrival : MonoBehaviour {
     private void Start()
     {
         dicLapsPerPlayer = new Dictionary<Player, int>();
+        ((KartGameMode)GameManager.Instance.CurrentGameMode).Arrival = this;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -21,14 +23,15 @@ public class KartArrival : MonoBehaviour {
         float angle = Vector3.Angle(transform.forward, other.gameObject.GetComponent<Rigidbody>().velocity);
         if (player && angle < 90.0f )
         {
-            
             if(!dicLapsPerPlayer.ContainsKey(player))
             {
                 dicLapsPerPlayer.Add(player, 0);
+                player.CallOnValueChange(PlayerUIStat.Laps, dicLapsPerPlayer[player]);
             }
             else if(player.respawnPoint == lastCheckpoint.transform)
             {
                 dicLapsPerPlayer[player]++;
+                player.CallOnValueChange(PlayerUIStat.Laps, dicLapsPerPlayer[player]);
                 Debug.Log("Lap" + dicLapsPerPlayer[player] + " for " + player.name + "!");
                 if (dicLapsPerPlayer[player] >= NumberOfLaps)
                 {
