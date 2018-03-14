@@ -246,7 +246,19 @@ public class GameManager : MonoBehaviour {
                 pauseMenuReference.gameObject.SetActive(false);
                 UiReference.TooglePersistenceUI(false);
                 for (int i = 0; i < instance.playerStart.ActivePlayersAtStart; i++)
-                    instance.playerStart.cameraPlayerReferences[i].transform.GetChild(0).GetComponent<Cinemachine.CinemachineBrain>().enabled = true;
+                {
+                    PlayerControllerHub curPlayerController = instance.playerStart.PlayersReference[i].GetComponent<PlayerControllerHub>();
+
+                    // TODO: dash missing but we'll see after refacto
+                    if (curPlayerController.PreviousPlayerState == curPlayerController.underwaterState)
+                    {
+                        Utils.GetUnderwaterStateDataFromPausedState(curPlayerController.underwaterState, curPlayerController.pausedState);
+                        curPlayerController.PlayerState = curPlayerController.underwaterState;
+                    }
+                    else
+                        curPlayerController.PlayerState = curPlayerController.freeState;
+
+                }
             }
             else if (currentState == GameState.Normal)
             {
@@ -254,7 +266,14 @@ public class GameManager : MonoBehaviour {
                 pauseMenuReference.gameObject.SetActive(true);
                 UiReference.TooglePersistenceUI(true);
                 for (int i = 0; i < instance.playerStart.ActivePlayersAtStart; i++)
-                    instance.playerStart.cameraPlayerReferences[i].transform.GetChild(0).GetComponent<Cinemachine.CinemachineBrain>().enabled = false;
+                {
+                    PlayerControllerHub curPlayerController = instance.playerStart.PlayersReference[i].GetComponent<PlayerControllerHub>();
+                    if (curPlayerController.PlayerState == curPlayerController.underwaterState)
+                        Utils.CopyUnderwaterStateDataToPausedState(curPlayerController.underwaterState, curPlayerController.pausedState);
+                    curPlayerController.PreviousPlayerState = curPlayerController.PlayerState;
+                    curPlayerController.PlayerState = curPlayerController.pausedState;
+                }
+                
             }
         }
 

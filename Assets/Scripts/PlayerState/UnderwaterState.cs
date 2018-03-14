@@ -5,7 +5,7 @@ using UnityEngine;
 public class UnderwaterState : PlayerState
 {
     public bool hasReachedTheSurface = false;
-    bool hasStartedGoingUp = false;
+    public bool hasStartedGoingUp = false;
 
     public float waterLevel;
     float waterTolerance;
@@ -22,6 +22,8 @@ public class UnderwaterState : PlayerState
     {
         base.OnBegin();
         waterTolerance = playerController.GetComponent<SphereCollider>().radius;
+        if (hasReachedTheSurface)
+            playerController.Player.Anim.SetBool("isBoobbing", true);
     }
 
     public override void OnEnd()

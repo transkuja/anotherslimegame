@@ -4,7 +4,8 @@ using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.UI;
 
-public static class Utils {
+public static class Utils
+{
     public static float timerTutoText = 5.0f;
 
     static int[] mapTypeMaxValue =
@@ -118,7 +119,7 @@ public static class Utils {
             _player.activeTutoText = tutoText;
             GameObject.Destroy(tutoText, timerTutoText);
         }
-         
+
     }
 
     public static void PopTutoTextForAll(string _text, string _textCmd = "")
@@ -138,5 +139,19 @@ public static class Utils {
     public static float Abs(float _float)
     {
         return (_float < 0.0f) ? -_float : _float;
+    }
+
+    public static void CopyUnderwaterStateDataToPausedState(UnderwaterState _underwaterState, PausedState _pausedState)
+    {
+        _pausedState.waterLevel = _underwaterState.waterLevel;
+        _pausedState.hasReachedTheSurface = _underwaterState.hasReachedTheSurface;
+        _pausedState.hasStartedGoingUp = _underwaterState.hasStartedGoingUp;
+    }
+
+    public static void GetUnderwaterStateDataFromPausedState(UnderwaterState _underwaterState, PausedState _pausedState)
+    {
+        _underwaterState.waterLevel = _pausedState.waterLevel;
+        _underwaterState.hasReachedTheSurface = _pausedState.hasReachedTheSurface;
+        _underwaterState.hasStartedGoingUp = _pausedState.hasStartedGoingUp;
     }
 }

@@ -97,8 +97,12 @@ public class AIRabite : MonoBehaviour {
         ApplyGravity();
 
         if (GameManager.CurrentState != GameState.Normal)
+        {
+            rabiteAnimator.StartPlayback();
             return;
+        }
 
+        rabiteAnimator.StopPlayback();
         switch(CurrentState)
         {
             case RabiteState.Wander:

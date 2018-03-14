@@ -49,6 +49,7 @@ public class PlayerControllerHub : PlayerController
     public RestrainedByGhostState restrainedByGhostState;
     public FrozenState frozenState;
     public UnderwaterState underwaterState;
+    public PausedState pausedState;
 
 
     // Delegate events :
@@ -247,6 +248,7 @@ public class PlayerControllerHub : PlayerController
         restrainedByGhostState = new RestrainedByGhostState(this);
         frozenState = new FrozenState(this);
         underwaterState = new UnderwaterState(this);
+        pausedState = new PausedState(this);
         PlayerState = freeState;
 
     }
