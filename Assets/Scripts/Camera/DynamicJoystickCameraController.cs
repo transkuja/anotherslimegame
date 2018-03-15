@@ -43,9 +43,9 @@ public class DynamicJoystickCameraController : MonoBehaviour {
     [SerializeField]
     float verySmallAreaHeight = 7.0f;
 
-    enum CameraState { Default, SmallArea, VerySmallArea }
+    public enum CameraState { Default, SmallArea, VerySmallArea }
 
-    CameraState currentState = CameraState.Default;
+    public CameraState currentState = CameraState.Default;
 
     void Start () {
         freelookCamera = GetComponent<Cinemachine.CinemachineFreeLook>();

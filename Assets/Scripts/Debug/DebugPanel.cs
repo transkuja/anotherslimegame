@@ -78,6 +78,7 @@ public class DebugPanel : MonoBehaviour {
             return;
 
         playerInfoText.text = "";
+        playerInfoText.text += "FPS: " + DebugTools.computedFPS.ToString("0.0") + "\n";
         playerInfoText.text += "Game state: " + GameManager.CurrentState + "\n";
         playerInfoText.text += "Player index: " + (int)playerController.PlayerIndex + "\n";
         playerInfoText.text += "Use a controller: " + playerController.IsUsingAController + "\n";
@@ -86,6 +87,7 @@ public class DebugPanel : MonoBehaviour {
         playerInfoText.text += "Current state: " + playerController.PlayerState + "\n";
         playerInfoText.text += "Has been teleported: " + DebugTools.DebugPlayerSelected.hasBeenTeleported + "\n";
         playerInfoText.text += "NbJumpMade: " + ((PlayerControllerHub)DebugTools.DebugPlayerSelected.PlayerController).jumpState.nbJumpMade + "\n";
+        playerInfoText.text += "Camera State: " + DebugTools.DebugPlayerSelected.cameraReference.GetComponentInChildren<DynamicJoystickCameraController>().currentState + "\n";
 
         if (playerController.GetComponent<EvolutionPlatformist>())
         {

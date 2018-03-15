@@ -44,6 +44,10 @@ public class DebugTools : MonoBehaviour {
     float currentTimerShowHelp = 0.0f;
     DebugState currentState;
 
+    List<float> lastFramesTime = new List<float>();
+    public static float computedFPS = 0.0f;
+
+
     public static Player DebugPlayerSelected
     {
         get
@@ -478,23 +482,25 @@ public class DebugTools : MonoBehaviour {
             ActivateDebugMode();
         }
 
-        switch (currentState)
-        {
-            case DebugState.AddEvolution:
-                AddEvolutionControls();
-                break;
-            case DebugState.SpawnCollectable:
-                SpawnCollectableControls();
-                break;
-            case DebugState.ChangeGameplayData:
-                ChangeGameplayDataControls();
-                break;
-            default:
-                break;
-        }
-
         if (isDebugModeActive)
         {
+            ComputeFPS();
+
+            switch (currentState)
+            {
+                case DebugState.AddEvolution:
+                    AddEvolutionControls();
+                    break;
+                case DebugState.SpawnCollectable:
+                    SpawnCollectableControls();
+                    break;
+                case DebugState.ChangeGameplayData:
+                    ChangeGameplayDataControls();
+                    break;
+                default:
+                    break;
+            }
+
             if (Input.GetKeyDown(KeyCode.F1))
                 CurrentState = DebugState.AddEvolution;
 
@@ -518,6 +524,22 @@ public class DebugTools : MonoBehaviour {
             }
         }
         
+    }
+
+    void ComputeFPS()
+    {
+        lastFramesTime.Add(Time.deltaTime);
+        if (lastFramesTime.Count >= 10)
+        {
+            lastFramesTime.RemoveAt(0);
+        }
+
+        computedFPS = 0;
+        for (int i = 0; i < lastFramesTime.Count; i++)
+        {
+            computedFPS += lastFramesTime[i];
+        }
+        computedFPS = lastFramesTime.Count / computedFPS;
     }
 
     public void ActivateDebugMode(bool _forceActivation = false)
