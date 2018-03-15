@@ -9,11 +9,11 @@ public class KartArrival : MonoBehaviour {
 
     [SerializeField]
     CheckPoint lastCheckpoint;
-    Dictionary<Player, int> dicLapsPerPlayer;
+    int[] playerLaps;
 
     private void Start()
     {
-        dicLapsPerPlayer = new Dictionary<Player, int>();
+        playerLaps = new int[4];
         ((KartGameMode)GameManager.Instance.CurrentGameMode).Arrival = this;
     }
 
@@ -23,17 +23,11 @@ public class KartArrival : MonoBehaviour {
         float angle = Vector3.Angle(transform.forward, other.gameObject.GetComponent<Rigidbody>().velocity);
         if (player && angle < 90.0f )
         {
-            if(!dicLapsPerPlayer.ContainsKey(player))
+            if(player.respawnPoint == lastCheckpoint.transform)
             {
-                dicLapsPerPlayer.Add(player, 0);
-                player.CallOnValueChange(PlayerUIStat.Laps, dicLapsPerPlayer[player]);
-            }
-            else if(player.respawnPoint == lastCheckpoint.transform)
-            {
-                dicLapsPerPlayer[player]++;
-                player.CallOnValueChange(PlayerUIStat.Laps, dicLapsPerPlayer[player]);
-                Debug.Log("Lap" + dicLapsPerPlayer[player] + " for " + player.name + "!");
-                if (dicLapsPerPlayer[player] >= NumberOfLaps)
+                playerLaps[player.ID]++;
+                player.CallOnValueChange(PlayerUIStat.Laps, playerLaps[player.ID]);
+                if (playerLaps[player.ID] >= NumberOfLaps)
                 {
                     //The current player finished the race, disable his controls and save the scores
                     player.GetComponent<PlayerControllerKart>().CurrentState = PlayerControllerKart.KartPlayerState.FinishedRace;

@@ -56,6 +56,12 @@ public class Player : MonoBehaviour {
     public MinigamePickUp.Use currentStoredPickup;
 
 #region Accessors
+
+    public int ID
+    {
+        get { return (int)PlayerController.PlayerIndex; }
+    }
+
     public Rigidbody Rb
     {
         get
