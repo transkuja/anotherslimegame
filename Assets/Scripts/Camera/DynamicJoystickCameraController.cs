@@ -75,8 +75,6 @@ public class DynamicJoystickCameraController : MonoBehaviour {
             prevState = state;
             state = GamePad.GetState(playerIndex);
 
-            // TODO: small area check could be done using on trigger enter (avoid using 2 raycast every frame)
-            SmallAreaBehaviour();
             RecenterBehaviour();
             CameraStickBehaviour();
 
@@ -94,6 +92,22 @@ public class DynamicJoystickCameraController : MonoBehaviour {
 
             if (!forceMiddleRig)
                 TendToMiddleRig(associatedPlayerController);
+        }
+    }
+
+    public void ChangeCameraBehaviour(CameraBehaviour _newBehaviour, bool _reset = false)
+    {
+        switch (_newBehaviour)
+        {
+            case CameraBehaviour.SmallArea:
+                ChangeCameraState(CameraState.SmallArea);
+                break;
+            case CameraBehaviour.VSmallArea:
+                ChangeCameraState(CameraState.VerySmallArea);
+                break;
+            default:
+                ChangeCameraState(CameraState.Default);
+                break;
         }
     }
 
@@ -122,6 +136,7 @@ public class DynamicJoystickCameraController : MonoBehaviour {
                 freelookCamera.Follow = null;
                 freelookCamera.GetComponent<Cinemachine.CinemachineCollider>().m_MinimumDistanceFromTarget = extremeMinDistanceFromTarget;
                 freelookCamera.GetComponent<Cinemachine.CinemachineCollider>().m_AvoidObstacles = false;
+                freelookCamera.transform.position = associatedPlayerController.currentCameraTrigger.vSmallAreaStandbyTransform.position;
                 break;
             default:
                 forceMiddleRig = false;
@@ -137,20 +152,9 @@ public class DynamicJoystickCameraController : MonoBehaviour {
     /// </summary>
     void SmallAreaBehaviour()
     {
-        RaycastHit hitUp;
-        RaycastHit hitDown;
-        if (Physics.Raycast(associatedPlayerController.transform.position + Vector3.up * 0.5f, Vector3.up, out hitUp, smallAreaHeight)
-            && Physics.Raycast(associatedPlayerController.transform.position + Vector3.up * 0.5f, Vector3.down, out hitDown, smallAreaHeight))
-        {
-            if (hitUp.point.y - hitDown.point.y < smallAreaHeight)
-            {
-                if (hitUp.point.y - hitDown.point.y < verySmallAreaHeight)
+        
                     ChangeCameraState(CameraState.VerySmallArea);
-                else
                     ChangeCameraState(CameraState.SmallArea);
-            }
-        }
-        else
             ChangeCameraState(CameraState.Default);
     }
 

@@ -2,7 +2,8 @@
 using UWPAndXInput;
 
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : MonoBehaviour
+{
 
     // gamePad
     protected GamePadState state;
@@ -137,6 +138,20 @@ public class PlayerController : MonoBehaviour {
     private void OnTriggerEnter(Collider other)
     {
         if (other.GetComponent<CameraTrigger>())
+        {
             currentCameraTrigger = other.GetComponent<CameraTrigger>();
+            player.cameraReference.GetComponentInChildren<DynamicJoystickCameraController>().ChangeCameraBehaviour(currentCameraTrigger.behaviour);
+        }
+
+
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.GetComponent<CameraTrigger>())
+        {
+            currentCameraTrigger = null;
+            player.cameraReference.GetComponentInChildren<DynamicJoystickCameraController>().ChangeCameraBehaviour(CameraBehaviour.Default);
+        }
     }
 }
