@@ -15,7 +15,7 @@ public class PlayerUIKart : APlayerUI
 
     public override void OnValueChange(TextChange text)
     {
-        text.suffix = "/3";  
+        text.suffix = "/" + ((KartGameMode)GameManager.Instance.CurrentGameMode).Arrival.NumberOfLaps;  
     }
 
     private void UpdateSpriteColorBasedOnSelection()
