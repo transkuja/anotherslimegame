@@ -56,6 +56,7 @@ public class PlayerState {
         if (curUpdateFct != null)
             curUpdateFct();
     }
+
     public virtual void OnFixedUpdate()
     {
         if (CurFixedUpdateFct != null)
@@ -166,36 +167,7 @@ public class PlayerState {
             else
                 playerController.Rb.drag = 0.0f;
         }
-        //{
-        //    Vector3 tmp = new Vector3(playerController.Player.Rb.velocity.x, 0.0f, playerController.Player.Rb.velocity.z);
-        //    Vector3 fwd = playerController.transform.forward;
-
-        //    float dragForceUsed = dragForce;//(playerController.PreviousPlayerState == playerController.dashState) ? dragForceDash : dragForce;
-
-        //    if (tmp.sqrMagnitude > 7.0f)// && Vector3.Dot(playerController.transform.forward, tmp) > 0)
-        //    {
-        //        if ((tmp.x > 0 && playerController.Player.Rb.velocity.x - tmp.x * fwd.x * dragForceUsed < 0)
-        //        || (tmp.x < 0 && playerController.Player.Rb.velocity.x - tmp.x * fwd.x * dragForceUsed > 0)
-        //        || (tmp.z > 0 && playerController.Player.Rb.velocity.z - tmp.z * fwd.z * dragForceUsed < 0)
-        //        || (tmp.z < 0 && playerController.Player.Rb.velocity.z - tmp.z * fwd.z * dragForceUsed > 0))
-        //            playerController.Player.Rb.velocity = playerController.Player.Rb.velocity.y * Vector3.up;
-        //        else
-        //            playerController.Player.Rb.velocity -= (tmp.normalized * dragForceUsed * tmp.sqrMagnitude) * ((Time.deltaTime / timerApplyDrag));
-
-        //        tmp = new Vector3(playerController.Player.Rb.velocity.x, 0.0f, playerController.Player.Rb.velocity.z);
-
-        //        if (Vector3.Dot(fwd, tmp) < 0)
-        //            playerController.Player.Rb.velocity = playerController.Player.Rb.velocity.y * Vector3.up;
-
-        //    }
-        //    else
-        //    {
-        //        playerController.Player.Rb.velocity = playerController.Player.Rb.velocity.y * Vector3.up;
-        //    }
-        //}
-
     }
-
     public virtual void HandleGravity()
     {
         if (playerController.isGravityEnabled)

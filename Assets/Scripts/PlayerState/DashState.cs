@@ -39,6 +39,7 @@ public class DashState : PlayerState
         dashingMaxTimer = 0.15f;
         dashingTimer = dashingMaxTimer;
         playerController.isGravityEnabled = false;
+        playerController.Rb.drag = 15.0f;
         CurFixedUpdateFct = OnDashState;
 
         //playerController.ChangeDampingValuesCameraFreeLook(0.9f);
@@ -48,13 +49,16 @@ public class DashState : PlayerState
     {
         playerController.isGravityEnabled = true;
         if (playerController.IsGrounded) nbDashMade = 0;
+        playerController.Rb.drag = 0.0f;
+
         //playerController.ChangeDampingValuesCameraFreeLook(0.0f);
         base.OnEnd();
     }
 
     public virtual void OnDashState()
 {
-        playerController.Player.Rb.velocity = playerController.transform.forward * dashingVelocity;
+        playerController.Player.Rb.AddForce(playerController.transform.forward * dashingVelocity, ForceMode.VelocityChange);
+        
         dashingTimer -= Time.fixedDeltaTime;
         if (dashingTimer <= 0.0f)
         {
@@ -62,7 +66,14 @@ public class DashState : PlayerState
  
         }
     }
-   
+
+    public override void OnUpdate()
+    {
+        base.OnUpdate();
+        Vector3 xzVelocity = new Vector3(playerController.Rb.velocity.x, 0, playerController.Player.Rb.velocity.z);
+        xzVelocity = Vector3.ClampMagnitude(xzVelocity, playerController.stats.Get(Stats.StatType.GROUND_SPEED) * 1.5f);
+        playerController.Rb.velocity = (playerController.Rb.velocity.y) * Vector3.up + xzVelocity;
+    }
 
     // override des actions : 
     public override void HandleGravity()
@@ -70,31 +81,7 @@ public class DashState : PlayerState
     }
     public override void Move(Vector3 initialVelocity)
     {
-        Vector3 tmp = new Vector3(playerController.Player.Rb.velocity.x, 0.0f, playerController.Player.Rb.velocity.z);
-        Vector3 fwd = playerController.transform.forward;
 
-        float dragForceUsed = 0.02f;//(playerController.PreviousPlayerState == playerController.dashState) ? dragForceDash : dragForce;
-
-        if (tmp.sqrMagnitude > 7.0f)// && Vector3.Dot(playerController.transform.forward, tmp) > 0)
-        {
-            if ((tmp.x > 0 && playerController.Player.Rb.velocity.x - tmp.x * fwd.x * dragForceUsed < 0)
-            || (tmp.x < 0 && playerController.Player.Rb.velocity.x - tmp.x * fwd.x * dragForceUsed > 0)
-            || (tmp.z > 0 && playerController.Player.Rb.velocity.z - tmp.z * fwd.z * dragForceUsed < 0)
-            || (tmp.z < 0 && playerController.Player.Rb.velocity.z - tmp.z * fwd.z * dragForceUsed > 0))
-                playerController.Player.Rb.velocity = playerController.Player.Rb.velocity.y * Vector3.up;
-            else
-                playerController.Player.Rb.velocity -= (tmp.normalized * dragForceUsed * tmp.sqrMagnitude) * ((Time.deltaTime / 0.05f));
-
-            tmp = new Vector3(playerController.Player.Rb.velocity.x, 0.0f, playerController.Player.Rb.velocity.z);
-
-            if (Vector3.Dot(fwd, tmp) < 0)
-                playerController.Player.Rb.velocity = playerController.Player.Rb.velocity.y * Vector3.up;
-
-        }
-        else
-        {
-            playerController.Player.Rb.velocity = playerController.Player.Rb.velocity.y * Vector3.up;
-        }
     }
 
     public override void OnDownDashPressed()
