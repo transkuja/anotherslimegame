@@ -36,7 +36,7 @@ public static class MinigameDataUtils
         // "MinigameAntho", "MinigameKart", "MinigamePush", "Minigame3dRunner"
         if (_minigameId == "MinigameAntho")
         {
-            return "Color Floor";
+            return "Floor Coloring";
         }
         else if (_minigameId == "MinigameKart")
         {
@@ -127,9 +127,7 @@ public static class MinigameDataUtils
         if (curGameMode is ColorFloorGameMode)
         {
             possiblePickups.Add(new PossiblePickup(PickUpType.Score, "Collect to score points"));
-            //possiblePickups.Add(new PossiblePickup(PickUpType.Bomb, "Collect to do smthg"));
-            //possiblePickups.Add(new PossiblePickup(PickUpType.Missile, "Collect to do smthg else"));
-            possiblePickups.Add(new PossiblePickup(PickUpType.ColorAround, "Color near stones"));
+            possiblePickups.Add(new PossiblePickup(PickUpType.ColorAround, "Color nearby stones"));
             possiblePickups.Add(new PossiblePickup(PickUpType.ColorArrow, "Color stones in a direction"));
             possiblePickups.Add(new PossiblePickup(PickUpType.SpeedUp, "Speeds you up"));
         }
