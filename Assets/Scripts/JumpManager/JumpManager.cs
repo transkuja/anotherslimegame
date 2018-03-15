@@ -21,7 +21,7 @@ public class JumpManager : MonoBehaviour
     private Jump curJump;
     public Jump[] jumpTab;
 
-    float timerForForcedStop = 1.0f;
+    float timerForForcedStop = 0.75f;
     Coroutine forceStopCoroutine;
 
     public void Awake()
@@ -45,7 +45,10 @@ public class JumpManager : MonoBehaviour
     IEnumerator ForceStop()
     {
         yield return new WaitForSeconds(timerForForcedStop);
-        Stop();
+        if (GetComponent<PlayerControllerHub>().jumpState.nbJumpMade > 1)
+            yield return new WaitForSeconds(timerForForcedStop);
+        if (GetComponent<PlayerControllerHub>().PlayerState == GetComponent<PlayerControllerHub>().jumpState)
+            Stop();
     }
 
     public void Jump(JumpEnum type)
@@ -67,6 +70,8 @@ public class JumpManager : MonoBehaviour
     }
     public void Stop()
     {
+        Debug.Log("JUMP STOP");
+
         if (forceStopCoroutine != null)
         {
             StopCoroutine("ForceStop");

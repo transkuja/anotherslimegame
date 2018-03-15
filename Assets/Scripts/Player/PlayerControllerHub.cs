@@ -71,6 +71,7 @@ public class PlayerControllerHub : PlayerController
 
 #if UNITY_EDITOR
     [SerializeField] public string curStateName; // debug purpose only
+    private bool tryByPassJumpStop;
 #endif
     #region GetterSetters
 
@@ -111,11 +112,15 @@ public class PlayerControllerHub : PlayerController
         {
             if (value == true)
             {
-                downDashState.nbDashDownMade = 0;
-                dashState.nbDashMade = 0;
-                if (GetComponent<JumpManager>() != null)
-                    GetComponent<JumpManager>().Stop();
-                GetComponent<Player>().Anim.SetBool("isExpulsed", false);
+                if (isGrounded == false)
+                {
+                    jumpState.nbJumpMade = 0;
+                    downDashState.nbDashDownMade = 0;
+                    dashState.nbDashMade = 0;
+                    if (GetComponent<JumpManager>() != null && !tryByPassJumpStop)
+                        GetComponent<JumpManager>().Stop();
+                    GetComponent<Player>().Anim.SetBool("isExpulsed", false);
+                }
                 if (PlayerState != underwaterState)
                 {
                     if (dustTrailParticles && dustTrailParticles.GetComponent<ParticleSystem>() != null)
@@ -429,13 +434,11 @@ public class PlayerControllerHub : PlayerController
     {
         if (prevState.Buttons.A == ButtonState.Released && state.Buttons.A == ButtonState.Pressed)
         {
+            tryByPassJumpStop = true;
             playerState.OnJumpPressed();
         }
-
-        if (state.Buttons.A == ButtonState.Released)
-        {
-            if (IsGrounded) jumpState.nbJumpMade = 0;
-        }
+        else
+            tryByPassJumpStop = false;
 
     }
     public virtual void HandleDashWithController()
