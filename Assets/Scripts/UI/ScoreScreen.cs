@@ -213,8 +213,8 @@ public class ScoreScreen : MonoBehaviour {
             GameManager.UiReference.transform.GetChild(1).gameObject.SetActive(false);
             // Change render mode so we can see the UI updating
             GameManager.UiReference.GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
-
-            minigameUI.SetActive(false);
+            if(minigameUI)
+                minigameUI.SetActive(false);
             gameObject.SetActive(true);
 
             RuneObjective runeObjective = GameManager.Instance.CurrentGameMode.runeObjective;
