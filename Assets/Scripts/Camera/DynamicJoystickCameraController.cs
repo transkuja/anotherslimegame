@@ -262,7 +262,9 @@ public class DynamicJoystickCameraController : MonoBehaviour {
         {
             bool _tendToTopRig =
                 // Camera should tend to top rig if player is on a platformGameplay ...
-                (associatedPlayerController.GetComponentInParent<PlatformGameplay>() != null) //|| !associatedPlayerController.IsGrounded) 
+                (associatedPlayerController.GetComponentInParent<PlatformGameplay>() != null)
+                // .. but not if there's a camera trigger saying so ...
+                && (associatedPlayerController.currentCameraTrigger == null || associatedPlayerController.currentCameraTrigger.behaviour != CameraBehaviour.ShowAbovePlatforms)
                 // ... if the player is not charging to spawn platforms ...
                 && associatedPlayerController.PlayerState != associatedPlayerController.platformistChargedState
                 // ... or if the player is in main tower (may be deprecated)

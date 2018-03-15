@@ -16,6 +16,8 @@ public class PlayerController : MonoBehaviour {
 
     protected bool playerIndexSet = false;
 
+    public CameraTrigger currentCameraTrigger;
+
     #region getterSetters
     public Rigidbody Rb
     {
@@ -130,5 +132,11 @@ public class PlayerController : MonoBehaviour {
             }
 
         }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.GetComponent<CameraTrigger>())
+            currentCameraTrigger = other.GetComponent<CameraTrigger>();
     }
 }
