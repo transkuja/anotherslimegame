@@ -60,6 +60,10 @@ public class Breakable : MonoBehaviour {
                 }
             }
 
+
+            // Specific case wall breakable
+            if (GetComponent<Animation>() && !_player.GetComponent<EvolutionStrength>())
+                return;
             // deep impact
 
 
