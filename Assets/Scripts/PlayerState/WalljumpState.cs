@@ -11,13 +11,13 @@ public class WalljumpState : PlayerState
 
     public WalljumpState(PlayerControllerHub _playerController) : base(_playerController)
     {
-        maxCoolDown = 0.2f;
+        maxCoolDown = 0.18f;
     }
     public override void OnBegin()
     {
         base.OnBegin();
         curFixedUpdateFct = PushedFromWall;
-        pushTime = 0.27f;
+        pushTime = 0.22f;
         pushForce = 880;
         timer = 0;
 
@@ -30,7 +30,7 @@ public class WalljumpState : PlayerState
 
         // Freeze la velocity en xz
         playerController.Rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
-        playerController.Rb.drag = 13f;
+        playerController.Rb.drag = 14f;
     }
     public override void OnEnd()
     {

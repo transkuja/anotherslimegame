@@ -120,7 +120,7 @@ public class Collectable : MonoBehaviour
                 playerTarget = player;
                 return;
             }
-            else if(player.activeEvolutions == 0)
+            else if(player.activeEvolutions <= 1)
             {
                 IsAttracted = true;
                 playerTarget = player;

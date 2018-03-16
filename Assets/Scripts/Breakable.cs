@@ -26,38 +26,38 @@ public class Breakable : MonoBehaviour {
             //OnBreakEvent
             if (GetComponent<BreakEvent>() != null)
             {
-                if (_player.GetComponent<EvolutionComponent>() != null)
-                {
-                    return;
-                }
-
-                //Collectable collectableData = GetComponentInChildren<Collectable>();
-                //if (collectableData != null)
+                //if (_player.GetComponent<EvolutionComponent>() != null)
                 //{
-                //    switch(collectableData.type)
-                //    {
-                //        case CollectableType.AgileEvolution1:
-                //            if (_player.GetComponent<EvolutionAgile>() != null)
-                //                return;
-                //            break;
-                //        case CollectableType.PlatformistEvolution1:
-                //            if (_player.GetComponent<EvolutionPlatformist>() != null)
-                //                return;
-                //            break;
-                //        case CollectableType.StrengthEvolution1:
-                //            if (_player.GetComponent<EvolutionStrength>() != null)
-                //                return;
-                //            break;
-                //        case CollectableType.GhostEvolution1:
-                //            if (_player.GetComponent<EvolutionGhost>() != null)
-                //                return;
-                //            break;
-                //        default:
-                //            break;
-
-                //    }
-                    GetComponent<BreakEvent>().OnBreakEvent();
+                //    return;
                 //}
+
+                Collectable collectableData = GetComponentInChildren<Collectable>();
+                if (collectableData != null)
+                {
+                    switch (collectableData.type)
+                    {
+                        case CollectableType.AgileEvolution1:
+                            if (_player.GetComponent<EvolutionAgile>() != null)
+                                return;
+                            break;
+                        case CollectableType.PlatformistEvolution1:
+                            if (_player.GetComponent<EvolutionPlatformist>() != null)
+                                return;
+                            break;
+                        case CollectableType.StrengthEvolution1:
+                            if (_player.GetComponent<EvolutionStrength>() != null)
+                                return;
+                            break;
+                        case CollectableType.GhostEvolution1:
+                            if (_player.GetComponent<EvolutionGhost>() != null)
+                                return;
+                            break;
+                        default:
+                            break;
+
+                    }
+                    GetComponent<BreakEvent>().OnBreakEvent();
+                }
             }
 
             // deep impact

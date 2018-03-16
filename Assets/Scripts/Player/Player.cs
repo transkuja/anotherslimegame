@@ -247,7 +247,7 @@ public class Player : MonoBehaviour {
     {
         Evolution _evolution = GameManager.EvolutionManager.GetEvolutionByCollectableType(type);
 
-        bool canEvolve = ( activeEvolutions == 0);
+        bool canEvolve = ( activeEvolutions <= 1);
 
         if (!_launchProcessOnSucess)
             return canEvolve;
@@ -260,6 +260,16 @@ public class Player : MonoBehaviour {
 
     private void PermanentEvolution(Evolution evolution)
     {
+
+        // Remove old evolution !!! ghost handles it differently, thx seb
+        if(activeEvolutions >= 1)
+        {
+            if (GetComponent<EvolutionStrength>()) Destroy(GetComponent<EvolutionStrength>());
+            if (GetComponent<EvolutionAgile>()) Destroy(GetComponent<EvolutionAgile>());
+            if (GetComponent<EvolutionPlatformist>()) Destroy(GetComponent<EvolutionPlatformist>());
+            if (GetComponent<EvolutionGhost>()) Destroy(GetComponent<EvolutionGhost>());
+        }
+
         GameManager.EvolutionManager.AddEvolutionComponent(gameObject, evolution);
     }
 

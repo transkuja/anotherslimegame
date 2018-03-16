@@ -137,6 +137,7 @@ public class EvolutionGhost : EvolutionComponent
     protected new void OnDestroy()
     {
         //base.OnDestroy();
+        GetComponent<Player>().activeEvolutions--;
         gameObject.layer = LayerMask.NameToLayer("Player");
         RemoveGhostVisual();
     }
