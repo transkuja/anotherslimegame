@@ -17,7 +17,7 @@ public class WalljumpState : PlayerState
     {
         base.OnBegin();
         curFixedUpdateFct = PushedFromWall;
-        pushTime = 0.22f;
+        pushTime = 0.35f;
         pushForce = 880;
         timer = 0;
 
@@ -48,6 +48,7 @@ public class WalljumpState : PlayerState
         if (timer > pushTime)
         {
             playerController.PlayerState = playerController.freeState;
+            playerController.Rb.AddForce(pushDirection.normalized * pushForce /10.0f);
         }
     }
 

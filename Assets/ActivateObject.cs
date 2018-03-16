@@ -26,11 +26,12 @@ public class ActivateObject : MonoBehaviour
             if (Camera.main.GetComponent<Cinemachine.CinemachineBrain>().ActiveVirtualCamera.Name != switchToCam.Name)
             {
                 dCartComp.m_PositionUnits = positionUnits;
-                dCartComp.m_Speed = speed;
+                //dCartComp.m_Speed = speed;
 
                 switchToCam.VirtualCameraGameObject.SetActive(false);
                 switchToCam.VirtualCameraGameObject.SetActive(true);
 
+                switchToCam.GetComponent<Cinemachine.CinemachineVirtualCamera>().Follow = col.transform;
                 switchToCam.GetComponent<Cinemachine.CinemachineVirtualCamera>().LookAt = col.transform;
 
 
