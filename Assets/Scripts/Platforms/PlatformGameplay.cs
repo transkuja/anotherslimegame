@@ -23,6 +23,8 @@ public class PlatformGameplay : MonoBehaviour {
     [SerializeField]
     [Range(10.0f, 2000.0f)]
     float bounceStrength = 25.0f;
+    [SerializeField]
+    float maxbounceVelocity = 65f;
 
     [Header("Movement")]
     [SerializeField]
@@ -459,7 +461,7 @@ public class PlatformGameplay : MonoBehaviour {
             if (bouncyMask == (bouncyMask | (1 << collision.gameObject.layer)))
             {
                 if (collision.gameObject.GetComponent<Rigidbody>() != null)
-                    collision.gameObject.GetComponent<Rigidbody>().velocity += Vector3.up * bounceStrength;
+                  collision.gameObject.GetComponent<Rigidbody>().AddForce(Vector3.ClampMagnitude(Vector3.up * bounceStrength, maxbounceVelocity), ForceMode.Impulse);
                 if (collision.gameObject.GetComponent<PlayerControllerHub>() != null)
                     collision.gameObject.GetComponent<PlayerControllerHub>().canDoubleJump = true;
             }
