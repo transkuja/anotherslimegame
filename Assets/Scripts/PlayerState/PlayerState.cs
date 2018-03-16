@@ -162,7 +162,7 @@ public class PlayerState {
         else
         {
             if (playerController.IsGrounded 
-                    && (playerController.GetComponentInParent<PlatformGameplay>() && !playerController.GetComponentInParent<PlatformGameplay>().isBouncy)) // Handle anormal behavior on bouncing platform
+                    || (playerController.GetComponentInParent<PlatformGameplay>() && !playerController.GetComponentInParent<PlatformGameplay>().isBouncy)) // Handle anormal behavior on bouncing platform
                 playerController.Rb.drag = 15.0f;
             else
                 playerController.Rb.drag = 0.0f;
