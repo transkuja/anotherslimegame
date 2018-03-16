@@ -84,7 +84,6 @@ public class PlayerState {
         camVectorForward.Normalize();
 
         Vector3 velocityVec = initialVelocity.z * camVectorForward;
-        // MENU peter a cause de cette condition tu sais pourquoi c'est la antho ? sinon je peux faire une exception pour le menu
         if (!playerController.IsGrounded && playerController.jumpState.nbJumpMade == 2)
             velocityVec += initialVelocity.x * playerController.Player.cameraReference.transform.GetChild(0).right * airControlFactor;
         else
@@ -94,7 +93,7 @@ public class PlayerState {
     }
     public Vector3 GetVelocity3DSideView(Vector3 initialVelocity)
     {
-        Debug.LogError("GetVelocity3DSideView Not Impleented");
+        Debug.LogError("GetVelocity3DSideView Not Implemented");
         return Vector3.zero;
     }
     /// <summary>
