@@ -21,10 +21,10 @@ public class KartArrival : MonoBehaviour {
         float angle = Vector3.Angle(transform.forward, other.gameObject.GetComponent<Rigidbody>().velocity);
         if (player && angle < 90.0f )
         {
-            if(player.respawnPoint == lastCheckpoint.transform && player.NbPoints < 3)
+            if(player.respawnPoint == lastCheckpoint.transform && player.NbPoints < NumberOfLaps)
             {
-                player.NbPoints++;
-                player.CallOnValueChange(PlayerUIStat.Points, player.NbPoints);
+                if(++player.NbPoints < NumberOfLaps)
+                    player.CallOnValueChange(PlayerUIStat.Points, player.NbPoints +1);
             }
             if (player.NbPoints >= NumberOfLaps)
             {
