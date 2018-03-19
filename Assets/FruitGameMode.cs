@@ -11,6 +11,8 @@ public class FruitGameMode : GameMode {
         base.StartGame(playerReferences);
         rules = new MinigameRules(this);
 
+        checkRuneObjective = CheckRuneObjectiveForFruits;
+
         foreach (GameObject player in playerReferences)
             player.GetComponent<Player>().associateFruit = (Fruit)(player.GetComponent<Player>().PlayerController.playerIndex);
 
@@ -34,6 +36,20 @@ public class FruitGameMode : GameMode {
             cameraReferences[i].SetActive(true);
 
         }
+    }
+
+
+    bool CheckRuneObjectiveForFruits()
+    {
+        int pointsObjectiveFruit = 0;
+        int curScoreFruit = 0;
+        foreach (GameObject go in GameManager.Instance.PlayerStart.PlayersReference)
+        {
+            curScoreFruit += go.GetComponent<Player>().NbPoints;
+            pointsObjectiveFruit += necessaryPointsForRune;
+        }
+        currentScore = curScoreFruit;
+        return curScoreFruit >= pointsObjectiveFruit;
     }
 
 }

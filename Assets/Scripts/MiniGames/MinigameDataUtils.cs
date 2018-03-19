@@ -22,7 +22,7 @@ public static class MinigameDataUtils
         }
         else if (curGameMode is FruitGameMode)
         {
-            return "";
+            return "Fruits";
         }
         else if (curGameMode is PushGameMode)
         {
@@ -48,7 +48,7 @@ public static class MinigameDataUtils
         }
         else if (_minigameId == "Fruits")
         {
-            return "";
+            return "Fruits";
         }
         else if (_minigameId == "MinigamePush")
         {
@@ -74,7 +74,7 @@ public static class MinigameDataUtils
         }
         else if (curGameMode is FruitGameMode)
         {
-            return "";
+            return "Collect fruits who are associated to you\n Player 1 = Clementine\n Player 2 = Pomme\n Player 3 = Kiwi\n Player 4 = Fraise";
         }
         else if (curGameMode is PushGameMode)
         {
@@ -108,6 +108,9 @@ public static class MinigameDataUtils
         }
         else if (curGameMode is FruitGameMode)
         {
+            controls.Add(new ControlDetails(ControlType.Movement));
+            controls.Add(new ControlDetails(ControlType.Jump));
+            controls.Add(new ControlDetails(ControlType.Action, "Dash forward with X"));
         }
         else if (curGameMode is PushGameMode)
         {
@@ -139,6 +142,8 @@ public static class MinigameDataUtils
         }
         else if (curGameMode is FruitGameMode)
         {
+            possiblePickups.Add(new PossiblePickup(PickUpType.Changer, "Change all fruits in scene to your's"));
+            possiblePickups.Add(new PossiblePickup(PickUpType.Aspirator, "Collect all your fruits"));
         }
         return possiblePickups;
     }
@@ -160,7 +165,7 @@ public static class MinigameDataUtils
         }
         else if (curGameMode is FruitGameMode)
         {
-            return "";
+            return "Score " + ((FruitGameMode)_curGameMode).necessaryPointsForRune;
         }
         return "";
     }

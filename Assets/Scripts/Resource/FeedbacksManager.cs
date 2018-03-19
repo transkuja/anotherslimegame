@@ -28,6 +28,8 @@ public class FeedbacksManager : MonoBehaviour
     public GameObject colorAroundPreview;
     public GameObject colorArrowPreview;
     public GameObject colorFloorScorePreview;
+    public GameObject changerFruitPreview;
+    public GameObject aspiratorFruitPreview;
 
     public GameObject GetPickupPreview(PickUpType _type)
     {
@@ -51,6 +53,12 @@ public class FeedbacksManager : MonoBehaviour
                 break;
             case PickUpType.SpeedUp:
                 result = speedUpPreview;
+                break;
+            case PickUpType.Changer:
+                result = changerFruitPreview;
+                break;
+            case PickUpType.Aspirator:
+                result = aspiratorFruitPreview;
                 break;
             default:
                 return null;
