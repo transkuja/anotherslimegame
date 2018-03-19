@@ -9,7 +9,7 @@ public class Menu : MonoBehaviour {
     MenuState currentState = MenuState.TitleScreen;
 
     int currentCursor = 0;
-    int[] minigameCurrentCursor = new int[2];
+    int minigameCurrentCursor = 0;
 
     // -1 None, 0 Story/Hub, 1 minigame selection
     int selectedMode = -1;
@@ -329,18 +329,56 @@ public class Menu : MonoBehaviour {
 
     private void MinigameSelectionCursorControls()
     {
-        if ((controllerStates[0].ThumbSticks.Left.X > 0.5f && prevControllerStates[0].ThumbSticks.Left.X < 0.5f)
-            || (controllerStates[0].ThumbSticks.Left.X < -0.5f && prevControllerStates[0].ThumbSticks.Left.X > -0.5f))
+        if (controllerStates[0].ThumbSticks.Left.X > 0.5f && prevControllerStates[0].ThumbSticks.Left.X < 0.5f)
         {
-            buttonNeedUpdate = true;
-            minigameCurrentCursor[0]++;
+            minigameCurrentCursor++;
+            minigameCurrentCursor %= unlockedMinigames.Count;
+
+            // Currently selected
+            transform.GetChild((int)MenuState.MinigameSelection)
+                    .GetChild(0).GetComponent<MinigameSelectionAnim>().SetMinigame(unlockedMinigames[minigameCurrentCursor]);
+
+            // Previous
+            int previousMinigameIndex = minigameCurrentCursor - 1;
+            if (previousMinigameIndex < 0) previousMinigameIndex = unlockedMinigames.Count - 1;
+            transform.GetChild((int)MenuState.MinigameSelection)
+                    .GetChild(1).GetComponent<MinigameSelectionAnim>().SetMinigame(unlockedMinigames[previousMinigameIndex]);
+
+            // Next
+            transform.GetChild((int)MenuState.MinigameSelection)
+                    .GetChild(2).GetComponent<MinigameSelectionAnim>().SetMinigame(unlockedMinigames[(minigameCurrentCursor + 1)% unlockedMinigames.Count]);
+
+            //buttonNeedUpdate = true;
+            //minigameCurrentCursor[0]++;
         }
-        else if ((controllerStates[0].ThumbSticks.Left.Y < -0.75f && prevControllerStates[0].ThumbSticks.Left.Y > -0.75f)
-            || (controllerStates[0].ThumbSticks.Left.Y > 0.75f && prevControllerStates[0].ThumbSticks.Left.Y < 0.75f))
+        else if (controllerStates[0].ThumbSticks.Left.X < -0.5f && prevControllerStates[0].ThumbSticks.Left.X > -0.5f)
         {
-            buttonNeedUpdate = true;
-            minigameCurrentCursor[1]++;
+            minigameCurrentCursor--;
+            if (minigameCurrentCursor < 0)
+                minigameCurrentCursor = unlockedMinigames.Count - 1;
+            else
+                minigameCurrentCursor %= unlockedMinigames.Count;
+
+            // Currently selected
+            transform.GetChild((int)MenuState.MinigameSelection)
+                    .GetChild(0).GetComponent<MinigameSelectionAnim>().SetMinigame(unlockedMinigames[minigameCurrentCursor]);
+
+            // Previous
+            int previousMinigameIndex = minigameCurrentCursor - 1;
+            if (previousMinigameIndex < 0) previousMinigameIndex = unlockedMinigames.Count - 1;
+            transform.GetChild((int)MenuState.MinigameSelection)
+                    .GetChild(1).GetComponent<MinigameSelectionAnim>().SetMinigame(unlockedMinigames[previousMinigameIndex]);
+
+            // Next
+            transform.GetChild((int)MenuState.MinigameSelection)
+                    .GetChild(2).GetComponent<MinigameSelectionAnim>().SetMinigame(unlockedMinigames[(minigameCurrentCursor + 1) % unlockedMinigames.Count]);
         }
+        //else if ((controllerStates[0].ThumbSticks.Left.Y < -0.75f && prevControllerStates[0].ThumbSticks.Left.Y > -0.75f)
+        //    || (controllerStates[0].ThumbSticks.Left.Y > 0.75f && prevControllerStates[0].ThumbSticks.Left.Y < 0.75f))
+        //{
+        //    buttonNeedUpdate = true;
+        //    minigameCurrentCursor[1]++;
+        //}
     }
 
     // Move the button cursor and highlight it
@@ -355,26 +393,26 @@ public class Menu : MonoBehaviour {
 
     void UpdateSelectionVisualForMinigame()
     {
-        if (minigameButtonsInstantiated.Count == 4)
-        {
-            minigameCurrentCursor[0] %= 2;
-            minigameCurrentCursor[1] %= 2;
-        }
-        else if (minigameButtonsInstantiated.Count == 3)
-        {
-            if (minigameCurrentCursor[0] == 1 && minigameCurrentCursor[1] == 1)
-                minigameCurrentCursor[0] = 0;
+        //if (minigameButtonsInstantiated.Count == 4)
+        //{
+        //    minigameCurrentCursor[0] %= 2;
+        //    minigameCurrentCursor[1] %= 2;
+        //}
+        //else if (minigameButtonsInstantiated.Count == 3)
+        //{
+        //    if (minigameCurrentCursor[0] == 1 && minigameCurrentCursor[1] == 1)
+        //        minigameCurrentCursor[0] = 0;
 
-            minigameCurrentCursor[0] %= 2;
-            minigameCurrentCursor[1] %= 2;
-        }
-        if (minigameButtonsInstantiated.Count <= 2)
-            minigameCurrentCursor[1] = 0;
-        if (minigameButtonsInstantiated.Count == 1)
-            minigameCurrentCursor[0] = 0;
+        //    minigameCurrentCursor[0] %= 2;
+        //    minigameCurrentCursor[1] %= 2;
+        //}
+        //if (minigameButtonsInstantiated.Count <= 2)
+        //    minigameCurrentCursor[1] = 0;
+        //if (minigameButtonsInstantiated.Count == 1)
+        //    minigameCurrentCursor[0] = 0;
 
-        int childIndex = minigameCurrentCursor[0] + 2 * minigameCurrentCursor[1];
-        CurrentlySelectedButton = transform.GetChild((int)currentState).GetChild(childIndex).GetComponentInChildren<Button>();
+        //int childIndex = minigameCurrentCursor[0] + 2 * minigameCurrentCursor[1];
+        //CurrentlySelectedButton = transform.GetChild((int)currentState).GetChild(childIndex).GetComponentInChildren<Button>();
     }
 
     // Change the player color according to current selection
@@ -431,7 +469,8 @@ public class Menu : MonoBehaviour {
     public void SetState(MenuState _newState)
     {
         currentCursor = 0;
-        minigameCurrentCursor = new int[2];
+        //minigameCurrentCursor = new int[2];
+        minigameCurrentCursor = 0;
         transform.GetChild((int)currentState).gameObject.SetActive(false);
         currentState = _newState;
         transform.GetChild((int)currentState).gameObject.SetActive(true);
@@ -637,9 +676,10 @@ public class Menu : MonoBehaviour {
 
     void GoToNextStateFromMinigameSelection()
     {
-        int minigameIndex = minigameCurrentCursor[0] + 2 * minigameCurrentCursor[1];
+        //int minigameIndex = minigameCurrentCursor[0] + 2 * minigameCurrentCursor[1];
         SendDataToContainer();
-        SceneManager.LoadScene(unlockedMinigames[minigameIndex].Id);
+        SceneManager.LoadScene(transform.GetChild((int)MenuState.MinigameSelection)
+                    .GetChild(0).GetComponent<MinigameSelectionAnim>().GetMinigameId());
     }
 
 

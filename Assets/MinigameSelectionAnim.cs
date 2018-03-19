@@ -56,4 +56,8 @@ public class MinigameSelectionAnim : MonoBehaviour {
         GetComponentInChildren<Text>().text = MinigameDataUtils.GetTitle(_minigameData.Id);
     }
 
+    public string GetMinigameId()
+    {
+        return minigameData.Id;
+    }
 }
