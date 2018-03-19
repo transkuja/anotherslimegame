@@ -98,7 +98,7 @@ public class BonusSpawner : MonoBehaviour {
         {
             typeToSave[i] = tabTest[i].typeFruit;
             tabTest[i].typeFruit = typeToChange;
-            /*if(tabTest[i].typeFruit == Fruit.Clementine)
+            if(tabTest[i].typeFruit == Fruit.Clementine)
             {
                 tabTest[i].gameObject.GetComponent<Renderer>().material = matClementine;
             }
@@ -113,33 +113,30 @@ public class BonusSpawner : MonoBehaviour {
             else if (tabTest[i].typeFruit == Fruit.Fraise)
             {
                 tabTest[i].gameObject.GetComponent<Renderer>().material = matFraise;
-            }*/
+            }
             //changer le material ?
         }
         yield return new WaitForSeconds(2.0f);
         for(int j = 0; j < tabTest.Length; j++)
         {
-            for(int k = 0; k < typeToSave.Length; k++)
+            tabTest[j].typeFruit = typeToSave[j];
+            if (tabTest[j].typeFruit == Fruit.Clementine)
             {
-                tabTest[j].typeFruit = typeToSave[k];
-                /*if (tabTest[j].typeFruit == Fruit.Clementine)
-                {
-                    tabTest[j].gameObject.GetComponent<Renderer>().material = matClementine;
-                }
-                if (tabTest[j].typeFruit == Fruit.Pomme)
-                {
-                    tabTest[j].gameObject.GetComponent<Renderer>().material = matPomme;
-                }
-                if (tabTest[j].typeFruit == Fruit.Kiwi)
-                {
-                    tabTest[j].gameObject.GetComponent<Renderer>().material = matKiwi;
-                }
-                if (tabTest[j].typeFruit == Fruit.Fraise)
-                {
-                    tabTest[j].gameObject.GetComponent<Renderer>().material = matFraise;
-                }*/
-                //Rechanger le material ?
+                tabTest[j].gameObject.GetComponent<Renderer>().material = matClementine;
             }
+            if (tabTest[j].typeFruit == Fruit.Pomme)
+            {
+                tabTest[j].gameObject.GetComponent<Renderer>().material = matPomme;
+            }
+            if (tabTest[j].typeFruit == Fruit.Kiwi)
+            {
+                tabTest[j].gameObject.GetComponent<Renderer>().material = matKiwi;
+            }
+            if (tabTest[j].typeFruit == Fruit.Fraise)
+            {
+                tabTest[j].gameObject.GetComponent<Renderer>().material = matFraise;
+            }
+            //Rechanger le material ?
         }
     }
     
