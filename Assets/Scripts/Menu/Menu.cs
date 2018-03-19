@@ -211,6 +211,14 @@ public class Menu : MonoBehaviour {
                     CurrentlySelectedButton.onClick.Invoke();
                     GoToNextState();
                 }
+                else
+                {
+                    if (selectedMode == 1 && currentState == MenuState.MinigameSelection)
+                    {
+                        GoToNextStateFromMinigameSelection();
+                        return;
+                    }
+                }
             }
         }
         // Customisation screen inputs & behaviours
@@ -560,9 +568,8 @@ public class Menu : MonoBehaviour {
         {
             for (int i = 0; i < 3; ++i)
             {
-                Debug.Log(unlockedMinigames[i].spriteImage);
                 transform.GetChild((int)MenuState.MinigameSelection)
-                    .GetChild(i).GetComponent<MinigameSelectionAnim>().SetMinigame(unlockedMinigames[i]);
+                    .GetChild(i).GetComponent<MinigameSelectionAnim>().SetMinigame(unlockedMinigames[Mathf.Min(i, unlockedMinigames.Count - 1)]);
 
             }
 
@@ -631,12 +638,7 @@ public class Menu : MonoBehaviour {
         if (selectedMode == 0 && currentState == MenuState.CustomisationScreen)
             return;
 
-        if (selectedMode == 1 && currentState == MenuState.MinigameSelection)
-        {
-            GoToNextStateFromMinigameSelection();
-            return;
-        }
-
+        
         SetState((MenuState)((int)currentState + 1));
     }
 
@@ -677,6 +679,9 @@ public class Menu : MonoBehaviour {
     void GoToNextStateFromMinigameSelection()
     {
         //int minigameIndex = minigameCurrentCursor[0] + 2 * minigameCurrentCursor[1];
+        Debug.Log("??");
+        Debug.Log(transform.GetChild((int)MenuState.MinigameSelection)
+                    .GetChild(0).GetComponent<MinigameSelectionAnim>().GetMinigameId());
         SendDataToContainer();
         SceneManager.LoadScene(transform.GetChild((int)MenuState.MinigameSelection)
                     .GetChild(0).GetComponent<MinigameSelectionAnim>().GetMinigameId());
