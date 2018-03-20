@@ -24,6 +24,11 @@ public class UnderwaterState : PlayerState
         waterTolerance = playerController.GetComponent<SphereCollider>().radius;
         if (hasReachedTheSurface)
             playerController.Player.Anim.SetBool("isBoobbing", true);
+        else
+        {
+            if (AudioManager.Instance != null && AudioManager.Instance.splashWaterFx != null)
+                AudioManager.Instance.PlayOneShot(AudioManager.Instance.splashWaterFx);
+        }
     }
 
     public override void OnEnd()
