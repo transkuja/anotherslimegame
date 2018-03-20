@@ -124,12 +124,17 @@ public class PlayerStart : MonoBehaviour {
             else
                 go = Instantiate(playerPrefab);
 
-            if (GameManager.Instance.IsInHub() && GameManager.Instance.savedPositionInHub != Vector3.zero)
+            if (GameManager.Instance.IsInHub())
             {
-                go.transform.position = GameManager.Instance.savedPositionInHub + Vector3.right * i;
-                go.transform.rotation = GameManager.Instance.savedRotationInHub;
-                Player currentPlayer = go.GetComponent<Player>();
-                currentPlayer.respawnPoint = playerStart[i];
+                if (GameManager.Instance.savedPositionInHub != Vector3.zero)
+                {
+                    go.transform.position = GameManager.Instance.savedPositionInHub + Vector3.right * i;
+                    go.transform.rotation = GameManager.Instance.savedRotationInHub;
+                    Player currentPlayer = go.GetComponent<Player>();
+                    currentPlayer.respawnPoint = playerStart[i];
+                }
+
+                go.AddComponent<WindBlowingSound>();
             }
             else
             {

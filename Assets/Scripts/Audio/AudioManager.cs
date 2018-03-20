@@ -7,6 +7,7 @@ public class AudioManager : MonoBehaviour
 
     public AudioSource sourceMusic;
     public List<AudioSource> sourceFX;
+    public AudioSource windFxSource;
 
     public AudioClip musicGame;
 
@@ -25,6 +26,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip swimmingFx;
     public AudioClip sandStepFx;
     public AudioClip cascadaFx;
+    public AudioClip windBlowingFx;
 
     public AudioClip musicAssenseur;
 
@@ -180,6 +182,23 @@ public class AudioManager : MonoBehaviour
             sourceFX[sourceFXIndex].clip = clip;
         sourceFX[sourceFXIndex].volume = volumeFXs * volumeMultiplier;
         sourceFX[sourceFXIndex].Play();
+    }
+
+    public void PlayWind()
+    {
+        if (!windFxSource.isPlaying)
+        {
+            windFxSource.clip = windBlowingFx;
+            windFxSource.volume = volumeFXs * 10.0f;
+            windFxSource.Play();
+        }
+    }
+
+    public void StopWind()
+    {
+        if (windFxSource.isPlaying)
+            windFxSource.Stop();
+
     }
 
     public void ClearFX(AudioClip _fxToClear)
