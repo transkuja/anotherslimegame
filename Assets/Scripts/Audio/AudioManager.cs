@@ -182,4 +182,16 @@ public class AudioManager : MonoBehaviour
         sourceFX[sourceFXIndex].Play();
     }
 
+    public void ClearFX(AudioClip _fxToClear)
+    {
+        foreach (AudioSource source in sourceFX)
+        {
+            if (source.clip == _fxToClear)
+            {
+                source.Stop();
+                source.clip = null;
+            }
+        }
+    }
+
 }

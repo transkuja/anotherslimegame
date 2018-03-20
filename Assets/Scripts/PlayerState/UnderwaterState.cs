@@ -23,7 +23,9 @@ public class UnderwaterState : PlayerState
         base.OnBegin();
         waterTolerance = playerController.GetComponent<SphereCollider>().radius;
         if (hasReachedTheSurface)
+        {
             playerController.Player.Anim.SetBool("isBoobbing", true);
+        }
         else
         {
             if (AudioManager.Instance != null && AudioManager.Instance.splashWaterFx != null)
@@ -35,6 +37,9 @@ public class UnderwaterState : PlayerState
     {
         base.OnEnd();
         playerController.Player.Anim.SetBool("isBoobbing", false);
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.ClearFX(AudioManager.Instance.swimmingFx);
+
         hasReachedTheSurface = false;
         hasStartedGoingUp = false;
     }
