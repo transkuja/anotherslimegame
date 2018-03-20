@@ -67,7 +67,7 @@ public class PlayerControllerHub : PlayerController
     public bool forceCameraRecenter = false;
 
     public PlayerCollisionCenter collisionCenter;
-
+    public bool pendingStepSound = false;
 
 #if UNITY_EDITOR
     [SerializeField] public string curStateName; // debug purpose only
@@ -120,6 +120,16 @@ public class PlayerControllerHub : PlayerController
                     if (GetComponent<JumpManager>() != null && !tryByPassJumpStop)
                         GetComponent<JumpManager>().Stop();
                     GetComponent<Player>().Anim.SetBool("isExpulsed", false);
+
+                    if (pendingStepSound)
+                    {
+                        if (playerState != underwaterState)
+                        {
+                            if (AudioManager.Instance != null && AudioManager.Instance.sandStepFx != null)
+                                AudioManager.Instance.PlayOneShot(AudioManager.Instance.sandStepFx, 10.0f);
+                        }
+                        pendingStepSound = false;
+                    }
                 }
                 if (PlayerState != underwaterState)
                 {

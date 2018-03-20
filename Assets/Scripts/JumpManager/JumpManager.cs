@@ -70,8 +70,6 @@ public class JumpManager : MonoBehaviour
     }
     public void Stop()
     {
-        Debug.Log("JUMP STOP");
-
         if (forceStopCoroutine != null)
         {
             StopCoroutine("ForceStop");
@@ -82,6 +80,9 @@ public class JumpManager : MonoBehaviour
             curJump = null;
             pc.isGravityEnabled = true;
         }
+
+        GetComponent<PlayerControllerHub>().pendingStepSound = true;
+
     }
 
 
