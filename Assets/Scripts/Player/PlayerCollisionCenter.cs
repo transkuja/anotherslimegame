@@ -356,7 +356,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
                 DefaultCollision(collision, collision.transform.gameObject.GetComponent<Player>());
 
                 if (AudioManager.Instance != null && AudioManager.Instance.wahhFx != null)
-                    if (!AudioManager.Instance.sourceFX.isPlaying)
+                    //if (!AudioManager.Instance.sourceFX.isPlaying)
                         AudioManager.Instance.PlayOneShot(AudioManager.Instance.wahhFx);
             }
         }

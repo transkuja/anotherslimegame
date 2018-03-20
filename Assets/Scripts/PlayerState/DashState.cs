@@ -32,6 +32,9 @@ public class DashState : PlayerState
     public override void OnBegin()
     {
         base.OnBegin();
+        if (AudioManager.Instance != null && AudioManager.Instance.dashFx != null)
+            AudioManager.Instance.PlayOneShot(AudioManager.Instance.dashFx, 4);
+
         if (playerController.dashParticles && playerController.dashParticles.GetComponent<ParticleSystem>())
             playerController.dashParticles.GetComponent<ParticleSystem>().Play();
         playerController.GetComponent<JumpManager>().Stop();

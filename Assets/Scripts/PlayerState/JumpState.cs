@@ -45,7 +45,11 @@ public class JumpState : PlayerState
         playerController.IsGrounded = false;
         JumpManager jm;
         if (jm = playerController.GetComponent<JumpManager>())
+        {
             jm.Jump(JumpManager.JumpEnum.Basic);
+            if (AudioManager.Instance != null && AudioManager.Instance.jumpFx != null)
+                AudioManager.Instance.PlayOneShot(AudioManager.Instance.jumpFx);
+        }
         else
             Debug.LogError("No jump manager attached to player!");
 
