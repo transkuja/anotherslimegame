@@ -16,6 +16,7 @@ namespace Runner3D
         public static readonly Vector3 defaultBlockSize = Vector3.one * 20; // Taille du plus petit bloc possible
         [SerializeField] GameObject arrivalPrefab;
         [SerializeField] GameObject beginAreaPrefab; // prefab AreadyInScene
+        [SerializeField] GameObject cloudsPrefabModel;
 
         //  ref vers la pool. 
         //TODO: A transformer en dynamique pour contrôler la fréquence des blocs
@@ -154,6 +155,17 @@ namespace Runner3D
                     return;
                 }
             }
+        }
+        GameObject clouds;
+        public void InitClouds()
+        {
+            clouds = Instantiate(cloudsPrefabModel, transform);
+        }
+        public void UpdateCloudsPos()
+        {
+            Vector3 newCloudsPos = clouds.transform.position;
+            newCloudsPos.z = firstPlayerZRow * defaultBlockSize.z;
+            clouds.transform.position = newCloudsPos;
         }
 
         #endregion
@@ -296,6 +308,7 @@ namespace Runner3D
             state = State.Loading;
             runnerBlocPool = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.RunnerBloc);
             InitWalls();
+            InitClouds();
             Generate2DChunk();
             LevelBegin();
         }
@@ -308,7 +321,7 @@ namespace Runner3D
         }
         public void Update()
         {
-            UpdateWallPos();
+          
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
                 for (int z = 0; z < transform.childCount; z++)
@@ -317,6 +330,9 @@ namespace Runner3D
                 }
                 Generate2DChunk();
             }
+
+            UpdateCloudsPos();
+            UpdateWallPos();
             switch (state)
             {
                 case State.Loading:
