@@ -566,44 +566,12 @@ public class Menu : MonoBehaviour {
         // Minigame screen reset
         if (currentState == MenuState.MinigameSelection)
         {
+            CurrentlySelectedButton = null;
             for (int i = 0; i < 3; ++i)
             {
                 transform.GetChild((int)MenuState.MinigameSelection)
                     .GetChild(i).GetComponent<MinigameSelectionAnim>().SetMinigame(unlockedMinigames[Mathf.Min(i, unlockedMinigames.Count - 1)]);
-
             }
-
-            //if (minigameButtonsInstantiated.Count > 0)
-            //{
-            //    foreach (GameObject go in minigameButtonsInstantiated)
-            //        Destroy(go);
-            //}
-
-            //minigameButtonsInstantiated.Clear();
-
-            //for (int i = 0; i < unlockedMinigames.Count; i++)
-            //{
-            //    GameObject go = Instantiate(minigameScreenButtonPrefab, transform.GetChild((int)MenuState.MinigameSelection));
-            //    go.GetComponentInChildren<Text>().text = MinigameDataUtils.GetTitle(unlockedMinigames[i].Id);
-            //    // TODO: have preview for minigames
-
-            //    if(unlockedMinigames[i].spriteImage != string.Empty)
-            //    {
-            //        go.GetComponentsInChildren<Image>()[1].sprite = Resources.Load<Sprite>(unlockedMinigames[i].spriteImage) as Sprite;
-            //    }
-
-
-            //    go.transform.localPosition = new Vector2(200.0f * Mathf.Pow(-1, i + 1), (i < 2) ? 190.0f : -30.0f);
-            //    go.SetActive(i < 4);
-
-            //    minigameButtonsInstantiated.Add(go);
-            //}
-
-            //if (transform.GetChild((int)currentState).childCount > 0)
-            //{
-            //    CurrentlySelectedButton = transform.GetChild((int)currentState).GetChild(0).GetComponentInChildren<Button>();
-            //    CurrentlySelectedButton.GetComponent<AnimButton>().enabled = true;
-            //}
 
         }
     }
@@ -678,10 +646,6 @@ public class Menu : MonoBehaviour {
 
     void GoToNextStateFromMinigameSelection()
     {
-        //int minigameIndex = minigameCurrentCursor[0] + 2 * minigameCurrentCursor[1];
-        Debug.Log("??");
-        Debug.Log(transform.GetChild((int)MenuState.MinigameSelection)
-                    .GetChild(0).GetComponent<MinigameSelectionAnim>().GetMinigameId());
         SendDataToContainer();
         SceneManager.LoadScene(transform.GetChild((int)MenuState.MinigameSelection)
                     .GetChild(0).GetComponent<MinigameSelectionAnim>().GetMinigameId());
