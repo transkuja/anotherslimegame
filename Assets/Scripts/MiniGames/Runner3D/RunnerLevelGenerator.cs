@@ -15,6 +15,7 @@ namespace Runner3D
     {
         public static readonly Vector3 defaultBlockSize = Vector3.one * 20; // Taille du plus petit bloc possible
         [SerializeField] GameObject arrivalPrefab;
+        [SerializeField] GameObject beginAreaPrefab; // prefab AreadyInScene
 
         //  ref vers la pool. 
         //TODO: A transformer en dynamique pour contrôler la fréquence des blocs
@@ -303,6 +304,7 @@ namespace Runner3D
             MoveCursor(-nbRowUpInFrontFirst - 1);
             state = State.InGame;
             chunkLine = 0;
+            beginAreaPrefab.GetComponent<RunnerBlocs>().LauchLerp(DirLerpState.Down,timeBeforeFalling);
         }
         public void Update()
         {
