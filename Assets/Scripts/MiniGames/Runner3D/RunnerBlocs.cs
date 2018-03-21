@@ -79,6 +79,8 @@ namespace Runner3D
         {
             yield return new WaitForSeconds(waitTime);
 
+            
+
             Transform child = transform.GetChild(i);
 
             if (dir == DirLerpState.Down && child.GetComponent<PlatformGameplay>())
@@ -89,6 +91,7 @@ namespace Runner3D
                 angle = Random.Range(-100, -179);
             while (timer < 1)
             {
+                RemoveUnwantedPlayer();
                 timer += Time.deltaTime * 0.95f;
                 float factor = Ease.Evaluate(Ease.EASE_TYPE.BOUNCE_OUT, timer);
                 
@@ -133,6 +136,12 @@ namespace Runner3D
         {
             Gizmos.color = Color.grey;
             Gizmos.DrawWireCube(transform.position, Vector3.Scale(blockSize, RunnerLevelGenerator.defaultBlockSize));
+        }
+        void RemoveUnwantedPlayer()
+        {
+            Player player = transform.GetComponentInChildren<Player>();
+            if (player != null)
+                player.transform.parent = null;
         }
     }
     
