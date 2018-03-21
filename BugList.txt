@@ -1,7 +1,7 @@
 ﻿1 - Bug quand tu selectionne rainbow pour les minijeux ( test sur le premier qu'on a fait )
 	==> pas suffisant pour reproduire, j'ai rien vu de particulier
 
-
+4 - Le jeu crash si on met sur pause lors d'un minijeu
 
 
 
