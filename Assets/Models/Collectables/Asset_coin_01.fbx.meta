@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 0f6454109599c80469ac7d9c9bac63df
-timeCreated: 1512999905
+guid: c6aeb053ec4baa042bf7511b8979b07b
+timeCreated: 1521646185
 licenseType: Free
 ModelImporter:
   serializedVersion: 21
@@ -9,7 +9,7 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Asset_coin
+    4300000: Asset_coin_01
     9500000: //RootNode
   materials:
     importMaterials: 1
