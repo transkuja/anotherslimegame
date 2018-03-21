@@ -68,6 +68,8 @@ public class ScoreScreen : MonoBehaviour {
         replayScreen.SetActive(false);
         runeObjectiveUI.SetActive(false);
         gameObject.SetActive(false);
+
+        GetComponent<Canvas>().worldCamera = Camera.main;
     }
 
     public void RefreshScores(Player player, float _time = -1, TimeFormat timeFormat = TimeFormat.MinSec)
