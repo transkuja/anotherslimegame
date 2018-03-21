@@ -74,8 +74,6 @@ public class ScoreScreen : MonoBehaviour {
     {
         float time = (_time == -1) ? Time.timeSinceLevelLoad : _time;
 
-        Debug.Log("refresh scores");
-        Debug.Log(rank);
         rank++;
         if (rank == 1)
             GameManager.Instance.consecutiveVictories[(int)player.PlayerController.playerIndex]++;
@@ -102,7 +100,6 @@ public class ScoreScreen : MonoBehaviour {
                 }
                 else
                 {
-                    Debug.Log("SetScoreMiniGamePtsOnly");
                     transform.GetChild(rank).GetComponent<PlayerScore>().SetScoreMiniGamePtsOnly(
                         (int)player.PlayerController.PlayerIndex,
                         player.NbPoints.ToString()

@@ -34,11 +34,11 @@ public class PlayerScore : MonoBehaviour {
     public void SetScoreMiniGameTimeOnly(int _playerIndex, string _time)
     {
         Transform scorePanel = transform.GetChild(0);
-        float offset = scorePanel.GetChild((int)ScorePanel.PlayerIndex).localPosition.y / 2.0f;
-        scorePanel.GetChild((int)ScorePanel.PlayerIndex).localPosition = offset * Vector2.up;
+        float offset = scorePanel.GetChild((int)ScorePanel.PlayerIndex).localPosition.y / 4;
+        //scorePanel.GetChild((int)ScorePanel.PlayerIndex).localPosition += offset * Vector3.up;
         scorePanel.GetChild((int)ScorePanel.PlayerIndex).GetComponent<Text>().text = "P" + (_playerIndex + 1);
         scorePanel.GetChild((int)ScorePanel.Points).gameObject.SetActive(false);
-        scorePanel.GetChild((int)ScorePanel.Time).localPosition = -offset * Vector2.up;
+        scorePanel.GetChild((int)ScorePanel.Time).localPosition -= offset * Vector3.up;
         scorePanel.GetChild((int)ScorePanel.Time).GetComponent<Text>().text = _time;
 
         scorePanel.GetChild((int)ScorePanel.Time).GetComponent<Text>().fontSize = fontSizes[0];
@@ -49,11 +49,11 @@ public class PlayerScore : MonoBehaviour {
     {
         Debug.Log(transform.GetChild(0));
         Transform scorePanel = transform.GetChild(0);
-        float offset = scorePanel.GetChild((int)ScorePanel.PlayerIndex).localPosition.y / 2.0f;
-        scorePanel.GetChild((int)ScorePanel.PlayerIndex).localPosition = offset * Vector2.up;
+        float offset = scorePanel.GetChild((int)ScorePanel.PlayerIndex).localPosition.y / 4;
+        //scorePanel.GetChild((int)ScorePanel.PlayerIndex).localPosition += offset * Vector3.up;
         scorePanel.GetChild((int)ScorePanel.PlayerIndex).GetComponent<Text>().text = "P" + (_playerIndex + 1);
         scorePanel.GetChild((int)ScorePanel.Time).gameObject.SetActive(false);
-        scorePanel.GetChild((int)ScorePanel.Points).localPosition = -offset * Vector2.up;
+        scorePanel.GetChild((int)ScorePanel.Points).localPosition -= offset * Vector3.up;
         scorePanel.GetChild((int)ScorePanel.Points).GetComponent<Text>().text = _points + "pts";
 
         scorePanel.GetChild((int)ScorePanel.Points).GetComponent<Text>().fontSize = fontSizes[0];
