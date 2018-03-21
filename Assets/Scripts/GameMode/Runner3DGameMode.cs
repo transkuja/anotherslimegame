@@ -63,6 +63,7 @@ public class Runner3DGameMode : GameMode {
     public void OnPlayerDeath(int id)
     {
         GameManager.Instance.PlayerStart.PlayersReference[id].gameObject.SetActive(false);
+        PlayerHasFinished(GameManager.Instance.PlayerStart.PlayersReference[id].GetComponent<Player>());
         nbDeadPlayers++;
         CheckVictory();
     }
