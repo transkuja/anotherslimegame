@@ -22,9 +22,11 @@ public static class ColorFloorHandler {
         if (!isInitialized)
             return;
 
-        ColorFloorHandler.UnregisterFloor(_toRegister);
         if (!currentlyColoredByPlayer[_playerIndex].Contains(_toRegister))
         {
+            ColorFloorHandler.UnregisterFloor(_toRegister);
+            _toRegister.GetComponent<Animator>().SetBool("animate", true);
+
             currentlyColoredByPlayer[_playerIndex].Add(_toRegister);
             _toRegister.GetComponent<MeshRenderer>().material.EnableKeyword("_EMISSION");
             _toRegister.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", GameManager.Instance.PlayerStart.colorPlayer[_playerIndex]);
