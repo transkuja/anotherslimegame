@@ -551,15 +551,19 @@ public class Menu : MonoBehaviour {
 
                     if (DataContainer.launchedFromMinigameScreen)
                     {
-                        go.transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
-                        go.transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
-
                         UpdatePlayerPreviewColor(i);
                         UpdatePlayerPreviewFace(i);
                     }
 
                 }
                 CurrentlySelectedButton = null;
+            }
+
+            // Feedback reset
+            foreach (GameObject go in playerCustomScreens)
+            {
+                go.transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
+                go.transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
             }
         }
 
