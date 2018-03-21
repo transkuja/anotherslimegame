@@ -63,11 +63,10 @@ namespace Runner3D
        
         public void LauchLerp(DirLerpState dir,float waitTime = 0)
         {
-            //if (curState == DirLerpState.Moving)
-            //    Debug.Log("OrderToFast");
+
+           
+
             curState = DirLerpState.Moving;
-            //if (dir == DirLerpState.Down)
-            //    SaveStartPos();
             float[] timer = new float[transform.childCount];
             for (int i = 0; i < transform.childCount; i++)
             {
@@ -78,8 +77,18 @@ namespace Runner3D
         IEnumerator LerpItem(float timer,int i, DirLerpState dir,float waitTime = 0)
         {
             yield return new WaitForSeconds(waitTime);
+            if (dir  == DirLerpState.Down)
+            {
+                float vibratingTimer = Random.Range(0,0.25f);
+                while (vibratingTimer < 1)
+                {
+                    vibratingTimer += Time.deltaTime;
+                    VibrateBeforeFalling(i);
+                    yield return null;
+                }
+            }
 
-            
+
 
             Transform child = transform.GetChild(i);
 
@@ -119,6 +128,19 @@ namespace Runner3D
             curState = dir;
             yield return null;
         }
+
+        public void VibrateBeforeFalling(int iId)
+        {
+            RemoveUnwantedPlayer();
+            Transform child = transform.GetChild(iId);
+            float vibratingVar = Random.Range(0.0f, 1.0f) *0.75f;
+            Vector3 newPos = child.position;
+            newPos.y = baseYPos[iId] + vibratingVar;
+            child.position = newPos;
+
+        }
+
+
         public void HasFinishedBeenUsed(int childI)
         {
             hasFinished[childI] = true;
@@ -132,17 +154,19 @@ namespace Runner3D
             }
         }
 
-        public void OnDrawGizmosSelected()
-        {
-            Gizmos.color = Color.grey;
-            Gizmos.DrawWireCube(transform.position, Vector3.Scale(blockSize, RunnerLevelGenerator.defaultBlockSize));
-        }
         void RemoveUnwantedPlayer()
         {
             Player player = transform.GetComponentInChildren<Player>();
             if (player != null)
                 player.transform.parent = null;
         }
+
+        public void OnDrawGizmosSelected()
+        {
+            Gizmos.color = Color.grey;
+            Gizmos.DrawWireCube(transform.position, Vector3.Scale(blockSize, RunnerLevelGenerator.defaultBlockSize));
+        }
+
     }
     
 }
