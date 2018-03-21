@@ -30,6 +30,7 @@ public class UI : MonoBehaviour {
         if (newScene.buildIndex == 0) //could compare Scene.name instead
         {
             // test
+
             GameManager.UiReference = null;
             Destroy(this); //change as appropriate
             Destroy(this.gameObject); //change as appropriate
@@ -62,7 +63,7 @@ public class UI : MonoBehaviour {
 
     private void OnLevelWasLoaded(int level)
     {
-        if( level != 0)
+        if ( level != 0)
         {
             if (!GameManager.Instance.IsInHub())
             {

@@ -58,7 +58,10 @@ public class BonusSpawner : MonoBehaviour {
             if (toInstantiate == null)
                 Debug.Log("There's no prefab for the type " + _type + " , can't instantiate Bonus.");
             else
-                Instantiate(toInstantiate, new Vector3(Random.Range(minX, maxX), 35, Random.Range(minZ, maxZ)), Quaternion.identity, transform);
+            {
+                toInstantiate = Instantiate(toInstantiate, new Vector3(Random.Range(minX, maxX), 35, Random.Range(minZ, maxZ)), Quaternion.identity, transform);
+                toInstantiate.GetComponent<Rigidbody>().useGravity = true;
+            }
 		}
 	}
 	
