@@ -8,10 +8,6 @@ using UnityEngine.UI;
 
 
 public class ScoreScreen : MonoBehaviour {
-    enum ScoreScreenChildren { ScorePanel }
-
-    GameObject scorePanel;
-
     public GameObject prefabPlayerScore;
 
     public Dictionary<Player, GameObject> scorePanelPlayer = new Dictionary<Player, GameObject>();
@@ -50,9 +46,7 @@ public class ScoreScreen : MonoBehaviour {
     private void Awake()
     {
         GameManager.Instance.RegisterScoreScreenPanel(this);
-        scorePanel = transform.GetChild((int)ScoreScreenChildren.ScorePanel).gameObject;
         gameObject.SetActive(false);
-
     }
 
     public void Init()
@@ -61,27 +55,27 @@ public class ScoreScreen : MonoBehaviour {
         canExit = false;
         startExitTimer = false;
         timerCanExit = 2.0f;
-        for (int i = 1; i < podium.transform.childCount - 1; i++)
-            podium.transform.GetChild(i).gameObject.SetActive(true);
-        podium.transform.GetChild(5).gameObject.SetActive(false);
+        rank = 0;
+        //for (int i = 1; i < podium.transform.childCount - 1; i++)
+        //    podium.transform.GetChild(i).gameObject.SetActive(true);
+        //podium.transform.GetChild(5).gameObject.SetActive(false);
 
-        for (int i = 0; i < transform.childCount; i++)
+        for (int i = 1; i < transform.childCount; i++)
             transform.GetChild(i).GetChild(0).gameObject.SetActive(true);
+
+        transform.GetChild(0).gameObject.SetActive(true);
+
         replayScreen.SetActive(false);
         runeObjectiveUI.SetActive(false);
         gameObject.SetActive(false);
-
-        for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
-        {
-            GameObject playerScore = Instantiate(prefabPlayerScore, scorePanel.transform);
-            scorePanelPlayer.Add(GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<Player>(), playerScore);
-        }
     }
 
     public void RefreshScores(Player player, float _time = -1, TimeFormat timeFormat = TimeFormat.MinSec)
     {
         float time = (_time == -1) ? Time.timeSinceLevelLoad : _time;
 
+        Debug.Log("refresh scores");
+        Debug.Log(rank);
         rank++;
         if (rank == 1)
             GameManager.Instance.consecutiveVictories[(int)player.PlayerController.playerIndex]++;
@@ -97,26 +91,27 @@ public class ScoreScreen : MonoBehaviour {
 
         if(GameManager.Instance.CurrentGameMode.IsMiniGame())
         {
-            if (transform.childCount >= rank - 1) // who did this ugly line?
-            {
+            //if (transform.childCount >= rank - 1) // who did this ugly line?
+            //{
                 if (GameManager.Instance.CurrentGameMode.GetType() == typeof(KartGameMode))
                 {
-                    transform.GetChild(rank - 1).GetComponent<PlayerScore>().SetScoreMiniGameTimeOnly(
+                    transform.GetChild(rank).GetComponent<PlayerScore>().SetScoreMiniGameTimeOnly(
                         (int)player.PlayerController.PlayerIndex,
                         timeStr
                     );
                 }
                 else
                 {
-                    transform.GetChild(rank - 1).GetComponent<PlayerScore>().SetScoreMiniGamePtsOnly(
+                    Debug.Log("SetScoreMiniGamePtsOnly");
+                    transform.GetChild(rank).GetComponent<PlayerScore>().SetScoreMiniGamePtsOnly(
                         (int)player.PlayerController.PlayerIndex,
                         player.NbPoints.ToString()
                     );
                 }
 
-                transform.GetChild(rank - 1).gameObject.SetActive(true);
+                transform.GetChild(rank).gameObject.SetActive(true);
 
-            }
+            //}
         }
         else
         {
@@ -125,17 +120,17 @@ public class ScoreScreen : MonoBehaviour {
                 GameManager.Instance.LaunchFinalTimer();
             }
 
-            if (transform.childCount >= rank - 1) // who did this ugly line?
-            {
-                transform.GetChild(rank - 1).GetComponent<PlayerScore>().SetScoreDefault(
+            //if (transform.childCount >= rank - 1) // who did this ugly line?
+            //{
+                transform.GetChild(rank).GetComponent<PlayerScore>().SetScoreDefault(
                     (int)player.PlayerController.PlayerIndex,
                     GameManager.Instance.isTimeOver ? "Timeout" : timeStr,
                     player.NbPoints.ToString()
                 );
 
-                transform.GetChild(rank - 1).gameObject.SetActive(true);
+                transform.GetChild(rank).gameObject.SetActive(true);
 
-            }
+            //}
         }
         player.rank = rank;
 
@@ -175,6 +170,7 @@ public class ScoreScreen : MonoBehaviour {
 
     void RefreshScoresTimeOver(Player[] _remainingPlayers)
     {
+        Debug.Log(_remainingPlayers.Length);
         for (int i = 0; i < _remainingPlayers.Length; i++)
             RefreshScores(_remainingPlayers[i]);
     }
