@@ -1,7 +1,6 @@
-1 - Bug quand tu selectionne rainbow pour les minijeux ( test sur le premier qu'on a fait )
+﻿1 - Bug quand tu selectionne rainbow pour les minijeux ( test sur le premier qu'on a fait )
 	==> pas suffisant pour reproduire, j'ai rien vu de particulier
 
-3 - Le dash ne s'arrete plus lors de l'impact
 
 
 
@@ -15,3 +14,5 @@
 
 2 - Bug quand tu passes de 2 joueurs a 1 joueur après selection du niveau
 	==> feedback non reset lors du retour arrière (custom screen)
+
+3 - Le dash ne s'arrete plus lors de l'impact

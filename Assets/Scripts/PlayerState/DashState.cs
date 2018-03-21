@@ -60,8 +60,9 @@ public class DashState : PlayerState
 
     public virtual void OnDashState()
 {
-        playerController.Player.Rb.AddForce(playerController.transform.forward * dashingVelocity, ForceMode.VelocityChange);
-        
+        //playerController.Player.Rb.AddForce(playerController.transform.forward * dashingVelocity, ForceMode.VelocityChange);
+        playerController.Player.Rb.velocity = playerController.transform.forward * dashingVelocity;
+
         dashingTimer -= Time.fixedDeltaTime;
         if (dashingTimer <= 0.0f)
         {
