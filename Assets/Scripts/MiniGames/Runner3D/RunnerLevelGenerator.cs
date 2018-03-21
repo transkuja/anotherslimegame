@@ -166,7 +166,7 @@ namespace Runner3D
             if (lastPosInLine.HasValue)
                 posInLine = lastPosInLine.Value;
             else
-                posInLine =  Random.Range(0, (int)levelUnit.x);
+                posInLine = Mathf.FloorToInt(levelUnit.x*0.5f)   ;
 
             for (int z = 0; z < levelUnit.z; z++)
             {

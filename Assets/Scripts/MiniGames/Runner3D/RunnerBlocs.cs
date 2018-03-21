@@ -63,9 +63,6 @@ namespace Runner3D
        
         public void LauchLerp(DirLerpState dir,float waitTime = 0)
         {
-
-           
-
             curState = DirLerpState.Moving;
             float[] timer = new float[transform.childCount];
             for (int i = 0; i < transform.childCount; i++)
@@ -77,6 +74,8 @@ namespace Runner3D
         IEnumerator LerpItem(float timer,int i, DirLerpState dir,float waitTime = 0)
         {
             yield return new WaitForSeconds(waitTime);
+
+                    // vibrating  
             if (dir  == DirLerpState.Down)
             {
                 float vibratingTimer = Random.Range(0,0.25f);
@@ -87,11 +86,9 @@ namespace Runner3D
                     yield return null;
                 }
             }
-
-
-
             Transform child = transform.GetChild(i);
 
+            // Falling  
             if (dir == DirLerpState.Down && child.GetComponent<PlatformGameplay>())
                     child.GetComponent<PlatformGameplay>().enabled = false;
 
@@ -121,8 +118,7 @@ namespace Runner3D
 
                 yield return null;
             }
-            if (dir == DirLerpState.Up)
-            if (child.GetComponent<PlatformGameplay>())
+            if (dir == DirLerpState.Up&& child.GetComponent<PlatformGameplay>())
                 child.GetComponent<PlatformGameplay>().enabled = true;
 
             curState = dir;
