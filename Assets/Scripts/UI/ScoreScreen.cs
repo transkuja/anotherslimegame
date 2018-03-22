@@ -133,13 +133,6 @@ public class ScoreScreen : MonoBehaviour {
         }
         player.rank = rank;
 
-        if (rank == 1)
-            player.Anim.SetBool("hasFinishedFirst", true);
-        else if (rank == 4)
-            player.Anim.SetBool("hasFinishedLast", true);
-        else
-            player.Anim.SetBool("hasFinished", true);
-
         nbrOfPlayersAtTheEnd++;
         CheckEndGame();
     }
@@ -181,29 +174,13 @@ public class ScoreScreen : MonoBehaviour {
             List<GameObject> players = GameManager.Instance.PlayerStart.PlayersReference;
             for (int i = 0; i < players.Count; i++)
             {
-                Player curPlayer = players[i].GetComponent<Player>();
-                if (curPlayer.cameraReference)
-                    curPlayer.cameraReference.SetActive(false);
-                curPlayer.transform.SetParent(podium.GetChild(curPlayer.rank));
-                if(curPlayer.GetComponent<PlayerController>())
-                {
-                    curPlayer.GetComponent<PlayerController>().enabled = false;
-                }
-
-                if(curPlayer.GetComponent<Rigidbody>())
-                {
-                    curPlayer.GetComponentInChildren<Rigidbody>().velocity = Vector3.zero;
-                    curPlayer.GetComponentInChildren<Rigidbody>().angularVelocity = Vector3.zero;
-                }
-                if (curPlayer.GetComponent<JumpManager>())
-                {
-                    curPlayer.GetComponent<JumpManager>().enabled = false;
-                    curPlayer.Anim.SetBool("isExpulsed", false);
-                }
-                curPlayer.transform.localPosition = Vector3.zero;
-                curPlayer.transform.localRotation = Quaternion.identity;
+                players[i].SetActive(false);
+                if (players[i].GetComponent<Player>().cameraReference)
+                    players[i].GetComponent<Player>().cameraReference.SetActive(false);
             }
-            podium.GetChild(5).gameObject.SetActive(true);
+
+            EnablePodium(players);
+
             // Hide timer
             GameManager.UiReference.transform.GetChild(1).gameObject.SetActive(false);
             // Change render mode so we can see the UI updating
@@ -238,6 +215,33 @@ public class ScoreScreen : MonoBehaviour {
             }
             else
                 startExitTimer = true;
+        }
+    }
+
+    void EnablePodium(List<GameObject> _players)
+    {
+        for (int i = 1; i < nbrOfPlayersAtTheEnd + 1; i++)
+            podium.GetChild(i).gameObject.SetActive(true);
+
+        foreach (GameObject curPlayer in _players)
+        {
+            int curPlayerRank = curPlayer.GetComponent<Player>().rank;
+            GameObject podiumPlayer = podium.GetChild(curPlayerRank).gameObject;
+            PlayerCosmetics curPlayerCosmetics = curPlayer.GetComponentInChildren<PlayerCosmetics>();
+            PlayerCosmetics podiumPlayerCosmetics = podiumPlayer.GetComponentInChildren<PlayerCosmetics>();
+
+            podiumPlayerCosmetics.UseColorFade = curPlayerCosmetics.UseColorFade;
+            podiumPlayerCosmetics.SetUniqueColor(curPlayerCosmetics.BodyColor);
+            podiumPlayerCosmetics.FaceType = curPlayerCosmetics.FaceType;
+            podiumPlayerCosmetics.FaceEmotion = (curPlayerRank == 1 || curPlayerRank == 2) ? FaceEmotion.Winner : FaceEmotion.Loser;
+
+
+            if (curPlayerRank == 1)
+                podiumPlayer.GetComponentInChildren<Animator>().SetBool("hasFinishedFirst", true);
+            else if (curPlayerRank == 4)
+                podiumPlayer.GetComponentInChildren<Animator>().SetBool("hasFinishedLast", true);
+            else
+                podiumPlayer.GetComponentInChildren<Animator>().SetBool("hasFinished", true);
         }
     }
 

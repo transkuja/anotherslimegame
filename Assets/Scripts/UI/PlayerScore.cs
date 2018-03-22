@@ -57,7 +57,8 @@ public class PlayerScore : MonoBehaviour {
         scorePanel.GetChild((int)ScorePanel.Points).GetComponent<Text>().text = _points + "pts";
 
         scorePanel.GetChild((int)ScorePanel.Points).GetComponent<Text>().fontSize = fontSizes[0];
-        scorePanel.GetChild((int)ScorePanel.Points).GetComponent<Outline>().enabled = true;
+        if (scorePanel.GetChild((int)ScorePanel.Points).GetComponent<Outline>())
+            scorePanel.GetChild((int)ScorePanel.Points).GetComponent<Outline>().enabled = true;
     }
 
 }
