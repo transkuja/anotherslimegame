@@ -212,6 +212,9 @@ public class PlayerState {
     {
         playerController.Player.Anim.SetFloat("MouvementSpeed", Utils.Abs(playerController.State.ThumbSticks.Left.X) > Utils.Abs(playerController.State.ThumbSticks.Left.Y) ? Utils.Abs(playerController.State.ThumbSticks.Left.X) + 0.2f : Utils.Abs(playerController.State.ThumbSticks.Left.Y) + 0.2f);
         playerController.Player.Anim.SetBool("isWalking", ((Utils.Abs(playerController.State.ThumbSticks.Left.X) > 0.02f) || Utils.Abs(playerController.State.ThumbSticks.Left.Y) > 0.02f) && playerController.IsGrounded);
+        float lastValue = playerController.Player.Anim.GetFloat("YVelocity");
+        float newValue = Mathf.Lerp(lastValue, (Mathf.Clamp(playerController.Rb.velocity.y / 30.0f, -1.0f, 1.0f) + 1) / 2.0f, 0.25f);
+        playerController.Player.Anim.SetFloat("YVelocity", newValue);
     }
 
 
