@@ -5,8 +5,8 @@ using UWPAndXInput;
 using System.Collections.Generic;
 
 public class Menu : MonoBehaviour {
-    public enum MenuState { Common, TitleScreen, ModeSelection, NumberOfPlayers, CustomisationScreen, MinigameSelection }
-    MenuState currentState = MenuState.TitleScreen;
+    public enum MenuState { Common, TitleScreenModeSelection, NumberOfPlayers, CustomisationScreen, MinigameSelection }
+    MenuState currentState = MenuState.TitleScreenModeSelection;
 
     int currentCursor = 0;
     int minigameCurrentCursor = 0;
@@ -138,27 +138,11 @@ public class Menu : MonoBehaviour {
         }
         // Default behaviour. Start on title screen.
         else
-            SetState(MenuState.TitleScreen);
-    }
-
-    void TitleScreenInputHandling()
-    {
-        if (Input.anyKey)
-        {
-            GoToNextState();
-            return;
-        }
+            SetState(MenuState.TitleScreenModeSelection);
     }
 
     void Update()
     {
-        // Title screen inputs
-        if (currentState == MenuState.TitleScreen)
-        {
-            TitleScreenInputHandling();
-            return;
-        }
-
 
         // Save all players input
         for (int i = 0; i < 4; i++)
@@ -171,7 +155,7 @@ public class Menu : MonoBehaviour {
         if (prevControllerStates[0].Buttons.B == ButtonState.Released && controllerStates[0].Buttons.B == ButtonState.Pressed)
         {
             // For CustomisationScreen, we want to be sure that Player 1 is not in "ready" state so we handle rewind elsewhere
-            if (currentState != MenuState.TitleScreen && currentState != MenuState.CustomisationScreen)
+            if (currentState != MenuState.TitleScreenModeSelection && currentState != MenuState.CustomisationScreen)
             {
                 ReturnToPreviousState();
                 return;
@@ -484,7 +468,7 @@ public class Menu : MonoBehaviour {
         transform.GetChild((int)currentState).gameObject.SetActive(true);
 
         // Mode selection step reset
-        if (currentState == MenuState.ModeSelection)
+        if (currentState == MenuState.TitleScreenModeSelection)
         {
             CurrentlySelectedButton = transform.GetChild((int)currentState).GetChild(0).GetChild(currentCursor).GetComponent<Button>();
             selectedMode = -1;
@@ -616,7 +600,7 @@ public class Menu : MonoBehaviour {
 
     void ReturnToPreviousState()
     {
-        if (currentState == MenuState.ModeSelection || currentState == MenuState.TitleScreen)
+        if (currentState == MenuState.TitleScreenModeSelection)
             return;
         SetState((MenuState)((int)currentState - 1));
     }
