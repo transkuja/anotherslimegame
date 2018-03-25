@@ -13,8 +13,8 @@
 	SubShader {
 		Tags { "RenderType"="Transparent" "IgnoreProjector" = "True" "RenderQueue"="Overlay" }
 		LOD 200
-		ZWrite Off
-		ZTest Off
+		ZWrite On
+		ZTest On
 		CGPROGRAM
 		// Physically based Standard lighting model, and enable shadows on all light types
 		#pragma surface surf Standard fullforwardshadows
