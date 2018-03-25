@@ -70,16 +70,22 @@ public class SetCamerasValues : MonoBehaviour {
                 cp.m_TrackedObjectOffset = new Vector3(0f, -2.0f, 0f);
                 cp.m_ScreenX = .5f;
                 cp.m_ScreenY = .55f;
+                cp.m_DeadZoneWidth = 0.01f;
+                cp.m_DeadZoneHeight = 0.015f;
 
                 cp = ((cam.GetRig(1).GetCinemachineComponent<CinemachineComposer>()));
                 cp.m_TrackedObjectOffset = new Vector3(0f, -1.0f, 0f);
                 cp.m_ScreenX = .5f;
                 cp.m_ScreenY = .55f;
+                cp.m_DeadZoneWidth = 0.01f;
+                cp.m_DeadZoneHeight = 0.015f;
 
                 cp = ((cam.GetRig(2).GetCinemachineComponent<CinemachineComposer>()));
                 cp.m_TrackedObjectOffset = new Vector3(0f, -0.15f, 0f);
                 cp.m_ScreenX = .5f;
                 cp.m_ScreenY = .6f;
+                cp.m_DeadZoneWidth = 0.01f;
+                cp.m_DeadZoneHeight = 0.015f;
 
                 //Body
                 CinemachineTransposer tr;
