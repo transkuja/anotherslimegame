@@ -30,8 +30,7 @@ public class PlayerControllerKart : PlayerController {
     CheckPoint LastCheckpoint;
 
     KartPlayerState currentState = KartPlayerState.Normal;
-    GamePadState state;
-    GamePadState previousState;
+
     Vector3 targetForward;
     float dashTimer = 0.0f;
     float hitTimer = 0.0f;
@@ -71,11 +70,10 @@ public class PlayerControllerKart : PlayerController {
         player = GetComponent<Player>();
         Rb = GetComponent<Rigidbody>();
         targetForward = transform.forward;
-        state = GamePad.GetState(PlayerIndex);
-        previousState = state;
     }
 
-	void Update () {
+	public override void Update () {
+        base.Update();
 
         state = GamePad.GetState(PlayerIndex);
         switch(CurrentState)
@@ -90,8 +88,6 @@ public class PlayerControllerKart : PlayerController {
                 HandleFinishedRaceState();
                 break;
         }
-
-        previousState = state;
 	}
 
     void ApplyGravity()
@@ -133,7 +129,7 @@ public class PlayerControllerKart : PlayerController {
 
         //rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxVelocityMagnitude);
 
-        if (dashTimer >= dashCooldown && state.Buttons.X == ButtonState.Pressed && previousState.Buttons.X == ButtonState.Released)
+        if (dashTimer >= dashCooldown && state.Buttons.X == ButtonState.Pressed && prevState.Buttons.X == ButtonState.Released)
         {
             rb.AddForce(transform.forward * dashForce, ForceMode.Impulse);
             dashTimer = 0.0f;

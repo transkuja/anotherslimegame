@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UWPAndXInput;
-
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -119,6 +119,27 @@ public class PlayerController : MonoBehaviour
         if (GameManager.CurrentState == GameState.Normal)
         {
             UsePickupControls();
+        }
+
+        if (SceneManager.GetActiveScene() != SceneManager.GetSceneByBuildIndex(0))
+        {
+            if (prevState.Buttons.Start == ButtonState.Released && state.Buttons.Start == ButtonState.Pressed)
+            {
+                // Only the player who paused the game can remove the pause
+                if (GameManager.CurrentState == GameState.Paused)
+                {
+                    // Check if player index match to remove pause
+                    if ((int)playerIndex == GameManager.Instance.playerWhoPausedTheGame)
+                    {
+                        GameManager.ChangeState(GameState.Normal);
+                    }
+                }
+                else
+                {
+                    GameManager.Instance.playerWhoPausedTheGame = (int)playerIndex;
+                    GameManager.ChangeState(GameState.Paused);
+                }
+            }
         }
     }
 

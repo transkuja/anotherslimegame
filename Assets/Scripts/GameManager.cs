@@ -271,13 +271,16 @@ public class GameManager : MonoBehaviour {
                     PlayerControllerHub curPlayerController = instance.playerStart.PlayersReference[i].GetComponent<PlayerControllerHub>();
 
                     // TODO: dash missing but we'll see after refacto
-                    if (curPlayerController.PreviousPlayerState == curPlayerController.underwaterState)
+                    if (curPlayerController != null)
                     {
-                        Utils.GetUnderwaterStateDataFromPausedState(curPlayerController.underwaterState, curPlayerController.pausedState);
-                        curPlayerController.PlayerState = curPlayerController.underwaterState;
+                        if (curPlayerController.PreviousPlayerState == curPlayerController.underwaterState)
+                        {
+                            Utils.GetUnderwaterStateDataFromPausedState(curPlayerController.underwaterState, curPlayerController.pausedState);
+                            curPlayerController.PlayerState = curPlayerController.underwaterState;
+                        }
+                        else
+                            curPlayerController.PlayerState = curPlayerController.freeState;
                     }
-                    else
-                        curPlayerController.PlayerState = curPlayerController.freeState;
 
                 }
             }
