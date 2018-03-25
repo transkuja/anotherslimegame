@@ -64,8 +64,6 @@ namespace DatabaseClass
     [CreateAssetMenu(fileName = "Database", menuName = "Custom/Database", order = 1)]
     public class Database : ScriptableObject
     {
-        [SerializeField]
-        public int nbRunes;
 
         [SerializeField]
         public int Money;
@@ -81,6 +79,16 @@ namespace DatabaseClass
 
         [SerializeField]
         public List<RuneData> runes;
+
+        public int NbRunes
+        {
+            get
+            {
+                if (runes.FindAll(a => a.isUnlocked == true) != null)
+                    return runes.FindAll(a => a.isUnlocked == true).Count;
+                return 0;
+            }
+        }
 
         public void SetUnlock<T>(string _id, bool isUnlocked) where T : Unlockable
         {
@@ -150,7 +158,6 @@ namespace DatabaseClass
             runes = new List<RuneData>();
 
             Money = 0;
-            nbRunes = 0;
 
             // Adding colors
             int idColors = 0;

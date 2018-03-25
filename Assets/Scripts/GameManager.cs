@@ -166,18 +166,15 @@ public class GameManager : MonoBehaviour {
     {
         get
         {
-            return DatabaseManager.Db.nbRunes;
+            return DatabaseManager.Db.NbRunes;
         }
 
         set
         {
-            DatabaseManager.Db.nbRunes = Mathf.Clamp(value, 0, Utils.GetMaxValueForCollectable(CollectableType.Rune));
-
-
             // Unlock minigame base
             foreach( DatabaseClass.MinigameData minigame in DatabaseManager.Db.minigames)
             {
-                if (DatabaseManager.Db.nbRunes >= minigame.nbRunesToUnlock && minigame.nbRunesToUnlock != -1 && !DatabaseManager.Db.IsUnlock<DatabaseClass.MinigameData>(minigame.Id))
+                if (DatabaseManager.Db.NbRunes >= minigame.nbRunesToUnlock && minigame.nbRunesToUnlock != -1 && !DatabaseManager.Db.IsUnlock<DatabaseClass.MinigameData>(minigame.Id))
                 {
                     // TODO: Notifier le joueur
                     DatabaseManager.Db.SetUnlock<DatabaseClass.MinigameData>(minigame.Id, true);
