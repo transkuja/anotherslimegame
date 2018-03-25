@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 [RequireComponent(typeof(MeshFilter))]
 public class MeshDeformer : MonoBehaviour {
@@ -9,11 +10,13 @@ public class MeshDeformer : MonoBehaviour {
 	Mesh deformingMesh;
 	Vector3[] originalVertices, displacedVertices;
 	Vector3[] vertexVelocities;
+    Vector3 center;
     float originalMediumHeight;
     float uniformScale = 1f;
 
 	void Start () {
-		deformingMesh = GetComponent<MeshFilter>().mesh;
+        deformingMesh = GetComponent<MeshFilter>().mesh;
+
 		originalVertices = deformingMesh.vertices;
 		displacedVertices = new Vector3[originalVertices.Length];
         originalMediumHeight = 0f;
@@ -24,20 +27,27 @@ public class MeshDeformer : MonoBehaviour {
         originalMediumHeight /= originalVertices.Length;
         //originalMediumHeight = (originalHighestHeight + originalLowestHeight) / 2.0f;
 		vertexVelocities = new Vector3[originalVertices.Length];
-	}
+        center = deformingMesh.bounds.center;
+    }
 	
 	void FixedUpdate () {
 		uniformScale = transform.localScale.x;
-		for (int i = 0; i < displacedVertices.Length; i++) {
-            if(vertexVelocities[i].magnitude > 0.01f)
-			    UpdateVertex(i);
+        List<Vector3> normals = new List<Vector3>();
+        deformingMesh.GetNormals(normals);
+        
+        for (int i = 0; i < displacedVertices.Length; i++) {
+            {
+                if (vertexVelocities[i].magnitude > 0.01f)
+                    UpdateVertex(i);
+                normals[i] = (displacedVertices[i] - center).normalized;
+            }
 		}
+        deformingMesh.SetNormals(normals);
         UpdateMeshHeight();
         deformingMesh.vertices = displacedVertices;
-		deformingMesh.RecalculateNormals();
-	}
+    }
 
-	void UpdateVertex (int i) {
+    void UpdateVertex (int i) {
 		Vector3 velocity = vertexVelocities[i];
         Vector3 displacement = displacedVertices[i] - originalVertices[i];
         displacement *= uniformScale;
