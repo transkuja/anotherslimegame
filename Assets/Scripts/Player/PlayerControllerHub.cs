@@ -64,6 +64,8 @@ public class PlayerControllerHub : PlayerController
     public float raycastDist = 1.5f;
     float raycastOffsetPlayer;
 
+    public LayerMask groundLayersToCheck;
+
     public bool forceCameraRecenter = false;
 
     public PlayerCollisionCenter collisionCenter;
@@ -354,10 +356,10 @@ public class PlayerControllerHub : PlayerController
 
         if (Rb.velocity.y < 0.0f && IsGrounded)
         {
-            if (!Physics.Raycast(transform.position + Vector3.up * 0.5f + raycastOffsetPlayer * transform.forward, Vector3.down, raycastDist)
-                    && !Physics.Raycast(transform.position + Vector3.up * 0.5f - raycastOffsetPlayer * transform.forward, Vector3.down, raycastDist)
-                    && !Physics.Raycast(transform.position + Vector3.up * 0.5f + raycastOffsetPlayer * transform.right, Vector3.down, raycastDist)
-                    && !Physics.Raycast(transform.position + Vector3.up * 0.5f - raycastOffsetPlayer * transform.right, Vector3.down, raycastDist))
+            if (!Physics.Raycast(transform.position + Vector3.up * 0.5f + raycastOffsetPlayer * transform.forward, Vector3.down, raycastDist, groundLayersToCheck)
+                    && !Physics.Raycast(transform.position + Vector3.up * 0.5f - raycastOffsetPlayer * transform.forward, Vector3.down, raycastDist, groundLayersToCheck)
+                    && !Physics.Raycast(transform.position + Vector3.up * 0.5f + raycastOffsetPlayer * transform.right, Vector3.down, raycastDist, groundLayersToCheck)
+                    && !Physics.Raycast(transform.position + Vector3.up * 0.5f - raycastOffsetPlayer * transform.right, Vector3.down, raycastDist, groundLayersToCheck))
                 IsGrounded = false;
         }
     }
@@ -415,10 +417,10 @@ public class PlayerControllerHub : PlayerController
 
         if (!collision.transform.GetComponent<Player>())
         {
-            if (Physics.Raycast(transform.position + Vector3.up * 0.5f + raycastOffsetPlayer * transform.forward, Vector3.down, raycastDist)
-                    || Physics.Raycast(transform.position + Vector3.up * 0.5f - raycastOffsetPlayer * transform.forward, Vector3.down, raycastDist)
-                    || Physics.Raycast(transform.position + Vector3.up * 0.5f + raycastOffsetPlayer * transform.right, Vector3.down, raycastDist)
-                    || Physics.Raycast(transform.position + Vector3.up * 0.5f - raycastOffsetPlayer * transform.right, Vector3.down, raycastDist))
+            if (Physics.Raycast(transform.position + Vector3.up * 0.5f + raycastOffsetPlayer * transform.forward, Vector3.down, raycastDist, groundLayersToCheck)
+                    || Physics.Raycast(transform.position + Vector3.up * 0.5f - raycastOffsetPlayer * transform.forward, Vector3.down, raycastDist, groundLayersToCheck)
+                    || Physics.Raycast(transform.position + Vector3.up * 0.5f + raycastOffsetPlayer * transform.right, Vector3.down, raycastDist, groundLayersToCheck)
+                    || Physics.Raycast(transform.position + Vector3.up * 0.5f - raycastOffsetPlayer * transform.right, Vector3.down, raycastDist, groundLayersToCheck))
                 IsGrounded = true;
         }
 
