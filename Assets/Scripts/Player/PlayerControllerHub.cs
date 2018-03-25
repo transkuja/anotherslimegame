@@ -117,8 +117,10 @@ public class PlayerControllerHub : PlayerController
                     jumpState.nbJumpMade = 0;
                     downDashState.nbDashDownMade = 0;
                     dashState.nbDashMade = 0;
+#if UNITY_EDITOR
                     if (GetComponent<JumpManager>() != null && !tryByPassJumpStop)
                         GetComponent<JumpManager>().Stop();
+#endif
                     GetComponent<Player>().Anim.SetBool("isExpulsed", false);
 
                     if (pendingStepSound)
@@ -444,11 +446,15 @@ public class PlayerControllerHub : PlayerController
     {
         if (prevState.Buttons.A == ButtonState.Released && state.Buttons.A == ButtonState.Pressed)
         {
+#if UNITY_EDITOR
             tryByPassJumpStop = true;
+#endif
             playerState.OnJumpPressed();
         }
+#if UNITY_EDITOR
         else
             tryByPassJumpStop = false;
+#endif
 
     }
     public virtual void HandleDashWithController()
