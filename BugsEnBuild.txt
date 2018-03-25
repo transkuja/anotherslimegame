@@ -1,0 +1,7 @@
+Certaines retombées de saut sont beaucoup trop violentes
+Vitesse caméra haut/bas très lente
+Le dash qui est framerate dependant et différent sur chaque machine
+La vitesse des pièces attirées (elles étaient plus lentes que le joueur en build UWP, ça allait en build PC)
+La vitesse de chute après un dash n'est pas la même que pour un saut
+
+Note: Pour pouvoir build en UWP, il faut, dans le dossier probuilder, sélectionner les fichiers KdTreeLib, pb_Stl, Poly2Tri et ProBuilderMeshOps-Unity5 et dans les import settings décocher Any platform, puis tout décocher sauf Editor.
