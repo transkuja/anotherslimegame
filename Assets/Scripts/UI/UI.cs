@@ -15,6 +15,9 @@ public class UI : MonoBehaviour {
     Transform UIref;
     [HideInInspector]
     public Transform RuleScreen;
+    private bool isUiShowed = false;
+    private float timer = 2.0f;
+    private float currentTimer = 0;
 
     public void Awake()
     {
@@ -58,6 +61,20 @@ public class UI : MonoBehaviour {
         else
         {
             GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
+        }
+    }
+
+    public void Update()
+    {
+        if (isUiShowed)
+        {
+            currentTimer += Time.deltaTime;
+            if( currentTimer > timer)
+            {
+                TooglePersistenceUI(false);
+
+                isUiShowed = false;
+            }
         }
     }
 
@@ -121,7 +138,8 @@ public class UI : MonoBehaviour {
     {
         TooglePersistenceUI(true);
         txtToChange.GetComponent<Text>().fontSize += 20;
-        StartCoroutine(ReturnToNormalState(txtToChange, originalState));
+
+        isUiShowed = true;
     }
 
     public void HandleFeedbackCantPay(CollectableType type)
@@ -164,8 +182,11 @@ public class UI : MonoBehaviour {
         {
             UpdateGlobalMoney();
             UpdateRunes();
+            // Reset timer
+            currentTimer = 0.0f;
         }
         UIref.gameObject.SetActive(active);
+
     }
 
 
