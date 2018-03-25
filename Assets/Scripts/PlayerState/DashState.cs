@@ -62,21 +62,19 @@ public class DashState : PlayerState
 {
         //playerController.Player.Rb.AddForce(playerController.transform.forward * dashingVelocity, ForceMode.VelocityChange);
         playerController.Player.Rb.velocity = playerController.transform.forward * dashingVelocity;
-
-        dashingTimer -= Time.fixedDeltaTime;
-        if (dashingTimer <= 0.0f)
-        {
-            playerController.PlayerState = playerController.freeState;
- 
-        }
     }
 
     public override void OnUpdate()
     {
         base.OnUpdate();
-        Vector3 xzVelocity = new Vector3(playerController.Rb.velocity.x, 0, playerController.Player.Rb.velocity.z);
-        xzVelocity = Vector3.ClampMagnitude(xzVelocity, playerController.stats.Get(Stats.StatType.GROUND_SPEED) * 1.5f);
-        playerController.Rb.velocity = (playerController.Rb.velocity.y) * Vector3.up + xzVelocity;
+
+        dashingTimer -= Time.deltaTime;
+        if (dashingTimer <= 0.0f)
+        {
+            playerController.PlayerState = playerController.freeState;
+
+        }
+
     }
 
     // override des actions : 
