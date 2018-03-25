@@ -266,8 +266,8 @@ public class ScoreScreen : MonoBehaviour {
         float maxTime = 2.0f;
 
         Player player = GameManager.Instance.PlayerStart.PlayersReference[currentPlayerIndex].GetComponent<Player>();
-        transform.GetChild(0).GetChild(1).GetChild(2).GetComponent<Text>().fontSize *= 2;
-        transform.GetChild(0).GetChild(1).GetChild(2).GetComponent<AnimText>().enabled = true;
+        transform.GetChild(1).GetChild(0).GetChild(2).GetComponent<Text>().fontSize *= 2;
+        transform.GetChild(1).GetChild(0).GetChild(2).GetComponent<AnimText>().enabled = true;
         int curPlayerScore = player.NbPoints;
         float tick;
         if (curPlayerScore == 0)
@@ -281,15 +281,15 @@ public class ScoreScreen : MonoBehaviour {
             {
                 totalScore += curPlayerScore;
                 curPlayerScore = 0;
-                transform.GetChild(currentPlayerIndex).GetChild(1).GetChild(2).GetComponent<Text>().text = "0pts";
-                transform.GetChild(currentPlayerIndex).GetChild(1).GetChild(2).GetComponent<Text>().fontSize /= 2;
-                transform.GetChild(0).GetChild(1).GetChild(2).GetComponent<AnimText>().enabled = false;
+                transform.GetChild(currentPlayerIndex+1).GetChild(0).GetChild(2).GetComponent<Text>().text = "0pts";
+                transform.GetChild(currentPlayerIndex+1).GetChild(0).GetChild(2).GetComponent<Text>().fontSize /= 2;
+                transform.GetChild(1).GetChild(0).GetChild(2).GetComponent<AnimText>().enabled = false;
 
                 currentPlayerIndex++;
                 if (currentPlayerIndex < GameManager.Instance.ActivePlayersAtStart)
                 {
-                    transform.GetChild(currentPlayerIndex).GetChild(1).GetChild(2).GetComponent<Text>().fontSize *= 2;
-                    transform.GetChild(0).GetChild(1).GetChild(2).GetComponent<AnimText>().enabled = true;
+                    transform.GetChild(currentPlayerIndex+1).GetChild(0).GetChild(2).GetComponent<Text>().fontSize *= 2;
+                    transform.GetChild(1).GetChild(0).GetChild(2).GetComponent<AnimText>().enabled = true;
                     player = GameManager.Instance.PlayerStart.PlayersReference[currentPlayerIndex].GetComponent<Player>();
                     curPlayerScore = player.NbPoints;
                     if (curPlayerScore == 0)
@@ -306,7 +306,7 @@ public class ScoreScreen : MonoBehaviour {
                 totalScore += step;
             }
 
-            transform.GetChild(currentPlayerIndex).GetChild(1).GetChild(2).GetComponent<Text>().text = curPlayerScore + "pts";
+            transform.GetChild(currentPlayerIndex+1).GetChild(0).GetChild(2).GetComponent<Text>().text = curPlayerScore + "pts";
             runeObjectiveUI.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = totalScore.ToString();
 
             yield return new WaitForSeconds(tick);
@@ -441,7 +441,7 @@ public class ScoreScreen : MonoBehaviour {
                 // Activate rune preview
                 podium.transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
 
-                for (int i = 0; i < transform.childCount-2; i++)
+                for (int i = 1; i < transform.childCount-2; i++)
                     transform.GetChild(i).GetChild(0).gameObject.SetActive(false);
                 // Activate objective texts
                 runeObjectiveUI.SetActive(true);
