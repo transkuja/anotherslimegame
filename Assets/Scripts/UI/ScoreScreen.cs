@@ -199,8 +199,8 @@ public class ScoreScreen : MonoBehaviour {
                     {
                         runeObjectiveUI.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "0";
                         runeObjectiveUI.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = GameManager.Instance.CurrentGameMode.necessaryPointsForRune.ToString();
-                        runeObjectiveUI.transform.GetChild(0).GetChild(0).position += Vector3.right * 60;
-                        runeObjectiveUI.transform.GetChild(0).GetChild(1).position += Vector3.left * 60;
+                        runeObjectiveUI.transform.GetChild(0).GetChild(0).localPosition += Vector3.right * 60;
+                        runeObjectiveUI.transform.GetChild(0).GetChild(1).localPosition += Vector3.left * 60;
                     }
                     else if (runeObjective == RuneObjective.Time)
                     {
@@ -407,8 +407,8 @@ public class ScoreScreen : MonoBehaviour {
 
         runeObjectiveUI.transform.GetChild(1).gameObject.SetActive(true);
 
-        GameObject runePreview = podium.transform.GetChild(0).GetChild(0).gameObject;
-        runePreview.transform.position += Vector3.up * 4;
+        GameObject runePreview = podium.transform.GetChild(0).gameObject;
+
         Material mat = runePreview.GetComponentInChildren<MeshRenderer>().material;
         Color newColor = mat.color;
         newColor.a = 1.0f;
@@ -435,11 +435,11 @@ public class ScoreScreen : MonoBehaviour {
         {
             if (GamePad.GetState(GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerController>().playerIndex).Buttons.A == ButtonState.Pressed)
             {
-                for (int i = 1; i < podium.transform.childCount - 1; i++)
+                for (int i = 1; i < podium.transform.childCount; i++)
                     podium.transform.GetChild(i).gameObject.SetActive(false);
 
                 // Activate rune preview
-                podium.transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
+                podium.transform.GetChild(0).gameObject.SetActive(true);
 
                 for (int i = 1; i < transform.childCount-2; i++)
                     transform.GetChild(i).GetChild(0).gameObject.SetActive(false);
@@ -460,6 +460,8 @@ public class ScoreScreen : MonoBehaviour {
                 {
                     if ((GameManager.Instance.DataContainer != null && GameManager.Instance.DataContainer.launchedFromMinigameScreen) || objectiveFailedWhenRelevant)
                     {
+                        runeObjectiveUI.SetActive(false);
+                        podium.transform.GetChild(0).gameObject.SetActive(false);
                         replayScreen.SetActive(true);
                     }
                     else
