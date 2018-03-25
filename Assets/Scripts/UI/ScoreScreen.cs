@@ -442,7 +442,7 @@ public class ScoreScreen : MonoBehaviour {
                 podium.transform.GetChild(0).gameObject.SetActive(true);
 
                 for (int i = 1; i < transform.childCount-2; i++)
-                    transform.GetChild(i).GetChild(0).gameObject.SetActive(false);
+                    transform.GetChild(i).gameObject.SetActive(false);
                 // Activate objective texts
                 runeObjectiveUI.SetActive(true);
                 goToRuneScreen = false;
