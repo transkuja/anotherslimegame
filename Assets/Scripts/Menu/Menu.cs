@@ -181,6 +181,10 @@ public class Menu : MonoBehaviour {
                 {
                     UpdateSelectionVisualForMinigame();
                 }
+                else if (currentState == MenuState.TitleScreenModeSelection)
+                {
+                    UpdateSelectionVisual(3, 0);
+                }
                 else
                 {
                     UpdateSelectionVisual(2, 0);
@@ -380,6 +384,7 @@ public class Menu : MonoBehaviour {
             currentCursor = _nbButtons - 1;
         else
             currentCursor = currentCursor % _nbButtons;
+        Debug.Log(currentCursor);
         CurrentlySelectedButton = transform.GetChild((int)currentState).GetChild(_childOffset).GetChild(currentCursor).GetComponent<Button>();
     }
 
@@ -594,6 +599,9 @@ public class Menu : MonoBehaviour {
         if (selectedMode == 0 && currentState == MenuState.CustomisationScreen)
             return;
 
+        // Exit game has been pressed
+        if (currentCursor == 2 && currentState == MenuState.TitleScreenModeSelection)
+            return;
         
         SetState((MenuState)((int)currentState + 1));
     }
@@ -665,5 +673,11 @@ public class Menu : MonoBehaviour {
     private void OnDestroy()
     {
         CurrentlySelectedButton = null;
+    }
+
+    public void ExitGame()
+    {
+        Debug.Log("Exiting this exciting game.");
+        Application.Quit();
     }
 }
