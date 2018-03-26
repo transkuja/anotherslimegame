@@ -559,11 +559,18 @@ public class Menu : MonoBehaviour {
         if (currentState == MenuState.MinigameSelection)
         {
             CurrentlySelectedButton = null;
-            for (int i = 0; i < 3; ++i)
-            {
-                transform.GetChild((int)MenuState.MinigameSelection)
-                    .GetChild(i).GetComponent<MinigameSelectionAnim>().SetMinigame(unlockedMinigames[Mathf.Min(i, unlockedMinigames.Count - 1)]);
-            }
+
+            // Currently selected
+            transform.GetChild((int)MenuState.MinigameSelection)
+                    .GetChild(0).GetComponent<MinigameSelectionAnim>().SetMinigame(unlockedMinigames[0]);
+
+            // Previous
+            transform.GetChild((int)MenuState.MinigameSelection)
+                    .GetChild(1).GetComponent<MinigameSelectionAnim>().SetMinigame(unlockedMinigames[unlockedMinigames.Count - 1]);
+
+            // Next
+            transform.GetChild((int)MenuState.MinigameSelection)
+                    .GetChild(2).GetComponent<MinigameSelectionAnim>().SetMinigame(unlockedMinigames[Mathf.Min(1, unlockedMinigames.Count - 1)]);
 
         }
     }
