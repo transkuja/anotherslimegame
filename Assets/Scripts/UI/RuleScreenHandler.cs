@@ -107,6 +107,7 @@ public class RuleScreenHandler : MonoBehaviour {
         CleanUpAndStart();
         GameObject readySetGo = Instantiate(ResourceUtils.Instance.spriteUtils.spawnableSpriteUI, GameManager.UiReference.transform);
         readySetGo.AddComponent<ReadySetGo>();
+        GameManager.Instance.CurrentGameMode.OnReadySetGoBegin();
     }
 
     // WARNING, should only be called from the outside in player start for debug purpose

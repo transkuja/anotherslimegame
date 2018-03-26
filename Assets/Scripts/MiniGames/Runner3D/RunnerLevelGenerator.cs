@@ -309,16 +309,19 @@ namespace Runner3D
         }
         public void Start()
         {
-            playerRef = GameManager.Instance.PlayerStart.PlayersReference;
+            Runner3DGameMode runnerMode = (GameManager.Instance.CurrentGameMode as Runner3DGameMode);
+            runnerMode.levelGenerator = this;
+
             state = State.Loading;
+            playerRef = GameManager.Instance.PlayerStart.PlayersReference;
             runnerBlocPool = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.RunnerBloc);
             InitWalls();
             InitClouds();
-            Generate2DChunk();
-            LevelBegin();
+            
         }
         public void LevelBegin()
         {
+            Generate2DChunk();
             MoveCursor(-nbRowUpInFrontFirst - 1);
             state = State.InGame;
             chunkLine = 0;

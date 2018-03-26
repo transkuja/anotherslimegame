@@ -88,7 +88,7 @@ abstract public class GameMode : MonoBehaviour
         return !(this is HubMode);
     }
 
-    public virtual void StartGame(List<GameObject> playerReferences)
+    public virtual void StartGame(List<GameObject> playerReferences) // before Screen Rules
     {
         curNbPlayers = playerReferences.Count;
         if (IsMiniGame())
@@ -97,7 +97,10 @@ abstract public class GameMode : MonoBehaviour
             GameManager.ChangeState(GameState.Normal);
 
     }
+    public virtual void OnReadySetGoBegin()
+    {
 
+    }
     public virtual void OpenRuleScreen()
     {
         if (!IsMiniGame())

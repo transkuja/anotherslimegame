@@ -11,10 +11,12 @@ public class Runner3DGameMode : GameMode {
         Finite,
         LastRemaining
     }
-    [SerializeField]private EMode mode = EMode.SoloInfinite;
 
+    [SerializeField]private EMode mode = EMode.SoloInfinite;
+    public RunnerLevelGenerator levelGenerator;
     int nbDeadPlayers;
     int nbPlayerArrived;
+    
 
     public EMode Mode
     {
@@ -35,6 +37,11 @@ public class Runner3DGameMode : GameMode {
             if (playerControllerHub != null)
                 playerControllerHub.OnDeathEvent += OnPlayerDeath;
         }
+    }
+    public override void OnReadySetGoBegin()
+    {
+        base.OnReadySetGoBegin();
+        levelGenerator.LevelBegin();
     }
 
     // identique au hub bad copie collé
