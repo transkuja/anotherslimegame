@@ -74,6 +74,8 @@ public class Collectable : MonoBehaviour
                 haveToDisperse = true;
             }
             isAttracted = false;
+            if (GetComponent<Collider>())
+                GetComponent<Collider>().enabled = true;
             playerTarget = null;
             if (GetComponent<Animator>())
             {
@@ -112,6 +114,7 @@ public class Collectable : MonoBehaviour
     {
         if (player && !IsAttracted && !haveToDisperse)
         {
+            Debug.Log("Attract");
             // Grab everything not linked to evolution (points)
             if (!Utils.IsAnEvolutionCollectable(GetComponent<Collectable>().type) || player.activeEvolutions <= 1)
             {
