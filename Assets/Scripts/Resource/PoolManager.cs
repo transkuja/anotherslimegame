@@ -97,6 +97,12 @@ public class PoolLeader
     public GameObject GetItem(Transform _newParent, Vector3 _newPosition, Quaternion _newRotation, bool activeObjectOnRetrieval = false, bool spawnInWorldspace = false, int subpoolNumber = 0)
     {
         GameObject returnGameObject;
+        if (poolParent == null)
+        {
+            Debug.LogWarning("Pool parent is null (wtf?)");
+            return null;
+        }
+
         if (poolParent.GetChild(subpoolNumber).childCount == 0)
             returnGameObject = CreateRandomPoolItem(subpoolNumber);
         else
