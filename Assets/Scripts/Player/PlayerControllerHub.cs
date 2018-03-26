@@ -429,7 +429,7 @@ public class PlayerControllerHub : PlayerController
    
     private void HandleJumpWithController()
     {
-        if (prevState.Buttons.A == ButtonState.Released && state.Buttons.A == ButtonState.Pressed && PlayerState.GetType() != typeof(DashState))
+        if (prevState.Buttons.A == ButtonState.Released && state.Buttons.A == ButtonState.Pressed && PlayerState != dashState)
         {
 #if UNITY_EDITOR
             tryByPassJumpStop = true;
