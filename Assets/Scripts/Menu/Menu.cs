@@ -330,19 +330,7 @@ public class Menu : MonoBehaviour {
             minigameCurrentCursor++;
             minigameCurrentCursor %= unlockedMinigames.Count;
 
-            // Currently selected
-            transform.GetChild((int)MenuState.MinigameSelection)
-                    .GetChild(0).GetComponent<MinigameSelectionAnim>().SetMinigame(unlockedMinigames[minigameCurrentCursor]);
-
-            // Previous
-            int previousMinigameIndex = minigameCurrentCursor - 1;
-            if (previousMinigameIndex < 0) previousMinigameIndex = unlockedMinigames.Count - 1;
-            transform.GetChild((int)MenuState.MinigameSelection)
-                    .GetChild(1).GetComponent<MinigameSelectionAnim>().SetMinigame(unlockedMinigames[previousMinigameIndex]);
-
-            // Next
-            transform.GetChild((int)MenuState.MinigameSelection)
-                    .GetChild(2).GetComponent<MinigameSelectionAnim>().SetMinigame(unlockedMinigames[(minigameCurrentCursor + 1)% unlockedMinigames.Count]);
+            UpdateMinigameSelection();
 
             //buttonNeedUpdate = true;
             //minigameCurrentCursor[0]++;
@@ -355,19 +343,7 @@ public class Menu : MonoBehaviour {
             else
                 minigameCurrentCursor %= unlockedMinigames.Count;
 
-            // Currently selected
-            transform.GetChild((int)MenuState.MinigameSelection)
-                    .GetChild(0).GetComponent<MinigameSelectionAnim>().SetMinigame(unlockedMinigames[minigameCurrentCursor]);
-
-            // Previous
-            int previousMinigameIndex = minigameCurrentCursor - 1;
-            if (previousMinigameIndex < 0) previousMinigameIndex = unlockedMinigames.Count - 1;
-            transform.GetChild((int)MenuState.MinigameSelection)
-                    .GetChild(1).GetComponent<MinigameSelectionAnim>().SetMinigame(unlockedMinigames[previousMinigameIndex]);
-
-            // Next
-            transform.GetChild((int)MenuState.MinigameSelection)
-                    .GetChild(2).GetComponent<MinigameSelectionAnim>().SetMinigame(unlockedMinigames[(minigameCurrentCursor + 1) % unlockedMinigames.Count]);
+            UpdateMinigameSelection();
         }
         //else if ((controllerStates[0].ThumbSticks.Left.Y < -0.75f && prevControllerStates[0].ThumbSticks.Left.Y > -0.75f)
         //    || (controllerStates[0].ThumbSticks.Left.Y > 0.75f && prevControllerStates[0].ThumbSticks.Left.Y < 0.75f))
@@ -375,6 +351,23 @@ public class Menu : MonoBehaviour {
         //    buttonNeedUpdate = true;
         //    minigameCurrentCursor[1]++;
         //}
+    }
+
+    private void UpdateMinigameSelection()
+    {
+        // Currently selected
+        transform.GetChild((int)MenuState.MinigameSelection)
+                .GetChild(2).GetComponent<MinigameSelectionAnim>().SetMinigame(unlockedMinigames[minigameCurrentCursor]);
+
+        // Previous
+        int previousMinigameIndex = minigameCurrentCursor - 1;
+        if (previousMinigameIndex < 0) previousMinigameIndex = unlockedMinigames.Count - 1;
+        transform.GetChild((int)MenuState.MinigameSelection)
+                .GetChild(0).GetComponent<MinigameSelectionAnim>().SetMinigame(unlockedMinigames[previousMinigameIndex]);
+
+        // Next
+        transform.GetChild((int)MenuState.MinigameSelection)
+                .GetChild(1).GetComponent<MinigameSelectionAnim>().SetMinigame(unlockedMinigames[(minigameCurrentCursor + 1) % unlockedMinigames.Count]);
     }
 
     // Move the button cursor and highlight it
@@ -562,16 +555,18 @@ public class Menu : MonoBehaviour {
 
             // Currently selected
             transform.GetChild((int)MenuState.MinigameSelection)
-                    .GetChild(0).GetComponent<MinigameSelectionAnim>().SetMinigame(unlockedMinigames[0]);
+                    .GetChild(2).GetComponent<MinigameSelectionAnim>().SetMinigame(unlockedMinigames[0]);
 
             // Previous
             transform.GetChild((int)MenuState.MinigameSelection)
-                    .GetChild(1).GetComponent<MinigameSelectionAnim>().SetMinigame(unlockedMinigames[unlockedMinigames.Count - 1]);
+                    .GetChild(0).GetComponent<MinigameSelectionAnim>().SetMinigame(unlockedMinigames[unlockedMinigames.Count - 1]);
 
             // Next
             transform.GetChild((int)MenuState.MinigameSelection)
-                    .GetChild(2).GetComponent<MinigameSelectionAnim>().SetMinigame(unlockedMinigames[Mathf.Min(1, unlockedMinigames.Count - 1)]);
+                    .GetChild(1).GetComponent<MinigameSelectionAnim>().SetMinigame(unlockedMinigames[Mathf.Min(1, unlockedMinigames.Count - 1)]);
 
+
+            // Adapt players on screen
             int childCount = transform.GetChild((int)MenuState.MinigameSelection).childCount;
             for (int i = 0; i < nbPlayers; i++)
             {
