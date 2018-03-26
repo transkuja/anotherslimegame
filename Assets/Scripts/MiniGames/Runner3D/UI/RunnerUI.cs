@@ -46,6 +46,11 @@ public class RunnerUI : APlayerUI {
         else
             anchorMax = anchorMin + Vector2.one * 0.5f;
         rectTr.anchorMax = new Vector2(anchorMax.x, anchorMax.y);
+
+        // Set nb points on death screen
+        GameObject curPlayer = GameManager.Instance.PlayerStart.PlayersReference[playerId];
+        deathScreen.transform.GetChild(1).GetComponentInChildren<Text>().text = curPlayer.GetComponent<Player>().NbPoints + " pts";
+
     }
 
 }
