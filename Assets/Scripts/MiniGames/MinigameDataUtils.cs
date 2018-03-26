@@ -46,7 +46,7 @@ public static class MinigameDataUtils
         {
             return "Runner";
         }
-        else if (_minigameId == "Fruits")
+        else if (_minigameId == "MiniGameFruits")
         {
             return "Fruits";
         }
