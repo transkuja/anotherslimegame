@@ -69,7 +69,9 @@ public class ScoreScreen : MonoBehaviour {
         runeObjectiveUI.SetActive(false);
         gameObject.SetActive(false);
 
-        GetComponent<Canvas>().worldCamera = Camera.main;
+        if (GetComponent<Canvas>().worldCamera == null)
+            GetComponent<Canvas>().worldCamera = Camera.main;
+
     }
 
     public void RefreshScores(Player player, float _time = -1, TimeFormat timeFormat = TimeFormat.MinSec)
@@ -243,6 +245,8 @@ public class ScoreScreen : MonoBehaviour {
             else
                 podiumPlayer.GetComponentInChildren<Animator>().SetBool("hasFinished", true);
         }
+
+        GetComponent<Canvas>().worldCamera.gameObject.SetActive(true);
     }
 
     void PlayAddToScoreAnimation(RuneObjective _objectiveType)
