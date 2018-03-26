@@ -99,14 +99,16 @@ public class ScoreScreen : MonoBehaviour {
                 {
                     transform.GetChild(rank).GetComponent<PlayerScore>().SetScoreMiniGameTimeOnly(
                         (int)player.PlayerController.PlayerIndex,
-                        timeStr
+                        timeStr,
+                        (GameManager.Instance.ActivePlayersAtStart == 1)
                     );
                 }
                 else
                 {
                     transform.GetChild(rank).GetComponent<PlayerScore>().SetScoreMiniGamePtsOnly(
                         (int)player.PlayerController.PlayerIndex,
-                        player.NbPoints.ToString()
+                        player.NbPoints.ToString(),
+                        (GameManager.Instance.ActivePlayersAtStart == 1)
                     );
                 }
 
@@ -164,7 +166,6 @@ public class ScoreScreen : MonoBehaviour {
 
     void RefreshScoresTimeOver(Player[] _remainingPlayers)
     {
-        Debug.Log(_remainingPlayers.Length);
         for (int i = 0; i < _remainingPlayers.Length; i++)
             RefreshScores(_remainingPlayers[i]);
     }

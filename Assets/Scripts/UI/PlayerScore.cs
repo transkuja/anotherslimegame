@@ -27,7 +27,7 @@ public class PlayerScore : MonoBehaviour {
         }
     }
 
-    public void SetScoreMiniGameTimeOnly(int _playerIndex, string _time)
+    public void SetScoreMiniGameTimeOnly(int _playerIndex, string _time, bool _isPlayingAlone = false)
     {
         Transform scorePanel = transform.GetChild(0);
         float offset = scorePanel.GetChild((int)ScorePanel.PlayerIndex).localPosition.y / 4;
@@ -39,9 +39,16 @@ public class PlayerScore : MonoBehaviour {
         scorePanel.GetChild((int)ScorePanel.Time).GetComponent<Text>().text = _time;
 
         scorePanel.GetChild((int)ScorePanel.Time).GetComponent<Text>().fontSize = fontSizes[0];
+
+        if (_isPlayingAlone)
+        {
+            scorePanel.GetChild((int)ScorePanel.PlayerIndex).gameObject.SetActive(false);
+            scorePanel.GetChild((int)ScorePanel.Time).localPosition += scorePanel.GetChild(3).localPosition;
+            scorePanel.GetChild((int)ScorePanel.Time).GetComponent<Text>().fontSize += 20;
+        }
     }
 
-    public void SetScoreMiniGamePtsOnly(int _playerIndex, string _points)
+    public void SetScoreMiniGamePtsOnly(int _playerIndex, string _points, bool _isPlayingAlone = false)
     {
         Debug.Log(transform.GetChild(0));
         Transform scorePanel = transform.GetChild(0);
@@ -54,6 +61,13 @@ public class PlayerScore : MonoBehaviour {
         scorePanel.GetChild((int)ScorePanel.Points).GetComponent<Text>().text = _points + "pts";
 
         scorePanel.GetChild((int)ScorePanel.Points).GetComponent<Text>().fontSize = fontSizes[0];
+
+        if (_isPlayingAlone)
+        {
+            scorePanel.GetChild((int)ScorePanel.PlayerIndex).gameObject.SetActive(false);
+            scorePanel.GetChild((int)ScorePanel.Points).localPosition += scorePanel.GetChild(3).localPosition;
+            scorePanel.GetChild((int)ScorePanel.Points).GetComponent<Text>().fontSize += 20;
+        }
     }
 
 }
