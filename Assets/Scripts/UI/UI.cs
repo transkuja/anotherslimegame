@@ -16,7 +16,7 @@ public class UI : MonoBehaviour {
     [HideInInspector]
     public Transform RuleScreen;
     private bool isUiShowed = false;
-    private float timer = 2.0f;
+    private float showTime = 4.0f;
     private float currentTimer = 0;
 
     public void Awake()
@@ -75,7 +75,7 @@ public class UI : MonoBehaviour {
         if (isUiShowed)
         {
             currentTimer += Time.deltaTime;
-            if( currentTimer > timer)
+            if( currentTimer > showTime)
             {
                 TooglePersistenceUI(false);
 
@@ -191,11 +191,68 @@ public class UI : MonoBehaviour {
             UpdateRunes();
             // Reset timer
             currentTimer = 0.0f;
+            if(!UIref.gameObject.activeSelf)
+                StartCoroutine(FadeIn(.75f));
         }
-        UIref.gameObject.SetActive(active);
+        else
+        {
+            if (UIref.gameObject.activeSelf)
+                StartCoroutine(FadeOut(1.0f));
+        }
 
     }
 
+    IEnumerator FadeIn(float seconds)
+    {
+        UIref.gameObject.SetActive(true);
+        Image[] images = UIref.GetComponentsInChildren<Image>();
+        Text[] texts = UIref.GetComponentsInChildren<Text>();
+
+        foreach (Image i in images)
+            i.color = new Color(i.color.r, i.color.g, i.color.b, 0.0f);
+
+        foreach (Text t in texts)
+            t.color = new Color(t.color.r, t.color.g, t.color.b, 0.0f);
+
+        float timer = 0.0f;
+        while(timer < seconds)
+        {
+            yield return null;
+            timer += Time.deltaTime;
+            foreach(Image i in images)
+            {
+                i.color = new Color(i.color.r, i.color.g, i.color.b, Mathf.Lerp(0.0f, 1.0f, timer / seconds));
+            }
+
+            foreach (Text t in texts)
+            {
+                t.color = new Color(t.color.r, t.color.g, t.color.b, Mathf.Lerp(0.0f, 1.0f, timer / seconds));
+            }
+        }
+        
+    }
+
+    IEnumerator FadeOut(float seconds)
+    {
+        Image[] images = UIref.GetComponentsInChildren<Image>();
+        Text[] texts = UIref.GetComponentsInChildren<Text>();
+        float timer = 0.0f;
+        while (timer < seconds)
+        {
+            yield return null;
+            timer += Time.deltaTime;
+            foreach (Image i in images)
+            {
+                i.color = new Color(i.color.r, i.color.g, i.color.b, Mathf.Lerp(1.0f, 0.0f, timer / seconds));
+            }
+
+            foreach (Text t in texts)
+            {
+                t.color = new Color(t.color.r, t.color.g, t.color.b, Mathf.Lerp(1.0f, 0.0f, timer / seconds));
+            }
+        }
+        UIref.gameObject.SetActive(false);
+    }
 
     public void UpdateGlobalMoney()
     {
