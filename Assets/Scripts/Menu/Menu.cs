@@ -659,7 +659,7 @@ public class Menu : MonoBehaviour {
     {
         SendDataToContainer();
         SceneManager.LoadScene(transform.GetChild((int)MenuState.MinigameSelection)
-                    .GetChild(0).GetComponent<MinigameSelectionAnim>().GetMinigameId());
+                    .GetChild(2).GetComponent<MinigameSelectionAnim>().GetMinigameId());
     }
 
 
