@@ -250,10 +250,13 @@ public class GameManager : MonoBehaviour {
                 for (int i = 0; i < instance.playerStart.ActivePlayersAtStart; i++)
                 {
                     PlayerControllerHub curPlayerController = instance.playerStart.PlayersReference[i].GetComponent<PlayerControllerHub>();
-                    if (curPlayerController.PlayerState == curPlayerController.underwaterState)
-                        Utils.CopyUnderwaterStateDataToPausedState(curPlayerController.underwaterState, curPlayerController.pausedState);
-                    curPlayerController.PreviousPlayerState = curPlayerController.PlayerState;
-                    curPlayerController.PlayerState = curPlayerController.pausedState;
+                    if (curPlayerController)
+                    {
+                        if (curPlayerController.PlayerState == curPlayerController.underwaterState)
+                            Utils.CopyUnderwaterStateDataToPausedState(curPlayerController.underwaterState, curPlayerController.pausedState);
+                        curPlayerController.PreviousPlayerState = curPlayerController.PlayerState;
+                        curPlayerController.PlayerState = curPlayerController.pausedState;
+                    }
                 }
                 
             }
