@@ -283,6 +283,8 @@ public class CostArea : MonoBehaviour {
                 }
                 string s = GetComponent<CreateEnumFromDatabase>().enumFromList[GetComponent<CreateEnumFromDatabase>().HideInt];
                 DatabaseManager.Db.SetUnlock<DatabaseClass.ColorData>(s, true);
+
+                _player.GetComponentInChildren<PlayerCosmetics>().SetUniqueColor(DatabaseManager.Db.colors.Find(a => a.Id == s).color);
                 return;
             }
             // Fin tmp
