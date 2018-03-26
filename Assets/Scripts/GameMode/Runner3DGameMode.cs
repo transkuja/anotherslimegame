@@ -63,9 +63,8 @@ public class Runner3DGameMode : GameMode {
     }
     public override void PlayerHasFinished(Player _player)
     {
-        _player.HasFinishedTheRun = true;
+        //_player.HasFinishedTheRun = true;
         _player.NbPoints =Mathf.CeilToInt(_player.transform.position.z);
-        GameManager.Instance.ScoreScreenReference.RefreshScores(_player);
     }
     public void OnPlayerDeath(int id)
     {
@@ -82,7 +81,7 @@ public class Runner3DGameMode : GameMode {
                 EndGame();
                 break;
             case EMode.LastRemaining:
-                if (nbDeadPlayers == 1)
+                if (nbDeadPlayers == curNbPlayers)
                     EndGame();
                 break;
             case EMode.Finite:
@@ -98,6 +97,16 @@ public class Runner3DGameMode : GameMode {
     }
     public void EndGame()
     {
-       
+        GameObject[] playerTab = GameManager.Instance.PlayerStart.PlayersReference.ToArray();
+        Array.Sort(playerTab, 
+            (GameObject player, GameObject other) => {
+                return Mathf.FloorToInt( other.transform.position.z- player.transform.position.z);
+            });
+        foreach (GameObject playerObj in playerTab)
+        {
+            Player player = playerObj.GetComponent<Player>();
+            player.HasFinishedTheRun = true;
+            GameManager.Instance.ScoreScreenReference.RefreshScores(player);
+        }
     }
 }
