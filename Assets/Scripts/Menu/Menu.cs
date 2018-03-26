@@ -233,10 +233,10 @@ public class Menu : MonoBehaviour {
 
                     // Reactivate position feedback and reset cursor
                     currentCursorsRow[i] = 0;
-                    playerCustomScreens[i].transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
+                    playerCustomScreens[i].transform.GetChild(1).GetChild(0).gameObject.SetActive(true);
 
                     // Disable "Ready!" txt
-                    playerCustomScreens[i].transform.GetChild(4).gameObject.SetActive(false);
+                    playerCustomScreens[i].transform.GetChild(5).gameObject.SetActive(false);
                 }
 
                 // If the player i is ready, block all inputs
@@ -248,10 +248,10 @@ public class Menu : MonoBehaviour {
                 {
                     areReady[i] = true;
                     // Deactivate feedbacks
-                    playerCustomScreens[i].transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
-                    playerCustomScreens[i].transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+                    playerCustomScreens[i].transform.GetChild(1).GetChild(0).gameObject.SetActive(false);
+                    playerCustomScreens[i].transform.GetChild(1).GetChild(1).gameObject.SetActive(false);
                     // Pop "Ready!" txt
-                    playerCustomScreens[i].transform.GetChild(4).gameObject.SetActive(true);
+                    playerCustomScreens[i].transform.GetChild(5).gameObject.SetActive(true);
 
                     // If everyone is ready, launch the game or the mini game selection screen
                     if (IsEveryoneReady())
@@ -267,8 +267,8 @@ public class Menu : MonoBehaviour {
                 {
                     currentCursorsRow[i]++;
                     currentCursorsRow[i] = currentCursorsRow[i] % 2;
-                    playerCustomScreens[i].transform.GetChild(0).GetChild(currentCursorsRow[i]).gameObject.SetActive(true);
-                    playerCustomScreens[i].transform.GetChild(0).GetChild((currentCursorsRow[i] + 1)%2).gameObject.SetActive(false);
+                    playerCustomScreens[i].transform.GetChild(1).GetChild(currentCursorsRow[i]).gameObject.SetActive(true);
+                    playerCustomScreens[i].transform.GetChild(1).GetChild((currentCursorsRow[i] + 1)%2).gameObject.SetActive(false);
                 }
                 // X axis controls the settings values
                 else if (controllerStates[i].ThumbSticks.Left.X > 0.5f && prevControllerStates[i].ThumbSticks.Left.X < 0.5f)
@@ -417,14 +417,14 @@ public class Menu : MonoBehaviour {
         // Update text and character
         if (selectedColors[_playerIndex] == unlockedCustomColors.Count)
         {
-            playerCustomScreens[_playerIndex].transform.GetChild(3).GetComponentInChildren<PlayerCosmetics>().UseColorFade = true;
-            playerCustomScreens[_playerIndex].transform.GetChild(1).GetComponent<Text>().text = "Rainbow";
+            playerCustomScreens[_playerIndex].transform.GetChild(4).GetComponentInChildren<PlayerCosmetics>().UseColorFade = true;
+            playerCustomScreens[_playerIndex].transform.GetChild(2).GetComponent<Text>().text = "Rainbow";
         }
         else
         {
-            playerCustomScreens[_playerIndex].transform.GetChild(3).GetComponentInChildren<PlayerCosmetics>().UseColorFade = false;
-            playerCustomScreens[_playerIndex].transform.GetChild(1).GetComponent<Text>().text = unlockedCustomColors[selectedColors[_playerIndex]].Id;
-            playerCustomScreens[_playerIndex].transform.GetChild(3).GetComponentInChildren<PlayerCosmetics>().SetUniqueColor(unlockedCustomColors[selectedColors[_playerIndex]].color);
+            playerCustomScreens[_playerIndex].transform.GetChild(4).GetComponentInChildren<PlayerCosmetics>().UseColorFade = false;
+            playerCustomScreens[_playerIndex].transform.GetChild(2).GetComponent<Text>().text = unlockedCustomColors[selectedColors[_playerIndex]].Id;
+            playerCustomScreens[_playerIndex].transform.GetChild(4).GetComponentInChildren<PlayerCosmetics>().SetUniqueColor(unlockedCustomColors[selectedColors[_playerIndex]].color);
         }
     }
 
@@ -440,17 +440,17 @@ public class Menu : MonoBehaviour {
         Debug.Log(selectedFaces[_playerIndex]);
         if (selectedFaces[_playerIndex] == unlockedFaces.Count)
         {
-            playerCustomScreens[_playerIndex].transform.GetChild(1).GetComponent<Text>().text = "Yellow";
-            playerCustomScreens[_playerIndex].transform.GetChild(2).GetComponent<Text>().text = "Rabbit";
-            playerCustomScreens[_playerIndex].transform.GetChild(3).GetChild(0).gameObject.SetActive(false);
-            playerCustomScreens[_playerIndex].transform.GetChild(3).GetChild(1).gameObject.SetActive(true);
+            playerCustomScreens[_playerIndex].transform.GetChild(2).GetComponent<Text>().text = "Yellow";
+            playerCustomScreens[_playerIndex].transform.GetChild(3).GetComponent<Text>().text = "Rabbit";
+            playerCustomScreens[_playerIndex].transform.GetChild(4).GetChild(0).gameObject.SetActive(false);
+            playerCustomScreens[_playerIndex].transform.GetChild(4).GetChild(1).gameObject.SetActive(true);
         }
         else
         {
-            playerCustomScreens[_playerIndex].transform.GetChild(2).GetComponent<Text>().text = unlockedFaces[selectedFaces[_playerIndex]].Id;
-            playerCustomScreens[_playerIndex].transform.GetChild(3).GetChild(0).gameObject.SetActive(true);
-            playerCustomScreens[_playerIndex].transform.GetChild(3).GetChild(1).gameObject.SetActive(false);
-            playerCustomScreens[_playerIndex].transform.GetChild(3).GetComponentInChildren<PlayerCosmetics>().FaceType = (FaceType)unlockedFaces[selectedFaces[_playerIndex]].indiceForShader;
+            playerCustomScreens[_playerIndex].transform.GetChild(3).GetComponent<Text>().text = unlockedFaces[selectedFaces[_playerIndex]].Id;
+            playerCustomScreens[_playerIndex].transform.GetChild(4).GetChild(0).gameObject.SetActive(true);
+            playerCustomScreens[_playerIndex].transform.GetChild(4).GetChild(1).gameObject.SetActive(false);
+            playerCustomScreens[_playerIndex].transform.GetChild(4).GetComponentInChildren<PlayerCosmetics>().FaceType = (FaceType)unlockedFaces[selectedFaces[_playerIndex]].indiceForShader;
         }
     }
 
@@ -490,16 +490,14 @@ public class Menu : MonoBehaviour {
                 // Reset positions of existing ones, hide "Ready!"
                 for (int i = 0; i < playerCustomScreens.Count; i++)
                 {
-                    playerCustomScreens[i].transform.GetChild(4).gameObject.SetActive(false);
+                    playerCustomScreens[i].transform.GetChild(5).gameObject.SetActive(false);
 
                     if (nbPlayers == 1)
-                        playerCustomScreens[i].transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
+                        playerCustomScreens[i].transform.localPosition = new Vector3(0.0f, -50.0f, 0.0f);
                     if (nbPlayers == 2)
-                        playerCustomScreens[i].transform.localPosition = new Vector3(-(250) + (2 * i) * (250), 0.0f, 0.0f);
-                    if (nbPlayers == 3)
-                        playerCustomScreens[i].transform.localPosition = new Vector3((-(250) + i * (250)), 0.0f, 0.0f);
-                    if (nbPlayers == 4)
-                        playerCustomScreens[i].transform.localPosition = new Vector3(-(300) + (i * (200)), 0.0f, 0.0f);
+                        playerCustomScreens[i].transform.localPosition = new Vector3(-160 + (2 * i * 160), -50.0f, 0.0f);
+                    if (nbPlayers >= 3)
+                        playerCustomScreens[i].transform.localPosition = new Vector3(-(160) * Mathf.Pow(-1, i), (i < 2) ? 50.0f : -150.0f, 0.0f);
                 }
 
                 // Instantiate new screen if more players are selected
@@ -543,8 +541,8 @@ public class Menu : MonoBehaviour {
             // Feedback reset
             foreach (GameObject go in playerCustomScreens)
             {
-                go.transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
-                go.transform.GetChild(0).GetChild(1).gameObject.SetActive(false);
+                go.transform.GetChild(1).GetChild(0).gameObject.SetActive(true);
+                go.transform.GetChild(1).GetChild(1).gameObject.SetActive(false);
             }
         }
 
@@ -594,18 +592,16 @@ public class Menu : MonoBehaviour {
         go.GetComponentInChildren<Text>().text = "Player " + (_newPlayerIndex + 1);
 
         if (nbPlayers == 1)
-            go.transform.localPosition = new Vector3(0.0f, 0.0f, 0.0f);
+            go.transform.localPosition = new Vector3(0.0f, -50.0f, 0.0f);
         if (nbPlayers == 2)
-            go.transform.localPosition = new Vector3(-(250) + (2 * _newPlayerIndex) * (250), 0.0f, 0.0f);
-        if (nbPlayers == 3)
-            go.transform.localPosition = new Vector3((-(250) + _newPlayerIndex * (250)), 0.0f, 0.0f);
-        if (nbPlayers == 4)
-            go.transform.localPosition = new Vector3(-(300) + (_newPlayerIndex * (200)), 0.0f, 0.0f);
+            go.transform.localPosition = new Vector3(-160 + (2 * _newPlayerIndex * 160), -50.0f, 0.0f);
+        if (nbPlayers >= 3 )
+            go.transform.localPosition = new Vector3(-(160) * Mathf.Pow(-1, _newPlayerIndex), (_newPlayerIndex < 2) ? 50.0f : -150.0f , 0.0f);
 
-        go.transform.GetChild(1).GetComponent<Text>().text = unlockedCustomColors[0].Id;
-        go.transform.GetChild(2).GetComponent<Text>().text = unlockedFaces[0].Id;
-        go.transform.GetChild(3).GetComponentInChildren<PlayerCosmetics>().SetUniqueColor(unlockedCustomColors[0].color);
-        go.transform.GetChild(3).GetComponentInChildren<PlayerCosmetics>().FaceType = 0;
+        go.transform.GetChild(2).GetComponent<Text>().text = unlockedCustomColors[0].Id;
+        go.transform.GetChild(3).GetComponent<Text>().text = unlockedFaces[0].Id;
+        go.transform.GetChild(4).GetComponentInChildren<PlayerCosmetics>().SetUniqueColor(unlockedCustomColors[0].color);
+        go.transform.GetChild(4).GetComponentInChildren<PlayerCosmetics>().FaceType = 0;
 
         playerCustomScreens.Add(go);
 
