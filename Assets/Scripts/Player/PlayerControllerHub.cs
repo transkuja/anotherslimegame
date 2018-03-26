@@ -507,7 +507,7 @@ public class PlayerControllerHub : PlayerController
     }
     public void OnDeath()
     {
-        Respawner.RespawnProcess(GetComponent<Player>());
+        //Respawner.RespawnProcess(GetComponent<Player>());
         if (OnDeathEvent!=null)
             OnDeathEvent((int)playerIndex);
     }
