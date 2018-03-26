@@ -466,6 +466,7 @@ public class PlatformGameplay : MonoBehaviour {
                   collision.gameObject.GetComponent<Rigidbody>().AddForce(Vector3.ClampMagnitude(Vector3.up * bounceStrength, maxbounceVelocity), ForceMode.Impulse);
                 if (collision.gameObject.GetComponent<PlayerControllerHub>() != null)
                 {
+                    if(GetComponentInChildren<Animator>())GetComponentInChildren<Animator>().SetBool("animate", true);
                     collision.gameObject.GetComponent<PlayerControllerHub>().canDoubleJump = true;
                     collision.gameObject.GetComponent<PlayerControllerHub>().jumpState.nbJumpMade = 1;
                 }
