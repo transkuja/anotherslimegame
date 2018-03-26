@@ -15,7 +15,7 @@ public class PlayerState {
     float dragForce = 0.025f;
     float dragForceDash = 0.01f; // Dash value
 
-    float airControlFactor = 0.58f;
+    float airControlFactor = 0.42f;
     float timerApplyDrag = 0.02f;
 
     #region getterSetters
@@ -84,7 +84,7 @@ public class PlayerState {
         camVectorForward.Normalize();
 
         Vector3 velocityVec = initialVelocity.z * camVectorForward;
-        if (!playerController.IsGrounded && playerController.jumpState.nbJumpMade == 2)
+        if (!playerController.IsGrounded)
             velocityVec += initialVelocity.x * playerController.Player.cameraReference.transform.GetChild(0).right * airControlFactor;
         else
             velocityVec += initialVelocity.x * playerController.Player.cameraReference.transform.GetChild(0).right;
