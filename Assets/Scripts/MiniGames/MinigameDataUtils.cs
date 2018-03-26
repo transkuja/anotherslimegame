@@ -70,7 +70,7 @@ public static class MinigameDataUtils
         }
         else if (curGameMode is Runner3DGameMode)
         {
-            return "Run";
+            return "RUN !";
         }
         else if (curGameMode is FruitGameMode)
         {
@@ -105,6 +105,7 @@ public static class MinigameDataUtils
         {
             controls.Add(new ControlDetails(ControlType.Movement));
             controls.Add(new ControlDetails(ControlType.Jump));
+            controls.Add(new ControlDetails(ControlType.Action, "Dash forward with X"));
         }
         else if (curGameMode is FruitGameMode)
         {

@@ -62,6 +62,12 @@ public class UI : MonoBehaviour {
         {
             GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
         }
+        // Special case TODO:Refacto : 
+        if (GameManager.Instance.CurrentGameMode is Runner3DGameMode)
+        {
+            GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
+        }
+
     }
 
     public void Update()
