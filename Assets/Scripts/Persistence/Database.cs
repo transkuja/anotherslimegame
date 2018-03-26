@@ -162,7 +162,7 @@ namespace DatabaseClass
             // Adding colors
             int idColors = 0;
             string[] strColor = { "Red", "Blue", "Magenta", "Yellow", "Candy" };
-            Color[] tabColor = { new Color(255, 73, 73, 0) / 255, new Color(21, 255, 243, 0) / 255, new Color(255, 34, 249, 0) / 255, new Color(241, 255, 0, 0) / 255, new Color(255, 167, 220, 0) / 255 };
+            Color[] tabColor = { new Color(255, 10, 10, 0) / 255, new Color(21, 255, 243, 0) / 255, new Color(255, 34, 249, 0) / 255, new Color(241, 255, 0, 0) / 255, new Color(255, 167, 220, 0) / 255 };
             colors.Add(new ColorData { Id = strColor[idColors], color = tabColor[idColors], isUnlocked = true });
             colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = true });
             colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = true });
