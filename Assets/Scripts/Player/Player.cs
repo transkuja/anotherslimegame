@@ -295,33 +295,37 @@ public class Player : MonoBehaviour {
                 tutoTextIsPending = false;
             }
         }
-
-        activateAerialDrag = (!((PlayerControllerHub)PlayerController).IsGrounded);
-        if (activateAerialDrag)
+        if (PlayerController.GetType() == typeof(PlayerControllerHub))
         {
-            Vector3 tmp = new Vector3(Rb.velocity.x, 0.0f, Rb.velocity.z);
-            //Vector3 fwd = playerController.transform.forward;
-
-            float dragForceUsed = 45f * Time.deltaTime * 500f;//(playerController.PreviousPlayerState == playerController.dashState) ? dragForceDash : dragForce;
-
-            if (tmp.magnitude > 3.0f)// && Vector3.Dot(playerController.transform.forward, tmp) > 0)
+            activateAerialDrag = (!((PlayerControllerHub)PlayerController).IsGrounded);
+            if (activateAerialDrag)
             {
-                if ((tmp.x > 0 && tmp.x - tmp.normalized.x * dragForceUsed < 0)
-                || (tmp.x < 0 && tmp.x - tmp.normalized.x * dragForceUsed > 0)
-                || (tmp.z > 0 && tmp.z - tmp.normalized.z * dragForceUsed < 0)
-                || (tmp.z < 0 && tmp.z - tmp.normalized.z * dragForceUsed > 0))
-                {                }
-                //playerController.Player.Rb.velocity = playerController.Player.Rb.velocity.y * Vector3.up;
+                Vector3 tmp = new Vector3(Rb.velocity.x, 0.0f, Rb.velocity.z);
+                //Vector3 fwd = playerController.transform.forward;
+
+                float dragForceUsed = 45f * Time.deltaTime * 500f;//(playerController.PreviousPlayerState == playerController.dashState) ? dragForceDash : dragForce;
+
+                if (tmp.magnitude > 3.0f)// && Vector3.Dot(playerController.transform.forward, tmp) > 0)
+                {
+                    if ((tmp.x > 0 && tmp.x - tmp.normalized.x * dragForceUsed < 0)
+                    || (tmp.x < 0 && tmp.x - tmp.normalized.x * dragForceUsed > 0)
+                    || (tmp.z > 0 && tmp.z - tmp.normalized.z * dragForceUsed < 0)
+                    || (tmp.z < 0 && tmp.z - tmp.normalized.z * dragForceUsed > 0))
+                    { }
+                    //playerController.Player.Rb.velocity = playerController.Player.Rb.velocity.y * Vector3.up;
+                    else
+                    {
+                        Rb.AddForce(-tmp.normalized * dragForceUsed);
+                    }
+                }
                 else
                 {
-                    Rb.AddForce(-tmp.normalized * dragForceUsed);
+                    //playerController.Player.Rb.velocity = playerController.Player.Rb.velocity.y * Vector3.up;
                 }
             }
-            else
-            {
-                //playerController.Player.Rb.velocity = playerController.Player.Rb.velocity.y * Vector3.up;
-            }
         }
+        else
+            activateAerialDrag = false;
     }
 
     private void FixedUpdate()
