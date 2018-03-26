@@ -16,44 +16,26 @@ public class FruitsSpawner : MonoBehaviour {
     public float maxX;
     public float maxZ;
 
-
-    public FruitsSpawner spawnerFruit;
-    public GameObject rulesScreen;
-    public bool canActivate = false;
-    public IEnumerator Start()
-    {
-        Debug.Log(rulesScreen.activeSelf);
-        yield return new WaitForSeconds(6.0f);
-        if (rulesScreen.gameObject.activeSelf == false)
-        {
-            canActivate = true;
-        }
-
-        if(canActivate)
-        {
-            StartCoroutine(Spawner());
-            canActivate = false;
-        }
-        
-    }
-
     public IEnumerator Spawner()
     {
-        while (true)
+        if (GameManager.CurrentState == GameState.Normal)
         {
-            yield return new WaitForSeconds(fruitsSpawnDelay);
+            while (true)
+            {
+                yield return new WaitForSeconds(fruitsSpawnDelay);
 
-            minX = -(boxColliderSpawn.transform.localScale.x / 2);
-            maxX = boxColliderSpawn.transform.localScale.x / 2;
+                minX = -(boxColliderSpawn.transform.localScale.x / 2);
+                maxX = boxColliderSpawn.transform.localScale.x / 2;
 
-            minZ = -(boxColliderSpawn.transform.localScale.z / 2);
-            maxZ = boxColliderSpawn.transform.localScale.z / 2;
+                minZ = -(boxColliderSpawn.transform.localScale.z / 2);
+                maxZ = boxColliderSpawn.transform.localScale.z / 2;
 
-            // Spawn fruit
-            //int randChild = Random.Range(0, transform.childCount);
+                // Spawn fruit
+                //int randChild = Random.Range(0, transform.childCount);
 
-            GameObject go = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.Fruits).GetItem(transform, new Vector3(Random.Range(minX, maxX), 15, Random.Range(minZ, maxZ)), Quaternion.identity, true);
-            go.GetComponent<BoxCollider>().enabled = true;
+                GameObject go = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.Fruits).GetItem(transform, new Vector3(Random.Range(minX, maxX), 15, Random.Range(minZ, maxZ)), Quaternion.identity, true);
+                go.GetComponent<BoxCollider>().enabled = true;
+            }
         }
     }
 }

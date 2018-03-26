@@ -6,6 +6,9 @@ using UnityEngine.UI;
 public class FruitGameMode : GameMode {
 
     public float timer;
+    public FruitsSpawner spawner;
+    bool spawnerInitialized = false;
+
     public override void StartGame(List<GameObject> playerReferences)
     {
         base.StartGame(playerReferences);
@@ -22,6 +25,16 @@ public class FruitGameMode : GameMode {
     {
         GameManager.Instance.GameFinalTimer = timer;
         GameManager.Instance.LaunchFinalTimer();
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+        if (GameManager.CurrentState != GameState.Normal || spawnerInitialized == true)
+            return;
+
+        StartCoroutine(spawner.Spawner());
+        spawnerInitialized = true;
     }
 
     public override void AttributeCamera(uint activePlayersAtStart, GameObject[] cameraReferences, List<GameObject> playersReference)
