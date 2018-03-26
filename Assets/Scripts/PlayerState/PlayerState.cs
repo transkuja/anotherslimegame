@@ -15,7 +15,7 @@ public class PlayerState {
     float dragForce = 0.025f;
     float dragForceDash = 0.01f; // Dash value
 
-    float airControlFactor = 0.75f;
+    float airControlFactor = 0.58f;
     float timerApplyDrag = 0.02f;
 
     #region getterSetters
