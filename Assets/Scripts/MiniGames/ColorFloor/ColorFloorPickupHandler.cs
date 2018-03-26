@@ -50,7 +50,7 @@ public class ColorFloorPickupHandler : MonoBehaviour
 
                 ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.ColorFloorPickUps).GetItem(
                     transform.GetChild(randChild / lineCount).GetChild(randChild % lineSize),
-                    Vector3.up,
+                    Vector3.up * 1.5f,
                     Quaternion.identity,
                     true,
                     false,
