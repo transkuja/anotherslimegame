@@ -148,7 +148,7 @@ abstract public class GameMode : MonoBehaviour
             entry.transform.localPosition = new Vector2(0, 100 * (1 - i));
 
             GameObject pickupPreview = Instantiate(ResourceUtils.Instance.feedbacksManager.GetPickupPreview(pickup.pickupType), entry.GetComponentInChildren<Image>().transform);
-            pickupPreview.transform.localPosition = Vector3.zero;
+            pickupPreview.transform.localPosition = Vector3.right * 15 + Vector3.forward * -50;
             pickupPreview.transform.localScale *= 25.0f;
             entry.GetComponentInChildren<Image>().enabled = false;
 
