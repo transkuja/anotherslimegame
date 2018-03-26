@@ -10,7 +10,7 @@ public static class MinigameDataUtils
         GameMode curGameMode = _curGameMode;
         if (curGameMode is ColorFloorGameMode)
         {
-            return "Color Floor";
+            return "Floor Coloring";
         }
         else if (curGameMode is KartGameMode)
         {
