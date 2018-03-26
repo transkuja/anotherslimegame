@@ -384,7 +384,6 @@ public class Menu : MonoBehaviour {
             currentCursor = _nbButtons - 1;
         else
             currentCursor = currentCursor % _nbButtons;
-        Debug.Log(currentCursor);
         CurrentlySelectedButton = transform.GetChild((int)currentState).GetChild(_childOffset).GetChild(currentCursor).GetComponent<Button>();
     }
 

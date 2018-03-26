@@ -21,7 +21,7 @@ public class GameManager : MonoBehaviour {
     // WARNING, should be reset on load scene
     float currentGameFinalTimer;
     // WARNING, should be reset on load scene
-    bool finalTimerInitialized = false;
+    public bool finalTimerInitialized = false;
 
     public GameObject activeTutoTextForAll;
 
@@ -237,6 +237,9 @@ public class GameManager : MonoBehaviour {
      */
     public static void ChangeState(GameState _newState)
     {
+        if (pauseMenuReference == null)
+            return;
+
         if (_newState == GameState.Paused)
         {
             if (currentState == GameState.Normal)

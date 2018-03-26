@@ -96,6 +96,7 @@ public class UI : MonoBehaviour {
             else
             {
                 GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
+                GameManager.Instance.finalTimerInitialized = false;
             }
         }
       
