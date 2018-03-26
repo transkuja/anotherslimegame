@@ -572,6 +572,24 @@ public class Menu : MonoBehaviour {
             transform.GetChild((int)MenuState.MinigameSelection)
                     .GetChild(2).GetComponent<MinigameSelectionAnim>().SetMinigame(unlockedMinigames[Mathf.Min(1, unlockedMinigames.Count - 1)]);
 
+            int childCount = transform.GetChild((int)MenuState.MinigameSelection).childCount;
+            for (int i = 0; i < nbPlayers; i++)
+            {
+                PlayerCosmetics curPlayerCosmetics = transform.GetChild((int)MenuState.MinigameSelection).GetChild(childCount - 4 + i).GetComponentInChildren<PlayerCosmetics>();
+                if (selectedColors[i] == unlockedCustomColors.Count)
+                {
+                    curPlayerCosmetics.UseColorFade = true;
+                }
+                else
+                    curPlayerCosmetics.SetUniqueColor(unlockedCustomColors[selectedColors[i]].color);
+
+                curPlayerCosmetics.FaceType = (FaceType)selectedFaces[i];
+            }
+
+            for (int i = nbPlayers; i < 4; i++)
+            {
+                transform.GetChild((int)MenuState.MinigameSelection).GetChild(childCount - 4 + i).gameObject.SetActive(false);
+            }
         }
     }
 
