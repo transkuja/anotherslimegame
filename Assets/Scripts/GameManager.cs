@@ -237,13 +237,13 @@ public class GameManager : MonoBehaviour {
      */
     public static void ChangeState(GameState _newState)
     {
-        if (pauseMenuReference == null)
-            return;
-
         if (_newState == GameState.Paused)
         {
             if (currentState == GameState.Normal)
             {
+                if (pauseMenuReference == null)
+                    return;
+
                 currentState = GameState.Paused;
                 pauseMenuReference.gameObject.SetActive(true);
                 UiReference.TooglePersistenceUI(true);
@@ -263,6 +263,9 @@ public class GameManager : MonoBehaviour {
         {
             if (currentState == GameState.Paused)
             {
+                if (pauseMenuReference == null)
+                    return;
+
                 currentState = GameState.Normal;
                 pauseMenuReference.gameObject.SetActive(false);
                 UiReference.TooglePersistenceUI(false);
