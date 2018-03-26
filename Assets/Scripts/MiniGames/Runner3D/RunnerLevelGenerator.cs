@@ -90,6 +90,11 @@ namespace Runner3D
                         Vector3 position = startPos + new Vector3(x * defaultBlockSize.x, 0, z * defaultBlockSize.z);
                         position.x -= extentsX;
                         GameObject bloc = runnerBlocPool.GetItem(transform, position, Quaternion.identity);
+                        if (bloc == null)
+                        {
+                            Debug.LogWarning("Pool item is null");
+                            return;
+                        }
                         bloc.SetActive(true);
                         runnerblocsLine[x] = bloc.GetComponent<RunnerBlocs>();
                         runnerblocsLine[x].SaveStartPos();
@@ -340,7 +345,7 @@ namespace Runner3D
                 case State.LevelPresentation:
                     break;
                 case State.InGame:
-                    switch (runnerMode.Mode)
+                    switch (RunnerMode.Mode)
                     {
                         case Runner3DGameMode.EMode.SoloInfinite:
                             InfiniteModeUpdate();
