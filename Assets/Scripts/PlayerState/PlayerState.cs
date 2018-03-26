@@ -151,7 +151,7 @@ public class PlayerState {
                     maxSpeed /= 2;
                 }
 
-                playerController.Rb.AddForce(velocityVec * maxForceMagnitude);
+                playerController.Rb.AddForce(velocityVec * maxForceMagnitude*Time.deltaTime*50);
                 Vector3 xzVelocity = new Vector3(playerController.Rb.velocity.x, 0, playerController.Player.Rb.velocity.z);
                 xzVelocity = Vector3.ClampMagnitude(xzVelocity, maxSpeed);
                 playerController.Rb.velocity = (/*(playerController.IsGrounded) ? 0 : */playerController.Rb.velocity.y) * Vector3.up + xzVelocity;

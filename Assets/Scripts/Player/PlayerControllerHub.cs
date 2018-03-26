@@ -312,7 +312,6 @@ public class PlayerControllerHub : PlayerController
             }
         }
 
-        PlayerState.HandleGravity();
 
         if (isUsingAController)
         {
@@ -328,11 +327,6 @@ public class PlayerControllerHub : PlayerController
             }
         }
 
-
-        // handle stateFunction
-        if (PlayerState != null)
-            PlayerState.OnFixedUpdate();
-
         if (Rb.velocity.y < 0.0f && IsGrounded)
         {
             if (!Physics.Raycast(transform.position + Vector3.up * 0.5f + raycastOffsetPlayer * transform.forward, Vector3.down, raycastDist, groundLayersToCheck)
@@ -341,6 +335,16 @@ public class PlayerControllerHub : PlayerController
                     && !Physics.Raycast(transform.position + Vector3.up * 0.5f - raycastOffsetPlayer * transform.right, Vector3.down, raycastDist, groundLayersToCheck))
                 IsGrounded = false;
         }
+    }
+
+    public void FixedUpdate()
+    {
+        // handle stateFunction
+        if (PlayerState != null)
+            PlayerState.OnFixedUpdate();
+
+        PlayerState.HandleGravity();
+
     }
 
 #if UNITY_EDITOR
@@ -507,7 +511,7 @@ public class PlayerControllerHub : PlayerController
     }
     public void OnDeath()
     {
-        //Respawner.RespawnProcess(GetComponent<Player>());
+        Respawner.RespawnProcess(GetComponent<Player>());
         if (OnDeathEvent!=null)
             OnDeathEvent((int)playerIndex);
     }
