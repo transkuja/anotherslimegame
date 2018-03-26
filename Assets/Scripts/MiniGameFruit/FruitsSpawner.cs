@@ -15,7 +15,29 @@ public class FruitsSpawner : MonoBehaviour {
     public float minZ;
     public float maxX;
     public float maxZ;
-    IEnumerator Start()
+
+
+    public FruitsSpawner spawnerFruit;
+    public GameObject rulesScreen;
+    public bool canActivate = false;
+    public IEnumerator Start()
+    {
+        Debug.Log(rulesScreen.activeSelf);
+        yield return new WaitForSeconds(6.0f);
+        if (rulesScreen.gameObject.activeSelf == false)
+        {
+            canActivate = true;
+        }
+
+        if(canActivate)
+        {
+            StartCoroutine(Spawner());
+            canActivate = false;
+        }
+        
+    }
+
+    public IEnumerator Spawner()
     {
         while (true)
         {
@@ -30,7 +52,8 @@ public class FruitsSpawner : MonoBehaviour {
             // Spawn fruit
             //int randChild = Random.Range(0, transform.childCount);
 
-            ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.Fruits).GetItem(transform, new Vector3(Random.Range(minX, maxX), 15, Random.Range(minZ, maxZ)), Quaternion.identity, true);
+            GameObject go = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.Fruits).GetItem(transform, new Vector3(Random.Range(minX, maxX), 15, Random.Range(minZ, maxZ)), Quaternion.identity, true);
+            go.GetComponent<BoxCollider>().enabled = true;
         }
     }
 }

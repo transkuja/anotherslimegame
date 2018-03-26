@@ -1,11 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FruitGameMode : GameMode {
 
     public float timer;
-
     public override void StartGame(List<GameObject> playerReferences)
     {
         base.StartGame(playerReferences);
@@ -15,7 +15,6 @@ public class FruitGameMode : GameMode {
 
         foreach (GameObject player in playerReferences)
             player.GetComponent<Player>().associateFruit = (Fruit)(player.GetComponent<Player>().PlayerController.playerIndex);
-
         LaunchTimer();
     }
 
@@ -34,7 +33,6 @@ public class FruitGameMode : GameMode {
 
             go.GetComponent<Player>().cameraReference = cameraReferences[i];
             cameraReferences[i].SetActive(true);
-
         }
     }
 
