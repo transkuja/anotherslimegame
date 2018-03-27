@@ -30,16 +30,16 @@ public class TimeFormatUtils : MonoBehaviour {
                 timeStr = string.Format("{0:00}:{1:00}", ts.Minutes, ts.Seconds);
                 break;
             case TimeFormat.MinSecMil:
-                timeStr = string.Format("{0:00}:{1:00}:{2:00}", ts.Minutes, ts.Seconds, ts.Milliseconds);
+                timeStr = string.Format("{0:00}:{1:00}:{2:000}", ts.Minutes, ts.Seconds, ts.Milliseconds);
                 break;
             case TimeFormat.SecMil:
-                timeStr = string.Format("{0:00}:{1:00}", ts.Seconds, ts.Milliseconds);
+                timeStr = string.Format("{0:00}:{1:000}", ts.Seconds, ts.Milliseconds);
                 break;
             case TimeFormat.Sec:
                 timeStr = string.Format("{0:00}", ts.Seconds);
                 break;
             case TimeFormat.Mil:
-                timeStr = string.Format("{0:00}", ts.Milliseconds);
+                timeStr = string.Format("{0:000}", ts.Milliseconds);
                 break;
             case TimeFormat.TotalMin:
                 timeStr = string.Format("{0:00}", ts.TotalMinutes);
@@ -48,7 +48,7 @@ public class TimeFormatUtils : MonoBehaviour {
                 timeStr = string.Format("{0:00}", ts.TotalSeconds);
                 break;
             case TimeFormat.TotalMil:
-                timeStr = string.Format("{0:00}", ts.TotalMilliseconds);
+                timeStr = string.Format("{0:000}", ts.TotalMilliseconds);
                 break;
         }
 
