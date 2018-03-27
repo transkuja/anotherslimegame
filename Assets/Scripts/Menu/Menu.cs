@@ -447,26 +447,25 @@ public class Menu : MonoBehaviour {
             AudioManager.Instance.PlayOneShot(AudioManager.Instance.changeOptionFx);
 
         if (selectedFaces[_playerIndex] < 0)
-            selectedFaces[_playerIndex] = unlockedFaces.Count - 1;
+            selectedFaces[_playerIndex] = unlockedFaces.Count;
         else
-            selectedFaces[_playerIndex] = selectedFaces[_playerIndex] % (unlockedFaces.Count);
+            selectedFaces[_playerIndex] = selectedFaces[_playerIndex] % (unlockedFaces.Count + 1);
 
         // Update text and character
-        //Debug.Log(selectedFaces[_playerIndex]);
-        //if (selectedFaces[_playerIndex] == unlockedFaces.Count)
-        //{
-        //    playerCustomScreens[_playerIndex].transform.GetChild(2).GetComponent<Text>().text = "Yellow";
-        //    playerCustomScreens[_playerIndex].transform.GetChild(3).GetComponent<Text>().text = "Rabbit";
-        //    playerCustomScreens[_playerIndex].transform.GetChild(4).GetChild(0).gameObject.SetActive(false);
-        //    playerCustomScreens[_playerIndex].transform.GetChild(4).GetChild(1).gameObject.SetActive(true);
-        //}
-        //else
-        //{
+        if (selectedFaces[_playerIndex] == unlockedFaces.Count)
+        {
+            playerCustomScreens[_playerIndex].transform.GetChild(2).GetComponent<Text>().text = "Yellow";
+            playerCustomScreens[_playerIndex].transform.GetChild(3).GetComponent<Text>().text = "Rabbit";
+            playerCustomScreens[_playerIndex].transform.GetChild(4).GetChild(0).gameObject.SetActive(false);
+            playerCustomScreens[_playerIndex].transform.GetChild(4).GetChild(1).gameObject.SetActive(true);
+        }
+        else
+        {
             playerCustomScreens[_playerIndex].transform.GetChild(3).GetComponent<Text>().text = unlockedFaces[selectedFaces[_playerIndex]].Id;
             playerCustomScreens[_playerIndex].transform.GetChild(4).GetChild(0).gameObject.SetActive(true);
             playerCustomScreens[_playerIndex].transform.GetChild(4).GetChild(1).gameObject.SetActive(false);
             playerCustomScreens[_playerIndex].transform.GetChild(4).GetComponentInChildren<PlayerCosmetics>().FaceType = (FaceType)unlockedFaces[selectedFaces[_playerIndex]].indiceForShader;
-        //}
+        }
     }
 
 
