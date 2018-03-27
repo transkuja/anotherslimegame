@@ -131,6 +131,7 @@ public class PauseMenu : MonoBehaviour {
 
     private void OnEnable()
     {
+        CurrentState = PauseMenuState.Default;
         selection = 0;
         CurrentlySelectedButton = transform.GetChild((int)currentState + 1).GetChild(selection).GetComponentInChildren<Button>();
     }
@@ -163,6 +164,24 @@ public class PauseMenu : MonoBehaviour {
                     currentlySelectedButton.GetComponent<AnimButton>().enabled = true;
             }
         }
+    }
+
+    // Inverted by default
+    public void InvertXAxis()
+    {
+        Cinemachine.CinemachineFreeLook curPlayerCamera = GameManager.Instance.PlayerStart.PlayersReference[GameManager.Instance.playerWhoPausedTheGame].GetComponent<Player>().cameraReference.GetComponentInChildren<Cinemachine.CinemachineFreeLook>();
+        curPlayerCamera.m_XAxis.m_InvertAxis = !curPlayerCamera.m_XAxis.m_InvertAxis;
+
+        transform.GetChild((int)currentState + 1).GetChild(selection).GetChild(1).GetComponent<Image>().enabled = curPlayerCamera.m_XAxis.m_InvertAxis;
+    }
+
+    // Not inverted by default
+    public void InvertYAxis()
+    {
+        Cinemachine.CinemachineFreeLook curPlayerCamera = GameManager.Instance.PlayerStart.PlayersReference[GameManager.Instance.playerWhoPausedTheGame].GetComponent<Player>().cameraReference.GetComponentInChildren<Cinemachine.CinemachineFreeLook>();
+        curPlayerCamera.m_YAxis.m_InvertAxis = !curPlayerCamera.m_YAxis.m_InvertAxis;
+
+        transform.GetChild((int)currentState + 1).GetChild(selection).GetChild(1).GetComponent<Image>().enabled = curPlayerCamera.m_YAxis.m_InvertAxis;
     }
 
 }
