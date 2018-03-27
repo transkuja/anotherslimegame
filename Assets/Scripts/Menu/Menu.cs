@@ -355,6 +355,9 @@ public class Menu : MonoBehaviour {
 
     private void UpdateMinigameSelection()
     {
+        if (AudioManager.Instance != null && AudioManager.Instance.changeOptionFx != null)
+            AudioManager.Instance.PlayOneShot(AudioManager.Instance.changeOptionFx);
+
         // Currently selected
         transform.GetChild((int)MenuState.MinigameSelection)
                 .GetChild(2).GetComponent<MinigameSelectionAnim>().SetMinigame(unlockedMinigames[minigameCurrentCursor]);
@@ -373,6 +376,12 @@ public class Menu : MonoBehaviour {
     // Move the button cursor and highlight it
     void UpdateSelectionVisual(int _nbButtons, int _childOffset)
     {
+        if (AudioManager.Instance != null && AudioManager.Instance.changeOptionFx != null)
+        {
+            Debug.Log("??");
+            AudioManager.Instance.PlayOneShot(AudioManager.Instance.changeOptionFx);
+        }
+
         if (currentCursor < 0)
             currentCursor = _nbButtons - 1;
         else
@@ -407,6 +416,9 @@ public class Menu : MonoBehaviour {
     // Change the player color according to current selection
     void UpdatePlayerPreviewColor(int _playerIndex)
     {
+        if (AudioManager.Instance != null && AudioManager.Instance.changeOptionFx != null)
+            AudioManager.Instance.PlayOneShot(AudioManager.Instance.changeOptionFx);
+
         if (selectedFaces[_playerIndex] == unlockedFaces.Count)
             return;
 
@@ -431,13 +443,16 @@ public class Menu : MonoBehaviour {
     // Change the player face according to current selection
     void UpdatePlayerPreviewFace(int _playerIndex)
     {
+        if (AudioManager.Instance != null && AudioManager.Instance.changeOptionFx != null)
+            AudioManager.Instance.PlayOneShot(AudioManager.Instance.changeOptionFx);
+
         if (selectedFaces[_playerIndex] < 0)
             selectedFaces[_playerIndex] = unlockedFaces.Count - 1;
         else
             selectedFaces[_playerIndex] = selectedFaces[_playerIndex] % (unlockedFaces.Count);
 
         // Update text and character
-        Debug.Log(selectedFaces[_playerIndex]);
+        //Debug.Log(selectedFaces[_playerIndex]);
         //if (selectedFaces[_playerIndex] == unlockedFaces.Count)
         //{
         //    playerCustomScreens[_playerIndex].transform.GetChild(2).GetComponent<Text>().text = "Yellow";
@@ -617,7 +632,10 @@ public class Menu : MonoBehaviour {
         // Exit game has been pressed
         if (currentCursor == 2 && currentState == MenuState.TitleScreenModeSelection)
             return;
-        
+
+        if (AudioManager.Instance != null && AudioManager.Instance.buttonValidationFx != null)
+            AudioManager.Instance.PlayOneShot(AudioManager.Instance.buttonValidationFx);
+
         SetState((MenuState)((int)currentState + 1));
     }
 
@@ -625,6 +643,10 @@ public class Menu : MonoBehaviour {
     {
         if (currentState == MenuState.TitleScreenModeSelection)
             return;
+
+        if (AudioManager.Instance != null && AudioManager.Instance.buttonValidationFx != null)
+            AudioManager.Instance.PlayOneShot(AudioManager.Instance.buttonValidationFx);
+
         SetState((MenuState)((int)currentState - 1));
     }
 
@@ -640,6 +662,9 @@ public class Menu : MonoBehaviour {
 
     void GoToNextStateFromCustomisationScreen()
     {
+        if (AudioManager.Instance != null && AudioManager.Instance.buttonValidationFx != null)
+            AudioManager.Instance.PlayOneShot(AudioManager.Instance.buttonValidationFx);
+
         // Launch HUB
         if (selectedMode == 0)
         {
@@ -657,6 +682,9 @@ public class Menu : MonoBehaviour {
 
     void GoToNextStateFromMinigameSelection()
     {
+        if (AudioManager.Instance != null && AudioManager.Instance.buttonValidationFx != null)
+            AudioManager.Instance.PlayOneShot(AudioManager.Instance.buttonValidationFx);
+
         SendDataToContainer();
         SceneManager.LoadScene(transform.GetChild((int)MenuState.MinigameSelection)
                     .GetChild(2).GetComponent<MinigameSelectionAnim>().GetMinigameId());

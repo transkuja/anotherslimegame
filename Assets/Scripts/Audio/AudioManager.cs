@@ -28,7 +28,12 @@ public class AudioManager : MonoBehaviour
     public AudioClip cascadaFx;
     public AudioClip windBlowingFx;
 
-    public AudioClip musicAssenseur;
+    public AudioClip buttonValidationFx;
+    public AudioClip changeOptionFx;
+    public AudioClip readySetGoFx;
+
+
+    public AudioClip musicAscenseur;
 
     private AudioClip musicToPlay;
     private AudioClip previousMusic;
