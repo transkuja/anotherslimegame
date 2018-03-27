@@ -98,6 +98,7 @@ namespace Runner3D
                         bloc.SetActive(true);
                         runnerblocsLine[x] = bloc.GetComponent<RunnerBlocs>();
                         runnerblocsLine[x].SaveStartPos();
+                        runnerblocsLine[x].TpDown();
                     }
                 }
                 blockLineList.Add(runnerblocsLine);
@@ -325,6 +326,7 @@ namespace Runner3D
             MoveCursor(-nbRowUpInFrontFirst - 1);
             state = State.InGame;
             chunkLine = 0;
+            beginAreaPrefab.GetComponent<RunnerBlocs>().SaveStartPos();
             beginAreaPrefab.GetComponent<RunnerBlocs>().LauchLerp(DirLerpState.Down,timeBeforeFalling);
         }
         public void Update()

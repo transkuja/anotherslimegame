@@ -42,7 +42,6 @@ namespace Runner3D
                     transform.GetChild(i).GetComponent<PlatformGameplay>().enabled = false;
                 hasFinished[i] = false;
             }
-            TpDown();
         }
         public void TpDown()
         {
