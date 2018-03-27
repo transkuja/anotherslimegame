@@ -9,7 +9,9 @@ public class AudioManager : MonoBehaviour
     public List<AudioSource> sourceFX;
     public AudioSource windFxSource;
 
+    public AudioClip musicMenu;
     public AudioClip musicGame;
+    public AudioClip musicMinigame;
 
     public AudioClip coinFX;
     public AudioClip youpiFX;
@@ -100,7 +102,25 @@ public class AudioManager : MonoBehaviour
 
     void Start()
     {
+        // Should be called only in menu
         currentVolume = volumeMusic;
+        sourceMusic.clip = musicMenu;
+        sourceMusic.Play();
+    }
+
+
+    public void Init()
+    {
+        currentVolume = volumeMusic;
+
+        if (GameManager.Instance != null)
+        {
+            if (GameManager.Instance.IsInHub())
+                sourceMusic.clip = musicGame;
+            else
+                sourceMusic.clip = musicMinigame;
+        }
+
         sourceMusic.Play();
     }
 
