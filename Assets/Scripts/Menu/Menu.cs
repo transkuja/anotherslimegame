@@ -380,10 +380,7 @@ public class Menu : MonoBehaviour {
     void UpdateSelectionVisual(int _nbButtons, int _childOffset)
     {
         if (AudioManager.Instance != null && AudioManager.Instance.changeOptionFx != null)
-        {
-            Debug.Log("??");
             AudioManager.Instance.PlayOneShot(AudioManager.Instance.changeOptionFx);
-        }
 
         if (currentCursor < 0)
             currentCursor = _nbButtons - 1;
@@ -511,11 +508,11 @@ public class Menu : MonoBehaviour {
                     playerCustomScreens[i].transform.GetChild(5).gameObject.SetActive(false);
 
                     if (nbPlayers == 1)
-                        playerCustomScreens[i].transform.localPosition = new Vector3(0.0f, -50.0f, 0.0f);
+                        playerCustomScreens[i].transform.localPosition = new Vector3(0.0f, -65.0f, 0.0f);
                     if (nbPlayers == 2)
-                        playerCustomScreens[i].transform.localPosition = new Vector3(-160 + (2 * i * 160), -50.0f, 0.0f);
+                        playerCustomScreens[i].transform.localPosition = new Vector3(-160 + (2 * i * 160), -65.0f, 0.0f);
                     if (nbPlayers >= 3)
-                        playerCustomScreens[i].transform.localPosition = new Vector3(-(160) * Mathf.Pow(-1, i), (i < 2) ? 50.0f : -150.0f, 0.0f);
+                        playerCustomScreens[i].transform.localPosition = new Vector3(-(160) * Mathf.Pow(-1, i), (i < 2) ? 35.0f : -165.0f, 0.0f);
                 }
 
                 // Instantiate new screen if more players are selected
@@ -610,11 +607,11 @@ public class Menu : MonoBehaviour {
         go.GetComponentInChildren<Text>().text = "Player " + (_newPlayerIndex + 1);
 
         if (nbPlayers == 1)
-            go.transform.localPosition = new Vector3(0.0f, -50.0f, 0.0f);
+            go.transform.localPosition = new Vector3(0.0f, -65.0f, 0.0f);
         if (nbPlayers == 2)
-            go.transform.localPosition = new Vector3(-160 + (2 * _newPlayerIndex * 160), -50.0f, 0.0f);
-        if (nbPlayers >= 3 )
-            go.transform.localPosition = new Vector3(-(160) * Mathf.Pow(-1, _newPlayerIndex), (_newPlayerIndex < 2) ? 50.0f : -150.0f , 0.0f);
+            go.transform.localPosition = new Vector3(-160 + (2 * _newPlayerIndex * 160), -65.0f, 0.0f);
+        if (nbPlayers >= 3)
+            go.transform.localPosition = new Vector3(-(160) * Mathf.Pow(-1, _newPlayerIndex), (_newPlayerIndex < 2) ? 35.0f : -165.0f , 0.0f);
 
         go.transform.GetChild(2).GetComponent<Text>().text = unlockedCustomColors[0].Id;
         go.transform.GetChild(3).GetComponent<Text>().text = unlockedFaces[0].Id;
