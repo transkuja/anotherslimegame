@@ -51,6 +51,9 @@ public class RunnerUI : APlayerUI {
 
         // Set nb points on death screen
         GameObject curPlayer = GameManager.Instance.PlayerStart.PlayersReference[playerId];
+        // quick debug à changer : 
+        curPlayer.GetComponent<Player>().NbPoints =Mathf.CeilToInt(curPlayer.transform.position.z);
+
         deathScreen.transform.GetChild(1).GetComponentInChildren<Text>().text = curPlayer.GetComponent<Player>().NbPoints + " pts";
     }
 
