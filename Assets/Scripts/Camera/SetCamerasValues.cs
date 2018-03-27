@@ -8,7 +8,7 @@ using Cinemachine;
 
 [ExecuteInEditMode]
 public class SetCamerasValues : MonoBehaviour {
-#if UNITY_EDITOR
+//#if UNITY_EDITOR
 
     CinemachineFreeLook[] cameras;
     CinemachineCollider[] colliders;
@@ -115,5 +115,5 @@ public class SetCamerasValues : MonoBehaviour {
         Debug.Log("Camera values set");
     }
 
-#endif
+//#endif
 }
