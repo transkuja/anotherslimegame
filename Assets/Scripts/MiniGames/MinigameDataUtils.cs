@@ -74,7 +74,7 @@ public static class MinigameDataUtils
         }
         else if (curGameMode is FruitGameMode)
         {
-            return "Collect fruits who are associated to you\n Player 1 = Clementine\n Player 2 = Pomme\n Player 3 = Kiwi\n Player 4 = Fraise";
+            return "Collect fruits you are associated with \n Player 1 = Orange (Yellow)\n Player 2 = Apple (Pink)\n Player 3 = Kiwi (Green)\n Player 4 = Strawberry (Red)";
         }
         else if (curGameMode is PushGameMode)
         {
@@ -143,7 +143,7 @@ public static class MinigameDataUtils
         }
         else if (curGameMode is FruitGameMode)
         {
-            possiblePickups.Add(new PossiblePickup(PickUpType.Changer, "Change all fruits in scene to your's"));
+            possiblePickups.Add(new PossiblePickup(PickUpType.Changer, "Change all fruits in scene to yours"));
             possiblePickups.Add(new PossiblePickup(PickUpType.Aspirator, "Collect all your fruits"));
         }
         return possiblePickups;
