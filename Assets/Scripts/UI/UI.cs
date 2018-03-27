@@ -48,7 +48,6 @@ public class UI : MonoBehaviour {
         ptsText = UIref.GetChild(0).GetComponentInChildren<Text>().transform;
         runeText = UIref.GetChild(1).GetComponentInChildren<Text>().transform;
         RuleScreen = transform.GetChild(transform.childCount-1).transform;
-        Debug.Log("naùme : "+RuleScreen.name);
         // Merde copy de reference ..
         ptsTextOriginalState = ptsText;
         runeTextOriginalState = runeText;
