@@ -24,14 +24,16 @@ public class RunnerUI : APlayerUI {
     {
         GameObject deathScreen = Instantiate(deathScreenModel, Vector3.zero, Quaternion.identity, transform);
         int maxPlayerNb = GameManager.Instance.PlayerStart.PlayersReference.Count;
+
+        int playerCanvasId = playerId;
             // if 4 player invert player screen places
         if (maxPlayerNb>2)
-            playerId = (playerId + 2) % 4;
+            playerCanvasId = (playerCanvasId + 2) % 4;
 
         // delinéarisation : ID player [0] à [4] --> offset [0,0]  à [1,1]
         // [0,0], [1,0] 
         // [0,1], [1,1]
-        Vector2 playerIDOffset = new Vector2(playerId % 2, playerId / 2);
+        Vector2 playerIDOffset = new Vector2(playerCanvasId % 2, playerCanvasId / 2);
 
             // place anchor for player
         RectTransform rectTr = deathScreen.GetComponent<RectTransform>();
@@ -50,7 +52,6 @@ public class RunnerUI : APlayerUI {
         // Set nb points on death screen
         GameObject curPlayer = GameManager.Instance.PlayerStart.PlayersReference[playerId];
         deathScreen.transform.GetChild(1).GetComponentInChildren<Text>().text = curPlayer.GetComponent<Player>().NbPoints + " pts";
-
     }
 
 }
