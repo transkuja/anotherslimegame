@@ -54,8 +54,8 @@ public class DynamicJoystickCameraController : MonoBehaviour {
         startLowOffset = (freelookCamera.GetRig(2).GetCinemachineComponent<CinemachineComposer>()).m_TrackedObjectOffset;
 
         // Ugly shit due to camera prefab being shitty
-        cameraXAdjuster = 0.3f;
-        cameraYAdjuster = 0.05f;
+        //cameraXAdjuster = 0.3f;
+        //cameraYAdjuster = 0.05f;
         notGroundedAttenuationFactor = 0.33f;
         lerpTendToMiddleRigSpeed = 0.85f;
         defaultMinDistanceFromTarget = 0.6f;
@@ -252,7 +252,7 @@ public class DynamicJoystickCameraController : MonoBehaviour {
         if (Utils.Abs(_leftStickXInput) > 0.1f)
         {
             updateValue = (freelookCamera.m_XAxis.m_InvertAxis) ? -1 : 1;     
-            updateValue *= (_leftStickXInput * Mathf.Lerp(0.5f, 1.0f, Utils.Abs(_leftStickXInput)) / 2.0f);
+            updateValue *= (_leftStickXInput * Mathf.Lerp(0.5f, 1.0f, Utils.Abs(_leftStickXInput)) / 2.0f) * cameraXAdjuster * 2.8f;
 
             if (!associatedPlayerController.IsGrounded) updateValue *= notGroundedAttenuationFactor;
         }

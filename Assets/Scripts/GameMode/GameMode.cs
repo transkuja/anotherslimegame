@@ -184,6 +184,12 @@ abstract public class GameMode : MonoBehaviour
             cameraReferences[0].transform.GetChild(0).GetComponent<Camera>().rect = new Rect(0, 0.5f, 0.5f, 0.5f);
             cameraReferences[1].transform.GetChild(0).GetComponent<Camera>().rect = new Rect(0.5f, 0.5f, 0.5f, 0.5f);
         }
+        Debug.Log(cameraReferences.Length);
+        for(int i = 0; i < cameraReferences.Length; i++)
+        {
+            cameraReferences[i].transform.GetChild(1).GetComponent<DynamicJoystickCameraController>().cameraXAdjuster = 0.3f / activePlayersAtStart;
+            cameraReferences[i].transform.GetChild(1).GetComponent<DynamicJoystickCameraController>().cameraYAdjuster = 0.05f / activePlayersAtStart;
+        }
     }
 
     /* 
