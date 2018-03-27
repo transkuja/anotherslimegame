@@ -92,7 +92,6 @@ public class DebugTools : MonoBehaviour {
         set
         {
             currentState = value;
-            Debug.Log(DebugPanelReference.GetComponent<DebugPanel>().activationText);
             DebugPanelReference.GetComponent<DebugPanel>().activationText.text = "Debug\n" + currentState.ToString();
         }
     }

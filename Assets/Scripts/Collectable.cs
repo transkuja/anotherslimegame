@@ -114,7 +114,6 @@ public class Collectable : MonoBehaviour
     {
         if (player && !IsAttracted && !haveToDisperse)
         {
-            Debug.Log("Attract");
             // Grab everything not linked to evolution (points)
             if (!Utils.IsAnEvolutionCollectable(GetComponent<Collectable>().type) || player.activeEvolutions <= 1)
             {
