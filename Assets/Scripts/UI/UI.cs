@@ -104,6 +104,9 @@ public class UI : MonoBehaviour {
 
     public void TimerNeedUpdate(float _currentGameFinalTimer)
     {
+        if (timerText == null)
+            return;
+
         if (!timerText.gameObject.activeInHierarchy)
         {
             // Init timer visual
