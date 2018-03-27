@@ -131,7 +131,8 @@ public class PauseMenu : MonoBehaviour {
 
     private void OnEnable()
     {
-        CurrentState = PauseMenuState.Default;
+        if (defaultMenu )
+            CurrentState = PauseMenuState.Default;
         selection = 0;
         CurrentlySelectedButton = transform.GetChild((int)currentState + 1).GetChild(selection).GetComponentInChildren<Button>();
     }
