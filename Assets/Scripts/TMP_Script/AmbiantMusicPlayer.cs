@@ -9,9 +9,9 @@ public class AmbiantMusicPlayer : MonoBehaviour {
         if (other.GetComponent<Player>())
         {
 
-            if (AudioManager.Instance != null && AudioManager.Instance.musicAssenseur != null)
+            if (AudioManager.Instance != null && AudioManager.Instance.musicAscenseur != null)
             {
-                AudioManager.Instance.Fade(AudioManager.Instance.musicAssenseur, 0.5f, 3.0f);
+                AudioManager.Instance.Fade(AudioManager.Instance.musicAscenseur, 0.5f, 3.0f);
             }
         
         }

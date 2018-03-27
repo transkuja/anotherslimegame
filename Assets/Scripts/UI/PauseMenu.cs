@@ -65,6 +65,8 @@ public class PauseMenu : MonoBehaviour {
         {
             if (CurrentlySelectedButton != null)
             {
+                if (AudioManager.Instance != null && AudioManager.Instance.buttonValidationFx != null)
+                    AudioManager.Instance.PlayOneShot(AudioManager.Instance.buttonValidationFx);
                 CurrentlySelectedButton.onClick.Invoke();
             }
         }
@@ -73,9 +75,12 @@ public class PauseMenu : MonoBehaviour {
         if (prevControllerState.Buttons.B == ButtonState.Released && controllerState.Buttons.B == ButtonState.Pressed)
         {
             if (currentState > 0)
+            {
                 ChangeState(0);
+                if (AudioManager.Instance != null && AudioManager.Instance.buttonValidationFx != null)
+                    AudioManager.Instance.PlayOneShot(AudioManager.Instance.buttonValidationFx);
+            }
         }
-
     }
 
     private void DefaultCursorControls()
@@ -97,6 +102,9 @@ public class PauseMenu : MonoBehaviour {
     // Move the button cursor and highlight it
     void UpdateSelectionVisual()
     {
+        if (AudioManager.Instance != null && AudioManager.Instance.changeOptionFx != null)
+            AudioManager.Instance.PlayOneShot(AudioManager.Instance.changeOptionFx);
+
         int nbButtons = transform.GetChild((int)currentState + 1).childCount;
         if (selection < 0)
             selection = nbButtons - 1;

@@ -60,6 +60,9 @@ public class RuleScreenHandler : MonoBehaviour {
         if (minigameLaunched)
             return;
 
+        if (AudioManager.Instance != null && AudioManager.Instance.buttonValidationFx != null)
+            AudioManager.Instance.PlayOneShot(AudioManager.Instance.buttonValidationFx);
+
         if (_stateForward)
         {
             if (curState == RuleScreenState.FirstPage)

@@ -36,8 +36,6 @@ public class ReadySetGo : MonoBehaviour {
         if (timer < 0.0f && img.sprite == ResourceUtils.Instance.spriteUtils.victoryNumber1)
         {
             // TODO: sound should be different here
-            if (AudioManager.Instance != null && AudioManager.Instance.readySetGoFx != null)
-                AudioManager.Instance.PlayOneShot(AudioManager.Instance.readySetGoFx);
             GameManager.ChangeState(GameState.Normal);
             Destroy(gameObject);
         }

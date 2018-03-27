@@ -21,6 +21,9 @@ public class ReplayScreenControls : MonoBehaviour {
             || (controllerState.ThumbSticks.Left.X < -0.5f && prevControllerState.ThumbSticks.Left.X > -0.5f)
             || (controllerState.ThumbSticks.Left.Y > 0.75f && prevControllerState.ThumbSticks.Left.Y < 0.75f))
         {
+            if (AudioManager.Instance != null && AudioManager.Instance.changeOptionFx != null)
+                AudioManager.Instance.PlayOneShot(AudioManager.Instance.changeOptionFx);
+
             cursor = (cursor+1)%2;
             // Show currently selected text
             //Color newColor = transform.GetChild(cursor + 1).GetComponent<Text>().color;
@@ -37,6 +40,9 @@ public class ReplayScreenControls : MonoBehaviour {
 
         if (prevControllerState.Buttons.A == ButtonState.Released && controllerState.Buttons.A == ButtonState.Pressed)
         {
+            if (AudioManager.Instance != null && AudioManager.Instance.buttonValidationFx != null)
+                AudioManager.Instance.PlayOneShot(AudioManager.Instance.buttonValidationFx);
+
             if (cursor == 0)
             {
                 // Reload scene
