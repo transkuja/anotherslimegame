@@ -111,17 +111,16 @@ public class AudioManager : MonoBehaviour
 
     public void Init()
     {
-        currentVolume = volumeMusic;
-
+       
         if (GameManager.Instance != null)
         {
             if (GameManager.Instance.IsInHub())
-                sourceMusic.clip = musicGame;
+            {
+                s_instance.Fade(musicGame);
+            }
             else
-                sourceMusic.clip = musicMinigame;
+                s_instance.Fade(musicMinigame);
         }
-
-        sourceMusic.Play();
     }
 
     private bool isFading = false;

@@ -91,6 +91,9 @@ public class Menu : MonoBehaviour {
 
     private void Start()
     {
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.Fade(AudioManager.Instance.musicMenu);
+
         foreach (DatabaseClass.ColorData c in DatabaseManager.Db.colors)
         {
             if (c.isUnlocked)

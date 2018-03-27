@@ -90,6 +90,9 @@ public class PlayerStart : MonoBehaviour {
 #if UNITY_EDITOR
         ResourceUtils.Instance.debugTools.ActivateDebugMode(true);
 #endif
+
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.Init();
     }
 
     public Transform GetPlayerStart(uint playerIndex)
