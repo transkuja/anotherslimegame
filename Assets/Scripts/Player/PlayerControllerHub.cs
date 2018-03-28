@@ -31,7 +31,6 @@ public class PlayerControllerHub : PlayerController
 
     // Deformer
     private MeshDeformer deformer;
-    //private DeformerComputeShader deformer;
 
     // Particles
     [SerializeField] GameObject dustTrailParticles;
@@ -49,7 +48,6 @@ public class PlayerControllerHub : PlayerController
     public FrozenState frozenState;
     public UnderwaterState underwaterState;
     public PausedState pausedState;
-
 
     // Delegate events :
     public delegate void OnPlayerDeath(int id);
@@ -155,21 +153,6 @@ public class PlayerControllerHub : PlayerController
             isGrounded = value;
         }
     }
-
-    public int SelectedEvolution
-    {
-        get
-        {
-            return selectedEvolution;
-        }
-
-        set
-        {
-            selectedEvolution = value;
-        }
-    }
-
-
 
     public JumpManager JumpManager
     {
@@ -277,19 +260,15 @@ public class PlayerControllerHub : PlayerController
         deformer = GetComponentInChildren<MeshDeformer>();
         collisionCenter = GetComponent<PlayerCollisionCenter>();
 
-        //deformer = GetComponentInChildren<DeformerComputeShader>();
         if (Player == null)
             Debug.Log("Player should not be null");
         raycastOffsetPlayer = GetComponent<SphereCollider>().radius;
     }
 
-
     public override void Update()
     {
         if (PlayerState != null)
             PlayerState.OnUpdate();
-        if (rb.velocity.y < 0.2f && !IsGrounded)
-            HandleBouncing();
         if (rb.velocity.y > 0.05f && !isGrounded)
             HandleJumpDeformer();
         if (DEBUG_hasBeenSpawnedFromTool)
@@ -344,7 +323,6 @@ public class PlayerControllerHub : PlayerController
             PlayerState.OnFixedUpdate();
 
         PlayerState.HandleGravity();
-
     }
 
 #if UNITY_EDITOR
@@ -454,29 +432,12 @@ public class PlayerControllerHub : PlayerController
                 playerState.OnDownDashPressed();
             }
     }
-    public void HandleBouncing()
-    {
-       
-        //Ray ray = new Ray(transform.position, Vector3.down);
-        //RaycastHit hit;
-        //if (Physics.SphereCast(ray, 1.0f, out hit))
-        //{
-        //    float force = 2000f;
-        //    float forceOffset = 0.1f;
-        //    if (deformer)
-        //    {
-        //        Vector3 point = hit.point;
-        //        point += hit.normal * forceOffset;
-        //        deformer.AddDeformingForce(point, -force);
-        //        deformer.AddDeformingForce(point, force / 5);
-        //    }
-        //}
-    }
+
     public void HandleJumpDeformer()
     {
         float force = 900f;
         float forceOffset = 0.1f;
-        MeshDeformer deformer = GetComponentInChildren<MeshDeformer>();
+
         if (deformer)
         {
             Vector3 point = transform.position- transform.up;
@@ -486,29 +447,6 @@ public class PlayerControllerHub : PlayerController
         }
     }
 
-    // TODO : Remi , Export this in camera controls
-    public void ChangeDampingValuesCameraFreeLook(float _newValues)
-    {
-        if (player.cameraReference != null && player.cameraReference.transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>())
-        {
-            //Body
-            CinemachineTransposer tr;
-            tr = (player.cameraReference.transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().GetRig(0).GetCinemachineComponent<CinemachineTransposer>());
-            tr.m_XDamping = _newValues;
-            tr.m_YDamping = _newValues;
-            tr.m_ZDamping = _newValues;
-
-            tr = (player.cameraReference.transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().GetRig(1).GetCinemachineComponent<CinemachineTransposer>());
-            tr.m_XDamping = _newValues;
-            tr.m_YDamping = _newValues;
-            tr.m_ZDamping = _newValues;
-
-            tr = (player.cameraReference.transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().GetRig(2).GetCinemachineComponent<CinemachineTransposer>());
-            tr.m_XDamping = _newValues;
-            tr.m_YDamping = _newValues;
-            tr.m_ZDamping = _newValues;
-        }
-    }
     public void OnDeath()
     {
         //Respawner.RespawnProcess(GetComponent<Player>());

@@ -223,9 +223,6 @@ public class PlayerState {
     { }
     public virtual void CollisionExit(Collision collision)
     { }
-
-
-
     public virtual void DrawGizmo()
     {}
 }
