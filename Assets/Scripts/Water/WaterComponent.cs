@@ -20,6 +20,7 @@ public class WaterComponent : MonoBehaviour {
         if (other.GetComponent<Rigidbody>() != null && other.GetComponent<Player>())
         {
             PlayerControllerHub playerController = other.GetComponent<PlayerControllerHub>();
+
             if (other.transform.GetChild((int)PlayerChildren.BubbleParticles).GetComponent<ParticleSystem>() && other.transform.GetChild((int)PlayerChildren.SplashParticles).GetComponent<ParticleSystem>())
             {
                 other.transform.GetChild((int)PlayerChildren.BubbleParticles).GetComponent<ParticleSystem>().Play();
@@ -27,16 +28,17 @@ public class WaterComponent : MonoBehaviour {
                 other.transform.GetChild((int)PlayerChildren.WaterTrailParticles).GetComponent<ParticleSystem>().Play();
                 other.transform.GetChild((int)PlayerChildren.DustTrailParticles).GetComponent<ParticleSystem>().Stop();
             }
-          
-            playerController.underwaterState.waterLevel = transform.position.y;
-            playerController.PlayerState = playerController.underwaterState;
 
+            if (playerController)
+            {
+                playerController.underwaterState.waterLevel = transform.position.y;
+                playerController.PlayerState = playerController.underwaterState;
+            }
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-
         if (other.GetComponent<Rigidbody>() != null && other.GetComponent<Player>())
         {
             if (other.transform.GetChild((int)PlayerChildren.BubbleParticles).GetComponent<ParticleSystem>())
@@ -45,10 +47,7 @@ public class WaterComponent : MonoBehaviour {
             }
             other.transform.GetChild((int)PlayerChildren.WaterTrailParticles).GetComponent<ParticleSystem>().Stop();
             other.transform.GetChild((int)PlayerChildren.DustTrailParticles).GetComponent<ParticleSystem>().Play();
-
-
         }
 
     }
-
 }
