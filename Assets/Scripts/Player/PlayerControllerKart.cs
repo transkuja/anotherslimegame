@@ -24,13 +24,10 @@ public class PlayerControllerKart : PlayerController {
     float dashForce = 100.0f;
     [SerializeField]
     float dashCooldown = 1.0f;
-
     [SerializeField]
     float hitRecoveryTime = 0.75f;
-
     [SerializeField]
     float startDrag;
-
     [SerializeField]
     CheckPoint LastCheckpoint;
 
@@ -46,7 +43,6 @@ public class PlayerControllerKart : PlayerController {
         {
             return currentState;
         }
-
         set
         {
             currentState = value;
@@ -70,7 +66,6 @@ public class PlayerControllerKart : PlayerController {
         {
             return hitRecoveryTime;
         }
-
         set
         {
             hitRecoveryTime = value;
@@ -115,9 +110,6 @@ public class PlayerControllerKart : PlayerController {
         if (GameManager.CurrentState != GameState.Normal)
             return;
 
-        RaycastHit hit;
-        //if (!Physics.Raycast(transform.position + transform.up, -transform.up, out hit, 1.0f))
-        //    return;
         if (dashTimer < dashCooldown)
             dashTimer += Time.deltaTime;
 
@@ -129,13 +121,9 @@ public class PlayerControllerKart : PlayerController {
 
         transform.Rotate(Vector3.up * velocityRatio * state.ThumbSticks.Left.X * Time.deltaTime * turnSpeed);
 
-        //rb.AddForce(transform.right * rb.velocity.magnitude * state.ThumbSticks.Left.X);
-
         rb.AddForce(transform.forward * Time.deltaTime * forwardSpeed * state.Triggers.Right);
 
         rb.AddForce(-transform.forward * Time.deltaTime * forwardSpeed / 2.0f * state.Triggers.Left);
-
-        //rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxVelocityMagnitude);
 
         if (dashTimer >= dashCooldown && state.Buttons.X == ButtonState.Pressed && prevState.Buttons.X == ButtonState.Released)
         {
@@ -145,12 +133,6 @@ public class PlayerControllerKart : PlayerController {
         targetForward = new Vector3(state.ThumbSticks.Left.X, 0, state.ThumbSticks.Left.Y);
         if (targetForward == Vector3.zero)
             targetForward = transform.forward;
-        //transform.rotation = Quaternion.LookRotation(Vector3.Lerp(transform.forward, targetForward, Time.deltaTime * 6.0f * Mathf.Clamp(rb.velocity.magnitude/2.0f, 0.0f, 1.0f)), Vector3.up);
-        //transform.rotation = Quaternion.LookRotation(Vector3.Lerp(transform.forward, rb.velocity.normalized, Time.deltaTime * 10.0f));
-
-
-        //float directionFactor = Mathf.Round((state.Triggers.Right) + (state.Triggers.Left * -1));
-
     }
 
     void HandleHitState()
@@ -174,10 +156,7 @@ public class PlayerControllerKart : PlayerController {
     private void OnCollisionEnter(Collision collision)
     {
         if(collision.gameObject.GetComponent<PlayerControllerKart>())
-        {
             collision.gameObject.GetComponent<Rigidbody>().AddForce(-collision.contacts[0].normal * 50.0f, ForceMode.Impulse);
-            //Rb.AddForce(collision.contacts[0].normal * collision.impulse.magnitude * 2.0f, ForceMode.Impulse);
-        }
     }
 
 }
