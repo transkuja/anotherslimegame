@@ -19,7 +19,7 @@ public class PlayerControllerHub : PlayerController
     int selectedEvolution = 0;
 
     //  others
-    public bool isGravityEnabled = true;
+    private bool isGravityEnabled = true;
     float maxDistanceOffset = 2.0f;
 
     // jump
@@ -98,6 +98,7 @@ public class PlayerControllerHub : PlayerController
             PlayerState.OnBegin();
 #if UNITY_EDITOR
             curStateName = value.ToString();
+            DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.CurrentState, value.ToString());
 #endif
         }
     }
@@ -110,11 +111,15 @@ public class PlayerControllerHub : PlayerController
 
         set
         {
+
+#if UNITY_EDITOR
+            DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.IsGrounded, value.ToString());
+#endif
             if (value == true)
             {
                 if (isGrounded == false)
                 {
-                    jumpState.nbJumpMade = 0;
+                    jumpState.NbJumpMade = 0;
                     downDashState.nbDashDownMade = 0;
                     dashState.nbDashMade = 0;
 #if UNITY_EDITOR
@@ -178,6 +183,22 @@ public class PlayerControllerHub : PlayerController
         set
         {
             previousPlayerState = value;
+        }
+    }
+
+    public bool IsGravityEnabled
+    {
+        get
+        {
+            return isGravityEnabled;
+        }
+
+        set
+        {
+            isGravityEnabled = value;
+#if UNITY_EDITOR
+            DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.GravityEnabled, isGravityEnabled.ToString());
+#endif
         }
     }
 

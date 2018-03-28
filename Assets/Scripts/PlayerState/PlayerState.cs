@@ -105,7 +105,7 @@ public class PlayerState {
     {
         Vector3 velocityVec =  Vector3.up * playerController.Player.Rb.velocity.y;
         // MENU peter a cause de cette condition tu sais pourquoi c'est la antho ? sinon je peux faire une exception pour le menu
-        if (!playerController.IsGrounded && playerController.jumpState.nbJumpMade == 2)
+        if (!playerController.IsGrounded && playerController.jumpState.NbJumpMade == 2)
             velocityVec += initialVelocity.x * Vector3.right * airControlFactor;
         else
             velocityVec += initialVelocity.x * Vector3.right;
@@ -169,7 +169,7 @@ public class PlayerState {
     }
     public virtual void HandleGravity()
     {
-        if (playerController.isGravityEnabled)
+        if (playerController.IsGravityEnabled)
         {
             playerController.Player.Rb.AddForce(Gravity.defaultGravity * Vector3.down);
         }
@@ -179,7 +179,7 @@ public class PlayerState {
     public virtual void OnJumpPressed()
     {
         playerController.Rb.constraints = RigidbodyConstraints.FreezeRotation;
-        if (playerController.jumpState.nbJumpMade < playerController.stats.Get(Stats.StatType.JUMP_NB))
+        if (playerController.jumpState.NbJumpMade < playerController.stats.Get(Stats.StatType.JUMP_NB))
         {
             playerController.PlayerState = playerController.jumpState;
         }
@@ -189,7 +189,7 @@ public class PlayerState {
         if (playerController.dashState.nbDashMade < 1)
         {
             playerController.PlayerState = playerController.dashState;
-            if (playerController.jumpState.nbJumpMade > 0)
+            if (playerController.jumpState.NbJumpMade > 0)
                 playerController.dashState.nbDashMade++;
         }
     }
@@ -198,7 +198,7 @@ public class PlayerState {
         if (playerController.downDashState.nbDashDownMade < 1 && !playerController.IsGrounded)
         {
             playerController.PlayerState = playerController.downDashState;
-            if (playerController.jumpState.nbJumpMade > 0)
+            if (playerController.jumpState.NbJumpMade > 0)
                 playerController.downDashState.nbDashDownMade++;
         }
     }

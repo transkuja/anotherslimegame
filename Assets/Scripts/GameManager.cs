@@ -301,6 +301,10 @@ public class GameManager : MonoBehaviour {
         {
             currentState = GameState.ForcedPauseMGRules;
         }
+
+#if UNITY_EDITOR
+        DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.GameState, currentState.ToString());
+#endif
     }
 
     private void Update()

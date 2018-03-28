@@ -20,6 +20,13 @@ public class DebugTools : MonoBehaviour {
     enum DebugState { AddEvolution, SpawnCollectable, GameplayData, Unlockables, Size }
     enum DebugUIState { None, FPS, Full, Size }
 
+    public enum DebugPlayerInfos { GameState, Index, IsGrounded, GravityEnabled, CurrentState, HasBeenTp, NbJumpMade, CameraState, Size };
+    public enum DebugEvolutionInfos { Charge, PatternIndex, Usable, Size };
+
+    public static string[] debugPlayerInfos = new string[(int)DebugPlayerInfos.Size];
+    public static string[] debugEvolutionInfos = new string[(int)DebugEvolutionInfos.Size];
+
+
     [SerializeField]
     Transform debugPanelReference;
 
@@ -49,6 +56,14 @@ public class DebugTools : MonoBehaviour {
     public static float computedFPS = 0.0f;
 
     string[] helpPanels = new string[(int)DebugState.Size + 1];
+
+    private void Start()
+    {
+        debugPlayerInfos[(int)DebugPlayerInfos.GravityEnabled] = "true";
+        debugPlayerInfos[(int)DebugPlayerInfos.HasBeenTp] = "false";
+        debugPlayerInfos[(int)DebugPlayerInfos.IsGrounded] = "true";
+        debugPlayerInfos[(int)DebugPlayerInfos.NbJumpMade] = "0";
+    }
 
     public static Player DebugPlayerSelected
     {
@@ -734,4 +749,22 @@ public class DebugTools : MonoBehaviour {
 
         debugPlayerSelected = playersReference[(currentIndex + 1) % playersReference.Count].GetComponent<Player>();
     }
+
+
+    public static void UpdatePlayerInfos(DebugPlayerInfos _type, string _value)
+    {
+        debugPlayerInfos[(int)_type] = _value;
+        DebugPanel debugPanelRef = FindObjectOfType<DebugPanel>();
+        if (debugPanelRef != null)
+            FindObjectOfType<DebugPanel>().UpdatePlayerInfoText();
+    }
+
+    public static void UpdateEvolutionInfos(DebugEvolutionInfos _type, string _value)
+    {
+        debugEvolutionInfos[(int)_type] = _value;
+        DebugPanel debugPanelRef = FindObjectOfType<DebugPanel>();
+        if (debugPanelRef != null)
+            FindObjectOfType<DebugPanel>().UpdatePlayerInfoText();
+    }
+
 }

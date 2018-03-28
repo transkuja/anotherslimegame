@@ -45,7 +45,23 @@ public class DynamicJoystickCameraController : MonoBehaviour {
 
     public enum CameraState { Default, SmallArea, VerySmallArea }
 
-    public CameraState currentState = CameraState.Default;
+    private CameraState currentState = CameraState.Default;
+
+    public CameraState CurrentState
+    {
+        get
+        {
+            return currentState;
+        }
+
+        set
+        {
+            currentState = value;
+#if UNITY_EDITOR
+            DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.CameraState, value.ToString());
+#endif
+        }
+    }
 
     void Start () {
         freelookCamera = GetComponent<Cinemachine.CinemachineFreeLook>();
@@ -62,7 +78,7 @@ public class DynamicJoystickCameraController : MonoBehaviour {
         extremeMinDistanceFromTarget = 5.0f;
         smallAreaHeight = 15.0f;
         verySmallAreaHeight = 7.0f;
-        currentState = CameraState.Default;
+        CurrentState = CameraState.Default;
         ///////////////////////////////////////////////////
     }
 
@@ -117,10 +133,10 @@ public class DynamicJoystickCameraController : MonoBehaviour {
     /// <param name="_newState"></param>
     void ChangeCameraState(CameraState _newState)
     {
-        if (_newState == currentState)
+        if (_newState == CurrentState)
             return;
 
-        currentState = _newState;
+        CurrentState = _newState;
         switch (_newState)
         {
             case CameraState.SmallArea:

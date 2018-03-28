@@ -21,7 +21,7 @@ public class WalljumpState : PlayerState
         pushForce = 880;
         timer = 0;
 
-        playerController.jumpState.nbJumpMade = 2;
+        playerController.jumpState.NbJumpMade = 2;
 
         // Se tourner vers l'exterieur
         playerController.transform.rotation =
@@ -63,7 +63,7 @@ public class WalljumpState : PlayerState
     }
     public override void OnJumpPressed()
     {
-        if(playerController.jumpState.nbJumpMade <= 2)
+        if(playerController.jumpState.NbJumpMade <= 2)
         {
             JumpManager jm;
 
@@ -74,7 +74,7 @@ public class WalljumpState : PlayerState
                 jm.Jump(JumpManager.JumpEnum.Basic);
             playerController.Rb.AddForce(pushDirection.normalized * pushForce);
 
-            playerController.jumpState.nbJumpMade = 20;
+            playerController.jumpState.NbJumpMade = 20;
             timer = 0;
             PushedFromWall();
         }

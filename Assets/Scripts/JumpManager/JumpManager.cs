@@ -38,14 +38,14 @@ public class JumpManager : MonoBehaviour
     }
     void SetGravity()
     {
-        pc.isGravityEnabled = false;
+        pc.IsGravityEnabled = false;
         forceStopCoroutine = StartCoroutine("ForceStop");
     }
 
     IEnumerator ForceStop()
     {
         yield return new WaitForSeconds(timerForForcedStop);
-        if (GetComponent<PlayerControllerHub>().jumpState.nbJumpMade > 1)
+        if (GetComponent<PlayerControllerHub>().jumpState.NbJumpMade > 1)
             yield return new WaitForSeconds(timerForForcedStop);
         if (GetComponent<PlayerControllerHub>().PlayerState == GetComponent<PlayerControllerHub>().jumpState)
             Stop();
@@ -78,7 +78,7 @@ public class JumpManager : MonoBehaviour
         if (curJump != null)
         {
             curJump = null;
-            pc.isGravityEnabled = true;
+            pc.IsGravityEnabled = true;
         }
 
         GetComponent<PlayerControllerHub>().pendingStepSound = true;

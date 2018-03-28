@@ -60,9 +60,9 @@ public class InitTeleporter : MonoBehaviour {
             return;
 
         // Arrived at destination
-        if (collision.transform.GetComponent<Player>() != null && collision.transform.GetComponent<Player>().hasBeenTeleported)
+        if (collision.transform.GetComponent<Player>() != null && collision.transform.GetComponent<Player>().HasBeenTeleported)
         {
-            collision.transform.GetComponent<Player>().hasBeenTeleported = false;
+            collision.transform.GetComponent<Player>().HasBeenTeleported = false;
             return;
         }
 

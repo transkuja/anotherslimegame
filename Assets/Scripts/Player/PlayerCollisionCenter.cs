@@ -550,7 +550,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
         if (target.GetComponent<PlayerControllerHub>() != null)
         {
             PlayerControllerHub _pcTarget = target.GetComponent<PlayerControllerHub>();
-            _pcTarget.jumpState.nbJumpMade = 0;
+            _pcTarget.jumpState.NbJumpMade = 0;
             _pcTarget.PlayerState.OnJumpPressed();
             _pcTarget.PlayerState.PushPlayer(direction* repulseStrength);
         }

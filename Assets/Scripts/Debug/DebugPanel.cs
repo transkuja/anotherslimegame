@@ -38,6 +38,7 @@ public class DebugPanel : MonoBehaviour {
                 evolutions.gameObject.SetActive(true);
                 collectables.gameObject.SetActive(true);
                 playerInfo.gameObject.SetActive(true);
+                UpdatePlayerInfoText();
                 break;
             default:
                 evolutions.gameObject.SetActive(false);
@@ -76,9 +77,10 @@ public class DebugPanel : MonoBehaviour {
     void Update () {
         if (currentState == DebugUIState.Full)
         {
-            UpdateEvolutionText();
-            UpdateCollectableText();
-            UpdatePlayerInfoText();
+            // TODO: not every frame
+            //UpdateEvolutionText();
+            //UpdateCollectableText();
+            //UpdatePlayerInfoText();
         }
 
     }
@@ -91,34 +93,10 @@ public class DebugPanel : MonoBehaviour {
         evolutionsText.text += Powers.Strength + ": " + ((player.GetComponent<EvolutionStrength>() != null) ? ((player.GetComponent<EvolutionStrength>().Timer == 0.0f) ? "Active" : player.GetComponent<EvolutionStrength>().Timer.ToString("0.0") + "s") : "Inactive") + "\n";
         evolutionsText.text += Powers.Agile + ": " + ((player.GetComponent<EvolutionAgile>() != null) ? ((player.GetComponent<EvolutionAgile>().Timer == 0.0f) ? "Active" : player.GetComponent<EvolutionAgile>().Timer.ToString("0.0") + "s") : "Inactive") + "\n";
         evolutionsText.text += Powers.Ghost + ": " + ((player.GetComponent<EvolutionGhost>() != null) ? ((player.GetComponent<EvolutionGhost>().Timer == 0.0f) ? "Active" : player.GetComponent<EvolutionGhost>().Timer.ToString("0.0") + "s") : "Inactive") + "\n";
-    }
 
-    void UpdateCollectableText()
-    {
-        collectablesText.text = "";
-        collectablesText.text += GameManager.Instance.Runes + " " + CollectableType.Rune.ToString() + "\n";
-        collectablesText.text += GameManager.Instance.GlobalMoney + " " + CollectableType.Money.ToString() + "\n";
-
-        Player player = DebugTools.DebugPlayerSelected;
-        collectablesText.text += player.NbLife + " " + PlayerUIStat.Life.ToString() + "\n";
-        collectablesText.text += player.NbPoints + " " + PlayerUIStat.Points.ToString() + "\n";
-    }
-
-    void UpdatePlayerInfoText()
-    {
-        PlayerControllerHub playerController = DebugTools.DebugPlayerSelected.GetComponent<PlayerControllerHub>();
+        PlayerControllerHub playerController = player.GetComponent<PlayerControllerHub>();
         if (playerController == null)
             return;
-
-        playerInfoText.text = "Game state: " + GameManager.CurrentState + "\n";
-        playerInfoText.text += "Player index: " + (int)playerController.PlayerIndex + "\n";
-        playerInfoText.text += "Use a controller: " + playerController.IsUsingAController + "\n";
-        playerInfoText.text += "Is grounded: " + playerController.IsGrounded + "\n";
-        playerInfoText.text += "Gravity enabled: " + playerController.isGravityEnabled + "\n";
-        playerInfoText.text += "Current state: " + playerController.PlayerState + "\n";
-        playerInfoText.text += "Has been teleported: " + DebugTools.DebugPlayerSelected.hasBeenTeleported + "\n";
-        playerInfoText.text += "NbJumpMade: " + ((PlayerControllerHub)DebugTools.DebugPlayerSelected.PlayerController).jumpState.nbJumpMade + "\n";
-        playerInfoText.text += "Camera State: " + DebugTools.DebugPlayerSelected.cameraReference.GetComponentInChildren<DynamicJoystickCameraController>().currentState + "\n";
 
         if (playerController.GetComponent<EvolutionPlatformist>())
         {
@@ -131,6 +109,36 @@ public class DebugPanel : MonoBehaviour {
             playerInfoText.text += "Charge: " + (ghost.CurrentEmissionTimeLeft / ghost.MaxEmissionTime * 100.0f).ToString("0") + "%\n";
             playerInfoText.text += "Usable: " + !ghost.HitZero + "\n";
         }
+    }
+
+    void UpdateCollectableText()
+    {
+        collectablesText.text = "";
+
+        Player player = DebugTools.DebugPlayerSelected;
+        collectablesText.text += player.NbLife + " " + PlayerUIStat.Life.ToString() + "\n";
+        collectablesText.text += player.NbPoints + " " + PlayerUIStat.Points.ToString() + "\n";
+    }
+
+    public void UpdatePlayerInfoText()
+    {
+
+        if (currentState == DebugUIState.Full)
+        {
+            PlayerControllerHub playerController = DebugTools.DebugPlayerSelected.GetComponent<PlayerControllerHub>();
+            if (playerController == null)
+                return;
+
+            playerInfoText.text = "Game state: " + DebugTools.debugPlayerInfos[(int)DebugTools.DebugPlayerInfos.GameState] + "\n";
+            playerInfoText.text += "Player index: " + DebugTools.debugPlayerInfos[(int)DebugTools.DebugPlayerInfos.Index] + "\n";
+            playerInfoText.text += "Is grounded: " + DebugTools.debugPlayerInfos[(int)DebugTools.DebugPlayerInfos.IsGrounded] + "\n";
+            playerInfoText.text += "Gravity enabled: " + DebugTools.debugPlayerInfos[(int)DebugTools.DebugPlayerInfos.GravityEnabled] + "\n";
+            playerInfoText.text += "Current state: " + DebugTools.debugPlayerInfos[(int)DebugTools.DebugPlayerInfos.CurrentState] + "\n";
+            playerInfoText.text += "Has been teleported: " + DebugTools.debugPlayerInfos[(int)DebugTools.DebugPlayerInfos.HasBeenTp] + "\n";
+            playerInfoText.text += "NbJumpMade: " + DebugTools.debugPlayerInfos[(int)DebugTools.DebugPlayerInfos.NbJumpMade] + "\n";
+            playerInfoText.text += "Camera State: " + DebugTools.debugPlayerInfos[(int)DebugTools.DebugPlayerInfos.CameraState] + "\n";
+        }
+
     }
 
     public void UpdateFPS(float _fps)

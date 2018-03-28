@@ -41,7 +41,7 @@ public class DashState : PlayerState
         dashingVelocity = playerController.stats.Get(Stats.StatType.DASH_FORCE);
         dashingMaxTimer = 0.15f;
         dashingTimer = dashingMaxTimer;
-        playerController.isGravityEnabled = false;
+        playerController.IsGravityEnabled = false;
         playerController.Rb.drag = 15.0f;
         CurFixedUpdateFct = OnDashState;
 
@@ -50,7 +50,7 @@ public class DashState : PlayerState
 
     public override void OnEnd()
     {
-        playerController.isGravityEnabled = true;
+        playerController.IsGravityEnabled = true;
         if (playerController.IsGrounded) nbDashMade = 0;
         playerController.Rb.drag = 0.0f;
 

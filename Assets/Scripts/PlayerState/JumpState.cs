@@ -8,7 +8,23 @@ public class JumpState : PlayerState
 {
 
     bool hasJumpButtonBeenReleased;
-    public int nbJumpMade = 0;
+    private int nbJumpMade = 0;
+
+    public int NbJumpMade
+    {
+        get
+        {
+            return nbJumpMade;
+        }
+
+        set
+        {
+            nbJumpMade = value;
+#if UNITY_EDITOR
+            DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.NbJumpMade, value.ToString());
+#endif
+        }
+    }
 
     public JumpState(PlayerControllerHub _playerController) : base(_playerController)
     {
@@ -53,17 +69,17 @@ public class JumpState : PlayerState
         else
             Debug.LogError("No jump manager attached to player!");
 
-        nbJumpMade++;
+        NbJumpMade++;
     }
 
    
     public override void OnJumpPressed()
     {
-        if (nbJumpMade < playerController.stats.Get(Stats.StatType.JUMP_NB))
+        if (NbJumpMade < playerController.stats.Get(Stats.StatType.JUMP_NB))
         {
             LaunchJump();
 
-            if (nbJumpMade > 1)
+            if (NbJumpMade > 1)
             {
                 if (AudioManager.Instance != null && AudioManager.Instance.youpiFX != null)
                     AudioManager.Instance.PlayOneShot(AudioManager.Instance.youpiFX);

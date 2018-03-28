@@ -306,7 +306,7 @@ public class PlatformGameplay : MonoBehaviour {
                     player.transform.localScale = Vector3.one;
                     player.transform.position = teleporterTarget.position;
                     player.transform.rotation = teleporterTarget.rotation;
-                    player.hasBeenTeleported = true;
+                    player.HasBeenTeleported = true;
                     isOnPlatform = false;
                 }
                 if (delayBetweenMovements > 0.0f)
@@ -468,7 +468,7 @@ public class PlatformGameplay : MonoBehaviour {
                 {
                     if(GetComponentInChildren<Animator>())GetComponentInChildren<Animator>().SetBool("animate", true);
                     collision.gameObject.GetComponent<PlayerControllerHub>().canDoubleJump = true;
-                    collision.gameObject.GetComponent<PlayerControllerHub>().jumpState.nbJumpMade = 1;
+                    collision.gameObject.GetComponent<PlayerControllerHub>().jumpState.NbJumpMade = 1;
                 }
                   
             }

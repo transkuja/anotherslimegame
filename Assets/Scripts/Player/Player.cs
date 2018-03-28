@@ -20,7 +20,7 @@ public class Player : MonoBehaviour {
     public GameObject cameraReference;
 
     Animator anim;
-    public bool hasBeenTeleported = false;
+    private bool hasBeenTeleported = false;
 
     public bool isEdgeAssistActive = true;
     [SerializeField]
@@ -189,6 +189,22 @@ public class Player : MonoBehaviour {
     {
         get { return finishTime; }
         set { finishTime = value; }
+    }
+
+    public bool HasBeenTeleported
+    {
+        get
+        {
+            return hasBeenTeleported;
+        }
+
+        set
+        {
+            hasBeenTeleported = value;
+#if UNITY_EDITOR
+            DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.HasBeenTp, value.ToString());
+#endif
+        }
     }
 
     #endregion
