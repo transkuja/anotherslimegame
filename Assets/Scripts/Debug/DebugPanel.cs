@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class DebugPanel : MonoBehaviour {
     enum DebugPanelChildren { EvolutionsState, CollectablesState, PlayerInfo, Infos, ActivationText };
+    enum DebugUIState { None, FPS, Full, Size};
 
     public Transform evolutions;
     public Transform collectables;
@@ -17,6 +18,34 @@ public class DebugPanel : MonoBehaviour {
     Text collectablesText;
     Text playerInfoText;
     public Text infoText;
+    DebugUIState currentState;
+
+    public void ChangeState(int _newState)
+    {
+        currentState = (DebugUIState)_newState;
+        evolutionsText.text = "";
+        collectablesText.text = "";
+
+        switch (currentState)
+        {
+            case DebugUIState.FPS:
+                playerInfoText.text = "FPS: 0.0";
+                evolutions.gameObject.SetActive(false);
+                collectables.gameObject.SetActive(false);
+                playerInfo.gameObject.SetActive(true);
+                break;
+            case DebugUIState.Full:
+                evolutions.gameObject.SetActive(true);
+                collectables.gameObject.SetActive(true);
+                playerInfo.gameObject.SetActive(true);
+                break;
+            default:
+                evolutions.gameObject.SetActive(false);
+                collectables.gameObject.SetActive(false);
+                playerInfo.gameObject.SetActive(false);
+                break;
+        }
+    }
 
     void Start () {
         evolutions = transform.GetChild((int)DebugPanelChildren.EvolutionsState);
@@ -45,9 +74,13 @@ public class DebugPanel : MonoBehaviour {
     }
 
     void Update () {
-        UpdateEvolutionText();
-        UpdateCollectableText();
-        UpdatePlayerInfoText();
+        if (currentState == DebugUIState.Full)
+        {
+            UpdateEvolutionText();
+            UpdateCollectableText();
+            UpdatePlayerInfoText();
+        }
+
     }
 
     void UpdateEvolutionText()
@@ -77,9 +110,7 @@ public class DebugPanel : MonoBehaviour {
         if (playerController == null)
             return;
 
-        playerInfoText.text = "";
-        playerInfoText.text += "FPS: " + DebugTools.computedFPS.ToString("0.0") + "\n";
-        playerInfoText.text += "Game state: " + GameManager.CurrentState + "\n";
+        playerInfoText.text = "Game state: " + GameManager.CurrentState + "\n";
         playerInfoText.text += "Player index: " + (int)playerController.PlayerIndex + "\n";
         playerInfoText.text += "Use a controller: " + playerController.IsUsingAController + "\n";
         playerInfoText.text += "Is grounded: " + playerController.IsGrounded + "\n";
@@ -94,12 +125,18 @@ public class DebugPanel : MonoBehaviour {
             playerInfoText.text += "Charges: " + playerController.GetComponent<EvolutionPlatformist>().Charges + "\n";
             playerInfoText.text += "Pattern index: " + playerController.GetComponent<EvolutionPlatformist>().IndexPattern + "\n";
         }
-        if(playerController.GetComponent<EvolutionGhost>())
+        if (playerController.GetComponent<EvolutionGhost>())
         {
             EvolutionGhost ghost = playerController.GetComponent<EvolutionGhost>();
-            playerInfoText.text += "Charge: " + (ghost.CurrentEmissionTimeLeft/ ghost.MaxEmissionTime * 100.0f).ToString("0") + "%\n";
+            playerInfoText.text += "Charge: " + (ghost.CurrentEmissionTimeLeft / ghost.MaxEmissionTime * 100.0f).ToString("0") + "%\n";
             playerInfoText.text += "Usable: " + !ghost.HitZero + "\n";
         }
+    }
+
+    public void UpdateFPS(float _fps)
+    {
+        if (currentState == DebugUIState.FPS)
+            playerInfoText.text = "FPS: " + _fps.ToString("0.0");
     }
 
 }

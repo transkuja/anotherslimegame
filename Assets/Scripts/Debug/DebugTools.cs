@@ -18,6 +18,7 @@ using System;
 public class DebugTools : MonoBehaviour {
     public static bool isDebugModeActive = false;
     enum DebugState { AddEvolution, SpawnCollectable, GameplayData, Unlockables, Size }
+    enum DebugUIState { None, FPS, Full, Size }
 
     [SerializeField]
     Transform debugPanelReference;
@@ -42,6 +43,7 @@ public class DebugTools : MonoBehaviour {
     float timerShowHelp = 5.0f;
     float currentTimerShowHelp = 0.0f;
     DebugState currentState;
+    DebugUIState currentUIState;
 
     List<float> lastFramesTime = new List<float>();
     public static float computedFPS = 0.0f;
@@ -95,6 +97,21 @@ public class DebugTools : MonoBehaviour {
             DebugPanelReference.GetComponent<DebugPanel>().activationText.text = "Debug\n" + currentState.ToString();
 
             DebugPanelReference.GetComponent<DebugPanel>().UpdateDebugPanelInfos(helpPanels[(int)DebugState.Size], helpPanels[(int)currentState]);
+        }
+    }
+
+    private DebugUIState CurrentUIState
+    {
+        get
+        {
+            return currentUIState;
+        }
+
+        set
+        {
+            currentUIState = value;
+            DebugPanelReference.GetComponent<DebugPanel>().ChangeState((int)currentUIState);
+
         }
     }
 
@@ -571,11 +588,7 @@ public class DebugTools : MonoBehaviour {
         if (Input.GetKey(KeyCode.U)
             && Input.GetKeyDown(KeyCode.I))
         {
-            bool changeState = !DebugPanelReference.GetComponent<DebugPanel>().evolutions.gameObject.activeInHierarchy;
-
-            DebugPanelReference.GetComponent<DebugPanel>().evolutions.gameObject.SetActive(changeState);
-            DebugPanelReference.GetComponent<DebugPanel>().collectables.gameObject.SetActive(changeState);
-            DebugPanelReference.GetComponent<DebugPanel>().playerInfo.gameObject.SetActive(changeState);
+            CurrentUIState = (DebugUIState)(((int)CurrentUIState + 1)% (int)DebugUIState.Size);
         }
 
         // Show debug help
@@ -668,17 +681,18 @@ public class DebugTools : MonoBehaviour {
     void ComputeFPS()
     {
         lastFramesTime.Add(Time.deltaTime);
-        if (lastFramesTime.Count >= 10)
-        {
-            lastFramesTime.RemoveAt(0);
-        }
 
         computedFPS = 0;
         for (int i = 0; i < lastFramesTime.Count; i++)
         {
             computedFPS += lastFramesTime[i];
         }
-        computedFPS = lastFramesTime.Count / computedFPS;
+
+        if (computedFPS > 1.0f)
+        {
+            DebugPanelReference.GetComponent<DebugPanel>().UpdateFPS(lastFramesTime.Count / computedFPS);
+            lastFramesTime.Clear();
+        }
     }
 
     public void ActivateDebugMode(bool _forceActivation = false)
