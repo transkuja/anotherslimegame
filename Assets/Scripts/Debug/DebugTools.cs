@@ -17,7 +17,7 @@ using System;
  */
 public class DebugTools : MonoBehaviour {
     public static bool isDebugModeActive = false;
-    enum DebugState { AddEvolution, SpawnCollectable, ChangeGameplayData }
+    enum DebugState { AddEvolution, SpawnCollectable, GameplayData, Unlockables }
 
     [SerializeField]
     Transform debugPanelReference;
@@ -39,7 +39,6 @@ public class DebugTools : MonoBehaviour {
     bool hasUpdatedDebugPanel = false;
     bool lightsEnabled = false;
 
-    bool hasReleasedHelpButton = false;
     float timerShowHelp = 5.0f;
     float currentTimerShowHelp = 0.0f;
     DebugState currentState;
@@ -244,6 +243,11 @@ public class DebugTools : MonoBehaviour {
             GameManager.Instance.DEBUG_IncreaseFinalCountdown(increaseStep);
     }
 
+    void UnlockableControls()
+    {
+
+    }
+
     void CommonControls()
     {
         // Reset player
@@ -428,14 +432,9 @@ public class DebugTools : MonoBehaviour {
         }
 
         // Show debug help
-        if (Input.GetKey(KeyCode.H))
+        if (Input.GetKeyDown(KeyCode.H))
         {
-            DebugPanelReference.GetComponent<DebugPanel>().helpPanel.gameObject.SetActive(true);
-        }
-
-        if (Input.GetKeyUp(KeyCode.H))
-        {
-            hasReleasedHelpButton = true;
+            DebugPanelReference.GetComponent<DebugPanel>().helpPanel.gameObject.SetActive(!DebugPanelReference.GetComponent<DebugPanel>().helpPanel.gameObject.activeInHierarchy);
         }
 
         // Finish current mini game
@@ -492,8 +491,11 @@ public class DebugTools : MonoBehaviour {
                 case DebugState.SpawnCollectable:
                     SpawnCollectableControls();
                     break;
-                case DebugState.ChangeGameplayData:
+                case DebugState.GameplayData:
                     ChangeGameplayDataControls();
+                    break;
+                case DebugState.Unlockables:
+                    UnlockableControls();
                     break;
                 default:
                     break;
@@ -506,20 +508,12 @@ public class DebugTools : MonoBehaviour {
                 CurrentState = DebugState.SpawnCollectable;
 
             else if (Input.GetKeyDown(KeyCode.F3))
-                CurrentState = DebugState.ChangeGameplayData;
+                CurrentState = DebugState.GameplayData;
+
+            else if (Input.GetKeyDown(KeyCode.F4))
+                CurrentState = DebugState.Unlockables;
 
             CommonControls();
-
-            if (hasReleasedHelpButton)
-            {
-                currentTimerShowHelp += Time.deltaTime;
-                if (currentTimerShowHelp > timerShowHelp)
-                {
-                    DebugPanelReference.GetComponent<DebugPanel>().helpPanel.gameObject.SetActive(false);
-                    hasReleasedHelpButton = false;
-                    currentTimerShowHelp = 0.0f;
-                }
-            }
         }
         
     }
@@ -544,7 +538,7 @@ public class DebugTools : MonoBehaviour {
     {
         isDebugModeActive = (_forceActivation) ? true : !isDebugModeActive;
         DebugPanelReference.gameObject.SetActive(isDebugModeActive);
-        CurrentState = ((GameManager.Instance.CurrentGameMode.IsMiniGame()) ? DebugState.ChangeGameplayData : DebugState.AddEvolution);
+        CurrentState = ((GameManager.Instance.CurrentGameMode.IsMiniGame()) ? DebugState.GameplayData : DebugState.AddEvolution);
 
         if (!hasUpdatedDebugPanel)
             UpdateDebugPanel();
