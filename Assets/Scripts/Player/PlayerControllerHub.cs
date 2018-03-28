@@ -10,24 +10,36 @@ using Cinemachine;
 
 public class PlayerControllerHub : PlayerController
 {
+    #region Controller
+    // jump
+    [Range(5, 1000)] float jumpChargeSpeed = 15.0f;
+
+    // Plateformist
+    bool rightTriggerHasBeenPressed = false;
+    float timerRightTriggerPressed = 0.0f;
+    #endregion
+
+    #region HUBCharacter
+    public bool DEBUG_hasBeenSpawnedFromTool = false;
+
+    [SerializeField] public Stats stats;
+
+    // Aggregations
+    public PlayerCollisionCenter collisionCenter;
+
+    // Ground
+    public LayerMask groundLayersToCheck;
+    [SerializeField] bool isGrounded = true;
+    private float raycastDist = 1.5f;
+    private float raycastOffsetPlayer;
+
+    //  others
+    private bool isGravityEnabled = true;
+
     // Component : 
     private PlayerState playerState;
     private PlayerState previousPlayerState;
     private JumpManager jumpManager;
-
-    // evolution : 
-    int selectedEvolution = 0;
-
-    //  others
-    private bool isGravityEnabled = true;
-    float maxDistanceOffset = 2.0f;
-
-    // jump
-    [Range(5, 1000)] float jumpChargeSpeed = 15.0f;
-
-    // plateformisttmp
-    bool rightTriggerHasBeenPressed = false;
-    float timerRightTriggerPressed = 0.0f;
 
     // Deformer
     private MeshDeformer deformer;
@@ -49,30 +61,18 @@ public class PlayerControllerHub : PlayerController
     public UnderwaterState underwaterState;
     public PausedState pausedState;
 
-    // Delegate events :
+    // Delegate events in RUNNER:
     public delegate void OnPlayerDeath(int id);
     public OnPlayerDeath OnDeathEvent;
-
-    [SerializeField] public Stats stats;
-    [SerializeField] bool isGrounded = true;
-    public bool DEBUG_hasBeenSpawnedFromTool = false;
-
-    public bool canDoubleJump = true; // A Priori c'es du legacy, mais j'ai pas toutpigé.
-
-    public float raycastDist = 1.5f;
-    float raycastOffsetPlayer;
-
-    public LayerMask groundLayersToCheck;
+    #endregion
 
     public bool forceCameraRecenter = false;
-
-    public PlayerCollisionCenter collisionCenter;
     public bool pendingStepSound = false;
 
 #if UNITY_EDITOR
-    [SerializeField] public string curStateName; // debug purpose only
     private bool tryByPassJumpStop;
 #endif
+
     #region GetterSetters
 
 
@@ -97,7 +97,6 @@ public class PlayerControllerHub : PlayerController
             playerState = value;
             PlayerState.OnBegin();
 #if UNITY_EDITOR
-            curStateName = value.ToString();
             DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.CurrentState, value.ToString());
 #endif
         }

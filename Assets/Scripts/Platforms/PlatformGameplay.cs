@@ -467,7 +467,6 @@ public class PlatformGameplay : MonoBehaviour {
                 if (collision.gameObject.GetComponent<PlayerControllerHub>() != null)
                 {
                     if(GetComponentInChildren<Animator>())GetComponentInChildren<Animator>().SetBool("animate", true);
-                    collision.gameObject.GetComponent<PlayerControllerHub>().canDoubleJump = true;
                     collision.gameObject.GetComponent<PlayerControllerHub>().jumpState.NbJumpMade = 1;
                 }
                   

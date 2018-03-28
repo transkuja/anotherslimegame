@@ -428,7 +428,6 @@ public class PlayerCollisionCenter : MonoBehaviour {
         if ((transform.position.y - collision.transform.position.y) > bounceDetectionThreshold)
         {
             _Rb.velocity += Vector3.up * bounceStrength;
-            _PlayerController.canDoubleJump = true;
         }
         else
         {
@@ -567,13 +566,6 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
     public void ImpactHandling(AIRabite rabite)
     {
-
-        //// Damage Behavior
-        //if (GameManager.Instance.CurrentGameMode.TakesDamageFromPlayer)
-        //{
-        //    if (GameManager.Instance.IsInHub())
-        //        DamagePlayerHub();
-        //}
         rabite.CurrentState = AIRabite.RabiteState.Dead;
         ExpulseRabite(rabite.GetComponent<Collider>().ClosestPoint(transform.position), rabite.GetComponent<Rigidbody>(), repulsionFactor);
     }
