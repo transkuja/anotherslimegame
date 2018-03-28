@@ -34,6 +34,7 @@ public class FlameThrower : MonoBehaviour {
                 {
                     ps.Play();
                 }
+                EnableCollider();
                 anim.Play("ActivateFlameTrigger", 0);
             }
             else
@@ -43,11 +44,22 @@ public class FlameThrower : MonoBehaviour {
                     ps.Stop();
                 }
                 anim.Play("StopFlameTrigger", 0);
+                Invoke("DisableCollider", anim.GetCurrentAnimatorStateInfo(0).length - 0.25f);
             }
             isActive = value;
         }
     }
+
+    void DisableCollider()
+    {
+        GetComponent<Collider>().enabled = false;
+    }
     
+    void EnableCollider()
+    {
+        GetComponent<Collider>().enabled = true;
+    }
+
     void Start () {
         particles = GetComponentsInChildren<ParticleSystem>();
         flamesTrigger = GetComponent<Collider>();

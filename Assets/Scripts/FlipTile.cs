@@ -99,6 +99,7 @@ public class FlipTile : MonoBehaviour {
             if (collision.rigidbody.GetComponent<PlayerControllerKart>())
             {
                 collision.rigidbody.GetComponent<PlayerControllerKart>().CurrentState = PlayerControllerKart.KartPlayerState.Hit;
+                collision.rigidbody.velocity = Vector3.zero;
                 collision.rigidbody.AddForce(-transform.forward * expulsionForce + transform.up * expulsionForce, ForceMode.Impulse);
                 Physics.IgnoreCollision(collision.collider, GetComponentInChildren<Collider>(), true);
                 StartCoroutine(ReactivateColliders(collision.collider, collision.rigidbody.GetComponent<PlayerControllerKart>().HitRecoveryTime));
@@ -115,7 +116,7 @@ public class FlipTile : MonoBehaviour {
         yield return new WaitForSeconds(waitForSeconds);
         if (col != null)
         {
-            Physics.IgnoreCollision(col.GetComponent<Collider>(), GetComponentInChildren<Collider>(), false);
+            Physics.IgnoreCollision(col, GetComponentInChildren<Collider>(), false);
         }
     }
 }

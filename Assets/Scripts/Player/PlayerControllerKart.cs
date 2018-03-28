@@ -12,6 +12,8 @@ public class PlayerControllerKart : PlayerController {
         FinishedRace
     }
 
+    Animator anim;
+
     [SerializeField]
     float forwardSpeed = 20000.0f;
     [SerializeField]
@@ -25,6 +27,9 @@ public class PlayerControllerKart : PlayerController {
 
     [SerializeField]
     float hitRecoveryTime = 0.75f;
+
+    [SerializeField]
+    float startDrag;
 
     [SerializeField]
     CheckPoint LastCheckpoint;
@@ -48,6 +53,13 @@ public class PlayerControllerKart : PlayerController {
             if(currentState == KartPlayerState.Hit)
             {
                 hitTimer = 0.0f;
+                anim.Play("Hit", 0);
+                anim.speed = 1.25f;
+            }
+            else
+            {
+                anim.Play("Idle", 0);
+                anim.speed = 1f;
             }
         }
     }
@@ -70,6 +82,8 @@ public class PlayerControllerKart : PlayerController {
         player = GetComponent<Player>();
         Rb = GetComponent<Rigidbody>();
         targetForward = transform.forward;
+        anim = GetComponent<Animator>();
+        startDrag = rb.drag;
     }
 
 	public override void Update () {
@@ -90,9 +104,9 @@ public class PlayerControllerKart : PlayerController {
         }
 	}
 
-    void ApplyGravity()
+    void ApplyGravity(float gravity = 500.0f)
     {
-        rb.AddForce(Vector3.down * Time.deltaTime * 20000.0f);
+        rb.AddForce(Vector3.down * Time.deltaTime * gravity, ForceMode.VelocityChange);
     }
 
     void HandleNormalState()
@@ -102,14 +116,8 @@ public class PlayerControllerKart : PlayerController {
             return;
 
         RaycastHit hit;
-        if (Physics.Raycast(transform.position + transform.up, -transform.up, out hit))
-        {
-            if (hit.collider.GetComponent<DeathZone>())
-            {
-                rb.AddForce(-transform.up * 300.0f + rb.velocity * Time.deltaTime);
-                return;
-            }
-        }
+        //if (!Physics.Raycast(transform.position + transform.up, -transform.up, out hit, 1.0f))
+        //    return;
         if (dashTimer < dashCooldown)
             dashTimer += Time.deltaTime;
 
@@ -147,11 +155,13 @@ public class PlayerControllerKart : PlayerController {
 
     void HandleHitState()
     {
-        ApplyGravity();
+        ApplyGravity(125f);
+        rb.drag = 2f;
         hitTimer += Time.deltaTime;
         if(hitTimer >= hitRecoveryTime)
         {
             hitTimer = 0.0f;
+            rb.drag = startDrag;
             CurrentState = KartPlayerState.Normal;
         }
     }
