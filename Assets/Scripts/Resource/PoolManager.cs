@@ -174,15 +174,30 @@ public class PoolManager : MonoBehaviour {
 
     [SerializeField]
     List<PoolLeader> poolLeaders;
-    public PoolLeader GetPoolByName(PoolName _poolName)
+
+    /// <summary>
+    /// Return the pool flagged _poolName in inspector. If several are flagged _poolName, returns the one at the index _poolIndex.
+    /// </summary>
+    /// <param name="_poolName"></param>
+    /// <param name="_poolIndex"></param>
+    /// <returns></returns>
+    public PoolLeader GetPoolByName(PoolName _poolName, int _poolIndex = 0)
     {
+        int iteration = 0;
         foreach (PoolLeader leader in poolLeaders)
         {
             if (leader.poolName == _poolName)
-                return leader;
+            {
+                if (iteration == _poolIndex)
+                    return leader;
+                else
+                    iteration++;
+            }
         }
+
         return null;
     }
+
     void Start () {
 
         if (poolLeaders == null || poolLeaders.Count == 0)
