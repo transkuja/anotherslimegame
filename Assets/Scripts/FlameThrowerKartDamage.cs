@@ -3,11 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class FlameThrowerKartDamage : MonoBehaviour {
-
-    [SerializeField]
-    float expulsionForce = 150.0f;
-
-
     private void OnTriggerStay(Collider other)
     {
 

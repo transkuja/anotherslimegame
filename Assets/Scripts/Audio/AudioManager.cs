@@ -32,8 +32,8 @@ public class AudioManager : MonoBehaviour
 
     public AudioClip buttonValidationFx;
     public AudioClip changeOptionFx;
-    public AudioClip readySetGoFx;
-
+    public AudioClip countdownStepFx;
+    public AudioClip countdownEndFx;
 
     public AudioClip musicAscenseur;
 
