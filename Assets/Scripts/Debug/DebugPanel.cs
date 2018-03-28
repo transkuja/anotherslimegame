@@ -30,18 +30,18 @@ public class DebugPanel : MonoBehaviour {
         evolutionsText.text = collectablesText.text = playerInfoText.text = "";
     }
 
-    public void ResetInfoText()
+    public string AddToDebugPanelInfos(string firstKey, string secondKey, string description)
     {
-        infoText.text = "";
-    }
-
-    public void AddToDebugPanelInfos(string firstKey, string secondKey, string description)
-    {
-        infoText.text += " " + firstKey 
+        return " " + firstKey 
             + ((secondKey != "") ? " + " + secondKey : " ") 
             + ((firstKey != "" && secondKey != "") ? ": " : "") 
             + description 
             + "\n";
+    }
+
+    public void UpdateDebugPanelInfos(string _commonControls, string _stateControls)
+    {
+        infoText.text = _commonControls + _stateControls;
     }
 
     void Update () {

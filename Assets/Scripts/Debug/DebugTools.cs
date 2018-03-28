@@ -17,7 +17,7 @@ using System;
  */
 public class DebugTools : MonoBehaviour {
     public static bool isDebugModeActive = false;
-    enum DebugState { AddEvolution, SpawnCollectable, GameplayData, Unlockables }
+    enum DebugState { AddEvolution, SpawnCollectable, GameplayData, Unlockables, Size }
 
     [SerializeField]
     Transform debugPanelReference;
@@ -46,6 +46,7 @@ public class DebugTools : MonoBehaviour {
     List<float> lastFramesTime = new List<float>();
     public static float computedFPS = 0.0f;
 
+    string[] helpPanels = new string[(int)DebugState.Size + 1];
 
     public static Player DebugPlayerSelected
     {
@@ -92,61 +93,65 @@ public class DebugTools : MonoBehaviour {
         {
             currentState = value;
             DebugPanelReference.GetComponent<DebugPanel>().activationText.text = "Debug\n" + currentState.ToString();
+
+            DebugPanelReference.GetComponent<DebugPanel>().UpdateDebugPanelInfos(helpPanels[(int)DebugState.Size], helpPanels[(int)currentState]);
         }
     }
 
     void UpdateDebugPanel()
     {
         DebugPanel debugPanelComponent = DebugPanelReference.GetComponent<DebugPanel>();
-        debugPanelComponent.ResetInfoText();
 
-        debugPanelComponent.AddToDebugPanelInfos("Ctrl", "RShift", "Activation/Deactivation");
-        debugPanelComponent.AddToDebugPanelInfos("U", "I", "Show debug UI");
+        helpPanels[(int)DebugState.Size] += debugPanelComponent.AddToDebugPanelInfos("", "", " Common controls\n");
+        helpPanels[(int)DebugState.Size] += debugPanelComponent.AddToDebugPanelInfos("Ctrl", "RShift", "Activation/Deactivation");
+        helpPanels[(int)DebugState.Size] += debugPanelComponent.AddToDebugPanelInfos("U", "I", "Show debug UI");
 
-        debugPanelComponent.AddToDebugPanelInfos("", "", "\n Common controls\n");
-        debugPanelComponent.AddToDebugPanelInfos("0", "", "Reset player");
-        debugPanelComponent.AddToDebugPanelInfos("9", "", "Respawn player");
-        debugPanelComponent.AddToDebugPanelInfos("Space", "", "Spawn a player");
-        debugPanelComponent.AddToDebugPanelInfos("P", "", "Possess a spawned player");
-        debugPanelComponent.AddToDebugPanelInfos("LeftAlt", "", "Reload all powers");
-        debugPanelComponent.AddToDebugPanelInfos("N", "", "Switch to next player debug info");
-        debugPanelComponent.AddToDebugPanelInfos("T", "", "Teleport the player (transform must be specified)");
-        debugPanelComponent.AddToDebugPanelInfos("L", "", "Enable torchlights on player");
-        debugPanelComponent.AddToDebugPanelInfos("F", "", "Finish current minigame");
+        helpPanels[(int)DebugState.Size] += debugPanelComponent.AddToDebugPanelInfos("F1", "", "AddEvolution mode");
+        helpPanels[(int)DebugState.Size] += debugPanelComponent.AddToDebugPanelInfos("F2", "", "SpawnCollectable mode");
+        helpPanels[(int)DebugState.Size] += debugPanelComponent.AddToDebugPanelInfos("F3", "", "ChangeData mode");
+        helpPanels[(int)DebugState.Size] += debugPanelComponent.AddToDebugPanelInfos("F4", "", "Unlockables mode");
 
-        debugPanelComponent.AddToDebugPanelInfos("\n F1", "", "Switch to AddEvolution mode then:");
-        debugPanelComponent.AddToDebugPanelInfos("1", "", "Strength");
-        debugPanelComponent.AddToDebugPanelInfos("2", "", "Agile");
-        debugPanelComponent.AddToDebugPanelInfos("3", "", "Platformist");
-        debugPanelComponent.AddToDebugPanelInfos("4", "", "Ghost");
-        debugPanelComponent.AddToDebugPanelInfos("5", "", "Platformist debug");
+        helpPanels[(int)DebugState.Size] += debugPanelComponent.AddToDebugPanelInfos("0", "", "Reset player");
+        helpPanels[(int)DebugState.Size] += debugPanelComponent.AddToDebugPanelInfos("9", "", "Respawn player");
+        helpPanels[(int)DebugState.Size] += debugPanelComponent.AddToDebugPanelInfos("Space", "", "Spawn a player");
+        helpPanels[(int)DebugState.Size] += debugPanelComponent.AddToDebugPanelInfos("P", "", "Possess a spawned player");
+        helpPanels[(int)DebugState.Size] += debugPanelComponent.AddToDebugPanelInfos("LeftAlt", "", "Reload all powers");
+        helpPanels[(int)DebugState.Size] += debugPanelComponent.AddToDebugPanelInfos("N", "", "Switch to next player debug info");
+        helpPanels[(int)DebugState.Size] += debugPanelComponent.AddToDebugPanelInfos("T", "", "Teleport the player (transform must be specified)");
+        helpPanels[(int)DebugState.Size] += debugPanelComponent.AddToDebugPanelInfos("L", "", "Enable torchlights on player");
+        helpPanels[(int)DebugState.Size] += debugPanelComponent.AddToDebugPanelInfos("F", "", "Finish current minigame");
 
-        debugPanelComponent.AddToDebugPanelInfos("\n F2", "", "Switch to SpawnCollectable mode then:");
-        debugPanelComponent.AddToDebugPanelInfos("1", "", CollectableType.Points.ToString());
-        debugPanelComponent.AddToDebugPanelInfos("2", "", CollectableType.Rune.ToString());
-        debugPanelComponent.AddToDebugPanelInfos("3", "", CollectableType.StrengthEvolution1.ToString());
-        debugPanelComponent.AddToDebugPanelInfos("4", "", CollectableType.PlatformistEvolution1.ToString());
-        debugPanelComponent.AddToDebugPanelInfos("5", "", CollectableType.AgileEvolution1.ToString());
-        debugPanelComponent.AddToDebugPanelInfos("6", "", CollectableType.GhostEvolution1.ToString());
-        debugPanelComponent.AddToDebugPanelInfos("7", "", CollectableType.Money.ToString());
+        helpPanels[(int)DebugState.Size] += debugPanelComponent.AddToDebugPanelInfos("", "", "\n  State-specific controls\n");
 
-        debugPanelComponent.AddToDebugPanelInfos("\n F3", "", "Switch to ChangeData mode then:");
-        debugPanelComponent.AddToDebugPanelInfos("LeftShift", "", "Change unit to 10");
-        debugPanelComponent.AddToDebugPanelInfos("1", "", "Add points");
-        debugPanelComponent.AddToDebugPanelInfos("2", "", "Remove points");
-        debugPanelComponent.AddToDebugPanelInfos("3", "", "Add life");
-        debugPanelComponent.AddToDebugPanelInfos("4", "", "Remove life");
-        debugPanelComponent.AddToDebugPanelInfos("5", "", "Increase timer");
+        helpPanels[(int)DebugState.AddEvolution] += debugPanelComponent.AddToDebugPanelInfos("1", "", "Strength");
+        helpPanels[(int)DebugState.AddEvolution] += debugPanelComponent.AddToDebugPanelInfos("2", "", "Agile");
+        helpPanels[(int)DebugState.AddEvolution] += debugPanelComponent.AddToDebugPanelInfos("3", "", "Platformist");
+        helpPanels[(int)DebugState.AddEvolution] += debugPanelComponent.AddToDebugPanelInfos("4", "", "Ghost");
+        helpPanels[(int)DebugState.AddEvolution] += debugPanelComponent.AddToDebugPanelInfos("5", "", "Platformist debug");
 
-        debugPanelComponent.AddToDebugPanelInfos("\n F4", "", "Switch to UnlockableMinigames mode then:");
-        debugPanelComponent.AddToDebugPanelInfos("A", "M", "Unlock/Lock All minigames");
-        debugPanelComponent.AddToDebugPanelInfos("A", "R", "Unlock/Lock All runes");
-        debugPanelComponent.AddToDebugPanelInfos("1", "", "Unlock next minigame");
-        debugPanelComponent.AddToDebugPanelInfos("2", "", "Lock last minigame unlocked");
-        debugPanelComponent.AddToDebugPanelInfos("3", "", "Unlock next rune");
-        debugPanelComponent.AddToDebugPanelInfos("4", "", "Lock last rune unlocked");
+        helpPanels[(int)DebugState.SpawnCollectable] += debugPanelComponent.AddToDebugPanelInfos("1", "", CollectableType.Points.ToString());
+        helpPanels[(int)DebugState.SpawnCollectable] += debugPanelComponent.AddToDebugPanelInfos("2", "", CollectableType.Rune.ToString());
+        helpPanels[(int)DebugState.SpawnCollectable] += debugPanelComponent.AddToDebugPanelInfos("3", "", CollectableType.StrengthEvolution1.ToString());
+        helpPanels[(int)DebugState.SpawnCollectable] += debugPanelComponent.AddToDebugPanelInfos("4", "", CollectableType.PlatformistEvolution1.ToString());
+        helpPanels[(int)DebugState.SpawnCollectable] += debugPanelComponent.AddToDebugPanelInfos("5", "", CollectableType.AgileEvolution1.ToString());
+        helpPanels[(int)DebugState.SpawnCollectable] += debugPanelComponent.AddToDebugPanelInfos("6", "", CollectableType.GhostEvolution1.ToString());
+        helpPanels[(int)DebugState.SpawnCollectable] += debugPanelComponent.AddToDebugPanelInfos("7", "", CollectableType.Money.ToString());
 
+        helpPanels[(int)DebugState.GameplayData] += debugPanelComponent.AddToDebugPanelInfos("LeftShift", "", "Change unit to 10");
+        helpPanels[(int)DebugState.GameplayData] += debugPanelComponent.AddToDebugPanelInfos("1", "", "Add points");
+        helpPanels[(int)DebugState.GameplayData] += debugPanelComponent.AddToDebugPanelInfos("2", "", "Remove points");
+        helpPanels[(int)DebugState.GameplayData] += debugPanelComponent.AddToDebugPanelInfos("3", "", "Add life");
+        helpPanels[(int)DebugState.GameplayData] += debugPanelComponent.AddToDebugPanelInfos("4", "", "Remove life");
+        helpPanels[(int)DebugState.GameplayData] += debugPanelComponent.AddToDebugPanelInfos("5", "", "Increase timer");
 
+        helpPanels[(int)DebugState.Unlockables] += debugPanelComponent.AddToDebugPanelInfos("A", "M", "Unlock/Lock All minigames");
+        helpPanels[(int)DebugState.Unlockables] += debugPanelComponent.AddToDebugPanelInfos("A", "R", "Unlock/Lock All runes");
+        helpPanels[(int)DebugState.Unlockables] += debugPanelComponent.AddToDebugPanelInfos("1", "", "Unlock next minigame");
+        helpPanels[(int)DebugState.Unlockables] += debugPanelComponent.AddToDebugPanelInfos("2", "", "Lock last minigame unlocked");
+        helpPanels[(int)DebugState.Unlockables] += debugPanelComponent.AddToDebugPanelInfos("3", "", "Unlock next rune");
+        helpPanels[(int)DebugState.Unlockables] += debugPanelComponent.AddToDebugPanelInfos("4", "", "Lock last rune unlocked");
+
+        debugPanelComponent.UpdateDebugPanelInfos(helpPanels[(int)DebugState.Size], helpPanels[(int)currentState]);
         hasUpdatedDebugPanel = true;
     }
 
