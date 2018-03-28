@@ -138,6 +138,15 @@ public class DebugTools : MonoBehaviour {
         debugPanelComponent.AddToDebugPanelInfos("4", "", "Remove life");
         debugPanelComponent.AddToDebugPanelInfos("5", "", "Increase timer");
 
+        debugPanelComponent.AddToDebugPanelInfos("\n F4", "", "Switch to UnlockableMinigames mode then:");
+        debugPanelComponent.AddToDebugPanelInfos("A", "M", "Unlock/Lock All minigames");
+        debugPanelComponent.AddToDebugPanelInfos("A", "R", "Unlock/Lock All runes");
+        debugPanelComponent.AddToDebugPanelInfos("1", "", "Unlock next minigame");
+        debugPanelComponent.AddToDebugPanelInfos("2", "", "Lock last minigame unlocked");
+        debugPanelComponent.AddToDebugPanelInfos("3", "", "Unlock next rune");
+        debugPanelComponent.AddToDebugPanelInfos("4", "", "Lock last rune unlocked");
+
+
         hasUpdatedDebugPanel = true;
     }
 
@@ -243,9 +252,142 @@ public class DebugTools : MonoBehaviour {
             GameManager.Instance.DEBUG_IncreaseFinalCountdown(increaseStep);
     }
 
-    void UnlockableControls()
+    void UnlockablesControls()
     {
+        if (Input.GetKey(KeyCode.A))
+        {
+            if (Input.GetKeyDown(KeyCode.M))
+            {
+                if (DatabaseManager.Db.IsUnlock<DatabaseClass.MinigameData>(DatabaseManager.Db.minigames[DatabaseManager.Db.minigames.Count - 1].Id))
+                {
+                    foreach (DatabaseClass.MinigameData minigame in DatabaseManager.Db.minigames)
+                        DatabaseManager.Db.SetUnlock<DatabaseClass.MinigameData>(minigame.Id, false);
 
+                    Debug.Log("DEBUG: All minigames locked.");
+                }
+                else
+                {
+                    foreach (DatabaseClass.MinigameData minigame in DatabaseManager.Db.minigames)
+                        DatabaseManager.Db.SetUnlock<DatabaseClass.MinigameData>(minigame.Id, true);
+
+                    Debug.Log("DEBUG: All minigames unlocked.");
+                }
+            }
+            
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                if (DatabaseManager.Db.IsUnlock<DatabaseClass.RuneData>(DatabaseManager.Db.runes[DatabaseManager.Db.runes.Count - 1].Id))
+                {
+                    foreach (DatabaseClass.RuneData rune in DatabaseManager.Db.runes)
+                        DatabaseManager.Db.SetUnlock<DatabaseClass.RuneData>(rune.Id, false);
+
+                    Debug.Log("DEBUG: All runes locked.");
+                }
+                else
+                {
+                    foreach (DatabaseClass.RuneData rune in DatabaseManager.Db.runes)
+                        DatabaseManager.Db.SetUnlock<DatabaseClass.RuneData>(rune.Id, true);
+
+                    Debug.Log("DEBUG: All runes unlocked.");
+                }
+            }
+        }
+
+        // Unlock next minigame locked
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            for (int i = 0; i < DatabaseManager.Db.minigames.Count; ++i)
+            {
+                if (!DatabaseManager.Db.IsUnlock<DatabaseClass.MinigameData>(DatabaseManager.Db.minigames[i].Id))
+                {
+                    DatabaseManager.Db.SetUnlock<DatabaseClass.MinigameData>(DatabaseManager.Db.minigames[i].Id, true);
+                    Debug.Log("DEBUG: Minigame " + DatabaseManager.Db.minigames[i].Id + " unlocked.");
+                    break;
+                }
+            }
+        }
+
+        // Lock last minigame unlocked
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            for (int i = DatabaseManager.Db.minigames.Count - 1; i >= 0; --i)
+            {
+                if (DatabaseManager.Db.IsUnlock<DatabaseClass.MinigameData>(DatabaseManager.Db.minigames[i].Id))
+                {
+                    DatabaseManager.Db.SetUnlock<DatabaseClass.MinigameData>(DatabaseManager.Db.minigames[i].Id, false);
+                    Debug.Log("DEBUG: Minigame " + DatabaseManager.Db.minigames[i].Id + " locked.");
+                    break;
+                }
+            }
+        }
+
+        // Unlock next rune locked
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            for (int i = 0; i < DatabaseManager.Db.runes.Count; ++i)
+            {
+                if (!DatabaseManager.Db.IsUnlock<DatabaseClass.RuneData>(DatabaseManager.Db.runes[i].Id))
+                {
+                    DatabaseManager.Db.SetUnlock<DatabaseClass.RuneData>(DatabaseManager.Db.runes[i].Id, true);
+                    Debug.Log("DEBUG: Rune " + DatabaseManager.Db.runes[i].Id + " unlocked.");
+                    break;
+                }
+            }
+        }
+
+        // Lock last rune unlocked
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            for (int i = DatabaseManager.Db.runes.Count - 1; i >= 0; --i)
+            {
+                if (DatabaseManager.Db.IsUnlock<DatabaseClass.RuneData>(DatabaseManager.Db.runes[i].Id))
+                {
+                    DatabaseManager.Db.SetUnlock<DatabaseClass.RuneData>(DatabaseManager.Db.runes[i].Id, false);
+                    Debug.Log("DEBUG: Rune " + DatabaseManager.Db.runes[i].Id + " locked.");
+                    break;
+                }
+            }
+        }
+
+    }
+
+    void UnlockRunesControls()
+    {
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            if (DatabaseManager.Db.IsUnlock<DatabaseClass.RuneData>(DatabaseManager.Db.runes[0].Id))
+            {
+                foreach (DatabaseClass.RuneData rune in DatabaseManager.Db.runes)
+                    DatabaseManager.Db.SetUnlock<DatabaseClass.RuneData>(rune.Id, false);
+            }
+            else
+            {
+                foreach (DatabaseClass.RuneData rune in DatabaseManager.Db.runes)
+                    DatabaseManager.Db.SetUnlock<DatabaseClass.RuneData>(rune.Id, true);
+            }
+        }
+
+        // Unlock next rune
+        if (Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            DatabaseManager.Db.SetUnlock<DatabaseClass.RuneData>(DatabaseManager.Db.minigames[0].Id, !DatabaseManager.Db.IsUnlock<DatabaseClass.RuneData>(DatabaseManager.Db.minigames[0].Id));
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            DatabaseManager.Db.SetUnlock<DatabaseClass.RuneData>(DatabaseManager.Db.minigames[1].Id, !DatabaseManager.Db.IsUnlock<DatabaseClass.RuneData>(DatabaseManager.Db.minigames[1].Id));
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            DatabaseManager.Db.SetUnlock<DatabaseClass.RuneData>(DatabaseManager.Db.minigames[2].Id, !DatabaseManager.Db.IsUnlock<DatabaseClass.RuneData>(DatabaseManager.Db.minigames[2].Id));
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            DatabaseManager.Db.SetUnlock<DatabaseClass.RuneData>(DatabaseManager.Db.minigames[3].Id, !DatabaseManager.Db.IsUnlock<DatabaseClass.RuneData>(DatabaseManager.Db.minigames[3].Id));
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            DatabaseManager.Db.SetUnlock<DatabaseClass.RuneData>(DatabaseManager.Db.minigames[4].Id, !DatabaseManager.Db.IsUnlock<DatabaseClass.RuneData>(DatabaseManager.Db.minigames[4].Id));
+        }
     }
 
     void CommonControls()
@@ -495,7 +637,7 @@ public class DebugTools : MonoBehaviour {
                     ChangeGameplayDataControls();
                     break;
                 case DebugState.Unlockables:
-                    UnlockableControls();
+                    UnlockablesControls();
                     break;
                 default:
                     break;
