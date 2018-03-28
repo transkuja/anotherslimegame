@@ -13,7 +13,7 @@ public class PlayerControllerKart : PlayerController {
     }
 
     Animator anim;
-
+    AudioSource sound;
     [SerializeField]
     float forwardSpeed = 20000.0f;
     [SerializeField]
@@ -73,6 +73,7 @@ public class PlayerControllerKart : PlayerController {
     }
 
     void Start () {
+        sound = GetComponent<AudioSource>();
         dashTimer = dashCooldown;
         player = GetComponent<Player>();
         Rb = GetComponent<Rigidbody>();
@@ -83,7 +84,7 @@ public class PlayerControllerKart : PlayerController {
 
 	public override void Update () {
         base.Update();
-
+        sound.pitch = rb.velocity.magnitude / maxVelocityMagnitude + 1.8f;
         state = GamePad.GetState(PlayerIndex);
         switch(CurrentState)
         {
@@ -115,7 +116,7 @@ public class PlayerControllerKart : PlayerController {
 
         // -1 if we're reversing, 1 if going forward
         float directionFactor = Vector3.Dot(rb.velocity, transform.forward) < -0.2f ? -1.0f : 1.0f;
-
+        
         // Clamp Rotation speed relative to maxVelocity
         float velocityRatio = directionFactor * ((rb.velocity.magnitude > maxVelocityMagnitude) ? 1.0f : (rb.velocity.magnitude / maxVelocityMagnitude));
 
