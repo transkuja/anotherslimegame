@@ -78,8 +78,6 @@ namespace Runner3D
         public void GenerateLevelBlock(bool[,] mask,Vector3 startPos)
         {
             int extentsX = Mathf.FloorToInt((levelUnit.x + 1) * 0.5f);
-
-            
             for (int z = 0; z < levelUnit.z; z++)
             {
                 RunnerBlocs[] runnerblocsLine = new RunnerBlocs[(int)levelUnit.x];
@@ -155,11 +153,6 @@ namespace Runner3D
                 float moveStep = wallModel.transform.localScale.z / tiling;
                 for (int i = 0; i < wallsInGame.Length; i++)
                     wallsInGame[i].transform.position += Vector3.forward * moveStep;
-                if (test++>1000)
-                {
-                    Debug.LogError("Failure");
-                    return;
-                }
             }
         }
         GameObject clouds;
@@ -364,7 +357,6 @@ namespace Runner3D
                         default:
                             break;
                     }
-                    
                     break;
                 default:
                     break;
