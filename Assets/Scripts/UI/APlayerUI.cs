@@ -81,14 +81,39 @@ public abstract class APlayerUI : MonoBehaviour {
 
     void HandleTextChangeInit(uint _nbrPlayers)
     {
-        int i = 0;
-        foreach (TextChange obj in GameObject.FindObjectsOfType<TextChange>())
+        //int i = 0;
+        //foreach (TextChange obj in GameObject.FindObjectsOfType<TextChange>())
+        //{
+        //    if (obj.transform.parent.gameObject.activeSelf)
+        //    {
+        //        obj.Init(i);
+        //        i++;
+        //    }
+        //}
+        switch (_nbrPlayers)
         {
-            if (obj.transform.parent.gameObject.activeSelf)
-            {
-                obj.Init(i);
-                i++;
-            }
+            // 1P: - X 00:00 - -
+            case 1:
+                UIrefLeft.transform.GetChild(1).GetChild(1).GetComponent<TextChange>().Init(0);
+                break;
+            // 2P: - X 00:00 X -
+            case 2:
+                UIrefLeft.transform.GetChild(1).GetChild(1).GetComponent<TextChange>().Init(0);
+                UIrefRight.transform.GetChild(0).GetChild(1).GetComponent<TextChange>().Init(1);
+                break;
+            // 3P: X X 00:00 X -
+            case 3:
+                UIrefLeft.transform.GetChild(0).GetChild(1).GetComponent<TextChange>().Init(0);
+                UIrefLeft.transform.GetChild(1).GetChild(1).GetComponent<TextChange>().Init(1);
+                UIrefRight.transform.GetChild(0).GetChild(1).GetComponent<TextChange>().Init(2);
+                break;
+            // 4P: X X 00:00 X -
+            default:
+                UIrefLeft.transform.GetChild(0).GetChild(1).GetComponent<TextChange>().Init(0);
+                UIrefLeft.transform.GetChild(1).GetChild(1).GetComponent<TextChange>().Init(1);
+                UIrefRight.transform.GetChild(0).GetChild(1).GetComponent<TextChange>().Init(2);
+                UIrefRight.transform.GetChild(1).GetChild(1).GetComponent<TextChange>().Init(2);
+                break;
         }
     }
 }
