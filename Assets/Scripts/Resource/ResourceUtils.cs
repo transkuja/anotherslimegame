@@ -26,7 +26,6 @@ public class ResourceUtils : MonoBehaviour
             debugTools = GetComponentInChildren<DebugTools>();
             particleSystemManager = GetComponentInChildren<ParticleSystemManager>();
             spriteUtils = GetComponentInChildren<SpriteUtils>();
-            prefabIle = GetComponentInChildren<PrefabIle>();
             feedbacksManager = GetComponentInChildren<FeedbacksManager>();
 
             SceneManager.sceneLoaded += FindPoolManager;
@@ -73,9 +72,6 @@ public class ResourceUtils : MonoBehaviour
 
     [HideInInspector]
     public SpriteUtils spriteUtils;
-
-    [HideInInspector]
-    public PrefabIle prefabIle;
 
     [HideInInspector]
     public FeedbacksManager feedbacksManager;
