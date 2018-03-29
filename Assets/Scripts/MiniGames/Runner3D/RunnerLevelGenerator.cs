@@ -18,6 +18,9 @@ namespace Runner3D
         [SerializeField] GameObject beginAreaPrefab; // prefab AreadyInScene
         [SerializeField] GameObject cloudsPrefabModel;
 
+        [SerializeField] DiffcultySO difficultyDB;
+        [SerializeField] int  difficulty_ID;
+
         //  ref vers la pool. 
         //TODO: A transformer en dynamique pour contrôler la fréquence des blocs
         PoolLeader runnerBlocPool;
@@ -327,11 +330,11 @@ namespace Runner3D
           
             if (Input.GetKeyDown(KeyCode.Alpha1))
             {
-                for (int z = 0; z < transform.childCount; z++)
-                {
-                    Destroy(transform.GetChild(z).gameObject);
-                }
-                Generate2DChunk();
+                //for (int z = 0; z < transform.childCount; z++)
+                //{
+                //    Destroy(transform.GetChild(z).gameObject);
+                //}
+                //Generate2DChunk();
             }
 
             UpdateCloudsPos();
