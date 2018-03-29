@@ -14,9 +14,6 @@ public class BonusSpawner : MonoBehaviour {
     [SerializeField]
     float aspiratorFruitSpawnDelay = 25.0f;
 
-    [SerializeField]
-    private Fruit type;
-
     public bool canChange;
     public bool canAspirate;
 
@@ -37,7 +34,6 @@ public class BonusSpawner : MonoBehaviour {
     {
         StartCoroutine(SpawnBonus(BonusType.ChangeFruit, changeFruitSpawnDelay));
 		StartCoroutine(SpawnBonus(BonusType.Aspirator, aspiratorFruitSpawnDelay));
-        //type = GetComponentInParent<FruitsSpawner>().GetComponentInChildren<FruitType>().typeFruit;
     }
 
 	IEnumerator SpawnBonus(BonusType _type, float _time)
@@ -52,7 +48,6 @@ public class BonusSpawner : MonoBehaviour {
             minZ = boxColliderSpawn.transform.position.z - (boxColliderSpawn.transform.localScale.z / 2);
             maxZ = boxColliderSpawn.transform.position.z + boxColliderSpawn.transform.localScale.z / 2;
 
-            //int randChild = Random.Range(0, transform.childCount);
             GameObject toInstantiate = GetBonusPrefabByType(_type);
 
             if (toInstantiate == null)
@@ -117,7 +112,6 @@ public class BonusSpawner : MonoBehaviour {
             {
                 tabTest[i].gameObject.GetComponent<Renderer>().material = matFraise;
             }
-            //changer le material ?
         }
         yield return new WaitForSeconds(2.0f);
         for(int j = 0; j < tabTest.Length; j++)
@@ -139,7 +133,6 @@ public class BonusSpawner : MonoBehaviour {
             {
                 tabTest[j].gameObject.GetComponent<Renderer>().material = matFraise;
             }
-            //Rechanger le material ?
         }
     }
     
@@ -154,6 +147,5 @@ public class BonusSpawner : MonoBehaviour {
                 type.GetComponent<Collectable>().PickUp(playerTest);
             }
         }
-
     }
 }
