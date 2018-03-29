@@ -15,7 +15,7 @@ public class PlayerControllerKart : PlayerController {
     Animator anim;
     AudioSource sound;
     [SerializeField]
-    float forwardSpeed = 20000.0f;
+    float forwardSpeed = 425.0f;
     [SerializeField]
     float maxVelocityMagnitude = 20.0f;
     [SerializeField]
@@ -105,6 +105,7 @@ public class PlayerControllerKart : PlayerController {
         rb.AddForce(Vector3.down * Time.deltaTime * gravity, ForceMode.VelocityChange);
     }
 
+    //Force should be handled in fixed update?
     void HandleNormalState()
     {
         ApplyGravity();
@@ -122,9 +123,9 @@ public class PlayerControllerKart : PlayerController {
 
         transform.Rotate(Vector3.up * velocityRatio * state.ThumbSticks.Left.X * Time.deltaTime * turnSpeed);
 
-        rb.AddForce(transform.forward * Time.deltaTime * forwardSpeed * state.Triggers.Right);
+        rb.AddForce(transform.forward * Time.deltaTime * forwardSpeed * state.Triggers.Right, ForceMode.VelocityChange);
 
-        rb.AddForce(-transform.forward * Time.deltaTime * forwardSpeed / 2.0f * state.Triggers.Left);
+        rb.AddForce(-transform.forward * Time.deltaTime * forwardSpeed / 2.0f * state.Triggers.Left, ForceMode.VelocityChange);
 
         if (dashTimer >= dashCooldown && state.Buttons.X == ButtonState.Pressed && prevState.Buttons.X == ButtonState.Released)
         {
