@@ -97,7 +97,7 @@ public class PlayerControllerHub : PlayerController
             playerState = value;
             PlayerState.OnBegin();
 #if UNITY_EDITOR
-            DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.CurrentState, value.ToString());
+            DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.CurrentState, value.ToString(), (int)playerIndex);
 #endif
         }
     }
@@ -112,7 +112,7 @@ public class PlayerControllerHub : PlayerController
         {
 
 #if UNITY_EDITOR
-            DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.IsGrounded, value.ToString());
+            DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.IsGrounded, value.ToString(), (int)playerIndex);
 #endif
             if (value == true)
             {
@@ -196,7 +196,7 @@ public class PlayerControllerHub : PlayerController
         {
             isGravityEnabled = value;
 #if UNITY_EDITOR
-            DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.GravityEnabled, isGravityEnabled.ToString());
+            DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.GravityEnabled, isGravityEnabled.ToString(), (int)playerIndex);
 #endif
         }
     }

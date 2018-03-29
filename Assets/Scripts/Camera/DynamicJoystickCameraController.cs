@@ -58,7 +58,7 @@ public class DynamicJoystickCameraController : MonoBehaviour {
         {
             currentState = value;
 #if UNITY_EDITOR
-            DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.CameraState, value.ToString());
+            DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.CameraState, value.ToString(), (int)playerIndex);
 #endif
         }
     }

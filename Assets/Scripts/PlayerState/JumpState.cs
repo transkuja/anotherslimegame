@@ -21,7 +21,7 @@ public class JumpState : PlayerState
         {
             nbJumpMade = value;
 #if UNITY_EDITOR
-            DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.NbJumpMade, value.ToString());
+            DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.NbJumpMade, value.ToString(), (int)playerController.playerIndex);
 #endif
         }
     }

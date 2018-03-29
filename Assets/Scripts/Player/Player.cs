@@ -61,7 +61,7 @@ public class Player : MonoBehaviour {
 
     public int ID
     {
-        get { return (int)PlayerController.PlayerIndex; }
+        get { return (PlayerController != null) ? (int)PlayerController.PlayerIndex : 0; }
     }
 
     public Rigidbody Rb
@@ -202,7 +202,7 @@ public class Player : MonoBehaviour {
         {
             hasBeenTeleported = value;
 #if UNITY_EDITOR
-            DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.HasBeenTp, value.ToString());
+            DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.HasBeenTp, value.ToString(), ID);
 #endif
         }
     }

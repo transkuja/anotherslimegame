@@ -55,7 +55,7 @@ public class PlayerController : MonoBehaviour
         {
             playerIndex = value;
 #if UNITY_EDITOR
-            DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.Index, ((int)(playerIndex)).ToString());
+            DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.Index, ((int)(playerIndex)).ToString(), (int)(playerIndex));
 #endif
         }
     }

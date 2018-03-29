@@ -59,9 +59,9 @@ public class DebugTools : MonoBehaviour {
 
     private void Start()
     {
-        debugPlayerInfos[(int)DebugPlayerInfos.GravityEnabled] = "true";
-        debugPlayerInfos[(int)DebugPlayerInfos.HasBeenTp] = "false";
-        debugPlayerInfos[(int)DebugPlayerInfos.IsGrounded] = "true";
+        debugPlayerInfos[(int)DebugPlayerInfos.GravityEnabled] = "True";
+        debugPlayerInfos[(int)DebugPlayerInfos.HasBeenTp] = "False";
+        debugPlayerInfos[(int)DebugPlayerInfos.IsGrounded] = "True";
         debugPlayerInfos[(int)DebugPlayerInfos.NbJumpMade] = "0";
     }
 
@@ -388,45 +388,6 @@ public class DebugTools : MonoBehaviour {
 
     }
 
-    void UnlockRunesControls()
-    {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            if (DatabaseManager.Db.IsUnlock<DatabaseClass.RuneData>(DatabaseManager.Db.runes[0].Id))
-            {
-                foreach (DatabaseClass.RuneData rune in DatabaseManager.Db.runes)
-                    DatabaseManager.Db.SetUnlock<DatabaseClass.RuneData>(rune.Id, false);
-            }
-            else
-            {
-                foreach (DatabaseClass.RuneData rune in DatabaseManager.Db.runes)
-                    DatabaseManager.Db.SetUnlock<DatabaseClass.RuneData>(rune.Id, true);
-            }
-        }
-
-        // Unlock next rune
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            DatabaseManager.Db.SetUnlock<DatabaseClass.RuneData>(DatabaseManager.Db.minigames[0].Id, !DatabaseManager.Db.IsUnlock<DatabaseClass.RuneData>(DatabaseManager.Db.minigames[0].Id));
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha2))
-        {
-            DatabaseManager.Db.SetUnlock<DatabaseClass.RuneData>(DatabaseManager.Db.minigames[1].Id, !DatabaseManager.Db.IsUnlock<DatabaseClass.RuneData>(DatabaseManager.Db.minigames[1].Id));
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha3))
-        {
-            DatabaseManager.Db.SetUnlock<DatabaseClass.RuneData>(DatabaseManager.Db.minigames[2].Id, !DatabaseManager.Db.IsUnlock<DatabaseClass.RuneData>(DatabaseManager.Db.minigames[2].Id));
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha4))
-        {
-            DatabaseManager.Db.SetUnlock<DatabaseClass.RuneData>(DatabaseManager.Db.minigames[3].Id, !DatabaseManager.Db.IsUnlock<DatabaseClass.RuneData>(DatabaseManager.Db.minigames[3].Id));
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha5))
-        {
-            DatabaseManager.Db.SetUnlock<DatabaseClass.RuneData>(DatabaseManager.Db.minigames[4].Id, !DatabaseManager.Db.IsUnlock<DatabaseClass.RuneData>(DatabaseManager.Db.minigames[4].Id));
-        }
-    }
-
     void CommonControls()
     {
         // Reset player
@@ -729,30 +690,49 @@ public class DebugTools : MonoBehaviour {
 
     private static void SwitchPlayer(bool forcedToFirst = false)
     {
+        //Index, IsGrounded, GravityEnabled, CurrentState, HasBeenTp, NbJumpMade, CameraState
         List<GameObject> playersReference = GameManager.Instance.PlayerStart.PlayersReference;
+
+        int currentIndex = 0;
 
         if (forcedToFirst)
         {
-            debugPlayerSelected = playersReference[0].GetComponent<Player>();
-            return;
+            currentIndex = -1;
         }
-
-        int currentIndex = 0;
-        for (int i = 0; i < playersReference.Count; i++)
+        else
         {
-            if (DebugPlayerSelected.gameObject == playersReference[i])
+            for (int i = 0; i < playersReference.Count; i++)
             {
-                currentIndex = i;
-                break;
+                if (DebugPlayerSelected.gameObject == playersReference[i])
+                {
+                    currentIndex = i;
+                    break;
+                }
             }
         }
-
         debugPlayerSelected = playersReference[(currentIndex + 1) % playersReference.Count].GetComponent<Player>();
+
+        debugPlayerInfos[(int)DebugPlayerInfos.Index] = ((int)debugPlayerSelected.PlayerController.playerIndex).ToString();
+        debugPlayerInfos[(int)DebugPlayerInfos.IsGrounded] = (debugPlayerSelected.PlayerController is PlayerControllerHub) ? ((PlayerControllerHub)debugPlayerSelected.PlayerController).IsGrounded.ToString() : "--";
+        debugPlayerInfos[(int)DebugPlayerInfos.GravityEnabled] = (debugPlayerSelected.PlayerController is PlayerControllerHub) ? ((PlayerControllerHub)debugPlayerSelected.PlayerController).IsGravityEnabled.ToString() : "--";
+
+        debugPlayerInfos[(int)DebugPlayerInfos.CurrentState] = (debugPlayerSelected.PlayerController is PlayerControllerHub) ? ((PlayerControllerHub)debugPlayerSelected.PlayerController).PlayerState.ToString() : "--";
+        debugPlayerInfos[(int)DebugPlayerInfos.HasBeenTp] = debugPlayerSelected.HasBeenTeleported.ToString();
+        debugPlayerInfos[(int)DebugPlayerInfos.NbJumpMade] = (debugPlayerSelected.PlayerController is PlayerControllerHub) ? ((PlayerControllerHub)debugPlayerSelected.PlayerController).jumpState.NbJumpMade.ToString() : "--"; ;
+
+        debugPlayerInfos[(int)DebugPlayerInfos.CameraState] = debugPlayerSelected.cameraReference.GetComponentInChildren<DynamicJoystickCameraController>().CurrentState.ToString();
+
+        DebugPanel debugPanelRef = FindObjectOfType<DebugPanel>();
+        if (debugPanelRef != null)
+            FindObjectOfType<DebugPanel>().UpdatePlayerInfoText();
     }
 
 
-    public static void UpdatePlayerInfos(DebugPlayerInfos _type, string _value)
+    public static void UpdatePlayerInfos(DebugPlayerInfos _type, string _value, int _playerIndex)
     {
+        if (debugPlayerSelected != null && _playerIndex != debugPlayerSelected.ID)
+            return;
+
         debugPlayerInfos[(int)_type] = _value;
         DebugPanel debugPanelRef = FindObjectOfType<DebugPanel>();
         if (debugPanelRef != null)

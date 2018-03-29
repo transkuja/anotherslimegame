@@ -303,7 +303,7 @@ public class GameManager : MonoBehaviour {
         }
 
 #if UNITY_EDITOR
-        DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.GameState, currentState.ToString());
+        DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.GameState, currentState.ToString(), 0);
 #endif
     }
 
