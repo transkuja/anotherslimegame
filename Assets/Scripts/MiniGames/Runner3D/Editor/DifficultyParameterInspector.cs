@@ -5,13 +5,9 @@ using UnityEditor;
 [CustomPropertyDrawer(typeof(DifficultyParameters))]
 public class DifficultyParameterInspector : PropertyDrawer
 {
-
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
-        // Using BeginProperty / EndProperty on the parent property means that
-        // prefab override logic works on the entire property.
         EditorGUI.BeginProperty(position, label, property);
-        // Draw label
         position = EditorGUI.PrefixLabel(position, GUIUtility.GetControlID(FocusType.Passive), label);
 
         // Don't make child fields be indented
@@ -25,34 +21,35 @@ public class DifficultyParameterInspector : PropertyDrawer
         Rect columnLabelRect = new Rect(position.x+100, position.y, 70, 30);
         Rect columnRect = new Rect(position.x+170, position.y, 30, 30);
 
+            // Choose Array Size
         GUI.Label(rowLabelRect, "nbPallier");
         EditorGUI.PropertyField(rowRect, property.FindPropertyRelative("nbPallier"),GUIContent.none);
 
         GUI.Label(columnLabelRect, "nbOutput");
         EditorGUI.PropertyField(columnRect, property.FindPropertyRelative("nbOutput"), GUIContent.none);
 
-        position.y += 30;
+
+
         int ySize = property.FindPropertyRelative("nbPallier").intValue;
         int xSize = property.FindPropertyRelative("nbOutput").intValue;
+        property.FindPropertyRelative("table").arraySize = xSize * ySize;
+        property.FindPropertyRelative("pallierTab").arraySize =  ySize;
 
-                // resizing array : 
-        if (property.FindPropertyRelative("table").arraySize < xSize * ySize)
-        {
-            for (int i = property.FindPropertyRelative("table").arraySize; i < xSize * ySize;i++)
-            {
-                property.FindPropertyRelative("table").InsertArrayElementAtIndex(i);
-            }
-        }
-        else if (property.FindPropertyRelative("table").arraySize > xSize * ySize)
-        {
-            while (xSize * ySize != property.FindPropertyRelative("table").arraySize)
-            {
-                property.FindPropertyRelative("table").DeleteArrayElementAtIndex(xSize * ySize);
-            }
-        }
+        position.y += 30;
 
+                // choose pallier values :
+        
         int width = 30;
         int height = 30;
+
+        for (int y = 0; y < ySize; y++)
+        {
+            Rect rect = new Rect(position.x, position.y + y * height, 40, 30);
+            EditorGUI.PropertyField(rect, property.FindPropertyRelative("pallierTab").GetArrayElementAtIndex(y), GUIContent.none);
+        }
+        position.x += 40;
+            // Draw table Values :
+       
                 // showing tab
         for (int y = 0; y < ySize; y++)
         {
@@ -110,3 +107,18 @@ public class DifficultyParameterInspector : PropertyDrawer
     }
     
 }
+// resizing array : 
+//if (property.FindPropertyRelative("table").arraySize < xSize * ySize)
+//{
+//    for (int i = property.FindPropertyRelative("table").arraySize; i < xSize * ySize;i++)
+//    {
+//        property.FindPropertyRelative("table").InsertArrayElementAtIndex(i);
+//    }
+//}
+//else if (property.FindPropertyRelative("table").arraySize > xSize * ySize)
+//{
+//    while (xSize * ySize != property.FindPropertyRelative("table").arraySize)
+//    {
+//        property.FindPropertyRelative("table").DeleteArrayElementAtIndex(xSize * ySize);
+//    }
+//}
