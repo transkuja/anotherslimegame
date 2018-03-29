@@ -136,30 +136,25 @@ public class Menu : MonoBehaviour {
         if (DataContainer.launchedFromMinigameScreen)
         {
             nbPlayers = dataContainer.nbPlayers;
-            selectedFaces = dataContainer.selectedFaces;
-            selectedColorFades = dataContainer.colorFadeSelected;
-            selectedRabbits = dataContainer.rabbitSelected;
+            //selectedColorFades = dataContainer.colorFadeSelected;
+            //selectedRabbits = dataContainer.rabbitSelected;
             selectedMode = (dataContainer.launchedFromMinigameScreen) ? 1 : 0;
 
-            // LEGACY
-            selectedColors = new int[4];
-
             // TODO: load data
-            currentlySelectedOption = new int[4];
+            selectedCustomizables = new int[(int)CustomizableType.Size, 4];
+
             for (int i = 0; i < nbPlayers; i++)
             {
-                selectedColors[i] = -1;
-                for (int j = 0; j < unlockedCustomColors.Count; j++)
+                for (int j = 0; j < unlockedCustomizables[CustomizableType.Color].Count; j++)
                 {
-                    if (dataContainer.selectedColors[i] == unlockedCustomColors[j].color)
+                    if (dataContainer.selectedColors[i] == ((DatabaseClass.ColorData)unlockedCustomizables[CustomizableType.Color][j]).color)
                     {
-                        selectedColors[i] = j;
+                        selectedCustomizables[(int)CustomizableType.Color, i] = j;
                         break;
                     }
                 }
-                // Handle color fade
-                if (selectedColors[i] == -1)
-                    selectedColors[i] = unlockedCustomColors.Count;
+
+                selectedCustomizables[(int)CustomizableType.Face, i] = dataContainer.selectedFaces[i];
             }
             SetState(MenuState.MinigameSelection);
         }
