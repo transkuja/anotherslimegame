@@ -71,7 +71,6 @@ namespace FLGCoreEditor.Utilities
                 //Debug.Log($"{s} has a missing script at {i}", g);
 
                 var serializedObject = new SerializedObject(g);
-
                 var prop = serializedObject.FindProperty("m_Component");
 
                 prop.DeleteArrayElementAtIndex(i - r);
