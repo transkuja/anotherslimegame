@@ -24,7 +24,7 @@ public class DifficultyParameters
         }
     }
     // find the right row : 
-    public int GetPallierAt(float value)
+    public int GetPallierIDAt(float value)
     {
         int row = -1;
         for (int x = nbOutput - 1; x >= 0; x--)
@@ -47,7 +47,7 @@ public class DifficultyParameters
     {
         float rand = Random.Range(0, 100);
         // find the right row : 
-        int row = GetPallierAt(value);
+        int row = GetPallierIDAt(value);
        
             // take random value at pct. 
         float curPct = 100;

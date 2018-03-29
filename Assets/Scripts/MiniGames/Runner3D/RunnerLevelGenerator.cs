@@ -75,7 +75,6 @@ namespace Runner3D
             leveFinalSize.z = levelUnit.z * defaultBlockSize.z;
         }
         #region LevelGeneration
-
         #region PrefabInstantiation
         // Fill the level according to the mask.
         public void GenerateLevelBlock(bool[,] mask,Vector3 startPos)
@@ -90,6 +89,10 @@ namespace Runner3D
                     {
                         Vector3 position = startPos + new Vector3(x * defaultBlockSize.x, 0, z * defaultBlockSize.z);
                         position.x -= extentsX;
+                        float curZPos = startPos.z + z * defaultBlockSize.z;
+                        int poolRow = difficultyDB.difficultyParameters[difficulty_ID].GetTableRandAt(curZPos);
+                        Debug.Log(" poolRow = " + poolRow + "at palier : " + curZPos);
+                        runnerBlocPool = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.RunnerBloc,poolRow);
                         GameObject bloc = runnerBlocPool.GetItem(transform, position, Quaternion.identity);
                         if (bloc == null)
                         {
