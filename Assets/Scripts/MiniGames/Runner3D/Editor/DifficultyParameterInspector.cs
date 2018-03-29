@@ -22,18 +22,18 @@ public class DifficultyParameterInspector : PropertyDrawer
         Rect columnRect = new Rect(position.x+170, position.y, 30, 30);
 
             // Choose Array Size
-        GUI.Label(rowLabelRect, "nbPallier");
-        EditorGUI.PropertyField(rowRect, property.FindPropertyRelative("nbPallier"),GUIContent.none);
+        GUI.Label(rowLabelRect, "nbPalier");
+        EditorGUI.PropertyField(rowRect, property.FindPropertyRelative("nbPalier"),GUIContent.none);
 
         GUI.Label(columnLabelRect, "nbOutput");
         EditorGUI.PropertyField(columnRect, property.FindPropertyRelative("nbOutput"), GUIContent.none);
 
 
 
-        int ySize = property.FindPropertyRelative("nbPallier").intValue;
+        int ySize = property.FindPropertyRelative("nbPalier").intValue;
         int xSize = property.FindPropertyRelative("nbOutput").intValue;
         property.FindPropertyRelative("table").arraySize = xSize * ySize;
-        property.FindPropertyRelative("pallierTab").arraySize =  ySize;
+        property.FindPropertyRelative("palierTab").arraySize =  ySize;
 
         position.y += 30;
 
@@ -45,7 +45,7 @@ public class DifficultyParameterInspector : PropertyDrawer
         for (int y = 0; y < ySize; y++)
         {
             Rect rect = new Rect(position.x, position.y + y * height, 40, 30);
-            EditorGUI.PropertyField(rect, property.FindPropertyRelative("pallierTab").GetArrayElementAtIndex(y), GUIContent.none);
+            EditorGUI.PropertyField(rect, property.FindPropertyRelative("palierTab").GetArrayElementAtIndex(y), GUIContent.none);
         }
         position.x += 40;
             // Draw table Values :
@@ -81,7 +81,7 @@ public class DifficultyParameterInspector : PropertyDrawer
     }
     public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
     {
-        return property.FindPropertyRelative("nbPallier").intValue*30+30;
+        return property.FindPropertyRelative("nbPalier").intValue*30+30;
     }
     public void NormalizeValues(SerializedProperty property,int row)
     {
