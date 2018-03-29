@@ -650,9 +650,9 @@ public class Menu : MonoBehaviour {
                     curPlayerCosmetics.UseColorFade = true;
                 }
                 else
-                    curPlayerCosmetics.SetUniqueColor(unlockedCustomColors[selectedColors[i]].color);
+                    curPlayerCosmetics.SetUniqueColor(((DatabaseClass.ColorData)unlockedCustomizables[CustomizableType.Color][selectedCustomizables[(int)CustomizableType.Color, i]]).color);
 
-                curPlayerCosmetics.FaceType = (FaceType)selectedFaces[i];
+                curPlayerCosmetics.FaceType = (FaceType)((DatabaseClass.FaceData)unlockedCustomizables[CustomizableType.Face][selectedCustomizables[(int)CustomizableType.Face, i]]).indiceForShader;
             }
 
             for (int i = nbPlayers; i < 4; i++)
