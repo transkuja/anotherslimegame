@@ -74,8 +74,9 @@ public static class MinigameDataUtils
         }
         else if (curGameMode is FruitGameMode)
         {
-            return "Collect fruits you are associated with \n Player 1 = Orange (Yellow)\n Player 2 = Apple (Pink)\n Player 3 = Kiwi (Green)\n Player 4 = Strawberry (Red)";
+            return "Collect fruits which are associated to your color";
         }
+        //\n Player 1 = Orange (Yellow)\n Player 2 = Apple (Pink)\n Player 3 = Kiwi (Green)\n Player 4 = Strawberry (Red)
         else if (curGameMode is PushGameMode)
         {
             return "Steal other players' coins!";
