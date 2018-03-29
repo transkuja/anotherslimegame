@@ -8,6 +8,8 @@ public class Menu : MonoBehaviour {
     public enum MenuState { Common, TitleScreenModeSelection, NumberOfPlayers, CustomisationScreen, MinigameSelection }
     MenuState currentState = MenuState.TitleScreenModeSelection;
 
+    public enum CustomizableType { Color, Face, Ears, Mustache, Pants, Helmet, Hands, Tail, Size }
+
     int currentCursor = 0;
     int minigameCurrentCursor = 0;
 
@@ -25,12 +27,21 @@ public class Menu : MonoBehaviour {
     List<GameObject> minigameButtonsInstantiated = new List<GameObject>();
 
     private List<DatabaseClass.ColorData> unlockedCustomColors = new List<DatabaseClass.ColorData>();
-    private List<DatabaseClass.FaceData> unlockedFaces = new List<DatabaseClass.FaceData>();
+    private List<DatabaseClass.FaceData> unlockedFesses = new List<DatabaseClass.FaceData>();
     private List<DatabaseClass.MinigameData> unlockedMinigames = new List<DatabaseClass.MinigameData>();
+    // TODO: add in database missing values Ears, Mustache, Pants, Helmet, Hands, Tail
+    private Dictionary<CustomizableType, List<DatabaseClass.Unlockable>> unlockedCustomizables = new Dictionary<CustomizableType, List<DatabaseClass.Unlockable>>();
 
     GamePadState[] prevControllerStates = new GamePadState[4];
     GamePadState[] controllerStates = new GamePadState[4];
 
+    // Used to know which option is currently selected
+    int[] currentlySelectedOption = new int[4];
+
+    // Used for visual and UI "value" update 
+    int[,] selectedCustomizables = new int[(int)CustomizableType.Size, 4];
+
+    // LEGACY
     int[] selectedColors = new int[4];
     int[] selectedFaces = new int[4];
     int[] currentCursorsRow = new int[4];
@@ -94,16 +105,25 @@ public class Menu : MonoBehaviour {
         if (AudioManager.Instance != null)
             AudioManager.Instance.Fade(AudioManager.Instance.musicMenu);
 
+        for (int i = 0; i < (int)CustomizableType.Size; i++)
+            unlockedCustomizables.Add((CustomizableType)i, new List<DatabaseClass.Unlockable>());
+
         foreach (DatabaseClass.ColorData c in DatabaseManager.Db.colors)
         {
             if (c.isUnlocked)
+            {
                 unlockedCustomColors.Add(c);
+                unlockedCustomizables[CustomizableType.Color].Add(c);
+            }
         }
 
         foreach (DatabaseClass.FaceData f in DatabaseManager.Db.faces)
         {
             if (f.isUnlocked)
-                unlockedFaces.Add(f);
+            {
+                unlockedFesses.Add(f);
+                unlockedCustomizables[CustomizableType.Face].Add(f);
+            }
         }
 
         foreach (DatabaseClass.MinigameData f in DatabaseManager.Db.minigames)
@@ -121,7 +141,11 @@ public class Menu : MonoBehaviour {
             selectedRabbits = dataContainer.rabbitSelected;
             selectedMode = (dataContainer.launchedFromMinigameScreen) ? 1 : 0;
 
+            // LEGACY
             selectedColors = new int[4];
+
+            // TODO: load data
+            currentlySelectedOption = new int[4];
             for (int i = 0; i < nbPlayers; i++)
             {
                 selectedColors[i] = -1;
@@ -278,33 +302,56 @@ public class Menu : MonoBehaviour {
                 {
                     if (currentCursorsRow[i] == 0)
                     {
-                        if (selectedFaces[i] != unlockedFaces.Count)
-                        {
-                            selectedColors[i]++;
-                            UpdatePlayerPreviewColor(i);
-                        }
+
+                        // Change customizable type
+                        //selectedCustomizables
+                        // Update nom du customizable + valeur actuelle du joueur
+                        currentlySelectedOption[i]++;
+                        currentlySelectedOption[i] = currentlySelectedOption[i] % (int)CustomizableType.Size;
+                        // LEGACY
+                        //if (selectedFaces[i] != unlockedFesses.Count) // Lock color if rabbit is selected
+                        //{
+
+                        //    // LEGACY
+                        //    selectedColors[i]++;
+                        //    UpdatePlayerPreviewColor(i);
+                        //}
                     }
                     else
                     {
-                        selectedFaces[i]++;
-                        UpdatePlayerPreviewFace(i);
+                        selectedCustomizables[currentlySelectedOption[i], i]++;
+
+                        // Update player visual + nouvelle valeur sur l'ui 1
+                        // LEGACY
+                        //UpdatePlayerPreviewFace(i);
                     }
+                    UpdatePreview(i);
+
                 }
                 else if (controllerStates[i].ThumbSticks.Left.X < -0.5f && prevControllerStates[i].ThumbSticks.Left.X > -0.5f)
                 {
                     if (currentCursorsRow[i] == 0)
                     {
-                        if (selectedFaces[i] != unlockedFaces.Count)
-                        {
-                            selectedColors[i]--;
-                            UpdatePlayerPreviewColor(i);
-                        }
+                        currentlySelectedOption[i]--;
+                        if (currentlySelectedOption[i] < 0)
+                            currentlySelectedOption[i] = (int)CustomizableType.Size - 1;
+                        else
+                            currentlySelectedOption[i] = currentlySelectedOption[i] % (int)CustomizableType.Size;
+
+                        //if (selectedFaces[i] != unlockedFesses.Count) // Lock color if rabbit is selected
+                        //{
+                        //    selectedColors[i]--;
+                        //    //UpdatePlayerPreviewColor(i);
+                        //}
                     }
                     else
                     {
-                        selectedFaces[i]--;
-                        UpdatePlayerPreviewFace(i);
+                        selectedCustomizables[currentlySelectedOption[i], i]--;
+
+                        //selectedFaces[i]--;
+                        //UpdatePlayerPreviewFace(i);
                     }
+                    UpdatePreview(i);
                 }
             }
         }
@@ -413,59 +460,78 @@ public class Menu : MonoBehaviour {
         //CurrentlySelectedButton = transform.GetChild((int)currentState).GetChild(childIndex).GetComponentInChildren<Button>();
     }
 
-    // Change the player color according to current selection
-    void UpdatePlayerPreviewColor(int _playerIndex)
+    void UpdatePreview(int _playerIndex)
     {
-        if (AudioManager.Instance != null && AudioManager.Instance.changeOptionFx != null)
-            AudioManager.Instance.PlayOneShot(AudioManager.Instance.changeOptionFx);
-
-        if (selectedFaces[_playerIndex] == unlockedFaces.Count)
-            return;
-
-        if (selectedColors[_playerIndex] < 0)
-            selectedColors[_playerIndex] = unlockedCustomColors.Count;
-        else
-            selectedColors[_playerIndex] = selectedColors[_playerIndex] % (unlockedCustomColors.Count + 1);
-        // Update text and character
-        if (selectedColors[_playerIndex] == unlockedCustomColors.Count)
+        CustomizableType currentCustomType = (CustomizableType)(currentlySelectedOption[_playerIndex]);
+        playerCustomScreens[_playerIndex].transform.GetChild(2).GetComponent<Text>().text = currentCustomType.ToString();
+        List<DatabaseClass.Unlockable> unlockedList = unlockedCustomizables[currentCustomType];
+        if (unlockedList.Count == 0)
         {
-            playerCustomScreens[_playerIndex].transform.GetChild(4).GetComponentInChildren<PlayerCosmetics>().UseColorFade = true;
-            playerCustomScreens[_playerIndex].transform.GetChild(2).GetComponent<Text>().text = "Rainbow";
+            playerCustomScreens[_playerIndex].transform.GetChild(3).GetComponent<Text>().text = "None";
         }
         else
         {
-            playerCustomScreens[_playerIndex].transform.GetChild(4).GetComponentInChildren<PlayerCosmetics>().UseColorFade = false;
-            playerCustomScreens[_playerIndex].transform.GetChild(2).GetComponent<Text>().text = unlockedCustomColors[selectedColors[_playerIndex]].Id;
-            playerCustomScreens[_playerIndex].transform.GetChild(4).GetComponentInChildren<PlayerCosmetics>().SetUniqueColor(unlockedCustomColors[selectedColors[_playerIndex]].color);
+            if (selectedCustomizables[(int)currentCustomType, _playerIndex] < 0)
+                selectedCustomizables[(int)currentCustomType, _playerIndex] = unlockedList.Count - 1;
+            else
+                selectedCustomizables[(int)currentCustomType, _playerIndex] = selectedCustomizables[(int)currentCustomType, _playerIndex] % (unlockedList.Count);
+
+            playerCustomScreens[_playerIndex].transform.GetChild(3).GetComponent<Text>().text = unlockedCustomizables[currentCustomType][selectedCustomizables[(int)currentCustomType, _playerIndex]].Id;
+
+            UpdatePlayerVisual(_playerIndex, currentCustomType, selectedCustomizables[(int)currentCustomType, _playerIndex]);
         }
     }
 
-    // Change the player face according to current selection
-    void UpdatePlayerPreviewFace(int _playerIndex)
+    void UpdatePlayerVisual(int _playerIndex, CustomizableType _customizableType, int _unlockedIndex)
+    {
+        switch (_customizableType)
+        {
+            case CustomizableType.Color:
+                UpdatePlayerPreviewColor(_playerIndex, _unlockedIndex);
+                break;
+            case CustomizableType.Face:
+                UpdatePlayerPreviewFace(_playerIndex, _unlockedIndex);
+                break;
+            case CustomizableType.Ears:
+            case CustomizableType.Hands:
+            case CustomizableType.Helmet:
+            case CustomizableType.Mustache:
+            case CustomizableType.Pants:
+            case CustomizableType.Tail:
+            default:
+                Debug.Log(_customizableType + " is not implemented yet.");
+                break;
+
+        }
+
+    }
+
+    // Change the player color according to current selection
+    void UpdatePlayerPreviewColor(int _playerIndex, int _selection)
     {
         if (AudioManager.Instance != null && AudioManager.Instance.changeOptionFx != null)
             AudioManager.Instance.PlayOneShot(AudioManager.Instance.changeOptionFx);
 
-        if (selectedFaces[_playerIndex] < 0)
-            selectedFaces[_playerIndex] = unlockedFaces.Count;
-        else
-            selectedFaces[_playerIndex] = selectedFaces[_playerIndex] % (unlockedFaces.Count + 1);
+        // Rabbit protection
+        if (selectedFaces[_playerIndex] == unlockedFesses.Count)
+            return;
+
 
         // Update text and character
-        if (selectedFaces[_playerIndex] == unlockedFaces.Count)
-        {
-            playerCustomScreens[_playerIndex].transform.GetChild(2).GetComponent<Text>().text = "Yellow";
-            playerCustomScreens[_playerIndex].transform.GetChild(3).GetComponent<Text>().text = "Rabbit";
-            playerCustomScreens[_playerIndex].transform.GetChild(4).GetChild(0).gameObject.SetActive(false);
-            playerCustomScreens[_playerIndex].transform.GetChild(4).GetChild(1).gameObject.SetActive(true);
-        }
-        else
-        {
-            playerCustomScreens[_playerIndex].transform.GetChild(3).GetComponent<Text>().text = unlockedFaces[selectedFaces[_playerIndex]].Id;
-            playerCustomScreens[_playerIndex].transform.GetChild(4).GetChild(0).gameObject.SetActive(true);
-            playerCustomScreens[_playerIndex].transform.GetChild(4).GetChild(1).gameObject.SetActive(false);
-            playerCustomScreens[_playerIndex].transform.GetChild(4).GetComponentInChildren<PlayerCosmetics>().FaceType = (FaceType)unlockedFaces[selectedFaces[_playerIndex]].indiceForShader;
-        }
+        playerCustomScreens[_playerIndex].transform.GetChild(4).GetComponentInChildren<PlayerCosmetics>().UseColorFade = false;
+        playerCustomScreens[_playerIndex].transform.GetChild(4).GetComponentInChildren<PlayerCosmetics>().SetUniqueColor(((DatabaseClass.ColorData)unlockedCustomizables[CustomizableType.Color][_selection]).color);
+    }
+
+    // Change the player face according to current selection
+    void UpdatePlayerPreviewFace(int _playerIndex, int _selection)
+    {
+        if (AudioManager.Instance != null && AudioManager.Instance.changeOptionFx != null)
+            AudioManager.Instance.PlayOneShot(AudioManager.Instance.changeOptionFx);
+
+        // Update text and character
+        playerCustomScreens[_playerIndex].transform.GetChild(4).GetChild(0).gameObject.SetActive(true);
+        playerCustomScreens[_playerIndex].transform.GetChild(4).GetChild(1).gameObject.SetActive(false);
+        playerCustomScreens[_playerIndex].transform.GetChild(4).GetComponentInChildren<PlayerCosmetics>().FaceType = (FaceType)((DatabaseClass.FaceData)unlockedCustomizables[CustomizableType.Face][_selection]).indiceForShader;
     }
 
 
@@ -544,8 +610,9 @@ public class Menu : MonoBehaviour {
 
                     if (DataContainer.launchedFromMinigameScreen)
                     {
-                        UpdatePlayerPreviewColor(i);
-                        UpdatePlayerPreviewFace(i);
+                        UpdatePreview(i);
+                        //UpdatePlayerPreviewColor(i);
+                        //UpdatePlayerPreviewFace(i);
                     }
 
                 }
@@ -612,11 +679,10 @@ public class Menu : MonoBehaviour {
         if (nbPlayers >= 3)
             go.transform.localPosition = new Vector3(-(160) * Mathf.Pow(-1, _newPlayerIndex), (_newPlayerIndex < 2) ? 35.0f : -165.0f , 0.0f);
 
-        go.transform.GetChild(2).GetComponent<Text>().text = unlockedCustomColors[0].Id;
-        go.transform.GetChild(3).GetComponent<Text>().text = unlockedFaces[0].Id;
-        go.transform.GetChild(4).GetComponentInChildren<PlayerCosmetics>().SetUniqueColor(unlockedCustomColors[0].color);
-        go.transform.GetChild(4).GetComponentInChildren<PlayerCosmetics>().FaceType = 0;
-
+        go.transform.GetChild(2).GetComponent<Text>().text = ((CustomizableType)0).ToString();
+        go.transform.GetChild(3).GetComponent<Text>().text = unlockedCustomizables[0][0].Id;
+        go.transform.GetChild(4).GetComponentInChildren<PlayerCosmetics>().SetUniqueColor(((DatabaseClass.ColorData)unlockedCustomizables[CustomizableType.Color][0]).color);
+        go.transform.GetChild(4).GetComponentInChildren<PlayerCosmetics>().FaceType = (FaceType)((DatabaseClass.FaceData)unlockedCustomizables[CustomizableType.Face][0]).indiceForShader;
         playerCustomScreens.Add(go);
 
         return go;
@@ -694,22 +760,25 @@ public class Menu : MonoBehaviour {
     {
         // Send data to data container
         Color[] sc = new Color[nbPlayers];
+        int[] sf = new int[nbPlayers];
         for (int i = 0; i < nbPlayers; i++)
         {
-            if (selectedColors[i] == unlockedCustomColors.Count)
-                selectedColorFades[i] = true;
-            else
+            //if (selectedColors[i] == unlockedCustomColors.Count)
+            //    selectedColorFades[i] = true;
+            //else
             {
                 selectedColorFades[i] = false; // Line needed in case we come back from minigame selection screen
-                sc[i] = unlockedCustomColors[selectedColors[i]].color;
+                sc[i] = ((DatabaseClass.ColorData)unlockedCustomizables[CustomizableType.Color][selectedCustomizables[(int)CustomizableType.Color, i]]).color;
             }
 
-            if (selectedFaces[i] == unlockedFaces.Count)
-                selectedRabbits[i] = true;
-            else
+            //if (selectedFaces[i] == unlockedFesses.Count)
+            //    selectedRabbits[i] = true;
+            //else
                 selectedRabbits[i] = false; // Line needed in case we come back from minigame selection screen
+
+            sf[i] = selectedCustomizables[(int)CustomizableType.Face, i];
         }
-        dataContainer.SaveData(nbPlayers, sc, selectedFaces, selectedColorFades, selectedRabbits, selectedMode == 1);
+        dataContainer.SaveData(nbPlayers, sc, sf, selectedColorFades, selectedRabbits, selectedMode == 1);
     }
 
     private void OnDestroy()
