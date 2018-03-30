@@ -8,7 +8,7 @@ public class Menu : MonoBehaviour {
     public enum MenuState { Common, TitleScreenModeSelection, NumberOfPlayers, CustomisationScreen, MinigameSelection }
     MenuState currentState = MenuState.TitleScreenModeSelection;
 
-    public enum CustomizableType { Color, Face, Ears, Mustache, Helmet, Hands, Tail, Size }
+    public enum CustomizableType { Color, Face, Ears, Mustache, Hat, Hands, Tail, Size }
               bool[] isNonable = { false, false, true, true, true, true, true };
 
     int currentCursor = 0;
@@ -513,7 +513,7 @@ public class Menu : MonoBehaviour {
                 break;
             case CustomizableType.Ears:
             case CustomizableType.Hands:
-            case CustomizableType.Helmet:
+            case CustomizableType.Hat:
             case CustomizableType.Mustache:
             case CustomizableType.Tail:
             default:
