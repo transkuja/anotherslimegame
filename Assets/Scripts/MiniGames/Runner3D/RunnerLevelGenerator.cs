@@ -45,7 +45,6 @@ namespace Runner3D
 
         // infnite generation : 
         //Vector3 curChunkOffset;
-        int chunkLine = 0;
         List<int> lastChunkLineBlocPos;
         int nextZChunkOffset;
 
@@ -91,7 +90,6 @@ namespace Runner3D
                         position.x -= extentsX;
                         float curZPos = startPos.z + z * defaultBlockSize.z;
                         int poolRow = difficultyDB.difficultyParameters[difficulty_ID].GetTableRandAt(curZPos);
-                        Debug.Log(" poolRow = " + poolRow + "at palier : " + curZPos);
                         runnerBlocPool = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.RunnerBloc,poolRow);
                         GameObject bloc = runnerBlocPool.GetItem(transform, position, Quaternion.identity);
                         if (bloc == null)
@@ -321,7 +319,6 @@ namespace Runner3D
             Generate2DChunk();
             MoveCursor(-nbRowUpInFrontFirst - 1);
             state = State.InGame;
-            chunkLine = 0;
             beginAreaPrefab.GetComponent<RunnerBlocs>().SaveStartPos();
             beginAreaPrefab.GetComponent<RunnerBlocs>().LauchLerp(DirLerpState.Down,timeBeforeFalling);
         }
