@@ -63,6 +63,10 @@ namespace Runner3D
             float[] timer = new float[transform.childCount];
             for (int i = 0; i < transform.childCount; i++)
             {
+                Transform child = transform.GetChild(i);
+                if (dir == DirLerpState.Down && child.GetComponent<PlatformGameplay>())
+                    child.GetComponent<PlatformGameplay>().enabled = false;
+
                 timer[i] = Random.Range(-0.2f, 0.2f);
                 StartCoroutine(LerpItem(timer[i], i, dir, waitTime));
             }
@@ -70,7 +74,6 @@ namespace Runner3D
         IEnumerator LerpItem(float timer,int i, DirLerpState dir,float waitTime = 0)
         {
             yield return new WaitForSeconds(waitTime);
-
                     // vibrating  
             if (dir  == DirLerpState.Down)
             {
@@ -83,10 +86,6 @@ namespace Runner3D
                 }
             }
             Transform child = transform.GetChild(i);
-
-            // Falling  
-            if (dir == DirLerpState.Down && child.GetComponent<PlatformGameplay>())
-                    child.GetComponent<PlatformGameplay>().enabled = false;
 
             float angle = Random.Range(100, 179);
             if (angle %2>0)
@@ -114,8 +113,8 @@ namespace Runner3D
 
                 yield return null;
             }
-            if (dir == DirLerpState.Up&& child.GetComponent<PlatformGameplay>())
-                child.GetComponent<PlatformGameplay>().enabled = true;
+            if (dir == DirLerpState.Up)
+                ActivatePlatformIfFinishedLerping(i);
 
             yield return null;
         }
@@ -129,6 +128,29 @@ namespace Runner3D
             newPos.y = baseYPos[iId] + vibratingVar;
             child.position = newPos;
 
+        }
+
+        /// <summary>
+        /// Verifie si les eleme,nt d'un meme bloc ont finis de spawner
+        /// si oui on active le script de platforme gameplay
+        /// </summary>
+        /// <param name="childI"></param>
+        public void ActivatePlatformIfFinishedLerping(int childI)
+        {
+            hasFinished[childI] = true;
+            bool allChildsAreFinished = true;
+            for (int i = 0; i < transform.childCount; i++)
+                if (hasFinished[i] == false)
+                    allChildsAreFinished = false;
+            if (allChildsAreFinished)
+            {
+                for (int i = 0; i < transform.childCount; i++)
+                {
+                    Transform child = transform.GetChild(i);
+                    if (child.GetComponent<PlatformGameplay>())
+                        child.GetComponent<PlatformGameplay>().enabled = true;
+                }
+            }
         }
 
 
