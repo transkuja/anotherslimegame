@@ -29,14 +29,14 @@ public class PlayerCharacterHub : PlayerCharacter {
 
     // Ground
     public LayerMask groundLayersToCheck;
-    [SerializeField] bool isGrounded = true;
-    public float raycastDist = 1.5f;
-    public float raycastOffsetPlayer;
+    private bool isGrounded = true;
+    private float raycastDist = 1.5f;
+    private float raycastOffsetPlayer;
 
     //  others
     private bool isGravityEnabled = true;
 
-    public bool pendingStepSound = false;
+    private bool pendingStepSound = false;
 
     // Particles
     private ParticleSystem dustTrailParticles;
@@ -45,11 +45,6 @@ public class PlayerCharacterHub : PlayerCharacter {
     private ParticleSystem splashParticles;
     private ParticleSystem waterTrailParticles;
     private ParticleSystem landingParticles;
-
-    // Delegate events in RUNNER:
-    public delegate void OnPlayerDeath(int id);
-    public OnPlayerDeath OnDeathEvent;
-
 
     #region Getters/Setters
     /// StateManagment
@@ -128,14 +123,14 @@ public class PlayerCharacterHub : PlayerCharacter {
 #endif
                     Anim.SetBool("isExpulsed", false);
 
-                    if (pendingStepSound)
+                    if (PendingStepSound)
                     {
                         if (playerState != underwaterState)
                         {
                             if (AudioManager.Instance != null && AudioManager.Instance.sandStepFx != null)
                                 AudioManager.Instance.PlayOneShot(AudioManager.Instance.sandStepFx, 10.0f);
                         }
-                        pendingStepSound = false;
+                        PendingStepSound = false;
                     }
                 }
                 if (PlayerState != underwaterState)
@@ -246,6 +241,8 @@ public class PlayerCharacterHub : PlayerCharacter {
             landingParticles = value;
         }
     }
+
+    public bool PendingStepSound { get { return pendingStepSound; } set { pendingStepSound = value; } }
     #endregion
 
     private void Awake()
@@ -296,6 +293,21 @@ public class PlayerCharacterHub : PlayerCharacter {
                     && !Physics.Raycast(transform.position + Vector3.up * 0.5f + raycastOffsetPlayer * transform.right, Vector3.down, raycastDist, groundLayersToCheck)
                     && !Physics.Raycast(transform.position + Vector3.up * 0.5f - raycastOffsetPlayer * transform.right, Vector3.down, raycastDist, groundLayersToCheck))
                 IsGrounded = false;
+        }
+
+        if (!IsGrounded)
+        {
+            Vector3 tmp = new Vector3(Rb.velocity.x, 0.0f, Rb.velocity.z);
+            float dragForceUsed = 45f * Time.deltaTime * 500f;
+
+            if (tmp.magnitude > 3.0f)
+            {
+                if (!((tmp.x > 0 && tmp.x - tmp.normalized.x * dragForceUsed < 0)
+                || (tmp.x < 0 && tmp.x - tmp.normalized.x * dragForceUsed > 0)
+                || (tmp.z > 0 && tmp.z - tmp.normalized.z * dragForceUsed < 0)
+                || (tmp.z < 0 && tmp.z - tmp.normalized.z * dragForceUsed > 0)))
+                    Rb.AddForce(-tmp.normalized * dragForceUsed);
+            }
         }
     }
 
@@ -387,11 +399,4 @@ public class PlayerCharacterHub : PlayerCharacter {
         Gizmos.DrawLine(transform.position + Vector3.up * 0.5f, transform.position + Vector3.up * 0.5f + transform.forward * 2.0f);
     }
 #endif
-
-    public void OnDeath()
-    {
-        //Respawner.RespawnProcess(GetComponent<Player>());
-        if (OnDeathEvent != null)
-            OnDeathEvent((int)((PlayerControllerHub)Pc).playerIndex);
-    }
 }

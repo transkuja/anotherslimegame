@@ -4,6 +4,9 @@ using UnityEngine;
 // Gère les input selon l'input appelle des action codée dans une playerState.
 public class PlayerControllerHub : PlayerController
 {
+    // Aggregations
+    private PlayerCharacterHub playerCharacterHub;
+
     #region Controller
 
     // Plateformist
@@ -12,17 +15,12 @@ public class PlayerControllerHub : PlayerController
 
     public bool DEBUG_hasBeenSpawnedFromTool = false;
 
-    // Aggregations
-    public PlayerCollisionCenter collisionCenter;
-    public PlayerCharacterHub playerCharacterHub;
-
-
+   
     public bool forceCameraRecenter = false;
 
-
-#if UNITY_EDITOR
+    #if UNITY_EDITOR
     public bool tryByPassJumpStop;
-#endif
+    #endif
     #endregion
 
 
@@ -81,7 +79,6 @@ public class PlayerControllerHub : PlayerController
         Player = GetComponent<Player>();
         Rb = GetComponent<Rigidbody>();
 
-        collisionCenter = GetComponent<PlayerCollisionCenter>();
         playerCharacterHub = GetComponent<PlayerCharacterHub>();
     }
 
@@ -148,17 +145,11 @@ public class PlayerControllerHub : PlayerController
     }
     public virtual void HandleDashWithController()
     {
-        if ((PrevState.Buttons.X == ButtonState.Released && State.Buttons.X == ButtonState.Pressed)
-            // Keyboard input
-            || Input.GetMouseButtonDown(0)
-            )
+        if (PrevState.Buttons.X == ButtonState.Released && State.Buttons.X == ButtonState.Pressed)
             playerCharacterHub.PlayerState.OnDashPressed();
 
         if (GetComponent<EvolutionStrength>() != null)
-            if (PrevState.Buttons.Y == ButtonState.Released && State.Buttons.Y == ButtonState.Pressed
-                // Keyboard input
-                || Input.GetMouseButtonDown(1)
-                )
+            if (PrevState.Buttons.Y == ButtonState.Released && State.Buttons.Y == ButtonState.Pressed)
                 playerCharacterHub.PlayerState.OnDownDashPressed();
     }
 

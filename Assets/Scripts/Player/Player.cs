@@ -46,8 +46,6 @@ public class Player : MonoBehaviour {
 
     public MinigamePickUp.Use currentStoredPickup;
 
-    bool activateAerialDrag = false;
-
 #region Accessors
 
     public int ID
@@ -267,36 +265,5 @@ public class Player : MonoBehaviour {
                 tutoTextIsPending = false;
             }
         }
-        if (PlayerController.GetType() == typeof(PlayerControllerHub))
-        {
-            activateAerialDrag = (!((PlayerCharacterHub)PlayerCharacter).IsGrounded);
-            if (activateAerialDrag)
-            {
-                Vector3 tmp = new Vector3(PlayerCharacter.Rb.velocity.x, 0.0f, PlayerCharacter.Rb.velocity.z);
-                //Vector3 fwd = playerController.transform.forward;
-
-                float dragForceUsed = 45f * Time.deltaTime * 500f;//(playerController.PreviousPlayerState == playerController.dashState) ? dragForceDash : dragForce;
-
-                if (tmp.magnitude > 3.0f)// && Vector3.Dot(playerController.transform.forward, tmp) > 0)
-                {
-                    if ((tmp.x > 0 && tmp.x - tmp.normalized.x * dragForceUsed < 0)
-                    || (tmp.x < 0 && tmp.x - tmp.normalized.x * dragForceUsed > 0)
-                    || (tmp.z > 0 && tmp.z - tmp.normalized.z * dragForceUsed < 0)
-                    || (tmp.z < 0 && tmp.z - tmp.normalized.z * dragForceUsed > 0))
-                    { }
-                    //playerController.Player.Rb.velocity = playerController.Player.Rb.velocity.y * Vector3.up;
-                    else
-                    {
-                        PlayerCharacter.Rb.AddForce(-tmp.normalized * dragForceUsed);
-                    }
-                }
-                else
-                {
-                    //playerController.Player.Rb.velocity = playerController.Player.Rb.velocity.y * Vector3.up;
-                }
-            }
-        }
-        else
-            activateAerialDrag = false;
     }
 }

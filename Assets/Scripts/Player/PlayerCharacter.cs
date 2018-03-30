@@ -51,5 +51,16 @@ public class PlayerCharacter : MonoBehaviour {
         rb = GetComponent<Rigidbody>();
         anim = GetComponentInChildren<Animator>();
     }
-	
+
+    // Delegate events in RUNNER:
+    public delegate void OnPlayerDeath(int id);
+    public OnPlayerDeath OnDeathEvent;
+
+    public void OnDeath()
+    {
+        //Respawner.RespawnProcess(GetComponent<Player>());
+        if (OnDeathEvent != null)
+            OnDeathEvent((int)((PlayerController)Pc).playerIndex);
+    }
+
 }

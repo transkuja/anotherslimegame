@@ -15,7 +15,6 @@ public class JumpManager : MonoBehaviour
     }
 
     private Rigidbody rb;
-    private PlayerControllerHub playerController;
     private PlayerCharacterHub playerCharacter;
 
     private Jump curJump;
@@ -27,7 +26,6 @@ public class JumpManager : MonoBehaviour
     public void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        playerController = GetComponent<PlayerControllerHub>();
         playerCharacter = GetComponent<PlayerCharacterHub>();
     }
     public void Start()
@@ -82,8 +80,7 @@ public class JumpManager : MonoBehaviour
             playerCharacter.IsGravityEnabled = true;
         }
 
-        playerCharacter.pendingStepSound = true;
-
+        playerCharacter.PendingStepSound = true;
     }
 
 
