@@ -136,19 +136,6 @@ namespace Runner3D
         }
 
 
-        public void HasFinishedBeenUsed(int childI)
-        {
-            hasFinished[childI] = true;
-            bool allChildsAreFinished = true;
-            for (int i = 0; i < transform.childCount; i++)
-                if (hasFinished[i] == false)
-                    allChildsAreFinished = false;
-            if (allChildsAreFinished)
-            {
-                // return bloc to pool
-            }
-        }
-
         void RemoveUnwantedPlayer()
         {
             Player player = transform.GetComponentInChildren<Player>();
