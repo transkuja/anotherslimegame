@@ -29,15 +29,15 @@ namespace Runner3D
         [SerializeField] int  difficulty_ID;
 
             // Level Size Parameters : 
-        [SerializeField] Vector3 levelUnit; // taille d'un niveau en nb de blocs
-        [SerializeField] Vector3 levelFinalSize;  // taille réelle du niveau
+        [SerializeField] Vector3 levelUnit; // taille d'un chunk en nb de blocs
+        [SerializeField] Vector3 levelFinalSize;  // taille réelle du chunk
 
             // Refs : 
         Runner3DGameMode runnerMode;
 
             // level Data : 
         List<RunnerBlocs[]> blockLineList; // Contains all rows of blocks since the beginning.  => [0] = [B(1,0), B(2,0), B(3,0), (...)]
-                                           //                               => [1] = [B(1,1), B(1,2), B(1,3), (...)]
+                                           //                                                   => [1] = [B(1,1), B(1,2), B(1,3), (...)]
         bool[,] levelMask; // Pas nécessaire de l'enregistrer.
             // level data to create chunk of blocs : 
         List<int> lastChunkLineBlocPos;
@@ -116,10 +116,6 @@ namespace Runner3D
                 blockLineList.Add(runnerblocsLine);
             }
             nextZChunkOffset += (int)LevelUnit.z * (int)defaultBlockSize.z;
-
-                // Si finite on fait apparraitre l'arrivée. 
-            if (RunnerMode.Mode == Runner3DGameMode.EMode.Finite)
-                Instantiate(arrivalPrefab, Vector3.forward * (defaultBlockSize.z*.5f + LevelUnit.z * defaultBlockSize.z), Quaternion.identity,transform);
         }
 
         public bool IsLevelFinishedAt(float zPos)
@@ -207,7 +203,7 @@ namespace Runner3D
         #endregion
 
         #region LevelMovement
-        public void LerpMessage(int row,DirLerpState dir,float waitTime = 0)
+        public void OrderLerpRow(int row,DirLerpState dir,float waitTime = 0)
         {
          
             //Debug.Log("Lauch " + row + "at " + dir);

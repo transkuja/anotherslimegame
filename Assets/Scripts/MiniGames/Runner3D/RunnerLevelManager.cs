@@ -87,8 +87,8 @@ namespace Runner3D
             {
                 for (int i = firstPlayerZRow + 1; i <= firstPlayerZRow + variation; i++)
                 {
-                    levelGenerator.LerpMessage(i + nbRowUpInFrontFirst, DirLerpState.Up);
-                    levelGenerator.LerpMessage(i + nbRowUpInFrontFirst, DirLerpState.Down, timeBeforeFalling);
+                    levelGenerator.OrderLerpRow(i + nbRowUpInFrontFirst, DirLerpState.Up);
+                    levelGenerator.OrderLerpRow(i + nbRowUpInFrontFirst, DirLerpState.Down, timeBeforeFalling);
                 }
             }
             firstPlayerZRow = newCursorValue;

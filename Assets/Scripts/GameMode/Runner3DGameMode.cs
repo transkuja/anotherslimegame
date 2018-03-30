@@ -8,15 +8,12 @@ public class Runner3DGameMode : GameMode {
     public enum EMode
     {
         SoloInfinite,
-        Finite,
         LastRemaining
     }
 
     [SerializeField]private EMode mode = EMode.SoloInfinite;
     public RunnerLevelGenerator levelGenerator;
     int nbDeadPlayers;
-    int nbPlayerArrived;
-    
 
     public EMode Mode
     {
@@ -37,6 +34,10 @@ public class Runner3DGameMode : GameMode {
             if (playerControllerHub != null)
                 playerControllerHub.OnDeathEvent += OnPlayerDeath;
         }
+        if (curNbPlayers == 1)
+            mode = EMode.SoloInfinite;
+        else
+            mode = EMode.LastRemaining;
     }
     public override void OnReadySetGoBegin()
     {
@@ -61,15 +62,12 @@ public class Runner3DGameMode : GameMode {
             cameraReferences[i].SetActive(true);
         }
     }
-    public override void PlayerHasFinished(Player _player)
-    {
-        //_player.HasFinishedTheRun = true;
-        _player.NbPoints =Mathf.CeilToInt(_player.transform.position.z);
-    }
+  
     public void OnPlayerDeath(int id)
     {
         GameManager.Instance.PlayerStart.PlayersReference[id].gameObject.SetActive(false);
-        PlayerHasFinished(GameManager.Instance.PlayerStart.PlayersReference[id].GetComponent<Player>());
+        Player player = GameManager.Instance.PlayerStart.PlayersReference[id].GetComponent<Player>();
+        player.NbPoints = Mathf.CeilToInt(player.transform.position.z);
         nbDeadPlayers++;
         CheckVictory();
     }
@@ -81,17 +79,8 @@ public class Runner3DGameMode : GameMode {
                 EndGame();
                 break;
             case EMode.LastRemaining:
-                if (nbDeadPlayers == curNbPlayers)
+                if (nbDeadPlayers+1 == curNbPlayers)
                     EndGame();
-                break;
-            case EMode.Finite:
-                nbPlayerArrived++;
-                if (nbPlayerArrived == curNbPlayers)
-                    EndGame();
-                if (nbPlayerArrived + nbDeadPlayers == curNbPlayers)
-                    EndGame();
-                break;
-            default:
                 break;
         }
     }
