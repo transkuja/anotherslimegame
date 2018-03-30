@@ -146,6 +146,17 @@ public class ScoreScreen : MonoBehaviour {
         List<GameObject> playersReference = GameManager.Instance.PlayerStart.PlayersReference;
         List<Player> remainingPlayers = new List<Player>();
 
+        // Fix bad ranking shown?
+        if (GameManager.Instance.CurrentGameMode.GetType() == typeof(PushGameMode))
+        {
+            Collectable[] coinscoinscoins = FindObjectsOfType<Collectable>();
+            for (int i = 0; i < coinscoinscoins.Length; ++i)
+            {
+                coinscoinscoins[i].IsAttracted = false;
+                coinscoinscoins[i].GetComponent<PoolChild>().ReturnToPool();
+            }
+        }
+
         for (int i = 0; i < playersReference.Count; i++)
         {
             Player _curPlayer = playersReference[i].GetComponent<Player>();
