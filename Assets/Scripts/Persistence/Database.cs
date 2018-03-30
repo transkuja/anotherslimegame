@@ -46,7 +46,8 @@ namespace DatabaseClass
     [System.Serializable]
     public class MustacheData : Unlockable
     {
-
+        [SerializeField]
+        public string model;
     }
 
     [System.Serializable]
@@ -221,7 +222,7 @@ namespace DatabaseClass
             // Adding mustaches
             int idMustache = 0;
             string[] strMustache = { "Curved" };
-            mustaches.Add(new MustacheData { Id = strMustache[idMustache], isUnlocked = false });
+            mustaches.Add(new MustacheData { Id = strMustache[idMustache], model = "Mustaches/CurvedMustache", isUnlocked = false });
 
         }
 

@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UWPAndXInput;
 using System.Collections.Generic;
+using System;
 
 public class Menu : MonoBehaviour {
     public enum MenuState { Common, TitleScreenModeSelection, NumberOfPlayers, CustomisationScreen, MinigameSelection }
@@ -123,6 +124,14 @@ public class Menu : MonoBehaviour {
             {
                 unlockedFesses.Add(f);
                 unlockedCustomizables[CustomizableType.Face].Add(f);
+            }
+        }
+
+        foreach (DatabaseClass.MustacheData mustache in DatabaseManager.Db.mustaches)
+        {
+            if (mustache.isUnlocked)
+            {
+                unlockedCustomizables[CustomizableType.Mustache].Add(mustache);
             }
         }
 
@@ -515,12 +524,27 @@ public class Menu : MonoBehaviour {
             case CustomizableType.Hands:
             case CustomizableType.Hat:
             case CustomizableType.Mustache:
+                UpdatePlayerPreviewMustache(_playerIndex, _unlockedIndex, _isNoneValue);
+                break;
             case CustomizableType.Tail:
             default:
                 Debug.Log(_customizableType + " is not implemented yet.");
                 break;
 
         }
+
+    }
+
+    void UpdatePlayerPreviewMustache(int _playerIndex, int _selection, bool _isNoneValue)
+    {
+        if (AudioManager.Instance != null && AudioManager.Instance.changeOptionFx != null)
+            AudioManager.Instance.PlayOneShot(AudioManager.Instance.changeOptionFx);
+
+        Transform parent = playerCustomScreens[_playerIndex].transform.GetComponentInChildren<CustomizableSockets>().transform.GetChild((int)(CustomizableType.Mustache) - 2);
+        if (parent.childCount > 0)
+            Destroy(parent.GetChild(0).gameObject);
+        if (!_isNoneValue)
+            Instantiate(Resources.Load(((DatabaseClass.MustacheData)unlockedCustomizables[CustomizableType.Mustache][_selection]).model), parent);
 
     }
 
