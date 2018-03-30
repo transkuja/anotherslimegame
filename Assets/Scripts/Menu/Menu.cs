@@ -173,7 +173,10 @@ public class Menu : MonoBehaviour {
         }
 
         // Player 1 has the lead and can rewind the menu state by pressing B
-        if (prevControllerStates[0].Buttons.B == ButtonState.Released && controllerStates[0].Buttons.B == ButtonState.Pressed)
+        if (prevControllerStates[0].Buttons.B == ButtonState.Released && controllerStates[0].Buttons.B == ButtonState.Pressed
+                // Keyboard input
+                || Input.GetKeyDown(KeyCode.Backspace)
+                || Input.GetKeyDown(KeyCode.Escape))
         {
             // For CustomisationScreen, we want to be sure that Player 1 is not in "ready" state so we handle rewind elsewhere
             if (currentState != MenuState.TitleScreenModeSelection && currentState != MenuState.CustomisationScreen)
@@ -213,7 +216,9 @@ public class Menu : MonoBehaviour {
                 buttonNeedUpdate = false;
             }
 
-            if (prevControllerStates[0].Buttons.A == ButtonState.Released && controllerStates[0].Buttons.A == ButtonState.Pressed)
+            if (prevControllerStates[0].Buttons.A == ButtonState.Released && controllerStates[0].Buttons.A == ButtonState.Pressed
+                // Keyboard input
+                || Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
             {
                 if (CurrentlySelectedButton != null)
                 {
@@ -241,7 +246,10 @@ public class Menu : MonoBehaviour {
             for (int i = 0; i < nbPlayers; i++)
             {
                 // Unready player 
-                if (prevControllerStates[i].Buttons.B == ButtonState.Released && controllerStates[i].Buttons.B == ButtonState.Pressed)
+                if (prevControllerStates[i].Buttons.B == ButtonState.Released && controllerStates[i].Buttons.B == ButtonState.Pressed
+                    // Keyboard input
+                    || (i == 1 && Input.GetKeyDown(KeyCode.KeypadPeriod))
+                    || (i == 0 && Input.GetKeyDown(KeyCode.Escape)))
                 {
                     // Go back to previous state if player 1 is not ready and pressed B
                     if (i == 0 && !areReady[0])
@@ -266,7 +274,10 @@ public class Menu : MonoBehaviour {
 
                 // Press start when you're ready to go
                 if (prevControllerStates[i].Buttons.Start == ButtonState.Released && controllerStates[i].Buttons.Start == ButtonState.Pressed
-                    || (prevControllerStates[i].Buttons.A == ButtonState.Released && controllerStates[i].Buttons.A == ButtonState.Pressed))
+                    || (prevControllerStates[i].Buttons.A == ButtonState.Released && controllerStates[i].Buttons.A == ButtonState.Pressed)
+                    // Keyboard input
+                    || (i == 0 && Input.GetKeyDown(KeyCode.A))
+                    || (i == 1 && Input.GetKeyDown(KeyCode.KeypadEnter)))
                 {
                     areReady[i] = true;
                     // Deactivate feedbacks
@@ -285,7 +296,11 @@ public class Menu : MonoBehaviour {
 
                 // Y axis controls the settings selection
                 if (controllerStates[i].ThumbSticks.Left.Y > 0.5f && prevControllerStates[i].ThumbSticks.Left.Y < 0.5f
-                    || (controllerStates[i].ThumbSticks.Left.Y < -0.5f && prevControllerStates[i].ThumbSticks.Left.Y > -0.5f))
+                    || (controllerStates[i].ThumbSticks.Left.Y < -0.5f && prevControllerStates[i].ThumbSticks.Left.Y > -0.5f)
+                    // Keyboard input
+                    || (i == 0 && (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.S)))
+                    || (i == 1 && (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow)))
+                    )
                 {
                     currentCursorsRow[i]++;
                     currentCursorsRow[i] = currentCursorsRow[i] % 2;
@@ -293,7 +308,11 @@ public class Menu : MonoBehaviour {
                     playerCustomScreens[i].transform.GetChild(1).GetChild((currentCursorsRow[i] + 1)%2).gameObject.SetActive(false);
                 }
                 // X axis controls the settings values
-                else if (controllerStates[i].ThumbSticks.Left.X > 0.5f && prevControllerStates[i].ThumbSticks.Left.X < 0.5f)
+                else if (controllerStates[i].ThumbSticks.Left.X > 0.5f && prevControllerStates[i].ThumbSticks.Left.X < 0.5f
+                    // Keyboard input
+                    || (i == 0 && Input.GetKeyDown(KeyCode.D))
+                    || (i == 1 && Input.GetKeyDown(KeyCode.RightArrow))
+                    )
                 {
                     if (currentCursorsRow[i] == 0)
                     {
@@ -323,7 +342,10 @@ public class Menu : MonoBehaviour {
                     UpdatePreview(i);
 
                 }
-                else if (controllerStates[i].ThumbSticks.Left.X < -0.5f && prevControllerStates[i].ThumbSticks.Left.X > -0.5f)
+                else if (controllerStates[i].ThumbSticks.Left.X < -0.5f && prevControllerStates[i].ThumbSticks.Left.X > -0.5f
+                    // Keyboard input
+                    || (i == 0 && Input.GetKeyDown(KeyCode.Q))
+                    || (i == 1 && Input.GetKeyDown(KeyCode.LeftArrow)))
                 {
                     if (currentCursorsRow[i] == 0)
                     {
@@ -355,13 +377,19 @@ public class Menu : MonoBehaviour {
     private void DefaultCursorControls()
     {
         if ((controllerStates[0].ThumbSticks.Left.X > 0.5f && prevControllerStates[0].ThumbSticks.Left.X < 0.5f)
-            || (controllerStates[0].ThumbSticks.Left.Y < -0.75f && prevControllerStates[0].ThumbSticks.Left.Y > -0.75f))
+            || (controllerStates[0].ThumbSticks.Left.Y < -0.75f && prevControllerStates[0].ThumbSticks.Left.Y > -0.75f)
+            // Keyboard input
+            || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.RightArrow)
+            )
         {
             buttonNeedUpdate = true;
             currentCursor++;
         }
         else if ((controllerStates[0].ThumbSticks.Left.X < -0.5f && prevControllerStates[0].ThumbSticks.Left.X > -0.5f)
-            || (controllerStates[0].ThumbSticks.Left.Y > 0.75f && prevControllerStates[0].ThumbSticks.Left.Y < 0.75f))
+            || (controllerStates[0].ThumbSticks.Left.Y > 0.75f && prevControllerStates[0].ThumbSticks.Left.Y < 0.75f)
+            // Keyboard input
+            || Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.LeftArrow)
+            )
         {
             buttonNeedUpdate = true;
             currentCursor--;
@@ -370,7 +398,10 @@ public class Menu : MonoBehaviour {
 
     private void MinigameSelectionCursorControls()
     {
-        if (controllerStates[0].ThumbSticks.Left.X > 0.5f && prevControllerStates[0].ThumbSticks.Left.X < 0.5f)
+        if ((controllerStates[0].ThumbSticks.Left.X > 0.5f && prevControllerStates[0].ThumbSticks.Left.X < 0.5f)
+            // Keyboard input
+            || (Input.GetKeyDown(KeyCode.D) || (Input.GetKeyDown(KeyCode.RightArrow)))
+            )
         {
             minigameCurrentCursor++;
             minigameCurrentCursor %= unlockedMinigames.Count;
@@ -380,7 +411,10 @@ public class Menu : MonoBehaviour {
             //buttonNeedUpdate = true;
             //minigameCurrentCursor[0]++;
         }
-        else if (controllerStates[0].ThumbSticks.Left.X < -0.5f && prevControllerStates[0].ThumbSticks.Left.X > -0.5f)
+        else if ((controllerStates[0].ThumbSticks.Left.X < -0.5f && prevControllerStates[0].ThumbSticks.Left.X > -0.5f)
+            // Keyboard input
+            || (Input.GetKeyDown(KeyCode.Q) || (Input.GetKeyDown(KeyCode.LeftArrow)))
+            )
         {
             minigameCurrentCursor--;
             if (minigameCurrentCursor < 0)

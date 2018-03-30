@@ -143,7 +143,7 @@ public class DebugTools : MonoBehaviour {
 
         helpPanels[(int)DebugState.Size] += debugPanelComponent.AddToDebugPanelInfos("0", "", "Reset player");
         helpPanels[(int)DebugState.Size] += debugPanelComponent.AddToDebugPanelInfos("9", "", "Respawn player");
-        helpPanels[(int)DebugState.Size] += debugPanelComponent.AddToDebugPanelInfos("Tab", "", "Spawn a player");
+        helpPanels[(int)DebugState.Size] += debugPanelComponent.AddToDebugPanelInfos("Ctrl", "Space", "Spawn a player");
         helpPanels[(int)DebugState.Size] += debugPanelComponent.AddToDebugPanelInfos("P", "", "Possess a spawned player");
         helpPanels[(int)DebugState.Size] += debugPanelComponent.AddToDebugPanelInfos("LeftAlt", "", "Reload all powers");
         helpPanels[(int)DebugState.Size] += debugPanelComponent.AddToDebugPanelInfos("N", "", "Switch to next player debug info");
@@ -410,24 +410,27 @@ public class DebugTools : MonoBehaviour {
         }
 
         // Pop player
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (Input.GetKey(KeyCode.LeftControl))
         {
-            GameObject go = Instantiate(GameManager.Instance.PlayerStart.playerPrefab);
-            go.transform.position = DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f;
-            go.transform.rotation = Quaternion.identity;
-            Player currentPlayer = go.GetComponent<Player>();
-            currentPlayer.respawnPoint = DebugPlayerSelected.respawnPoint;
+            if (Input.GetKeyDown(KeyCode.Tab))
+            {
+                GameObject go = Instantiate(GameManager.Instance.PlayerStart.playerPrefab);
+                go.transform.position = DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f;
+                go.transform.rotation = Quaternion.identity;
+                Player currentPlayer = go.GetComponent<Player>();
+                currentPlayer.respawnPoint = DebugPlayerSelected.respawnPoint;
 
-            PlayerControllerHub playerController = go.GetComponent<PlayerControllerHub>();
-            playerController.DEBUG_hasBeenSpawnedFromTool = true;
-            playerController.PlayerIndex = (PlayerIndex)5;
-            playerController.IsUsingAController = true;
-            playerController.PlayerIndexSet = true;
+                PlayerControllerHub playerController = go.GetComponent<PlayerControllerHub>();
+                playerController.DEBUG_hasBeenSpawnedFromTool = true;
+                playerController.PlayerIndex = (PlayerIndex)5;
+                playerController.IsUsingAController = true;
+                playerController.PlayerIndexSet = true;
 
-            GameManager.Instance.PlayerStart.PlayersReference.Add(go);
-            debugSpawnedPlayer = go.GetComponent<Player>();
+                GameManager.Instance.PlayerStart.PlayersReference.Add(go);
+                debugSpawnedPlayer = go.GetComponent<Player>();
 
-            Debug.Log("Player spawned! " + DebugPlayerSelected.GetComponent<PlayerControllerHub>().PlayerIndex);
+                Debug.Log("Player spawned! " + DebugPlayerSelected.GetComponent<PlayerControllerHub>().PlayerIndex);
+            }
         }
 
         // Possess a player

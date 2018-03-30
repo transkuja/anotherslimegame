@@ -449,7 +449,9 @@ public class ScoreScreen : MonoBehaviour {
         
         if (goToRuneScreen)
         {
-            if (GamePad.GetState(GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerController>().playerIndex).Buttons.A == ButtonState.Pressed)
+            if (GamePad.GetState(GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerController>().playerIndex).Buttons.A == ButtonState.Pressed
+                // Keyboard input
+                || Input.GetKeyDown(KeyCode.Return))
             {
                 for (int i = 1; i < podium.transform.childCount; i++)
                     podium.transform.GetChild(i).gameObject.SetActive(false);
@@ -470,7 +472,9 @@ public class ScoreScreen : MonoBehaviour {
         if (canExit)
         {
             if (GamePad.GetState(GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerController>().playerIndex).Buttons.Start == ButtonState.Pressed
-                || GamePad.GetState(GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerController>().playerIndex).Buttons.A == ButtonState.Pressed)
+                || GamePad.GetState(GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerController>().playerIndex).Buttons.A == ButtonState.Pressed
+                // Keyboard input
+                || Input.GetKeyDown(KeyCode.Return))
             {
                 if (GameManager.Instance.CurrentGameMode.IsMiniGame())
                 {
