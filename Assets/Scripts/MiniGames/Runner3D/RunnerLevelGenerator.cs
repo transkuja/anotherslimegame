@@ -151,7 +151,6 @@ namespace Runner3D
         }
         public void UpdateWallPos()
         {
-            int test = 0;
             if (wallsInGame[0].transform.position.z < firstPlayerZRow * defaultBlockSize.z)
             {
                 Material wallMat = wallModel.GetComponent<MeshRenderer>().sharedMaterial;
@@ -262,7 +261,6 @@ namespace Runner3D
 
         public void UpdatePlayerPos()
         {
-            Vector3[] playerNewPos = new Vector3[playerRef.Count];
             int farthestZ = 0;
             for (int i = 0; i < playerRef.Count; i++)
                 farthestZ = Mathf.Max(Mathf.RoundToInt(playerRef[i].transform.position.z), farthestZ);
@@ -279,7 +277,6 @@ namespace Runner3D
         }
         void InfiniteModeUpdate()
         {
-            Vector3[] playerNewPos = new Vector3[playerRef.Count];
             int farthestZ = 0;
 
                 // compute where first player is and pop platform if necessary

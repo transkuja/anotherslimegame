@@ -9,7 +9,6 @@ public class Collectable : MonoBehaviour
     public bool needInitialisation = true;
     public bool haveToDisperse = false;
 
-    private Vector3 direction;
     private uint movementSpeed = 15;
     private int value = 5;
 
@@ -127,7 +126,6 @@ public class Collectable : MonoBehaviour
 
     public void Attract()
     {
-        direction = ((playerTarget.transform.position + Vector3.up * .5f) - transform.position).normalized;
         transform.position = Vector3.Lerp(transform.position, (playerTarget.transform.position + Vector3.up * .5f), Time.deltaTime * movementSpeed);
         //GetComponent<Rigidbody>().velocity = (direction * movementSpeed * Time.deltaTime * 50.0f);
         if (Vector3.Distance(playerTarget.transform.position + Vector3.up * 0.5f, transform.position) < .8f)

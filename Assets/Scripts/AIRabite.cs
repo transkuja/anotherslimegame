@@ -51,7 +51,7 @@ public class AIRabite : MonoBehaviour {
         switch (CurrentState)
         {
             case RabiteState.Wander:
-                if (currentWanderPosTarget != null)
+                if (currentWanderPosTarget != Vector3.zero)
                 {
                     Gizmos.color = Color.red;
                     Gizmos.DrawWireSphere(currentWanderPosTarget, 2.0f);

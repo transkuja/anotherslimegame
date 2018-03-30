@@ -47,8 +47,6 @@ public class DebugTools : MonoBehaviour {
     bool hasUpdatedDebugPanel = false;
     bool lightsEnabled = false;
 
-    float timerShowHelp = 5.0f;
-    float currentTimerShowHelp = 0.0f;
     DebugState currentState;
     DebugUIState currentUIState;
 
@@ -585,7 +583,7 @@ public class DebugTools : MonoBehaviour {
                 }
                 catch (NotImplementedException e)
                 {
-  
+                    
                 }
                 finally
                 {

@@ -601,13 +601,11 @@ public class Menu : MonoBehaviour {
 
                 for (int i = 0; i < nbPlayers; i++)
                 {
-                    GameObject go = CreatePlayerCustomScreen(i);
+                    CreatePlayerCustomScreen(i);
 
                     if (DataContainer.launchedFromMinigameScreen)
                     {
                         UpdatePreview(i);
-                        //UpdatePlayerPreviewColor(i);
-                        //UpdatePlayerPreviewFace(i);
                     }
 
                 }
