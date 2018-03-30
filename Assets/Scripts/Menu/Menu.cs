@@ -562,10 +562,14 @@ public class Menu : MonoBehaviour {
             if (_isNoneValue)
                 StartCoroutine(Sad(playerCustomScreens[_playerIndex].GetComponentInChildren<PlayerCosmetics>()));
         }
+        else
+        {
+            if (!_isNoneValue)
+                StartCoroutine(Happy(playerCustomScreens[_playerIndex].GetComponentInChildren<PlayerCosmetics>()));
+        }
 
         if (!_isNoneValue)
         {
-            StartCoroutine(Happy(playerCustomScreens[_playerIndex].GetComponentInChildren<PlayerCosmetics>()));
             Instantiate(Resources.Load(((DatabaseClass.MustacheData)unlockedCustomizables[CustomizableType.Mustache][_selection]).model), parent);
         }
 
@@ -575,14 +579,16 @@ public class Menu : MonoBehaviour {
     {
         _cosmeticsRef.FaceEmotion = FaceEmotion.Winner;
         yield return new WaitForSeconds(1);
-        _cosmeticsRef.FaceEmotion = FaceEmotion.Neutral;
+        if (_cosmeticsRef.FaceEmotion == FaceEmotion.Winner)
+            _cosmeticsRef.FaceEmotion = FaceEmotion.Neutral;
     }
 
     IEnumerator Sad(PlayerCosmetics _cosmeticsRef)
     {
         _cosmeticsRef.FaceEmotion = FaceEmotion.Loser;
         yield return new WaitForSeconds(1);
-        _cosmeticsRef.FaceEmotion = FaceEmotion.Neutral;
+        if (_cosmeticsRef.FaceEmotion == FaceEmotion.Loser)
+            _cosmeticsRef.FaceEmotion = FaceEmotion.Neutral;
     }
 
     // Change the player color according to current selection
