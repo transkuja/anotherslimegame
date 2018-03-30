@@ -36,8 +36,12 @@ public class PlayerControllerKart : PlayerController {
     Vector3 targetForward;
     float dashTimer = 0.0f;
     float hitTimer = 0.0f;
+    [SerializeField]
+    bool clamp = true;
 
     public KartPlayerState CurrentState
+
+
     {
         get
         {
@@ -80,6 +84,7 @@ public class PlayerControllerKart : PlayerController {
         targetForward = transform.forward;
         anim = GetComponent<Animator>();
         startDrag = rb.drag;
+        clamp = true;
     }
 
 	public override void Update () {
@@ -124,13 +129,17 @@ public class PlayerControllerKart : PlayerController {
         transform.Rotate(Vector3.up * velocityRatio * state.ThumbSticks.Left.X * Time.deltaTime * turnSpeed);
 
         rb.AddForce(transform.forward * Time.deltaTime * forwardSpeed * state.Triggers.Right, ForceMode.VelocityChange);
-
         rb.AddForce(-transform.forward * Time.deltaTime * forwardSpeed / 2.0f * state.Triggers.Left, ForceMode.VelocityChange);
 
+        rb.AddForce(((directionFactor * transform.forward * rb.velocity.magnitude) - rb.velocity) / 4.0f, ForceMode.VelocityChange);
+
+        if(clamp)
+            rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxVelocityMagnitude);
         if (dashTimer >= dashCooldown && state.Buttons.X == ButtonState.Pressed && prevState.Buttons.X == ButtonState.Released)
         {
             rb.AddForce(transform.forward * dashForce, ForceMode.Impulse);
             dashTimer = 0.0f;
+            DisableClampingForSeconds(0.15f);
         }
         targetForward = new Vector3(state.ThumbSticks.Left.X, 0, state.ThumbSticks.Left.Y);
         if (targetForward == Vector3.zero)
@@ -141,6 +150,8 @@ public class PlayerControllerKart : PlayerController {
     {
         ApplyGravity(125f);
         rb.drag = 2f;
+        
+        rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxVelocityMagnitude);
         hitTimer += Time.deltaTime;
         if(hitTimer >= hitRecoveryTime)
         {
@@ -148,6 +159,19 @@ public class PlayerControllerKart : PlayerController {
             rb.drag = startDrag;
             CurrentState = KartPlayerState.Normal;
         }
+    }
+
+    public IEnumerator DisableClampingForSecondsCoroutine(float seconds)
+    {
+        clamp = false;
+        yield return new WaitForSeconds(seconds);
+        clamp = true;
+    }
+
+    public void DisableClampingForSeconds(float seconds)
+    {
+        StopCoroutine("DisableClampingForSecondsCoroutine");
+        StartCoroutine(DisableClampingForSecondsCoroutine(seconds));
     }
 
     void HandleFinishedRaceState()

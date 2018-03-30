@@ -159,7 +159,7 @@ public static class MinigameDataUtils
         }
         else if (curGameMode is KartGameMode)
         {
-            return "Finish the race in less than 30s";
+            return "Finish the race in less than " + TimeFormatUtils.GetFormattedTime(((KartGameMode)_curGameMode).necessaryTimeForRune, TimeFormat.Sec) + "s";
         }
         else if (curGameMode is Runner3DGameMode)
         {
