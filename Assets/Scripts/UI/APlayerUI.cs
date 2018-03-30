@@ -112,7 +112,7 @@ public abstract class APlayerUI : MonoBehaviour {
                 UIrefLeft.transform.GetChild(0).GetChild(1).GetComponent<TextChange>().Init(0);
                 UIrefLeft.transform.GetChild(1).GetChild(1).GetComponent<TextChange>().Init(1);
                 UIrefRight.transform.GetChild(0).GetChild(1).GetComponent<TextChange>().Init(2);
-                UIrefRight.transform.GetChild(1).GetChild(1).GetComponent<TextChange>().Init(2);
+                UIrefRight.transform.GetChild(1).GetChild(1).GetComponent<TextChange>().Init(3);
                 break;
         }
     }
