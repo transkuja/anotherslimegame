@@ -63,6 +63,19 @@ public class PlayerState {
     public virtual Vector3 HandleSpeedWithController()
     {
         Vector3 initialVelocity = new Vector3(playerController.State.ThumbSticks.Left.X, 0.0f, playerController.State.ThumbSticks.Left.Y);
+
+        // Keyboard input
+        if (initialVelocity.magnitude < 0.1f)
+        {
+            if (playerController.playerIndex == (UWPAndXInput.PlayerIndex.One))
+            {
+                initialVelocity = new Vector3(Input.GetAxisRaw("HorizontalMoveP1"), 0.0f, Input.GetAxisRaw("VerticalMoveP1"));
+            }
+            else
+            {
+                initialVelocity = new Vector3(Input.GetAxisRaw("HorizontalMoveP2"), 0.0f, Input.GetAxisRaw("VerticalMoveP2"));
+            }
+        }
         initialVelocity.Normalize();
 
         initialVelocity *= playerController.stats.Get(Stats.StatType.GROUND_SPEED);
