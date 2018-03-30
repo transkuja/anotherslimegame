@@ -221,10 +221,10 @@ namespace DatabaseClass
 
             // Adding mustaches
             int idMustache = 0;
-            string[] strMustache = { "Curved", "Second" };
+            string[] strMustache = { "Curved", "Second", "Third" };
             mustaches.Add(new MustacheData { Id = strMustache[idMustache], model = "Mustaches/CurvedMustache", isUnlocked = false });
             mustaches.Add(new MustacheData { Id = strMustache[++idMustache], model = "Mustaches/SecondMustache", isUnlocked = false });
-
+            mustaches.Add(new MustacheData { Id = strMustache[++idMustache], model = "Mustaches/ThirdMustache", isUnlocked = false });
         }
 
         public void AllCostToZero()
