@@ -221,8 +221,9 @@ namespace DatabaseClass
 
             // Adding mustaches
             int idMustache = 0;
-            string[] strMustache = { "Curved" };
+            string[] strMustache = { "Curved", "Second" };
             mustaches.Add(new MustacheData { Id = strMustache[idMustache], model = "Mustaches/CurvedMustache", isUnlocked = false });
+            mustaches.Add(new MustacheData { Id = strMustache[++idMustache], model = "Mustaches/SecondMustache", isUnlocked = false });
 
         }
 
