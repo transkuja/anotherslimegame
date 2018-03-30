@@ -7,6 +7,7 @@ public class FruitGameMode : GameMode {
 
     public float timer;
     public FruitsSpawner spawner;
+    public BonusSpawner bonus;
     bool spawnerInitialized = false;
 
     public override void StartGame(List<GameObject> playerReferences)
@@ -34,6 +35,8 @@ public class FruitGameMode : GameMode {
             return;
 
         StartCoroutine(spawner.Spawner());
+        StartCoroutine(bonus.SpawnBonus(BonusSpawner.BonusType.ChangeFruit, bonus.changeFruitSpawnDelay));
+        StartCoroutine(bonus.SpawnBonus(BonusSpawner.BonusType.Aspirator, bonus.aspiratorFruitSpawnDelay));
         spawnerInitialized = true;
     }
 

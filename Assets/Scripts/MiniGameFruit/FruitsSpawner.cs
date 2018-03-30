@@ -23,7 +23,6 @@ public class FruitsSpawner : MonoBehaviour {
     public void Start()
     {
         nbPlayer = GameManager.Instance.PlayerStart.ActivePlayersAtStart;
-        Debug.Log(nbPlayer);
     }
 
 

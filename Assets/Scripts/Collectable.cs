@@ -64,7 +64,7 @@ public class Collectable : MonoBehaviour
     {
         if (GetComponent<PoolChild>())
         {
-            if (GetComponent<Fruits>())
+            if (GetComponent<FruitType>())
             {
                 haveToDisperse = false;
             }

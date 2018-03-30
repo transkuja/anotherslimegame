@@ -3,16 +3,16 @@ using UnityEngine;
 
 public class BonusSpawner : MonoBehaviour {
 
-	enum BonusType { ChangeFruit, Aspirator };
+	public enum BonusType { ChangeFruit, Aspirator };
 
     public GameObject aspirator;
     public GameObject fruitChange;
 
     [SerializeField]
-    float changeFruitSpawnDelay = 15.0f;
+    public float changeFruitSpawnDelay = 15.0f;
 
     [SerializeField]
-    float aspiratorFruitSpawnDelay = 25.0f;
+    public float aspiratorFruitSpawnDelay = 25.0f;
 
     public bool canChange;
     public bool canAspirate;
@@ -30,13 +30,13 @@ public class BonusSpawner : MonoBehaviour {
     public Material matFraise;
 
 
-    void Start()
+    /*void Start()
     {
         StartCoroutine(SpawnBonus(BonusType.ChangeFruit, changeFruitSpawnDelay));
 		StartCoroutine(SpawnBonus(BonusType.Aspirator, aspiratorFruitSpawnDelay));
-    }
+    }*/
 
-	IEnumerator SpawnBonus(BonusType _type, float _time)
+	public IEnumerator SpawnBonus(BonusType _type, float _time)
 	{
 		while (true)
         {
