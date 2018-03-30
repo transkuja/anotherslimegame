@@ -103,7 +103,7 @@ public static class Ease
     // Easing constants.
     private static float PI = Mathf.PI;
     private static float PI2 = PI / 2.0f;
-    private static float EL = 2 * PI / 0.45f;
+    //private static float EL = 2 * PI / 0.45f;
     private static float B1 = 1.0f / 2.75f;
     private static float B2 = 2.0f / 2.75f;
     private static float B3 = 1.5f / 2.75f;
