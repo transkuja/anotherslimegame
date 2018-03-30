@@ -425,7 +425,10 @@ public class PlayerControllerHub : PlayerController
    
     private void HandleJumpWithController()
     {
-        if (prevState.Buttons.A == ButtonState.Released && state.Buttons.A == ButtonState.Pressed && PlayerState != dashState)
+        if (((prevState.Buttons.A == ButtonState.Released && state.Buttons.A == ButtonState.Pressed) 
+            // Keyboard input
+            || (Input.GetKeyDown(KeyCode.Space))) 
+            && PlayerState != dashState)
         {
 #if UNITY_EDITOR
             tryByPassJumpStop = true;
@@ -440,12 +443,18 @@ public class PlayerControllerHub : PlayerController
     }
     public virtual void HandleDashWithController()
     {
-        if (PrevState.Buttons.X == ButtonState.Released && State.Buttons.X == ButtonState.Pressed)
+        if ((PrevState.Buttons.X == ButtonState.Released && State.Buttons.X == ButtonState.Pressed)
+            // Keyboard input
+            || Input.GetMouseButtonDown(0)
+            )
         {
             playerState.OnDashPressed();
         }
         if (GetComponent<EvolutionStrength>() != null)
-            if (PrevState.Buttons.Y == ButtonState.Released && State.Buttons.Y == ButtonState.Pressed)
+            if (PrevState.Buttons.Y == ButtonState.Released && State.Buttons.Y == ButtonState.Pressed
+                // Keyboard input
+                || Input.GetMouseButtonDown(1)
+                )
             {
                 playerState.OnDownDashPressed();
             }

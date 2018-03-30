@@ -143,7 +143,7 @@ public class DebugTools : MonoBehaviour {
 
         helpPanels[(int)DebugState.Size] += debugPanelComponent.AddToDebugPanelInfos("0", "", "Reset player");
         helpPanels[(int)DebugState.Size] += debugPanelComponent.AddToDebugPanelInfos("9", "", "Respawn player");
-        helpPanels[(int)DebugState.Size] += debugPanelComponent.AddToDebugPanelInfos("Space", "", "Spawn a player");
+        helpPanels[(int)DebugState.Size] += debugPanelComponent.AddToDebugPanelInfos("Tab", "", "Spawn a player");
         helpPanels[(int)DebugState.Size] += debugPanelComponent.AddToDebugPanelInfos("P", "", "Possess a spawned player");
         helpPanels[(int)DebugState.Size] += debugPanelComponent.AddToDebugPanelInfos("LeftAlt", "", "Reload all powers");
         helpPanels[(int)DebugState.Size] += debugPanelComponent.AddToDebugPanelInfos("N", "", "Switch to next player debug info");
@@ -410,7 +410,7 @@ public class DebugTools : MonoBehaviour {
         }
 
         // Pop player
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
             GameObject go = Instantiate(GameManager.Instance.PlayerStart.playerPrefab);
             go.transform.position = DebugPlayerSelected.transform.position + DebugPlayerSelected.transform.forward * 4.0f;
