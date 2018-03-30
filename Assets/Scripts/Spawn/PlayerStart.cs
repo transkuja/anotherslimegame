@@ -107,6 +107,9 @@ public class PlayerStart : MonoBehaviour {
             GameManager.Instance.RegisterDataContainer(FindObjectOfType<SlimeDataContainer>());
         }
 
+        if (GameManager.Instance.DataContainer != null && GameManager.Instance.DataContainer.launchedFromMinigameScreen)
+            DEBUG_playXPlayers = false;
+
         if (DEBUG_playXPlayers)
             activePlayersAtStart = DEBUG_NbPlayers;
         else
