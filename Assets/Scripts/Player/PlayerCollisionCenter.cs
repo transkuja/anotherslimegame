@@ -31,7 +31,6 @@ public class PlayerCollisionCenter : MonoBehaviour {
     // @<remi
     private List<Player> impactedPlayers = new List<Player>();
     private List<Vector3> impactedPlayersOldVelocities = new List<Vector3>();
-    private Vector3 velocityOnImpact;
 
     public float invicibilityFrame = 1.0f;
     bool onceRepulsion;
@@ -162,7 +161,6 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
                             playerController.PlayerState = playerController.frozenState;
                             playersCollided[i].GetComponent<PlayerControllerHub>().PlayerState = playersCollided[i].GetComponent<PlayerControllerHub>().frozenState;
-                            velocityOnImpact = playerController.Rb.velocity;
                             playerController.Rb.velocity = Vector3.zero;
                             impactedPlayersOldVelocities.Add(playersCollided[i].GetComponent<Rigidbody>().velocity);
                             playersCollided[i].GetComponent<Rigidbody>().velocity = Vector3.zero;
@@ -192,7 +190,6 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
                             playerController.PlayerState = playerController.frozenState;
                             playersCollided[i].GetComponent<PlayerControllerHub>().PlayerState = playersCollided[i].GetComponent<PlayerControllerHub>().frozenState;
-                            velocityOnImpact = playerController.Rb.velocity;
                             playerController.Rb.velocity = Vector3.zero;
                             impactedPlayersOldVelocities.Add(playersCollided[i].GetComponent<Rigidbody>().velocity);
                             playersCollided[i].GetComponent<Rigidbody>().velocity = Vector3.zero;
@@ -237,7 +234,6 @@ public class PlayerCollisionCenter : MonoBehaviour {
                             playerController.PlayerState = playerController.frozenState;
 
                             //rabiteCollided[i].GetComponent<PlayerControllerHub>().PlayerState = playersCollided[i].GetComponent<PlayerControllerHub>().frozenState;
-                            velocityOnImpact = playerController.Rb.velocity;
                             playerController.Rb.velocity = Vector3.zero;
 
                             rabiteCollided[i].GetComponent<Rigidbody>().velocity = Vector3.zero;
@@ -266,7 +262,6 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
                             playerController.PlayerState = playerController.frozenState;
                           
-                            velocityOnImpact = playerController.Rb.velocity;
                             playerController.Rb.velocity = Vector3.zero;
                             rabiteCollided[i].GetComponent<Rigidbody>().velocity = Vector3.zero;
 

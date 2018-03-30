@@ -4,9 +4,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UWPAndXInput;
 public class KartGameMode : GameMode {
-
-    bool hasTimerStarted = false;
-
     float timer;
 
     float firstFinishTime = -1.0f;
@@ -23,7 +20,6 @@ public class KartGameMode : GameMode {
 
     public void LaunchTimer()
     {
-        hasTimerStarted = true;
         timer = 0.0f;
     }
 

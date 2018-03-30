@@ -18,8 +18,6 @@ public class SpikeTrap : MonoBehaviour {
 
             PlayerControllerHub pController = p.GetComponent<PlayerControllerHub>();
 
-            p.CanDoubleJump = true;
-
             if (GameManager.Instance.IsInHub())
                 pController.GetComponent<PlayerCollisionCenter>().DamagePlayerHub();
             else

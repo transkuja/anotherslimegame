@@ -10,8 +10,6 @@ public class MinigameSelectionAnim : MonoBehaviour {
     Vector2 notSelectedScale;
 
     // Anim lerp
-    bool isLerpActive = false;
-    float lerpValue = 0.0f;
     Vector2 lerpDestination;
     Vector2 lerpOrigin;
     Vector2 lerpScaleGoal;
@@ -22,8 +20,6 @@ public class MinigameSelectionAnim : MonoBehaviour {
     public void IsSelected(bool _isSelected, bool _moveToTheLeft)
     {
         isSelected = _isSelected;
-        isLerpActive = true;
-        lerpValue = 0.0f;
 
         if (isSelected)
         {

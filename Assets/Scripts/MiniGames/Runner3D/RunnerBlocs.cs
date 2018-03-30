@@ -16,7 +16,6 @@ namespace Runner3D
         float[] baseYPos;
         Vector3[] baseScale;
         Quaternion[] baseOrientation;
-        [SerializeField] DirLerpState curState;
 
         static float yInterval = 10;
         [SerializeField] Vector3 blockSize;
@@ -27,7 +26,6 @@ namespace Runner3D
             baseScale = new Vector3[transform.childCount];
             baseOrientation = new Quaternion[transform.childCount];
             hasFinished = new bool[transform.childCount];
-            curState = DirLerpState.Up;
         }
         public void SaveStartPos()
         {
@@ -62,7 +60,6 @@ namespace Runner3D
        
         public void LauchLerp(DirLerpState dir,float waitTime = 0)
         {
-            curState = DirLerpState.Moving;
             float[] timer = new float[transform.childCount];
             for (int i = 0; i < transform.childCount; i++)
             {
@@ -120,7 +117,6 @@ namespace Runner3D
             if (dir == DirLerpState.Up&& child.GetComponent<PlatformGameplay>())
                 child.GetComponent<PlatformGameplay>().enabled = true;
 
-            curState = dir;
             yield return null;
         }
 

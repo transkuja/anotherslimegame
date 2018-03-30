@@ -9,10 +9,6 @@ public delegate void UIfct(int _newValue);
 public class Player : MonoBehaviour {
 
     Rigidbody rb;
-    bool canDoubleJump = false;
-
-    [Header("Collectables")]
-    [SerializeField] int[] collectables;
 
     public uint activeEvolutions = 0;
 
@@ -91,19 +87,6 @@ public class Player : MonoBehaviour {
         set
         {
             anim = value;
-        }
-    }
-
-    public bool CanDoubleJump
-    {
-        get
-        {
-            return canDoubleJump;
-        }
-
-        set
-        {
-            canDoubleJump = value;
         }
     }
 
@@ -212,8 +195,6 @@ public class Player : MonoBehaviour {
     private void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        collectables = new int[(int)CollectableType.Size];
-
     }
 
     public void UpdateCollectableValue(CollectableType type, int pickedValue = 1)

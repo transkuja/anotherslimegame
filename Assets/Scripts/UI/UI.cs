@@ -1,8 +1,9 @@
-﻿    using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using System;
 using System.Collections;
 using UnityEngine.SceneManagement;
+
 public class UI : MonoBehaviour {
 
     Text timerText;
@@ -25,19 +26,33 @@ public class UI : MonoBehaviour {
         {
             GameManager.UiReference = this;
         }
+        SceneManager.sceneLoaded += LoadScene;
     }
 
+    public void LoadScene(Scene sceneId, LoadSceneMode mode)
+    {
+        if (sceneId.buildIndex != 0)
+        {
+            if (!GameManager.Instance.IsInHub())
+            {
+                GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceCamera;
+                GetComponent<Canvas>().worldCamera = Camera.main;
+            }
+            else
+            {
+                GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
+                GameManager.Instance.finalTimerInitialized = false;
+            }
+        }
+    }
 
     void DestroyOnMenuScreen(Scene oldScene, Scene newScene)
     {
         if (newScene.buildIndex == 0) //could compare Scene.name instead
         {
-            // test
-
             GameManager.UiReference = null;
             Destroy(this); //change as appropriate
             Destroy(this.gameObject); //change as appropriate
-      
         }
     }
 
@@ -48,6 +63,7 @@ public class UI : MonoBehaviour {
         ptsText = UIref.GetChild(0).GetComponentInChildren<Text>().transform;
         runeText = UIref.GetChild(1).GetComponentInChildren<Text>().transform;
         RuleScreen = transform.GetChild(transform.childCount-1).transform;
+
         // Merde copy de reference ..
         ptsTextOriginalState = ptsText;
         runeTextOriginalState = runeText;
@@ -81,24 +97,6 @@ public class UI : MonoBehaviour {
                 isUiShowed = false;
             }
         }
-    }
-
-    private void OnLevelWasLoaded(int level)
-    {
-        if ( level != 0)
-        {
-            if (!GameManager.Instance.IsInHub())
-            {
-                GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceCamera;
-                GetComponent<Canvas>().worldCamera = Camera.main;
-            }
-            else
-            {
-                GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
-                GameManager.Instance.finalTimerInitialized = false;
-            }
-        }
-      
     }
 
     public void TimerNeedUpdate(float _currentGameFinalTimer)

@@ -20,7 +20,6 @@ namespace Runner3D
 
             // Info on player position to create/destroy blocs.
         int firstPlayerZRow = -1; // a quelle distance du début est le premier joueur en LevelUnit
-        int lastPlayerZRow; // // a quelle distance du début est le dernier  joueur en LevelUnit
         int nbRowUpInFrontFirst = 2; // marge de pop des platforme par rapport au premier joueur.
         float timeBeforeFalling = 12; // temps que met une platforme à disparaître après avoir spawn
 
@@ -122,7 +121,6 @@ namespace Runner3D
                 MoveCursor(playerZBlockPos);
             }
             firstPlayerZRow = playerZBlockPos;
-            lastPlayerZRow = PlayerBestZBlocPos(Mathf.Min); ;
         }
         public void Awake()
         {

@@ -11,8 +11,6 @@ using Cinemachine;
 public class PlayerControllerHub : PlayerController
 {
     #region Controller
-    // jump
-    [Range(5, 1000)] float jumpChargeSpeed = 15.0f;
 
     // Plateformist
     bool rightTriggerHasBeenPressed = false;

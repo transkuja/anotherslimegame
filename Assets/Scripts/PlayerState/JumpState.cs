@@ -6,8 +6,6 @@ using Cinemachine;
 
 public class JumpState : PlayerState
 {
-
-    bool hasJumpButtonBeenReleased;
     private int nbJumpMade = 0;
 
     public int NbJumpMade
@@ -34,7 +32,6 @@ public class JumpState : PlayerState
     public override void OnBegin()
     {
         base.OnBegin();
-        hasJumpButtonBeenReleased = false;
         LaunchJump();
     }
    

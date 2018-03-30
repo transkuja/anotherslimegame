@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class FlameThrower : MonoBehaviour {
     ParticleSystem[] particles;
-    Collider flamesTrigger;
     Animator anim;
 
     [SerializeField]
@@ -62,7 +61,6 @@ public class FlameThrower : MonoBehaviour {
 
     void Start () {
         particles = GetComponentsInChildren<ParticleSystem>();
-        flamesTrigger = GetComponent<Collider>();
         anim = GetComponent<Animator>();
         IsActive = false;
         timer = maxOffTime - startTimeOffset;

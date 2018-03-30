@@ -27,7 +27,7 @@ public class DatabaseManager : MonoBehaviour {
         if (LoadDb())
         {
             instance = this;
-            DontDestroyOnLoad(instance);
+            //DontDestroyOnLoad(this.gameObject);
         }
         else
             Destroy(this);

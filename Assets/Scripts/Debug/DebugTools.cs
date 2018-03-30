@@ -581,9 +581,9 @@ public class DebugTools : MonoBehaviour {
                     foreach (GameObject go in GameManager.Instance.PlayerStart.PlayersReference)
                         GameManager.Instance.CurrentGameMode.PlayerHasFinished(go.GetComponent<Player>());
                 }
-                catch (NotImplementedException e)
+                catch
                 {
-                    
+                    return;
                 }
                 finally
                 {

@@ -11,12 +11,6 @@ public class DashState : PlayerState
 
     // PlayerBouncyPhysics
     [SerializeField]
-    [Range(10.0f, 2000.0f)]
-    float bounceStrength = 25.0f;
-    [SerializeField]
-    [Range(0.0f, 1.0f)]
-    float bounceDetectionThreshold = 0.2f;
-    [SerializeField]
     [Range(0.0f, 2.5f)]
     float impactForce;
     [SerializeField]

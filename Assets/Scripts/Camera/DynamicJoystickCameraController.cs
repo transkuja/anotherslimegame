@@ -8,9 +8,6 @@ public class DynamicJoystickCameraController : MonoBehaviour {
     public PlayerIndex playerIndex;
     GamePadState state;
     GamePadState prevState;
-    Vector3 startLowOffset;
-    Vector3 startMidOffset;
-    Vector3 startHighOffset;
 
     public bool TurnCameraWithLThumb = true;
 
@@ -38,10 +35,6 @@ public class DynamicJoystickCameraController : MonoBehaviour {
     bool forceMiddleRig = false;
     float defaultMinDistanceFromTarget = 0.6f;
     float extremeMinDistanceFromTarget = 5.0f;
-    [SerializeField]
-    float smallAreaHeight = 15.0f;
-    [SerializeField]
-    float verySmallAreaHeight = 7.0f;
 
     public enum CameraState { Default, SmallArea, VerySmallArea }
 
@@ -65,19 +58,13 @@ public class DynamicJoystickCameraController : MonoBehaviour {
 
     void Start () {
         freelookCamera = GetComponent<Cinemachine.CinemachineFreeLook>();
-        startHighOffset = (freelookCamera.GetRig(0).GetCinemachineComponent<CinemachineComposer>()).m_TrackedObjectOffset;
-        startMidOffset = (freelookCamera.GetRig(1).GetCinemachineComponent<CinemachineComposer>()).m_TrackedObjectOffset;
-        startLowOffset = (freelookCamera.GetRig(2).GetCinemachineComponent<CinemachineComposer>()).m_TrackedObjectOffset;
 
         // Ugly shit due to camera prefab being shitty
-        //cameraXAdjuster = 0.3f;
-        //cameraYAdjuster = 0.05f;
         notGroundedAttenuationFactor = 0.33f;
         lerpTendToMiddleRigSpeed = 0.85f;
         defaultMinDistanceFromTarget = 0.6f;
         extremeMinDistanceFromTarget = 5.0f;
-        smallAreaHeight = 15.0f;
-        verySmallAreaHeight = 7.0f;
+
         CurrentState = CameraState.Default;
         ///////////////////////////////////////////////////
     }

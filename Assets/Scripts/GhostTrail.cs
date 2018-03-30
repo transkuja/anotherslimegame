@@ -13,7 +13,6 @@ public class GhostTrail : MonoBehaviour {
     float fadeTime = 0.5f;
     bool fadeIn = true;
     bool fadeOut = false;
-    bool firstEnable = true;
     float fadeInTimer = 0.0f;
     float fadeOutTimer = 0.0f;
     float lifeTimer = 0.0f;

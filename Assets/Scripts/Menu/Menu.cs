@@ -24,7 +24,6 @@ public class Menu : MonoBehaviour {
     public GameObject minigameScreenButtonPrefab;
 
     List<GameObject> playerCustomScreens = new List<GameObject>();
-    List<GameObject> minigameButtonsInstantiated = new List<GameObject>();
 
     private List<DatabaseClass.ColorData> unlockedCustomColors = new List<DatabaseClass.ColorData>();
     private List<DatabaseClass.FaceData> unlockedFesses = new List<DatabaseClass.FaceData>();

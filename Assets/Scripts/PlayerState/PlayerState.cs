@@ -12,11 +12,7 @@ public class PlayerState {
     protected ptrStateFct curFixedUpdateFct;
     public float maxCoolDown = 0;
 
-    float dragForce = 0.025f;
-    float dragForceDash = 0.01f; // Dash value
-
     float airControlFactor = 0.42f;
-    float timerApplyDrag = 0.02f;
 
     #region getterSetters
     public ptrStateFct CurActionFct
