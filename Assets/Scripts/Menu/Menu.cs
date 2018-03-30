@@ -8,7 +8,8 @@ public class Menu : MonoBehaviour {
     public enum MenuState { Common, TitleScreenModeSelection, NumberOfPlayers, CustomisationScreen, MinigameSelection }
     MenuState currentState = MenuState.TitleScreenModeSelection;
 
-    public enum CustomizableType { Color, Face, Ears, Mustache, Pants, Helmet, Hands, Tail, Size }
+    public enum CustomizableType { Color, Face, Ears, Mustache, Helmet, Hands, Tail, Size }
+              bool[] isNonable = { false, false, true, true, true, true, true };
 
     int currentCursor = 0;
     int minigameCurrentCursor = 0;
@@ -316,28 +317,13 @@ public class Menu : MonoBehaviour {
                 {
                     if (currentCursorsRow[i] == 0)
                     {
-
-                        // Change customizable type
-                        //selectedCustomizables
-                        // Update nom du customizable + valeur actuelle du joueur
                         currentlySelectedOption[i]++;
                         currentlySelectedOption[i] = currentlySelectedOption[i] % (int)CustomizableType.Size;
-                        // LEGACY
-                        //if (selectedFaces[i] != unlockedFesses.Count) // Lock color if rabbit is selected
-                        //{
 
-                        //    // LEGACY
-                        //    selectedColors[i]++;
-                        //    UpdatePlayerPreviewColor(i);
-                        //}
                     }
                     else
                     {
                         selectedCustomizables[currentlySelectedOption[i], i]++;
-
-                        // Update player visual + nouvelle valeur sur l'ui 1
-                        // LEGACY
-                        //UpdatePlayerPreviewFace(i);
                     }
                     UpdatePreview(i);
 
@@ -501,17 +487,21 @@ public class Menu : MonoBehaviour {
         else
         {
             if (selectedCustomizables[(int)currentCustomType, _playerIndex] < 0)
-                selectedCustomizables[(int)currentCustomType, _playerIndex] = unlockedList.Count - 1;
+                selectedCustomizables[(int)currentCustomType, _playerIndex] = (isNonable[(int)currentCustomType]) ? unlockedList.Count : unlockedList.Count - 1;
             else
-                selectedCustomizables[(int)currentCustomType, _playerIndex] = selectedCustomizables[(int)currentCustomType, _playerIndex] % (unlockedList.Count);
+                selectedCustomizables[(int)currentCustomType, _playerIndex] = selectedCustomizables[(int)currentCustomType, _playerIndex] % ((isNonable[(int)currentCustomType]) ? unlockedList.Count + 1: unlockedList.Count);
 
-            playerCustomScreens[_playerIndex].transform.GetChild(3).GetComponent<Text>().text = unlockedCustomizables[currentCustomType][selectedCustomizables[(int)currentCustomType, _playerIndex]].Id;
+            bool noneValue = selectedCustomizables[(int)currentCustomType, _playerIndex] == unlockedList.Count;
+            if (noneValue)
+                playerCustomScreens[_playerIndex].transform.GetChild(3).GetComponent<Text>().text = "None";
+            else
+                playerCustomScreens[_playerIndex].transform.GetChild(3).GetComponent<Text>().text = unlockedCustomizables[currentCustomType][selectedCustomizables[(int)currentCustomType, _playerIndex]].Id;
 
-            UpdatePlayerVisual(_playerIndex, currentCustomType, selectedCustomizables[(int)currentCustomType, _playerIndex]);
+            UpdatePlayerVisual(_playerIndex, currentCustomType, selectedCustomizables[(int)currentCustomType, _playerIndex], noneValue);
         }
     }
 
-    void UpdatePlayerVisual(int _playerIndex, CustomizableType _customizableType, int _unlockedIndex)
+    void UpdatePlayerVisual(int _playerIndex, CustomizableType _customizableType, int _unlockedIndex, bool _isNoneValue)
     {
         switch (_customizableType)
         {
@@ -525,7 +515,6 @@ public class Menu : MonoBehaviour {
             case CustomizableType.Hands:
             case CustomizableType.Helmet:
             case CustomizableType.Mustache:
-            case CustomizableType.Pants:
             case CustomizableType.Tail:
             default:
                 Debug.Log(_customizableType + " is not implemented yet.");
