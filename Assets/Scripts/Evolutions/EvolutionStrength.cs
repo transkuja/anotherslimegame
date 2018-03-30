@@ -12,7 +12,7 @@ public class EvolutionStrength : EvolutionComponent
     {
         base.Start();
         SetPower(Powers.Strength);
-        playerController.stats.AddBuff(groundSpeedBuff);
+        playerCharacter.stats.AddBuff(groundSpeedBuff);
         Player playerComponent = GetComponent<Player>();
         if (!playerComponent.evolutionTutoShown[(int)Powers.Strength] && !GameManager.Instance.CurrentGameMode.IsMiniGame())
         {
@@ -23,7 +23,7 @@ public class EvolutionStrength : EvolutionComponent
 
     protected override void OnDestroy()
     {
-        playerController.stats.RemoveBuff(groundSpeedBuff);
+        playerCharacter.stats.RemoveBuff(groundSpeedBuff);
         base.OnDestroy();
     }
 }

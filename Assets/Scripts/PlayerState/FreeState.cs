@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FreeState : PlayerState
 {
-    public FreeState(PlayerControllerHub _playerController) : base(_playerController)
+    public FreeState(PlayerCharacterHub _playerCharacterHub, PlayerControllerHub _playerControllerHub) : base(_playerCharacterHub, _playerControllerHub)
     {
     }
 
@@ -31,8 +31,8 @@ public class FreeState : PlayerState
     public override void OnUpdate()
     {
         base.OnUpdate();
-        Vector3 xzVelocity = new Vector3(playerController.Rb.velocity.x, 0, playerController.Player.Rb.velocity.z);
-        xzVelocity = Vector3.ClampMagnitude(xzVelocity, playerController.stats.Get(Stats.StatType.GROUND_SPEED));
-        playerController.Rb.velocity = (playerController.Rb.velocity.y) * Vector3.up + xzVelocity;
+        Vector3 xzVelocity = new Vector3(playerCharacterHub.Rb.velocity.x, 0, playerCharacterHub.Rb.velocity.z);
+        xzVelocity = Vector3.ClampMagnitude(xzVelocity, playerCharacterHub.stats.Get(Stats.StatType.GROUND_SPEED));
+        playerCharacterHub.Rb.velocity = (playerCharacterHub.Rb.velocity.y) * Vector3.up + xzVelocity;
     }
 }

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GhostTrail : MonoBehaviour {
 
-    public PlayerControllerHub owner;
+    public PlayerCharacterHub owner;
     [Tooltip("Must correspond to the time set in the pool manager")]
     public float lifeTime;
     MeshRenderer mr;
@@ -71,32 +71,32 @@ public class GhostTrail : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        PlayerControllerHub player = other.GetComponent<PlayerControllerHub>();
-        if(player && player != owner)
+        PlayerCharacterHub playerCharacter = other.GetComponent<PlayerCharacterHub>();
+        if(playerCharacter && playerCharacter != owner)
         {
-            if(player.PlayerState == player.restrainedByGhostState)
+            if(playerCharacter.PlayerState == playerCharacter.restrainedByGhostState)
             {
-                ((RestrainedByGhostState)(player.PlayerState)).ResetTimer();
+                ((RestrainedByGhostState)(playerCharacter.PlayerState)).ResetTimer();
             }
             else
             {
-                player.PlayerState = player.restrainedByGhostState;
+                playerCharacter.PlayerState = playerCharacter.restrainedByGhostState;
             }
         } 
     }
 
     private void OnTriggerStay(Collider other)
     {
-        PlayerControllerHub player = other.GetComponent<PlayerControllerHub>();
-        if (player && player != owner)
+        PlayerCharacterHub playerCharacter = other.GetComponent<PlayerCharacterHub>();
+        if (playerCharacter && playerCharacter != owner)
         {
-            if (player.PlayerState == player.restrainedByGhostState)
+            if (playerCharacter.PlayerState == playerCharacter.restrainedByGhostState)
             {
-                ((RestrainedByGhostState)(player.PlayerState)).ResetTimer();
+                ((RestrainedByGhostState)(playerCharacter.PlayerState)).ResetTimer();
             }
             else
             {
-                player.PlayerState = player.restrainedByGhostState;
+                playerCharacter.PlayerState = playerCharacter.restrainedByGhostState;
             }
         }
     }

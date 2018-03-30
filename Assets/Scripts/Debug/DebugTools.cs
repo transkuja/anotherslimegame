@@ -397,7 +397,7 @@ public class DebugTools : MonoBehaviour {
             if (DebugPlayerSelected.GetComponent<EvolutionAgile>()) Destroy(DebugPlayerSelected.GetComponent<EvolutionAgile>());
             if (DebugPlayerSelected.GetComponent<EvolutionPlatformist>()) Destroy(DebugPlayerSelected.GetComponent<EvolutionPlatformist>());
             if (DebugPlayerSelected.GetComponent<EvolutionGhost>()) Destroy(DebugPlayerSelected.GetComponent<EvolutionGhost>());
-            DebugPlayerSelected.Rb.velocity = Vector3.zero;
+            DebugPlayerSelected.PlayerCharacter.Rb.velocity = Vector3.zero;
             Debug.Log("Reset current player! " + DebugPlayerSelected.GetComponent<PlayerControllerHub>().PlayerIndex);
         }
 
@@ -405,7 +405,7 @@ public class DebugTools : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Alpha9))
         {
             Respawner.RespawnProcess(DebugPlayerSelected);
-            DebugPlayerSelected.Rb.velocity = Vector3.zero;
+            DebugPlayerSelected.PlayerCharacter.Rb.velocity = Vector3.zero;
             Debug.Log("Reset current player to last respawn point! " + DebugPlayerSelected.GetComponent<PlayerControllerHub>().PlayerIndex);
         }
 
@@ -713,14 +713,14 @@ public class DebugTools : MonoBehaviour {
         debugPlayerSelected = playersReference[(currentIndex + 1) % playersReference.Count].GetComponent<Player>();
 
         debugPlayerInfos[(int)DebugPlayerInfos.Index] = ((int)debugPlayerSelected.PlayerController.playerIndex).ToString();
-        debugPlayerInfos[(int)DebugPlayerInfos.IsGrounded] = (debugPlayerSelected.PlayerController is PlayerControllerHub) ? ((PlayerControllerHub)debugPlayerSelected.PlayerController).IsGrounded.ToString() : "--";
-        debugPlayerInfos[(int)DebugPlayerInfos.GravityEnabled] = (debugPlayerSelected.PlayerController is PlayerControllerHub) ? ((PlayerControllerHub)debugPlayerSelected.PlayerController).IsGravityEnabled.ToString() : "--";
+        debugPlayerInfos[(int)DebugPlayerInfos.IsGrounded] = (debugPlayerSelected.PlayerCharacter is PlayerCharacterHub) ? ((PlayerCharacterHub)debugPlayerSelected.PlayerCharacter).IsGrounded.ToString() : "--";
+        debugPlayerInfos[(int)DebugPlayerInfos.GravityEnabled] = (debugPlayerSelected.PlayerCharacter is PlayerCharacterHub) ? ((PlayerCharacterHub)debugPlayerSelected.PlayerCharacter).IsGravityEnabled.ToString() : "--";
 
-        debugPlayerInfos[(int)DebugPlayerInfos.CurrentState] = (debugPlayerSelected.PlayerController is PlayerControllerHub) ? ((PlayerControllerHub)debugPlayerSelected.PlayerController).PlayerState.ToString() : "--";
+        debugPlayerInfos[(int)DebugPlayerInfos.CurrentState] = (debugPlayerSelected.PlayerCharacter is PlayerCharacterHub) ? ((PlayerCharacterHub)debugPlayerSelected.PlayerCharacter).PlayerState.ToString() : "--";
         debugPlayerInfos[(int)DebugPlayerInfos.HasBeenTp] = debugPlayerSelected.HasBeenTeleported.ToString();
-        debugPlayerInfos[(int)DebugPlayerInfos.NbJumpMade] = (debugPlayerSelected.PlayerController is PlayerControllerHub) ? ((PlayerControllerHub)debugPlayerSelected.PlayerController).jumpState.NbJumpMade.ToString() : "--"; ;
+        debugPlayerInfos[(int)DebugPlayerInfos.NbJumpMade] = (debugPlayerSelected.PlayerCharacter is PlayerCharacterHub) ? ((PlayerCharacterHub)debugPlayerSelected.PlayerCharacter).jumpState.NbJumpMade.ToString() : "--"; ;
 
-        debugPlayerInfos[(int)DebugPlayerInfos.CameraState] = debugPlayerSelected.cameraReference.GetComponentInChildren<DynamicJoystickCameraController>().CurrentState.ToString();
+        debugPlayerInfos[(int)DebugPlayerInfos.CameraState] = (debugPlayerSelected.PlayerCharacter is PlayerCharacterHub) ? debugPlayerSelected.cameraReference.GetComponentInChildren<DynamicJoystickCameraController>().CurrentState.ToString() : "--" ;
 
         DebugPanel debugPanelRef = FindObjectOfType<DebugPanel>();
         if (debugPanelRef != null)

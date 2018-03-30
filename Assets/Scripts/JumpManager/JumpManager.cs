@@ -14,9 +14,9 @@ public class JumpManager : MonoBehaviour
         Small,Basic, Double
     }
 
-
     private Rigidbody rb;
-    private PlayerControllerHub pc;
+    private PlayerControllerHub playerController;
+    private PlayerCharacterHub playerCharacter;
 
     private Jump curJump;
     public Jump[] jumpTab;
@@ -27,27 +27,28 @@ public class JumpManager : MonoBehaviour
     public void Awake()
     {
         rb = GetComponent<Rigidbody>();
-        pc = GetComponent<PlayerControllerHub>();
+        playerController = GetComponent<PlayerControllerHub>();
+        playerCharacter = GetComponent<PlayerCharacterHub>();
     }
     public void Start()
     {
         for (int i = 0; i < jumpTab.Length; i++)
         {
-            jumpTab[i].InitValues(pc.stats.Get(Stats.StatType.GROUND_SPEED));
+            jumpTab[i].InitValues(playerCharacter.stats.Get(Stats.StatType.GROUND_SPEED));
         }
     }
     void SetGravity()
     {
-        pc.IsGravityEnabled = false;
+        playerCharacter.IsGravityEnabled = false;
         forceStopCoroutine = StartCoroutine("ForceStop");
     }
 
     IEnumerator ForceStop()
     {
         yield return new WaitForSeconds(timerForForcedStop);
-        if (GetComponent<PlayerControllerHub>().jumpState.NbJumpMade > 1)
+        if (playerCharacter.jumpState.NbJumpMade > 1)
             yield return new WaitForSeconds(timerForForcedStop);
-        if (GetComponent<PlayerControllerHub>().PlayerState == GetComponent<PlayerControllerHub>().jumpState)
+        if (playerCharacter.PlayerState == playerCharacter.jumpState)
             Stop();
     }
 
@@ -78,10 +79,10 @@ public class JumpManager : MonoBehaviour
         if (curJump != null)
         {
             curJump = null;
-            pc.IsGravityEnabled = true;
+            playerCharacter.IsGravityEnabled = true;
         }
 
-        GetComponent<PlayerControllerHub>().pendingStepSound = true;
+        playerCharacter.pendingStepSound = true;
 
     }
 

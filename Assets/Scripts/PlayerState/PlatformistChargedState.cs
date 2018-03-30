@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class PlatformistChargedState : PlayerState
 {
-    public PlatformistChargedState(PlayerControllerHub _playerController) : base(_playerController)
+    public PlatformistChargedState(PlayerCharacterHub _playerCharacterHub, PlayerControllerHub _playerControllerHub) : base(_playerCharacterHub, _playerControllerHub)
     {
     }
 
     public override void Move(Vector3 initialVelocity)
     {
         base.Move(initialVelocity);
-        playerController.Player.Rb.velocity = Vector3.zero;
+        playerCharacterHub.Rb.velocity = Vector3.zero;
     }
 
     public override void OnJumpPressed()

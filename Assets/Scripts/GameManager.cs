@@ -249,13 +249,13 @@ public class GameManager : MonoBehaviour {
                 UiReference.TooglePersistenceUI(true);
                 for (int i = 0; i < instance.playerStart.ActivePlayersAtStart; i++)
                 {
-                    PlayerControllerHub curPlayerController = instance.playerStart.PlayersReference[i].GetComponent<PlayerControllerHub>();
-                    if (curPlayerController)
+                    PlayerCharacterHub curPlayerCharacter = instance.playerStart.PlayersReference[i].GetComponent<PlayerCharacterHub>();
+                    if (curPlayerCharacter)
                     {
-                        if (curPlayerController.PlayerState == curPlayerController.underwaterState)
-                            Utils.CopyUnderwaterStateDataToPausedState(curPlayerController.underwaterState, curPlayerController.pausedState);
-                        curPlayerController.PreviousPlayerState = curPlayerController.PlayerState;
-                        curPlayerController.PlayerState = curPlayerController.pausedState;
+                        if (curPlayerCharacter.PlayerState == curPlayerCharacter.underwaterState)
+                            Utils.CopyUnderwaterStateDataToPausedState(curPlayerCharacter.underwaterState, curPlayerCharacter.pausedState);
+                        curPlayerCharacter.PreviousPlayerState = curPlayerCharacter.PlayerState;
+                        curPlayerCharacter.PlayerState = curPlayerCharacter.pausedState;
                     }
                 }
                 
@@ -274,18 +274,18 @@ public class GameManager : MonoBehaviour {
                 UiReference.TooglePersistenceUI(false);
                 for (int i = 0; i < instance.playerStart.ActivePlayersAtStart; i++)
                 {
-                    PlayerControllerHub curPlayerController = instance.playerStart.PlayersReference[i].GetComponent<PlayerControllerHub>();
+                    PlayerCharacterHub curPlayerCharacter = instance.playerStart.PlayersReference[i].GetComponent<PlayerCharacterHub>();
 
                     // TODO: dash missing but we'll see after refacto
-                    if (curPlayerController != null)
+                    if (curPlayerCharacter != null)
                     {
-                        if (curPlayerController.PreviousPlayerState == curPlayerController.underwaterState)
+                        if (curPlayerCharacter.PreviousPlayerState == curPlayerCharacter.underwaterState)
                         {
-                            Utils.GetUnderwaterStateDataFromPausedState(curPlayerController.underwaterState, curPlayerController.pausedState);
-                            curPlayerController.PlayerState = curPlayerController.underwaterState;
+                            Utils.GetUnderwaterStateDataFromPausedState(curPlayerCharacter.underwaterState, curPlayerCharacter.pausedState);
+                            curPlayerCharacter.PlayerState = curPlayerCharacter.underwaterState;
                         }
                         else
-                            curPlayerController.PlayerState = curPlayerController.freeState;
+                            curPlayerCharacter.PlayerState = curPlayerCharacter.freeState;
                     }
 
                 }

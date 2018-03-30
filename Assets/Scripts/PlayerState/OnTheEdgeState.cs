@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class OnTheEdgeState : PlayerState
 {
-    public OnTheEdgeState(PlayerControllerHub _playerController) : base(_playerController)
+    public OnTheEdgeState(PlayerCharacterHub _playerCharacterHub, PlayerControllerHub _playerControllerHub) : base(_playerCharacterHub, _playerControllerHub)
     {
     }
 
@@ -32,7 +32,7 @@ public class OnTheEdgeState : PlayerState
 
     public override Vector3 HandleSpeedWithController()
     {
-        if (playerController.State.ThumbSticks.Left.Y > 0.0f)
+        if (playerControllerHub.State.ThumbSticks.Left.Y > 0.0f)
             return Vector3.zero;
         return Vector3.zero;
     }

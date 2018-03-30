@@ -5,7 +5,8 @@ using UnityEngine;
 public delegate void ptrStateFct();
 public class PlayerState {
 
-    protected PlayerControllerHub playerController;
+    protected PlayerCharacterHub playerCharacterHub;
+    protected PlayerControllerHub playerControllerHub;
     public bool stateAvailable = true;
 
     protected ptrStateFct curUpdateFct;
@@ -28,9 +29,10 @@ public class PlayerState {
     #endregion
 
 
-    public PlayerState(PlayerControllerHub _playerController)
+    public PlayerState(PlayerCharacterHub _playerCharacterHub, PlayerControllerHub _playerControllerHub )
     {
-        playerController = _playerController;
+        playerCharacterHub = _playerCharacterHub;
+        playerControllerHub = _playerControllerHub;
     }
     public virtual void OnBegin()
     {
@@ -38,7 +40,7 @@ public class PlayerState {
     public virtual void OnEnd()
     {
         stateAvailable = false;
-        playerController.StartCoroutine(StateCooldown(maxCoolDown));
+        playerCharacterHub.StartCoroutine(StateCooldown(maxCoolDown));
     }
     public IEnumerator StateCooldown(float maxCoolDown)
     {
@@ -62,24 +64,11 @@ public class PlayerState {
 
     public virtual Vector3 HandleSpeedWithController()
     {
-        Vector3 initialVelocity = new Vector3(playerController.State.ThumbSticks.Left.X, 0.0f, playerController.State.ThumbSticks.Left.Y);
-
-        // Keyboard input
-        if (initialVelocity.magnitude < 0.1f)
-        {
-            if (playerController.playerIndex == (UWPAndXInput.PlayerIndex.One))
-            {
-                initialVelocity = new Vector3(Input.GetAxisRaw("HorizontalMoveP1"), 0.0f, Input.GetAxisRaw("VerticalMoveP1"));
-            }
-            else
-            {
-                initialVelocity = new Vector3(Input.GetAxisRaw("HorizontalMoveP2"), 0.0f, Input.GetAxisRaw("VerticalMoveP2"));
-            }
-        }
+        Vector3 initialVelocity = new Vector3(playerControllerHub.State.ThumbSticks.Left.X, 0.0f, playerControllerHub.State.ThumbSticks.Left.Y);
         initialVelocity.Normalize();
 
-        initialVelocity *= playerController.stats.Get(Stats.StatType.GROUND_SPEED);
-        if (Utils.Abs(playerController.State.ThumbSticks.Left.X) + Utils.Abs(playerController.State.ThumbSticks.Left.Y) < 0.95f)
+        initialVelocity *= playerCharacterHub.stats.Get(Stats.StatType.GROUND_SPEED);
+        if (Utils.Abs(playerControllerHub.State.ThumbSticks.Left.X) + Utils.Abs(playerControllerHub.State.ThumbSticks.Left.Y) < 0.95f)
         {
             initialVelocity /= 2;
         }
@@ -89,14 +78,14 @@ public class PlayerState {
 
     public Vector3 GetVelocity3DThirdPerson(Vector3 initialVelocity)
     {
-        Vector3 camVectorForward = new Vector3(playerController.Player.cameraReference.transform.GetChild(0).forward.x, 0.0f, playerController.Player.cameraReference.transform.GetChild(0).forward.z);
+        Vector3 camVectorForward = new Vector3(playerControllerHub.Player.cameraReference.transform.GetChild(0).forward.x, 0.0f, playerControllerHub.Player.cameraReference.transform.GetChild(0).forward.z);
         camVectorForward.Normalize();
 
         Vector3 velocityVec = initialVelocity.z * camVectorForward;
-        if (!playerController.IsGrounded)
-            velocityVec += initialVelocity.x * playerController.Player.cameraReference.transform.GetChild(0).right * airControlFactor;
+        if (!playerCharacterHub.IsGrounded)
+            velocityVec += initialVelocity.x * playerControllerHub.Player.cameraReference.transform.GetChild(0).right * airControlFactor;
         else
-            velocityVec += initialVelocity.x * playerController.Player.cameraReference.transform.GetChild(0).right;
+            velocityVec += initialVelocity.x * playerControllerHub.Player.cameraReference.transform.GetChild(0).right;
 
         return velocityVec;
     }
@@ -112,9 +101,9 @@ public class PlayerState {
     /// <returns></returns>
     public Vector3 GetVelocity2DSideView(Vector3 initialVelocity)
     {
-        Vector3 velocityVec =  Vector3.up * playerController.Player.Rb.velocity.y;
+        Vector3 velocityVec =  Vector3.up * playerCharacterHub.Rb.velocity.y;
         // MENU peter a cause de cette condition tu sais pourquoi c'est la antho ? sinon je peux faire une exception pour le menu
-        if (!playerController.IsGrounded && playerController.jumpState.NbJumpMade == 2)
+        if (!playerCharacterHub.IsGrounded && playerCharacterHub.jumpState.NbJumpMade == 2)
             velocityVec += initialVelocity.x * Vector3.right * airControlFactor;
         else
             velocityVec += initialVelocity.x * Vector3.right;
@@ -144,85 +133,83 @@ public class PlayerState {
         //velocityVec.Normalize();
         if (initialVelocity.magnitude > 1f)
         {
-            playerController.Rb.drag = 0.0f;
-            if (!playerController.forceCameraRecenter)
+            playerCharacterHub.Rb.drag = 0.0f;
+            if (!playerControllerHub.forceCameraRecenter)
             {
-                float maxForceMagnitude = playerController.stats.Get(Stats.StatType.GROUND_SPEED);
+                float maxForceMagnitude = playerCharacterHub.stats.Get(Stats.StatType.GROUND_SPEED);
                 float maxSpeed = maxForceMagnitude;
-                if (!playerController.IsGrounded/* && playerController.jumpState.nbJumpMade == 2*/)
+                if (!playerCharacterHub.IsGrounded/* && playerController.jumpState.nbJumpMade == 2*/)
                 {
                     maxForceMagnitude *= airControlFactor;
                 }
 
-                if (Utils.Abs(playerController.State.ThumbSticks.Left.X) + Utils.Abs(playerController.State.ThumbSticks.Left.Y) < 0.95f)
+                if (Utils.Abs(playerControllerHub.State.ThumbSticks.Left.X) + Utils.Abs(playerControllerHub.State.ThumbSticks.Left.Y) < 0.95f)
                 {
                     maxForceMagnitude /= 2;
                     maxSpeed /= 2;
                 }
 
-                playerController.Rb.AddForce(velocityVec * maxForceMagnitude*Time.deltaTime*50);
-                Vector3 xzVelocity = new Vector3(playerController.Rb.velocity.x, 0, playerController.Player.Rb.velocity.z);
+                playerCharacterHub.Rb.AddForce(velocityVec * maxForceMagnitude*Time.deltaTime*50);
+                Vector3 xzVelocity = new Vector3(playerCharacterHub.Rb.velocity.x, 0, playerCharacterHub.Rb.velocity.z);
                 xzVelocity = Vector3.ClampMagnitude(xzVelocity, maxSpeed);
-                playerController.Rb.velocity = (/*(playerController.IsGrounded) ? 0 : */playerController.Rb.velocity.y) * Vector3.up + xzVelocity;
+                playerCharacterHub.Rb.velocity = (/*(playerController.IsGrounded) ? 0 : */playerCharacterHub.Rb.velocity.y) * Vector3.up + xzVelocity;
                 //playerController.transform.LookAt(playerController.transform.position + new Vector3(velocityVec.x, 0.0f, velocityVec.z) + initialVelocity.x * playerController.Player.cameraReference.transform.GetChild(0).right);
-                playerController.transform.LookAt(playerController.transform.position + xzVelocity);
+                playerCharacterHub.transform.LookAt(playerCharacterHub.transform.position + xzVelocity);
             }
         }
         else
         {
-            if (playerController.IsGrounded)
-                playerController.Rb.drag = 15.0f;
+            if (playerCharacterHub.IsGrounded)
+                playerCharacterHub.Rb.drag = 15.0f;
             else
-                playerController.Rb.drag = 0.0f;
+                playerCharacterHub.Rb.drag = 0.0f;
         }
     }
     public virtual void HandleGravity()
     {
-        if (playerController.IsGravityEnabled)
+        if (playerCharacterHub.IsGravityEnabled)
         {
-            playerController.Player.Rb.AddForce(Gravity.defaultGravity * Vector3.down);
+            playerCharacterHub.Rb.AddForce(Gravity.defaultGravity * Vector3.down);
         }
-
-       
     }
     public virtual void OnJumpPressed()
     {
-        playerController.Rb.constraints = RigidbodyConstraints.FreezeRotation;
-        if (playerController.jumpState.NbJumpMade < playerController.stats.Get(Stats.StatType.JUMP_NB))
+        playerCharacterHub.Rb.constraints = RigidbodyConstraints.FreezeRotation;
+        if (playerCharacterHub.jumpState.NbJumpMade < playerCharacterHub.stats.Get(Stats.StatType.JUMP_NB))
         {
-            playerController.PlayerState = playerController.jumpState;
+            playerCharacterHub.PlayerState = playerCharacterHub.jumpState;
         }
     }
     public virtual void OnDashPressed()
     {
-        if (playerController.dashState.nbDashMade < 1)
+        if (playerCharacterHub.dashState.nbDashMade < 1)
         {
-            playerController.PlayerState = playerController.dashState;
-            if (playerController.jumpState.NbJumpMade > 0)
-                playerController.dashState.nbDashMade++;
+            playerCharacterHub.PlayerState = playerCharacterHub.dashState;
+            if (playerCharacterHub.jumpState.NbJumpMade > 0)
+                playerCharacterHub.dashState.nbDashMade++;
         }
     }
     public virtual void OnDownDashPressed()
     {
-        if (playerController.downDashState.nbDashDownMade < 1 && !playerController.IsGrounded)
+        if (playerCharacterHub.downDashState.nbDashDownMade < 1 && !playerCharacterHub.IsGrounded)
         {
-            playerController.PlayerState = playerController.downDashState;
-            if (playerController.jumpState.NbJumpMade > 0)
-                playerController.downDashState.nbDashDownMade++;
+            playerCharacterHub.PlayerState = playerCharacterHub.downDashState;
+            if (playerCharacterHub.jumpState.NbJumpMade > 0)
+                playerCharacterHub.downDashState.nbDashDownMade++;
         }
     }
     public virtual void PushPlayer(Vector3 force)
     {
-        playerController.PlayerState = playerController.expulsedState;
-        playerController.Rb.velocity = new Vector3(force.x, playerController.Rb.velocity.y, force.z);
+        playerCharacterHub.PlayerState = playerCharacterHub.expulsedState;
+        playerCharacterHub.Rb.velocity = new Vector3(force.x, playerCharacterHub.Rb.velocity.y, force.z);
     }
     public virtual void HandleControllerAnim()
     {
-        playerController.Player.Anim.SetFloat("MouvementSpeed", Utils.Abs(playerController.State.ThumbSticks.Left.X) > Utils.Abs(playerController.State.ThumbSticks.Left.Y) ? Utils.Abs(playerController.State.ThumbSticks.Left.X) + 0.2f : Utils.Abs(playerController.State.ThumbSticks.Left.Y) + 0.2f);
-        playerController.Player.Anim.SetBool("isWalking", ((Utils.Abs(playerController.State.ThumbSticks.Left.X) > 0.02f) || Utils.Abs(playerController.State.ThumbSticks.Left.Y) > 0.02f) && playerController.IsGrounded);
-        float lastValue = playerController.Player.Anim.GetFloat("YVelocity");
-        float newValue = Mathf.Lerp(lastValue, (Mathf.Clamp(playerController.Rb.velocity.y / 30.0f, -1.0f, 1.0f) + 1) / 2.0f, 0.25f);
-        playerController.Player.Anim.SetFloat("YVelocity", newValue);
+        playerCharacterHub.Anim.SetFloat("MouvementSpeed", Utils.Abs(playerControllerHub.State.ThumbSticks.Left.X) > Utils.Abs(playerControllerHub.State.ThumbSticks.Left.Y) ? Utils.Abs(playerControllerHub.State.ThumbSticks.Left.X) + 0.2f : Utils.Abs(playerControllerHub.State.ThumbSticks.Left.Y) + 0.2f);
+        playerCharacterHub.Anim.SetBool("isWalking", ((Utils.Abs(playerControllerHub.State.ThumbSticks.Left.X) > 0.02f) || Utils.Abs(playerControllerHub.State.ThumbSticks.Left.Y) > 0.02f) && playerCharacterHub.IsGrounded);
+        float lastValue = playerCharacterHub.Anim.GetFloat("YVelocity");
+        float newValue = Mathf.Lerp(lastValue, (Mathf.Clamp(playerCharacterHub.Rb.velocity.y / 30.0f, -1.0f, 1.0f) + 1) / 2.0f, 0.25f);
+        playerCharacterHub.Anim.SetFloat("YVelocity", newValue);
     }
 
 
@@ -235,4 +222,4 @@ public class PlayerState {
     public virtual void DrawGizmo()
     {}
 }
-
+

@@ -9,7 +9,7 @@ public class UnderwaterState : PlayerState
 
     public float waterLevel;
     float waterTolerance;
-    public UnderwaterState(PlayerControllerHub _playerController) : base(_playerController)
+    public UnderwaterState(PlayerCharacterHub _playerCharacterHub, PlayerControllerHub _playerControllerHub) : base(_playerCharacterHub, _playerControllerHub)
     {
     }
 
@@ -21,10 +21,10 @@ public class UnderwaterState : PlayerState
     public override void OnBegin()
     {
         base.OnBegin();
-        waterTolerance = playerController.GetComponent<SphereCollider>().radius;
+        waterTolerance = playerCharacterHub.GetComponent<SphereCollider>().radius;
         if (hasReachedTheSurface)
         {
-            playerController.Player.Anim.SetBool("isBoobbing", true);
+            playerCharacterHub.Anim.SetBool("isBoobbing", true);
         }
         else
         {
@@ -36,7 +36,7 @@ public class UnderwaterState : PlayerState
     public override void OnEnd()
     {
         base.OnEnd();
-        playerController.Player.Anim.SetBool("isBoobbing", false);
+        playerCharacterHub.Anim.SetBool("isBoobbing", false);
         if (AudioManager.Instance != null)
             AudioManager.Instance.ClearFX(AudioManager.Instance.swimmingFx);
 
@@ -58,15 +58,15 @@ public class UnderwaterState : PlayerState
     public override void OnUpdate()
     {
         base.OnUpdate();
-        if (!hasReachedTheSurface && hasStartedGoingUp && playerController.transform.position.y > waterLevel - waterTolerance)
+        if (!hasReachedTheSurface && hasStartedGoingUp && playerCharacterHub.transform.position.y > waterLevel - waterTolerance)
         {
             hasReachedTheSurface = true;
-            playerController.Player.Anim.SetBool("isBoobbing", true);
+            playerCharacterHub.Anim.SetBool("isBoobbing", true);
         }
 
         // Critical case
-        if (playerController.transform.position.y > waterLevel)
-            playerController.PlayerState = playerController.freeState;
+        if (playerCharacterHub.transform.position.y > waterLevel)
+            playerCharacterHub.PlayerState = playerCharacterHub.freeState;
     }
 
     public override void OnJumpPressed()
@@ -82,22 +82,22 @@ public class UnderwaterState : PlayerState
     // Disable gravity when underwater
     public override void HandleGravity()
     {
-        if (playerController.transform.position.y < waterLevel - waterTolerance - 1f)
+        if (playerCharacterHub.transform.position.y < waterLevel - waterTolerance - 1f)
         {
             hasStartedGoingUp = true;
         }
 
         if (!hasReachedTheSurface && hasStartedGoingUp)
         {
-            playerController.Player.Rb.AddForce(Gravity.underwaterGravity * Vector3.down);
+            playerCharacterHub.Rb.AddForce(Gravity.underwaterGravity * Vector3.down);
         }
 
-        if (!hasStartedGoingUp && playerController.transform.position.y < waterLevel - waterTolerance && playerController.transform.position.y > waterLevel - waterTolerance - 1f)
+        if (!hasStartedGoingUp && playerCharacterHub.transform.position.y < waterLevel - waterTolerance && playerCharacterHub.transform.position.y > waterLevel - waterTolerance - 1f)
         {
-            playerController.Player.Rb.AddForce(Gravity.defaultGravity * Vector3.down);
+            playerCharacterHub.Rb.AddForce(Gravity.defaultGravity * Vector3.down);
         }
 
         if (hasReachedTheSurface)
-            playerController.Player.Rb.velocity = new Vector3(playerController.Player.Rb.velocity.x, 0, playerController.Player.Rb.velocity.z);
+            playerCharacterHub.Rb.velocity = new Vector3(playerCharacterHub.Rb.velocity.x, 0, playerCharacterHub.Rb.velocity.z);
     }
 }

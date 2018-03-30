@@ -464,10 +464,10 @@ public class PlatformGameplay : MonoBehaviour {
             {
                 if (collision.gameObject.GetComponent<Rigidbody>() != null)
                   collision.gameObject.GetComponent<Rigidbody>().AddForce(Vector3.ClampMagnitude(Vector3.up * bounceStrength, maxbounceVelocity), ForceMode.Impulse);
-                if (collision.gameObject.GetComponent<PlayerControllerHub>() != null)
+                if (collision.gameObject.GetComponent<PlayerCharacterHub>() != null)
                 {
                     if(GetComponentInChildren<Animator>())GetComponentInChildren<Animator>().SetBool("animate", true);
-                    collision.gameObject.GetComponent<PlayerControllerHub>().jumpState.NbJumpMade = 1;
+                    collision.gameObject.GetComponent<PlayerCharacterHub>().jumpState.NbJumpMade = 1;
                 }
                   
             }

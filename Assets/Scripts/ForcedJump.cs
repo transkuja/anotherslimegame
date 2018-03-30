@@ -33,11 +33,11 @@ public class ForcedJump {
         repulseForce = Vector3.zero;
     }
 
-    public void AddForcedJumpForce(Rigidbody _rb)
+    public void AddForcedJumpForce(PlayerCharacterHub _playerCharacterHub)
     {
-        _rb.velocity += repulseForce;
-        _rb.GetComponent<Player>().Anim.SetFloat("MouvementSpeed", 3);
-        _rb.GetComponent<Player>().Anim.SetBool("isExpulsed", _rb.GetComponent<PlayerControllerHub>().IsGrounded);
+        _playerCharacterHub.Rb.velocity += repulseForce;
+        _playerCharacterHub.Anim.SetFloat("MouvementSpeed", 3);
+        _playerCharacterHub.Anim.SetBool("isExpulsed", _playerCharacterHub.IsGrounded);
     }
 
 }

@@ -19,12 +19,12 @@ public class JumpState : PlayerState
         {
             nbJumpMade = value;
 #if UNITY_EDITOR
-            DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.NbJumpMade, value.ToString(), (int)playerController.playerIndex);
+            DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.NbJumpMade, value.ToString(), (int)playerControllerHub.playerIndex);
 #endif
         }
     }
 
-    public JumpState(PlayerControllerHub _playerController) : base(_playerController)
+    public JumpState(PlayerCharacterHub _playerCharacterHub, PlayerControllerHub _playerControllerHub) : base(_playerCharacterHub, _playerControllerHub)
     {
         curUpdateFct = OnJump;
     }
@@ -41,9 +41,9 @@ public class JumpState : PlayerState
     }
     public void OnJump()
     {
-        if (playerController.IsGrounded)
+        if (playerCharacterHub.IsGrounded)
         {
-            playerController.PlayerState = playerController.freeState;
+            playerCharacterHub.PlayerState = playerCharacterHub.freeState;
         }
     }
 
@@ -55,9 +55,9 @@ public class JumpState : PlayerState
 
     public void LaunchJump()
     {
-        playerController.IsGrounded = false;
+        playerCharacterHub.IsGrounded = false;
         JumpManager jm;
-        if (jm = playerController.GetComponent<JumpManager>())
+        if (jm = playerCharacterHub.GetComponent<JumpManager>())
         {
             jm.Jump(JumpManager.JumpEnum.Basic);
             if (AudioManager.Instance != null && AudioManager.Instance.jumpFx != null)
@@ -72,7 +72,7 @@ public class JumpState : PlayerState
    
     public override void OnJumpPressed()
     {
-        if (NbJumpMade < playerController.stats.Get(Stats.StatType.JUMP_NB))
+        if (NbJumpMade < playerCharacterHub.stats.Get(Stats.StatType.JUMP_NB))
         {
             LaunchJump();
 

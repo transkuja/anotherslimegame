@@ -30,7 +30,7 @@ public class Stats  {
     private List<StatBuff> buffList;
     [SerializeField] private Stat[] stats = new Stat[(int)StatType.MAX_STATS]; // tableau contenant toutes les stats du joueur
 
-    PlayerControllerHub playerController;
+    PlayerCharacterHub playerCharacter;
 
     public Stats()
     {
@@ -41,7 +41,7 @@ public class Stats  {
         }
         buffList = new List<StatBuff>();
     }
-    public void Init(PlayerControllerHub _playerController)
+    public void Init(PlayerCharacterHub _playerCharacter)
     {
             // Si erreur dans les données du prefab, on recrée : 
         if (stats == null || stats.Length < (int)StatType.MAX_STATS)
@@ -51,7 +51,7 @@ public class Stats  {
             stats[(int)Stats.StatType.AIR_CONTROL].baseStat = 20;
         }
            // ON récupère la hauter du saut : 
-        JumpManager jp = _playerController.GetComponent<JumpManager>();
+        JumpManager jp = _playerCharacter.GetComponent<JumpManager>();
         if (jp != null) 
         {
             stats[(int)Stats.StatType.JUMP_HEIGHT].baseStat = jp.GetJumpHeight();
@@ -62,7 +62,7 @@ public class Stats  {
             stats[i].name = ((StatType)i).ToString();
             stats[i].currentStat = stats[i].baseStat;
         }
-        playerController = _playerController;
+        playerCharacter = _playerCharacter;
         buffList = new List<StatBuff>();
     }
 
@@ -129,7 +129,7 @@ public class Stats  {
         }
         stats[(int)stat].currentStat = newStatValue;
 
-        JumpManager jp = playerController.GetComponent<JumpManager>();
+        JumpManager jp = playerCharacter.GetComponent<JumpManager>();
         switch (stat)
         {
             case StatType.GROUND_SPEED:

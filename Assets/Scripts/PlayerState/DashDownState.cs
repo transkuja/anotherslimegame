@@ -11,15 +11,15 @@ public class DashDownState : PlayerState
 
     public int nbDashDownMade = 0;
         
-    public DashDownState(PlayerControllerHub _playerController) : base(_playerController)
+    public DashDownState(PlayerCharacterHub _playerCharacterHub, PlayerControllerHub _playerControllerHub) : base(_playerCharacterHub, _playerControllerHub)
     {
     }
     public override void OnBegin()
     {
         base.OnBegin();
-        playerController.Rb.velocity = Vector3.zero;
+        playerCharacterHub.Rb.velocity = Vector3.zero;
 
-        JumpManager jumpManager = playerController.GetComponent<JumpManager>();
+        JumpManager jumpManager = playerCharacterHub.GetComponent<JumpManager>();
         if (jumpManager != null)
             jumpManager.Stop();
         timer = 0;
@@ -29,19 +29,19 @@ public class DashDownState : PlayerState
     }
     public override void OnEnd()
     {
-        if (playerController.IsGrounded) nbDashDownMade = 0;
+        if (playerCharacterHub.IsGrounded) nbDashDownMade = 0;
         base.OnEnd();
 
     }
     public void Levitate()
     {
         timer += Time.deltaTime;
-        if (timer > maxDashChargeDelay || playerController.State.Buttons.Y == ButtonState.Released)
+        if (timer > maxDashChargeDelay || playerControllerHub.State.Buttons.Y == ButtonState.Released)
         {
             curUpdateFct = OnDash;
             timer = 0;
-            if (playerController.dashParticles && playerController.dashParticles.GetComponent<ParticleSystem>())
-                playerController.dashParticles.GetComponent<ParticleSystem>().Play();
+            if (playerCharacterHub.DashParticles && playerCharacterHub.DashParticles)
+                playerCharacterHub.DashParticles.Play();
         }
     }
     // TMP debug pour que ça marche , A refaire en moins lourd
@@ -50,15 +50,15 @@ public class DashDownState : PlayerState
     public void OnDash()
     {
         Vector3 downPush = Vector3.down * downDashPower;
-        playerController.Rb.velocity = downPush; // Override current velocity. 
+        playerCharacterHub.Rb.velocity = downPush; // Override current velocity. 
         timer += Time.deltaTime;
-        if (playerController.IsGrounded || timer > 2)
+        if (playerCharacterHub.IsGrounded || timer > 2)
         {
-            playerController.PlayerState = playerController.freeState;
+            playerCharacterHub.PlayerState = playerCharacterHub.freeState;
         }
 
         // TMP debug pour que ça marche , A refaire en moins lourd
-        Collider[] coll = Physics.OverlapSphere(playerController.transform.position - Vector3.up, 2f);
+        Collider[] coll = Physics.OverlapSphere(playerCharacterHub.transform.position - Vector3.up, 2f);
         if (coll!=null)
         for (int i = 0;i < coll.Length;i++)
         {
@@ -66,7 +66,7 @@ public class DashDownState : PlayerState
                 {
                     coll[i].gameObject.GetComponent<Rigidbody>().isKinematic = false;
                     coll[i].gameObject.transform.parent = null;
-                    coll[i].GetComponent<Rigidbody>().velocity = playerController.Rb.velocity*1.2f;
+                    coll[i].GetComponent<Rigidbody>().velocity = playerCharacterHub.Rb.velocity*1.2f;
                 }
         }
 

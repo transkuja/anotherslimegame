@@ -8,19 +8,17 @@ public delegate void UIfct(int _newValue);
 
 public class Player : MonoBehaviour {
 
-    Rigidbody rb;
-
     public uint activeEvolutions = 0;
 
     public Transform respawnPoint;
     public GameObject cameraReference;
 
-    Animator anim;
     private bool hasBeenTeleported = false;
 
     public bool isEdgeAssistActive = true;
-    [SerializeField]
-    PlayerController playerController;
+
+    private PlayerController playerController;
+    private PlayerCharacter playerCharacter;
 
     // UI [] typeCollectable
     public UIfct[] OnValuesChange;
@@ -44,9 +42,6 @@ public class Player : MonoBehaviour {
 
     public int rank = 0;
 
-    // Ugly
-    public bool isInMainTower = false;
-
     public Fruit associateFruit;
 
     public MinigamePickUp.Use currentStoredPickup;
@@ -58,36 +53,6 @@ public class Player : MonoBehaviour {
     public int ID
     {
         get { return (PlayerController != null) ? (int)PlayerController.PlayerIndex : 0; }
-    }
-
-    public Rigidbody Rb
-    {
-        get
-        {
-            if (rb == null)
-                rb = GetComponent<Rigidbody>();
-            return rb;
-        }
-
-        set
-        {
-            rb = value;
-        }
-    }
-
-    public Animator Anim
-    {
-        get
-        {
-            if (anim == null)
-                anim = GetComponentInChildren<Animator>();
-            return anim;
-        }
-
-        set
-        {
-            anim = value;
-        }
     }
 
     public PlayerController PlayerController
@@ -115,7 +80,7 @@ public class Player : MonoBehaviour {
                 PlayerController.enabled = false;
 
                 // Making the player to stop in the air 
-                Rb.Sleep(); // Quelque part là, il y a un sleep
+                PlayerCharacter.Rb.Sleep(); // Quelque part là, il y a un sleep
             }
 
             hasFinishedTheRun = value;
@@ -190,12 +155,22 @@ public class Player : MonoBehaviour {
         }
     }
 
-    #endregion
-
-    private void Awake()
+    public PlayerCharacter PlayerCharacter
     {
-        rb = GetComponent<Rigidbody>();
+        get
+        {
+            if (playerCharacter == null)
+                playerCharacter = GetComponent<PlayerCharacter>();
+            return playerCharacter;
+        }
+
+        set
+        {
+            playerCharacter = value;
+        }
     }
+
+    #endregion
 
     public void UpdateCollectableValue(CollectableType type, int pickedValue = 1)
     {
@@ -294,10 +269,10 @@ public class Player : MonoBehaviour {
         }
         if (PlayerController.GetType() == typeof(PlayerControllerHub))
         {
-            activateAerialDrag = (!((PlayerControllerHub)PlayerController).IsGrounded);
+            activateAerialDrag = (!((PlayerCharacterHub)PlayerCharacter).IsGrounded);
             if (activateAerialDrag)
             {
-                Vector3 tmp = new Vector3(Rb.velocity.x, 0.0f, Rb.velocity.z);
+                Vector3 tmp = new Vector3(PlayerCharacter.Rb.velocity.x, 0.0f, PlayerCharacter.Rb.velocity.z);
                 //Vector3 fwd = playerController.transform.forward;
 
                 float dragForceUsed = 45f * Time.deltaTime * 500f;//(playerController.PreviousPlayerState == playerController.dashState) ? dragForceDash : dragForce;
@@ -312,7 +287,7 @@ public class Player : MonoBehaviour {
                     //playerController.Player.Rb.velocity = playerController.Player.Rb.velocity.y * Vector3.up;
                     else
                     {
-                        Rb.AddForce(-tmp.normalized * dragForceUsed);
+                        PlayerCharacter.Rb.AddForce(-tmp.normalized * dragForceUsed);
                     }
                 }
                 else
@@ -323,22 +298,5 @@ public class Player : MonoBehaviour {
         }
         else
             activateAerialDrag = false;
-    }
-
-    private void FixedUpdate()
-    {
-
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == "TriggerMainTower")
-            isInMainTower = true;
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.tag == "TriggerMainTower")
-            isInMainTower = false;
     }
 }

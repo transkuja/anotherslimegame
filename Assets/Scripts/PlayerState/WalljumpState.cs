@@ -9,7 +9,7 @@ public class WalljumpState : PlayerState
     public Vector3 pushDirection;
     float timer;
 
-    public WalljumpState(PlayerControllerHub _playerController) : base(_playerController)
+    public WalljumpState(PlayerCharacterHub _playerCharacterHub, PlayerControllerHub _playerControllerHub) : base(_playerCharacterHub, _playerControllerHub)
     {
         maxCoolDown = 0.18f;
     }
@@ -21,16 +21,16 @@ public class WalljumpState : PlayerState
         pushForce = 880;
         timer = 0;
 
-        playerController.jumpState.NbJumpMade = 2;
+        playerCharacterHub.jumpState.NbJumpMade = 2;
 
         // Se tourner vers l'exterieur
-        playerController.transform.rotation =
+        playerCharacterHub.transform.rotation =
            Quaternion.LookRotation(pushDirection, Vector3.up);
         ;
 
         // Freeze la velocity en xz
-        playerController.Rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
-        playerController.Rb.drag = 14f;
+        playerCharacterHub.Rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
+        playerCharacterHub.Rb.drag = 14f;
     }
     public override void OnEnd()
     {
@@ -38,8 +38,8 @@ public class WalljumpState : PlayerState
         base.OnEnd();
 
 
-        playerController.Rb.constraints = RigidbodyConstraints.FreezeRotation;
-        playerController.Rb.drag = 0.0f;
+        playerCharacterHub.Rb.constraints = RigidbodyConstraints.FreezeRotation;
+        playerCharacterHub.Rb.drag = 0.0f;
 
     }
     public void PushedFromWall()
@@ -47,8 +47,8 @@ public class WalljumpState : PlayerState
         timer += Time.deltaTime;
         if (timer > pushTime)
         {
-            playerController.PlayerState = playerController.freeState;
-            playerController.Rb.AddForce(pushDirection.normalized * pushForce /10.0f);
+            playerCharacterHub.PlayerState = playerCharacterHub.freeState;
+            playerCharacterHub.Rb.AddForce(pushDirection.normalized * pushForce /10.0f);
         }
     }
 
@@ -63,18 +63,18 @@ public class WalljumpState : PlayerState
     }
     public override void OnJumpPressed()
     {
-        if(playerController.jumpState.NbJumpMade <= 2)
+        if(playerCharacterHub.jumpState.NbJumpMade <= 2)
         {
             JumpManager jm;
 
-            playerController.Rb.constraints = RigidbodyConstraints.FreezeRotation;
-            playerController.Rb.drag = 0.0f;
+            playerCharacterHub.Rb.constraints = RigidbodyConstraints.FreezeRotation;
+            playerCharacterHub.Rb.drag = 0.0f;
 
-            if (jm = playerController.GetComponent<JumpManager>())
+            if (jm = playerCharacterHub.GetComponent<JumpManager>())
                 jm.Jump(JumpManager.JumpEnum.Basic);
-            playerController.Rb.AddForce(pushDirection.normalized * pushForce);
+            playerCharacterHub.Rb.AddForce(pushDirection.normalized * pushForce);
 
-            playerController.jumpState.NbJumpMade = 20;
+            playerCharacterHub.jumpState.NbJumpMade = 20;
             timer = 0;
             PushedFromWall();
         }

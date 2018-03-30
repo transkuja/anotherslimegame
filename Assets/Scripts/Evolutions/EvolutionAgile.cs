@@ -12,9 +12,9 @@ public class EvolutionAgile : EvolutionComponent {
     {
         base.Start();
         SetPower(Powers.Agile);
-        playerController.stats.AddBuff(groundSpeedBuff);
-        playerController.stats.AddBuff(airControlBuff);
-        playerController.stats.AddBuff(jumpHeightBuff);
+        playerCharacter.stats.AddBuff(groundSpeedBuff);
+        playerCharacter.stats.AddBuff(airControlBuff);
+        playerCharacter.stats.AddBuff(jumpHeightBuff);
         Debug.Log("Start AgileEvolution");
 
         if (!GetComponent<Player>().evolutionTutoShown[(int)Powers.Agile])
@@ -26,9 +26,9 @@ public class EvolutionAgile : EvolutionComponent {
 
     protected override void OnDestroy()
     {
-        playerController.stats.RemoveBuff(groundSpeedBuff);
-        playerController.stats.RemoveBuff(airControlBuff);
-        playerController.stats.RemoveBuff(jumpHeightBuff);
+        playerCharacter.stats.RemoveBuff(groundSpeedBuff);
+        playerCharacter.stats.RemoveBuff(airControlBuff);
+        playerCharacter.stats.RemoveBuff(jumpHeightBuff);
         base.OnDestroy();
     }
 }

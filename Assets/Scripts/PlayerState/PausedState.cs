@@ -11,7 +11,7 @@ public class PausedState : PlayerState {
     public bool hasStartedGoingUp = false;
     public float waterLevel;
 
-    public PausedState(PlayerControllerHub _playerController) : base(_playerController)
+    public PausedState(PlayerCharacterHub _playerCharacterHub, PlayerControllerHub _playerControllerHub) : base(_playerCharacterHub, _playerControllerHub)
     {
     }
 
@@ -23,22 +23,22 @@ public class PausedState : PlayerState {
     public override void OnBegin()
     {
         base.OnBegin();
-        playerController.Player.cameraReference.transform.GetChild(0).GetComponent<Cinemachine.CinemachineBrain>().enabled = false;
-        beforePausingVelocity = playerController.Rb.velocity;
-        playerController.Rb.velocity = Vector3.zero;
-        oldDrag = playerController.Rb.drag;
-        playerController.Rb.drag = 0.0f;
-        playerController.Player.Anim.StartPlayback();
+        playerControllerHub.Player.cameraReference.transform.GetChild(0).GetComponent<Cinemachine.CinemachineBrain>().enabled = false;
+        beforePausingVelocity = playerCharacterHub.Rb.velocity;
+        playerCharacterHub.Rb.velocity = Vector3.zero;
+        oldDrag = playerCharacterHub.Rb.drag;
+        playerCharacterHub.Rb.drag = 0.0f;
+        playerCharacterHub.Anim.StartPlayback();
 
     }
 
     public override void OnEnd()
     {
         base.OnEnd();
-        playerController.Player.cameraReference.transform.GetChild(0).GetComponent<Cinemachine.CinemachineBrain>().enabled = true;
-        playerController.Player.Anim.StopPlayback();
-        playerController.Rb.velocity = beforePausingVelocity;
-        playerController.Rb.drag = oldDrag;
+        playerControllerHub.Player.cameraReference.transform.GetChild(0).GetComponent<Cinemachine.CinemachineBrain>().enabled = true;
+        playerCharacterHub.Anim.StopPlayback();
+        playerCharacterHub.Rb.velocity = beforePausingVelocity;
+        playerCharacterHub.Rb.drag = oldDrag;
     }
 
     public override void OnFixedUpdate()
@@ -52,7 +52,7 @@ public class PausedState : PlayerState {
 
     public override void HandleGravity()
     {
-        playerController.Rb.velocity = Vector3.zero;
+        playerCharacterHub.Rb.velocity = Vector3.zero;
     }
 
     public override void OnJumpPressed()

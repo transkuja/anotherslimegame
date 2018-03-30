@@ -25,6 +25,7 @@ public class DynamicJoystickCameraController : MonoBehaviour {
     [Range(0.1f, 2.0f)]
     public float lerpTendToMiddleRigSpeed = 0.85f;
     public PlayerControllerHub associatedPlayerController;
+    public PlayerCharacterHub associatedPlayerCharacter;
 
     [SerializeField]
     float notGroundedAttenuationFactor = 0.33f;
@@ -71,6 +72,8 @@ public class DynamicJoystickCameraController : MonoBehaviour {
 
     void Update () {
         if (associatedPlayerController == null)
+            return;
+        if (associatedPlayerCharacter == null)
             return;
 
         if (associatedPlayerController.IsUsingAController)
@@ -202,7 +205,7 @@ public class DynamicJoystickCameraController : MonoBehaviour {
     {
         if (((prevState.Buttons.RightStick == ButtonState.Released && state.Buttons.RightStick == ButtonState.Pressed)
                 || (prevState.Buttons.LeftShoulder == ButtonState.Released && state.Buttons.LeftShoulder == ButtonState.Pressed))
-                && associatedPlayerController.IsGrounded)
+                && associatedPlayerCharacter.IsGrounded)
         {
 
             timer = 0.0f;
@@ -257,7 +260,7 @@ public class DynamicJoystickCameraController : MonoBehaviour {
             updateValue = (freelookCamera.m_XAxis.m_InvertAxis) ? -1 : 1;     
             updateValue *= (_leftStickXInput * Mathf.Lerp(0.5f, 1.0f, Utils.Abs(_leftStickXInput)) / 2.0f) * cameraXAdjuster * 2.8f;
 
-            if (!associatedPlayerController.IsGrounded) updateValue *= notGroundedAttenuationFactor;
+            if (!associatedPlayerCharacter.IsGrounded) updateValue *= notGroundedAttenuationFactor;
         }
 
         return updateValue;
@@ -273,9 +276,7 @@ public class DynamicJoystickCameraController : MonoBehaviour {
                 // .. but not if there's a camera trigger saying so ...
                 && (associatedPlayerController.currentCameraTrigger == null || associatedPlayerController.currentCameraTrigger.behaviour != CameraBehaviour.ShowAbovePlatforms)
                 // ... if the player is not charging to spawn platforms ...
-                && associatedPlayerController.PlayerState != associatedPlayerController.platformistChargedState
-                // ... or if the player is in main tower (may be deprecated)
-                && !associatedPlayerController.Player.isInMainTower;
+                && associatedPlayerCharacter.PlayerState != associatedPlayerCharacter.platformistChargedState;
 
             // Reset lerp value only if lerp target changed (from middle rig to top)
             if (previouslyTendedToMiddleRig && _tendToTopRig)
@@ -290,7 +291,7 @@ public class DynamicJoystickCameraController : MonoBehaviour {
             }
 
             // Lerp camera only on ground
-            if (associatedPlayerController.IsGrounded)
+            if (associatedPlayerCharacter.IsGrounded)
             {
                 lerpValue += Time.deltaTime * lerpTendToMiddleRigSpeed;
                 float rigTarget = _tendToTopRig ? 1.0f : 0.5f;

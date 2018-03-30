@@ -12,7 +12,7 @@ public class RestrainedByGhostState : PlayerState
         timer = 0.0f;
     }
 
-    public RestrainedByGhostState(PlayerControllerHub _playerController) : base(_playerController)
+    public RestrainedByGhostState(PlayerCharacterHub _playerCharacterHub, PlayerControllerHub _playerControllerHub) : base(_playerCharacterHub, _playerControllerHub)
     {
     }
 
@@ -23,13 +23,13 @@ public class RestrainedByGhostState : PlayerState
         if(timer > maxDuration)
         {
             timer = 0.0f;
-            playerController.PlayerState = playerController.freeState;
+            playerCharacterHub.PlayerState = playerCharacterHub.freeState;
         }
     }
 
     public override void Move(Vector3 initialVelocity)
     {
-        playerController.Player.Rb.velocity = playerController.transform.forward * playerController.stats.Get(Stats.StatType.GROUND_SPEED) + Vector3.up * playerController.Player.Rb.velocity.y;
+        playerCharacterHub.Rb.velocity = playerCharacterHub.transform.forward * playerCharacterHub.stats.Get(Stats.StatType.GROUND_SPEED) + Vector3.up * playerCharacterHub.Rb.velocity.y;
     }
 
     public override void OnJumpPressed()

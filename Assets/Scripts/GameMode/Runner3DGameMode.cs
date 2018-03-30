@@ -30,9 +30,9 @@ public class Runner3DGameMode : GameMode {
         nbDeadPlayers = 0;
         for (int i = 0; i < playerReferences.Count; i++)
         {
-            PlayerControllerHub playerControllerHub = playerReferences[i].GetComponent<PlayerControllerHub>();
-            if (playerControllerHub != null)
-                playerControllerHub.OnDeathEvent += OnPlayerDeath;
+            PlayerCharacterHub playerCharacterHub = playerReferences[i].GetComponent<PlayerCharacterHub>();
+            if (playerCharacterHub != null)
+                playerCharacterHub.OnDeathEvent += OnPlayerDeath;
         }
         if (curNbPlayers == 1)
             mode = EMode.SoloInfinite;
@@ -57,6 +57,7 @@ public class Runner3DGameMode : GameMode {
             cameraReferences[i].transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().Follow = go.transform;
             cameraReferences[i].transform.GetChild(1).GetComponent<DynamicJoystickCameraController>().playerIndex = (PlayerIndex)i;
             cameraReferences[i].transform.GetChild(1).GetComponent<DynamicJoystickCameraController>().associatedPlayerController = go.GetComponent<PlayerControllerHub>();
+            cameraReferences[i].transform.GetChild(1).GetComponent<DynamicJoystickCameraController>().associatedPlayerCharacter = go.GetComponent<PlayerCharacterHub>();
 
             go.GetComponent<Player>().cameraReference = cameraReferences[i];
             cameraReferences[i].SetActive(true);

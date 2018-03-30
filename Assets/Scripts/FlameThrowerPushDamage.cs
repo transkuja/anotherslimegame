@@ -12,9 +12,10 @@ public class FlameThrowerPushDamage : MonoBehaviour {
     {
         PlayerCollisionCenter playerCollision = other.GetComponent<PlayerCollisionCenter>();
         PlayerControllerHub playerController = other.GetComponent<PlayerControllerHub>();
+        PlayerCharacterHub playerCharacter = other.GetComponent<PlayerCharacterHub>();
         if (playerCollision != null)
         {
-            if (playerCollision.GetComponent<EvolutionStrength>() != null && playerController.PlayerState == playerController.dashState)
+            if (playerCollision.GetComponent<EvolutionStrength>() != null && playerCharacter.PlayerState == playerCharacter.dashState)
             {
                 direction = (transform.position - other.ClosestPointOnBounds(transform.position)).normalized;
                 if (direction == Vector3.zero)

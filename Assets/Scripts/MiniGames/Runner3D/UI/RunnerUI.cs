@@ -17,7 +17,7 @@ public class RunnerUI : APlayerUI {
     {
         base.Init();
         foreach (GameObject p in GameManager.Instance.PlayerStart.PlayersReference)
-            p.GetComponent<PlayerControllerHub>().OnDeathEvent += OnPlayerDeath;
+            p.GetComponent<PlayerCharacterHub>().OnDeathEvent += OnPlayerDeath;
     }
 
     public void OnPlayerDeath(int playerId)

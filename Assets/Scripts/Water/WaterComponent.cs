@@ -8,8 +8,6 @@ public class WaterComponent : MonoBehaviour {
 
     public GameObject WaterToActivateAtRuntime;
 
-    public GameObject WaterParticleSystemToInstantiate;
-
     public void Start()
     {
         WaterToActivateAtRuntime.SetActive(true);
@@ -17,36 +15,37 @@ public class WaterComponent : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<Rigidbody>() != null && other.GetComponent<Player>())
+        if (other.GetComponent<Rigidbody>() && other.GetComponent<PlayerCharacterHub>())
         {
-            PlayerControllerHub playerController = other.GetComponent<PlayerControllerHub>();
+            PlayerCharacterHub playerCharacter = other.GetComponent<PlayerCharacterHub>();
 
-            if (other.transform.GetChild((int)PlayerChildren.BubbleParticles).GetComponent<ParticleSystem>() && other.transform.GetChild((int)PlayerChildren.SplashParticles).GetComponent<ParticleSystem>())
+            if (playerCharacter.BubbleParticles && playerCharacter.SplashParticles && playerCharacter.WaterTrailParticles && playerCharacter.DustTrailParticles)
             {
-                other.transform.GetChild((int)PlayerChildren.BubbleParticles).GetComponent<ParticleSystem>().Play();
-                other.transform.GetChild((int)PlayerChildren.SplashParticles).GetComponent<ParticleSystem>().Play();
-                other.transform.GetChild((int)PlayerChildren.WaterTrailParticles).GetComponent<ParticleSystem>().Play();
-                other.transform.GetChild((int)PlayerChildren.DustTrailParticles).GetComponent<ParticleSystem>().Stop();
+                playerCharacter.BubbleParticles.Play();
+                playerCharacter.SplashParticles.Play();
+                playerCharacter.WaterTrailParticles.Play();
+                playerCharacter.DustTrailParticles.Stop();
             }
 
-            if (playerController)
+            if (playerCharacter)
             {
-                playerController.underwaterState.waterLevel = transform.position.y;
-                playerController.PlayerState = playerController.underwaterState;
+                playerCharacter.underwaterState.waterLevel = transform.position.y;
+                playerCharacter.PlayerState = playerCharacter.underwaterState;
             }
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.GetComponent<Rigidbody>() != null && other.GetComponent<Player>())
+        if (other.GetComponent<Rigidbody>() && other.GetComponent<PlayerCharacterHub>())
         {
-            if (other.transform.GetChild((int)PlayerChildren.BubbleParticles).GetComponent<ParticleSystem>())
+            PlayerCharacterHub playerCharacter = other.GetComponent<PlayerCharacterHub>();
+            if (playerCharacter.BubbleParticles && playerCharacter.WaterTrailParticles && playerCharacter.DustTrailParticles)
             {
-                other.transform.GetChild((int)PlayerChildren.BubbleParticles).GetComponent<ParticleSystem>().Stop();
+                playerCharacter.BubbleParticles.Stop();
+                playerCharacter.WaterTrailParticles.Stop();
+                playerCharacter.DustTrailParticles.Play();
             }
-            other.transform.GetChild((int)PlayerChildren.WaterTrailParticles).GetComponent<ParticleSystem>().Stop();
-            other.transform.GetChild((int)PlayerChildren.DustTrailParticles).GetComponent<ParticleSystem>().Play();
         }
 
     }

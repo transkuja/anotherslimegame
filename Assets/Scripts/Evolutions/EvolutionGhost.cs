@@ -209,7 +209,7 @@ public class EvolutionGhost : EvolutionComponent
                         timeSinceLastTrailComponentSpawned = 0.0f;
                         if (hit.collider.GetComponent<PlatformGameplay>())
                             trailPane.transform.SetParent(hit.collider.transform);
-                        trailPane.GetComponent<GhostTrail>().owner = GetComponent<PlayerControllerHub>();
+                        trailPane.GetComponent<GhostTrail>().owner = GetComponent<PlayerCharacterHub>();
                         trailPane.transform.rotation = Quaternion.LookRotation(transform.forward, hit.normal);
                     }
                     

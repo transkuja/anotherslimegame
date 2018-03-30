@@ -19,7 +19,7 @@ public class DashState : PlayerState
 
     public int nbDashMade = 0;
 
-    public DashState(PlayerControllerHub _playerController) : base(_playerController)
+    public DashState(PlayerCharacterHub _playerCharacterHub, PlayerControllerHub _playerControllerHub) : base(_playerCharacterHub, _playerControllerHub)
     {
         maxCoolDown = 0.5f;
     }
@@ -29,14 +29,14 @@ public class DashState : PlayerState
         if (AudioManager.Instance != null && AudioManager.Instance.dashFx != null)
             AudioManager.Instance.PlayOneShot(AudioManager.Instance.dashFx, 4);
 
-        if (playerController.dashParticles && playerController.dashParticles.GetComponent<ParticleSystem>())
-            playerController.dashParticles.GetComponent<ParticleSystem>().Play();
-        playerController.GetComponent<JumpManager>().Stop();
-        dashingVelocity = playerController.stats.Get(Stats.StatType.DASH_FORCE);
+        if (playerCharacterHub.DashParticles && playerCharacterHub.DashParticles)
+            playerCharacterHub.DashParticles.Play();
+        playerCharacterHub.GetComponent<JumpManager>().Stop();
+        dashingVelocity = playerCharacterHub.stats.Get(Stats.StatType.DASH_FORCE);
         dashingMaxTimer = 0.15f;
         dashingTimer = dashingMaxTimer;
-        playerController.IsGravityEnabled = false;
-        playerController.Rb.drag = 15.0f;
+        playerCharacterHub.IsGravityEnabled = false;
+        playerCharacterHub.Rb.drag = 15.0f;
         CurFixedUpdateFct = OnDashState;
 
         //playerController.ChangeDampingValuesCameraFreeLook(0.9f);
@@ -44,18 +44,17 @@ public class DashState : PlayerState
 
     public override void OnEnd()
     {
-        playerController.IsGravityEnabled = true;
-        if (playerController.IsGrounded) nbDashMade = 0;
-        playerController.Rb.drag = 0.0f;
+        playerCharacterHub.IsGravityEnabled = true;
+        if (playerCharacterHub.IsGrounded) nbDashMade = 0;
+        playerCharacterHub.Rb.drag = 0.0f;
 
         //playerController.ChangeDampingValuesCameraFreeLook(0.0f);
         base.OnEnd();
     }
 
     public virtual void OnDashState()
-{
-        //playerController.Player.Rb.AddForce(playerController.transform.forward * dashingVelocity, ForceMode.VelocityChange);
-        playerController.Player.Rb.velocity = playerController.transform.forward * dashingVelocity;
+    {
+        playerCharacterHub.Rb.velocity = playerCharacterHub.transform.forward * dashingVelocity;
     }
 
     public override void OnUpdate()
@@ -65,7 +64,7 @@ public class DashState : PlayerState
         dashingTimer -= Time.deltaTime;
         if (dashingTimer <= 0.0f)
         {
-            playerController.PlayerState = playerController.freeState;
+            playerCharacterHub.PlayerState = playerCharacterHub.freeState;
 
         }
 
