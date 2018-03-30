@@ -169,7 +169,20 @@ public class Menu : MonoBehaviour {
         }
         // Default behaviour. Start on title screen.
         else
+        {
+            for (int i = 0; i < (int)CustomizableType.Size; i++)
+            {
+                if (isNonable[i])
+                {
+                    for (int j = 0; j < 4; j++)
+                    {
+                        selectedCustomizables[i, j] = unlockedCustomizables[(CustomizableType)i].Count;
+                    }
+                }
+            }
+            
             SetState(MenuState.TitleScreenModeSelection);
+        }
     }
 
     void Update()
