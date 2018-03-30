@@ -583,7 +583,6 @@ public class DebugTools : MonoBehaviour {
                 }
                 catch
                 {
-                    return;
                 }
                 finally
                 {
