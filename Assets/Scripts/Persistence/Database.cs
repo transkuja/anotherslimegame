@@ -44,6 +44,12 @@ namespace DatabaseClass
     }
 
     [System.Serializable]
+    public class MustacheData : Unlockable
+    {
+
+    }
+
+    [System.Serializable]
     public class Unlockable
     {
         //[HideInInspector]
@@ -80,6 +86,9 @@ namespace DatabaseClass
         [SerializeField]
         public List<RuneData> runes;
 
+        [SerializeField]
+        public List<MustacheData> mustaches;
+
         public int NbRunes
         {
             get
@@ -112,6 +121,11 @@ namespace DatabaseClass
                 if (runes.Find(a => a.Id == _id) != null)
                     runes.Find(a => a.Id == _id).isUnlocked = isUnlocked;
             }
+            else if (typeof(T) == typeof(MustacheData))
+            {
+                if (mustaches.Find(a => a.Id == _id) != null)
+                    mustaches.Find(a => a.Id == _id).isUnlocked = isUnlocked;
+            }
         }
 
         public bool IsUnlock<T>(string _id) where T : Unlockable
@@ -136,6 +150,11 @@ namespace DatabaseClass
                 if (runes.Find(a => a.Id == _id) != null)
                     return runes.Find(a => a.Id == _id).isUnlocked;
             }
+            else if (typeof(T) == typeof(MustacheData))
+            {
+                if (mustaches.Find(a => a.Id == _id) != null)
+                    return mustaches.Find(a => a.Id == _id).isUnlocked;
+            }
             return false;
         }
 
@@ -149,6 +168,8 @@ namespace DatabaseClass
                 a.isUnlocked = true;
             foreach (Unlockable a in runes)
                 a.isUnlocked = true;
+            foreach (Unlockable a in mustaches)
+                a.isUnlocked = true;
         }
 
         public void ResetAll() {
@@ -156,7 +177,7 @@ namespace DatabaseClass
             faces = new List<FaceData>();
             minigames = new List<MinigameData>();
             runes = new List<RuneData>();
-
+            mustaches = new List<MustacheData>();
             Money = 0;
 
             // Adding colors
@@ -196,6 +217,12 @@ namespace DatabaseClass
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
+
+            // Adding mustaches
+            int idMustache = 0;
+            string[] strMustache = { "Curved" };
+            mustaches.Add(new MustacheData { Id = strMustache[idMustache], isUnlocked = false });
+
         }
 
         public void AllCostToZero()
