@@ -266,7 +266,8 @@ public class Menu : MonoBehaviour {
                     continue;
 
                 // Press start when you're ready to go
-                if (prevControllerStates[i].Buttons.Start == ButtonState.Released && controllerStates[i].Buttons.Start == ButtonState.Pressed)
+                if (prevControllerStates[i].Buttons.Start == ButtonState.Released && controllerStates[i].Buttons.Start == ButtonState.Pressed
+                    || (prevControllerStates[i].Buttons.A == ButtonState.Released && controllerStates[i].Buttons.A == ButtonState.Pressed))
                 {
                     areReady[i] = true;
                     // Deactivate feedbacks
