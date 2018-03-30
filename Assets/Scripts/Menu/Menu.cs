@@ -3,13 +3,15 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using UWPAndXInput;
 using System.Collections.Generic;
+using System.Collections;
 using System;
+
+public enum CustomizableType { Color, Face, Ears, Mustache, Hat, Hands, Tail, Size }
 
 public class Menu : MonoBehaviour {
     public enum MenuState { Common, TitleScreenModeSelection, NumberOfPlayers, CustomisationScreen, MinigameSelection }
     MenuState currentState = MenuState.TitleScreenModeSelection;
 
-    public enum CustomizableType { Color, Face, Ears, Mustache, Hat, Hands, Tail, Size }
               bool[] isNonable = { false, false, true, true, true, true, true };
 
     int currentCursor = 0;
@@ -555,10 +557,32 @@ public class Menu : MonoBehaviour {
 
         Transform parent = playerCustomScreens[_playerIndex].transform.GetComponentInChildren<CustomizableSockets>().transform.GetChild((int)(CustomizableType.Mustache) - 2);
         if (parent.childCount > 0)
+        {
             Destroy(parent.GetChild(0).gameObject);
-        if (!_isNoneValue)
-            Instantiate(Resources.Load(((DatabaseClass.MustacheData)unlockedCustomizables[CustomizableType.Mustache][_selection]).model), parent);
+            if (_isNoneValue)
+                StartCoroutine(Sad(playerCustomScreens[_playerIndex].GetComponentInChildren<PlayerCosmetics>()));
+        }
 
+        if (!_isNoneValue)
+        {
+            StartCoroutine(Happy(playerCustomScreens[_playerIndex].GetComponentInChildren<PlayerCosmetics>()));
+            Instantiate(Resources.Load(((DatabaseClass.MustacheData)unlockedCustomizables[CustomizableType.Mustache][_selection]).model), parent);
+        }
+
+    }
+
+    IEnumerator Happy(PlayerCosmetics _cosmeticsRef)
+    {
+        _cosmeticsRef.FaceEmotion = FaceEmotion.Winner;
+        yield return new WaitForSeconds(1);
+        _cosmeticsRef.FaceEmotion = FaceEmotion.Neutral;
+    }
+
+    IEnumerator Sad(PlayerCosmetics _cosmeticsRef)
+    {
+        _cosmeticsRef.FaceEmotion = FaceEmotion.Loser;
+        yield return new WaitForSeconds(1);
+        _cosmeticsRef.FaceEmotion = FaceEmotion.Neutral;
     }
 
     // Change the player color according to current selection
@@ -814,6 +838,7 @@ public class Menu : MonoBehaviour {
         // Send data to data container
         Color[] sc = new Color[nbPlayers];
         int[] sf = new int[nbPlayers];
+        string[] selectedMustaches = new string[nbPlayers];
         for (int i = 0; i < nbPlayers; i++)
         {
             //if (selectedColors[i] == unlockedCustomColors.Count)
@@ -830,8 +855,9 @@ public class Menu : MonoBehaviour {
                 selectedRabbits[i] = false; // Line needed in case we come back from minigame selection screen
 
             sf[i] = selectedCustomizables[(int)CustomizableType.Face, i];
+            selectedMustaches[i] = ((DatabaseClass.MustacheData)unlockedCustomizables[CustomizableType.Mustache][selectedCustomizables[(int)CustomizableType.Mustache, i]]).model;
         }
-        dataContainer.SaveData(nbPlayers, sc, sf, selectedColorFades, selectedRabbits, selectedMode == 1);
+        dataContainer.SaveData(nbPlayers, sc, sf, selectedMustaches, selectedColorFades, selectedRabbits, selectedMode == 1);
     }
 
     private void OnDestroy()

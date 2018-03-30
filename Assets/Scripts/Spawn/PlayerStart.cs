@@ -165,6 +165,15 @@ public class PlayerStart : MonoBehaviour {
                         go.transform.GetComponentInChildren<PlayerCosmetics>().SetUniqueColor(GameManager.Instance.DataContainer.selectedColors[i]);
                     go.transform.GetComponentInChildren<PlayerCosmetics>().FaceType = (FaceType)GameManager.Instance.DataContainer.selectedFaces[i];
                 }
+
+                if (go.transform.GetComponentInChildren<CustomizableSockets>() != null)
+                {
+                    Transform customizableParent = go.transform.GetComponentInChildren<CustomizableSockets>().transform;
+                    GameObject mustache = Instantiate(Resources.Load(GameManager.Instance.DataContainer.mustachesSelected[i]), customizableParent.GetChild((int)CustomizableType.Mustache - 2).transform) as GameObject;
+                    mustache.transform.GetChild(0).GetChild(0).GetComponent<HingeJoint>().connectedBody = go.GetComponent<Rigidbody>();
+                    mustache.transform.GetChild(0).GetChild(1).GetComponent<HingeJoint>().connectedBody = go.GetComponent<Rigidbody>();
+
+                }
             }
             else
             {
