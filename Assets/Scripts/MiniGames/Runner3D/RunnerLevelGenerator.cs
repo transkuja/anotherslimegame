@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Runner3D
 {
-
+        // Used to communicate with RunnerLevelManager 
     public class LevelItems
     {
         public GameObject[] wallsInGame;
@@ -15,32 +15,35 @@ namespace Runner3D
     public class RunnerLevelGenerator : MonoBehaviour
     {
         public static readonly Vector3 defaultBlockSize = Vector3.one * 20; // Taille des blocs de generation.
+
+            // prefab to populate level : 
         [SerializeField] GameObject arrivalPrefab;
         [SerializeField] GameObject cloudsPrefabModel;
         [SerializeField] GameObject wallModel;
         [SerializeField] GameObject beginAreaModel;
-
+        PoolLeader runnerBlocPool;
+            
         public LevelItems level;
-
+            // difficulty settings : 
         [SerializeField] DiffcultySO difficultyDB;
         [SerializeField] int  difficulty_ID;
 
-        PoolLeader runnerBlocPool;
-
+            // Level Size Parameters : 
         [SerializeField] Vector3 levelUnit; // taille d'un niveau en nb de blocs
         [SerializeField] Vector3 levelFinalSize;  // taille réelle du niveau
+
+            // Refs : 
         Runner3DGameMode runnerMode;
 
-        int nbRowUpInFrontFirst = 2; // marge de pop des platforme par rapport au premier joueur.
-        float timeBeforeFalling = 12; // temps que met une platforme à disparaître après avoir spawn
-
+            // level Data : 
         List<RunnerBlocs[]> blockLineList; // Contains all rows of blocks since the beginning.  => [0] = [B(1,0), B(2,0), B(3,0), (...)]
                                            //                               => [1] = [B(1,1), B(1,2), B(1,3), (...)]
-
         bool[,] levelMask; // Pas nécessaire de l'enregistrer.
-
+            // level data to create chunk of blocs : 
         List<int> lastChunkLineBlocPos;
         int nextZChunkOffset;
+
+
 
         public Runner3DGameMode RunnerMode
         {

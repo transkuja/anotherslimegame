@@ -18,14 +18,13 @@ namespace Runner3D
 
         List<GameObject> playerRef;
 
-
-        // Info on player position to create/destroy blocs.
+            // Info on player position to create/destroy blocs.
         int firstPlayerZRow = -1; // a quelle distance du début est le premier joueur en LevelUnit
         int lastPlayerZRow; // // a quelle distance du début est le dernier  joueur en LevelUnit
         int nbRowUpInFrontFirst = 2; // marge de pop des platforme par rapport au premier joueur.
         float timeBeforeFalling = 12; // temps que met une platforme à disparaître après avoir spawn
 
-        // components : 
+            // components : 
         Runner3DGameMode runnerMode;
         RunnerLevelGenerator levelGenerator;
 
@@ -152,17 +151,7 @@ namespace Runner3D
                 case State.Loading:
                     break;
                 case State.InGame:
-                    switch (RunnerMode.Mode)
-                    {
-                        case Runner3DGameMode.EMode.SoloInfinite:
-                            InfiniteModeUpdate();
-                            break;
-                        case Runner3DGameMode.EMode.LastRemaining:
-                            InfiniteModeUpdate();
-                            break;
-                        default:
-                            break;
-                    }
+                    InfiniteModeUpdate();
                     break;
                 default:
                     break;
