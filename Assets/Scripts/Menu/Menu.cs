@@ -585,6 +585,9 @@ public class Menu : MonoBehaviour {
 
     IEnumerator Sad(PlayerCosmetics _cosmeticsRef)
     {
+        if (AudioManager.Instance != null && AudioManager.Instance.shaveFx != null)
+            AudioManager.Instance.PlayOneShot(AudioManager.Instance.shaveFx);
+
         _cosmeticsRef.FaceEmotion = FaceEmotion.Loser;
         yield return new WaitForSeconds(1);
         if (_cosmeticsRef.FaceEmotion == FaceEmotion.Loser)
