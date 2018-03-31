@@ -501,6 +501,9 @@ public class Menu : MonoBehaviour {
 
     void UpdatePreview(int _playerIndex)
     {
+        if (AudioManager.Instance != null && AudioManager.Instance.changeOptionFx != null)
+            AudioManager.Instance.PlayOneShot(AudioManager.Instance.changeOptionFx);
+
         CustomizableType currentCustomType = (CustomizableType)(currentlySelectedOption[_playerIndex]);
         playerCustomScreens[_playerIndex].transform.GetChild(2).GetComponent<Text>().text = currentCustomType.ToString();
         List<DatabaseClass.Unlockable> unlockedList = unlockedCustomizables[currentCustomType];
@@ -552,9 +555,6 @@ public class Menu : MonoBehaviour {
 
     void UpdatePlayerPreviewMustache(int _playerIndex, int _selection, bool _isNoneValue)
     {
-        if (AudioManager.Instance != null && AudioManager.Instance.changeOptionFx != null)
-            AudioManager.Instance.PlayOneShot(AudioManager.Instance.changeOptionFx);
-
         Transform parent = playerCustomScreens[_playerIndex].transform.GetComponentInChildren<CustomizableSockets>().transform.GetChild((int)(CustomizableType.Mustache) - 2);
         if (parent.childCount > 0)
         {
@@ -597,9 +597,6 @@ public class Menu : MonoBehaviour {
     // Change the player color according to current selection
     void UpdatePlayerPreviewColor(int _playerIndex, int _selection)
     {
-        if (AudioManager.Instance != null && AudioManager.Instance.changeOptionFx != null)
-            AudioManager.Instance.PlayOneShot(AudioManager.Instance.changeOptionFx);
-
         // Rabbit protection
         if (selectedFaces[_playerIndex] == unlockedFesses.Count)
             return;
@@ -613,9 +610,6 @@ public class Menu : MonoBehaviour {
     // Change the player face according to current selection
     void UpdatePlayerPreviewFace(int _playerIndex, int _selection)
     {
-        if (AudioManager.Instance != null && AudioManager.Instance.changeOptionFx != null)
-            AudioManager.Instance.PlayOneShot(AudioManager.Instance.changeOptionFx);
-
         // Update text and character
         playerCustomScreens[_playerIndex].transform.GetChild(4).GetChild(0).gameObject.SetActive(true);
         playerCustomScreens[_playerIndex].transform.GetChild(4).GetChild(1).gameObject.SetActive(false);
