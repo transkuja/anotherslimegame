@@ -31,7 +31,7 @@ public class Menu : MonoBehaviour {
     private List<DatabaseClass.ColorData> unlockedCustomColors = new List<DatabaseClass.ColorData>();
     private List<DatabaseClass.FaceData> unlockedFesses = new List<DatabaseClass.FaceData>();
     private List<DatabaseClass.MinigameData> unlockedMinigames = new List<DatabaseClass.MinigameData>();
-    // TODO: add in database missing values Ears, Pants, Helmet, Hands, Tail
+    // TODO: add in database missing values Ears, Hands, Tail
     private Dictionary<CustomizableType, List<DatabaseClass.Unlockable>> unlockedCustomizables = new Dictionary<CustomizableType, List<DatabaseClass.Unlockable>>();
 
     GamePadState[] prevControllerStates = new GamePadState[4];
@@ -149,6 +149,14 @@ public class Menu : MonoBehaviour {
             if (mustache.isUnlocked)
             {
                 unlockedCustomizables[CustomizableType.Mustache].Add(mustache);
+            }
+        }
+
+        foreach (DatabaseClass.HatData hat in DatabaseManager.Db.hats)
+        {
+            if (hat.isUnlocked)
+            {
+                unlockedCustomizables[CustomizableType.Hat].Add(hat);
             }
         }
 
@@ -543,6 +551,7 @@ public class Menu : MonoBehaviour {
             case CustomizableType.Hands:
                 break;
             case CustomizableType.Hat:
+                UpdatePlayerPreviewHat(_playerIndex, _unlockedIndex, _isNoneValue);
                 break;
             case CustomizableType.Mustache:
                 UpdatePlayerPreviewMustache(_playerIndex, _unlockedIndex, _isNoneValue);
@@ -574,6 +583,26 @@ public class Menu : MonoBehaviour {
         if (!_isNoneValue)
         {
             Instantiate(Resources.Load(((DatabaseClass.MustacheData)unlockedCustomizables[CustomizableType.Mustache][_selection]).model), parent);
+        }
+
+    }
+
+    void UpdatePlayerPreviewHat(int _playerIndex, int _selection, bool _isNoneValue)
+    {
+        Transform parent = playerCustomScreens[_playerIndex].transform.GetComponentInChildren<CustomizableSockets>().transform.GetChild((int)(CustomizableType.Hat) - 2);
+        if (parent.childCount > 0)
+        {
+            Destroy(parent.GetChild(0).gameObject);
+        }
+        else
+        {
+            if (!_isNoneValue)
+                StartCoroutine(Happy(playerCustomScreens[_playerIndex].GetComponentInChildren<PlayerCosmetics>()));
+        }
+
+        if (!_isNoneValue)
+        {
+            Instantiate(Resources.Load(((DatabaseClass.HatData)unlockedCustomizables[CustomizableType.Hat][_selection]).model), parent);
         }
 
     }
@@ -748,6 +777,17 @@ public class Menu : MonoBehaviour {
                 }
                 // End Mustache //
 
+                // Hat //
+                parent = transform.GetChild((int)MenuState.MinigameSelection).GetChild(childCount - 4 + i).GetComponentInChildren<CustomizableSockets>().transform.GetChild((int)(CustomizableType.Hat) - 2);
+                if (parent.childCount > 0)
+                    Destroy(parent.GetChild(0).gameObject);
+
+                if (selectedCustomizables[(int)CustomizableType.Hat, i] != unlockedCustomizables[CustomizableType.Hat].Count)
+                {
+                    Instantiate(Resources.Load(((DatabaseClass.HatData)unlockedCustomizables[CustomizableType.Hat][selectedCustomizables[(int)CustomizableType.Hat, i]]).model), parent);
+                }
+                // End Hat //
+
             }
 
             for (int i = nbPlayers; i < 4; i++)
@@ -852,6 +892,8 @@ public class Menu : MonoBehaviour {
         Color[] sc = new Color[nbPlayers];
         int[] sf = new int[nbPlayers];
         string[] selectedMustaches = new string[nbPlayers];
+        string[] selectedHats = new string[nbPlayers];
+
         for (int i = 0; i < nbPlayers; i++)
         {
             //if (selectedColors[i] == unlockedCustomColors.Count)
@@ -869,8 +911,9 @@ public class Menu : MonoBehaviour {
 
             sf[i] = selectedCustomizables[(int)CustomizableType.Face, i];
             selectedMustaches[i] = ((DatabaseClass.MustacheData)unlockedCustomizables[CustomizableType.Mustache][selectedCustomizables[(int)CustomizableType.Mustache, i]]).model;
+            selectedHats[i] = ((DatabaseClass.HatData)unlockedCustomizables[CustomizableType.Hat][selectedCustomizables[(int)CustomizableType.Hat, i]]).model;
         }
-        dataContainer.SaveData(nbPlayers, sc, sf, selectedMustaches, selectedColorFades, selectedRabbits, selectedMode == 1);
+        dataContainer.SaveData(nbPlayers, sc, sf, selectedMustaches, selectedHats, selectedColorFades, selectedRabbits, selectedMode == 1);
     }
 
     private void OnDestroy()

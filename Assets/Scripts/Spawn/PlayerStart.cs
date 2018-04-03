@@ -169,13 +169,13 @@ public class PlayerStart : MonoBehaviour {
                 if (go.transform.GetComponentInChildren<CustomizableSockets>() != null)
                 {
                     Transform customizableParent = go.transform.GetComponentInChildren<CustomizableSockets>().transform;
-                    GameObject mustache = Instantiate(Resources.Load(GameManager.Instance.DataContainer.mustachesSelected[i]), customizableParent.GetChild((int)CustomizableType.Mustache - 2).transform) as GameObject;
-                    // Test la présence d'un hinge joint : exemple 3eme moustache n'en a pas
-                    if (mustache.GetComponentInChildren<HingeJoint>())
-                    {
-                        mustache.transform.GetChild(0).GetChild(0).GetComponent<HingeJoint>().connectedBody = go.GetComponent<Rigidbody>();
-                        mustache.transform.GetChild(0).GetChild(1).GetComponent<HingeJoint>().connectedBody = go.GetComponent<Rigidbody>();
-                    }
+
+                    // Init mustaches //
+                    InitCustomizable(CustomizableType.Mustache, GameManager.Instance.DataContainer.mustachesSelected[i], customizableParent);
+
+                    // Init hats //
+                    InitCustomizable(CustomizableType.Hat, GameManager.Instance.DataContainer.hatsSelected[i], customizableParent);
+
                 }
             }
             else
@@ -200,6 +200,21 @@ public class PlayerStart : MonoBehaviour {
             ColorFloorHandler.Init(activePlayersAtStart);
 
 
+    }
+
+    void InitCustomizable(CustomizableType _type, string _value, Transform _customizableParent)
+    {
+        if (_value == "None")
+            return;
+     
+        GameObject customizable = Instantiate(Resources.Load(_value), _customizableParent.GetChild((int)_type - 2).transform) as GameObject;
+        // Test la présence d'un hinge joint : exemple 3eme moustache n'en a pas
+        if (customizable.GetComponentInChildren<HingeJoint>())
+        {
+            customizable.transform.GetChild(0).GetChild(0).GetComponent<HingeJoint>().connectedBody = _customizableParent.GetComponentInParent<Rigidbody>();
+            customizable.transform.GetChild(0).GetChild(1).GetComponent<HingeJoint>().connectedBody = _customizableParent.GetComponentInParent<Rigidbody>();
+        }
+        
     }
 
     public void AttributeCamera()
