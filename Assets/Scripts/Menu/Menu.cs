@@ -81,16 +81,9 @@ public class Menu : MonoBehaviour {
 
         set
         {
-            //if (currentlySelectedButton != null)
-            //    currentlySelectedButton.GetComponent<AnimButton>().enabled = false;
             currentlySelectedButton = value;
             if (currentlySelectedButton != null)
             {
-                //if (currentlySelectedButton.GetComponent<AnimButton>() == null)
-                //    currentlySelectedButton.gameObject.AddComponent<AnimButton>();
-                //else
-                //    currentlySelectedButton.GetComponent<AnimButton>().enabled = true;
-
                 if (currentCursorVisual == null)
                 {
                     currentCursorVisual = Instantiate(menuCursor, null);
@@ -805,7 +798,7 @@ public class Menu : MonoBehaviour {
         if (parent.childCount > 0)
             Destroy(parent.GetChild(0).gameObject);
 
-        if (selectedCustomizables[(int)_type, _playerIndex] != unlockedCustomizables[_type].Count)
+        if (selectedCustomizables[(int)_type, _playerIndex] != unlockedCustomizables[_type].Count && unlockedCustomizables[_type].Count > 0)
         {
             if (_type == CustomizableType.Mustache)
                 Instantiate(Resources.Load(((DatabaseClass.MustacheData)unlockedCustomizables[_type][selectedCustomizables[(int)_type, _playerIndex]]).model), parent);
