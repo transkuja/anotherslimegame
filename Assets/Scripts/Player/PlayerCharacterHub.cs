@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerCharacterHub : PlayerCharacter {
 
+    private PlayerControllerHub playerController;
+
     [SerializeField] public Stats stats;
 
     // All PlayerStateCreation once and for all.
@@ -72,7 +74,7 @@ public class PlayerCharacterHub : PlayerCharacter {
             playerState = value;
             PlayerState.OnBegin();
 #if UNITY_EDITOR
-            DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.CurrentState, value.ToString(), (int)((PlayerControllerHub)Pc).playerIndex);
+            DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.CurrentState, value.ToString(), (int)playerController.playerIndex);
 #endif
         }
     }
@@ -88,7 +90,6 @@ public class PlayerCharacterHub : PlayerCharacter {
             jumpManager = value;
         }
     }
-
     public bool IsGrounded
     {
         get
@@ -100,7 +101,7 @@ public class PlayerCharacterHub : PlayerCharacter {
         {
 
 #if UNITY_EDITOR
-            DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.IsGrounded, value.ToString(), (int)((PlayerControllerHub)Pc).playerIndex);
+            DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.IsGrounded, value.ToString(), (int)playerController.playerIndex);
 #endif
             if (value == true)
             {
@@ -110,7 +111,7 @@ public class PlayerCharacterHub : PlayerCharacter {
                     downDashState.nbDashDownMade = 0;
                     dashState.nbDashMade = 0;
 #if UNITY_EDITOR
-                    if (GetComponent<JumpManager>() != null && !((PlayerControllerHub)Pc).tryByPassJumpStop)
+                    if (GetComponent<JumpManager>() != null && !playerController.tryByPassJumpStop)
                         GetComponent<JumpManager>().Stop();
 #endif
                     Anim.SetBool("isExpulsed", false);
@@ -156,31 +157,30 @@ public class PlayerCharacterHub : PlayerCharacter {
         {
             isGravityEnabled = value;
 #if UNITY_EDITOR
-            DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.GravityEnabled, isGravityEnabled.ToString(), (int)((PlayerControllerHub)Pc).playerIndex);
+            DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.GravityEnabled, isGravityEnabled.ToString(), (int)playerController.playerIndex);
 #endif
         }
     }
-
     public bool PendingStepSound { get { return pendingStepSound; } set { pendingStepSound = value; } }
     #endregion
 
     private void Awake()
     {
-        Pc = GetComponent<PlayerControllerHub>();
+        playerController = GetComponent<PlayerControllerHub>();
 
 
         stats.Init(this);
-        jumpState = new JumpState(this, (PlayerControllerHub)Pc);
-        wallJumpState = new WalljumpState(this, (PlayerControllerHub)Pc);
-        dashState = new DashState(this, (PlayerControllerHub)Pc);
-        freeState = new FreeState(this, (PlayerControllerHub)Pc);
-        expulsedState = new ExpulsedState(this, (PlayerControllerHub)Pc);
-        downDashState = new DashDownState(this, (PlayerControllerHub)Pc);
-        platformistChargedState = new PlatformistChargedState(this, (PlayerControllerHub)Pc);
-        restrainedByGhostState = new RestrainedByGhostState(this, (PlayerControllerHub)Pc);
-        frozenState = new FrozenState(this, (PlayerControllerHub)Pc);
-        underwaterState = new UnderwaterState(this, (PlayerControllerHub)Pc);
-        pausedState = new PausedState(this, (PlayerControllerHub)Pc);
+        jumpState = new JumpState(this, playerController);
+        wallJumpState = new WalljumpState(this, playerController);
+        dashState = new DashState(this, playerController);
+        freeState = new FreeState(this, playerController);
+        expulsedState = new ExpulsedState(this, playerController);
+        downDashState = new DashDownState(this, playerController);
+        platformistChargedState = new PlatformistChargedState(this, playerController);
+        restrainedByGhostState = new RestrainedByGhostState(this, playerController);
+        frozenState = new FrozenState(this, playerController);
+        underwaterState = new UnderwaterState(this, playerController);
+        pausedState = new PausedState(this, playerController);
         PlayerState = freeState;
 
     }

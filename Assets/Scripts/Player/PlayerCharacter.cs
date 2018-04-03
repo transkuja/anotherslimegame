@@ -12,7 +12,6 @@ public class PlayerCharacter : MonoBehaviour {
 
     [Header("Base")]
     private Rigidbody rb;
-    private PlayerController pc;
     private Animator anim;
 
     public Rigidbody Rb
@@ -21,18 +20,6 @@ public class PlayerCharacter : MonoBehaviour {
         {
             if (!rb) rb = GetComponent<Rigidbody>();
             return rb;
-        }
-    }
-    // Can be reset in inherited class 
-    public PlayerController Pc
-    {
-        get
-        {
-            return pc;
-        }
-        set
-        {
-            pc = value;
         }
     }
     public Animator Anim
@@ -185,7 +172,7 @@ public class PlayerCharacter : MonoBehaviour {
     {
         //Respawner.RespawnProcess(GetComponent<Player>());
         if (OnDeathEvent != null)
-            OnDeathEvent((int)((PlayerController)Pc).playerIndex);
+            OnDeathEvent((int)GetComponent<Player>().PlayerController.playerIndex);
     }
 
 }

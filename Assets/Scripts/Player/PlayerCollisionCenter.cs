@@ -1,11 +1,14 @@
 ﻿using UnityEngine;
-using System; // For math
 using System.Collections;
 using System.Collections.Generic; // For List
 
-using Random = UnityEngine.Random;
-
 public class PlayerCollisionCenter : MonoBehaviour {
+
+    private PlayerControllerHub playerController;
+    private PlayerCharacterHub playerCharacter;
+    private Rigidbody rb;
+    private Player player;
+
 
     [SerializeField]
     bool drawGizmos = true;
@@ -29,8 +32,9 @@ public class PlayerCollisionCenter : MonoBehaviour {
     [SerializeField] float repulsionFactor = 2000;
 
     // @<remi
-    private List<PlayerCharacter> impactedPlayers = new List<PlayerCharacter>();
+    private List<Player> impactedPlayers = new List<Player>();
     private List<Vector3> impactedPlayersOldVelocities = new List<Vector3>();
+    private List<AIRabite> impactedRabite = new List<AIRabite>();
 
     public float invicibilityFrame = 1.0f;
     bool onceRepulsion;
@@ -40,7 +44,6 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
     LayerMask defaultMask;
 
-    private List<AIRabite> impactedRabite = new List<AIRabite>();
     int separationMaskRabite;
     Collider[] rabiteCollided;
     float sphereCheckRadiusRabite;
@@ -51,11 +54,6 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
     int separationMask3;
     Collider[] breakablesCollided;
-
-    PlayerControllerHub playerController;
-    PlayerCharacterHub playerCharacter;
-    Rigidbody rb;
-    Player player;
 
     // Edge climbing twerk values
     [Header("Edge climbing twerk values")]
@@ -77,57 +75,15 @@ public class PlayerCollisionCenter : MonoBehaviour {
     public float modulateWaterForceFactor;
     public bool surfaceWaterAnimLaunched = false;
 
-    PlayerControllerHub _PlayerController
-    {
-        get
-        {
-            if (playerController == null)
-                playerController = GetComponent<PlayerControllerHub>();
-            return playerController;
-        }
-    }
-
-    Rigidbody _Rb
-    {
-        get
-        {
-            if (rb == null)
-                rb = GetComponent<Rigidbody>();
-            return rb;
-        }
-    }
-
-    public Player PlayerComponent
-    {
-        get
-        {
-            if (player == null)
-                player = GetComponent<Player>();
-            return player;
-        }
-    }
-
-    public PlayerCharacterHub PlayerCharacter
-    {
-        get
-        {
-            if (playerCharacter == null)
-                playerCharacter = GetComponent<PlayerCharacterHub>();
-            return playerCharacter;
-        }
-
-        set
-        {
-            playerCharacter = value;
-        }
-    }
-
     void Start()
     {
-        playerController = GetComponent<PlayerControllerHub>();
-        playerCharacter = GetComponent<PlayerCharacterHub>();
+        player = GetComponent<Player>();
+        playerController = player.PlayerController as PlayerControllerHub;
+        playerCharacter = player.PlayerCharacter as PlayerCharacterHub;
 
-        rb = GetComponent<Rigidbody>();
+        rb = playerCharacter.Rb;
+
+
         repulsionFactor = 35;
         impactedRabite = new List<AIRabite>();
 
@@ -165,11 +121,18 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
                     if (playerCharacter.PlayerState is DashDownState)
                     {
-                        if (!impactedPlayers.Contains(playersCollided[i].GetComponent<PlayerCharacter>()))
+                        if (!impactedPlayers.Contains(playersCollided[i].GetComponent<Player>()))
                         {
-                            Physics.IgnoreCollision(playersCollided[i].GetComponent<Collider>(), GetComponent<Collider>(), true);
+                            Player impactedPlayer = playersCollided[i].GetComponent<Player>();
+                            impactedPlayers.Add(impactedPlayer);
+
+                            UWPAndXInput.PlayerIndex impactedPlayerIndex = playersCollided[i].GetComponent<PlayerControllerHub>().PlayerIndex;
+                            PlayerCharacterHub impactedPlayerCharacter = playersCollided[i].GetComponent<PlayerCharacterHub>();
+                            Rigidbody impactedPlayerRigidbody = impactedPlayerCharacter.Rb;
+
+                            Physics.IgnoreCollision(playersCollided[i], GetComponent<Collider>(), true);
                             // Don't reimpacted the same player twice see invicibilityFrame
-                            impactedPlayers.Add(playersCollided[i].GetComponent<PlayerCharacter>());
+
                             GameObject go = Instantiate(hitParticles);
                             go.transform.position = transform.position + Vector3.up * 0.5f + playerCenterToTargetCenter / 2.0f;
                             go.transform.rotation = Quaternion.LookRotation(playerToTarget, Vector3.up);
@@ -178,14 +141,15 @@ public class PlayerCollisionCenter : MonoBehaviour {
                             currentTimerStop = timerStopOnDashCollision;
 
                             playerCharacter.PlayerState = playerCharacter.frozenState;
-                            playersCollided[i].GetComponent<PlayerCharacterHub>().PlayerState = playersCollided[i].GetComponent<PlayerCharacterHub>().frozenState;
-                            playerController.Rb.velocity = Vector3.zero;
-                            impactedPlayersOldVelocities.Add(playersCollided[i].GetComponent<Rigidbody>().velocity);
-                            playersCollided[i].GetComponent<Rigidbody>().velocity = Vector3.zero;
+                            impactedPlayerCharacter.PlayerState = impactedPlayerCharacter.frozenState;
+
+                            rb.velocity = Vector3.zero;
+                            impactedPlayersOldVelocities.Add(impactedPlayerRigidbody.velocity);
+                            impactedPlayerRigidbody.velocity = Vector3.zero;
 
                             //Set vibrations
                             UWPAndXInput.GamePad.VibrateForSeconds(playerController.playerIndex, 0.8f, 0.8f, .1f);
-                            UWPAndXInput.GamePad.VibrateForSeconds(playersCollided[i].GetComponent<PlayerControllerHub>().playerIndex, 0.8f, 0.8f, .1f);
+                            UWPAndXInput.GamePad.VibrateForSeconds(impactedPlayerIndex, 0.8f, 0.8f, .1f);
 
                             if (AudioManager.Instance != null && AudioManager.Instance.punchFx != null)
                                 AudioManager.Instance.PlayOneShot(AudioManager.Instance.punchFx);
@@ -194,11 +158,19 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
                     else if (playersCollided[i].transform != transform && Vector3.Angle(playerToTarget, transform.forward) < 45) // Verification en cone
                     {
-                        if (!impactedPlayers.Contains(playersCollided[i].GetComponent<PlayerCharacter>()))
+                        if (!impactedPlayers.Contains(playersCollided[i].GetComponent<Player>()))
                         {
-                            Physics.IgnoreCollision(playersCollided[i].GetComponent<Collider>(), GetComponent<Collider>(), true);
+                            Player impactedPlayer = playersCollided[i].GetComponent<Player>();
+                            impactedPlayers.Add(impactedPlayer);
+
+                            UWPAndXInput.PlayerIndex impactedPlayerIndex = impactedPlayer.PlayerController.PlayerIndex;
+                            PlayerCharacterHub impactedPlayerCharacter = impactedPlayer.PlayerCharacter as PlayerCharacterHub;
+
+                            Rigidbody impactedPlayerRigidbody = impactedPlayerCharacter.Rb;
+
+                            Physics.IgnoreCollision(playersCollided[i], GetComponent<Collider>(), true);
                             // Don't reimpacted the same player twice see invicibilityFrame
-                            impactedPlayers.Add(playersCollided[i].GetComponent<PlayerCharacter>());
+
                             GameObject go = Instantiate(hitParticles);
                             go.transform.position = transform.position+Vector3.up*0.5f + playerCenterToTargetCenter / 2.0f;
                             go.transform.rotation = Quaternion.LookRotation(playerToTarget, Vector3.up);
@@ -207,14 +179,15 @@ public class PlayerCollisionCenter : MonoBehaviour {
                             currentTimerStop = timerStopOnDashCollision;
 
                             playerCharacter.PlayerState = playerCharacter.frozenState;
-                            playersCollided[i].GetComponent<PlayerCharacterHub>().PlayerState = playersCollided[i].GetComponent<PlayerCharacterHub>().frozenState;
-                            playerController.Rb.velocity = Vector3.zero;
-                            impactedPlayersOldVelocities.Add(playersCollided[i].GetComponent<Rigidbody>().velocity);
-                            playersCollided[i].GetComponent<Rigidbody>().velocity = Vector3.zero;
+                            impactedPlayerCharacter.PlayerState = impactedPlayerCharacter.frozenState;
+
+                            rb.velocity = Vector3.zero;
+                            impactedPlayersOldVelocities.Add(impactedPlayerRigidbody.velocity);
+                            impactedPlayerRigidbody.velocity = Vector3.zero;
 
                             //Set vibrations
                             UWPAndXInput.GamePad.VibrateForSeconds(playerController.playerIndex, 0.8f, 0.8f, .1f);
-                            UWPAndXInput.GamePad.VibrateForSeconds(playersCollided[i].GetComponent<PlayerControllerHub>().playerIndex, 0.8f, 0.8f, .1f);
+                            UWPAndXInput.GamePad.VibrateForSeconds(impactedPlayerIndex, 0.8f, 0.8f, .1f);
 
                             if (AudioManager.Instance != null && AudioManager.Instance.punchFx != null)
                                 AudioManager.Instance.PlayOneShot(AudioManager.Instance.punchFx);
@@ -239,7 +212,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
                     {
                         if (!impactedRabite.Contains(rabiteCollided[i].GetComponent<AIRabite>()))
                         {
-                            Physics.IgnoreCollision(rabiteCollided[i].GetComponent<Collider>(), GetComponent<Collider>(), true);
+                            Physics.IgnoreCollision(rabiteCollided[i], GetComponent<Collider>(), true);
                             // Don't reimpacted the same player twice see invicibilityFrame
                             impactedRabite.Add(rabiteCollided[i].GetComponent<AIRabite>());
                             GameObject go = Instantiate(hitParticles);
@@ -251,8 +224,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
                             playerCharacter.PlayerState = playerCharacter.frozenState;
 
-                            //rabiteCollided[i].GetComponent<PlayerControllerHub>().PlayerState = playersCollided[i].GetComponent<PlayerControllerHub>().frozenState;
-                            playerController.Rb.velocity = Vector3.zero;
+                            rb.velocity = Vector3.zero;
 
                             rabiteCollided[i].GetComponent<Rigidbody>().velocity = Vector3.zero;
 
@@ -268,7 +240,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
                     {
                         if (!impactedRabite.Contains(rabiteCollided[i].GetComponent<AIRabite>()))
                         {
-                            Physics.IgnoreCollision(rabiteCollided[i].GetComponent<Collider>(), GetComponent<Collider>(), true);
+                            Physics.IgnoreCollision(rabiteCollided[i], GetComponent<Collider>(), true);
                             // Don't reimpacted the same player twice see invicibilityFrame
                             impactedRabite.Add(rabiteCollided[i].GetComponent<AIRabite>());
                             GameObject go = Instantiate(hitParticles);
@@ -307,7 +279,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
                     Collectable c = collectablesCollided[i].GetComponent<Collectable>();
                     if (c.isActiveAndEnabled && !c.IsAttracted && !c.haveToDisperse)
                     {
-                        Physics.IgnoreCollision(collectablesCollided[i].GetComponent<Collider>(), GetComponent<Collider>(), true);
+                        Physics.IgnoreCollision(collectablesCollided[i], GetComponent<Collider>(), true);
                         if(c.GetComponent<Animator>())
                             c.GetComponent<Animator>().enabled = false;
                         c.PickUp(GetComponent<Player>());
@@ -340,7 +312,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
                 playerCharacter.PlayerState = playerCharacter.freeState;
                 for (int i = 0; i < impactedPlayers.Count; i++)
                 {
-                    impactedPlayers[i].GetComponent<PlayerCharacterHub>().PlayerState = impactedPlayers[i].GetComponent<PlayerCharacterHub>().freeState;
+                    ((PlayerCharacterHub)impactedPlayers[i].PlayerCharacter).PlayerState = ((PlayerCharacterHub)impactedPlayers[i].PlayerCharacter).freeState;
                     ImpactHandling(impactedPlayers[i]);
                 }
                 for (int i = 0; i < impactedRabite.Count; i++)
@@ -357,16 +329,16 @@ public class PlayerCollisionCenter : MonoBehaviour {
         // Interaction Joueur / Joueur
         if (collision.gameObject.GetComponent<Player>())
         {
-            PlayerCharacterHub collidedPlayerCharacter = collision.transform.gameObject.GetComponent<PlayerCharacterHub>();
+            Player collidedPlayer = collision.transform.gameObject.GetComponent<Player>();
 
-            if (collidedPlayerCharacter == null) return;
+            if (collidedPlayer == null) return;
 
             if (!(playerCharacter.PlayerState is DashState)
-                && !(collidedPlayerCharacter.PlayerState is DashState))
+                && !(((PlayerCharacterHub)collidedPlayer.PlayerCharacter).PlayerState is DashState))
             {
                 // Default interaction no one is dashing of using an abilty
                 // Can't confirm implications
-                DefaultCollision(collision, collision.transform.gameObject.GetComponent<PlayerCharacter>());
+                DefaultCollision(collision, ((PlayerCharacterHub)collidedPlayer.PlayerCharacter));
 
                 if (AudioManager.Instance != null && AudioManager.Instance.wahhFx != null)
                     //if (!AudioManager.Instance.sourceFX.isPlaying)
@@ -374,7 +346,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
             }
         }
 
-        if (PlayerComponent.isEdgeAssistActive)
+        if (player.isEdgeAssistActive)
         {
             if (collision.gameObject.GetComponent<PlatformGameplay>())
             {
@@ -413,13 +385,10 @@ public class PlayerCollisionCenter : MonoBehaviour {
                     playerCharacter.PlayerState = playerCharacter.wallJumpState;
                 }
             }
-
         }
-
-   
     }
 
-    public void ImpactHandling(PlayerCharacter playerImpacted)
+    public void ImpactHandling(Player playerImpacted)
     {
 
         // Damage Behavior
@@ -431,28 +400,28 @@ public class PlayerCollisionCenter : MonoBehaviour {
                 DamagePlayer(playerImpacted.GetComponent<Player>(), PlayerUIStat.Points);
         }
         
-        ExpulsePlayer(playerImpacted.GetComponent<Collider>().ClosestPoint(transform.position), playerImpacted.Rb, repulsionFactor);
+        ExpulsePlayer(playerImpacted.GetComponent<Collider>().ClosestPoint(transform.position), playerImpacted.PlayerCharacter.Rb, repulsionFactor);
     }
 
 
-    public void DefaultCollision(Collision collision, PlayerCharacter playerImpacted)
+    public void DefaultCollision(Collision collision, PlayerCharacterHub impactedPlayerCharacter)
     {
         //PlayerBouncyPhysics
         if ((transform.position.y - collision.transform.position.y) > bounceDetectionThreshold)
         {
-            _Rb.velocity += Vector3.up * bounceStrength;
+            rb.velocity += Vector3.up * bounceStrength;
         }
         else
         {
-            if (_Rb.velocity.magnitude > playerImpacted.Rb.velocity.magnitude)
+            if (rb.velocity.magnitude > impactedPlayerCharacter.Rb.velocity.magnitude)
             {
-                if (_Rb.velocity.magnitude > impactPropagationThreshold)
-                    playerImpacted.Rb.velocity += (_Rb.velocity * impactForce);
+                if (rb.velocity.magnitude > impactPropagationThreshold)
+                    impactedPlayerCharacter.Rb.velocity += (rb.velocity * impactForce);
             }
             else
             {
-                if (playerImpacted.Rb.velocity.magnitude > impactPropagationThreshold)
-                    _Rb.velocity += (playerImpacted.Rb.velocity * impactForce);
+                if (impactedPlayerCharacter.Rb.velocity.magnitude > impactPropagationThreshold)
+                    rb.velocity += (impactedPlayerCharacter.Rb.velocity * impactForce);
             }
         }
     }
@@ -522,7 +491,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
         direction.Normalize();
         ForcedJump(direction, repulsionFactor, rbPlayerToExpulse);
-        StartCoroutine(ReactivateCollider(rbPlayerToExpulse.GetComponent<PlayerCharacter>()));
+        StartCoroutine(ReactivateCollider(rbPlayerToExpulse.GetComponent<Player>()));
     }
 
 
@@ -543,7 +512,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
         }
     }
 
-    public IEnumerator ReactivateCollider(PlayerCharacter p)
+    public IEnumerator ReactivateCollider(Player p)
     {
         yield return new WaitForSeconds(invicibilityFrame);
         impactedPlayers.Remove(p);

@@ -77,9 +77,10 @@ public class PlayerControllerHub : PlayerController
     void Start()
     {
         Player = GetComponent<Player>();
-        Rb = GetComponent<Rigidbody>();
 
-        playerCharacterHub = GetComponent<PlayerCharacterHub>();
+        playerCharacterHub = Player.PlayerCharacter as PlayerCharacterHub;
+        Rb = playerCharacterHub.Rb;
+
     }
 
     public override void Update()
