@@ -44,6 +44,13 @@ namespace DatabaseClass
     }
 
     [System.Serializable]
+    public class EarsData : Unlockable
+    {
+        [SerializeField]
+        public string model;
+    }
+
+    [System.Serializable]
     public class MustacheData : Unlockable
     {
         [SerializeField]
@@ -95,6 +102,9 @@ namespace DatabaseClass
         public List<RuneData> runes;
 
         [SerializeField]
+        public List<EarsData> ears;
+
+        [SerializeField]
         public List<MustacheData> mustaches;
 
         [SerializeField]
@@ -132,6 +142,11 @@ namespace DatabaseClass
                 if (runes.Find(a => a.Id == _id) != null)
                     runes.Find(a => a.Id == _id).isUnlocked = isUnlocked;
             }
+            else if (typeof(T) == typeof(EarsData))
+            {
+                if (mustaches.Find(a => a.Id == _id) != null)
+                    mustaches.Find(a => a.Id == _id).isUnlocked = isUnlocked;
+            }
             else if (typeof(T) == typeof(MustacheData))
             {
                 if (mustaches.Find(a => a.Id == _id) != null)
@@ -166,6 +181,11 @@ namespace DatabaseClass
                 if (runes.Find(a => a.Id == _id) != null)
                     return runes.Find(a => a.Id == _id).isUnlocked;
             }
+            else if (typeof(T) == typeof(EarsData))
+            {
+                if (mustaches.Find(a => a.Id == _id) != null)
+                    return mustaches.Find(a => a.Id == _id).isUnlocked;
+            }
             else if (typeof(T) == typeof(MustacheData))
             {
                 if (mustaches.Find(a => a.Id == _id) != null)
@@ -189,6 +209,8 @@ namespace DatabaseClass
                 a.isUnlocked = true;
             foreach (Unlockable a in runes)
                 a.isUnlocked = true;
+            foreach (Unlockable a in ears)
+                a.isUnlocked = true;
             foreach (Unlockable a in mustaches)
                 a.isUnlocked = true;
             foreach (Unlockable a in hats)
@@ -200,6 +222,7 @@ namespace DatabaseClass
             faces = new List<FaceData>();
             minigames = new List<MinigameData>();
             runes = new List<RuneData>();
+            ears = new List<EarsData>();
             mustaches = new List<MustacheData>();
             hats = new List<HatData>();
             Money = 0;
@@ -257,6 +280,13 @@ namespace DatabaseClass
             hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/CowboyHat", isUnlocked = false });
             hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/GlitterHat", isUnlocked = false });
             hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/TopHatHat", isUnlocked = false });
+
+            // Adding ears
+            //int idEars = 0;
+            //string[] strEars = { "", "" };
+            //ears.Add(new EarsData { Id = strEars[idEars], model = "Ears/", isUnlocked = false });
+            //ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/", isUnlocked = false });
+            
         }
 
         public void AllCostToZero()
