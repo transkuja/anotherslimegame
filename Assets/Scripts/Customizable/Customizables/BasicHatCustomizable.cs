@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChiefHatCustomizable : MonoBehaviour, ICustomizable {
+public class BasicHatCustomizable : MonoBehaviour, ICustomizable {
 
     public void Init(PlayerCharacter _player)
     {

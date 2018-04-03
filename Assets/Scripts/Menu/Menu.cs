@@ -923,17 +923,17 @@ public class Menu : MonoBehaviour {
                 selectedRabbits[i] = false; // Line needed in case we come back from minigame selection screen
 
             sf[i] = selectedCustomizables[(int)CustomizableType.Face, i];
-            if (selectedCustomizables[(int)CustomizableType.Mustache, i] == unlockedCustomizables[CustomizableType.Mustache].Count)
+            if (unlockedCustomizables[CustomizableType.Mustache].Count == 0 || selectedCustomizables[(int)CustomizableType.Mustache, i] == unlockedCustomizables[CustomizableType.Mustache].Count)
                 selectedMustaches[i] = "None";
             else
                 selectedMustaches[i] = ((DatabaseClass.MustacheData)unlockedCustomizables[CustomizableType.Mustache][selectedCustomizables[(int)CustomizableType.Mustache, i]]).model;
 
-            if (selectedCustomizables[(int)CustomizableType.Hat, i] == unlockedCustomizables[CustomizableType.Hat].Count)
+            if (unlockedCustomizables[CustomizableType.Hat].Count == 0 || selectedCustomizables[(int)CustomizableType.Hat, i] == unlockedCustomizables[CustomizableType.Hat].Count)
                 selectedHats[i] = "None";
             else
                 selectedHats[i] = ((DatabaseClass.HatData)unlockedCustomizables[CustomizableType.Hat][selectedCustomizables[(int)CustomizableType.Hat, i]]).model;
 
-            if (selectedCustomizables[(int)CustomizableType.Ears, i] == unlockedCustomizables[CustomizableType.Ears].Count)
+            if (unlockedCustomizables[CustomizableType.Ears].Count == 0 || selectedCustomizables[(int)CustomizableType.Ears, i] == unlockedCustomizables[CustomizableType.Ears].Count)
                 selectedEars[i] = "None";
             else
                 selectedEars[i] = ((DatabaseClass.EarsData)unlockedCustomizables[CustomizableType.Ears][selectedCustomizables[(int)CustomizableType.Ears, i]]).model;
