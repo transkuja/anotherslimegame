@@ -9,5 +9,9 @@ public class DeathZone : MonoBehaviour {
         {
             other.GetComponent<PlayerCharacterHub>().OnDeath();
         }
+        else if(other.GetComponent<PlayerControllerKart>()) //Needs to be replaced with a character?
+        {
+            other.GetComponent<PlayerControllerKart>().RespawnToLastCheckpoint();
+        }
     }
 }

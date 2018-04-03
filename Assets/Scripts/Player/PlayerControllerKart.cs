@@ -5,6 +5,8 @@ using UWPAndXInput;
 
 public class PlayerControllerKart : PlayerController {
 
+    public bool useAlternativeCommands = false;
+
     public enum KartPlayerState
     {
         Normal,
@@ -40,8 +42,6 @@ public class PlayerControllerKart : PlayerController {
     bool clamp = true;
 
     public KartPlayerState CurrentState
-
-
     {
         get
         {
@@ -91,10 +91,15 @@ public class PlayerControllerKart : PlayerController {
         base.Update();
         sound.pitch = rb.velocity.magnitude / maxVelocityMagnitude + 1.8f;
         state = GamePad.GetState(PlayerIndex);
+        if (Input.GetKeyDown(KeyCode.M))
+            useAlternativeCommands = !useAlternativeCommands;
         switch(CurrentState)
         {
             case KartPlayerState.Normal:
-                HandleNormalState();
+                if(useAlternativeCommands)
+                    HandleNormalState();
+                else
+                    HandleNormalStateAlternative();
                 break;
             case KartPlayerState.Hit:
                 HandleHitState();
@@ -104,6 +109,13 @@ public class PlayerControllerKart : PlayerController {
                 break;
         }
 	}
+
+    public void RespawnToLastCheckpoint()
+    {
+        transform.position = player.respawnPoint.position;
+        transform.rotation = player.respawnPoint.rotation;
+        rb.velocity = Vector3.zero;
+    }
 
     void ApplyGravity(float gravity = 500.0f)
     {
@@ -134,6 +146,51 @@ public class PlayerControllerKart : PlayerController {
         rb.AddForce(((directionFactor * transform.forward * rb.velocity.magnitude) - rb.velocity) / 4.0f, ForceMode.VelocityChange);
 
         if(clamp)
+            rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxVelocityMagnitude);
+        if (dashTimer >= dashCooldown && state.Buttons.X == ButtonState.Pressed && prevState.Buttons.X == ButtonState.Released)
+        {
+            rb.AddForce(transform.forward * dashForce, ForceMode.Impulse);
+            dashTimer = 0.0f;
+            DisableClampingForSeconds(0.15f);
+        }
+        targetForward = new Vector3(state.ThumbSticks.Left.X, 0, state.ThumbSticks.Left.Y);
+        if (targetForward == Vector3.zero)
+            targetForward = transform.forward;
+    }
+
+
+    void HandleNormalStateAlternative()
+    {
+        ApplyGravity();
+        if (GameManager.CurrentState != GameState.Normal)
+            return;
+
+        if (dashTimer < dashCooldown)
+            dashTimer += Time.deltaTime;
+
+        // -1 if we're reversing, 1 if going forward
+        float directionFactor = Vector3.Dot(rb.velocity, transform.forward) < -0.2f ? -1.0f : 1.0f;
+
+        // Clamp Rotation speed relative to maxVelocity
+        float velocityRatio = directionFactor * ((rb.velocity.magnitude > maxVelocityMagnitude) ? 1.0f : (rb.velocity.magnitude / maxVelocityMagnitude));
+
+        targetForward = new Vector3(state.ThumbSticks.Left.X, 0, state.ThumbSticks.Left.Y);
+
+        if (targetForward == Vector3.zero)
+
+            targetForward = transform.forward;
+
+        transform.rotation = Quaternion.LookRotation(Vector3.Lerp(transform.forward, targetForward, Time.deltaTime * 6.0f * Mathf.Clamp(rb.velocity.magnitude / 2.0f, 0.0f, 1.0f)), Vector3.up);
+
+
+        //transform.Rotate(Vector3.up * velocityRatio * state.ThumbSticks.Left.X * Time.deltaTime * turnSpeed);
+
+        rb.AddForce(transform.forward * Time.deltaTime * forwardSpeed * state.Triggers.Right, ForceMode.VelocityChange);
+        rb.AddForce(-transform.forward * Time.deltaTime * forwardSpeed / 2.0f * state.Triggers.Left, ForceMode.VelocityChange);
+
+        rb.AddForce(((directionFactor * transform.forward * rb.velocity.magnitude) - rb.velocity) / 4.0f, ForceMode.VelocityChange);
+
+        if (clamp)
             rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxVelocityMagnitude);
         if (dashTimer >= dashCooldown && state.Buttons.X == ButtonState.Pressed && prevState.Buttons.X == ButtonState.Released)
         {
