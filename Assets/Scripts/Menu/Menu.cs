@@ -53,6 +53,10 @@ public class Menu : MonoBehaviour {
 
     bool[] areReady;
 
+    [SerializeField]
+    GameObject menuCursor;
+    GameObject currentCursorVisual;
+
     public SlimeDataContainer DataContainer
     {
         get
@@ -77,15 +81,29 @@ public class Menu : MonoBehaviour {
 
         set
         {
-            if (currentlySelectedButton != null)
-                currentlySelectedButton.GetComponent<AnimButton>().enabled = false;
+            //if (currentlySelectedButton != null)
+            //    currentlySelectedButton.GetComponent<AnimButton>().enabled = false;
             currentlySelectedButton = value;
             if (currentlySelectedButton != null)
             {
-                if (currentlySelectedButton.GetComponent<AnimButton>() == null)
-                    currentlySelectedButton.gameObject.AddComponent<AnimButton>();
-                else
-                    currentlySelectedButton.GetComponent<AnimButton>().enabled = true;
+                //if (currentlySelectedButton.GetComponent<AnimButton>() == null)
+                //    currentlySelectedButton.gameObject.AddComponent<AnimButton>();
+                //else
+                //    currentlySelectedButton.GetComponent<AnimButton>().enabled = true;
+
+                if (currentCursorVisual == null)
+                {
+                    currentCursorVisual = Instantiate(menuCursor, null);
+                }
+
+                currentCursorVisual.transform.SetParent(currentlySelectedButton.transform);
+                currentCursorVisual.transform.localPosition = Vector3.zero;
+                currentCursorVisual.transform.localScale = Vector3.one;
+                currentCursorVisual.transform.localRotation = Quaternion.identity;
+                int textLength = currentlySelectedButton.GetComponentInChildren<Text>().text.Length;
+
+                currentCursorVisual.transform.GetChild(0).localPosition = new Vector3(-7 * (textLength), 0.0f, 0.0f);
+                currentCursorVisual.transform.GetChild(1).localPosition = new Vector3(7 * (textLength), 0.0f, 0.0f);
             }
         }
     }
