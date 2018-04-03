@@ -11,8 +11,7 @@ public enum CustomizableType { Color, Face, Ears, Mustache, Hat, Hands, Tail, Si
 public class Menu : MonoBehaviour {
     public enum MenuState { Common, TitleScreenModeSelection, NumberOfPlayers, CustomisationScreen, MinigameSelection }
     MenuState currentState = MenuState.TitleScreenModeSelection;
-
-              bool[] isNonable = { false, false, true, true, true, true, true };
+    bool[] isNonable = { false, false, true, true, true, true, true };
 
     int currentCursor = 0;
     int minigameCurrentCursor = 0;
@@ -32,7 +31,7 @@ public class Menu : MonoBehaviour {
     private List<DatabaseClass.ColorData> unlockedCustomColors = new List<DatabaseClass.ColorData>();
     private List<DatabaseClass.FaceData> unlockedFesses = new List<DatabaseClass.FaceData>();
     private List<DatabaseClass.MinigameData> unlockedMinigames = new List<DatabaseClass.MinigameData>();
-    // TODO: add in database missing values Ears, Mustache, Pants, Helmet, Hands, Tail
+    // TODO: add in database missing values Ears, Pants, Helmet, Hands, Tail
     private Dictionary<CustomizableType, List<DatabaseClass.Unlockable>> unlockedCustomizables = new Dictionary<CustomizableType, List<DatabaseClass.Unlockable>>();
 
     GamePadState[] prevControllerStates = new GamePadState[4];
@@ -45,8 +44,6 @@ public class Menu : MonoBehaviour {
     int[,] selectedCustomizables = new int[(int)CustomizableType.Size, 4];
 
     // LEGACY
-    int[] selectedColors = new int[4];
-    int[] selectedFaces = new int[4];
     int[] currentCursorsRow = new int[4];
     bool[] selectedColorFades = new bool[4];
     bool[] selectedRabbits = new bool[4];
@@ -147,8 +144,6 @@ public class Menu : MonoBehaviour {
         if (DataContainer.launchedFromMinigameScreen)
         {
             nbPlayers = dataContainer.nbPlayers;
-            //selectedColorFades = dataContainer.colorFadeSelected;
-            //selectedRabbits = dataContainer.rabbitSelected;
             selectedMode = (dataContainer.launchedFromMinigameScreen) ? 1 : 0;
 
             // TODO: load data
@@ -228,7 +223,7 @@ public class Menu : MonoBehaviour {
                 }
                 else if (currentState == MenuState.MinigameSelection)
                 {
-                    UpdateSelectionVisualForMinigame();
+                    // Do nothing
                 }
                 else if (currentState == MenuState.TitleScreenModeSelection)
                 {
@@ -364,19 +359,10 @@ public class Menu : MonoBehaviour {
                             currentlySelectedOption[i] = (int)CustomizableType.Size - 1;
                         else
                             currentlySelectedOption[i] = currentlySelectedOption[i] % (int)CustomizableType.Size;
-
-                        //if (selectedFaces[i] != unlockedFesses.Count) // Lock color if rabbit is selected
-                        //{
-                        //    selectedColors[i]--;
-                        //    //UpdatePlayerPreviewColor(i);
-                        //}
                     }
                     else
                     {
                         selectedCustomizables[currentlySelectedOption[i], i]--;
-
-                        //selectedFaces[i]--;
-                        //UpdatePlayerPreviewFace(i);
                     }
                     UpdatePreview(i);
                 }
@@ -417,9 +403,6 @@ public class Menu : MonoBehaviour {
             minigameCurrentCursor %= unlockedMinigames.Count;
 
             UpdateMinigameSelection();
-
-            //buttonNeedUpdate = true;
-            //minigameCurrentCursor[0]++;
         }
         else if ((controllerStates[0].ThumbSticks.Left.X < -0.5f && prevControllerStates[0].ThumbSticks.Left.X > -0.5f)
             // Keyboard input
@@ -434,12 +417,6 @@ public class Menu : MonoBehaviour {
 
             UpdateMinigameSelection();
         }
-        //else if ((controllerStates[0].ThumbSticks.Left.Y < -0.75f && prevControllerStates[0].ThumbSticks.Left.Y > -0.75f)
-        //    || (controllerStates[0].ThumbSticks.Left.Y > 0.75f && prevControllerStates[0].ThumbSticks.Left.Y < 0.75f))
-        //{
-        //    buttonNeedUpdate = true;
-        //    minigameCurrentCursor[1]++;
-        //}
     }
 
     private void UpdateMinigameSelection()
@@ -473,30 +450,6 @@ public class Menu : MonoBehaviour {
         else
             currentCursor = currentCursor % _nbButtons;
         CurrentlySelectedButton = transform.GetChild((int)currentState).GetChild(_childOffset).GetChild(currentCursor).GetComponent<Button>();
-    }
-
-    void UpdateSelectionVisualForMinigame()
-    {
-        //if (minigameButtonsInstantiated.Count == 4)
-        //{
-        //    minigameCurrentCursor[0] %= 2;
-        //    minigameCurrentCursor[1] %= 2;
-        //}
-        //else if (minigameButtonsInstantiated.Count == 3)
-        //{
-        //    if (minigameCurrentCursor[0] == 1 && minigameCurrentCursor[1] == 1)
-        //        minigameCurrentCursor[0] = 0;
-
-        //    minigameCurrentCursor[0] %= 2;
-        //    minigameCurrentCursor[1] %= 2;
-        //}
-        //if (minigameButtonsInstantiated.Count <= 2)
-        //    minigameCurrentCursor[1] = 0;
-        //if (minigameButtonsInstantiated.Count == 1)
-        //    minigameCurrentCursor[0] = 0;
-
-        //int childIndex = minigameCurrentCursor[0] + 2 * minigameCurrentCursor[1];
-        //CurrentlySelectedButton = transform.GetChild((int)currentState).GetChild(childIndex).GetComponentInChildren<Button>();
     }
 
     void UpdatePreview(int _playerIndex)
@@ -629,11 +582,6 @@ public class Menu : MonoBehaviour {
     // Change the player color according to current selection
     void UpdatePlayerPreviewColor(int _playerIndex, int _selection)
     {
-        // Rabbit protection
-        if (selectedFaces[_playerIndex] == unlockedFesses.Count)
-            return;
-
-
         // Update text and character
         playerCustomScreens[_playerIndex].transform.GetChild(4).GetComponentInChildren<PlayerCosmetics>().UseColorFade = false;
         playerCustomScreens[_playerIndex].transform.GetChild(4).GetComponentInChildren<PlayerCosmetics>().SetUniqueColor(((DatabaseClass.ColorData)unlockedCustomizables[CustomizableType.Color][_selection]).color);
@@ -765,13 +713,8 @@ public class Menu : MonoBehaviour {
             for (int i = 0; i < nbPlayers; i++)
             {
                 PlayerCosmetics curPlayerCosmetics = transform.GetChild((int)MenuState.MinigameSelection).GetChild(childCount - 4 + i).GetComponentInChildren<PlayerCosmetics>();
-                if (selectedColors[i] == unlockedCustomColors.Count)
-                {
-                    curPlayerCosmetics.UseColorFade = true;
-                }
-                else
-                    curPlayerCosmetics.SetUniqueColor(((DatabaseClass.ColorData)unlockedCustomizables[CustomizableType.Color][selectedCustomizables[(int)CustomizableType.Color, i]]).color);
-
+                
+                curPlayerCosmetics.SetUniqueColor(((DatabaseClass.ColorData)unlockedCustomizables[CustomizableType.Color][selectedCustomizables[(int)CustomizableType.Color, i]]).color);
                 curPlayerCosmetics.FaceType = (FaceType)((DatabaseClass.FaceData)unlockedCustomizables[CustomizableType.Face][selectedCustomizables[(int)CustomizableType.Face, i]]).indiceForShader;
 
                 // Customizables
