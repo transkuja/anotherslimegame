@@ -160,6 +160,8 @@ public class PlayerStart : MonoBehaviour {
                     // Init hats //
                     InitCustomizable(CustomizableType.Hat, GameManager.Instance.DataContainer.hatsSelected[i], customizableParent);
 
+                    // Init ears //
+                    InitCustomizable(CustomizableType.Ears, GameManager.Instance.DataContainer.earsSelected[i], customizableParent);
                 }
             }
             else
