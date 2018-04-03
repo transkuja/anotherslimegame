@@ -6,6 +6,9 @@ public class PlayerControllerHub : PlayerController
 {
     // Aggregations
     private PlayerCharacterHub playerCharacterHub;
+    float timeBeforeTeleportation;
+    float timeBeforeTeleportationReset = 1.5f;
+    bool canTeleportAgain = true;
 
     #region Controller
 
@@ -81,6 +84,8 @@ public class PlayerControllerHub : PlayerController
         playerCharacterHub = Player.PlayerCharacter as PlayerCharacterHub;
         Rb = playerCharacterHub.Rb;
 
+        timeBeforeTeleportation = timeBeforeTeleportationReset;
+        canTeleportAgain = true;
     }
 
     public override void Update()
@@ -116,6 +121,7 @@ public class PlayerControllerHub : PlayerController
                 HandleDashWithController();
                 PlatformistController();
                 GhostController();
+                TeleportToOtherPlayer();
             }
         }
     }
@@ -154,4 +160,30 @@ public class PlayerControllerHub : PlayerController
                 playerCharacterHub.PlayerState.OnDownDashPressed();
     }
 
+    private void TeleportToOtherPlayer()
+    {
+        if (GameManager.Instance.IsInHub() && GameManager.Instance.PlayerStart.ActivePlayersAtStart == 2)
+        {
+            if (state.Buttons.B == ButtonState.Pressed && state.Buttons.Y == ButtonState.Pressed && canTeleportAgain)
+            {
+                timeBeforeTeleportation -= Time.deltaTime;
+                if (timeBeforeTeleportation < 0.0f)
+                {
+                    // TeleportToOtherPlayerProcess
+                    int otherPlayerIndex = ((int)playerIndex + 1) % 2;
+                    if (GameManager.Instance.PlayerStart.PlayersReference[otherPlayerIndex].GetComponent<PlayerCharacterHub>().IsGrounded)
+                    {
+                        transform.position = GameManager.Instance.PlayerStart.PlayersReference[otherPlayerIndex].transform.position + Vector3.up * 2.0f;
+                        canTeleportAgain = false;
+                        timeBeforeTeleportation = timeBeforeTeleportationReset;
+                    }
+                }
+            }
+            else
+            {
+                canTeleportAgain = true;
+                timeBeforeTeleportation = timeBeforeTeleportationReset;
+            }
+        }
+    }
 }
