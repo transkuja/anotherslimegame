@@ -263,4 +263,16 @@ public class Player : MonoBehaviour {
             }
         }
     }
+
+    // Delegate events in RUNNER:
+    public delegate void OnPlayerDeath(Player player);
+    public OnPlayerDeath OnDeathEvent;
+
+    public void OnDeath()
+    {
+        //Respawner.RespawnProcess(GetComponent<Player>());
+        if (OnDeathEvent != null)
+            OnDeathEvent(this);
+    }
+
 }

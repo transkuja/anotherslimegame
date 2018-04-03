@@ -14,6 +14,13 @@ public class KartGameMode : GameMode {
     {
         base.StartGame(playerReferences);
         rules = new MinigameRules(this);
+
+        for (int i = 0; i < playerReferences.Count; i++)
+        {
+            Player player = playerReferences[i].GetComponent<Player>();
+            if (player != null)
+                player.OnDeathEvent += OnPlayerDeath;
+        }
         checkRuneObjective = CheckRuneObjectiveForKart;
         LaunchTimer();
     }
@@ -49,5 +56,12 @@ public class KartGameMode : GameMode {
     public bool CheckRuneObjectiveForKart()
     {
         return firstFinishTime <= necessaryTimeForRune;
+    }
+
+    public void OnPlayerDeath(Player player)
+    {
+        player.transform.position = player.respawnPoint.position;
+        player.transform.rotation = player.respawnPoint.rotation;
+        player.GetComponent<Rigidbody>().velocity = Vector3.zero;
     }
 }

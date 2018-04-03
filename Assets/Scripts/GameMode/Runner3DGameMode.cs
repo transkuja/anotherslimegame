@@ -30,9 +30,9 @@ public class Runner3DGameMode : GameMode {
         nbDeadPlayers = 0;
         for (int i = 0; i < playerReferences.Count; i++)
         {
-            PlayerCharacterHub playerCharacterHub = playerReferences[i].GetComponent<PlayerCharacterHub>();
-            if (playerCharacterHub != null)
-                playerCharacterHub.OnDeathEvent += OnPlayerDeath;
+            Player player = playerReferences[i].GetComponent<Player>();
+            if (player != null)
+                player.OnDeathEvent += OnPlayerDeath;
         }
         if (curNbPlayers == 1)
             mode = EMode.SoloInfinite;
@@ -64,10 +64,9 @@ public class Runner3DGameMode : GameMode {
         }
     }
   
-    public void OnPlayerDeath(int id)
+    public void OnPlayerDeath(Player player)
     {
-        GameManager.Instance.PlayerStart.PlayersReference[id].gameObject.SetActive(false);
-        Player player = GameManager.Instance.PlayerStart.PlayersReference[id].GetComponent<Player>();
+        player.gameObject.SetActive(false);
         player.NbPoints = Mathf.CeilToInt(player.transform.position.z);
         nbDeadPlayers++;
         CheckVictory();

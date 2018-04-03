@@ -17,15 +17,15 @@ public class RunnerUI : APlayerUI {
     {
         base.Init();
         foreach (GameObject p in GameManager.Instance.PlayerStart.PlayersReference)
-            p.GetComponent<PlayerCharacterHub>().OnDeathEvent += OnPlayerDeath;
+            p.GetComponent<Player>().OnDeathEvent += OnPlayerDeath;
     }
 
-    public void OnPlayerDeath(int playerId)
+    public void OnPlayerDeath(Player player)
     {
         GameObject deathScreen = Instantiate(deathScreenModel, Vector3.zero, Quaternion.identity, transform);
         int maxPlayerNb = GameManager.Instance.PlayerStart.PlayersReference.Count;
 
-        int playerCanvasId = playerId;
+        int playerCanvasId = (int)player.PlayerController.PlayerIndex;
             // if 4 player invert player screen places
         if (maxPlayerNb>2)
             playerCanvasId = (playerCanvasId + 2) % 4;
@@ -50,11 +50,10 @@ public class RunnerUI : APlayerUI {
         rectTr.anchorMax = new Vector2(anchorMax.x, anchorMax.y);
 
         // Set nb points on death screen
-        GameObject curPlayer = GameManager.Instance.PlayerStart.PlayersReference[playerId];
         // quick debug à changer : 
-        curPlayer.GetComponent<Player>().NbPoints =Mathf.CeilToInt(curPlayer.transform.position.z);
+        player.NbPoints = Mathf.CeilToInt(player.transform.position.z);
 
-        deathScreen.transform.GetChild(1).GetComponentInChildren<Text>().text = curPlayer.GetComponent<Player>().NbPoints + " pts";
+        deathScreen.transform.GetChild(1).GetComponentInChildren<Text>().text = player.NbPoints + " pts";
     }
 
 }

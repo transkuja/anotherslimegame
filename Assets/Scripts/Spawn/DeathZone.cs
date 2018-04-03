@@ -5,13 +5,9 @@ public class DeathZone : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<PlayerCharacterHub>() != null)
+        if (other.GetComponent<Player>() != null)
         {
-            other.GetComponent<PlayerCharacterHub>().OnDeath();
-        }
-        else if(other.GetComponent<PlayerControllerKart>()) //Needs to be replaced with a character?
-        {
-            other.GetComponent<PlayerControllerKart>().RespawnToLastCheckpoint();
+            other.GetComponent<Player>().OnDeath();
         }
     }
 }

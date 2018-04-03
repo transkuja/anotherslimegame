@@ -110,13 +110,6 @@ public class PlayerControllerKart : PlayerController {
         }
 	}
 
-    public void RespawnToLastCheckpoint()
-    {
-        transform.position = player.respawnPoint.position;
-        transform.rotation = player.respawnPoint.rotation;
-        rb.velocity = Vector3.zero;
-    }
-
     void ApplyGravity(float gravity = 500.0f)
     {
         rb.AddForce(Vector3.down * Time.deltaTime * gravity, ForceMode.VelocityChange);
