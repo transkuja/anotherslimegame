@@ -15,15 +15,21 @@ public class SpikeTrap : MonoBehaviour {
         if (collision.gameObject.GetComponentInParent<Player>())
         {
             Player p = collision.gameObject.GetComponentInParent<Player>();
-
             PlayerControllerHub pController = p.GetComponent<PlayerControllerHub>();
+            PlayerCollisionCenter pCollisionCenter = pController.GetComponent<PlayerCollisionCenter>();
 
-            if (GameManager.Instance.IsInHub())
-                pController.GetComponent<PlayerCollisionCenter>().DamagePlayerHub();
-            else
-                pController.GetComponent<PlayerCollisionCenter>().DamagePlayer(pController.GetComponent<Player>(), damageOn);
+            if (pCollisionCenter.canBeHit)
+            {
+                pCollisionCenter.canBeHit = false;
+                if (GameManager.Instance.IsInHub())
+                    pCollisionCenter.DamagePlayerHub();
+                else
+                    pCollisionCenter.DamagePlayer(p, damageOn);
 
-            pController.GetComponent<PlayerCollisionCenter>().ExpulsePlayer(collision.collider.ClosestPoint(transform.position), pController.GetComponent<Rigidbody>(), 15);
+                pCollisionCenter.ExpulsePlayer(collision.collider.ClosestPoint(transform.position), pController.Rb, 15);
+
+            }
+
         }
     }
 }

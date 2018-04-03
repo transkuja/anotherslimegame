@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public enum PlayerUIStat { Life, Points, Size}
 
@@ -26,6 +27,8 @@ public class Player : MonoBehaviour {
 
     //for minigame Kart
     [SerializeField] private float finishTime = -1.0f;
+    private float timerInvincibilite = 0.07f;
+    private float currentTimerInvincibilite = 0;
 
     public bool[] evolutionTutoShown = new bool[(int)Powers.Size];
     public bool costAreaTutoShown = false;
@@ -275,4 +278,19 @@ public class Player : MonoBehaviour {
             OnDeathEvent(this);
     }
 
+    public void Clignote()
+    {
+        currentTimerInvincibilite += Time.deltaTime;
+        if(currentTimerInvincibilite> timerInvincibilite)
+        {
+            playerCharacter.Body.GetComponent<MeshRenderer>().enabled = !playerCharacter.Body.GetComponent<MeshRenderer>().enabled;
+            currentTimerInvincibilite = 0.0f;
+        }
+    
+    }
+
+    public void ArreteDeClignoter()
+    {
+        playerCharacter.Body.GetComponent<MeshRenderer>().enabled = true;
+    }
 }

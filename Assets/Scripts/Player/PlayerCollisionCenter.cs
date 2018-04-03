@@ -36,7 +36,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
     private List<Vector3> impactedPlayersOldVelocities = new List<Vector3>();
     private List<AIRabite> impactedRabite = new List<AIRabite>();
 
-    private float invincibilityFrame = 1.5f;
+    private float invincibilityFrame = 2.0f;
     bool onceRepulsion;
     int separationMask;
     Collider[] playersCollided;
@@ -64,6 +64,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
     public float heightAngleForActivation = 25;
 
     bool hasCollidedWithAPlayer = false;
+    public bool canBeHit = true;
     public float timerStopOnDashCollision = 0.3f;
     float currentTimerStop = 0.0f;
 
@@ -86,9 +87,6 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
     void Start()
     {
-    
-
-
         repulsionFactor = 35;
         impactedRabite = new List<AIRabite>();
 
@@ -129,6 +127,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
                         if (!impactedPlayers.Contains(playersCollided[i].GetComponent<Player>()))
                         {
                             Player impactedPlayer = playersCollided[i].GetComponent<Player>();
+                            impactedPlayer.GetComponent<PlayerCollisionCenter>().canBeHit = false;
                             impactedPlayers.Add(impactedPlayer);
 
                             UWPAndXInput.PlayerIndex impactedPlayerIndex = playersCollided[i].GetComponent<PlayerControllerHub>().PlayerIndex;
@@ -166,6 +165,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
                         if (!impactedPlayers.Contains(playersCollided[i].GetComponent<Player>()))
                         {
                             Player impactedPlayer = playersCollided[i].GetComponent<Player>();
+                            impactedPlayer.GetComponent<PlayerCollisionCenter>().canBeHit = false;
                             impactedPlayers.Add(impactedPlayer);
 
                             UWPAndXInput.PlayerIndex impactedPlayerIndex = impactedPlayer.PlayerController.PlayerIndex;
@@ -320,6 +320,12 @@ public class PlayerCollisionCenter : MonoBehaviour {
                 hasCollidedWithAPlayer = false;
             }
         }
+
+        // Visu invincibility
+        if (!canBeHit)
+        {
+            player.Clignote();
+        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -424,8 +430,6 @@ public class PlayerCollisionCenter : MonoBehaviour {
         }
     }
 
-
-
     public void DamagePlayerHub()
     {
         if (GameManager.Instance.GlobalMoney == 0)
@@ -494,10 +498,13 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
     public IEnumerator ReactivateCollider(Player p)
     {
-        // Doesn't work
         yield return new WaitForSeconds(invincibilityFrame);
+        p.GetComponent<PlayerCollisionCenter>().canBeHit = true;
+        p.ArreteDeClignoter();
+        yield return new WaitForSeconds(0.3f);
         impactedPlayers.Remove(p);
-        Physics.IgnoreCollision(p.GetComponent<Collider>(), GetComponent<Collider>(),false);
+        Physics.IgnoreCollision(p.GetComponent<Collider>(), GetComponent<Collider>(), false);
+
         yield return null;
     }
 

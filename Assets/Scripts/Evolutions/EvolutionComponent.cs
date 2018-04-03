@@ -69,7 +69,6 @@ public class EvolutionComponent : MonoBehaviour {
             else if (evolution.BodyPart == BodyPart.Staff)
                 affectedPart.transform.SetParent(playerCharacter.MainDroite);
         }
-        Debug.Log(affectedPart);
         affectedPart.SetActive(true);
     }
 
