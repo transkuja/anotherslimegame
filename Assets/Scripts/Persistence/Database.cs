@@ -252,11 +252,11 @@ namespace DatabaseClass
             // Adding hats
             int idHat = 0;
             string[] strHat = { "Cap", "Chief", "Cowboy", "Glitter", "Top Hat" };
-            hats.Add(new HatData { Id = strMustache[idHat], model = "Hats/CapHat", isUnlocked = false });
-            hats.Add(new HatData { Id = strMustache[++idHat], model = "Hats/ChiefHat", isUnlocked = false });
-            hats.Add(new HatData { Id = strMustache[++idHat], model = "Hats/CowboyHat", isUnlocked = false });
-            hats.Add(new HatData { Id = strMustache[++idHat], model = "Hats/GlitterHat", isUnlocked = false });
-            hats.Add(new HatData { Id = strMustache[++idHat], model = "Hats/TopHatHat", isUnlocked = false });
+            hats.Add(new HatData { Id = strHat[idHat], model = "Hats/CapHat", isUnlocked = false });
+            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/ChiefHat", isUnlocked = false });
+            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/CowboyHat", isUnlocked = false });
+            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/GlitterHat", isUnlocked = false });
+            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/TopHatHat", isUnlocked = false });
         }
 
         public void AllCostToZero()
