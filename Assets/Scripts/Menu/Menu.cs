@@ -672,6 +672,8 @@ public class Menu : MonoBehaviour {
         if (currentState == MenuState.CustomisationScreen)
         {
             areReady = new bool[nbPlayers];
+            for (int i = 0; i < 4; i++)
+                currentCursorsRow[i] = 0;
 
             // If a selection has already been made
             if (playerCustomScreens.Count > 0)
