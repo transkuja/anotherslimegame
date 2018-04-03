@@ -102,8 +102,8 @@ public class Menu : MonoBehaviour {
                 currentCursorVisual.transform.localRotation = Quaternion.identity;
                 int textLength = currentlySelectedButton.GetComponentInChildren<Text>().text.Length;
 
-                currentCursorVisual.transform.GetChild(0).localPosition = new Vector3(-7 * (textLength), 0.0f, 0.0f);
-                currentCursorVisual.transform.GetChild(1).localPosition = new Vector3(7 * (textLength), 0.0f, 0.0f);
+                currentCursorVisual.transform.GetChild(0).localPosition = new Vector3(-7 * (textLength), -1.0f, 0.0f);
+                currentCursorVisual.transform.GetChild(1).localPosition = new Vector3(7 * (textLength), -1.0f, 0.0f);
             }
         }
     }
