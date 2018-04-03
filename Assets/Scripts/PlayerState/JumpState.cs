@@ -19,12 +19,15 @@ public class JumpState : PlayerState
         {
             nbJumpMade = value;
 #if UNITY_EDITOR
-            DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.NbJumpMade, value.ToString(), (int)playerControllerHub.playerIndex);
+            if(playerCharacterHub.GetComponent<PlayerControllerHub>())
+            DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.NbJumpMade, value.ToString(), (int)playerCharacterHub.GetComponent<PlayerControllerHub>().playerIndex);
+            else
+            DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.NbJumpMade, value.ToString(), -1);
 #endif
         }
     }
 
-    public JumpState(PlayerCharacterHub _playerCharacterHub, PlayerControllerHub _playerControllerHub) : base(_playerCharacterHub, _playerControllerHub)
+    public JumpState(PlayerCharacterHub _playerCharacterHub) : base(_playerCharacterHub)
     {
         curUpdateFct = OnJump;
     }

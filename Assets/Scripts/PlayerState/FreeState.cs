@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FreeState : PlayerState
 {
-    public FreeState(PlayerCharacterHub _playerCharacterHub, PlayerControllerHub _playerControllerHub) : base(_playerCharacterHub, _playerControllerHub)
+    public FreeState(PlayerCharacterHub _playerCharacterHub) : base(_playerCharacterHub)
     {
     }
 

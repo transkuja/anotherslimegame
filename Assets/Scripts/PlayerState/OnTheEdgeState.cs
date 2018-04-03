@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class OnTheEdgeState : PlayerState
 {
-    public OnTheEdgeState(PlayerCharacterHub _playerCharacterHub, PlayerControllerHub _playerControllerHub) : base(_playerCharacterHub, _playerControllerHub)
+    public OnTheEdgeState(PlayerCharacterHub _playerCharacterHub) : base(_playerCharacterHub)
     {
     }
 
@@ -30,14 +30,14 @@ public class OnTheEdgeState : PlayerState
 
     }
 
-    public override Vector3 HandleSpeedWithController()
+    public override Vector3 HandleSpeed(float x, float y)
     {
-        if (playerControllerHub.State.ThumbSticks.Left.Y > 0.0f)
+        if (y > 0.0f)
             return Vector3.zero;
         return Vector3.zero;
     }
 
-    public override void Move(Vector3 initialVelocity)
+    public override void Move(Vector3 initialVelocity, float airControlFactor, float x, float y, bool forceCameraRecenter = false)
     {
     }
 

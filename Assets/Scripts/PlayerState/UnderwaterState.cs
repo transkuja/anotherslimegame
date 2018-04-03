@@ -9,7 +9,7 @@ public class UnderwaterState : PlayerState
 
     public float waterLevel;
     float waterTolerance;
-    public UnderwaterState(PlayerCharacterHub _playerCharacterHub, PlayerControllerHub _playerControllerHub) : base(_playerCharacterHub, _playerControllerHub)
+    public UnderwaterState(PlayerCharacterHub _playerCharacterHub) : base(_playerCharacterHub)
     {
     }
 

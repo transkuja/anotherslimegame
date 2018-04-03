@@ -45,8 +45,9 @@ public class Player : MonoBehaviour {
     public Fruit associateFruit;
 
     public MinigamePickUp.Use currentStoredPickup;
+    public float airControlFactor = 0.42f;
 
-#region Accessors
+    #region Accessors
 
     public int ID
     {

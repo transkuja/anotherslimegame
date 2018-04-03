@@ -11,7 +11,7 @@ public class DashDownState : PlayerState
 
     public int nbDashDownMade = 0;
         
-    public DashDownState(PlayerCharacterHub _playerCharacterHub, PlayerControllerHub _playerControllerHub) : base(_playerCharacterHub, _playerControllerHub)
+    public DashDownState(PlayerCharacterHub _playerCharacterHub) : base(_playerCharacterHub)
     {
     }
     public override void OnBegin()
@@ -36,7 +36,7 @@ public class DashDownState : PlayerState
     public void Levitate()
     {
         timer += Time.deltaTime;
-        if (timer > maxDashChargeDelay || playerControllerHub.State.Buttons.Y == ButtonState.Released)
+        if (timer > maxDashChargeDelay || (playerCharacterHub.GetComponent<PlayerControllerHub>() && playerCharacterHub.GetComponent<PlayerControllerHub>().State.Buttons.Y == ButtonState.Released))
         {
             curUpdateFct = OnDash;
             timer = 0;
@@ -74,7 +74,7 @@ public class DashDownState : PlayerState
     public override void HandleGravity()
     {
     }
-    public override void Move(Vector3 initialVelocity)
+    public override void Move(Vector3 initialVelocity, float airControlFactor, float x, float y, bool forceCameraRecenter = false)
     {
     }
     public override void OnDownDashPressed()

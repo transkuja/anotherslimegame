@@ -168,7 +168,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
                             impactedPlayer.GetComponent<PlayerCollisionCenter>().canBeHit = false;
                             impactedPlayers.Add(impactedPlayer);
 
-                            UWPAndXInput.PlayerIndex impactedPlayerIndex = impactedPlayer.PlayerController.PlayerIndex;
+                
                             PlayerCharacterHub impactedPlayerCharacter = impactedPlayer.PlayerCharacter as PlayerCharacterHub;
 
                             Rigidbody impactedPlayerRigidbody = impactedPlayerCharacter.Rb;
@@ -192,7 +192,13 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
                             //Set vibrations
                             UWPAndXInput.GamePad.VibrateForSeconds(playerController.playerIndex, 0.8f, 0.8f, .1f);
-                            UWPAndXInput.GamePad.VibrateForSeconds(impactedPlayerIndex, 0.8f, 0.8f, .1f);
+
+                            if (impactedPlayer.PlayerController)
+                            {
+                                UWPAndXInput.PlayerIndex impactedPlayerIndex = impactedPlayer.PlayerController.PlayerIndex;
+                                UWPAndXInput.GamePad.VibrateForSeconds(impactedPlayerIndex, 0.8f, 0.8f, .1f);
+                            }
+             
 
                             if (AudioManager.Instance != null && AudioManager.Instance.punchFx != null)
                                 AudioManager.Instance.PlayOneShot(AudioManager.Instance.punchFx);

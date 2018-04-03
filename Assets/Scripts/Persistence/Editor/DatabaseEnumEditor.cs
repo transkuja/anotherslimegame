@@ -50,7 +50,7 @@ public class DatabaseEnumEditor : Editor
             {
                 dynamicChoice.enumFromList.Add(s.Id);
             }
-        }
+        } 
     }
 
     public override void OnInspectorGUI()

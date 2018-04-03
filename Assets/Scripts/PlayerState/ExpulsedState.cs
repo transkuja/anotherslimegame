@@ -7,7 +7,7 @@ public class ExpulsedState : PlayerState
 
     public float timer;
 
-    public ExpulsedState(PlayerCharacterHub _playerCharacterHub, PlayerControllerHub _playerControllerHub) : base(_playerCharacterHub, _playerControllerHub)
+    public ExpulsedState(PlayerCharacterHub _playerCharacterHub) : base(_playerCharacterHub)
     {
     }
     public override void OnBegin()
@@ -32,7 +32,7 @@ public class ExpulsedState : PlayerState
         playerCharacterHub.Anim.SetBool("isExpulsed", false);
         base.OnEnd();
     }
-    public override void Move(Vector3 initialVelocity)
+    public override void Move(Vector3 initialVelocity, float airControlFactor, float x, float y, bool forceCameraRecenter = false)
     {
     }
     public override void PushPlayer(Vector3 force)
@@ -42,7 +42,7 @@ public class ExpulsedState : PlayerState
     public override void OnJumpPressed()
     {
     }
-    public override void HandleControllerAnim()
+    public override void HandleControllerAnim(float x, float y)
     {
     }
     public override void OnDashPressed()

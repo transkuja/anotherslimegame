@@ -43,6 +43,10 @@ public class PlayerCosmetics : MonoBehaviour {
     [SerializeField]
     FaceEmotion faceEmotion;
 
+    [SerializeField]
+    bool applyOnStart = false;
+
+
     public Color BodyColor
     {
         get
@@ -145,24 +149,9 @@ public class PlayerCosmetics : MonoBehaviour {
         HandsColor = _color;
     }
 
-    //public void InitOnlyMaterials()
-    //{
-    //    bodyMat = GetComponent<MeshRenderer>().material;
-
-    //    handMats = new Material[2];
-    //    earMats = new Material[2];
-
-    //    for (int i = 0; i < 2; i++)
-    //    {
-    //        handMats[i] = transform.GetChild(0).GetChild(i).GetComponent<MeshRenderer>().material;
-    //        earMats[i] = transform.GetChild(1).GetChild(i).GetComponent<MeshRenderer>().material;
-    //    }
-    //}
-
     public void Init()
     {
         bodyMat = GetComponent<MeshRenderer>().material;
-        bodyColor = bodyMat.color;
 
         handMats = new Material[2];
         earMats = new Material[2];
@@ -173,16 +162,35 @@ public class PlayerCosmetics : MonoBehaviour {
             earMats[i] = transform.GetChild(1).GetChild(i).GetComponent<MeshRenderer>().material;
         }
 
-        HandsColor = handMats[0].color;
-        EarColor = earMats[0].color;
+        if (applyOnStart)
+            SetValuesFromEditor();
+        else
+            SetValuesFromMaterials();
+    }
+
+    void SetValuesFromEditor()
+    {
+        BodyColor = bodyColor;
+        HandsColor = handsColor;
+        EarColor = earColor;
+
+        FaceType = faceType;
+        FaceEmotion = faceEmotion;
+    }
+
+    void SetValuesFromMaterials()
+    {
+        bodyColor = bodyMat.color;
+        handsColor = handMats[0].color;
+        earColor = earMats[0].color;
 
         faceType = (FaceType)bodyMat.GetFloat("_FaceType");
         faceEmotion = (FaceEmotion)bodyMat.GetFloat("_FaceEmotion");
-
     }
 
     void Awake () {
         if (bodyMat == null || handMats == null || earMats == null)
             Init();
 	}
+
 }

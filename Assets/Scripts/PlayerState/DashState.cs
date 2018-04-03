@@ -19,7 +19,7 @@ public class DashState : PlayerState
 
     public int nbDashMade = 0;
 
-    public DashState(PlayerCharacterHub _playerCharacterHub, PlayerControllerHub _playerControllerHub) : base(_playerCharacterHub, _playerControllerHub)
+    public DashState(PlayerCharacterHub _playerCharacterHub) : base(_playerCharacterHub)
     {
         maxCoolDown = 0.5f;
     }
@@ -74,7 +74,7 @@ public class DashState : PlayerState
     public override void HandleGravity()
     {
     }
-    public override void Move(Vector3 initialVelocity)
+    public override void Move(Vector3 initialVelocity, float airControlFactor, float x, float y, bool forceCameraRecenter = false)
     {
 
     }

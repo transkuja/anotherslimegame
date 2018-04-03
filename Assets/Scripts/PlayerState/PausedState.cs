@@ -11,7 +11,7 @@ public class PausedState : PlayerState {
     public bool hasStartedGoingUp = false;
     public float waterLevel;
 
-    public PausedState(PlayerCharacterHub _playerCharacterHub, PlayerControllerHub _playerControllerHub) : base(_playerCharacterHub, _playerControllerHub)
+    public PausedState(PlayerCharacterHub _playerCharacterHub) : base(_playerCharacterHub)
     {
     }
 
@@ -23,7 +23,7 @@ public class PausedState : PlayerState {
     public override void OnBegin()
     {
         base.OnBegin();
-        playerControllerHub.Player.cameraReference.transform.GetChild(0).GetComponent<Cinemachine.CinemachineBrain>().enabled = false;
+        playerCharacterHub.GetComponent<Player>().cameraReference.transform.GetChild(0).GetComponent<Cinemachine.CinemachineBrain>().enabled = false;
         beforePausingVelocity = playerCharacterHub.Rb.velocity;
         playerCharacterHub.Rb.velocity = Vector3.zero;
         oldDrag = playerCharacterHub.Rb.drag;
@@ -35,7 +35,7 @@ public class PausedState : PlayerState {
     public override void OnEnd()
     {
         base.OnEnd();
-        playerControllerHub.Player.cameraReference.transform.GetChild(0).GetComponent<Cinemachine.CinemachineBrain>().enabled = true;
+        playerCharacterHub.GetComponent<Player>().transform.GetChild(0).GetComponent<Cinemachine.CinemachineBrain>().enabled = true;
         playerCharacterHub.Anim.StopPlayback();
         playerCharacterHub.Rb.velocity = beforePausingVelocity;
         playerCharacterHub.Rb.drag = oldDrag;

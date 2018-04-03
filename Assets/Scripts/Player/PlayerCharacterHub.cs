@@ -75,7 +75,10 @@ public class PlayerCharacterHub : PlayerCharacter {
             playerState = value;
             PlayerState.OnBegin();
 #if UNITY_EDITOR
-            DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.CurrentState, value.ToString(), (int)playerController.playerIndex);
+            if (GetComponent<PlayerControllerHub>())
+                DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.NbJumpMade, value.ToString(), (int)GetComponent<PlayerControllerHub>().playerIndex);
+            else
+                DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.NbJumpMade, value.ToString(), -1);
 #endif
         }
     }
@@ -102,7 +105,10 @@ public class PlayerCharacterHub : PlayerCharacter {
         {
 
 #if UNITY_EDITOR
-            DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.IsGrounded, value.ToString(), (int)playerController.playerIndex);
+            if (GetComponent<PlayerControllerHub>())
+                DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.NbJumpMade, value.ToString(), (int)GetComponent<PlayerControllerHub>().playerIndex);
+            else
+                DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.NbJumpMade, value.ToString(), -1);
 #endif
             if (value == true)
             {
@@ -112,7 +118,7 @@ public class PlayerCharacterHub : PlayerCharacter {
                     downDashState.nbDashDownMade = 0;
                     dashState.nbDashMade = 0;
 #if UNITY_EDITOR
-                    if (GetComponent<JumpManager>() != null && !playerController.tryByPassJumpStop)
+                    if (GetComponent<JumpManager>() != null && (playerController && !playerController.tryByPassJumpStop))
                         GetComponent<JumpManager>().Stop();
 #endif
                     Anim.SetBool("isExpulsed", false);
@@ -158,7 +164,10 @@ public class PlayerCharacterHub : PlayerCharacter {
         {
             isGravityEnabled = value;
 #if UNITY_EDITOR
-            DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.GravityEnabled, isGravityEnabled.ToString(), (int)playerController.playerIndex);
+            if (GetComponent<PlayerControllerHub>())
+                DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.NbJumpMade, value.ToString(), (int)GetComponent<PlayerControllerHub>().playerIndex);
+            else
+                DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.NbJumpMade, value.ToString(), -1);
 #endif
         }
     }
@@ -168,8 +177,7 @@ public class PlayerCharacterHub : PlayerCharacter {
     private void Awake()
     {
         playerController = GetComponent<PlayerControllerHub>();
-
-
+     
         stats.Init(this);
         jumpState = new JumpState(this, playerController);
         wallJumpState = new WalljumpState(this, playerController);
@@ -182,7 +190,6 @@ public class PlayerCharacterHub : PlayerCharacter {
         frozenState = new FrozenState(this, playerController);
         underwaterState = new UnderwaterState(this, playerController);
         pausedState = new PausedState(this, playerController);
-        teleportState = new TeleportState(this, playerController);
         PlayerState = freeState;
 
     }
@@ -314,3 +321,15 @@ public class PlayerCharacterHub : PlayerCharacter {
     }
 #endif
 }
+
+        jumpState = new JumpState(this);
+        wallJumpState = new WalljumpState(this);
+        dashState = new DashState(this);
+        freeState = new FreeState(this);
+        expulsedState = new ExpulsedState(this);
+        downDashState = new DashDownState(this);
+        platformistChargedState = new PlatformistChargedState(this);
+        restrainedByGhostState = new RestrainedByGhostState(this);
+        frozenState = new FrozenState(this);
+        underwaterState = new UnderwaterState(this);
+        pausedState = new PausedState(this);

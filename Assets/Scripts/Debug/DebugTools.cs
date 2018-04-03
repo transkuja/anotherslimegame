@@ -734,8 +734,7 @@ public class DebugTools : MonoBehaviour {
 
     public static void UpdatePlayerInfos(DebugPlayerInfos _type, string _value, int _playerIndex)
     {
-        if (debugPlayerSelected != null && _playerIndex != debugPlayerSelected.
-            ID)
+        if (debugPlayerSelected != null && _playerIndex != debugPlayerSelected.ID)
             return;
 
         debugPlayerInfos[(int)_type] = _value;

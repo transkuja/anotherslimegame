@@ -125,15 +125,32 @@ public class PlayerControllerHub : PlayerController
             }
         }
     }
+    public Vector3 GetVelocity3DThirdPerson(Vector3 initialVelocity, float airControlFactor)
+    {
+        Vector3 camVectorForward = new Vector3(Player.cameraReference.transform.GetChild(0).forward.x, 0.0f, Player.cameraReference.transform.GetChild(0).forward.z);
+        camVectorForward.Normalize();
+
+        Vector3 velocityVec = initialVelocity.z * camVectorForward;
+        if (!playerCharacterHub.IsGrounded)
+            velocityVec += initialVelocity.x * Player.cameraReference.transform.GetChild(0).right * airControlFactor;
+        else
+            velocityVec += initialVelocity.x * Player.cameraReference.transform.GetChild(0).right;
+
+        return velocityVec;
+    }
 
     public virtual void HandleMovementWithController()
     {
-        Vector3 initialVelocity = playerCharacterHub.PlayerState.HandleSpeedWithController();
+        Vector3 initialVelocity = playerCharacterHub.PlayerState.HandleSpeed(State.ThumbSticks.Left.X, State.ThumbSticks.Left.Y);
 
-        playerCharacterHub.PlayerState.Move(initialVelocity);
+        Vector3 velocityVec = Vector3.zero;
+        if(GameManager.Instance.CurrentGameMode.ViewMode == ViewMode.thirdPerson3d)
+            velocityVec = GetVelocity3DThirdPerson(initialVelocity, Player.airControlFactor);
+        
+        playerCharacterHub.PlayerState.Move(velocityVec, Player.airControlFactor, State.ThumbSticks.Left.X, State.ThumbSticks.Left.Y, forceCameraRecenter);
 
         // TMP Animation
-        playerCharacterHub.PlayerState.HandleControllerAnim();
+        playerCharacterHub.PlayerState.HandleControllerAnim(State.ThumbSticks.Left.X, State.ThumbSticks.Left.Y);
     }
     private void HandleJumpWithController()
     {

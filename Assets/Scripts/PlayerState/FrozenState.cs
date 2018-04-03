@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FrozenState : PlayerState {
 
-    public FrozenState(PlayerCharacterHub _playerCharacterHub, PlayerControllerHub _playerControllerHub) : base(_playerCharacterHub, _playerControllerHub)
+    public FrozenState(PlayerCharacterHub _playerCharacterHub) : base(_playerCharacterHub)
     {
     }
 
@@ -18,13 +18,13 @@ public class FrozenState : PlayerState {
 
     }
 
-    public override Vector3 HandleSpeedWithController()
+    public override Vector3 HandleSpeed(float x, float y)
     {
  
         return Vector3.zero;
     }
 
-    public override void Move(Vector3 initialVelocity)
+    public override void Move(Vector3 initialVelocity, float airControlFactor, float x, float y, bool forceCameraRecenter = false)
     {
 
     }
@@ -53,7 +53,7 @@ public class FrozenState : PlayerState {
     
     }
 
-    public override void HandleControllerAnim()
+    public override void HandleControllerAnim(float x, float y)
     {
     
     }

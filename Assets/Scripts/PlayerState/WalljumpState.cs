@@ -9,7 +9,7 @@ public class WalljumpState : PlayerState
     public Vector3 pushDirection;
     float timer;
 
-    public WalljumpState(PlayerCharacterHub _playerCharacterHub, PlayerControllerHub _playerControllerHub) : base(_playerCharacterHub, _playerControllerHub)
+    public WalljumpState(PlayerCharacterHub _playerCharacterHub) : base(_playerCharacterHub)
     {
         maxCoolDown = 0.18f;
     }
@@ -52,7 +52,7 @@ public class WalljumpState : PlayerState
         }
     }
 
-    public override void Move(Vector3 initialVelocity)
+    public override void Move(Vector3 initialVelocity, float airControlFactor, float x, float y, bool forceCameraRecenter = false)
     {
     }
     public override void OnDashPressed()
