@@ -694,6 +694,7 @@ public class Menu : MonoBehaviour {
                         playerCustomScreens[i].transform.localPosition = new Vector3(-(160) * Mathf.Pow(-1, i), (i < 2) ? 35.0f : -165.0f, 0.0f);
 
                     UpdatePreviewFull(i);
+                    UpdatePreview(i); // Used to reset cursors last position
                 }
 
                 // Instantiate new screen if more players are selected
