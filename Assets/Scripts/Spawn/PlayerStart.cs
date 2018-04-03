@@ -170,9 +170,12 @@ public class PlayerStart : MonoBehaviour {
                 {
                     Transform customizableParent = go.transform.GetComponentInChildren<CustomizableSockets>().transform;
                     GameObject mustache = Instantiate(Resources.Load(GameManager.Instance.DataContainer.mustachesSelected[i]), customizableParent.GetChild((int)CustomizableType.Mustache - 2).transform) as GameObject;
-                    mustache.transform.GetChild(0).GetChild(0).GetComponent<HingeJoint>().connectedBody = go.GetComponent<Rigidbody>();
-                    mustache.transform.GetChild(0).GetChild(1).GetComponent<HingeJoint>().connectedBody = go.GetComponent<Rigidbody>();
-
+                    // Test la présence d'un hinge joint : exemple 3eme moustache n'en a pas
+                    if (GetComponentInChildren<HingeJoint>())
+                    {
+                        mustache.transform.GetChild(0).GetChild(0).GetComponent<HingeJoint>().connectedBody = go.GetComponent<Rigidbody>();
+                        mustache.transform.GetChild(0).GetChild(1).GetComponent<HingeJoint>().connectedBody = go.GetComponent<Rigidbody>();
+                    }
                 }
             }
             else
