@@ -188,7 +188,7 @@ public class PlayerStart : MonoBehaviour {
 
     void InitCustomizable(CustomizableType _type, string _value, Transform _customizableParent)
     {
-        if (_value == "None")
+        if (_value == "None" || _value == "")
             return;
      
         GameObject customizable = Instantiate(Resources.Load(_value), _customizableParent.GetChild((int)_type - 2).transform) as GameObject;
