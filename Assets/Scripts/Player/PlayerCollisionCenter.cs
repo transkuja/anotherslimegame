@@ -36,7 +36,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
     private List<Vector3> impactedPlayersOldVelocities = new List<Vector3>();
     private List<AIRabite> impactedRabite = new List<AIRabite>();
 
-    public float invicibilityFrame = 1.0f;
+    private float invincibilityFrame = 1.5f;
     bool onceRepulsion;
     int separationMask;
     Collider[] playersCollided;
@@ -75,13 +75,18 @@ public class PlayerCollisionCenter : MonoBehaviour {
     public float modulateWaterForceFactor;
     public bool surfaceWaterAnimLaunched = false;
 
-    void Start()
+    private void Awake()
     {
         player = GetComponent<Player>();
         playerController = player.PlayerController as PlayerControllerHub;
         playerCharacter = player.PlayerCharacter as PlayerCharacterHub;
 
         rb = playerCharacter.Rb;
+    }
+
+    void Start()
+    {
+    
 
 
         repulsionFactor = 35;
@@ -291,13 +296,6 @@ public class PlayerCollisionCenter : MonoBehaviour {
         breakablesCollided = Physics.OverlapSphere(transform.position, sphereCheckRadius, separationMask3);
         if (breakablesCollided.Length > 0)
         {
-            //hasCollidedWithAPlayer = true;
-            //currentTimerStop = timerStopOnDashCollision;
-
-            //playerController.PlayerState = playerController.frozenState;
-            //velocityOnImpact = playerController.Rb.velocity;
-            //playerController.Rb.velocity = Vector3.zero;
-
             for (int i = 0; i < breakablesCollided.Length; i++)
             {
                 breakablesCollided[i].GetComponent<Breakable>().HandleCollision(playerCharacter, playerController);
@@ -494,35 +492,12 @@ public class PlayerCollisionCenter : MonoBehaviour {
         StartCoroutine(ReactivateCollider(rbPlayerToExpulse.GetComponent<Player>()));
     }
 
-
-
-    public void RepulseRigibody(Vector3 collisionPoint, Rigidbody rbPlayerToExpulse, float repulsionFactor)
-    {
-        if (!onceRepulsion && rbPlayerToExpulse.GetComponent<PlayerControllerHub>())
-        {
-            onceRepulsion = true;
-
-            Vector3 direction = rbPlayerToExpulse.position - collisionPoint;
-            direction.y = 0;
-
-            direction.Normalize();
-
-            rbPlayerToExpulse.AddForce(direction * repulsionFactor, ForceMode.Impulse);
-            StartCoroutine(ReactivateCollider());
-        }
-    }
-
     public IEnumerator ReactivateCollider(Player p)
     {
-        yield return new WaitForSeconds(invicibilityFrame);
+        // Doesn't work
+        yield return new WaitForSeconds(invincibilityFrame);
         impactedPlayers.Remove(p);
         Physics.IgnoreCollision(p.GetComponent<Collider>(), GetComponent<Collider>(),false);
-        yield return null;
-    }
-    public IEnumerator ReactivateCollider()
-    {
-        yield return new WaitForSeconds(invicibilityFrame);
-        onceRepulsion = false;
         yield return null;
     }
 
@@ -566,7 +541,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
     public IEnumerator ReactivateCollider(AIRabite p)
     {
-        yield return new WaitForSeconds(invicibilityFrame/2.0f);
+        yield return new WaitForSeconds(invincibilityFrame/2.0f);
         impactedRabite.Remove(p);
         Physics.IgnoreCollision(p.GetComponent<Collider>(), GetComponent<Collider>(), false);
         yield return null;
