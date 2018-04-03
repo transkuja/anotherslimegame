@@ -62,7 +62,7 @@ public class EvolutionComponent : MonoBehaviour {
         } else
         {
             // Le probleme ici c'est le corps prend le spot 0
-            affectedPart = playerCharacter.BodyParts[(int)evolution.BodyPart - 1].gameObject;
+            affectedPart = playerCharacter.EvolutionParts[(int)evolution.BodyPart - 1].gameObject;
 
             if (evolution.BodyPart == BodyPart.Hammer)
                 affectedPart.transform.SetParent(playerCharacter.MainGauche);

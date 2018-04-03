@@ -6,7 +6,9 @@ using UWPAndXInput;
 public class EvolutionGhost : EvolutionComponent
 {
     Material baseMat;
+    Material ghostMat;
     Material baseDustTrailMat;
+    Material ghostDustTrailMat;
 
     float maxEmissionTime = 2.0f;
 
@@ -97,15 +99,19 @@ public class EvolutionGhost : EvolutionComponent
     public void SetGhostVisual()
     {
         baseMat = playerCharacter.Body.GetComponent<MeshRenderer>().sharedMaterial;
-        playerCharacter.Body.GetComponent<MeshRenderer>().material = ResourceUtils.Instance.refPrefabGhost.GhostMaterial;
-        playerCharacter.MainGauche.GetComponent<MeshRenderer>().material = ResourceUtils.Instance.refPrefabGhost.GhostMaterial;
-        playerCharacter.MainDroite.GetComponent<MeshRenderer>().material = ResourceUtils.Instance.refPrefabGhost.GhostMaterial;
-        playerCharacter.OreilleGauche.GetComponent<MeshRenderer>().material = ResourceUtils.Instance.refPrefabGhost.GhostMaterial;
-        playerCharacter.OreilleDroite.GetComponent<MeshRenderer>().material = ResourceUtils.Instance.refPrefabGhost.GhostMaterial;
-        playerCharacter.GhostParticles.Play();
+        ghostMat = ResourceUtils.Instance.refPrefabGhost.GhostMaterial;
         baseDustTrailMat = playerCharacter.DustTrailParticles.GetComponent<ParticleSystemRenderer>().sharedMaterial;
-        playerCharacter.DustTrailParticles.GetComponent<ParticleSystemRenderer>().material = ResourceUtils.Instance.refPrefabGhost.GhostDustTrailMaterial;
-        playerCharacter.DustTrailParticles.transform.GetChild(0).GetComponent<ParticleSystemRenderer>().material = ResourceUtils.Instance.refPrefabGhost.GhostDustTrailMaterial;
+        ghostDustTrailMat = ResourceUtils.Instance.refPrefabGhost.GhostDustTrailMaterial;
+
+        playerCharacter.Body.GetComponent<MeshRenderer>().material = ghostMat;
+        playerCharacter.MainGauche.GetComponent<MeshRenderer>().material = ghostMat;
+        playerCharacter.MainDroite.GetComponent<MeshRenderer>().material = ghostMat;
+        playerCharacter.OreilleGauche.GetComponent<MeshRenderer>().material = ghostMat;
+        playerCharacter.OreilleDroite.GetComponent<MeshRenderer>().material = ghostMat;
+        playerCharacter.GhostParticles.Play();
+
+        playerCharacter.DustTrailParticles.GetComponent<ParticleSystemRenderer>().material = ghostDustTrailMat;
+        playerCharacter.DustTrailParticles.transform.GetChild(0).GetComponent<ParticleSystemRenderer>().material = ghostDustTrailMat;
     }
 
     public void RemoveGhostVisual()
