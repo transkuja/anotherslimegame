@@ -528,6 +528,35 @@ public class Menu : MonoBehaviour {
         }
     }
 
+    void UpdatePreviewFull(int _playerIndex)
+    {
+        for (int i = 0; i < (int)CustomizableType.Size; ++i)
+        {
+            CustomizableType currentCustomType = (CustomizableType)(i);
+            playerCustomScreens[_playerIndex].transform.GetChild(2).GetComponent<Text>().text = currentCustomType.ToString();
+            List<DatabaseClass.Unlockable> unlockedList = unlockedCustomizables[currentCustomType];
+            if (unlockedList.Count == 0)
+            {
+                playerCustomScreens[_playerIndex].transform.GetChild(3).GetComponent<Text>().text = "None";
+            }
+            else
+            {
+                if (selectedCustomizables[(int)currentCustomType, _playerIndex] < 0)
+                    selectedCustomizables[(int)currentCustomType, _playerIndex] = (isNonable[(int)currentCustomType]) ? unlockedList.Count : unlockedList.Count - 1;
+                else
+                    selectedCustomizables[(int)currentCustomType, _playerIndex] = selectedCustomizables[(int)currentCustomType, _playerIndex] % ((isNonable[(int)currentCustomType]) ? unlockedList.Count + 1 : unlockedList.Count);
+
+                bool noneValue = selectedCustomizables[(int)currentCustomType, _playerIndex] == unlockedList.Count;
+                if (noneValue)
+                    playerCustomScreens[_playerIndex].transform.GetChild(3).GetComponent<Text>().text = "None";
+                else
+                    playerCustomScreens[_playerIndex].transform.GetChild(3).GetComponent<Text>().text = unlockedCustomizables[currentCustomType][selectedCustomizables[(int)currentCustomType, _playerIndex]].Id;
+
+                UpdatePlayerVisual(_playerIndex, currentCustomType, selectedCustomizables[(int)currentCustomType, _playerIndex], noneValue);
+            }
+        }
+    }
+
     void UpdatePlayerVisual(int _playerIndex, CustomizableType _customizableType, int _unlockedIndex, bool _isNoneValue)
     {
         switch (_customizableType)
@@ -539,8 +568,11 @@ public class Menu : MonoBehaviour {
                 UpdatePlayerPreviewFace(_playerIndex, _unlockedIndex);
                 break;
             case CustomizableType.Ears:
+                break;
             case CustomizableType.Hands:
+                break;
             case CustomizableType.Hat:
+                break;
             case CustomizableType.Mustache:
                 UpdatePlayerPreviewMustache(_playerIndex, _unlockedIndex, _isNoneValue);
                 break;
@@ -660,6 +692,8 @@ public class Menu : MonoBehaviour {
                         playerCustomScreens[i].transform.localPosition = new Vector3(-160 + (2 * i * 160), -65.0f, 0.0f);
                     if (nbPlayers >= 3)
                         playerCustomScreens[i].transform.localPosition = new Vector3(-(160) * Mathf.Pow(-1, i), (i < 2) ? 35.0f : -165.0f, 0.0f);
+
+                    UpdatePreviewFull(i);
                 }
 
                 // Instantiate new screen if more players are selected
@@ -692,7 +726,7 @@ public class Menu : MonoBehaviour {
 
                     if (DataContainer.launchedFromMinigameScreen)
                     {
-                        UpdatePreview(i);
+                        UpdatePreviewFull(i);
                     }
 
                 }
@@ -738,6 +772,20 @@ public class Menu : MonoBehaviour {
                     curPlayerCosmetics.SetUniqueColor(((DatabaseClass.ColorData)unlockedCustomizables[CustomizableType.Color][selectedCustomizables[(int)CustomizableType.Color, i]]).color);
 
                 curPlayerCosmetics.FaceType = (FaceType)((DatabaseClass.FaceData)unlockedCustomizables[CustomizableType.Face][selectedCustomizables[(int)CustomizableType.Face, i]]).indiceForShader;
+
+                // Customizables
+
+                // Mustache //
+                Transform parent = transform.GetChild((int)MenuState.MinigameSelection).GetChild(childCount - 4 + i).GetComponentInChildren<CustomizableSockets>().transform.GetChild((int)(CustomizableType.Mustache) - 2);
+                if (parent.childCount > 0)
+                    Destroy(parent.GetChild(0).gameObject);
+
+                if (selectedCustomizables[(int)CustomizableType.Mustache, i] != unlockedCustomizables[CustomizableType.Mustache].Count)
+                {
+                    Instantiate(Resources.Load(((DatabaseClass.MustacheData)unlockedCustomizables[CustomizableType.Mustache][selectedCustomizables[(int)CustomizableType.Mustache, i]]).model), parent);
+                }
+                // End Mustache //
+
             }
 
             for (int i = nbPlayers; i < 4; i++)
