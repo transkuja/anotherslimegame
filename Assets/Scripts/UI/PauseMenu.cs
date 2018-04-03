@@ -17,6 +17,9 @@ public class PauseMenu : MonoBehaviour {
     GamePadState prevControllerState = new GamePadState();
     GamePadState controllerState = new GamePadState();
 
+    [SerializeField]
+    GameObject menuCursor;
+
     PauseMenuState CurrentState
     {
         set
@@ -154,15 +157,17 @@ public class PauseMenu : MonoBehaviour {
 
         set
         {
-            if (currentlySelectedButton != null)
-                currentlySelectedButton.GetComponent<AnimButton>().enabled = false;
             currentlySelectedButton = value;
             if (currentlySelectedButton != null)
             {
-                if (currentlySelectedButton.GetComponent<AnimButton>() == null)
-                    currentlySelectedButton.gameObject.AddComponent<AnimButton>();
-                else
-                    currentlySelectedButton.GetComponent<AnimButton>().enabled = true;
+                menuCursor.transform.SetParent(currentlySelectedButton.transform);
+                menuCursor.transform.localPosition = Vector3.zero;
+                menuCursor.transform.localScale = Vector3.one;
+                menuCursor.transform.localRotation = Quaternion.identity;
+                int textLength = currentlySelectedButton.GetComponentInChildren<Text>().text.Length;
+
+                menuCursor.transform.GetChild(0).localPosition = new Vector3(-15 * (textLength + 2), -1.0f, 0.0f);
+                menuCursor.transform.GetChild(1).localPosition = new Vector3(15 * (textLength + 2), -1.0f, 0.0f);
             }
         }
     }
