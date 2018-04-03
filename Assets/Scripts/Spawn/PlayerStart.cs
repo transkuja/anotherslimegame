@@ -71,23 +71,7 @@ public class PlayerStart : MonoBehaviour {
             GameManager.UiReference.RuleScreen.GetComponent<RuleScreenHandler>().CleanUpAndStart();
             GameManager.ChangeState(GameState.Normal);
         }
-    #endif
 
-        // Pour chaque joueur
-        //for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
-        //{
-        //    // Pour chaque canvas
-        //    for (int j = 0; j < GameManager.Instance.PlayerStart.PlayersReference.Count; j++)
-        //    {
-        //        if (j != i)
-        //        {
-        //            GameManager.Instance.PlayerStart.PlayersReference[i].transform.GetChild((int)PlayerChildren.Canvas).GetChild(j).gameObject.GetComponentInChildren<Text>().text = GameManager.Instance.PlayerStart.PlayersReference[i].name;
-        //            GameManager.Instance.PlayerStart.PlayersReference[i].transform.GetChild((int)PlayerChildren.Canvas).GetChild(j).gameObject.SetActive(true);
-        //        }
-        //    }
-        //}
-
-#if UNITY_EDITOR
         ResourceUtils.Instance.debugTools.ActivateDebugMode(true);
 #endif
 
@@ -198,8 +182,6 @@ public class PlayerStart : MonoBehaviour {
         // Ugly shit, should be handled in gamemode @Anthony
         if (SceneManager.GetActiveScene().name == "MinigameAntho")
             ColorFloorHandler.Init(activePlayersAtStart);
-
-
     }
 
     void InitCustomizable(CustomizableType _type, string _value, Transform _customizableParent)
@@ -210,47 +192,6 @@ public class PlayerStart : MonoBehaviour {
         GameObject customizable = Instantiate(Resources.Load(_value), _customizableParent.GetChild((int)_type - 2).transform) as GameObject;
         customizable.GetComponent<ICustomizable>().Init(_customizableParent.GetComponentInParent<Rigidbody>());
         
-    }
-
-    public void AttributeCamera()
-    {
-        if (cameraPlayerReferences.Length == 0)
-        {
-            Debug.LogError("No camera assigned in playerStart");
-            return;
-        }
-
-        // By default, cameraP2 is set for 2-Player mode, so we only update cameraP1
-        if (activePlayersAtStart == 2)
-        {
-            cameraPlayerReferences[0].transform.GetChild(0).GetComponent<Camera>().rect = new Rect(0, 0, 0.5f, 1.0f);
-        }
-        // By default, cameraP3 and cameraP4 are set for 4-Player mode, so we only update cameraP1 and cameraP2
-        else if (activePlayersAtStart > 2)
-        {
-            cameraPlayerReferences[0].transform.GetChild(0).GetComponent<Camera>().rect = new Rect(0, 0.5f, 0.5f, 0.5f);
-            cameraPlayerReferences[1].transform.GetChild(0).GetComponent<Camera>().rect = new Rect(0.5f, 0.5f, 0.5f, 0.5f);
-        }
-
-        for (int i = 0; i < activePlayersAtStart; i++)
-        {
-            GameObject go = PlayersReference[i];
-            if (SceneManager.GetActiveScene().name == "MinigamePush")
-            {
-                //cameraPlayerReferences[i].transform.GetChild(1).GetComponent<Cinemachine.CinemachineVirtualCamera>().LookAt = go.transform;
-            }
-            else
-            {
-                cameraPlayerReferences[i].transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().LookAt = go.transform.GetChild((int)PlayerChildren.CameraTarget);
-                cameraPlayerReferences[i].transform.GetChild(1).GetComponent<Cinemachine.CinemachineFreeLook>().Follow = go.transform;
-                cameraPlayerReferences[i].transform.GetChild(1).GetComponent<DynamicJoystickCameraController>().playerIndex = (PlayerIndex)i;
-                cameraPlayerReferences[i].transform.GetChild(1).GetComponent<DynamicJoystickCameraController>().associatedPlayerController = go.GetComponent<PlayerControllerHub>();
-                cameraPlayerReferences[i].transform.GetChild(1).GetComponent<DynamicJoystickCameraController>().associatedPlayerCharacter = go.GetComponent<PlayerCharacterHub>();
-            }
-
-            go.GetComponent<Player>().cameraReference = cameraPlayerReferences[i];
-            cameraPlayerReferences[i].SetActive(true);
-        }
     }
 
     void InitializeScorePanel()

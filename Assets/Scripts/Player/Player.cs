@@ -1,21 +1,11 @@
 ﻿using UnityEngine;
 
-public enum PlayerChildren { SlimeMesh, ShadowProjector, BubbleParticles, SplashParticles, WaterTrailParticles, CameraTarget, DustTrailParticles, DashParticles, LandingParticles };
-
 public enum PlayerUIStat { Life, Points, Size}
 
 public delegate void UIfct(int _newValue);
 
 public class Player : MonoBehaviour {
-
-    #region evolution
     public uint activeEvolutions = 0;
-    // maingauche
-    public Transform mainGauche;
-    // maindroite
-    public Transform mainDroite;
-    public Transform[] refBodyPart = new Transform[(int)Powers.Size - 1];
-    #endregion
 
     public Transform respawnPoint;
     public GameObject cameraReference;
@@ -271,18 +261,6 @@ public class Player : MonoBehaviour {
 
                 tutoTextIsPending = false;
             }
-        }
-    }
-
-    public void Start()
-    {
-        mainGauche = transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild(0).GetChild(0).GetChild(0);
-        mainDroite = transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild(0).GetChild(0).GetChild(1);
-
-        for(int i = 0; i< (int)Powers.Size-1; i++)
-        {
-            // le probleme c'est corps : i+1 -> evolution.BodyPart
-            refBodyPart[i] = transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild(i+1);
         }
     }
 }

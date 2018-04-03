@@ -55,12 +55,8 @@ public class Evolution
         cost = _cost;
         bodyPart = _bodyPart;
     }
-
-
-  
 }
 
-public enum BodyPart { Body, Wings, Hammer, Staff, Customization, None, Size }
 public enum Powers { Strength, Platformist, Agile, Ghost, Size }
 
 public class EvolutionManager {

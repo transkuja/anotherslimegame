@@ -38,14 +38,6 @@ public class PlayerCharacterHub : PlayerCharacter {
 
     private bool pendingStepSound = false;
 
-    // Particles
-    private ParticleSystem dustTrailParticles;
-    private ParticleSystem dashParticles;
-    private ParticleSystem bubbleParticles;
-    private ParticleSystem splashParticles;
-    private ParticleSystem waterTrailParticles;
-    private ParticleSystem landingParticles;
-
     #region Getters/Setters
     /// StateManagment
     public PlayerState PreviousPlayerState
@@ -169,79 +161,6 @@ public class PlayerCharacterHub : PlayerCharacter {
         }
     }
 
-    public ParticleSystem DustTrailParticles
-    {
-        get
-        {
-            return dustTrailParticles;
-        }
-
-        set
-        {
-            dustTrailParticles = value;
-        }
-    }
-    public ParticleSystem DashParticles
-    {
-        get
-        {
-            return dashParticles;
-        }
-
-        set
-        {
-            dashParticles = value;
-        }
-    }
-    public ParticleSystem BubbleParticles
-    {
-        get
-        {
-            return bubbleParticles;
-        }
-
-        set
-        {
-            bubbleParticles = value;
-        }
-    }
-    public ParticleSystem SplashParticles
-    {
-        get
-        {
-            return splashParticles;
-        }
-
-        set
-        {
-            splashParticles = value;
-        }
-    }
-    public ParticleSystem WaterTrailParticles
-    {
-        get
-        {
-            return waterTrailParticles;
-        }
-
-        set
-        {
-            waterTrailParticles = value;
-        }
-    }
-    public ParticleSystem LandingParticles
-    {
-        get
-        {
-            return landingParticles;
-        }
-
-        set
-        {
-            landingParticles = value;
-        }
-    }
-
     public bool PendingStepSound { get { return pendingStepSound; } set { pendingStepSound = value; } }
     #endregion
 
@@ -269,13 +188,6 @@ public class PlayerCharacterHub : PlayerCharacter {
     public void Start()
     {
         raycastOffsetPlayer = GetComponent<SphereCollider>().radius;
-
-        dustTrailParticles = transform.GetChild((int)PlayerChildren.DustTrailParticles).GetComponent<ParticleSystem>();
-        dashParticles = transform.GetChild((int)PlayerChildren.DashParticles).GetComponent<ParticleSystem>();
-        bubbleParticles = transform.GetChild((int)PlayerChildren.BubbleParticles).GetComponent<ParticleSystem>();
-        splashParticles = transform.GetChild((int)PlayerChildren.SplashParticles).GetComponent<ParticleSystem>();
-        waterTrailParticles = transform.GetChild((int)PlayerChildren.WaterTrailParticles).GetComponent<ParticleSystem>();
-        landingParticles = transform.GetChild((int)PlayerChildren.LandingParticles).GetComponent<ParticleSystem>();
 
         deformer = GetComponentInChildren<MeshDeformer>();
     }

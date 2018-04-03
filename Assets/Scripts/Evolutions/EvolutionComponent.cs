@@ -21,6 +21,8 @@ public class EvolutionComponent : MonoBehaviour {
     {
         timer = -1;
         player = GetComponent<Player>();
+        playerController = GetComponent<PlayerControllerHub>();
+        playerCharacter = GetComponent<PlayerCharacterHub>();
     }
 
     public float Timer
@@ -44,8 +46,6 @@ public class EvolutionComponent : MonoBehaviour {
         }
     }
 
-    
-
     protected void SetPower(Powers powerName)
     {
         player.activeEvolutions++;
@@ -62,18 +62,15 @@ public class EvolutionComponent : MonoBehaviour {
         } else
         {
             // Le probleme ici c'est le corps prend le spot 0
-            affectedPart = player.refBodyPart[(int)evolution.BodyPart - 1].gameObject;
+            affectedPart = playerCharacter.BodyParts[(int)evolution.BodyPart - 1].gameObject;
 
             if (evolution.BodyPart == BodyPart.Hammer)
-                affectedPart.transform.SetParent(player.mainGauche);
+                affectedPart.transform.SetParent(playerCharacter.MainGauche);
             else if (evolution.BodyPart == BodyPart.Staff)
-                affectedPart.transform.SetParent(player.mainDroite);
+                affectedPart.transform.SetParent(playerCharacter.MainDroite);
         }
-
+        Debug.Log(affectedPart);
         affectedPart.SetActive(true);
-
-        playerController = GetComponent<PlayerControllerHub>();
-        playerCharacter = GetComponent<PlayerCharacterHub>();
     }
 
     public virtual void Update()

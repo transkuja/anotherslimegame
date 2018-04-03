@@ -96,28 +96,28 @@ public class EvolutionGhost : EvolutionComponent
 
     public void SetGhostVisual()
     {
-        baseMat = transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)BodyPart.Body).GetComponent<MeshRenderer>().sharedMaterial;
-        transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)BodyPart.Body).GetComponent<MeshRenderer>().material = ResourceUtils.Instance.refPrefabGhost.GhostMaterial;
-        transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)BodyPart.Body).GetChild(0).GetChild(0).GetComponent<MeshRenderer>().material = ResourceUtils.Instance.refPrefabGhost.GhostMaterial;
-        transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)BodyPart.Body).GetChild(0).GetChild(1).GetComponent<MeshRenderer>().material = ResourceUtils.Instance.refPrefabGhost.GhostMaterial;
-        transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)BodyPart.Body).GetChild(1).GetChild(0).GetComponent<MeshRenderer>().material = ResourceUtils.Instance.refPrefabGhost.GhostMaterial;
-        transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)BodyPart.Body).GetChild(1).GetChild(1).GetComponent<MeshRenderer>().material = ResourceUtils.Instance.refPrefabGhost.GhostMaterial;
-        transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)BodyPart.Body).GetChild(2).GetComponent<ParticleSystem>().Play();
-        baseDustTrailMat = transform.GetChild((int)PlayerChildren.DustTrailParticles).GetComponent<ParticleSystemRenderer>().sharedMaterial;
-        transform.GetChild((int)PlayerChildren.DustTrailParticles).GetComponent<ParticleSystemRenderer>().material = ResourceUtils.Instance.refPrefabGhost.GhostDustTrailMaterial;
-        transform.GetChild((int)PlayerChildren.DustTrailParticles).GetChild(0).GetComponent<ParticleSystemRenderer>().material = ResourceUtils.Instance.refPrefabGhost.GhostDustTrailMaterial;
+        baseMat = playerCharacter.Body.GetComponent<MeshRenderer>().sharedMaterial;
+        playerCharacter.Body.GetComponent<MeshRenderer>().material = ResourceUtils.Instance.refPrefabGhost.GhostMaterial;
+        playerCharacter.MainGauche.GetComponent<MeshRenderer>().material = ResourceUtils.Instance.refPrefabGhost.GhostMaterial;
+        playerCharacter.MainDroite.GetComponent<MeshRenderer>().material = ResourceUtils.Instance.refPrefabGhost.GhostMaterial;
+        playerCharacter.OreilleGauche.GetComponent<MeshRenderer>().material = ResourceUtils.Instance.refPrefabGhost.GhostMaterial;
+        playerCharacter.OreilleDroite.GetComponent<MeshRenderer>().material = ResourceUtils.Instance.refPrefabGhost.GhostMaterial;
+        playerCharacter.GhostParticles.Play();
+        baseDustTrailMat = playerCharacter.DustTrailParticles.GetComponent<ParticleSystemRenderer>().sharedMaterial;
+        playerCharacter.DustTrailParticles.GetComponent<ParticleSystemRenderer>().material = ResourceUtils.Instance.refPrefabGhost.GhostDustTrailMaterial;
+        playerCharacter.DustTrailParticles.transform.GetChild(0).GetComponent<ParticleSystemRenderer>().material = ResourceUtils.Instance.refPrefabGhost.GhostDustTrailMaterial;
     }
 
     public void RemoveGhostVisual()
     {
-        transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)BodyPart.Body).GetComponent<MeshRenderer>().material = baseMat;
-        transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)BodyPart.Body).GetChild(0).GetChild(0).GetComponent<MeshRenderer>().material = baseMat;
-        transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)BodyPart.Body).GetChild(0).GetChild(1).GetComponent<MeshRenderer>().material = baseMat;
-        transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)BodyPart.Body).GetChild(1).GetChild(0).GetComponent<MeshRenderer>().material = baseMat;
-        transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)BodyPart.Body).GetChild(1).GetChild(1).GetComponent<MeshRenderer>().material = baseMat;
-        transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)BodyPart.Body).GetChild(2).GetComponent<ParticleSystem>().Stop();
-        transform.GetChild((int)PlayerChildren.DustTrailParticles).GetComponent<ParticleSystemRenderer>().material = baseDustTrailMat;
-        transform.GetChild((int)PlayerChildren.DustTrailParticles).GetChild(0).GetComponent<ParticleSystemRenderer>().material = baseDustTrailMat;
+        playerCharacter.Body.GetComponent<MeshRenderer>().material = baseMat;
+        playerCharacter.MainGauche.GetComponent<MeshRenderer>().material = baseMat;
+        playerCharacter.MainDroite.GetComponent<MeshRenderer>().material = baseMat;
+        playerCharacter.OreilleGauche.GetComponent<MeshRenderer>().material = baseMat;
+        playerCharacter.OreilleDroite.GetComponent<MeshRenderer>().material = baseMat;
+        playerCharacter.GhostParticles.Stop();
+        playerCharacter.DustTrailParticles.GetComponent<ParticleSystemRenderer>().material = baseDustTrailMat;
+        playerCharacter.DustTrailParticles.transform.GetChild(0).GetComponent<ParticleSystemRenderer>().material = baseDustTrailMat;
     }
 
     public override void Start()
@@ -125,19 +125,17 @@ public class EvolutionGhost : EvolutionComponent
         base.Start();
         SetPower(Powers.Ghost);
         gameObject.layer = LayerMask.NameToLayer("GhostPlayer");
-        Player playerComponent = GetComponent<Player>();
-
-        if (!playerComponent.evolutionTutoShown[(int)Powers.Ghost] && !GameManager.Instance.CurrentGameMode.IsMiniGame())
+        if (!player.evolutionTutoShown[(int)Powers.Ghost] && !GameManager.Instance.CurrentGameMode.IsMiniGame())
         {
-            playerComponent.evolutionTutoShown[(int)Powers.Ghost] = true;
-            Utils.PopTutoText("Hold LT to leave a trail behind", playerComponent);
+            player.evolutionTutoShown[(int)Powers.Ghost] = true;
+            Utils.PopTutoText("Hold LT to leave a trail behind", player);
         }
     }
 
     protected new void OnDestroy()
     {
         //base.OnDestroy();
-        GetComponent<Player>().activeEvolutions--;
+        player.activeEvolutions--;
         gameObject.layer = LayerMask.NameToLayer("Player");
         RemoveGhostVisual();
     }
