@@ -670,6 +670,13 @@ public class DebugTools : MonoBehaviour {
 
     public void ActivateDebugMode(bool _forceActivation = false)
     {
+        // No debug mode in menu
+        if (SceneManager.GetActiveScene().buildIndex == 0)
+        {
+            isDebugModeActive = false;
+            return;
+        }
+
         isDebugModeActive = (_forceActivation) ? true : !isDebugModeActive;
         DebugPanelReference.gameObject.SetActive(isDebugModeActive);
         CurrentState = ((GameManager.Instance.CurrentGameMode.IsMiniGame()) ? DebugState.GameplayData : DebugState.AddEvolution);

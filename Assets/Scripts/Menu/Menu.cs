@@ -120,6 +120,10 @@ public class Menu : MonoBehaviour {
 
     private void Start()
     {
+        // Deactivate debug tools in menu
+        if (ResourceUtils.Instance != null && ResourceUtils.Instance.debugTools != null)
+            ResourceUtils.Instance.debugTools.ActivateDebugMode();
+
         if (AudioManager.Instance != null)
             AudioManager.Instance.Fade(AudioManager.Instance.musicMenu);
 
