@@ -60,7 +60,7 @@ public class Evolution
   
 }
 
-public enum BodyPart { Body, Wings, Hammer, Staff, Ghost, Size }
+public enum BodyPart { Body, Wings, Hammer, Staff, Customization, None, Size }
 public enum Powers { Strength, Platformist, Agile, Ghost, Size }
 
 public class EvolutionManager {
@@ -69,7 +69,7 @@ public class EvolutionManager {
     Evolution strengthEvolution = new Evolution(Powers.Strength, 3, CollectableType.StrengthEvolution1, 30, BodyPart.Hammer);
     Evolution agileEvolution = new Evolution(Powers.Agile, 3, CollectableType.AgileEvolution1, 30, BodyPart.Wings);
     Evolution platformistEvolution = new Evolution(Powers.Platformist, 3, CollectableType.PlatformistEvolution1, 30, BodyPart.Staff);
-    Evolution ghostEvolution = new Evolution(Powers.Ghost, 3, CollectableType.GhostEvolution1, 30, BodyPart.Ghost);
+    Evolution ghostEvolution = new Evolution(Powers.Ghost, 3, CollectableType.GhostEvolution1, 30, BodyPart.None);
 
     public Evolution GetEvolutionByPowerName(Powers _powerName, bool overrideEvolutionDuration = false, float evolutionDuration = 0.0f)
     {

@@ -10,6 +10,7 @@ public class EvolutionComponent : MonoBehaviour {
     float timer;
     protected PlayerControllerHub playerController;
     protected PlayerCharacterHub playerCharacter;
+    protected Player player;
     protected bool isSpecialActionPushedOnce = false;
     protected bool isSpecialActionPushed = false;
     protected bool isSpecialActionReleased = false;
@@ -19,6 +20,7 @@ public class EvolutionComponent : MonoBehaviour {
     public virtual void Start()
     {
         timer = -1;
+        player = GetComponent<Player>();
     }
 
     public float Timer
@@ -46,21 +48,28 @@ public class EvolutionComponent : MonoBehaviour {
 
     protected void SetPower(Powers powerName)
     {
-        GetComponent<Player>().activeEvolutions++;
+        player.activeEvolutions++;
+
+        // recuperation de l'évolution a partir du nom passé en paramètre
         evolution = GameManager.EvolutionManager.GetEvolutionByPowerName(powerName);
-        if((int)evolution.BodyPart < transform.GetChild((int)PlayerChildren.SlimeMesh).childCount)
-            affectedPart = transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)evolution.BodyPart).gameObject;
-        if (evolution.BodyPart == BodyPart.Hammer)
-            affectedPart.transform.SetParent(transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild(0).GetChild(0).GetChild(0));
-        else if (evolution.BodyPart == BodyPart.Staff)
-            affectedPart.transform.SetParent(transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild(0).GetChild(0).GetChild(1));
-        else if(evolution.BodyPart == BodyPart.Ghost)
+
+        if (evolution.BodyPart == BodyPart.None && powerName == Powers.Ghost)
         {
             //Change player appearence
             ((EvolutionGhost)(this)).SetGhostVisual();
             //Then do Nothing
             affectedPart = transform.gameObject;
+        } else
+        {
+            // Le probleme ici c'est le corps prend le spot 0
+            affectedPart = player.refBodyPart[(int)evolution.BodyPart - 1].gameObject;
+
+            if (evolution.BodyPart == BodyPart.Hammer)
+                affectedPart.transform.SetParent(player.mainGauche);
+            else if (evolution.BodyPart == BodyPart.Staff)
+                affectedPart.transform.SetParent(player.mainDroite);
         }
+
         affectedPart.SetActive(true);
 
         playerController = GetComponent<PlayerControllerHub>();
@@ -81,7 +90,7 @@ public class EvolutionComponent : MonoBehaviour {
 
     protected virtual void OnDestroy()
     {
-        GetComponent<Player>().activeEvolutions--;
+        player.activeEvolutions--;
         affectedPart.transform.SetParent(transform.GetChild((int)PlayerChildren.SlimeMesh));
         affectedPart.transform.SetSiblingIndex((int)evolution.BodyPart);
         affectedPart.SetActive(false);
