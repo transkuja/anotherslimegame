@@ -24,9 +24,10 @@ public class UI : MonoBehaviour {
     {
         if (GameManager.UiReference == null)
         {
+
             GameManager.UiReference = this;
+            SceneManager.sceneLoaded += LoadScene;
         }
-        SceneManager.sceneLoaded += LoadScene;
     }
 
     public void LoadScene(Scene sceneId, LoadSceneMode mode)
@@ -262,5 +263,10 @@ public class UI : MonoBehaviour {
     public void UpdateRunes()
     {
         runeText.GetComponent<Text>().text = GameManager.Instance.Runes.ToString();
+    }
+
+    public void OnDestroy()
+    {
+        SceneManager.sceneLoaded -= LoadScene;
     }
 }
