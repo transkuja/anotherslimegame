@@ -43,9 +43,32 @@ public class PauseMenu : MonoBehaviour {
                 defaultMenu.SetActive(false);
                 settingsMenu.SetActive(false);
                 exitMenu.SetActive(true);
+                if (GameManager.Instance.IsInHub() || (!GameManager.Instance.IsInHub() && SlimeDataContainer.instance.launchedFromMinigameScreen))
+                {
+                    exitMenu.transform.GetChild(0).gameObject.SetActive(true);
+                    exitMenu.transform.GetChild(1).gameObject.SetActive(false);
+                }
+                else
+                {
+                    exitMenu.transform.GetChild(0).gameObject.SetActive(false);
+                    exitMenu.transform.GetChild(1).gameObject.SetActive(true);
+                }
+
             }
 
-            CurrentlySelectedButton = transform.GetChild((int)currentState + 1).GetChild(selection).GetComponentInChildren<Button>();
+            if (value == PauseMenuState.Exit)
+            {
+                if (GameManager.Instance.IsInHub() || (!GameManager.Instance.IsInHub() && SlimeDataContainer.instance.launchedFromMinigameScreen))
+                {
+                    CurrentlySelectedButton = transform.GetChild((int)currentState + 1).GetChild(0).GetChild(selection).GetComponentInChildren<Button>();
+                }
+                else
+                {
+                    CurrentlySelectedButton = transform.GetChild((int)currentState + 1).GetChild(1).GetChild(selection).GetComponentInChildren<Button>();
+                }
+            }
+            else
+                CurrentlySelectedButton = transform.GetChild((int)currentState + 1).GetChild(selection).GetComponentInChildren<Button>();
         }
     }
 
@@ -113,7 +136,15 @@ public class PauseMenu : MonoBehaviour {
             selection = nbButtons - 1;
         else
             selection = selection % nbButtons;
-        CurrentlySelectedButton = transform.GetChild((int)currentState + 1).GetChild(selection).GetComponent<Button>();
+
+        if (currentState == PauseMenuState.Exit)
+        {
+            CurrentlySelectedButton = transform.GetChild((int)currentState + 1).GetComponentsInChildren<Button>()[selection];
+        }
+        else
+        {
+            CurrentlySelectedButton = transform.GetChild((int)currentState + 1).GetChild(selection).GetComponent<Button>();
+        }
     }
 
     public void Resume()
@@ -170,6 +201,11 @@ public class PauseMenu : MonoBehaviour {
                 menuCursor.transform.GetChild(1).localPosition = new Vector3(15 * (textLength + 2), -1.0f, 0.0f);
             }
         }
+    }
+
+    public void ExitToHub()
+    {
+        SceneManager.LoadScene(1);
     }
 
     // Inverted by default
