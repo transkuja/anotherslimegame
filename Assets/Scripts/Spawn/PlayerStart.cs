@@ -208,12 +208,7 @@ public class PlayerStart : MonoBehaviour {
             return;
      
         GameObject customizable = Instantiate(Resources.Load(_value), _customizableParent.GetChild((int)_type - 2).transform) as GameObject;
-        // Test la présence d'un hinge joint : exemple 3eme moustache n'en a pas
-        if (customizable.GetComponentInChildren<HingeJoint>())
-        {
-            customizable.transform.GetChild(0).GetChild(0).GetComponent<HingeJoint>().connectedBody = _customizableParent.GetComponentInParent<Rigidbody>();
-            customizable.transform.GetChild(0).GetChild(1).GetComponent<HingeJoint>().connectedBody = _customizableParent.GetComponentInParent<Rigidbody>();
-        }
+        customizable.GetComponent<ICustomizable>().Init(_customizableParent.GetComponentInParent<Rigidbody>());
         
     }
 
