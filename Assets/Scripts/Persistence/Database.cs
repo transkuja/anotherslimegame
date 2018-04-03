@@ -51,6 +51,13 @@ namespace DatabaseClass
     }
 
     [System.Serializable]
+    public class HatData : Unlockable
+    {
+        [SerializeField]
+        public string model;
+    }
+
+    [System.Serializable]
     public class Unlockable
     {
         //[HideInInspector]
@@ -90,6 +97,9 @@ namespace DatabaseClass
         [SerializeField]
         public List<MustacheData> mustaches;
 
+        [SerializeField]
+        public List<HatData> hats;
+
         public int NbRunes
         {
             get
@@ -127,6 +137,11 @@ namespace DatabaseClass
                 if (mustaches.Find(a => a.Id == _id) != null)
                     mustaches.Find(a => a.Id == _id).isUnlocked = isUnlocked;
             }
+            else if (typeof(T) == typeof(HatData))
+            {
+                if (mustaches.Find(a => a.Id == _id) != null)
+                    mustaches.Find(a => a.Id == _id).isUnlocked = isUnlocked;
+            }
         }
 
         public bool IsUnlock<T>(string _id) where T : Unlockable
@@ -156,6 +171,11 @@ namespace DatabaseClass
                 if (mustaches.Find(a => a.Id == _id) != null)
                     return mustaches.Find(a => a.Id == _id).isUnlocked;
             }
+            else if (typeof(T) == typeof(HatData))
+            {
+                if (mustaches.Find(a => a.Id == _id) != null)
+                    return mustaches.Find(a => a.Id == _id).isUnlocked;
+            }
             return false;
         }
 
@@ -171,6 +191,8 @@ namespace DatabaseClass
                 a.isUnlocked = true;
             foreach (Unlockable a in mustaches)
                 a.isUnlocked = true;
+            foreach (Unlockable a in hats)
+                a.isUnlocked = true;
         }
 
         public void ResetAll() {
@@ -179,6 +201,7 @@ namespace DatabaseClass
             minigames = new List<MinigameData>();
             runes = new List<RuneData>();
             mustaches = new List<MustacheData>();
+            hats = new List<HatData>();
             Money = 0;
 
             // Adding colors
@@ -225,6 +248,15 @@ namespace DatabaseClass
             mustaches.Add(new MustacheData { Id = strMustache[idMustache], model = "Mustaches/CurvedMustache", isUnlocked = false });
             mustaches.Add(new MustacheData { Id = strMustache[++idMustache], model = "Mustaches/SecondMustache", isUnlocked = false });
             mustaches.Add(new MustacheData { Id = strMustache[++idMustache], model = "Mustaches/ThirdMustache", isUnlocked = false });
+
+            // Adding hats
+            int idHat = 0;
+            string[] strHat = { "Cap", "Chief", "Cowboy", "Glitter", "Top Hat" };
+            hats.Add(new HatData { Id = strMustache[idHat], model = "Hats/CapHat", isUnlocked = false });
+            hats.Add(new HatData { Id = strMustache[++idHat], model = "Hats/ChiefHat", isUnlocked = false });
+            hats.Add(new HatData { Id = strMustache[++idHat], model = "Hats/CowboyHat", isUnlocked = false });
+            hats.Add(new HatData { Id = strMustache[++idHat], model = "Hats/GlitterHat", isUnlocked = false });
+            hats.Add(new HatData { Id = strMustache[++idHat], model = "Hats/TopHatHat", isUnlocked = false });
         }
 
         public void AllCostToZero()
