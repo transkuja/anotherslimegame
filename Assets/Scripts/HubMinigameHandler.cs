@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UWPAndXInput;
+
 public class HubMinigameHandler : MonoBehaviour {
 
     public GameObject refCanvasParent;

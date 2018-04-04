@@ -251,6 +251,7 @@ public class PlayerControllerHub : PlayerController
             if (collision.collider.GetComponentInChildren<InitTeleporter>().teleportToMinigame)
             {
                 Player.refInitTeleporter = collision.collider.GetComponentInChildren<InitTeleporter>();
+                Player.refInitTeleporter.CreateButtonFeedback((int)playerIndex);
             }
         }
     }
@@ -261,7 +262,9 @@ public class PlayerControllerHub : PlayerController
         {
             if (collision.collider.GetComponentInChildren<InitTeleporter>().teleportToMinigame)
             {
+                Player.refInitTeleporter.DestroyButtonFeedback((int)playerIndex);
                 Player.refInitTeleporter = null;
+
             }
         }
     }
