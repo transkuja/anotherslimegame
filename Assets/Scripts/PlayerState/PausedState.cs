@@ -35,7 +35,7 @@ public class PausedState : PlayerState {
     public override void OnEnd()
     {
         base.OnEnd();
-        playerCharacterHub.GetComponent<Player>().transform.GetChild(0).GetComponent<Cinemachine.CinemachineBrain>().enabled = true;
+        playerCharacterHub.GetComponent<Player>().cameraReference.transform.GetChild(0).GetComponent<Cinemachine.CinemachineBrain>().enabled = true;
         playerCharacterHub.Anim.StopPlayback();
         playerCharacterHub.Rb.velocity = beforePausingVelocity;
         playerCharacterHub.Rb.drag = oldDrag;

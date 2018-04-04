@@ -51,9 +51,10 @@ public class UI : MonoBehaviour {
             else
             {
                 GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
-                GameManager.Instance.finalTimerInitialized = false;
             }
         }
+        GameManager.Instance.finalTimerInitialized = false;
+        GameManager.Instance.isTimeOver = true;
     }
 
     void DestroyOnMenuScreen(Scene oldScene, Scene newScene)
