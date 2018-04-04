@@ -4,10 +4,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UWPAndXInput;
 public class KartGameMode : GameMode {
+
+    [SerializeField]
+    PlayerControllerKart.DrivingCondition defaultDrivingCondition = PlayerControllerKart.DrivingCondition.Normal;
+
     float timer;
 
     float firstFinishTime = -1.0f;
 
+    [HideInInspector]
     public KartArrival Arrival;
 
     public override void StartGame(List<GameObject> playerReferences)
@@ -20,6 +25,10 @@ public class KartGameMode : GameMode {
             Player player = playerReferences[i].GetComponent<Player>();
             if (player != null)
                 player.OnDeathEvent += OnPlayerDeath;
+
+            PlayerControllerKart pk = playerReferences[i].GetComponent<PlayerControllerKart>();
+            if (pk)
+                pk.CurrentCondition = defaultDrivingCondition;
         }
         checkRuneObjective = CheckRuneObjectiveForKart;
         LaunchTimer();

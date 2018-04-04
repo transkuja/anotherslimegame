@@ -5,7 +5,7 @@ using UnityEngine;
 public class BoostTile : MonoBehaviour {
 
     [SerializeField]
-    float boostForce = 200.0f;
+    float boostForce = 50.0f;
 
     private void OnTriggerStay(Collider other)
     {

@@ -7,6 +7,12 @@ public class PlayerControllerKart : PlayerController {
 
     public bool useAlternativeCommands = false;
 
+    public enum DrivingCondition
+    {
+        Normal,
+        Slippery
+    }
+
     public enum KartPlayerState
     {
         Normal,
@@ -28,10 +34,15 @@ public class PlayerControllerKart : PlayerController {
     float dashCooldown = 1.0f;
     [SerializeField]
     float hitRecoveryTime = 0.75f;
+
+    public float slipFactor = 4.0f;
+
     [SerializeField]
     float startDrag;
     [SerializeField]
     CheckPoint LastCheckpoint;
+
+    DrivingCondition currentCondition;
 
     KartPlayerState currentState = KartPlayerState.Normal;
 
@@ -73,6 +84,29 @@ public class PlayerControllerKart : PlayerController {
         set
         {
             hitRecoveryTime = value;
+        }
+    }
+
+    public DrivingCondition CurrentCondition
+    {
+        get
+        {
+            return currentCondition;
+        }
+
+        set
+        {
+            switch(value)
+            {
+                case DrivingCondition.Normal:
+                    slipFactor = 4.0f;
+                    break;
+                case DrivingCondition.Slippery:
+                    slipFactor = 16.0f;
+                    break;
+            }
+
+            currentCondition = value;
         }
     }
 
@@ -136,7 +170,7 @@ public class PlayerControllerKart : PlayerController {
         rb.AddForce(transform.forward * Time.deltaTime * forwardSpeed * state.Triggers.Right, ForceMode.VelocityChange);
         rb.AddForce(-transform.forward * Time.deltaTime * forwardSpeed / 2.0f * state.Triggers.Left, ForceMode.VelocityChange);
 
-        rb.AddForce(((directionFactor * transform.forward * rb.velocity.magnitude) - rb.velocity) / 4.0f, ForceMode.VelocityChange);
+        rb.AddForce(((directionFactor * transform.forward * rb.velocity.magnitude) - rb.velocity) / slipFactor, ForceMode.VelocityChange);
 
         if(clamp)
             rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxVelocityMagnitude);
@@ -181,7 +215,7 @@ public class PlayerControllerKart : PlayerController {
         rb.AddForce(transform.forward * Time.deltaTime * forwardSpeed * state.Triggers.Right, ForceMode.VelocityChange);
         rb.AddForce(-transform.forward * Time.deltaTime * forwardSpeed / 2.0f * state.Triggers.Left, ForceMode.VelocityChange);
 
-        rb.AddForce(((directionFactor * transform.forward * rb.velocity.magnitude) - rb.velocity) / 4.0f, ForceMode.VelocityChange);
+        rb.AddForce(((directionFactor * transform.forward * rb.velocity.magnitude) - rb.velocity) / slipFactor, ForceMode.VelocityChange);
 
         if (clamp)
             rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxVelocityMagnitude);
