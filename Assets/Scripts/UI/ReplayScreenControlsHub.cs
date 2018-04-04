@@ -11,10 +11,16 @@ public class ReplayScreenControlsHub : MonoBehaviour {
     GamePadState prevControllerState;
     GamePadState controllerState;
 
+    public HubMinigameHandler refMinigameHandler;
+    public int index;
+
     private void Update()
     {
+        if (!refMinigameHandler)
+            return; 
+
         prevControllerState = controllerState;
-        controllerState = GamePad.GetState(0);
+        controllerState = GamePad.GetState((PlayerIndex)index);
 
         if ((controllerState.ThumbSticks.Left.X > 0.5f && prevControllerState.ThumbSticks.Left.X < 0.5f)
             || (controllerState.ThumbSticks.Left.Y < -0.75f && prevControllerState.ThumbSticks.Left.Y > -0.75f)
@@ -45,10 +51,11 @@ public class ReplayScreenControlsHub : MonoBehaviour {
 
             if (cursor == 0)
             {
-                // Reload scene
+                refMinigameHandler.LunchMinigameHub();
             }
             else
             {
+                refMinigameHandler.StopMinigameHub();
             }
         }
     }

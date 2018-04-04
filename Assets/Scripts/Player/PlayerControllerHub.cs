@@ -225,7 +225,7 @@ public class PlayerControllerHub : PlayerController
 
     public void HandlePNJWithController(HubMinigameHandler hubMinigameHandler, int indexPlayer)
     {
-        if (PrevState.Buttons.A == ButtonState.Released && State.Buttons.A == ButtonState.Pressed)
+        if (PrevState.Buttons.B == ButtonState.Released && State.Buttons.B == ButtonState.Pressed)
         {
             hubMinigameHandler.MessageTest(indexPlayer);
         }
