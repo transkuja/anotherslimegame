@@ -33,6 +33,35 @@ public static class ColorFloorHandler {
         }
     }
 
+    public static void SquareDetection(int _playerIndex, Collider _toRegister)
+    {
+        Transform floorPosition = _toRegister.transform;
+        Transform lineTransform = floorPosition.parent;
+        int floorIndex = floorPosition.GetSiblingIndex();
+        int lineIndex = lineTransform.GetSiblingIndex();
+
+        int neighbors = 0;
+
+        // No square possible without at least 8 floors
+        if (currentlyColoredByPlayer[_playerIndex].Count < 8)
+            return;
+
+        if (currentlyColoredByPlayer[_playerIndex].Contains(lineTransform.GetChild(floorIndex - 1).GetComponentInChildren<Collider>()))
+            neighbors++;
+        if (currentlyColoredByPlayer[_playerIndex].Contains(lineTransform.GetChild(floorIndex + 1).GetComponentInChildren<Collider>()))
+            neighbors++;
+        if (currentlyColoredByPlayer[_playerIndex].Contains(lineTransform.parent.GetChild(lineIndex - 1).GetChild(floorIndex).GetComponent<Collider>()))
+            neighbors++;
+        if (currentlyColoredByPlayer[_playerIndex].Contains(lineTransform.parent.GetChild(lineIndex + 1).GetChild(floorIndex).GetComponent<Collider>()))
+            neighbors++;
+
+        if (neighbors < 2)
+            return;
+
+        
+
+    }
+
     // Unregister a floor from any player
     static void UnregisterFloor(Collider _toUnregister)
     {

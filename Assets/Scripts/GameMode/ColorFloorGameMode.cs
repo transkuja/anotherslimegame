@@ -12,6 +12,8 @@ public class ColorFloorGameMode : GameMode {
     [SerializeField]
     List<GameObject> restrainedMovementStarters;
 
+    public bool squareToScoreMode = false;
+
     public List<GameObject> RestrainedMovementStarters
     {
         get
