@@ -9,18 +9,13 @@ public class ActivateObject : MonoBehaviour
     {
         if (col.CompareTag("Player") && switchToCam)
         {
-            if (Camera.main.GetComponent<Cinemachine.CinemachineBrain>().ActiveVirtualCamera.Name != switchToCam.Name)
-            {
-                //dCartComp.m_Speed = speed;
 
-                switchToCam.VirtualCameraGameObject.SetActive(false);
-                switchToCam.VirtualCameraGameObject.SetActive(true);
+            col.GetComponent<Player>().cameraReference.transform.GetChild(1).gameObject.SetActive(false);
+            switchToCam.VirtualCameraGameObject.SetActive(true);
 
-                switchToCam.GetComponent<Cinemachine.CinemachineVirtualCamera>().Follow = col.transform;
-                switchToCam.GetComponent<Cinemachine.CinemachineVirtualCamera>().LookAt = col.transform;
+            switchToCam.GetComponent<Cinemachine.CinemachineVirtualCamera>().Follow = col.transform;
+            switchToCam.GetComponent<Cinemachine.CinemachineVirtualCamera>().LookAt = col.transform;
 
-
-            }
         }
     }
 
@@ -29,6 +24,7 @@ public class ActivateObject : MonoBehaviour
         if (col.CompareTag("Player") && switchToCam != null)
         {
             switchToCam.VirtualCameraGameObject.SetActive(false);
+            col.GetComponent<Player>().cameraReference.transform.GetChild(1).gameObject.SetActive(true);
         }
     }
 }

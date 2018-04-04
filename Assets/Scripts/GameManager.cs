@@ -315,8 +315,9 @@ public class GameManager : MonoBehaviour {
             if (currentGameFinalTimer < 0.0f)
             {
                 finalTimerInitialized = false;
-                isTimeOver = true;              
-                scoreScreenReference.RankPlayersByPoints();
+                isTimeOver = true;   
+                if (scoreScreenReference && scoreScreenReference.GetComponent<ScoreScreen>()) // @remi think that
+                    scoreScreenReference.RankPlayersByPoints();
                 UiReference.TimerText.gameObject.SetActive(false);
             }
             else

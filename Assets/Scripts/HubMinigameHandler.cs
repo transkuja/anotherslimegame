@@ -74,15 +74,8 @@ public class HubMinigameHandler : MonoBehaviour {
         BbuttonShown[playerIndex] = Instantiate(ResourceUtils.Instance.feedbacksManager.prefabBButton, refCanvas[playerIndex].transform);
         BbuttonShown[playerIndex].SetActive(true);
 
-        if (playerIndex == 0)
-        {
-            refCanvas[playerIndex].layer = LayerMask.NameToLayer("CameraP1");
-        }
-
-        if (playerIndex == 1)
-        {
-            refCanvas[playerIndex].layer = LayerMask.NameToLayer("CameraP2");
-        }
+        refCanvas[playerIndex].layer = LayerMask.NameToLayer((playerIndex == 0) ? "CameraP1" : "CameraP2");
+     
     }
 
     internal void DestroyUIMinigame(int playerIndex)
