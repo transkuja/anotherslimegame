@@ -205,6 +205,7 @@ public class PauseMenu : MonoBehaviour {
 
     public void ExitToHub()
     {
+        Resume(); // TEST ?
         SceneManager.LoadScene(1);
     }
 
