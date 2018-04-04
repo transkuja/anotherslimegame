@@ -11,12 +11,10 @@ public class UICameraApdater : MonoBehaviour {
 	void Update () {
         if (refCamera != null)
         {
-            var newRotation = Quaternion.LookRotation(refCamera.transform.position - transform.position, Vector3.forward);
-            newRotation.x = 0.0f;
-            newRotation.z = 0.0f;
+            Quaternion newRotation = Quaternion.LookRotation(-(refCamera.transform.position - transform.position), Vector3.up);
 
             // Bon on est pas obligé de faire Slerp
-            transform.rotation = Quaternion.Slerp(transform.rotation, newRotation, Time.deltaTime * speed);
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(newRotation.eulerAngles.x, newRotation.eulerAngles.y, 0), Time.deltaTime * speed);
         }
         else if (PlayerIndex != -1)
         {
