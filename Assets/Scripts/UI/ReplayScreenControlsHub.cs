@@ -12,11 +12,11 @@ public class ReplayScreenControlsHub : MonoBehaviour {
     GamePadState controllerState;
 
     public HubMinigameHandler refMinigameHandler;
-    public int index;
+    public int index = -1;
 
     private void Update()
     {
-        if (!refMinigameHandler)
+        if (!refMinigameHandler || index ==-1)
             return; 
 
         prevControllerState = controllerState;
@@ -46,7 +46,7 @@ public class ReplayScreenControlsHub : MonoBehaviour {
             }
             else
             {
-                refMinigameHandler.StopMinigameHub();
+                refMinigameHandler.CleanMinigameHub();
             }
         }
     }

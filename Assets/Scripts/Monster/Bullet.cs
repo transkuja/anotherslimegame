@@ -70,7 +70,7 @@ public class Bullet : MonoBehaviour {
                 
                 if (GameManager.Instance.CurrentGameMode.TakesDamageFromTraps)
                 {
-                    if(GameManager.Instance.IsInHub())
+                    if(GameManager.Instance.IsInHub() && playerCollision.GetComponent<PlayerController>())
                         playerCollision.DamagePlayerHub();
                     else
                         playerCollision.DamagePlayer(other.GetComponent<Player>(), damageOn);

@@ -408,7 +408,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
         // Damage Behavior
         if (GameManager.Instance.CurrentGameMode.TakesDamageFromPlayer)
         {
-            if (GameManager.Instance.IsInHub())
+            if (GameManager.Instance.IsInHub() && playerImpacted.GetComponent<PlayerController>())
                 DamagePlayerHub();
             else
                 DamagePlayer(playerImpacted.GetComponent<Player>(), PlayerUIStat.Points);

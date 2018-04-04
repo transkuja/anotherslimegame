@@ -314,11 +314,9 @@ public class GameManager : MonoBehaviour {
             currentGameFinalTimer -= Time.deltaTime;
             if (currentGameFinalTimer < 0.0f)
             {
-                finalTimerInitialized = false;
-                isTimeOver = true;   
+                CleanEndFinalCountdown();
                 if (scoreScreenReference && scoreScreenReference.GetComponent<ScoreScreen>()) // @remi think that
                     scoreScreenReference.RankPlayersByPoints();
-                UiReference.TimerText.gameObject.SetActive(false);
             }
             else
             {
@@ -328,11 +326,17 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    public void CleanEndFinalCountdown()
+    {
+        finalTimerInitialized = false;
+        isTimeOver = true;
+        UiReference.TimerText.gameObject.SetActive(false);
+    }
+
     public void DEBUG_EndFinalCountdown()
     {
         currentGameFinalTimer = 0.0f;
-        finalTimerInitialized = false;
-        isTimeOver = true;
+        CleanEndFinalCountdown();
         uiReference.TimerNeedUpdate(currentGameFinalTimer);
     }
 
