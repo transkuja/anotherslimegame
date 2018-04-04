@@ -157,11 +157,10 @@ public class DynamicJoystickCameraController : MonoBehaviour {
     /// Throw raycasts to check if the player is in a small area, then change camera state if necessary
     /// </summary>
     void SmallAreaBehaviour()
-    {
-        
-                    ChangeCameraState(CameraState.VerySmallArea);
-                    ChangeCameraState(CameraState.SmallArea);
-            ChangeCameraState(CameraState.Default);
+    { 
+        ChangeCameraState(CameraState.VerySmallArea);
+        ChangeCameraState(CameraState.SmallArea);
+        ChangeCameraState(CameraState.Default);
     }
 
     /// <summary>
@@ -196,6 +195,9 @@ public class DynamicJoystickCameraController : MonoBehaviour {
 
         if ((Utils.Abs(state.ThumbSticks.Right.X) + Utils.Abs(state.ThumbSticks.Right.Y)) < 0.1f)
             TurnCameraWithLThumb = true;
+
+        if (associatedPlayerCharacter.PlayerState == associatedPlayerCharacter.teleportState)
+            TurnCameraWithLThumb = false;
     }
 
     /// <summary>

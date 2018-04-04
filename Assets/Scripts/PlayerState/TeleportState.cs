@@ -13,7 +13,7 @@ public class TeleportState : PlayerState {
 
     public TeleportState(PlayerCharacterHub _playerCharacterHub, PlayerControllerHub _playerControllerHub) : base(_playerCharacterHub, _playerControllerHub)
     {
-        maxCoolDown = 2.0f;
+        maxCoolDown = 0.5f;
     }
 
     public override void DrawGizmo()

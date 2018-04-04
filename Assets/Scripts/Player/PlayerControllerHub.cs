@@ -179,7 +179,9 @@ public class PlayerControllerHub : PlayerController
                         return;
                 }
 
-                timeBeforeTeleportation -= Time.deltaTime;
+                if (timeBeforeTeleportation > 0.0f)
+                    timeBeforeTeleportation -= Time.deltaTime;
+
                 if (timeBeforeTeleportation < 0.0f)
                 {
                     // TeleportToOtherPlayerProcess
@@ -195,6 +197,9 @@ public class PlayerControllerHub : PlayerController
             }
             else
             {
+                if (playerCharacterHub.PlayerState == playerCharacterHub.teleportState)
+                    playerCharacterHub.PlayerState = playerCharacterHub.freeState;
+
                 canTeleportAgain = true;
                 timeBeforeTeleportation = timeBeforeTeleportationReset;
             }
