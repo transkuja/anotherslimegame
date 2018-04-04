@@ -222,4 +222,29 @@ public class PlayerControllerHub : PlayerController
             }
         }
     }
+
+    public void HandlePNJWithController(PNJController pnjController, int indexPlayer)
+    {
+        if (PrevState.Buttons.B == ButtonState.Released && State.Buttons.B == ButtonState.Pressed)
+        {
+            pnjController.MessageTest(indexPlayer);
+        }
+    }
+
+
+
+    public void OnTriggerStay(Collider other)
+    {
+        if (other.tag == "TriggerPNJ")
+        {
+            if (isUsingAController)
+            {
+                if (GameManager.CurrentState == GameState.Normal)
+                {
+                    HandlePNJWithController(other.GetComponentInParent<PNJController>(), (int)PlayerIndex);
+                }
+            }
+        }
+    }
+
 }

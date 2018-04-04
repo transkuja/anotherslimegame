@@ -176,20 +176,19 @@ public class PlayerCharacterHub : PlayerCharacter {
 
     private void Awake()
     {
-        playerController = GetComponent<PlayerControllerHub>();
-     
         stats.Init(this);
-        jumpState = new JumpState(this, playerController);
-        wallJumpState = new WalljumpState(this, playerController);
-        dashState = new DashState(this, playerController);
-        freeState = new FreeState(this, playerController);
-        expulsedState = new ExpulsedState(this, playerController);
-        downDashState = new DashDownState(this, playerController);
-        platformistChargedState = new PlatformistChargedState(this, playerController);
-        restrainedByGhostState = new RestrainedByGhostState(this, playerController);
-        frozenState = new FrozenState(this, playerController);
-        underwaterState = new UnderwaterState(this, playerController);
-        pausedState = new PausedState(this, playerController);
+        jumpState = new JumpState(this);
+        wallJumpState = new WalljumpState(this);
+        dashState = new DashState(this);
+        freeState = new FreeState(this);
+        expulsedState = new ExpulsedState(this);
+        downDashState = new DashDownState(this);
+        platformistChargedState = new PlatformistChargedState(this);
+        restrainedByGhostState = new RestrainedByGhostState(this);
+        frozenState = new FrozenState(this);
+        underwaterState = new UnderwaterState(this);
+        pausedState = new PausedState(this);
+        teleportState = new TeleportState(this);
         PlayerState = freeState;
 
     }
@@ -321,15 +320,3 @@ public class PlayerCharacterHub : PlayerCharacter {
     }
 #endif
 }
-
-        jumpState = new JumpState(this);
-        wallJumpState = new WalljumpState(this);
-        dashState = new DashState(this);
-        freeState = new FreeState(this);
-        expulsedState = new ExpulsedState(this);
-        downDashState = new DashDownState(this);
-        platformistChargedState = new PlatformistChargedState(this);
-        restrainedByGhostState = new RestrainedByGhostState(this);
-        frozenState = new FrozenState(this);
-        underwaterState = new UnderwaterState(this);
-        pausedState = new PausedState(this);

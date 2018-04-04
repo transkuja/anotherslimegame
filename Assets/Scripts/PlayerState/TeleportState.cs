@@ -11,7 +11,7 @@ public class TeleportState : PlayerState {
     public bool hasStartedGoingUp = false;
     public float waterLevel;
 
-    public TeleportState(PlayerCharacterHub _playerCharacterHub, PlayerControllerHub _playerControllerHub) : base(_playerCharacterHub, _playerControllerHub)
+    public TeleportState(PlayerCharacterHub _playerCharacterHub) : base(_playerCharacterHub)
     {
         maxCoolDown = 0.5f;
     }
@@ -65,7 +65,7 @@ public class TeleportState : PlayerState {
 
     }
 
-    public override Vector3 HandleSpeedWithController()
+    public override Vector3 HandleSpeed(float x, float y)
     {
         return Vector3.zero;
     }

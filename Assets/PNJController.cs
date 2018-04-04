@@ -1,16 +1,26 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UWPAndXInput;
 
-public class PNJController : MonoBehaviour {
+public class PNJController : MonoBehaviour
+{
 
     // Aggregations
     private PlayerCharacterHub playerCharacterHub;
     private Player player;
     private Rigidbody rb;
 
-    public GameObject waypoints;
-    public int curWayPoint = 0;
+    private Vector3 originalPos;
+    private float timer;
+    [Range(5, 20)]
+    public float timerToTpBack = 20;
+
+    float indexStored;
+    // gamePad
+    protected GamePadState state;
+    protected GamePadState prevState;
 
     void Start()
     {
@@ -18,7 +28,7 @@ public class PNJController : MonoBehaviour {
 
         playerCharacterHub = player.PlayerCharacter as PlayerCharacterHub;
         rb = playerCharacterHub.Rb;
-
+        originalPos = transform.position;
     }
 
     public void Update()
@@ -26,20 +36,37 @@ public class PNJController : MonoBehaviour {
         // Oui bob est con
         if (GameManager.CurrentState == GameState.Normal)
         {
-            //float xFactor = Mathf.Clamp((transform.worldToLocalMatrix * (waypoints.transform.GetChild(curWayPoint).transform.position)).x - transform.position.x, -1f, 1f);
-            //float yFactor = Mathf.Clamp((transform.worldToLocalMatrix * (waypoints.transform.GetChild(curWayPoint).transform.position)).z - transform.position.z, -1f, 1f);
-            
-           
+            if (Vector3.Distance(originalPos, transform.position) > 1f)
+            {
+                transform.LookAt(originalPos);
+                HandleMovement(0, 1);
 
-            HandleMovement(xFactor, yFactor);
-
-            //if(Vector3.Distance(waypoints.transform.GetChild(curWayPoint).transform.position, transform.position) < 0.2f)
-            //{
-            //    curWayPoint = (curWayPoint == 0) ? 1 : 0;
-            //}
+                timer += Time.deltaTime;
+                if (timer > timerToTpBack)
+                {
+                    transform.position = originalPos;
+                    timer = 0;
+                }
+            }
+            else
+            {
+                timer = 0;
+            }
         }
-    }
+        else if (GameManager.CurrentState == GameState.ForcedPauseMGRules)
+        {
+            prevState = state;
+            state = GamePad.GetState((PlayerIndex)indexStored);
 
+            if (prevState.Buttons.B == ButtonState.Released && state.Buttons.B == ButtonState.Pressed)
+            {
+                GameManager.ChangeState(GameState.Normal);
+                GameManager.UiReference.RuleScreen.gameObject.SetActive(false);
+            }
+        }
+
+    }
+
     public virtual void HandleMovement(float x, float y)
     {
         Vector3 initialVelocity = playerCharacterHub.PlayerState.HandleSpeed(x, y);
@@ -48,13 +75,21 @@ public class PNJController : MonoBehaviour {
             velocityVec += initialVelocity.x * transform.right * player.airControlFactor;
         else
             velocityVec += initialVelocity.x * transform.right;
-     
+
 
         playerCharacterHub.PlayerState.Move(velocityVec, player.airControlFactor, x, y);
 
         // TMP Animation
-        playerCharacterHub.PlayerState.HandleControllerAnim(x, y);
+        playerCharacterHub.PlayerState.HandleControllerAnim(initialVelocity.x, initialVelocity.y);
     }
 
- 
+
+    // PNJ Character 
+    public void MessageTest(float indexPlayer)
+    {
+        GameManager.ChangeState(GameState.ForcedPauseMGRules);
+        //GameObject go = Instantiate(ResourceUtils.Instance.feedbacksManager.prefabReplayScreenHub, GameManager.UiReference.transform);
+        //go.transform.GetChild(1).GetComponentInChildren<Text>().text = "BIIIITE";
+        indexStored = indexPlayer;
+    }
 }
