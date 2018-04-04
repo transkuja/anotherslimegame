@@ -10,26 +10,29 @@ public enum MessageTypeMinigame {AreYouReady, Lose, AreyoureadyOtherPlayer}
 public class HubMinigameHandler : MonoBehaviour {
 
     public GameObject refCanvasParent;
+    public GameObject TriggerEnd;
+    public String[] message;
+    [Tooltip("Temps donné au joueur")]
+    public float timerForMinigame = 21.0f;
+    [Tooltip("Delay à vol de camera")]
+    public float delay = 5; // t = d/v
+    private bool startTimerShow = false;
+
+    private float currentCameraForDelay = 0;
+
     private GameObject[] refCanvas = new GameObject[2];
     private GameObject[] BbuttonShown = new GameObject[2];
 
-    GameObject areYouReady;
+    private GameObject retryMessageGo;
     private bool[] hasBeenInitialized = new bool[2];
 
     // tab de message ? 
     private GameObject[][] Message = new GameObject[2][];
-    public String[] message;
-
-    public float timerForMinigame = 21.0f;
-
-    public bool hasBeenStarted = false;
-
-    public GameObject TriggerEnd;
-
-    public int currentMessage = 0;
-
-    public Vector3[] initialpos = new Vector3[2];
-    public Quaternion[] initialrot = new Quaternion[2];
+    private bool hasBeenStarted = false;
+    private int currentMessage = 0;
+    private Vector3[] initialpos = new Vector3[2];
+    private Quaternion[] initialrot = new Quaternion[2];
+    private bool hasWin;
 
     public void DisplayMessage(int playerIndex)
     {
@@ -82,32 +85,27 @@ public class HubMinigameHandler : MonoBehaviour {
 
     public void AskForReadiness()
     {
-        // Fade....
-        TriggerEnd.transform.GetChild(0).gameObject.SetActive(true);
-        for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
-        {
-            GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<Player>().transform.GetChild(1).gameObject.SetActive(false);
-        }
-
         // Camera
         GameManager.ChangeState(GameState.ForcedPauseMGRules);
-        areYouReady = Instantiate(ResourceUtils.Instance.feedbacksManager.prefabReplayScreenHub, GameManager.UiReference.transform);
+        retryMessageGo = Instantiate(ResourceUtils.Instance.feedbacksManager.prefabReplayScreenHub, GameManager.UiReference.transform);
         if( GameManager.Instance.ActivePlayersAtStart == 2)
         {
-            areYouReady.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = GetMessage(MessageTypeMinigame.AreyoureadyOtherPlayer);
-            areYouReady.GetComponent<ReplayScreenControlsHub>().index = 1;
+            retryMessageGo.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = GetRetryMessage(MessageTypeMinigame.AreyoureadyOtherPlayer);
+            retryMessageGo.GetComponent<ReplayScreenControlsHub>().index = 1;
+            retryMessageGo.GetComponent<ReplayScreenControlsHub>().needShow = true;
         }
         else
         {
-            areYouReady.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = GetMessage(MessageTypeMinigame.AreYouReady);
-            areYouReady.GetComponent<ReplayScreenControlsHub>().index = 0;
+            retryMessageGo.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = GetRetryMessage(MessageTypeMinigame.AreYouReady);
+            retryMessageGo.GetComponent<ReplayScreenControlsHub>().index = 0;
+            retryMessageGo.GetComponent<ReplayScreenControlsHub>().needShow = true;
         }
 
-        areYouReady.GetComponent<ReplayScreenControlsHub>().refMinigameHandler = this;
+        retryMessageGo.GetComponent<ReplayScreenControlsHub>().refMinigameHandler = this;
 
     }
 
-    public void LunchMinigameHub()
+    public void PrepareForStart(bool needShow = false)
     {
         for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
         {
@@ -115,27 +113,41 @@ public class HubMinigameHandler : MonoBehaviour {
             GameManager.Instance.PlayerStart.PlayersReference[i].transform.rotation = initialrot[i];
         }
 
-        Destroy(areYouReady);
+        Destroy(retryMessageGo);
+   
+        // after delay
+        if (needShow)
+        {
+            startTimerShow = true;
+        }
+        else
+        {
+            StartMinigame();
+        }
+
+    }
+    public void StartMinigame()
+    {
+        hasBeenStarted = true;
         GameObject readySetGo = Instantiate(ResourceUtils.Instance.spriteUtils.spawnableSpriteUI, GameManager.UiReference.transform);
         readySetGo.AddComponent<ReadySetGo>();
-     
 
-        hasBeenStarted = true;
+
         GameManager.Instance.GameFinalTimer = timerForMinigame;
         GameManager.Instance.LaunchFinalTimer();
     }
 
+
     public void CleanMinigameHub()
     {
         hasBeenStarted = false;
+        startTimerShow = false;
 
         //currentMessage = 0; in destroy
         GameManager.Instance.CleanEndFinalCountdown();
 
-        if (areYouReady)
-            Destroy(areYouReady);
-
-
+        if (retryMessageGo)
+            Destroy(retryMessageGo);
 
         GameManager.ChangeState(GameState.Normal);
 
@@ -153,31 +165,63 @@ public class HubMinigameHandler : MonoBehaviour {
     {
         if (hasBeenStarted)
         {
-            //Lose
-            //Tp here;
-            //if win
-            // else
-
-            //StopMinigameHub();
-
             if (GameManager.Instance.isTimeOver)
             {
-                AskRetry();
+                if(!hasWin)
+                {
+                    AskRetry();
+                }
+            }
+        } else if (startTimerShow)
+        {
+            currentCameraForDelay += Time.deltaTime;
+
+            // Once ????????
+            if (currentCameraForDelay > delay / 2)
+            {
+                if (currentCameraForDelay > delay)
+                {
+                    startTimerShow = false;
+                    currentCameraForDelay = 0;
+                    StartMinigame();
+                }
+                else
+                {
+                    TriggerEnd.transform.GetChild(0).gameObject.SetActive(false);
+                    for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
+                    {
+                        GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<Player>().transform.GetChild(1).gameObject.SetActive(true);
+                    }
+                }
+            
+       
+            } else
+            {
+                // Fade.... ?
+                TriggerEnd.transform.GetChild(0).gameObject.SetActive(true);
+                for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
+                {
+                    GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<Player>().transform.GetChild(1).gameObject.SetActive(false);
+                }
 
             }
+
+
         }
     }
 
     public void AskRetry()
     {
+        // sert aussi de bool pour le retry
         GameManager.Instance.isTimeOver = false;
+
         GameManager.ChangeState(GameState.ForcedPauseMGRules);
-        areYouReady = Instantiate(ResourceUtils.Instance.feedbacksManager.prefabReplayScreenHub, GameManager.UiReference.transform);
+        retryMessageGo = Instantiate(ResourceUtils.Instance.feedbacksManager.prefabReplayScreenHub, GameManager.UiReference.transform);
 
-        areYouReady.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = GetMessage(MessageTypeMinigame.Lose);
-        areYouReady.GetComponent<ReplayScreenControlsHub>().index = 0;
+        retryMessageGo.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = GetRetryMessage(MessageTypeMinigame.Lose);
+        retryMessageGo.GetComponent<ReplayScreenControlsHub>().index = 0;
 
-        areYouReady.GetComponent<ReplayScreenControlsHub>().refMinigameHandler = this;
+        retryMessageGo.GetComponent<ReplayScreenControlsHub>().refMinigameHandler = this;
     }
 
     public void CreateUIHubMinigame(int playerIndex)
@@ -214,7 +258,7 @@ public class HubMinigameHandler : MonoBehaviour {
         hasBeenInitialized[playerIndex] = false;
     }
 
-    public String GetMessage(MessageTypeMinigame messageType)
+    public String GetRetryMessage(MessageTypeMinigame messageType)
     {
         switch (messageType)
         {
@@ -229,8 +273,35 @@ public class HubMinigameHandler : MonoBehaviour {
         }
     }
 
+    public void GiveReward()
+    {
+        // TP back
+        for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
+        {
+            GameManager.Instance.PlayerStart.PlayersReference[i].transform.position = initialpos[i];
+            GameManager.Instance.PlayerStart.PlayersReference[i].transform.rotation = initialrot[i];
+
+            //Instantiate(ResourceUtils.Instance.feedbacksManager.prefabMessage, refCanvas[i].transform);
+            //Message[i][0].transform.GetChild(2).GetComponent<Text>().text = GetComponent<Player>().playerName;
+            //Message[i][0].transform.GetChild(3).GetComponent<Text>().text = "Bravooooo !!!!";
+            //Message[i][0].SetActive(true);
+        }
+
+        //if (GetComponent<CreateEnumFromDatabase>() == null)
+        //{
+        //    Debug.LogError("Attract fct : It's a rune, it need a createEnumFromDatabase component link to the associated rune");
+        //    return;
+        //}
+        //string s = GetComponent<CreateEnumFromDatabase>().enumFromList[GetComponent<CreateEnumFromDatabase>().HideInt];
+        //DatabaseManager.Db.SetUnlock<DatabaseClass.RuneData>(s, true);
+    }
+
     public void WinMinigame()
     {
+        hasWin = true;
+        GiveReward();
+
+        // after delay
         CleanMinigameHub();
     }
 }
