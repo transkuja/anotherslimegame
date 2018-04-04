@@ -31,17 +31,8 @@ public class ReplayScreenControlsHub : MonoBehaviour {
                 AudioManager.Instance.PlayOneShot(AudioManager.Instance.changeOptionFx);
 
             cursor = (cursor+1)%2;
-            // Show currently selected text
-            //Color newColor = transform.GetChild(cursor + 1).GetComponent<Text>().color;
-            //newColor.a = 1.0f;
-            //transform.GetChild(cursor + 1).GetComponent<Text>().color = newColor;
             transform.GetChild(cursor + 1).GetComponent<AnimButton>().enabled = true;
             transform.GetChild((cursor == 0) ? 2 : 1).GetComponent<AnimButton>().enabled = false;
-
-            // Unshow last selection
-            //newColor = transform.GetChild((cursor == 0) ? 2 : 1).GetComponent<Text>().color;
-            //newColor.a = 0.4f;
-            //transform.GetChild((cursor == 0) ? 2 : 1).GetComponent<Text>().color = newColor;
         }
 
         if (prevControllerState.Buttons.A == ButtonState.Released && controllerState.Buttons.A == ButtonState.Pressed)

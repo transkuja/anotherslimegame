@@ -317,6 +317,7 @@ public class GameManager : MonoBehaviour {
                 finalTimerInitialized = false;
                 isTimeOver = true;              
                 scoreScreenReference.RankPlayersByPoints();
+                UiReference.TimerText.gameObject.SetActive(false);
             }
             else
             {
@@ -338,6 +339,7 @@ public class GameManager : MonoBehaviour {
     {
         currentGameFinalTimer = GameFinalTimer;
         finalTimerInitialized = true;
+        isTimeOver = false;
     }
 
     [SerializeField] float maxMovementSpeed = 35.0f;

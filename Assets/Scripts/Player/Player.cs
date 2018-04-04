@@ -8,6 +8,8 @@ public delegate void UIfct(int _newValue);
 public class Player : MonoBehaviour {
     public uint activeEvolutions = 0;
 
+    public String playerName;
+
     public Transform respawnPoint;
     public GameObject cameraReference;
 
@@ -32,6 +34,8 @@ public class Player : MonoBehaviour {
 
     public bool[] evolutionTutoShown = new bool[(int)Powers.Size];
     public bool costAreaTutoShown = false;
+
+    public HubMinigameHandler refHubMinigameHandler;
 
     public GameObject activeTutoText;
     private GameObject pendingTutoText;

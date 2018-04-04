@@ -6,6 +6,9 @@ public class FeedbacksManager : MonoBehaviour
 {
     [Header("Replay")]
     public GameObject prefabReplayScreenHub;
+    public GameObject prefabCanvasWithUiCameraAdapter;
+    public GameObject prefabMessage;
+    public GameObject prefabBButton;
 
     [Header("Minigame Feedbacks")]
     public GameObject prefabRunnerFeedback;

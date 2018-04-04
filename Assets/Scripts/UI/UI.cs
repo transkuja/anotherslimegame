@@ -16,9 +16,18 @@ public class UI : MonoBehaviour {
     Transform UIref;
     [HideInInspector]
     public Transform RuleScreen;
-    private bool isUiShowed = false;
+    private bool isUiShown = false;
     private float showTime = 4.0f;
     private float currentTimer = 0;
+
+    // See gameManager Update
+    public Text TimerText
+    {
+        get
+        {
+            return timerText;
+        }
+    }
 
     public void Awake()
     {
@@ -88,14 +97,14 @@ public class UI : MonoBehaviour {
 
     public void Update()
     {
-        if (isUiShowed)
+        if (isUiShown)
         {
             currentTimer += Time.deltaTime;
             if( currentTimer > showTime)
             {
                 TooglePersistenceUI(false);
 
-                isUiShowed = false;
+                isUiShown = false;
             }
         }
     }
@@ -147,7 +156,7 @@ public class UI : MonoBehaviour {
         TooglePersistenceUI(true);
         txtToChange.GetComponent<Text>().fontSize += 20;
 
-        isUiShowed = true;
+        isUiShown = true;
     }
 
     public void HandleFeedbackCantPay(CollectableType type)

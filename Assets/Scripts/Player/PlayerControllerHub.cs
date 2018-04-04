@@ -122,6 +122,7 @@ public class PlayerControllerHub : PlayerController
                 PlatformistController();
                 GhostController();
                 TeleportToOtherPlayer();
+                HandlePNJWithController((int)PlayerIndex);
             }
         }
     }
@@ -223,25 +224,32 @@ public class PlayerControllerHub : PlayerController
         }
     }
 
-    public void HandlePNJWithController(HubMinigameHandler hubMinigameHandler, int indexPlayer)
+    public void HandlePNJWithController(int indexPlayer)
     {
-        if (PrevState.Buttons.B == ButtonState.Released && State.Buttons.B == ButtonState.Pressed)
-        {
-            hubMinigameHandler.MessageTest(indexPlayer);
-        }
+        if( Player.refHubMinigameHandler != null)
+            if (PrevState.Buttons.B == ButtonState.Released && State.Buttons.B == ButtonState.Pressed)
+                Player.refHubMinigameHandler.DisplayMessage(indexPlayer);
     }
 
 
-
-    public void OnTriggerStay(Collider other)
+    public void OnTriggerEnter(Collider other)
     {
         if (other.tag == "PNJTrigger" && isUsingAController)
-        {
             if (GameManager.CurrentState == GameState.Normal)
             {
-                HandlePNJWithController(other.GetComponentInParent<HubMinigameHandler>(), (int)PlayerIndex);
+                Player.refHubMinigameHandler = other.GetComponentInParent<HubMinigameHandler>();
+                other.GetComponentInParent<HubMinigameHandler>().CreateUIHubMinigame((int)PlayerIndex);
             }
-        }
+    }
+
+    public void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "PNJTrigger" && isUsingAController)
+            if (GameManager.CurrentState == GameState.Normal)
+            {
+                Player.refHubMinigameHandler = null;
+                other.GetComponentInParent<HubMinigameHandler>().DestroyUIMinigame((int)PlayerIndex);
+            }
     }
 
 }
