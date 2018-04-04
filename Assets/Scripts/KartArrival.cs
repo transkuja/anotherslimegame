@@ -4,8 +4,8 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class KartArrival : MonoBehaviour {
-    [SerializeField]
-    public int NumberOfLaps = 3;
+    [HideInInspector]
+    public int NumberOfLaps;
 
     [SerializeField]
     CheckPoint lastCheckpoint;

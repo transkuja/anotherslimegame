@@ -13,7 +13,13 @@ public class FollowClosestPlayer : MonoBehaviour {
     float maxRange = 25.0f;
 
     [SerializeField]
+    float maxAngle = 75f;
+
+    [SerializeField]
     float speed = 10.0f;
+
+    [SerializeField]
+    float heightOffset = 4.0f;
 
     [SerializeField]
     bool speedRelativeToAngle = false;
@@ -32,6 +38,9 @@ public class FollowClosestPlayer : MonoBehaviour {
         float curSpeed = speed;
         if (speedRelativeToAngle)
             curSpeed = speed + Mathf.Abs(Vector3.Angle(transform.forward, targetLookAt)/90.0f * speed * 2.0f);
+
+        if (targetLookAt == startForward)
+            curSpeed /= 10f;
 
         transform.rotation = Quaternion.LookRotation(Vector3.Lerp(transform.forward, targetLookAt, Time.deltaTime * curSpeed), Vector3.up);
 
@@ -52,7 +61,14 @@ public class FollowClosestPlayer : MonoBehaviour {
             return;
         }
 
-        targetLookAt = ((target.position + Vector3.up * 4.0f) - transform.position).normalized;
+        targetLookAt = ((target.position + Vector3.up * heightOffset) - transform.position).normalized;
+
+        if (Vector3.Angle(startForward, targetLookAt) > maxAngle)
+        {
+            target = null;
+            targetLookAt = startForward;
+            return;
+        }
     }
 
     void FindNewTarget()

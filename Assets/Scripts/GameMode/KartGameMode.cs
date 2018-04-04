@@ -8,12 +8,28 @@ public class KartGameMode : GameMode {
     [SerializeField]
     PlayerControllerKart.DrivingCondition defaultDrivingCondition = PlayerControllerKart.DrivingCondition.Normal;
 
+    public int NumberOfLaps = 5;
+
     float timer;
 
     float firstFinishTime = -1.0f;
 
     [HideInInspector]
-    public KartArrival Arrival;
+    private KartArrival arrival;
+
+    public KartArrival Arrival
+    {
+        get
+        {
+            return arrival;
+        }
+
+        set
+        {
+            arrival = value;
+            arrival.NumberOfLaps = NumberOfLaps;
+        }
+    }
 
     public override void StartGame(List<GameObject> playerReferences)
     {
@@ -24,8 +40,10 @@ public class KartGameMode : GameMode {
         {
             Player player = playerReferences[i].GetComponent<Player>();
             if (player != null)
+            {
                 player.OnDeathEvent += OnPlayerDeath;
-
+                player.CallOnValueChange(PlayerUIStat.Points, 0);
+            }
             PlayerControllerKart pk = playerReferences[i].GetComponent<PlayerControllerKart>();
             if (pk)
                 pk.CurrentCondition = defaultDrivingCondition;
