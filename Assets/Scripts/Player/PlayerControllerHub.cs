@@ -162,10 +162,23 @@ public class PlayerControllerHub : PlayerController
 
     private void TeleportToOtherPlayer()
     {
-        if (GameManager.Instance.IsInHub() && GameManager.Instance.PlayerStart.ActivePlayersAtStart == 2)
+        if (GameManager.Instance.IsInHub() && GameManager.Instance.PlayerStart.ActivePlayersAtStart == 2 && playerCharacterHub.IsGrounded)
         {
-            if (state.Buttons.B == ButtonState.Pressed && state.Buttons.Y == ButtonState.Pressed && canTeleportAgain)
+            if (state.Buttons.B == ButtonState.Pressed && state.Buttons.Y == ButtonState.Pressed)
             {
+                if (!canTeleportAgain)
+                    return;
+
+                if (playerCharacterHub.PlayerState != playerCharacterHub.teleportState)
+                {
+                    if (playerCharacterHub.PlayerState == playerCharacterHub.freeState)
+                    {
+                        playerCharacterHub.PlayerState = playerCharacterHub.teleportState;
+                    }
+                    else
+                        return;
+                }
+
                 timeBeforeTeleportation -= Time.deltaTime;
                 if (timeBeforeTeleportation < 0.0f)
                 {
@@ -176,6 +189,7 @@ public class PlayerControllerHub : PlayerController
                         transform.position = GameManager.Instance.PlayerStart.PlayersReference[otherPlayerIndex].transform.position + Vector3.up * 2.0f;
                         canTeleportAgain = false;
                         timeBeforeTeleportation = timeBeforeTeleportationReset;
+                        playerCharacterHub.PlayerState = playerCharacterHub.freeState;
                     }
                 }
             }

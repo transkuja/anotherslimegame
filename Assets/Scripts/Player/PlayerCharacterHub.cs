@@ -20,6 +20,7 @@ public class PlayerCharacterHub : PlayerCharacter {
     public FrozenState frozenState;
     public UnderwaterState underwaterState;
     public PausedState pausedState;
+    public TeleportState teleportState;
 
     // Deformer
     private MeshDeformer deformer;
@@ -181,6 +182,7 @@ public class PlayerCharacterHub : PlayerCharacter {
         frozenState = new FrozenState(this, playerController);
         underwaterState = new UnderwaterState(this, playerController);
         pausedState = new PausedState(this, playerController);
+        teleportState = new TeleportState(this, playerController);
         PlayerState = freeState;
 
     }
