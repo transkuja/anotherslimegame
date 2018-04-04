@@ -26,6 +26,10 @@ public class TeleportState : PlayerState {
         base.OnBegin();
         // Face happy
         playerCharacterHub.GetComponentInChildren<PlayerCosmetics>().FaceEmotion = FaceEmotion.Winner;
+        Vector3 direction = playerCharacterHub.GetComponent<Player>().cameraReference.transform.GetChild(0).position - playerCharacterHub.transform.position;
+        direction -= direction.y * Vector3.up;
+
+        playerCharacterHub.transform.LookAt(playerCharacterHub.transform.position + direction);
         // play teleport particles
         playerCharacterHub.TeleportParticles.Play();
     }
