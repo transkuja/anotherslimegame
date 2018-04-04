@@ -9,7 +9,7 @@ public class InitTeleporter : MonoBehaviour {
 
     bool isTeleporterActive = false;
     Color startColor;
-    bool teleportToMinigame = false;
+    public bool teleportToMinigame = false;
     string minigameSceneToTeleportTo = "";
     MeshRenderer meshRenderer;
 
@@ -55,8 +55,7 @@ public class InitTeleporter : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision)
     {
-        // Wait for animation to end
-        if (teleportToMinigame && lerpValueAnim < 1.0f)
+        if (teleportToMinigame)
             return;
 
         // Arrived at destination
@@ -77,7 +76,7 @@ public class InitTeleporter : MonoBehaviour {
 
     private void Update()
     {
-        if (isTeleporterActive)
+        if (isTeleporterActive && !teleportToMinigame)
         {
             PlatformGameplay gameplayComponent = GetComponent<PlatformGameplay>();
             float lerpValue = (gameplayComponent.delayBetweenMovements - gameplayComponent.DelayTimer) / gameplayComponent.delayBetweenMovements;
@@ -85,10 +84,7 @@ public class InitTeleporter : MonoBehaviour {
             if (lerpValue >= 1.0f)
             {
                 isTeleporterActive = false;
-                if (teleportToMinigame)
-                    LoadMinigame();
-                else
-                    Invoke("ResetPlatform", 0.1f); // WARNING! Should be call in any cases if we dont load scenes
+                Invoke("ResetPlatform", 0.1f); // WARNING! Should be call in any cases if we dont load scenes
             }
         }
 
@@ -101,7 +97,6 @@ public class InitTeleporter : MonoBehaviour {
             }
             else
             {
-                GetComponent<PlatformGameplay>().isATeleporter = true;
                 isTeleporterActive = true;
             }
         }
@@ -114,7 +109,7 @@ public class InitTeleporter : MonoBehaviour {
             meshRenderer.material.SetColor("_EmissionColor", startColor);
     }
 
-    void LoadMinigame()
+    public void LoadMinigame()
     {
         List<GameObject> players = GameManager.Instance.PlayerStart.PlayersReference;
         for (int i = 0; i < players.Count; i++)
@@ -138,8 +133,7 @@ public class InitTeleporter : MonoBehaviour {
 
     private void OnCollisionExit(Collision collision)
     {
-        // Wait for animation to end
-        if (teleportToMinigame && lerpValueAnim < 1.0f)
+        if (teleportToMinigame)
             return;
 
         if (isTeleporterActive && (Utils.CheckEvolutionAndCollectableTypeCompatibility(evolutionType, collision.transform.GetComponent<EvolutionComponent>())

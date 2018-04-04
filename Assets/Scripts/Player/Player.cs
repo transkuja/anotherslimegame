@@ -36,6 +36,7 @@ public class Player : MonoBehaviour {
     public bool costAreaTutoShown = false;
 
     public HubMinigameHandler refHubMinigameHandler;
+    public InitTeleporter refInitTeleporter;
 
     public GameObject activeTutoText;
     private GameObject pendingTutoText;

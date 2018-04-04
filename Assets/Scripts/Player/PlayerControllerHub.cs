@@ -23,10 +23,10 @@ public class PlayerControllerHub : PlayerController
 
     #if UNITY_EDITOR
     public bool tryByPassJumpStop;
-    #endif
+#endif
     #endregion
 
-
+    public bool hasSteppedOnAMinigamePlatform = false;
 
     private void GhostController()
     {
@@ -123,6 +123,8 @@ public class PlayerControllerHub : PlayerController
                 GhostController();
                 TeleportToOtherPlayer();
                 HandlePNJWithController((int)PlayerIndex);
+                if (Player.refInitTeleporter != null)
+                    LaunchMinigameInput();
             }
         }
     }
@@ -232,14 +234,48 @@ public class PlayerControllerHub : PlayerController
     }
 
 
+    void LaunchMinigameInput()
+    {
+        if (PrevState.Buttons.B == ButtonState.Released && State.Buttons.B == ButtonState.Pressed)
+        {
+            // Confirm screen
+            // Launch
+            Player.refInitTeleporter.LoadMinigame();
+        }
+    }
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.GetComponentInChildren<InitTeleporter>())
+        {
+            if (collision.collider.GetComponentInChildren<InitTeleporter>().teleportToMinigame)
+            {
+                Player.refInitTeleporter = collision.collider.GetComponentInChildren<InitTeleporter>();
+            }
+        }
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        if (collision.collider.GetComponentInChildren<InitTeleporter>())
+        {
+            if (collision.collider.GetComponentInChildren<InitTeleporter>().teleportToMinigame)
+            {
+                Player.refInitTeleporter = null;
+            }
+        }
+    }
+
     public void OnTriggerEnter(Collider other)
     {
         if (other.tag == "PNJTrigger" && isUsingAController)
+        {
             if (GameManager.CurrentState == GameState.Normal)
             {
                 Player.refHubMinigameHandler = other.GetComponentInParent<HubMinigameHandler>();
                 other.GetComponentInParent<HubMinigameHandler>().CreateUIHubMinigame((int)PlayerIndex);
             }
+        }
     }
 
     public void OnTriggerExit(Collider other)
