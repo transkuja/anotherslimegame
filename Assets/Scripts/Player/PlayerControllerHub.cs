@@ -215,7 +215,11 @@ public class PlayerControllerHub : PlayerController
             else
             {
                 if (playerCharacterHub.PlayerState == playerCharacterHub.teleportState)
+
                     playerCharacterHub.PlayerState = playerCharacterHub.freeState;
+
+
+
 
                 canTeleportAgain = true;
                 timeBeforeTeleportation = timeBeforeTeleportationReset;
