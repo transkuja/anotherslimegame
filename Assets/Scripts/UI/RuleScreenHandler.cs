@@ -123,7 +123,7 @@ public class RuleScreenHandler : MonoBehaviour {
     }
 }
 
-public enum ControlType { Movement, Jump, Action, SpecialAction, RightTrigger, DrivingForward, DrivingReverse, Steering }
+public enum ControlType { Movement, Jump, Action, SpecialAction, RightTrigger, DrivingForward, DrivingReverse, Steering, Interaction }
 public class ControlDetails
 {
     public ControlType button;

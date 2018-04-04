@@ -33,12 +33,16 @@ public class SpriteUtils : MonoBehaviour {
     public Sprite specialActionSprite;
     public Sprite rightTriggerSprite;
     public Sprite leftTriggerSprite;
+    public Sprite interactionSprite;
 
     public Sprite GetControlSprite(ControlType _type)
     {
         Sprite result = null;
         switch(_type)
         {
+            case ControlType.Interaction:
+                result = interactionSprite;
+                break;
             case ControlType.Action:
                 result = actionSprite;
                 break;
