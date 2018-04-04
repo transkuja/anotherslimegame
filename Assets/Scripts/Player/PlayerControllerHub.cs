@@ -215,11 +215,7 @@ public class PlayerControllerHub : PlayerController
             else
             {
                 if (playerCharacterHub.PlayerState == playerCharacterHub.teleportState)
-
                     playerCharacterHub.PlayerState = playerCharacterHub.freeState;
-
-
-
 
                 canTeleportAgain = true;
                 timeBeforeTeleportation = timeBeforeTeleportationReset;
@@ -227,11 +223,11 @@ public class PlayerControllerHub : PlayerController
         }
     }
 
-    public void HandlePNJWithController(PNJController pnjController, int indexPlayer)
+    public void HandlePNJWithController(HubMinigameHandler hubMinigameHandler, int indexPlayer)
     {
-        if (PrevState.Buttons.B == ButtonState.Released && State.Buttons.B == ButtonState.Pressed)
+        if (PrevState.Buttons.A == ButtonState.Released && State.Buttons.A == ButtonState.Pressed)
         {
-            pnjController.MessageTest(indexPlayer);
+            hubMinigameHandler.MessageTest(indexPlayer);
         }
     }
 
@@ -239,14 +235,11 @@ public class PlayerControllerHub : PlayerController
 
     public void OnTriggerStay(Collider other)
     {
-        if (other.tag == "TriggerPNJ")
+        if (other.tag == "PNJTrigger" && isUsingAController)
         {
-            if (isUsingAController)
+            if (GameManager.CurrentState == GameState.Normal)
             {
-                if (GameManager.CurrentState == GameState.Normal)
-                {
-                    HandlePNJWithController(other.GetComponentInParent<PNJController>(), (int)PlayerIndex);
-                }
+                HandlePNJWithController(other.GetComponentInParent<HubMinigameHandler>(), (int)PlayerIndex);
             }
         }
     }

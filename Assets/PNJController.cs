@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UWPAndXInput;
+
 
 public class PNJController : MonoBehaviour
 {
@@ -17,10 +17,7 @@ public class PNJController : MonoBehaviour
     [Range(5, 20)]
     public float timerToTpBack = 20;
 
-    float indexStored;
-    // gamePad
-    protected GamePadState state;
-    protected GamePadState prevState;
+
 
     void Start()
     {
@@ -53,18 +50,6 @@ public class PNJController : MonoBehaviour
                 timer = 0;
             }
         }
-        else if (GameManager.CurrentState == GameState.ForcedPauseMGRules)
-        {
-            prevState = state;
-            state = GamePad.GetState((PlayerIndex)indexStored);
-
-            if (prevState.Buttons.B == ButtonState.Released && state.Buttons.B == ButtonState.Pressed)
-            {
-                GameManager.ChangeState(GameState.Normal);
-                GameManager.UiReference.RuleScreen.gameObject.SetActive(false);
-            }
-        }
-
     }
 
     public virtual void HandleMovement(float x, float y)
@@ -84,12 +69,4 @@ public class PNJController : MonoBehaviour
     }
 
 
-    // PNJ Character 
-    public void MessageTest(float indexPlayer)
-    {
-        GameManager.ChangeState(GameState.ForcedPauseMGRules);
-        //GameObject go = Instantiate(ResourceUtils.Instance.feedbacksManager.prefabReplayScreenHub, GameManager.UiReference.transform);
-        //go.transform.GetChild(1).GetComponentInChildren<Text>().text = "BIIIITE";
-        indexStored = indexPlayer;
-    }
 }

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class FeedbacksManager : MonoBehaviour
 {
+    [Header("Replay")]
+    public GameObject prefabReplayScreenHub;
 
     [Header("Minigame Feedbacks")]
     public GameObject prefabRunnerFeedback;
