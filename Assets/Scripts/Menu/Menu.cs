@@ -465,6 +465,10 @@ public class Menu : MonoBehaviour {
         transform.GetChild((int)MenuState.MinigameSelection)
                 .GetChild(0).GetComponent<MinigameSelectionAnim>().SetMinigame(unlockedMinigames[previousMinigameIndex]);
 
+
+        // GetMinigameOfType
+        // MinigameType.Size
+
         // Next
         transform.GetChild((int)MenuState.MinigameSelection)
                 .GetChild(1).GetComponent<MinigameSelectionAnim>().SetMinigame(unlockedMinigames[(minigameCurrentCursor + 1) % unlockedMinigames.Count]);

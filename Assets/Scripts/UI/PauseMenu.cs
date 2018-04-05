@@ -43,7 +43,7 @@ public class PauseMenu : MonoBehaviour {
                 defaultMenu.SetActive(false);
                 settingsMenu.SetActive(false);
                 exitMenu.SetActive(true);
-                if (GameManager.Instance.IsInHub() || (!GameManager.Instance.IsInHub() && SlimeDataContainer.instance.launchedFromMinigameScreen))
+                if (GameManager.Instance.IsInHub() || (!GameManager.Instance.IsInHub() && SlimeDataContainer.instance && SlimeDataContainer.instance.launchedFromMinigameScreen))
                 {
                     exitMenu.transform.GetChild(0).gameObject.SetActive(true);
                     exitMenu.transform.GetChild(1).gameObject.SetActive(false);

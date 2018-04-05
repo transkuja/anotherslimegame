@@ -40,19 +40,23 @@ public static class MinigameDataUtils
         }
         else if (_minigameId == "MinigameKart")
         {
-            return "Kart";
+            return "Classic Kart";
+        }
+        else if (_minigameId == "MinigameKart 2")
+        {
+            return "Snow Kart";
         }
         else if (_minigameId == "Minigame3dRunner")
         {
-            return "Runner";
+            return "Classic Runner";
         }
         else if (_minigameId == "MiniGameFruits")
         {
-            return "Fruits";
+            return "Frootballs";
         }
         else if (_minigameId == "MinigamePush")
         {
-            return "Arena Fighting";
+            return "Classic Clash";
         }
         return "";
     }

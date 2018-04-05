@@ -4,6 +4,8 @@ using UnityEngine;
 using DatabaseClass;
 using System;
 
+public enum MinigameType { Floor, Runner, Fruit, Kart, Clash, Size};
+
 namespace DatabaseClass
 {
     [System.Serializable]
@@ -19,6 +21,10 @@ namespace DatabaseClass
 
         [SerializeField]
         public int costToUnlock = -1;
+
+
+        [SerializeField]
+        public MinigameType type;
 
     }
 
@@ -232,6 +238,11 @@ namespace DatabaseClass
             return false;
         }
 
+        public List<MinigameData> GetMinigameOfType(MinigameType t)
+        {
+            return minigames.FindAll(a => a.type == t);
+        }
+
         public void UnlockedAll()
         {
             foreach (Unlockable a in colors)
@@ -281,12 +292,13 @@ namespace DatabaseClass
 
             // Adding minigames
             int idMinigames = 0;
-            string[] strMinigame = { "MinigameAntho", "MinigameKart", "MinigamePush", "Minigame3dRunner", "MiniGameFruits" };
-            minigames.Add(new MinigameData { Id = strMinigame[idMinigames], costToUnlock = -1, nbRunesToUnlock = 1, spriteImage = "screenshotMinigameAntho", isUnlocked = false });
-            minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 3, spriteImage = "screenshotMinigameKart", isUnlocked = false });
-            minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 2, spriteImage = "screenshotMinigamePush", isUnlocked = false });
-            minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 4, spriteImage = "screenshotMinigameRunner2", isUnlocked = false });
-            minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 5, spriteImage = "screenshotMinigameFruits", isUnlocked = false });
+            string[] strMinigame = { "MinigameAntho", "MinigameKart", "MinigamePush", "Minigame3dRunner", "MiniGameFruits", "MinigameKart 2" };
+            minigames.Add(new MinigameData { Id = strMinigame[idMinigames], costToUnlock = -1, nbRunesToUnlock = 1, spriteImage = "screenshotMinigameAntho", isUnlocked = false, type = MinigameType.Floor });
+            minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 3, spriteImage = "screenshotMinigameKart", isUnlocked = false, type = MinigameType.Kart });
+            minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 2, spriteImage = "screenshotMinigamePush", isUnlocked = false, type = MinigameType.Clash });
+            minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 4, spriteImage = "screenshotMinigameRunner2", isUnlocked = false, type = MinigameType.Runner });
+            minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 5, spriteImage = "screenshotMinigameFruits", isUnlocked = false, type = MinigameType.Fruit });
+            minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = -1, spriteImage = "screenshotSnowKart", isUnlocked = false, type = MinigameType.Kart });
 
 
             // Adding costArea
