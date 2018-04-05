@@ -552,8 +552,10 @@ public class Menu : MonoBehaviour {
                 UpdatePlayerPreviewFace(_playerIndex, _unlockedIndex);
                 break;
             case CustomizableType.Ears:
-            case CustomizableType.Hat:
                 UpdatePlayerPreviewCustomizable(_customizableType, _playerIndex, _unlockedIndex, _isNoneValue);
+                break;
+            case CustomizableType.Hat:
+                UpdatePlayerPreviewHat(_playerIndex, _unlockedIndex, _isNoneValue);
                 break;
             case CustomizableType.Mustache:
                 UpdatePlayerPreviewMustache(_playerIndex, _unlockedIndex, _isNoneValue);
@@ -590,6 +592,37 @@ public class Menu : MonoBehaviour {
 
     }
 
+    void UpdatePlayerPreviewHat(int _playerIndex, int _selection, bool _isNoneValue)
+    {
+        Transform parent = playerCustomScreens[_playerIndex].transform.GetComponentInChildren<CustomizableSockets>().transform.GetChild((int)(CustomizableType.Hat) - 2);
+        if (parent.childCount > 0)
+        {
+            Destroy(parent.GetChild(0).gameObject);
+        }
+        else
+        {
+            if (!_isNoneValue)
+                StartCoroutine(Happy(playerCustomScreens[_playerIndex].GetComponentInChildren<PlayerCosmetics>()));
+        }
+
+        if (!_isNoneValue)
+        {
+            // Hide/Show ears
+            if (((DatabaseClass.HatData)unlockedCustomizables[CustomizableType.Hat][_selection]).shouldHideEars)
+                playerCustomScreens[_playerIndex].transform.GetComponentInChildren<CustomizableSockets>().transform.GetChild((int)(CustomizableType.Ears) - 2).gameObject.SetActive(false);
+            else
+                playerCustomScreens[_playerIndex].transform.GetComponentInChildren<CustomizableSockets>().transform.GetChild((int)(CustomizableType.Ears) - 2).gameObject.SetActive(false);
+
+            Instantiate(Resources.Load(((DatabaseClass.HatData)unlockedCustomizables[CustomizableType.Hat][_selection]).model), parent);
+        }
+        else
+        {
+            // Show ears
+            playerCustomScreens[_playerIndex].transform.GetComponentInChildren<CustomizableSockets>().transform.GetChild((int)(CustomizableType.Ears) - 2).gameObject.SetActive(true);
+        }
+    }
+
+    // Default customizable update function
     void UpdatePlayerPreviewCustomizable(CustomizableType _type, int _playerIndex, int _selection, bool _isNoneValue)
     {
         Transform parent = playerCustomScreens[_playerIndex].transform.GetComponentInChildren<CustomizableSockets>().transform.GetChild((int)(_type) - 2);
@@ -607,10 +640,8 @@ public class Menu : MonoBehaviour {
         {
             if (_type == CustomizableType.Ears)
                 Instantiate(Resources.Load(((DatabaseClass.EarsData)unlockedCustomizables[_type][_selection]).model), parent);
-            else if (_type == CustomizableType.Hat)
-                Instantiate(Resources.Load(((DatabaseClass.HatData)unlockedCustomizables[_type][_selection]).model), parent);
+            
         }
-
 
     }
 
@@ -778,11 +809,12 @@ public class Menu : MonoBehaviour {
                 // Mustache //
                 UpdatePlayersOnMinigameSelectionScreen(CustomizableType.Mustache, i, childCount);
 
+                // Ears //
+                UpdatePlayersOnMinigameSelectionScreen(CustomizableType.Ears, i, childCount);
+
                 // Hat //
                 UpdatePlayersOnMinigameSelectionScreen(CustomizableType.Hat, i, childCount);
 
-                // Ears //
-                UpdatePlayersOnMinigameSelectionScreen(CustomizableType.Ears, i, childCount);
             }
 
             for (int i = nbPlayers; i < 4; i++)
@@ -794,18 +826,25 @@ public class Menu : MonoBehaviour {
 
     void UpdatePlayersOnMinigameSelectionScreen(CustomizableType _type, int _playerIndex, int _childCount)
     {
-        Transform parent = transform.GetChild((int)MenuState.MinigameSelection).GetChild(_childCount - 4 + _playerIndex).GetComponentInChildren<CustomizableSockets>().transform.GetChild((int)(_type) - 2);
-        if (parent.childCount > 0)
-            Destroy(parent.GetChild(0).gameObject);
+        Transform socket = transform.GetChild((int)MenuState.MinigameSelection).GetChild(_childCount - 4 + _playerIndex).GetComponentInChildren<CustomizableSockets>().transform.GetChild((int)(_type) - 2);
+        if (socket.childCount > 0)
+            Destroy(socket.GetChild(0).gameObject);
 
         if (selectedCustomizables[(int)_type, _playerIndex] != unlockedCustomizables[_type].Count && unlockedCustomizables[_type].Count > 0)
         {
             if (_type == CustomizableType.Mustache)
-                Instantiate(Resources.Load(((DatabaseClass.MustacheData)unlockedCustomizables[_type][selectedCustomizables[(int)_type, _playerIndex]]).model), parent);
+                Instantiate(Resources.Load(((DatabaseClass.MustacheData)unlockedCustomizables[_type][selectedCustomizables[(int)_type, _playerIndex]]).model), socket);
             else if (_type == CustomizableType.Hat)
-                Instantiate(Resources.Load(((DatabaseClass.HatData)unlockedCustomizables[_type][selectedCustomizables[(int)_type, _playerIndex]]).model), parent);
+            {
+                DatabaseClass.HatData hatData = ((DatabaseClass.HatData)unlockedCustomizables[_type][selectedCustomizables[(int)_type, _playerIndex]]);
+                Instantiate(Resources.Load(hatData.model), socket);
+                if (hatData.shouldHideEars)
+                    socket.parent.GetChild((int)CustomizableType.Ears - 2).gameObject.SetActive(false);
+                else
+                    socket.parent.GetChild((int)CustomizableType.Ears - 2).gameObject.SetActive(true);
+            }
             else if (_type == CustomizableType.Ears)
-                Instantiate(Resources.Load(((DatabaseClass.EarsData)unlockedCustomizables[_type][selectedCustomizables[(int)_type, _playerIndex]]).model), parent);
+                Instantiate(Resources.Load(((DatabaseClass.EarsData)unlockedCustomizables[_type][selectedCustomizables[(int)_type, _playerIndex]]).model), socket);
         }
     }
 

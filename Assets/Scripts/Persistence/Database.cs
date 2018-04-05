@@ -161,6 +161,26 @@ namespace DatabaseClass
             }
         }
 
+        public Unlockable GetDataFromId<T>(string _id) where T : Unlockable
+        {
+            if (typeof(T) == typeof(ColorData))
+                return colors.Find(a => a.Id == _id);
+            else if (typeof(T) == typeof(FaceData))
+                return faces.Find(a => a.Id == _id);
+            else if (typeof(T) == typeof(MinigameData))
+                return minigames.Find(a => a.Id == _id);
+            else if (typeof(T) == typeof(RuneData))
+                return runes.Find(a => a.Id == _id);
+            else if (typeof(T) == typeof(EarsData))
+                return ears.Find(a => a.Id == _id);
+            else if (typeof(T) == typeof(MustacheData))
+                return mustaches.Find(a => a.Id == _id);
+            else if (typeof(T) == typeof(HatData))
+                return hats.Find(a => a.Id == _id);
+
+            return null;
+        }
+
         public bool IsUnlock<T>(string _id) where T : Unlockable
         {
             if (typeof(T) == typeof(ColorData))
@@ -185,8 +205,8 @@ namespace DatabaseClass
             }
             else if (typeof(T) == typeof(EarsData))
             {
-                if (mustaches.Find(a => a.Id == _id) != null)
-                    return mustaches.Find(a => a.Id == _id).isUnlocked;
+                if (ears.Find(a => a.Id == _id) != null)
+                    return ears.Find(a => a.Id == _id).isUnlocked;
             }
             else if (typeof(T) == typeof(MustacheData))
             {
@@ -195,8 +215,8 @@ namespace DatabaseClass
             }
             else if (typeof(T) == typeof(HatData))
             {
-                if (mustaches.Find(a => a.Id == _id) != null)
-                    return mustaches.Find(a => a.Id == _id).isUnlocked;
+                if (hats.Find(a => a.Id == _id) != null)
+                    return hats.Find(a => a.Id == _id).isUnlocked;
             }
             return false;
         }

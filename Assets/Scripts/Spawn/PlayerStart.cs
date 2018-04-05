@@ -157,11 +157,12 @@ public class PlayerStart : MonoBehaviour {
                     // Init mustaches //
                     InitCustomizable(CustomizableType.Mustache, GameManager.Instance.DataContainer.mustachesSelected[i], customizableParent);
 
+                    // Init ears //
+                    InitCustomizable(CustomizableType.Ears, GameManager.Instance.DataContainer.earsSelected[i], customizableParent);
+
                     // Init hats //
                     InitCustomizable(CustomizableType.Hat, GameManager.Instance.DataContainer.hatsSelected[i], customizableParent);
 
-                    // Init ears //
-                    InitCustomizable(CustomizableType.Ears, GameManager.Instance.DataContainer.earsSelected[i], customizableParent);
                 }
             }
             else
@@ -193,6 +194,15 @@ public class PlayerStart : MonoBehaviour {
      
         GameObject customizable = Instantiate(Resources.Load(_value), _customizableParent.GetChild((int)_type - 2).transform) as GameObject;
         customizable.GetComponent<ICustomizable>().Init(_customizableParent.GetComponentInParent<Rigidbody>());
+
+        // Hide ears if the hat is supposed to hide them
+        if (_type == CustomizableType.Hat)
+        {
+            if (((DatabaseClass.HatData)DatabaseManager.Db.GetDataFromId<DatabaseClass.HatData>(_value)).shouldHideEars)
+            {
+                _customizableParent.GetChild((int)CustomizableType.Ears - 2).gameObject.SetActive(false);
+            }
+        }
         
     }
 
