@@ -34,27 +34,6 @@ public class MinigameColorFloorGP : MonoBehaviour {
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.transform.GetComponentInParent<PlayerController>() != null)
-        {
-            PlayerController pc = collision.transform.GetComponentInParent<PlayerController>();
-            Collider thisCollider = collision.contacts[0].thisCollider;
-            if (thisCollider.transform.childCount > 0)
-            {
-                MinigamePickUp pickupComponent = thisCollider.transform.GetChild(0).GetComponent<MinigamePickUp>();
-                pickupComponent.collectPickup((int)pc.playerIndex);
-
-                Destroy(pickupComponent.gameObject);
-                pickupHandler.pickupSpawned--;
-            }
-
-            ColorFloorHandler.RegisterFloor((int)pc.playerIndex, thisCollider);
-
-            pc.GetComponent<Rigidbody>().velocity = new Vector3(pc.GetComponent<Rigidbody>().velocity.x, 0.0f, pc.GetComponent<Rigidbody>().velocity.z);
-        }
-    }
-
     void Move()
     {
         for (int i = 0; i < nbPlayers; i++)

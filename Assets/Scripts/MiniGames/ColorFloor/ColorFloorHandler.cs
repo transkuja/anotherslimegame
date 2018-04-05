@@ -28,8 +28,8 @@ public static class ColorFloorHandler {
             _toRegister.GetComponent<Animator>().SetBool("animate", true);
 
             currentlyColoredByPlayer[_playerIndex].Add(_toRegister);
-            _toRegister.GetComponent<MeshRenderer>().material.EnableKeyword("_EMISSION");
-            _toRegister.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", GameManager.Instance.PlayerStart.colorPlayer[_playerIndex]);
+            _toRegister.GetComponentInChildren<MeshRenderer>().material.EnableKeyword("_EMISSION");
+            _toRegister.GetComponentInChildren<MeshRenderer>().material.SetColor("_EmissionColor", GameManager.Instance.PlayerStart.colorPlayer[_playerIndex]);
         }
     }
 
@@ -50,9 +50,9 @@ public static class ColorFloorHandler {
             neighbors++;
         if (currentlyColoredByPlayer[_playerIndex].Contains(lineTransform.GetChild(floorIndex + 1).GetComponentInChildren<Collider>()))
             neighbors++;
-        if (currentlyColoredByPlayer[_playerIndex].Contains(lineTransform.parent.GetChild(lineIndex - 1).GetChild(floorIndex).GetComponent<Collider>()))
+        if (currentlyColoredByPlayer[_playerIndex].Contains(lineTransform.parent.GetChild(lineIndex - 1).GetChild(floorIndex).GetComponentInChildren<Collider>()))
             neighbors++;
-        if (currentlyColoredByPlayer[_playerIndex].Contains(lineTransform.parent.GetChild(lineIndex + 1).GetChild(floorIndex).GetComponent<Collider>()))
+        if (currentlyColoredByPlayer[_playerIndex].Contains(lineTransform.parent.GetChild(lineIndex + 1).GetChild(floorIndex).GetComponentInChildren<Collider>()))
             neighbors++;
 
         if (neighbors < 2)
@@ -83,7 +83,7 @@ public static class ColorFloorHandler {
 
         foreach (Collider col in currentlyColoredByPlayer[_playerIndex])
         {
-            col.GetComponent<MeshRenderer>().material.SetColor("_EmissionColor", Color.black);
+            col.GetComponentInChildren<MeshRenderer>().material.SetColor("_EmissionColor", Color.black);
         }
 
         currentlyColoredByPlayer[_playerIndex].Clear();
@@ -100,9 +100,9 @@ public static class ColorFloorHandler {
         {
             // Register the 2 sides
             if (floorIndex > 0)
-                RegisterFloor(_playerIndex, lineTransform.GetChild(floorIndex - 1).GetComponent<Collider>());
+                RegisterFloor(_playerIndex, lineTransform.GetChild(floorIndex - 1).GetComponentInChildren<Collider>());
             if (floorIndex < floorPosition.parent.childCount - 1)
-                RegisterFloor(_playerIndex, lineTransform.GetChild(floorIndex + 1).GetComponent<Collider>());
+                RegisterFloor(_playerIndex, lineTransform.GetChild(floorIndex + 1).GetComponentInChildren<Collider>());
 
             // Register 3 above
             if (lineIndex > 0)
@@ -110,7 +110,7 @@ public static class ColorFloorHandler {
                 for (int i = -1; i <= 1; i++)
                 {
                     if (floorIndex + i >= 0 && (floorIndex + i) <= (lineTransform.parent.GetChild(lineIndex - 1).childCount - 1))
-                        RegisterFloor(_playerIndex, lineTransform.parent.GetChild(lineIndex - 1).GetChild(floorIndex + i).GetComponent<Collider>());
+                        RegisterFloor(_playerIndex, lineTransform.parent.GetChild(lineIndex - 1).GetChild(floorIndex + i).GetComponentInChildren<Collider>());
                 }
             }
             // Register 3 under
@@ -119,7 +119,7 @@ public static class ColorFloorHandler {
                 for (int i = -1; i <= 1; i++)
                 {
                     if (floorIndex + i >= 0 && (floorIndex + i) <= (lineTransform.parent.GetChild(lineIndex + 1).childCount - 1))
-                        RegisterFloor(_playerIndex, lineTransform.parent.GetChild(lineIndex + 1).GetChild(floorIndex + i).GetComponent<Collider>());
+                        RegisterFloor(_playerIndex, lineTransform.parent.GetChild(lineIndex + 1).GetChild(floorIndex + i).GetComponentInChildren<Collider>());
                 }
             }
 
@@ -136,7 +136,7 @@ public static class ColorFloorHandler {
                 nextIndex = floorIndex + unit;
                 while (nextIndex >= 0 && nextIndex < lineTransform.childCount)
                 {
-                    RegisterFloor(_playerIndex, lineTransform.GetChild(nextIndex).GetComponent<Collider>());
+                    RegisterFloor(_playerIndex, lineTransform.GetChild(nextIndex).GetComponentInChildren<Collider>());
                     nextIndex += unit;
                 }            
             }
@@ -147,7 +147,7 @@ public static class ColorFloorHandler {
                 
                 while (nextIndex >= 0 && nextIndex < lineTransform.parent.childCount)
                 {
-                    RegisterFloor(_playerIndex, lineTransform.parent.GetChild(nextIndex).GetChild(floorIndex).GetComponent<Collider>());
+                    RegisterFloor(_playerIndex, lineTransform.parent.GetChild(nextIndex).GetChild(floorIndex).GetComponentInChildren<Collider>());
                     nextIndex += unit;
                 }
             }

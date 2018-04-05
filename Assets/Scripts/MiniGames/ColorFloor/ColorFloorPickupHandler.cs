@@ -39,7 +39,7 @@ public class ColorFloorPickupHandler : MonoBehaviour
                 lineSize = transform.GetChild(randChild / lineCount).childCount;
 
                 // Makes sure we don't spawn twice at the same place
-                while (transform.GetChild(randChild / lineCount).GetChild(randChild % lineSize).childCount > 0)
+                while (transform.GetChild(randChild / lineCount).GetChild(randChild % lineSize).childCount > 1)
                     randChild = Random.Range(0, mapSize);
 
                 int subpoolIndex;
