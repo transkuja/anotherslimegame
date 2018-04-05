@@ -35,8 +35,8 @@ public class Player : MonoBehaviour {
     public bool[] evolutionTutoShown = new bool[(int)Powers.Size];
     public bool costAreaTutoShown = false;
 
-    public HubMinigameHandler refHubMinigameHandler;
-    public InitTeleporter refInitTeleporter;
+    HubMinigameHandler refHubMinigameHandler;
+    InitTeleporter refInitTeleporter;
 
     public GameObject activeTutoText;
     private GameObject pendingTutoText;
@@ -171,6 +171,32 @@ public class Player : MonoBehaviour {
         set
         {
             playerCharacter = value;
+        }
+    }
+
+    public HubMinigameHandler RefHubMinigameHandler
+    {
+        get
+        {
+            return refHubMinigameHandler;
+        }
+
+        set
+        {
+            refHubMinigameHandler = value;
+        }
+    }
+
+    public InitTeleporter RefInitTeleporter
+    {
+        get
+        {
+            return refInitTeleporter;
+        }
+
+        set
+        {
+            refInitTeleporter = value;
         }
     }
 
