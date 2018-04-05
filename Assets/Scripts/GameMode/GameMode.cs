@@ -99,7 +99,7 @@ abstract public class GameMode : MonoBehaviour
     }
     public virtual void OnReadySetGoBegin()
     {
-        FindObjectOfType<CursorPlayerId>().Init();
+        if (FindObjectOfType<CursorPlayerId>()) FindObjectOfType<CursorPlayerId>().Init();
     }
 
     public virtual void OpenRuleScreen()
