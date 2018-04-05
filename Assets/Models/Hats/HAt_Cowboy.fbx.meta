@@ -1,14 +1,18 @@
 fileFormatVersion: 2
-guid: de22d4ee3688c6e44a82dd8d1fb3e836
-timeCreated: 1522748508
+guid: 8a091439356bfd141920e5507a225212
+timeCreated: 1522922667
 licenseType: Free
 ModelImporter:
   serializedVersion: 21
   fileIDToRecycleName:
-    100000: //RootNode
-    400000: //RootNode
-    2300000: //RootNode
-    3300000: //RootNode
+    100000: Hat_Cowboy
+    100002: //RootNode
+    100004: Hat_Cowboy 1
+    400000: Hat_Cowboy
+    400002: //RootNode
+    400004: Hat_Cowboy 1
+    2300000: Hat_Cowboy 1
+    3300000: Hat_Cowboy 1
     4300000: Hat_Cowboy
     9500000: //RootNode
   materials:

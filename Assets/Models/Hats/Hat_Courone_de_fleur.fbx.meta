@@ -1,19 +1,19 @@
 fileFormatVersion: 2
-guid: c2c9463d16d764e42bb614fdad731cd5
+guid: 44f03fe31950e0b4f9e470292f9e9232
 timeCreated: 1522922667
 licenseType: Free
 ModelImporter:
   serializedVersion: 21
   fileIDToRecycleName:
-    100000: Hat_Cap
-    100002: Hat_Cap 1
+    100000: Courone_de_fleur
+    100002: Hat_Courone_de_fleur
     100004: //RootNode
-    400000: Hat_Cap
-    400002: Hat_Cap 1
+    400000: Courone_de_fleur
+    400002: Hat_Courone_de_fleur
     400004: //RootNode
-    2300000: Hat_Cap 1
-    3300000: Hat_Cap 1
-    4300000: Hat_Cap
+    2300000: Courone_de_fleur
+    3300000: Courone_de_fleur
+    4300000: Courone_de_fleur
     9500000: //RootNode
   materials:
     importMaterials: 1

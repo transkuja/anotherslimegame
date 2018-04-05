@@ -62,6 +62,8 @@ namespace DatabaseClass
     {
         [SerializeField]
         public string model;
+
+        public bool shouldHideEars;
     }
 
     [System.Serializable]
@@ -274,19 +276,20 @@ namespace DatabaseClass
 
             // Adding hats
             int idHat = 0;
-            string[] strHat = { "Cap", "Chief", "Cowboy", "Glitter", "Top Hat" };
-            hats.Add(new HatData { Id = strHat[idHat], model = "Hats/CapHat", isUnlocked = false });
-            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/ChiefHat", isUnlocked = false });
-            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/CowboyHat", isUnlocked = false });
-            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/GlitterHat", isUnlocked = false });
-            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/TopHatHat", isUnlocked = false });
+            string[] strHat = { "Cap", "Chief", "Cowboy", "Glitter", "Top Hat", "Flowers" };
+            hats.Add(new HatData { Id = strHat[idHat], model = "Hats/CapHat", shouldHideEars = true, isUnlocked = false });
+            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/ChiefHat", shouldHideEars = true, isUnlocked = false });
+            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/CowboyHat", shouldHideEars = true, isUnlocked = false });
+            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/GlitterHat", shouldHideEars = true, isUnlocked = false });
+            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/TopHatHat", shouldHideEars = true, isUnlocked = false });
+            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/FlowerCrown", shouldHideEars = false, isUnlocked = false });
 
             // Adding ears
             //int idEars = 0;
             //string[] strEars = { "", "" };
             //ears.Add(new EarsData { Id = strEars[idEars], model = "Ears/", isUnlocked = false });
             //ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/", isUnlocked = false });
-            
+
         }
 
         public void AllCostToZero()
