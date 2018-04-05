@@ -198,6 +198,7 @@ public class PlayerStart : MonoBehaviour {
         // Hide ears if the hat is supposed to hide them
         if (_type == CustomizableType.Hat)
         {
+            // BUG : _value = Hats/CowboyHat au lieu de Cowboy
             if (((DatabaseClass.HatData)DatabaseManager.Db.GetDataFromId<DatabaseClass.HatData>(_value)).shouldHideEars)
             {
                 _customizableParent.GetChild((int)CustomizableType.Ears - 2).gameObject.SetActive(false);
