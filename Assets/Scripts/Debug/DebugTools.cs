@@ -176,10 +176,17 @@ public class DebugTools : MonoBehaviour {
 
         helpPanels[(int)DebugState.Unlockables] += debugPanelComponent.AddToDebugPanelInfos("A", "M", "Unlock/Lock All minigames");
         helpPanels[(int)DebugState.Unlockables] += debugPanelComponent.AddToDebugPanelInfos("A", "R", "Unlock/Lock All runes");
+        helpPanels[(int)DebugState.Unlockables] += debugPanelComponent.AddToDebugPanelInfos("A", "S", "Unlock/Lock All moustaches");
+        helpPanels[(int)DebugState.Unlockables] += debugPanelComponent.AddToDebugPanelInfos("A", "H", "Unlock/Lock All hats");
+
         helpPanels[(int)DebugState.Unlockables] += debugPanelComponent.AddToDebugPanelInfos("1", "", "Unlock next minigame");
         helpPanels[(int)DebugState.Unlockables] += debugPanelComponent.AddToDebugPanelInfos("2", "", "Lock last minigame unlocked");
         helpPanels[(int)DebugState.Unlockables] += debugPanelComponent.AddToDebugPanelInfos("3", "", "Unlock next rune");
         helpPanels[(int)DebugState.Unlockables] += debugPanelComponent.AddToDebugPanelInfos("4", "", "Lock last rune unlocked");
+        helpPanels[(int)DebugState.Unlockables] += debugPanelComponent.AddToDebugPanelInfos("5", "", "Unlock next moustache");
+        helpPanels[(int)DebugState.Unlockables] += debugPanelComponent.AddToDebugPanelInfos("6", "", "Lock last moustache unlocked");
+        helpPanels[(int)DebugState.Unlockables] += debugPanelComponent.AddToDebugPanelInfos("7", "", "Unlock next hat");
+        helpPanels[(int)DebugState.Unlockables] += debugPanelComponent.AddToDebugPanelInfos("8", "", "Lock last hat unlocked");
 
         debugPanelComponent.UpdateDebugPanelInfos(helpPanels[(int)DebugState.Size], helpPanels[(int)currentState]);
         hasUpdatedDebugPanel = true;
@@ -326,6 +333,42 @@ public class DebugTools : MonoBehaviour {
                     Debug.Log("DEBUG: All runes unlocked.");
                 }
             }
+
+            if (Input.GetKeyDown(KeyCode.S))
+            {
+                if (DatabaseManager.Db.IsUnlock<DatabaseClass.MustacheData>(DatabaseManager.Db.mustaches[DatabaseManager.Db.mustaches.Count - 1].Id))
+                {
+                    foreach (DatabaseClass.MustacheData mustache in DatabaseManager.Db.mustaches)
+                        DatabaseManager.Db.SetUnlock<DatabaseClass.MustacheData>(mustache.Id, false);
+
+                    Debug.Log("DEBUG: All mustaches locked.");
+                }
+                else
+                {
+                    foreach (DatabaseClass.MustacheData mustache in DatabaseManager.Db.mustaches)
+                        DatabaseManager.Db.SetUnlock<DatabaseClass.MustacheData>(mustache.Id, true);
+
+                    Debug.Log("DEBUG: All mustaches unlocked.");
+                }
+            }
+
+            if (Input.GetKeyDown(KeyCode.H))
+            {
+                if (DatabaseManager.Db.IsUnlock<DatabaseClass.HatData>(DatabaseManager.Db.hats[DatabaseManager.Db.hats.Count - 1].Id))
+                {
+                    foreach (DatabaseClass.HatData hat in DatabaseManager.Db.hats)
+                        DatabaseManager.Db.SetUnlock<DatabaseClass.HatData>(hat.Id, false);
+
+                    Debug.Log("DEBUG: All hats locked.");
+                }
+                else
+                {
+                    foreach (DatabaseClass.HatData hat in DatabaseManager.Db.hats)
+                        DatabaseManager.Db.SetUnlock<DatabaseClass.HatData>(hat.Id, true);
+
+                    Debug.Log("DEBUG: All hats unlocked.");
+                }
+            }
         }
 
         // Unlock next minigame locked
@@ -379,6 +422,62 @@ public class DebugTools : MonoBehaviour {
                 {
                     DatabaseManager.Db.SetUnlock<DatabaseClass.RuneData>(DatabaseManager.Db.runes[i].Id, false);
                     Debug.Log("DEBUG: Rune " + DatabaseManager.Db.runes[i].Id + " locked.");
+                    break;
+                }
+            }
+        }
+
+        // Unlock next mustache locked
+        if (Input.GetKeyDown(KeyCode.Alpha5))
+        {
+            for (int i = 0; i < DatabaseManager.Db.mustaches.Count; ++i)
+            {
+                if (!DatabaseManager.Db.IsUnlock<DatabaseClass.MustacheData>(DatabaseManager.Db.mustaches[i].Id))
+                {
+                    DatabaseManager.Db.SetUnlock<DatabaseClass.MustacheData>(DatabaseManager.Db.mustaches[i].Id, true);
+                    Debug.Log("DEBUG: Mustache " + DatabaseManager.Db.mustaches[i].Id + " unlocked.");
+                    break;
+                }
+            }
+        }
+
+        // Lock last mustache unlocked
+        if (Input.GetKeyDown(KeyCode.Alpha6))
+        {
+            for (int i = DatabaseManager.Db.mustaches.Count - 1; i >= 0; --i)
+            {
+                if (DatabaseManager.Db.IsUnlock<DatabaseClass.MustacheData>(DatabaseManager.Db.mustaches[i].Id))
+                {
+                    DatabaseManager.Db.SetUnlock<DatabaseClass.MustacheData>(DatabaseManager.Db.mustaches[i].Id, false);
+                    Debug.Log("DEBUG: Mustache " + DatabaseManager.Db.mustaches[i].Id + " locked.");
+                    break;
+                }
+            }
+        }
+
+        // Unlock next hat locked
+        if (Input.GetKeyDown(KeyCode.Alpha7))
+        {
+            for (int i = 0; i < DatabaseManager.Db.hats.Count; ++i)
+            {
+                if (!DatabaseManager.Db.IsUnlock<DatabaseClass.HatData>(DatabaseManager.Db.hats[i].Id))
+                {
+                    DatabaseManager.Db.SetUnlock<DatabaseClass.HatData>(DatabaseManager.Db.hats[i].Id, true);
+                    Debug.Log("DEBUG: Hat " + DatabaseManager.Db.hats[i].Id + " unlocked.");
+                    break;
+                }
+            }
+        }
+
+        // Lock last hat unlocked
+        if (Input.GetKeyDown(KeyCode.Alpha8))
+        {
+            for (int i = DatabaseManager.Db.hats.Count - 1; i >= 0; --i)
+            {
+                if (DatabaseManager.Db.IsUnlock<DatabaseClass.HatData>(DatabaseManager.Db.hats[i].Id))
+                {
+                    DatabaseManager.Db.SetUnlock<DatabaseClass.HatData>(DatabaseManager.Db.hats[i].Id, false);
+                    Debug.Log("DEBUG: Hat " + DatabaseManager.Db.hats[i].Id + " locked.");
                     break;
                 }
             }
