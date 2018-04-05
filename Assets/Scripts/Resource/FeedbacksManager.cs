@@ -9,6 +9,7 @@ public class FeedbacksManager : MonoBehaviour
     public GameObject prefabCanvasWithUiCameraAdapter;
     public GameObject prefabMessage;
     public GameObject prefabBButton;
+    public GameObject prefabFadeInAndOut;
 
     [Header("Minigame Feedbacks")]
     public GameObject prefabRunnerFeedback;

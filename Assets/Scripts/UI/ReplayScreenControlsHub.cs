@@ -13,7 +13,6 @@ public class ReplayScreenControlsHub : MonoBehaviour {
 
     public HubMinigameHandler refMinigameHandler;
     public int index = -1;
-    public bool needShow = false;
 
     private void Update()
     {
@@ -43,7 +42,7 @@ public class ReplayScreenControlsHub : MonoBehaviour {
 
             if (cursor == 0)
             {
-                refMinigameHandler.PrepareForStart(needShow);
+                refMinigameHandler.PrepareForStart();
             }
             else
             {

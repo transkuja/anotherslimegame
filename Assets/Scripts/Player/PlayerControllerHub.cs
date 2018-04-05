@@ -269,26 +269,4 @@ public class PlayerControllerHub : PlayerController
         }
     }
 
-    public void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == "PNJTrigger" && isUsingAController)
-        {
-            if (GameManager.CurrentState == GameState.Normal)
-            {
-                Player.RefHubMinigameHandler = other.GetComponentInParent<HubMinigameHandler>();
-                other.GetComponentInParent<HubMinigameHandler>().CreateUIHubMinigame((int)PlayerIndex);
-            }
-        }
-    }
-
-    public void OnTriggerExit(Collider other)
-    {
-        if (other.tag == "PNJTrigger" && isUsingAController)
-            if (GameManager.CurrentState == GameState.Normal)
-            {
-                Player.RefHubMinigameHandler = null;
-                other.GetComponentInParent<HubMinigameHandler>().DestroyUIMinigame((int)PlayerIndex);
-            }
-    }
-
 }

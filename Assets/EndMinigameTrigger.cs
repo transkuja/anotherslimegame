@@ -8,9 +8,10 @@ public class EndMinigameTrigger : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if( other.tag =="Player" && refMinigameHandler != null)
+        if( other.tag =="Player" && other.GetComponent<PlayerControllerHub>() && refMinigameHandler != null)
         {
-            refMinigameHandler.WinMinigame();
+            if (refMinigameHandler.GetComponent<HubMinigameHandler>().hasBeenStarted && !DatabaseManager.Db.IsUnlock<DatabaseClass.HatData>(refMinigameHandler.GetComponent<HubMinigameHandler>().id))
+                refMinigameHandler.WinMinigame();
         }
     }
 }

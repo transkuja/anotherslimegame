@@ -146,8 +146,8 @@ namespace DatabaseClass
             }
             else if (typeof(T) == typeof(EarsData))
             {
-                if (mustaches.Find(a => a.Id == _id) != null)
-                    mustaches.Find(a => a.Id == _id).isUnlocked = isUnlocked;
+                if (ears.Find(a => a.Id == _id) != null)
+                    ears.Find(a => a.Id == _id).isUnlocked = isUnlocked;
             }
             else if (typeof(T) == typeof(MustacheData))
             {
@@ -156,8 +156,8 @@ namespace DatabaseClass
             }
             else if (typeof(T) == typeof(HatData))
             {
-                if (mustaches.Find(a => a.Id == _id) != null)
-                    mustaches.Find(a => a.Id == _id).isUnlocked = isUnlocked;
+                if (hats.Find(a => a.Id == _id) != null)
+                    hats.Find(a => a.Id == _id).isUnlocked = isUnlocked;
             }
         }
 

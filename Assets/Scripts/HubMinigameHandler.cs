@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UWPAndXInput;
 
-public enum MessageTypeMinigame {AreYouReady, Lose, AreyoureadyOtherPlayer}
+public enum MessageTypeMinigame {AreYouReady, Retry, AreyoureadyOtherPlayer}
 
 public class HubMinigameHandler : MonoBehaviour {
 
@@ -16,6 +14,14 @@ public class HubMinigameHandler : MonoBehaviour {
     public float timerForMinigame = 21.0f;
     [Tooltip("Delay à vol de camera")]
     public float delay = 5; // t = d/v
+    private bool hasWin = false;
+    public bool hasBeenStarted = false;
+
+    public GameObject toDesactivate;
+
+    public CustomizableType t;
+    public String id;
+
     private bool startTimerShow = false;
 
     private float currentCameraForDelay = 0;
@@ -28,20 +34,25 @@ public class HubMinigameHandler : MonoBehaviour {
 
     // tab de message ? 
     private GameObject[][] Message = new GameObject[2][];
-    private bool hasBeenStarted = false;
+
     private int currentMessage = 0;
     private Vector3[] initialpos = new Vector3[2];
-    private Quaternion[] initialrot = new Quaternion[2];
-    private bool hasWin;
+    private Quaternion initialrot;
+    private GameObject FadeInAndOut;
+
 
     public void DisplayMessage(int playerIndex)
     {
-
         if (hasBeenStarted)
+            return;
+
+        if (!hasBeenInitialized[playerIndex])
             return;
 
         if (currentMessage < Message[playerIndex].Length)
         {
+            transform.LookAt(new Vector3(GameManager.Instance.PlayerStart.PlayersReference[playerIndex].transform.position.x, transform.position.y, GameManager.Instance.PlayerStart.PlayersReference[playerIndex].transform.position.z));
+
             if (Message[playerIndex][currentMessage].gameObject.activeSelf)
             {
                 Message[playerIndex][currentMessage].SetActive(false);
@@ -74,61 +85,52 @@ public class HubMinigameHandler : MonoBehaviour {
         }
         hasBeenInitialized[0] = false;
         hasBeenInitialized[1] = false;
-        initialpos[0] = transform.position + Vector3.right * 2;
-        initialpos[1] = transform.position + Vector3.right * 4;
+        initialpos[0] = transform.position + transform.forward * 4;
+        initialpos[1] = transform.position + transform.forward * 4 + transform.right *2;
 
         // Change taht
-        initialrot[0] = transform.rotation;
-        initialrot[1] = transform.rotation;
+        initialrot = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y + 180, transform.eulerAngles.z);
 
     }
 
     public void AskForReadiness()
     {
-        // Camera
         GameManager.ChangeState(GameState.ForcedPauseMGRules);
         retryMessageGo = Instantiate(ResourceUtils.Instance.feedbacksManager.prefabReplayScreenHub, GameManager.UiReference.transform);
         if( GameManager.Instance.ActivePlayersAtStart == 2)
         {
-            retryMessageGo.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = GetRetryMessage(MessageTypeMinigame.AreyoureadyOtherPlayer);
+            retryMessageGo.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = Utils.GetRetryMessage(MessageTypeMinigame.AreyoureadyOtherPlayer);
             retryMessageGo.GetComponent<ReplayScreenControlsHub>().index = 1;
-            retryMessageGo.GetComponent<ReplayScreenControlsHub>().needShow = true;
         }
         else
         {
-            retryMessageGo.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = GetRetryMessage(MessageTypeMinigame.AreYouReady);
+            retryMessageGo.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = Utils.GetRetryMessage(MessageTypeMinigame.AreYouReady);
             retryMessageGo.GetComponent<ReplayScreenControlsHub>().index = 0;
-            retryMessageGo.GetComponent<ReplayScreenControlsHub>().needShow = true;
         }
 
         retryMessageGo.GetComponent<ReplayScreenControlsHub>().refMinigameHandler = this;
 
     }
 
-    public void PrepareForStart(bool needShow = false)
+    public void PrepareForStart()
     {
+
         for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
         {
             GameManager.Instance.PlayerStart.PlayersReference[i].transform.position = initialpos[i];
-            GameManager.Instance.PlayerStart.PlayersReference[i].transform.rotation = initialrot[i];
+            GameManager.Instance.PlayerStart.PlayersReference[i].transform.rotation = initialrot;
+            GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<Player>().cameraReference.GetComponentInChildren<Cinemachine.CinemachineFreeLook>().m_RecenterToTargetHeading.m_enabled = true;
         }
-
+        TriggerEnd.SetActive(true);
         Destroy(retryMessageGo);
    
-        // after delay
-        if (needShow)
-        {
-            startTimerShow = true;
-        }
-        else
-        {
-            StartMinigame();
-        }
+       startTimerShow = true;
 
     }
     public void StartMinigame()
     {
         hasBeenStarted = true;
+
         GameObject readySetGo = Instantiate(ResourceUtils.Instance.spriteUtils.spawnableSpriteUI, GameManager.UiReference.transform);
         readySetGo.AddComponent<ReadySetGo>();
 
@@ -137,14 +139,21 @@ public class HubMinigameHandler : MonoBehaviour {
         GameManager.Instance.LaunchFinalTimer();
     }
 
-
-    public void CleanMinigameHub()
+    public void CleanVariable()
     {
         hasBeenStarted = false;
         startTimerShow = false;
 
+        TriggerEnd.SetActive(false);
+
         //currentMessage = 0; in destroy
         GameManager.Instance.CleanEndFinalCountdown();
+
+    }
+
+    public void CleanMinigameHub()
+    {
+        CleanVariable();
 
         if (retryMessageGo)
             Destroy(retryMessageGo);
@@ -167,12 +176,13 @@ public class HubMinigameHandler : MonoBehaviour {
         {
             if (GameManager.Instance.isTimeOver)
             {
-                if(!hasWin)
+                if (!hasWin)
                 {
                     AskRetry();
                 }
             }
-        } else if (startTimerShow)
+        }
+        else if (startTimerShow)
         {
             currentCameraForDelay += Time.deltaTime;
 
@@ -193,9 +203,8 @@ public class HubMinigameHandler : MonoBehaviour {
                         GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<Player>().transform.GetChild(1).gameObject.SetActive(true);
                     }
                 }
-            
-       
-            } else
+            }
+            else
             {
                 // Fade.... ?
                 TriggerEnd.transform.GetChild(0).gameObject.SetActive(true);
@@ -203,24 +212,19 @@ public class HubMinigameHandler : MonoBehaviour {
                 {
                     GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<Player>().transform.GetChild(1).gameObject.SetActive(false);
                 }
-
             }
-
-
         }
     }
 
     public void AskRetry()
     {
-        // sert aussi de bool pour le retry
-        GameManager.Instance.isTimeOver = false;
+        CleanVariable();
 
         GameManager.ChangeState(GameState.ForcedPauseMGRules);
+
         retryMessageGo = Instantiate(ResourceUtils.Instance.feedbacksManager.prefabReplayScreenHub, GameManager.UiReference.transform);
-
-        retryMessageGo.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = GetRetryMessage(MessageTypeMinigame.Lose);
+        retryMessageGo.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = Utils.GetRetryMessage(MessageTypeMinigame.Retry);
         retryMessageGo.GetComponent<ReplayScreenControlsHub>().index = 0;
-
         retryMessageGo.GetComponent<ReplayScreenControlsHub>().refMinigameHandler = this;
     }
 
@@ -242,8 +246,6 @@ public class HubMinigameHandler : MonoBehaviour {
 
         refCanvas[playerIndex].layer = LayerMask.NameToLayer((playerIndex == 0) ? "CameraP1" : "CameraP2");
         hasBeenInitialized[playerIndex] = true;
-
-
     }
 
     public void DestroyUIMinigame(int playerIndex)
@@ -258,50 +260,68 @@ public class HubMinigameHandler : MonoBehaviour {
         hasBeenInitialized[playerIndex] = false;
     }
 
-    public String GetRetryMessage(MessageTypeMinigame messageType)
+    public void WinMinigame()
     {
-        switch (messageType)
-        {
-            case MessageTypeMinigame.AreYouReady:
-                return "Es tu pret ?";
-            case MessageTypeMinigame.AreyoureadyOtherPlayer:
-                return "L'autre vient de lancer un minijeu, es tu pret ? ";
-            case MessageTypeMinigame.Lose:
-                return "Tu as perdu, voulez vous recommencez ? ";
-            default:
-                return "?????";
-        }
+        FadeInAndOut = Instantiate(ResourceUtils.Instance.feedbacksManager.prefabFadeInAndOut, GameManager.UiReference.transform);
+        FadeInAndOut.SetActive(false);
+
+        CleanVariable();
+
+        StartCoroutine(GiveReward());
     }
 
-    public void GiveReward()
+    public IEnumerator GiveReward()
     {
-        // TP back
+        FadeInAndOut.SetActive(true);
+        GameManager.ChangeState(GameState.ForcedPauseMGRules);
+        yield return new WaitUntil(
+            () => FadeInAndOut.GetComponent<UiFadeInAndOut>().halfwaythere == true
+        );
+
         for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
         {
             GameManager.Instance.PlayerStart.PlayersReference[i].transform.position = initialpos[i];
-            GameManager.Instance.PlayerStart.PlayersReference[i].transform.rotation = initialrot[i];
+            GameManager.Instance.PlayerStart.PlayersReference[i].transform.rotation = initialrot;
+            GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<Player>().cameraReference.GetComponentInChildren<Cinemachine.CinemachineFreeLook>().m_RecenterToTargetHeading.m_enabled = true;
+        }
+        yield return new WaitUntil(
+          () => FadeInAndOut == null
+         );
+        GameObject[] go = new GameObject[GameManager.Instance.PlayerStart.PlayersReference.Count];
+        for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
+        {
+            if (refCanvas[i] == null)
+            {
+                refCanvas[i] = Instantiate(ResourceUtils.Instance.feedbacksManager.prefabCanvasWithUiCameraAdapter, refCanvasParent.transform);
+                refCanvas[i].GetComponent<UICameraApdater>().PlayerIndex = i;
 
-            //Instantiate(ResourceUtils.Instance.feedbacksManager.prefabMessage, refCanvas[i].transform);
-            //Message[i][0].transform.GetChild(2).GetComponent<Text>().text = GetComponent<Player>().playerName;
-            //Message[i][0].transform.GetChild(3).GetComponent<Text>().text = "Bravooooo !!!!";
-            //Message[i][0].SetActive(true);
+                go[i] = Instantiate(ResourceUtils.Instance.feedbacksManager.prefabMessage, refCanvas[i].transform);
+
+                go[i].transform.GetChild(2).GetComponent<Text>().text = GetComponent<Player>().playerName;
+                go[i].transform.GetChild(3).GetComponent<Text>().text = "Tiens voila mon chapeau !!!!";
+                go[i].SetActive(true);
+
+            }
         }
 
-        //if (GetComponent<CreateEnumFromDatabase>() == null)
-        //{
-        //    Debug.LogError("Attract fct : It's a rune, it need a createEnumFromDatabase component link to the associated rune");
-        //    return;
-        //}
-        //string s = GetComponent<CreateEnumFromDatabase>().enumFromList[GetComponent<CreateEnumFromDatabase>().HideInt];
-        //DatabaseManager.Db.SetUnlock<DatabaseClass.RuneData>(s, true);
-    }
+        yield return new WaitForSeconds(2.0f);
+        for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
+        {
+            if(go[i])
+                Destroy(go[i]);
+        }
 
-    public void WinMinigame()
-    {
+        GameManager.ChangeState(GameState.Normal);
+
+        // Local equivalent
         hasWin = true;
-        GiveReward();
+        if (t == CustomizableType.Hat && id != "")
+        {
+            DatabaseManager.Db.SetUnlock<DatabaseClass.HatData>(id, true);
+            toDesactivate.SetActive(false);
+        }
 
-        // after delay
         CleanMinigameHub();
+        yield return null;
     }
 }

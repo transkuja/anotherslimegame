@@ -154,4 +154,21 @@ public static class Utils
         _underwaterState.hasReachedTheSurface = _pausedState.hasReachedTheSurface;
         _underwaterState.hasStartedGoingUp = _pausedState.hasStartedGoingUp;
     }
+
+
+    public static String GetRetryMessage(MessageTypeMinigame messageType)
+    {
+        switch (messageType)
+        {
+            case MessageTypeMinigame.AreYouReady:
+                return "Ready ?";
+            case MessageTypeMinigame.AreyoureadyOtherPlayer:
+                return "P2 Ready ?";
+            case MessageTypeMinigame.Retry:
+                return "Retry ?";
+            default:
+                return "?????";
+        }
+    }
+
 }
