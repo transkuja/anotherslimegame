@@ -6,8 +6,6 @@ public class PlayerCursorHandler : MonoBehaviour {
 
     [SerializeField]
     GameObject[] cursorRef;
-    float tick = 0.1f;
-    float curTick;
 
     RectTransform[] rect = new RectTransform[4];
     float scaleFactor;
@@ -20,23 +18,12 @@ public class PlayerCursorHandler : MonoBehaviour {
         scaleFactor = GetComponent<Canvas>().scaleFactor;
     }
 
-    private void OnEnable()
-    {
-        //curTick = 0.0f;    
-    }
-
     void Update () {
-        //curTick -= Time.deltaTime;
-        //if (curTick < 0.0f)
-        //{
-        //    curTick = tick;
+
         for (int i = 0; i < GameManager.Instance.PlayerStart.ActivePlayersAtStart; ++i)
         {
             Vector2 computeDePommesition = Camera.main.WorldToScreenPoint(GameManager.Instance.PlayerStart.PlayersReference[i].transform.position) / scaleFactor;
-            rect[i].anchoredPosition = new Vector2(computeDePommesition.x, computeDePommesition.y + Screen.height * 0.05f);
+            rect[i].anchoredPosition = new Vector2(computeDePommesition.x, computeDePommesition.y + Screen.height * 0.025f);
         }
-
-        //cursorRef.transform.position = 
-        //}
 	}
 }
