@@ -720,9 +720,12 @@ public class DebugTools : MonoBehaviour {
         debugPlayerInfos[(int)DebugPlayerInfos.IsGrounded] = (debugPlayerSelected.PlayerCharacter is PlayerCharacterHub) ? ((PlayerCharacterHub)debugPlayerSelected.PlayerCharacter).IsGrounded.ToString() : "--";
         debugPlayerInfos[(int)DebugPlayerInfos.GravityEnabled] = (debugPlayerSelected.PlayerCharacter is PlayerCharacterHub) ? ((PlayerCharacterHub)debugPlayerSelected.PlayerCharacter).IsGravityEnabled.ToString() : "--";
 
-        debugPlayerInfos[(int)DebugPlayerInfos.CurrentState] = (debugPlayerSelected.PlayerCharacter is PlayerCharacterHub) ? ((PlayerCharacterHub)debugPlayerSelected.PlayerCharacter).PlayerState.ToString() : "--";
+        if (debugPlayerSelected.PlayerCharacter is PlayerCharacterHub && ((PlayerCharacterHub)debugPlayerSelected.PlayerCharacter).PlayerState != null)
+            debugPlayerInfos[(int)DebugPlayerInfos.CurrentState] = ((PlayerCharacterHub)debugPlayerSelected.PlayerCharacter).PlayerState.ToString();
         debugPlayerInfos[(int)DebugPlayerInfos.HasBeenTp] = debugPlayerSelected.HasBeenTeleported.ToString();
-        debugPlayerInfos[(int)DebugPlayerInfos.NbJumpMade] = (debugPlayerSelected.PlayerCharacter is PlayerCharacterHub) ? ((PlayerCharacterHub)debugPlayerSelected.PlayerCharacter).jumpState.NbJumpMade.ToString() : "--"; ;
+
+        if (debugPlayerSelected.PlayerCharacter is PlayerCharacterHub && ((PlayerCharacterHub)debugPlayerSelected.PlayerCharacter).jumpState != null)
+            debugPlayerInfos[(int)DebugPlayerInfos.NbJumpMade] = (debugPlayerSelected.PlayerCharacter is PlayerCharacterHub) ? ((PlayerCharacterHub)debugPlayerSelected.PlayerCharacter).jumpState.NbJumpMade.ToString() : "--"; ;
 
         debugPlayerInfos[(int)DebugPlayerInfos.CameraState] = (debugPlayerSelected.PlayerCharacter is PlayerCharacterHub) ? debugPlayerSelected.cameraReference.GetComponentInChildren<DynamicJoystickCameraController>().CurrentState.ToString() : "--" ;
 

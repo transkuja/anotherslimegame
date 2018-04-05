@@ -99,8 +99,9 @@ abstract public class GameMode : MonoBehaviour
     }
     public virtual void OnReadySetGoBegin()
     {
-
+        FindObjectOfType<CursorPlayerId>().Init();
     }
+
     public virtual void OpenRuleScreen()
     {
         if (!IsMiniGame())
