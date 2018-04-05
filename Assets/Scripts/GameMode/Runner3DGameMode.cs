@@ -79,9 +79,11 @@ public class Runner3DGameMode : GameMode {
                 EndGame();
                 break;
             case EMode.LastRemaining:
-                if (nbDeadPlayers+1 == curNbPlayers)
+                if (nbDeadPlayers == curNbPlayers)
                     EndGame();
                 break;
+
+
         }
     }
     public void EndGame()
