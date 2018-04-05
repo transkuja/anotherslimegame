@@ -19,6 +19,10 @@ public class FruitsSpawner : MonoBehaviour {
     public Material matPomme;
     public Material matKiwi;
     public Material matFraise;
+    //public Material matFruitPourri;
+
+    GameObject fruit;
+    int subPoolIndex;
 
     public void Start()
     {
@@ -39,70 +43,78 @@ public class FruitsSpawner : MonoBehaviour {
 
                 minZ = -(boxColliderSpawn.transform.localScale.z / 2);
                 maxZ = boxColliderSpawn.transform.localScale.z / 2;
-
-                GameObject go = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.Fruits).GetItem(transform, new Vector3(Random.Range(minX, maxX), 15, Random.Range(minZ, maxZ)), Quaternion.identity, true);
-                go.GetComponent<BoxCollider>().enabled = true;
                 if (GameManager.Instance.DataContainer != null)
                 {
                     switch (nbPlayer)
                     {
                         case 1:
-                            if (go.name == "Clementine(Clone)")
+                            fruit = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.Fruits).GetItem(transform, new Vector3(Random.Range(minX, maxX), 15, Random.Range(minZ, maxZ)), Quaternion.identity, true, false, 0);
+                            fruit.GetComponent<BoxCollider>().enabled = true;  
+                            if (fruit.GetComponent<FruitType>().typeFruit == Fruit.Clementine)
                             {
                                 matClementine.color = GameManager.Instance.DataContainer.selectedColors[0];
-                                go.GetComponent<Renderer>().material = matClementine;
+                                fruit.GetComponent<Renderer>().material = matClementine;
                             }
-                            Debug.Log("coucou");
+
                             break;
                         case 2:
-                            if (go.name == "Clementine(Clone)")
+                            subPoolIndex = Random.Range(0, ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.Fruits).PoolParent.childCount - 2);
+                            fruit = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.Fruits).GetItem(transform, new Vector3(Random.Range(minX, maxX), 15, Random.Range(minZ, maxZ)), Quaternion.identity, true, false, subPoolIndex);
+                            fruit.GetComponent<BoxCollider>().enabled = true;
+                            if (fruit.GetComponent<FruitType>().typeFruit == Fruit.Clementine)
                             {
                                 matClementine.color = GameManager.Instance.DataContainer.selectedColors[0];
-                                go.GetComponent<Renderer>().material = matClementine;
+                                fruit.GetComponent<Renderer>().material = matClementine;
                             }
-                            else if (go.name == "Pomme(Clone)")
+                            else if (fruit.GetComponent<FruitType>().typeFruit == Fruit.Pomme)
                             {
                                 matPomme.color = GameManager.Instance.DataContainer.selectedColors[1];
-                                go.GetComponent<Renderer>().material = matPomme;
+                                fruit.GetComponent<Renderer>().material = matPomme;
                             }
                             break;
                         case 3:
-                            if (go.name == "Clementine(Clone)")
+                            subPoolIndex = Random.Range(0, ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.Fruits).PoolParent.childCount - 1);
+                            fruit = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.Fruits).GetItem(transform, new Vector3(Random.Range(minX, maxX), 15, Random.Range(minZ, maxZ)), Quaternion.identity, true, false, subPoolIndex);
+                            fruit.GetComponent<BoxCollider>().enabled = true;
+                            if (fruit.GetComponent<FruitType>().typeFruit == Fruit.Clementine)
                             {
                                 matClementine.color = GameManager.Instance.DataContainer.selectedColors[0];
-                                go.GetComponent<Renderer>().material = matClementine;
+                                fruit.GetComponent<Renderer>().material = matClementine;
                             }
-                            else if (go.name == "Pomme(Clone)")
+                            else if (fruit.GetComponent<FruitType>().typeFruit == Fruit.Pomme)
                             {
                                 matPomme.color = GameManager.Instance.DataContainer.selectedColors[1];
-                                go.GetComponent<Renderer>().material = matPomme;
+                                fruit.GetComponent<Renderer>().material = matPomme;
                             }
-                            else if (go.name == "Kiwi(Clone)")
+                            else if (fruit.GetComponent<FruitType>().typeFruit == Fruit.Kiwi)
                             {
                                 matKiwi.color = GameManager.Instance.DataContainer.selectedColors[2];
-                                go.GetComponent<Renderer>().material = matKiwi;
+                                fruit.GetComponent<Renderer>().material = matKiwi;
                             }
                             break;
                         case 4:
-                            if (go.name == "Clementine(Clone)")
+                            subPoolIndex = Random.Range(0, ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.Fruits).PoolParent.childCount);
+                            fruit = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.Fruits).GetItem(transform, new Vector3(Random.Range(minX, maxX), 15, Random.Range(minZ, maxZ)), Quaternion.identity, true, false, subPoolIndex);
+                            fruit.GetComponent<BoxCollider>().enabled = true;
+                            if (fruit.GetComponent<FruitType>().typeFruit == Fruit.Clementine)
                             {
                                 matClementine.color = GameManager.Instance.DataContainer.selectedColors[0];
-                                go.GetComponent<Renderer>().material = matClementine;
+                                fruit.GetComponent<Renderer>().material = matClementine;
                             }
-                            else if (go.name == "Pomme(Clone)")
+                            else if (fruit.GetComponent<FruitType>().typeFruit == Fruit.Pomme)
                             {
                                 matPomme.color = GameManager.Instance.DataContainer.selectedColors[1];
-                                go.GetComponent<Renderer>().material = matPomme;
+                                fruit.GetComponent<Renderer>().material = matPomme;
                             }
-                            else if (go.name == "Kiwi(Clone)")
+                            else if (fruit.GetComponent<FruitType>().typeFruit == Fruit.Kiwi)
                             {
                                 matKiwi.color = GameManager.Instance.DataContainer.selectedColors[2];
-                                go.GetComponent<Renderer>().material = matKiwi;
+                                fruit.GetComponent<Renderer>().material = matKiwi;
                             }
-                            else if (go.name == "Fraise(Clone)")
+                            else if (fruit.GetComponent<FruitType>().typeFruit == Fruit.Fraise)
                             {
                                 matFraise.color = GameManager.Instance.DataContainer.selectedColors[3];
-                                go.GetComponent<Renderer>().material = matFraise;
+                                fruit.GetComponent<Renderer>().material = matFraise;
                             }
                             break;
                         default:
@@ -112,4 +124,9 @@ public class FruitsSpawner : MonoBehaviour {
             }
         }
     }
+
+    /*public void Update()
+    {
+        //fruit.GetComponent<Renderer>().material.Lerp(matClementine, matFruitPourri, 0.5f);
+    }*/
 }
