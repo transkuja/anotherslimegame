@@ -9,10 +9,10 @@ public class OnColoredFloorTrigger : MonoBehaviour {
     public int currentOwner;
     public bool debug;
 
-    Collider up;
-    Collider down;
-    Collider left;
-    Collider right;
+    OnColoredFloorTrigger up;
+    OnColoredFloorTrigger down;
+    OnColoredFloorTrigger left;
+    OnColoredFloorTrigger right;
 
     void InitUp()
     {
@@ -22,7 +22,7 @@ public class OnColoredFloorTrigger : MonoBehaviour {
         }
         else
         {
-            up = transform.parent.parent.GetChild(transform.parent.GetSiblingIndex() - 1).GetChild(transform.GetSiblingIndex()).GetComponentInChildren<Collider>();
+            up = transform.parent.parent.GetChild(transform.parent.GetSiblingIndex() - 1).GetChild(transform.GetSiblingIndex()).GetComponentInChildren<OnColoredFloorTrigger>();
         }
     }
 
@@ -31,7 +31,7 @@ public class OnColoredFloorTrigger : MonoBehaviour {
         if (transform.parent.GetSiblingIndex() == 7)
             down = null;
         else
-            down = transform.parent.parent.GetChild(transform.parent.GetSiblingIndex() + 1).GetChild(transform.GetSiblingIndex()).GetComponentInChildren<Collider>();
+            down = transform.parent.parent.GetChild(transform.parent.GetSiblingIndex() + 1).GetChild(transform.GetSiblingIndex()).GetComponentInChildren<OnColoredFloorTrigger>();
     }
 
     void InitLeft()
@@ -39,7 +39,7 @@ public class OnColoredFloorTrigger : MonoBehaviour {
         if (transform.GetSiblingIndex() == 0)
             left = null;
         else
-            left = transform.parent.GetChild(transform.GetSiblingIndex() - 1).GetComponentInChildren<Collider>();
+            left = transform.parent.GetChild(transform.GetSiblingIndex() - 1).GetComponentInChildren<OnColoredFloorTrigger>();
     }
 
     void InitRight()
@@ -47,7 +47,7 @@ public class OnColoredFloorTrigger : MonoBehaviour {
         if (transform.GetSiblingIndex() == 7)
             right = null;
         else
-            right = transform.parent.GetChild(transform.GetSiblingIndex() + 1).GetComponentInChildren<Collider>();
+            right = transform.parent.GetChild(transform.GetSiblingIndex() + 1).GetComponentInChildren<OnColoredFloorTrigger>();
     }
 
     private void Start()
@@ -73,7 +73,7 @@ public class OnColoredFloorTrigger : MonoBehaviour {
         }
     }
 
-    public Collider Up
+    public OnColoredFloorTrigger Up
     {
         get
         {
@@ -81,7 +81,7 @@ public class OnColoredFloorTrigger : MonoBehaviour {
         }
     }
 
-    public Collider Down
+    public OnColoredFloorTrigger Down
     {
         get
         {
@@ -89,7 +89,7 @@ public class OnColoredFloorTrigger : MonoBehaviour {
         }
     }
 
-    public Collider Left
+    public OnColoredFloorTrigger Left
     {
         get
         {
@@ -97,7 +97,7 @@ public class OnColoredFloorTrigger : MonoBehaviour {
         }
     }
 
-    public Collider Right
+    public OnColoredFloorTrigger Right
     {
         get
         {
