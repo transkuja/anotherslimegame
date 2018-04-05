@@ -42,27 +42,26 @@ namespace DatabaseClass
         public int indiceForShader;
 
     }
-
     [System.Serializable]
-    public class EarsData : Unlockable
+    public class ModelData : Unlockable
     {
         [SerializeField]
         public string model;
     }
 
     [System.Serializable]
-    public class MustacheData : Unlockable
+    public class EarsData : ModelData
     {
-        [SerializeField]
-        public string model;
     }
 
     [System.Serializable]
-    public class HatData : Unlockable
+    public class MustacheData : ModelData
     {
-        [SerializeField]
-        public string model;
+    }
 
+    [System.Serializable]
+    public class HatData : ModelData
+    {
         public bool shouldHideEars;
     }
 
@@ -177,6 +176,18 @@ namespace DatabaseClass
                 return mustaches.Find(a => a.Id == _id);
             else if (typeof(T) == typeof(HatData))
                 return hats.Find(a => a.Id == _id);
+
+            return null;
+        }
+
+        public ModelData GetDataFromModel<T>(string _model) where T : ModelData
+        {
+            if (typeof(T) == typeof(EarsData))
+                return ears.Find(a => a.model == _model);
+            else if (typeof(T) == typeof(MustacheData))
+                return mustaches.Find(a => a.model == _model);
+            else if (typeof(T) == typeof(HatData))
+                return hats.Find(a => a.model == _model);
 
             return null;
         }
