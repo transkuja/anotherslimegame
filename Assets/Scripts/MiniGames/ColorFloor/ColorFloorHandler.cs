@@ -6,6 +6,7 @@ public static class ColorFloorHandler {
 
     static List<Collider>[] currentlyColoredByPlayer;
     static List<int> currentlyColoredByPlayerToInt;
+    static List<Collider> pendingUnregistration = new List<Collider>();
 
     static bool isInitialized = false;
 
@@ -19,14 +20,14 @@ public static class ColorFloorHandler {
     }
 
     // Called when a player steps on a floor
-    public static void RegisterFloor(int _playerIndex, Collider _toRegister, bool shouldnotbecalled = false)
+    public static void RegisterFloor(int _playerIndex, Collider _toRegister, bool bypassSquareDetection = false, MinigamePickUp _fromAPickup = null)
     {
         if (!isInitialized)
             return;
 
         if (!currentlyColoredByPlayer[_playerIndex].Contains(_toRegister))
         {
-            ColorFloorHandler.UnregisterFloor(_toRegister);
+            UnregisterFloor(_toRegister);
             _toRegister.GetComponent<Animator>().SetBool("animate", true);
 
             currentlyColoredByPlayer[_playerIndex].Add(_toRegister);
@@ -35,10 +36,57 @@ public static class ColorFloorHandler {
             _toRegister.GetComponent<OnColoredFloorTrigger>().currentOwner = _playerIndex;
 
 
-            if (((ColorFloorGameMode)GameManager.Instance.CurrentGameMode).squareToScoreMode && !shouldnotbecalled)
-                SquareDetection(_toRegister.GetComponent<OnColoredFloorTrigger>(), _playerIndex);
+            if (((ColorFloorGameMode)GameManager.Instance.CurrentGameMode).squareToScoreMode && !bypassSquareDetection)
+            {
+                if (SquareDetection(_toRegister.GetComponent<OnColoredFloorTrigger>(), _playerIndex))
+                {
+                    ScorePoints(_playerIndex);
+                    if (_fromAPickup != null)
+                        RegisterFloor(_playerIndex, _fromAPickup.GetComponentInParent<Collider>(), true);
+                    else
+                        RegisterFloor(_playerIndex, _toRegister, true);
+                }
+            }
         }
 
+    }
+
+    public static void RegisterAll(int _playerIndex, List<Collider> _toRegister, Collider _pickupOrigin, bool bypassSquareDetection = false)
+    {
+        if (!isInitialized)
+            return;
+
+        foreach (Collider c in _toRegister)
+        {
+            if (!currentlyColoredByPlayer[_playerIndex].Contains(c))
+            {
+                UnregisterFloor(c);
+                c.GetComponent<Animator>().SetBool("animate", true);
+
+                currentlyColoredByPlayer[_playerIndex].Add(c);
+                c.GetComponentInChildren<MeshRenderer>().material.EnableKeyword("_EMISSION");
+                c.GetComponentInChildren<MeshRenderer>().material.SetColor("_EmissionColor", GameManager.Instance.PlayerStart.colorPlayer[_playerIndex]);
+                c.GetComponent<OnColoredFloorTrigger>().currentOwner = _playerIndex;
+            }
+        }
+
+        if (((ColorFloorGameMode)GameManager.Instance.CurrentGameMode).squareToScoreMode && !bypassSquareDetection)
+        {
+            int nbrOfSquares = 0;
+            foreach (Collider c in _toRegister)
+            {
+               if (SquareDetection(c.GetComponent<OnColoredFloorTrigger>(), _playerIndex))
+               {
+                    nbrOfSquares++;
+                }
+            }
+
+            if (nbrOfSquares > 0)
+            {
+                ScorePoints(_playerIndex);
+                RegisterFloor(_playerIndex, _pickupOrigin, true);
+            }
+        }
     }
 
     public static void RegisterFloor(int _playerIndex, int _toRegister)
@@ -47,15 +95,15 @@ public static class ColorFloorHandler {
         RegisterFloor(_playerIndex, board.GetChild(_toRegister / 8).GetChild(_toRegister % 8).GetComponent<Collider>(), true);
     }
 
-    public static void SquareDetection(OnColoredFloorTrigger _lastStepTrigger, int _playerIndex)
+    public static bool SquareDetection(OnColoredFloorTrigger _lastStepTrigger, int _playerIndex)
     {
         // No loop possible from this point if not at least 2 neighbors of the same color
         if (_lastStepTrigger.SameColorNeighbors() < 2 || _lastStepTrigger.SameColorNeighbors() == 4)
-            return;
+            return false;
 
         // No loop possible without at least 8 floors colored
         if (currentlyColoredByPlayer[_playerIndex].Count < 8)
-            return;
+            return false;
 
         List<List<OnColoredFloorTrigger>> paths = new List<List<OnColoredFloorTrigger>>();
 
@@ -76,7 +124,7 @@ public static class ColorFloorHandler {
         int nbIteration = 0;
         bool squared = false;
 
-        while (paths.Count > 0 && paths[0].Count < currentlyColoredByPlayer[_playerIndex].Count * 2 && nbIteration < 1000 && !squared) // /!\
+        while (paths.Count > 0 && paths[0].Count < currentlyColoredByPlayer[_playerIndex].Count * 2 && !squared) // /!\
         {
             OnColoredFloorTrigger _currentTrigger;
             List<List<OnColoredFloorTrigger>> newPaths = new List<List<OnColoredFloorTrigger>>();
@@ -136,14 +184,7 @@ public static class ColorFloorHandler {
             nbIteration++;
         }
 
-        // Here, paths[0] should contain the squared path
-        if (squared)
-        {
-            ScorePoints(_playerIndex);
-            squared = false;
-            RegisterFloor(_playerIndex, _lastStepTrigger.GetComponent<Collider>(), true);
-        }
-
+        return squared;
     }
 
     private static bool CheckPathValidity(List<OnColoredFloorTrigger> path, int _playerIndex)
@@ -179,14 +220,10 @@ public static class ColorFloorHandler {
                 }
                 else
                 {
-                    Debug.Log("begin" + intPath[i][0]);
-                    Debug.Log("end" + intPath[i][intPath[i].Count - 1]);
-
                     for (int k = intPath[i][0]; k < intPath[i][intPath[i].Count - 1]; ++k)
                     {
                         if (!currentlyColoredByPlayerToInt.Contains(k))
                         {
-                            Debug.Log(k);
                             hasAHole = true;
                             RegisterFloor(_playerIndex, k);
                         }
@@ -213,7 +250,6 @@ public static class ColorFloorHandler {
                 currentlyColoredByPlayer[i].Remove(_toUnregister);
             }
         }
-
     }
 
     // Score points event, should be called when conditions to score points are met
@@ -225,6 +261,7 @@ public static class ColorFloorHandler {
         int scoredPoints = currentlyColoredByPlayer[_playerIndex].Count;
         GameManager.Instance.PlayerStart.PlayersReference[_playerIndex].GetComponent<Player>().UpdateCollectableValue(CollectableType.Points, scoredPoints);
 
+        // Standard case
         foreach (Collider col in currentlyColoredByPlayer[_playerIndex])
         {
             col.GetComponentInChildren<MeshRenderer>().material.SetColor("_EmissionColor", Color.black);
@@ -234,20 +271,22 @@ public static class ColorFloorHandler {
         currentlyColoredByPlayer[_playerIndex].Clear();
     }
 
+
     public static void ColorFloorWithPickup(MinigamePickUp _pickupComponent, int _playerIndex)
     {
         Transform floorPosition = _pickupComponent.transform.parent;
         Transform lineTransform = floorPosition.parent;
         int floorIndex = floorPosition.GetSiblingIndex();
         int lineIndex = lineTransform.GetSiblingIndex();
+        List<Collider> pendingRegistration = new List<Collider>();
 
         if (_pickupComponent.pickupType == PickUpType.ColorAround)
         {
             // Register the 2 sides
             if (floorIndex > 0)
-                RegisterFloor(_playerIndex, lineTransform.GetChild(floorIndex - 1).GetComponentInChildren<Collider>());
+                pendingRegistration.Add(lineTransform.GetChild(floorIndex - 1).GetComponentInChildren<Collider>());
             if (floorIndex < floorPosition.parent.childCount - 1)
-                RegisterFloor(_playerIndex, lineTransform.GetChild(floorIndex + 1).GetComponentInChildren<Collider>());
+                pendingRegistration.Add(lineTransform.GetChild(floorIndex + 1).GetComponentInChildren<Collider>());
 
             // Register 3 above
             if (lineIndex > 0)
@@ -255,7 +294,7 @@ public static class ColorFloorHandler {
                 for (int i = -1; i <= 1; i++)
                 {
                     if (floorIndex + i >= 0 && (floorIndex + i) <= (lineTransform.parent.GetChild(lineIndex - 1).childCount - 1))
-                        RegisterFloor(_playerIndex, lineTransform.parent.GetChild(lineIndex - 1).GetChild(floorIndex + i).GetComponentInChildren<Collider>());
+                        pendingRegistration.Add(lineTransform.parent.GetChild(lineIndex - 1).GetChild(floorIndex + i).GetComponentInChildren<Collider>());
                 }
             }
             // Register 3 under
@@ -264,7 +303,7 @@ public static class ColorFloorHandler {
                 for (int i = -1; i <= 1; i++)
                 {
                     if (floorIndex + i >= 0 && (floorIndex + i) <= (lineTransform.parent.GetChild(lineIndex + 1).childCount - 1))
-                        RegisterFloor(_playerIndex, lineTransform.parent.GetChild(lineIndex + 1).GetChild(floorIndex + i).GetComponentInChildren<Collider>());
+                        pendingRegistration.Add(lineTransform.parent.GetChild(lineIndex + 1).GetChild(floorIndex + i).GetComponentInChildren<Collider>());
                 }
             }
 
@@ -281,7 +320,7 @@ public static class ColorFloorHandler {
                 nextIndex = floorIndex + unit;
                 while (nextIndex >= 0 && nextIndex < lineTransform.childCount)
                 {
-                    RegisterFloor(_playerIndex, lineTransform.GetChild(nextIndex).GetComponentInChildren<Collider>());
+                    pendingRegistration.Add(lineTransform.GetChild(nextIndex).GetComponentInChildren<Collider>());
                     nextIndex += unit;
                 }            
             }
@@ -292,7 +331,7 @@ public static class ColorFloorHandler {
                 
                 while (nextIndex >= 0 && nextIndex < lineTransform.parent.childCount)
                 {
-                    RegisterFloor(_playerIndex, lineTransform.parent.GetChild(nextIndex).GetChild(floorIndex).GetComponentInChildren<Collider>());
+                    pendingRegistration.Add(lineTransform.parent.GetChild(nextIndex).GetChild(floorIndex).GetComponentInChildren<Collider>());
                     nextIndex += unit;
                 }
             }
@@ -301,6 +340,11 @@ public static class ColorFloorHandler {
         {
             Debug.LogWarning(_pickupComponent.pickupType + " is not a proper type for the function ColorFloorWithPickup.");
             return;
+        }
+
+        if (pendingRegistration.Count > 0)
+        {
+            RegisterAll(_playerIndex, pendingRegistration, _pickupComponent.GetComponentInParent<Collider>());
         }
     }
 
