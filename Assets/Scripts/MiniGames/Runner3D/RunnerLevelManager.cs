@@ -52,17 +52,17 @@ namespace Runner3D
         /// </summary>
         public void UpdateWallPos()
         {
-            if (level.wallsInGame[0].transform.position.z < firstPlayerZRow * RunnerLevelGenerator.defaultBlockSize.z)
-            {
-                // Calcule de combien le mur peut avancer sans que le joueur puisse le voir
-                Material wallMat = level.wallsInGame[0].GetComponent<MeshRenderer>().sharedMaterial;
-                float tiling = wallMat.mainTextureScale.x;
-                float moveStep = level.wallsInGame[0].transform.localScale.z / tiling;
+            //if (level.wallsInGame[0].transform.position.z < firstPlayerZRow * RunnerLevelGenerator.defaultBlockSize.z)
+            //{
+            //    // Calcule de combien le mur peut avancer sans que le joueur puisse le voir
+            //    Material wallMat = level.wallsInGame[0].GetComponent<MeshRenderer>().sharedMaterial;
+            //    float tiling = wallMat.mainTextureScale.x;
+            //    float moveStep = level.wallsInGame[0].transform.localScale.z / tiling;
 
-                // décaler les mur en avant.
-                for (int i = 0; i < level.wallsInGame.Length; i++)
-                    level.wallsInGame[i].transform.position += Vector3.forward * moveStep;
-            }
+            //    // décaler les mur en avant.
+            //    for (int i = 0; i < level.wallsInGame.Length; i++)
+            //        level.wallsInGame[i].transform.position += Vector3.forward * moveStep;
+            //}
         }
         public void UpdateCloudsPos()
         {
