@@ -10,6 +10,7 @@ public class HubMinigameHandler : MonoBehaviour {
     public GameObject refCanvasParent;
     public GameObject TriggerEnd;
     public String[] message;
+    public String victoryMessage;
     [Tooltip("Temps donné au joueur")]
     public float timerForMinigame = 21.0f;
     [Tooltip("Delay à vol de camera")]
@@ -40,6 +41,30 @@ public class HubMinigameHandler : MonoBehaviour {
     private Quaternion initialrot;
     private GameObject FadeInAndOut;
 
+    public void Start()
+    {
+        if (message.Length > 0)
+        {
+            for (int i = 0; i < 2; i++)
+            {
+                Message[i] = new GameObject[message.Length];
+            }
+        }
+        hasBeenInitialized[0] = false;
+        hasBeenInitialized[1] = false;
+        initialpos[0] = transform.position + transform.forward * 4;
+        initialpos[1] = transform.position + transform.forward * 4 + transform.right *2;
+
+        // Change taht
+        initialrot = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y + 180, transform.eulerAngles.z);
+
+        if (t == CustomizableType.Hat && id != "")
+        {
+            if(DatabaseManager.Db.IsUnlock<DatabaseClass.HatData>(id))
+                toDesactivate.SetActive(false);
+        }
+
+    }
 
     public void DisplayMessage(int playerIndex)
     {
@@ -61,7 +86,8 @@ public class HubMinigameHandler : MonoBehaviour {
                 if (currentMessage == Message[playerIndex].Length)
                 {
                     AskForReadiness();
-                } else
+                }
+                else
                 {
                     Message[playerIndex][currentMessage].SetActive(true);
                 }
@@ -72,25 +98,6 @@ public class HubMinigameHandler : MonoBehaviour {
                 BbuttonShown[playerIndex].SetActive(false);
             }
         }
-    }
-
-    public void Start()
-    {
-        if (message.Length > 0)
-        {
-            for (int i = 0; i < 2; i++)
-            {
-                Message[i] = new GameObject[message.Length];
-            }
-        }
-        hasBeenInitialized[0] = false;
-        hasBeenInitialized[1] = false;
-        initialpos[0] = transform.position + transform.forward * 4;
-        initialpos[1] = transform.position + transform.forward * 4 + transform.right *2;
-
-        // Change taht
-        initialrot = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y + 180, transform.eulerAngles.z);
-
     }
 
     public void AskForReadiness()
@@ -287,28 +294,30 @@ public class HubMinigameHandler : MonoBehaviour {
         yield return new WaitUntil(
           () => FadeInAndOut == null
          );
-        GameObject[] go = new GameObject[GameManager.Instance.PlayerStart.PlayersReference.Count];
+        GameObject[] tmpMessage = new GameObject[GameManager.Instance.PlayerStart.PlayersReference.Count];
         for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
         {
             if (refCanvas[i] == null)
             {
                 refCanvas[i] = Instantiate(ResourceUtils.Instance.feedbacksManager.prefabCanvasWithUiCameraAdapter, refCanvasParent.transform);
                 refCanvas[i].GetComponent<UICameraApdater>().PlayerIndex = i;
-
-                go[i] = Instantiate(ResourceUtils.Instance.feedbacksManager.prefabMessage, refCanvas[i].transform);
-
-                go[i].transform.GetChild(2).GetComponent<Text>().text = GetComponent<Player>().playerName;
-                go[i].transform.GetChild(3).GetComponent<Text>().text = "Tiens voila mon chapeau !!!!";
-                go[i].SetActive(true);
-
             }
+            tmpMessage[i] = Instantiate(ResourceUtils.Instance.feedbacksManager.prefabMessage, refCanvas[i].transform);
+
+            tmpMessage[i].transform.GetChild(2).GetComponent<Text>().text = GetComponent<Player>().playerName;
+            tmpMessage[i].transform.GetChild(3).GetComponent<Text>().text = victoryMessage;
+            tmpMessage[i].SetActive(true);
         }
 
         yield return new WaitForSeconds(2.0f);
         for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
         {
-            if(go[i])
-                Destroy(go[i]);
+            if (tmpMessage[i])
+            {
+                Destroy(tmpMessage[i]);
+            }
+            if (refCanvas[i])
+                Destroy(refCanvas[i]);
         }
 
         GameManager.ChangeState(GameState.Normal);

@@ -36,6 +36,7 @@ public class Player : MonoBehaviour {
     public bool costAreaTutoShown = false;
 
     HubMinigameHandler refHubMinigameHandler;
+    PNJDefaultMessage refMessage;
     InitTeleporter refInitTeleporter;
 
     public GameObject activeTutoText;
@@ -197,6 +198,18 @@ public class Player : MonoBehaviour {
         set
         {
             refInitTeleporter = value;
+        }
+    }
+
+    public PNJDefaultMessage RefMessage {
+        get
+        {
+            return refMessage;
+        }
+
+        set
+        {
+            refMessage = value;
         }
     }
 
