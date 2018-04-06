@@ -31,10 +31,12 @@ public static class ColorFloorHandler {
             _toRegister.GetComponentInChildren<MeshRenderer>().material.EnableKeyword("_EMISSION");
             _toRegister.GetComponentInChildren<MeshRenderer>().material.SetColor("_EmissionColor", GameManager.Instance.PlayerStart.colorPlayer[_playerIndex]);
             _toRegister.GetComponent<OnColoredFloorTrigger>().currentOwner = _playerIndex;
+
+
+            if (((ColorFloorGameMode)GameManager.Instance.CurrentGameMode).squareToScoreMode)
+                SquareDetection(_toRegister.GetComponent<OnColoredFloorTrigger>(), _playerIndex);
         }
 
-        if (((ColorFloorGameMode)GameManager.Instance.CurrentGameMode).squareToScoreMode)
-            SquareDetection(_toRegister.GetComponent<OnColoredFloorTrigger>(), _playerIndex);
     }
 
     public static void SquareDetection(OnColoredFloorTrigger _lastStepTrigger, int _playerIndex)
@@ -44,7 +46,7 @@ public static class ColorFloorHandler {
             boardState[i] = new int[8];
 
         // No loop possible from this point if not at least 2 neighbors of the same color
-        if (_lastStepTrigger.SameColorNeighbors() < 2)
+        if (_lastStepTrigger.SameColorNeighbors() < 2 || _lastStepTrigger.SameColorNeighbors() == 4)
             return;
 
         // No loop possible without at least 8 floors colored
@@ -60,7 +62,6 @@ public static class ColorFloorHandler {
 
             if (_lastStepTrigger.Neighbors[i].currentOwner == _playerIndex)
             {
-                Debug.Log("!");
                 List<OnColoredFloorTrigger> newPath = new List<OnColoredFloorTrigger>();
                 newPath.Add(_lastStepTrigger);
                 newPath.Add(_lastStepTrigger.Neighbors[i]);                
@@ -87,23 +88,36 @@ public static class ColorFloorHandler {
                     continue;
                 }
 
-                //if (path.Contains(_currentTrigger))
-                //{
-                //    continue;
-                //}
+                List<OnColoredFloorTrigger> check = new List<OnColoredFloorTrigger>();
+                check.AddRange(path);
+                check.Remove(_currentTrigger);
+
+                if (check.Contains(_currentTrigger))
+                {
+                    if (_currentTrigger == _lastStepTrigger)
+                    {
+                        if (path.Count >= 8)
+                        {
+                            // Check path validity
+                            if (!CheckPathValidity(path))
+                                continue;
+
+                            squared = true;
+                            newPaths.Clear();
+                            newPaths.Add(path);
+                            break;
+                        }
+                        else
+                            continue;
+                    }
+                    else
+                        continue;
+                }
 
                 for (int i = 0; i < 4; ++i)
                 {
                     if (_currentTrigger.Neighbors[i] == null || _currentTrigger.Neighbors[i] == path[path.Count - 2])
                         continue;
-
-                    if (_currentTrigger == _lastStepTrigger)
-                    {
-                        squared = true;
-                        newPaths.Clear();
-                        newPaths.Add(path);
-                        break;
-                    }
 
                     if (_currentTrigger.Neighbors[i].currentOwner == _playerIndex)
                     {
@@ -115,13 +129,6 @@ public static class ColorFloorHandler {
                 }
             }
 
-            foreach (List<OnColoredFloorTrigger> p in newPaths)
-            {
-                string debugstr = "";
-                foreach (OnColoredFloorTrigger f in p)
-                    debugstr += f.GetFloorIndex() + ",";
-                Debug.Log(debugstr);
-            }
 
             paths.Clear();
             paths.AddRange(newPaths);
@@ -130,8 +137,84 @@ public static class ColorFloorHandler {
 
         // Here, paths[0] should contain the squared path
         if (squared)
-            ScorePoints(_playerIndex);           
+        {
+            ScorePoints(_playerIndex);
+            RegisterFloor(_playerIndex, _lastStepTrigger.GetComponent<Collider>());
+        }
 
+    }
+
+    private static bool CheckPathValidity(List<OnColoredFloorTrigger> path)
+    {
+        bool pathIsValid = true;
+        int nbEdges = 0;
+        List<int>[] intPath = new List<int>[8];
+
+
+        //foreach (List<OnColoredFloorTrigger> p in newPaths)
+        //{
+        string debugstr = "";
+        foreach (OnColoredFloorTrigger f in path)
+            debugstr += f.GetFloorIndex() + ",";
+        Debug.Log(debugstr);
+        //}
+
+        foreach (OnColoredFloorTrigger f in path)
+        {
+            int floorIndex = f.GetFloorIndex();
+            int line = (floorIndex / 8);
+            if (intPath[line] == null)
+                intPath[line] = new List<int>();
+
+            if (!intPath[line].Contains(floorIndex))
+                intPath[line].Add(floorIndex);
+        }
+
+        for (int i = 0; i < 8; i++)
+        {
+            debugstr = "";
+            debugstr += "line " + i + ":";
+            if (intPath[i] != null)
+            {
+                for (int j = 0; j < intPath[i].Count; ++j)
+                    debugstr += intPath[i][j] + ",";
+            }
+            Debug.Log(debugstr);
+        }
+
+
+        for (int i = 0; i < 8; i++)
+        {
+            debugstr = "";
+            if (intPath[i] != null)
+            {
+                intPath[i].Sort();
+
+                    debugstr += "line " + i + ":";
+                    if (intPath[i] != null)
+                    {
+                    for (int j = 0; j < intPath[i].Count; ++j)
+                        debugstr += intPath[i][j] + ",";
+                }
+                Debug.Log(debugstr);
+
+                Debug.Log("count" + intPath[i].Count);
+                Debug.Log("condition " + (intPath[i][intPath[i].Count - 1] - intPath[i][0] + 1));
+                if (intPath[i].Count == intPath[i][intPath[i].Count - 1] - intPath[i][0] + 1)
+                {
+                    if (nbEdges < 2)
+                        ++nbEdges;
+                    else
+                    {
+                        pathIsValid = false;
+                        break;
+                    }
+                    Debug.Log(nbEdges);
+                }
+            }
+        }
+
+        return pathIsValid;
     }
 
     // Unregister a floor from any player
@@ -140,10 +223,12 @@ public static class ColorFloorHandler {
         for (int i = 0; i < currentlyColoredByPlayer.Length; i++)
         {
             if (currentlyColoredByPlayer[i].Contains(_toUnregister))
+            {
+                _toUnregister.GetComponent<OnColoredFloorTrigger>().currentOwner = -1;
                 currentlyColoredByPlayer[i].Remove(_toUnregister);
+            }
         }
 
-        _toUnregister.GetComponent<OnColoredFloorTrigger>().currentOwner = -1;
     }
 
     // Score points event, should be called when conditions to score points are met
