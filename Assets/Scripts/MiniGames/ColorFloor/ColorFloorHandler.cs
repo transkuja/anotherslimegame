@@ -5,6 +5,8 @@ using UnityEngine;
 public static class ColorFloorHandler {
 
     static List<Collider>[] currentlyColoredByPlayer;
+    static List<int> currentlyColoredByPlayerToInt;
+
     static bool isInitialized = false;
 
     public static void Init(uint _nbPlayers)
@@ -17,7 +19,7 @@ public static class ColorFloorHandler {
     }
 
     // Called when a player steps on a floor
-    public static void RegisterFloor(int _playerIndex, Collider _toRegister)
+    public static void RegisterFloor(int _playerIndex, Collider _toRegister, bool shouldnotbecalled = false)
     {
         if (!isInitialized)
             return;
@@ -33,18 +35,20 @@ public static class ColorFloorHandler {
             _toRegister.GetComponent<OnColoredFloorTrigger>().currentOwner = _playerIndex;
 
 
-            if (((ColorFloorGameMode)GameManager.Instance.CurrentGameMode).squareToScoreMode)
+            if (((ColorFloorGameMode)GameManager.Instance.CurrentGameMode).squareToScoreMode && !shouldnotbecalled)
                 SquareDetection(_toRegister.GetComponent<OnColoredFloorTrigger>(), _playerIndex);
         }
 
     }
 
+    public static void RegisterFloor(int _playerIndex, int _toRegister)
+    {
+        Transform board = currentlyColoredByPlayer[_playerIndex][0].transform.parent.parent;
+        RegisterFloor(_playerIndex, board.GetChild(_toRegister / 8).GetChild(_toRegister % 8).GetComponent<Collider>(), true);
+    }
+
     public static void SquareDetection(OnColoredFloorTrigger _lastStepTrigger, int _playerIndex)
     {
-        int[][] boardState = new int[8][];
-        for (int i = 0; i < 8; i++)
-            boardState[i] = new int[8];
-
         // No loop possible from this point if not at least 2 neighbors of the same color
         if (_lastStepTrigger.SameColorNeighbors() < 2 || _lastStepTrigger.SameColorNeighbors() == 4)
             return;
@@ -80,11 +84,8 @@ public static class ColorFloorHandler {
             foreach (List<OnColoredFloorTrigger> path in paths)
             {
                 _currentTrigger = path[path.Count - 1];
-                Debug.Log("current:" + _currentTrigger.GetFloorIndex());
-
                 if (_currentTrigger.SameColorNeighbors() < 2)
                 {
-                    Debug.Log("moins de 2 voisins");
                     continue;
                 }
 
@@ -99,7 +100,7 @@ public static class ColorFloorHandler {
                         if (path.Count >= 8)
                         {
                             // Check path validity
-                            if (!CheckPathValidity(path))
+                            if (!CheckPathValidity(path, _playerIndex))
                                 continue;
 
                             squared = true;
@@ -139,25 +140,21 @@ public static class ColorFloorHandler {
         if (squared)
         {
             ScorePoints(_playerIndex);
-            RegisterFloor(_playerIndex, _lastStepTrigger.GetComponent<Collider>());
+            squared = false;
+            RegisterFloor(_playerIndex, _lastStepTrigger.GetComponent<Collider>(), true);
         }
 
     }
 
-    private static bool CheckPathValidity(List<OnColoredFloorTrigger> path)
+    private static bool CheckPathValidity(List<OnColoredFloorTrigger> path, int _playerIndex)
     {
-        bool pathIsValid = true;
         int nbEdges = 0;
         List<int>[] intPath = new List<int>[8];
+        bool hasAHole = false;
 
-
-        //foreach (List<OnColoredFloorTrigger> p in newPaths)
-        //{
-        string debugstr = "";
-        foreach (OnColoredFloorTrigger f in path)
-            debugstr += f.GetFloorIndex() + ",";
-        Debug.Log(debugstr);
-        //}
+        currentlyColoredByPlayerToInt = new List<int>();
+        foreach (Collider c in currentlyColoredByPlayer[_playerIndex])
+            currentlyColoredByPlayerToInt.Add(c.GetComponent<OnColoredFloorTrigger>().GetFloorIndex());
 
         foreach (OnColoredFloorTrigger f in path)
         {
@@ -172,49 +169,37 @@ public static class ColorFloorHandler {
 
         for (int i = 0; i < 8; i++)
         {
-            debugstr = "";
-            debugstr += "line " + i + ":";
-            if (intPath[i] != null)
-            {
-                for (int j = 0; j < intPath[i].Count; ++j)
-                    debugstr += intPath[i][j] + ",";
-            }
-            Debug.Log(debugstr);
-        }
-
-
-        for (int i = 0; i < 8; i++)
-        {
-            debugstr = "";
             if (intPath[i] != null)
             {
                 intPath[i].Sort();
-
-                    debugstr += "line " + i + ":";
-                    if (intPath[i] != null)
-                    {
-                    for (int j = 0; j < intPath[i].Count; ++j)
-                        debugstr += intPath[i][j] + ",";
-                }
-                Debug.Log(debugstr);
-
-                Debug.Log("count" + intPath[i].Count);
-                Debug.Log("condition " + (intPath[i][intPath[i].Count - 1] - intPath[i][0] + 1));
+                   
                 if (intPath[i].Count == intPath[i][intPath[i].Count - 1] - intPath[i][0] + 1)
                 {
-                    if (nbEdges < 2)
-                        ++nbEdges;
-                    else
+                    ++nbEdges;
+                }
+                else
+                {
+                    Debug.Log("begin" + intPath[i][0]);
+                    Debug.Log("end" + intPath[i][intPath[i].Count - 1]);
+
+                    for (int k = intPath[i][0]; k < intPath[i][intPath[i].Count - 1]; ++k)
                     {
-                        pathIsValid = false;
-                        break;
+                        if (!currentlyColoredByPlayerToInt.Contains(k))
+                        {
+                            Debug.Log(k);
+                            hasAHole = true;
+                            RegisterFloor(_playerIndex, k);
+                        }
                     }
-                    Debug.Log(nbEdges);
                 }
             }
         }
 
-        return pathIsValid;
+        if (nbEdges < 2)
+            return false;
+        if (hasAHole)
+            return true;
+        return false;
     }
 
     // Unregister a floor from any player
