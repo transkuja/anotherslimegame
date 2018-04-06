@@ -35,7 +35,7 @@ public class ReplayScreenControlsHub : MonoBehaviour {
             transform.GetChild((cursor == 0) ? 2 : 1).GetComponent<AnimButton>().enabled = false;
         }
 
-        if (prevControllerState.Buttons.B == ButtonState.Released && controllerState.Buttons.B == ButtonState.Pressed)
+        if (prevControllerState.Buttons.A == ButtonState.Released && controllerState.Buttons.A == ButtonState.Pressed)
         {
             if (AudioManager.Instance != null && AudioManager.Instance.buttonValidationFx != null)
                 AudioManager.Instance.PlayOneShot(AudioManager.Instance.buttonValidationFx);

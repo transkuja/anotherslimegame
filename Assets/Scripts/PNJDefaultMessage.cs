@@ -88,11 +88,14 @@ public class PNJDefaultMessage : MonoBehaviour {
                 {
                     Message[playerIndex][currentMessage].SetActive(true);
                 }
+                if( currentMessage == Message[playerIndex].Length)
+                    GameManager.ChangeState(GameState.Normal);
             }
             else
             {
                 Message[playerIndex][currentMessage].SetActive(true);
                 BbuttonShown[playerIndex].SetActive(false);
+                GameManager.ChangeState(GameState.ForcedPauseMGRules);
             }
         }
     }

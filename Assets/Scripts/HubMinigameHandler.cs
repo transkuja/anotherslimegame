@@ -96,13 +96,13 @@ public class HubMinigameHandler : MonoBehaviour {
             {
                 Message[playerIndex][currentMessage].SetActive(true);
                 BbuttonShown[playerIndex].SetActive(false);
+                GameManager.ChangeState(GameState.ForcedPauseMGRules);
             }
         }
     }
 
     public void AskForReadiness()
     {
-        GameManager.ChangeState(GameState.ForcedPauseMGRules);
         retryMessageGo = Instantiate(ResourceUtils.Instance.feedbacksManager.prefabReplayScreenHub, GameManager.UiReference.transform);
         if( GameManager.Instance.ActivePlayersAtStart == 2)
         {

@@ -51,7 +51,7 @@ public class PNJController : MonoBehaviour
                 timer = 0;
             }
 
-            if(isHappy)
+            if(isHappy && playerCharacterHub.IsGrounded)
             {
                 playerCharacterHub.PlayerState.OnJumpPressed();
             }

@@ -114,7 +114,11 @@ public class PlayerControllerHub : PlayerController
         {
             base.Update();
 
-            if (GameManager.CurrentState == GameState.Normal)
+            if (GameManager.CurrentState == GameState.ForcedPauseMGRules)
+            {
+                HandlePNJWithController((int)PlayerIndex);
+            }
+            else if (GameManager.CurrentState == GameState.Normal)
             {
                 HandleJumpWithController();
                 HandleMovementWithController();
@@ -228,20 +232,37 @@ public class PlayerControllerHub : PlayerController
 
     public void HandlePNJWithController(int indexPlayer)
     {
-        if( Player.RefHubMinigameHandler != null)
+        // TMP
+        if (GameManager.CurrentState == GameState.ForcedPauseMGRules)
         {
-            if (PrevState.Buttons.B == ButtonState.Released && State.Buttons.B == ButtonState.Pressed)
-                Player.RefHubMinigameHandler.DisplayMessage(indexPlayer);
-        }
+            if (Player.RefHubMinigameHandler != null)
+            {
+                if (PrevState.Buttons.A == ButtonState.Released && State.Buttons.A == ButtonState.Pressed)
+                    Player.RefHubMinigameHandler.DisplayMessage(indexPlayer);
+            }
 
-       else if (Player.RefMessage != null)
+            else if (Player.RefMessage != null)
+            {
+                if (PrevState.Buttons.A == ButtonState.Released && State.Buttons.A == ButtonState.Pressed)
+                    Player.RefMessage.DisplayMessage(indexPlayer);
+            }
+        } else
         {
-            if (PrevState.Buttons.B == ButtonState.Released && State.Buttons.B == ButtonState.Pressed)
-                Player.RefMessage.DisplayMessage(indexPlayer);
+            if (Player.RefHubMinigameHandler != null)
+            {
+                if (PrevState.Buttons.B == ButtonState.Released && State.Buttons.B == ButtonState.Pressed)
+                    Player.RefHubMinigameHandler.DisplayMessage(indexPlayer);
+            }
+
+            else if (Player.RefMessage != null)
+            {
+                if (PrevState.Buttons.B == ButtonState.Released && State.Buttons.B == ButtonState.Pressed)
+                    Player.RefMessage.DisplayMessage(indexPlayer);
+            }
         }
+     
 
     }
-
 
     void LaunchMinigameInput()
     {
