@@ -149,6 +149,7 @@ namespace QuickUtility
 
         GameObject basePrefab;
         bool copyScale = false;
+        bool overrideChildren = true;
 
         void PrefabTab()
         {
@@ -156,6 +157,8 @@ namespace QuickUtility
             basePrefab = EditorGUILayout.ObjectField("Prefab", basePrefab, typeof(GameObject), false) as GameObject;
 
             copyScale = EditorGUILayout.Toggle("Copy Scale", copyScale);
+
+            overrideChildren = EditorGUILayout.Toggle("Override Children", overrideChildren);
 
             if (basePrefab == null || errorNoSelection)
                 GUI.enabled = false;
@@ -180,10 +183,12 @@ namespace QuickUtility
                 newObject.transform.rotation = selectedObjects[i].transform.rotation;
                 if(copyScale)
                     newObject.transform.localScale = selectedObjects[i].transform.localScale;
-                while (selectedObjects[i].transform.childCount > 0)
-                {
-                    Undo.SetTransformParent(selectedObjects[i].transform.GetChild(0), newObject.transform, "NewPrefabSetParent"+i);
-                }
+
+                if(!overrideChildren)
+                    while (selectedObjects[i].transform.childCount > 0)
+                    {
+                        Undo.SetTransformParent(selectedObjects[i].transform.GetChild(0), newObject.transform, "NewPrefabSetParent"+i);
+                    }
                 Undo.DestroyObjectImmediate(selectedObjects[i]);
                 selectedObjects[i] = newObject;
             }
