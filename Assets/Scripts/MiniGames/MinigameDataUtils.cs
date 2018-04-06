@@ -5,28 +5,36 @@ using UWPAndXInput;
 
 public static class MinigameDataUtils
 {
+    private static string ColorFloorTitle = "Floor Coloring";
+    private static string ClassicKartTitle = "Classic Kart";
+    private static string RunnerTitle = "Classic Runner";
+    private static string SnowKartTitle = "Snow Kart";
+    private static string FruitTitle = "Frootballs";
+    private static string ClassicClashTitle = "Classic Clash";
+
+
     public static string GetTitle(GameMode _curGameMode)
     {
         GameMode curGameMode = _curGameMode;
         if (curGameMode is ColorFloorGameMode)
         {
-            return "Floor Coloring";
+            return ColorFloorTitle;
         }
         else if (curGameMode is KartGameMode)
         {
-            return "Kart";
+            return ClassicKartTitle;
         }
         else if (curGameMode is Runner3DGameMode)
         {
-            return "Runner";
+            return RunnerTitle;
         }
         else if (curGameMode is FruitGameMode)
         {
-            return "Fruits";
+            return FruitTitle;
         }
         else if (curGameMode is PushGameMode)
         {
-            return "Arena Fighting";
+            return ClassicClashTitle;
         }
         return "";
     }
@@ -36,27 +44,27 @@ public static class MinigameDataUtils
         // "MinigameAntho", "MinigameKart", "MinigamePush", "Minigame3dRunner"
         if (_minigameId == "MinigameAntho")
         {
-            return "Floor Coloring";
+            return ColorFloorTitle;
         }
         else if (_minigameId == "MinigameKart")
         {
-            return "Classic Kart";
+            return ClassicKartTitle;
         }
         else if (_minigameId == "MinigameKart 2")
         {
-            return "Snow Kart";
+            return SnowKartTitle;
         }
         else if (_minigameId == "Minigame3dRunner")
         {
-            return "Classic Runner";
+            return RunnerTitle;
         }
         else if (_minigameId == "MiniGameFruits")
         {
-            return "Frootballs";
+            return FruitTitle;
         }
         else if (_minigameId == "MinigamePush")
         {
-            return "Classic Clash";
+            return ClassicClashTitle;
         }
         return "";
     }

@@ -168,19 +168,23 @@ public class Menu : MonoBehaviour {
             }
         }
 
-        int nb = DatabaseManager.Db.GetNbUnlockedMinigamesOfEachType();
-        for (int i = 0; i < nb; i++)
+        int nbDifferentMinigameType = DatabaseManager.Db.GetNbUnlockedMinigamesOfEachType();
+        for (int i = 0; i < nbDifferentMinigameType; i++)
         {
             if (DatabaseManager.Db.GetUnlockedMinigamesOfType((MinigameType)i) != null)
             {
-                int a = DatabaseManager.Db.GetUnlockedMinigamesOfType((MinigameType)i).Count;
-                DatabaseClass.MinigameData[] c = new DatabaseClass.MinigameData[a];
-
-                for (int j = 0; j < a; j++)
+                int nbMinigameOfType = DatabaseManager.Db.GetUnlockedMinigamesOfType((MinigameType)i).Count;
+                if( nbMinigameOfType > 0)
                 {
-                    c[j] = DatabaseManager.Db.GetUnlockedMinigamesOfType((MinigameType)i)[j];
+                    DatabaseClass.MinigameData[] c = new DatabaseClass.MinigameData[nbMinigameOfType];
+
+                    for (int j = 0; j < nbMinigameOfType; j++)
+                    {
+                        c[j] = DatabaseManager.Db.GetUnlockedMinigamesOfType((MinigameType)i)[j];
+                    }
+                    unlockedMinigameFirstVariante.Add(c);
                 }
-                unlockedMinigameFirstVariante.Add(c);
+    
             }
         }
 

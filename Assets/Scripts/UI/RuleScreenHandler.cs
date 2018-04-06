@@ -176,7 +176,7 @@ public class MinigameRules
 
     public MinigameRules(GameMode _curGameMode)
     {
-        title = MinigameDataUtils.GetTitle(_curGameMode);
+        title = (_curGameMode.title != "") ? _curGameMode.title : MinigameDataUtils.GetTitle(_curGameMode);
         howToPlay = MinigameDataUtils.GetDescription(_curGameMode);
         controls = MinigameDataUtils.GetControls(_curGameMode);
         possiblePickups = MinigameDataUtils.GetPossiblePickups(_curGameMode);
