@@ -11,7 +11,7 @@ public static class MinigameDataUtils
     private static string SnowKartTitle = "Snow Kart";
     private static string FruitTitle = "Frootballs";
     private static string ClassicClashTitle = "Classic Clash";
-
+    private static string SuperRunnerTitle = "Super Runner"; 
 
     public static string GetTitle(GameMode _curGameMode)
     {
@@ -57,6 +57,10 @@ public static class MinigameDataUtils
         else if (_minigameId == "Minigame3dRunner")
         {
             return RunnerTitle;
+        }
+        else if (_minigameId == "Minigame3dRunner 1")
+        {
+            return SuperRunnerTitle;
         }
         else if (_minigameId == "MiniGameFruits")
         {
