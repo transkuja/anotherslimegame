@@ -17,6 +17,7 @@ public class PNJController : MonoBehaviour
     [Range(5, 20)]
     public float timerToTpBack = 20;
 
+    public bool isHappy = false;
 
 
     void Start()
@@ -48,6 +49,11 @@ public class PNJController : MonoBehaviour
             else
             {
                 timer = 0;
+            }
+
+            if(isHappy)
+            {
+                playerCharacterHub.PlayerState.OnJumpPressed();
             }
         }
     }
