@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class MovingPlatform : MonoBehaviour {
 
-    public GameObject pivot;
     public float timerRotation = 0.0f;
     public float[] vectorActions;
 
