@@ -174,22 +174,35 @@ abstract public class GameMode : MonoBehaviour
         {
             return;
         }
+
         // By default, cameraP2 is set for 2-Player mode, so we only update cameraP1
         if (activePlayersAtStart == 2)
         {
-            cameraReferences[0].transform.GetChild(0).GetComponent<Camera>().rect = new Rect(0, 0, 0.5f, 1.0f);
+            cameraReferences[0].transform.GetChild(0).GetComponent<Camera>().rect = new Rect(0, 0, 0.499f, 1.0f);
+            cameraReferences[1].transform.GetChild(0).GetComponent<Camera>().rect = new Rect(0.502f, 0, 0.499f, 1.0f);
         }
         // By default, cameraP3 and cameraP4 are set for 4-Player mode, so we only update cameraP1 and cameraP2
         else if (activePlayersAtStart > 2)
         {
-            cameraReferences[0].transform.GetChild(0).GetComponent<Camera>().rect = new Rect(0, 0.5f, 0.5f, 0.5f);
-            cameraReferences[1].transform.GetChild(0).GetComponent<Camera>().rect = new Rect(0.5f, 0.5f, 0.5f, 0.5f);
+            cameraReferences[0].transform.GetChild(0).GetComponent<Camera>().rect = new Rect(0, 0.5f, 0.49f, 0.5f);
+            cameraReferences[1].transform.GetChild(0).GetComponent<Camera>().rect = new Rect(0.52f, 0.5f, 0.49f, 0.5f);
         }
         for(int i = 0; i < cameraReferences.Length; i++)
         {
             cameraReferences[i].transform.GetChild(1).GetComponent<DynamicJoystickCameraController>().cameraXAdjuster = 0.3f / activePlayersAtStart;
             cameraReferences[i].transform.GetChild(1).GetComponent<DynamicJoystickCameraController>().cameraYAdjuster = 0.05f / activePlayersAtStart;
         }
+
+
+        GameObject cameraForBlackBackground = new GameObject("CameraForBlackBackground");
+        Camera theCamera = cameraForBlackBackground.AddComponent<Camera>();
+        theCamera.backgroundColor = Color.black;
+        theCamera.cullingMask = 0;
+        theCamera.clearFlags = CameraClearFlags.SolidColor;
+
+        theCamera.Render();
+
+        Destroy(cameraForBlackBackground, 0.05f);
     }
 
     /* 
