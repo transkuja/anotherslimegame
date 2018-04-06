@@ -197,13 +197,14 @@ abstract public class GameMode : MonoBehaviour
 
         GameObject cameraForBlackBackground = new GameObject("CameraForBlackBackground");
         Camera theCamera = cameraForBlackBackground.AddComponent<Camera>();
+        theCamera.enabled = false;
         theCamera.backgroundColor = Color.black;
         theCamera.cullingMask = 0;
         theCamera.clearFlags = CameraClearFlags.SolidColor;
-
+        theCamera.ResetAspect();
+        theCamera.targetDisplay = 0;
         theCamera.Render();
-
-        Destroy(cameraForBlackBackground, 0.05f);
+        Destroy(cameraForBlackBackground);
     }
 
     /* 
