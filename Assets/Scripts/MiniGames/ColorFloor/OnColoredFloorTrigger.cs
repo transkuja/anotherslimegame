@@ -6,48 +6,56 @@ public class OnColoredFloorTrigger : MonoBehaviour {
 
     ColorFloorPickupHandler pickupHandler;
 
-    public int currentOwner;
+    public int currentOwner = -1;
     public bool debug;
 
-    OnColoredFloorTrigger up;
-    OnColoredFloorTrigger down;
-    OnColoredFloorTrigger left;
-    OnColoredFloorTrigger right;
+    OnColoredFloorTrigger[] neighbors = new OnColoredFloorTrigger[4];
+    enum Side { Up, Down, Left, Right }
 
     void InitUp()
     {
         if (transform.parent.GetSiblingIndex() == 0)
         {
-            up = null;
+            neighbors[(int)Side.Up] = null;
         }
         else
         {
-            up = transform.parent.parent.GetChild(transform.parent.GetSiblingIndex() - 1).GetChild(transform.GetSiblingIndex()).GetComponentInChildren<OnColoredFloorTrigger>();
+            neighbors[(int)Side.Up] = transform.parent.parent.GetChild(transform.parent.GetSiblingIndex() - 1).GetChild(transform.GetSiblingIndex()).GetComponentInChildren<OnColoredFloorTrigger>();
         }
     }
 
     void InitDown()
     {
         if (transform.parent.GetSiblingIndex() == 7)
-            down = null;
+            neighbors[(int)Side.Down] = null;
         else
-            down = transform.parent.parent.GetChild(transform.parent.GetSiblingIndex() + 1).GetChild(transform.GetSiblingIndex()).GetComponentInChildren<OnColoredFloorTrigger>();
+            neighbors[(int)Side.Down] = transform.parent.parent.GetChild(transform.parent.GetSiblingIndex() + 1).GetChild(transform.GetSiblingIndex()).GetComponentInChildren<OnColoredFloorTrigger>();
     }
 
     void InitLeft()
     {
         if (transform.GetSiblingIndex() == 0)
-            left = null;
+            neighbors[(int)Side.Left] = null;
         else
-            left = transform.parent.GetChild(transform.GetSiblingIndex() - 1).GetComponentInChildren<OnColoredFloorTrigger>();
+            neighbors[(int)Side.Left] = transform.parent.GetChild(transform.GetSiblingIndex() - 1).GetComponentInChildren<OnColoredFloorTrigger>();
     }
 
     void InitRight()
     {
         if (transform.GetSiblingIndex() == 7)
-            right = null;
+            neighbors[(int)Side.Right] = null;
         else
-            right = transform.parent.GetChild(transform.GetSiblingIndex() + 1).GetComponentInChildren<OnColoredFloorTrigger>();
+            neighbors[(int)Side.Right] = transform.parent.GetChild(transform.GetSiblingIndex() + 1).GetComponentInChildren<OnColoredFloorTrigger>();
+    }
+
+    public int SameColorNeighbors()
+    {
+        int result = 0;
+        if (neighbors[(int)Side.Up] != null && neighbors[(int)Side.Up].currentOwner == currentOwner) ++result;
+        if (neighbors[(int)Side.Down] != null && neighbors[(int)Side.Down].currentOwner == currentOwner) ++result;
+        if (neighbors[(int)Side.Left] != null && neighbors[(int)Side.Left].currentOwner == currentOwner) ++result;
+        if (neighbors[(int)Side.Right] != null && neighbors[(int)Side.Right].currentOwner == currentOwner) ++result;
+        return result;
     }
 
     private void Start()
@@ -56,6 +64,12 @@ public class OnColoredFloorTrigger : MonoBehaviour {
         InitDown();
         InitRight();
         InitLeft();
+        currentOwner = -1;
+    }
+
+    public int GetFloorIndex()
+    {
+        return transform.GetSiblingIndex() + transform.parent.GetSiblingIndex() * 8;
     }
 
     public ColorFloorPickupHandler PickupHandler
@@ -77,7 +91,7 @@ public class OnColoredFloorTrigger : MonoBehaviour {
     {
         get
         {
-            return up;
+            return neighbors[(int)Side.Up];
         }
     }
 
@@ -85,7 +99,7 @@ public class OnColoredFloorTrigger : MonoBehaviour {
     {
         get
         {
-            return down;
+            return neighbors[(int)Side.Down];
         }
     }
 
@@ -93,7 +107,7 @@ public class OnColoredFloorTrigger : MonoBehaviour {
     {
         get
         {
-            return left;
+            return neighbors[(int)Side.Left];
         }
     }
 
@@ -101,7 +115,15 @@ public class OnColoredFloorTrigger : MonoBehaviour {
     {
         get
         {
-            return right;
+            return neighbors[(int)Side.Right];
+        }
+    }
+
+    public OnColoredFloorTrigger[] Neighbors
+    {
+        get
+        {
+            return neighbors;
         }
     }
 
