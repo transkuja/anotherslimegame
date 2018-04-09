@@ -71,7 +71,7 @@ public class DynamicJoystickCameraController : MonoBehaviour {
     }
 
     void Update () {
-        if (GameManager.CurrentState != GameState.Normal)
+        if (GameManager.CurrentState != GameState.Normal && GameManager.CurrentState != GameState.ForcedPauseMGRules)
             return;
 
         if (associatedPlayerController == null)

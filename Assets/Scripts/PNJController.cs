@@ -13,6 +13,7 @@ public class PNJController : MonoBehaviour
     //private Rigidbody rb;
 
     private Vector3 originalPos;
+    private Quaternion originalRot;
     private float timer;
     [Range(5, 20)]
     public float timerToTpBack = 20;
@@ -29,6 +30,7 @@ public class PNJController : MonoBehaviour
         playerCharacterHub = player.PlayerCharacter as PlayerCharacterHub;
         //rb = playerCharacterHub.Rb;
         originalPos = transform.position;
+        originalRot = transform.rotation;
     }
 
     public void Update()
@@ -48,6 +50,11 @@ public class PNJController : MonoBehaviour
                     timer = 0;
                 }
             }
+            else if (!isHappy && Vector3.Distance(originalPos, transform.position) < 0.5f)
+            {
+                playerCharacterHub.Rb.velocity = Vector3.zero;
+                playerCharacterHub.transform.rotation = originalRot;
+            }
             else
             {
                 timer = 0;
@@ -57,6 +64,9 @@ public class PNJController : MonoBehaviour
             {
                 playerCharacterHub.PlayerState.OnJumpPressed();
             }
+        } else
+        {
+            playerCharacterHub.Rb.velocity = Vector3.zero;
         }
     }
 
