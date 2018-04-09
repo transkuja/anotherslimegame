@@ -51,6 +51,7 @@ abstract public class GameMode : MonoBehaviour
     public int necessaryPointsForRune;
     public float necessaryTimeForRune;
     protected int currentScore = 0;
+    public CursorPlayerId cursors;
 
     #region getterSetters
     public bool TakesDamageFromPlayer
@@ -100,7 +101,10 @@ abstract public class GameMode : MonoBehaviour
     }
     public virtual void OnReadySetGoBegin()
     {
-        if (FindObjectOfType<CursorPlayerId>()) FindObjectOfType<CursorPlayerId>().Init();
+        if (cursors == null)
+            cursors = FindObjectOfType<CursorPlayerId>();
+        if (cursors != null)
+            cursors.Init();
     }
 
     public virtual void OpenRuleScreen()

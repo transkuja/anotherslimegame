@@ -13,4 +13,12 @@ public class CursorPlayerId : MonoBehaviour {
         }
     }
 
+    public void DisableCursors()
+    {
+        for (int i = 0; i < GameManager.Instance.PlayerStart.ActivePlayersAtStart; ++i)
+        {
+            transform.GetChild(0).GetChild(i).gameObject.SetActive(false);
+        }
+    }
+
 }

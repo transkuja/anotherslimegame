@@ -197,6 +197,10 @@ public class ScoreScreen : MonoBehaviour {
 
             // Hide timer
             GameManager.UiReference.transform.GetChild(1).gameObject.SetActive(false);
+
+            // Hide cursors
+            GameManager.Instance.CurrentGameMode.cursors.DisableCursors();
+
             // Change render mode so we can see the UI updating
             GameManager.UiReference.GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
             if(minigameUI)
