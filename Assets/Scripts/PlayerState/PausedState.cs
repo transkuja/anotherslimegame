@@ -26,6 +26,8 @@ public class PausedState : PlayerState {
         playerCharacterHub.GetComponent<Player>().cameraReference.transform.GetChild(0).GetComponent<Cinemachine.CinemachineBrain>().enabled = false;
         beforePausingVelocity = playerCharacterHub.Rb.velocity;
         playerCharacterHub.Rb.velocity = Vector3.zero;
+        playerCharacterHub.Rb.useGravity = false;
+        playerCharacterHub.JumpManager.enabled = false;
         oldDrag = playerCharacterHub.Rb.drag;
         playerCharacterHub.Rb.drag = 0.0f;
         playerCharacterHub.Anim.StartPlayback();
@@ -39,6 +41,8 @@ public class PausedState : PlayerState {
         playerCharacterHub.Anim.StopPlayback();
         playerCharacterHub.Rb.velocity = beforePausingVelocity;
         playerCharacterHub.Rb.drag = oldDrag;
+        playerCharacterHub.Rb.useGravity = true;
+        playerCharacterHub.JumpManager.enabled = true;
     }
 
     public override void OnFixedUpdate()

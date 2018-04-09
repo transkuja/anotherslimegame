@@ -86,6 +86,9 @@ public class PlayerCharacterHub : PlayerCharacter {
     {
         get
         {
+            if (!jumpManager && GetComponent<JumpManager>())
+                jumpManager = GetComponent<JumpManager>();
+
             return jumpManager;
         }
 
