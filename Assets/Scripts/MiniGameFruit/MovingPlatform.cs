@@ -40,7 +40,8 @@ public class MovingPlatform : MonoBehaviour {
 
     public void Update()
     {
-        rb.AddRelativeTorque(torque * Time.deltaTime * rotationSpeed, ForceMode.VelocityChange);
+        if(GameManager.CurrentState == GameState.Normal && !GameManager.Instance.isTimeOver)
+            rb.AddRelativeTorque(torque * Time.deltaTime * rotationSpeed, ForceMode.VelocityChange);
         //transform.Rotate(Vector3.up * 50 * Time.deltaTime, Space.Self);
         //transform.Rotate(Vector3.right * 2 * Time.deltaTime, Space.Self);
     }

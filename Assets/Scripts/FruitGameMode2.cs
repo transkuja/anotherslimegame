@@ -8,7 +8,6 @@ public class FruitGameMode2 : GameMode {
     public float timer;
     public FruitsSpawner spawner;
     public BonusSpawner bonus;
-    bool spawnerInitialized = false;
 
     public override void StartGame(List<GameObject> playerReferences)
     {
@@ -34,13 +33,15 @@ public class FruitGameMode2 : GameMode {
     protected override void Update()
     {
         base.Update();
-        if (GameManager.CurrentState != GameState.Normal || spawnerInitialized == true)
-            return;
+    }
 
+    public override void OnReadySetGoBegin()
+    {
+        base.OnReadySetGoBegin();
+        GameManager.ChangeState(GameState.Normal);
         StartCoroutine(spawner.Spawner());
         StartCoroutine(bonus.SpawnBonus(BonusSpawner.BonusType.ChangeFruit, bonus.changeFruitSpawnDelay));
         StartCoroutine(bonus.SpawnBonus(BonusSpawner.BonusType.Aspirator, bonus.aspiratorFruitSpawnDelay));
-        spawnerInitialized = true;
     }
 
     public override void AttributeCamera(uint activePlayersAtStart, GameObject[] cameraReferences, List<GameObject> playersReference)
