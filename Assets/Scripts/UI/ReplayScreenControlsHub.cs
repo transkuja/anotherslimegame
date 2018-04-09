@@ -14,6 +14,26 @@ public class ReplayScreenControlsHub : MonoBehaviour {
     public HubMinigameHandler refMinigameHandler;
     public int index = -1;
 
+    [SerializeField]
+    GameObject menuCursor;
+
+    private void Start()
+    {
+        UpdateCursor(0);
+    }
+
+    void UpdateCursor(int _cursorIndex)
+    {
+        menuCursor.transform.SetParent(transform.GetChild(_cursorIndex + 1));
+        menuCursor.transform.localPosition = Vector3.zero;
+        menuCursor.transform.localScale = Vector3.one;
+        menuCursor.transform.localRotation = Quaternion.identity;
+        Rect textBox = transform.GetChild(_cursorIndex + 1).GetComponentInChildren<Text>().GetComponent<RectTransform>().rect;
+
+        menuCursor.transform.GetChild(0).localPosition = new Vector3(textBox.xMin, -1.0f, 0.0f);
+        menuCursor.transform.GetChild(1).localPosition = new Vector3(textBox.xMax, -1.0f, 0.0f);
+    }
+
     private void Update()
     {
         if (!refMinigameHandler || index ==-1)
@@ -31,8 +51,7 @@ public class ReplayScreenControlsHub : MonoBehaviour {
                 AudioManager.Instance.PlayOneShot(AudioManager.Instance.changeOptionFx);
 
             cursor = (cursor+1)%2;
-            transform.GetChild(cursor + 1).GetComponent<AnimButton>().enabled = true;
-            transform.GetChild((cursor == 0) ? 2 : 1).GetComponent<AnimButton>().enabled = false;
+            UpdateCursor(cursor);
         }
 
         if (prevControllerState.Buttons.A == ButtonState.Released && controllerState.Buttons.A == ButtonState.Pressed)
