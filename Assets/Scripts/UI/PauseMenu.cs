@@ -195,10 +195,10 @@ public class PauseMenu : MonoBehaviour {
                 menuCursor.transform.localPosition = Vector3.zero;
                 menuCursor.transform.localScale = Vector3.one;
                 menuCursor.transform.localRotation = Quaternion.identity;
-                int textLength = currentlySelectedButton.GetComponentInChildren<Text>().text.Length;
+                Rect textBox = currentlySelectedButton.GetComponentInChildren<Text>().GetComponent<RectTransform>().rect;
 
-                menuCursor.transform.GetChild(0).localPosition = new Vector3(-15 * (textLength + 2), -1.0f, 0.0f);
-                menuCursor.transform.GetChild(1).localPosition = new Vector3(15 * (textLength + 2), -1.0f, 0.0f);
+                menuCursor.transform.GetChild(0).localPosition = new Vector3(textBox.xMin, -1.0f, 0.0f);
+                menuCursor.transform.GetChild(1).localPosition = new Vector3(textBox.xMax, -1.0f, 0.0f);
             }
         }
     }
