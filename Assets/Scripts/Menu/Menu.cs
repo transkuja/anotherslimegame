@@ -96,10 +96,10 @@ public class Menu : MonoBehaviour {
                 currentCursorVisual.transform.localPosition = Vector3.zero;
                 currentCursorVisual.transform.localScale = Vector3.one;
                 currentCursorVisual.transform.localRotation = Quaternion.identity;
-                int textLength = currentlySelectedButton.GetComponentInChildren<Text>().text.Length;
+                Rect textBox = currentlySelectedButton.GetComponentInChildren<Text>().GetComponent<RectTransform>().rect;
 
-                currentCursorVisual.transform.GetChild(0).localPosition = new Vector3(-7 * (textLength), -1.0f, 0.0f);
-                currentCursorVisual.transform.GetChild(1).localPosition = new Vector3(7 * (textLength), -1.0f, 0.0f);
+                currentCursorVisual.transform.GetChild(0).localPosition = new Vector3(textBox.xMin, -1.0f, 0.0f);
+                currentCursorVisual.transform.GetChild(1).localPosition = new Vector3(textBox.xMax, -1.0f, 0.0f);
             }
         }
     }
