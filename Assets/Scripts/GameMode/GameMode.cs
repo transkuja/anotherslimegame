@@ -52,6 +52,7 @@ abstract public class GameMode : MonoBehaviour
     public float necessaryTimeForRune;
     protected int currentScore = 0;
     public CursorPlayerId cursors;
+    public int minigameVersion = 0;
 
     #region getterSetters
     public bool TakesDamageFromPlayer
