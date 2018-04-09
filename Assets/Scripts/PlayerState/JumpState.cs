@@ -63,8 +63,18 @@ public class JumpState : PlayerState
         if (jm = playerCharacterHub.GetComponent<JumpManager>())
         {
             jm.Jump(JumpManager.JumpEnum.Basic);
+
             if (AudioManager.Instance != null && AudioManager.Instance.jumpFx != null)
-                AudioManager.Instance.PlayOneShot(AudioManager.Instance.jumpFx);
+            {
+                if (playerCharacterHub.GetComponent<PNJController>() && playerCharacterHub.GetComponent<PNJController>().myAudioSource != null)
+                {
+                    playerCharacterHub.GetComponent<PNJController>().myAudioSource.PlayOneShot(AudioManager.Instance.jumpFx, 0.5f);
+                } else
+                {
+                    AudioManager.Instance.PlayOneShot(AudioManager.Instance.jumpFx);
+                }
+            }
+         
         }
         else
             Debug.LogError("No jump manager attached to player!");
@@ -81,8 +91,19 @@ public class JumpState : PlayerState
 
             if (NbJumpMade > 1)
             {
+            
                 if (AudioManager.Instance != null && AudioManager.Instance.youpiFX != null)
-                    AudioManager.Instance.PlayOneShot(AudioManager.Instance.youpiFX);
+                {
+                    if (playerCharacterHub.GetComponent<PNJController>() && playerCharacterHub.GetComponent<PNJController>().myAudioSource != null)
+                    {
+                        playerCharacterHub.GetComponent<PNJController>().myAudioSource.PlayOneShot(AudioManager.Instance.youpiFX, 0.5f);
+                    }
+                    else
+                    {
+                        AudioManager.Instance.PlayOneShot(AudioManager.Instance.youpiFX);
+                    }
+                }
+
             }
         }
     }

@@ -17,6 +17,8 @@ public class PNJController : MonoBehaviour
     [Range(5, 20)]
     public float timerToTpBack = 20;
 
+    public AudioSource myAudioSource;
+
     public bool isHappy = false;
 
 

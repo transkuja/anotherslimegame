@@ -29,7 +29,16 @@ public class UnderwaterState : PlayerState
         else
         {
             if (AudioManager.Instance != null && AudioManager.Instance.splashWaterFx != null)
-                AudioManager.Instance.PlayOneShot(AudioManager.Instance.splashWaterFx);
+            {
+                if (playerCharacterHub.GetComponent<PNJController>() && playerCharacterHub.GetComponent<PNJController>().myAudioSource != null)
+                {
+                    playerCharacterHub.GetComponent<PNJController>().myAudioSource.PlayOneShot(AudioManager.Instance.splashWaterFx, 5);
+                }
+                else
+                {
+                    AudioManager.Instance.PlayOneShot(AudioManager.Instance.splashWaterFx);
+                }
+            }
         }
     }
 

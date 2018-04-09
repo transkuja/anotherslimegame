@@ -128,7 +128,17 @@ public class PlayerCharacterHub : PlayerCharacter {
                         if (playerState != underwaterState)
                         {
                             if (AudioManager.Instance != null && AudioManager.Instance.sandStepFx != null)
-                                AudioManager.Instance.PlayOneShot(AudioManager.Instance.sandStepFx, 10.0f);
+                            {
+                                if (GetComponent<PNJController>() && GetComponent<PNJController>().myAudioSource != null)
+                                {
+                                    GetComponent<PNJController>().myAudioSource.PlayOneShot(AudioManager.Instance.sandStepFx, 5);
+                                }
+                                else
+                                {
+                                    AudioManager.Instance.PlayOneShot(AudioManager.Instance.sandStepFx, 10.0f);
+                                }
+                            }
+                
                         }
                         PendingStepSound = false;
                     }

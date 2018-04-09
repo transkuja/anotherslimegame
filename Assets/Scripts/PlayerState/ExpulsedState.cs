@@ -13,7 +13,18 @@ public class ExpulsedState : PlayerState
     public override void OnBegin()
     {
         base.OnBegin();
-        if (AudioManager.Instance != null && AudioManager.Instance.hahahaFX != null) AudioManager.Instance.PlayOneShot(AudioManager.Instance.hahahaFX);
+        if (AudioManager.Instance != null && AudioManager.Instance.hahahaFX != null)
+        {
+            if (playerCharacterHub.GetComponent<PNJController>() && playerCharacterHub.GetComponent<PNJController>().myAudioSource != null)
+            {
+                playerCharacterHub.GetComponent<PNJController>().myAudioSource.PlayOneShot(AudioManager.Instance.hahahaFX, 0.5f);
+            }
+            else
+            {
+                AudioManager.Instance.PlayOneShot(AudioManager.Instance.hahahaFX);
+            }
+        }
+     
         curFixedUpdateFct = OnExpulseState;
         timer = 0;
         playerCharacterHub.Anim.SetBool("isExpulsed", true);
