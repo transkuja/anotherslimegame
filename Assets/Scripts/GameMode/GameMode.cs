@@ -30,7 +30,6 @@ public class GameModeData
 
 abstract public class GameMode : MonoBehaviour
 {
-    [SerializeField] public String title = "";
     [SerializeField] protected int nbPlayersMin;
     [SerializeField] protected int nbPlayersMax;
     // Use to remove damage on points based on gamemode when players collide. Players will still be expulsed

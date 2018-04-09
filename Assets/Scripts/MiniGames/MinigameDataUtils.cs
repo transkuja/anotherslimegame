@@ -27,10 +27,14 @@ public static class MinigameDataUtils
         }
         else if (curGameMode is KartGameMode)
         {
+            if (_version == 1)
+                return SnowKartTitle; 
             return ClassicKartTitle;
         }
         else if (curGameMode is Runner3DGameMode)
         {
+            if (_version == 1)
+                return SuperRunnerTitle;
             return RunnerTitle;
         }
         else if (curGameMode is FruitGameMode)

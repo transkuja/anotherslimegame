@@ -12,7 +12,7 @@ public class FruitGameMode2 : GameMode {
     public override void StartGame(List<GameObject> playerReferences)
     {
         base.StartGame(playerReferences);
-        rules = new MinigameRules(this);
+        rules = new MinigameRules(this, minigameVersion);
 
         checkRuneObjective = CheckRuneObjectiveForFruits;
 

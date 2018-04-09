@@ -29,7 +29,7 @@ public class Runner3DGameMode : GameMode {
     public override void StartGame(List<GameObject> playerReferences)
     {
         base.StartGame(playerReferences);
-        rules = new MinigameRules(this);
+        rules = new MinigameRules(this, minigameVersion);
         nbDeadPlayers = 0;
         for (int i = 0; i < playerReferences.Count; i++)
         {
