@@ -50,7 +50,7 @@ public class OnColoredFloorTrigger : MonoBehaviour {
             yield return new WaitForEndOfFrame();
         }
         time = 0.0f;
-        while (colorToApply.maxColorComponent > 0.1f)
+        while (colorToApply.maxColorComponent > 0.01f)
         {
             time += Time.deltaTime * 5;
             colorToApply *= 1/(1 + time);

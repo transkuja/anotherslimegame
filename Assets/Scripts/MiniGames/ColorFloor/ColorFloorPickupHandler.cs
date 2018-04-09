@@ -20,10 +20,14 @@ public class ColorFloorPickupHandler : MonoBehaviour
     int maxPickupsSpawnedWithoutScore = 3;
     int pickupsSpawnedSinceLastScore = 0;
 
+    bool isUsingScorePickups = true;
+
     IEnumerator Start()
     {
         pickupSpawned = 0;
         lineCount = transform.childCount;
+        isUsingScorePickups = !((ColorFloorGameMode)GameManager.Instance.CurrentGameMode).squareToScoreMode;
+
         for (int i = 0; i < transform.childCount; i++)
             mapSize += transform.GetChild(i).childCount;
 
@@ -42,11 +46,17 @@ public class ColorFloorPickupHandler : MonoBehaviour
                 while (transform.GetChild(randChild / lineCount).GetChild(randChild % lineSize).childCount > 1)
                     randChild = Random.Range(0, mapSize);
 
-                int subpoolIndex;
-                if (pickupsSpawnedSinceLastScore < maxPickupsSpawnedWithoutScore)
-                    subpoolIndex = Random.Range(0, ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.ColorFloorPickUps).PoolParent.childCount);
-                else
-                    subpoolIndex = 0;
+                int subpoolIndex = Random.Range(0, ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.ColorFloorPickUps).PoolParent.childCount);
+
+                if (isUsingScorePickups)
+                {
+                    pickupsSpawnedSinceLastScore++;
+                    if (pickupsSpawnedSinceLastScore >= maxPickupsSpawnedWithoutScore)
+                    {
+                        subpoolIndex = 0;
+                        pickupsSpawnedSinceLastScore = 0;
+                    }                  
+                }
 
                 ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.ColorFloorPickUps).GetItem(
                     transform.GetChild(randChild / lineCount).GetChild(randChild % lineSize),
@@ -56,11 +66,7 @@ public class ColorFloorPickupHandler : MonoBehaviour
                     false,
                     subpoolIndex
                 );
-
-                pickupsSpawnedSinceLastScore++;
-                if (subpoolIndex == 0)
-                    pickupsSpawnedSinceLastScore = 0;
-
+          
                 pickupSpawned++;
             }
         }
