@@ -1,8 +1,19 @@
 fileFormatVersion: 2
+<<<<<<< Updated upstream:Assets/Prefabs/PNJ.meta
 guid: 093b316bee601fc4fba650fb6a410a39
+=======
+<<<<<<< Updated upstream
+guid: ee95a51aca518424583f3503d87e9c63
+>>>>>>> Stashed changes:Assets/Plugins/Cinemachine/Examples/Shared/Animation.meta
 folderAsset: yes
 timeCreated: 1523027179
 licenseType: Free
+=======
+guid: 83f74a97a5d0c6e468b9b238f09330a4
+folderAsset: yes
+timeCreated: 1510154952
+licenseType: Store
+>>>>>>> Stashed changes
 DefaultImporter:
   userData: 
   assetBundleName: 

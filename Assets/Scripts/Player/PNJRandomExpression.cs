@@ -34,9 +34,9 @@ public class PNJRandomExpression : MonoBehaviour {
         while (true)
         {
             yield return new WaitForSeconds(8.0f);
-            InitLerp(Vector3.up);
+            InitLerp(transform.up * 1.5f);
             yield return new WaitForSeconds(4.0f);
-            InitLerp(Vector3.down);
+            InitLerp(-transform.up * 1.5f);
 
         }
     }
