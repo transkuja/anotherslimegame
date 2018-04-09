@@ -248,11 +248,27 @@ public class ScoreScreen : MonoBehaviour {
             PlayerCosmetics curPlayerCosmetics = curPlayer.GetComponentInChildren<PlayerCosmetics>();
             PlayerCosmetics podiumPlayerCosmetics = podiumPlayer.GetComponentInChildren<PlayerCosmetics>();
 
+            // Set color and face
             podiumPlayerCosmetics.UseColorFade = curPlayerCosmetics.UseColorFade;
             podiumPlayerCosmetics.SetUniqueColor(curPlayerCosmetics.BodyColor);
             podiumPlayerCosmetics.FaceType = curPlayerCosmetics.FaceType;
             podiumPlayerCosmetics.FaceEmotion = (curPlayerRank == 1 || curPlayerRank == 2) ? FaceEmotion.Winner : FaceEmotion.Loser;
 
+            // Set customizables
+            CustomizableSockets podiumCustomSockets = podiumPlayer.GetComponentInChildren<CustomizableSockets>();
+
+            for (int i = 0; i < (int)CustomizableType.Size - 2; i++)
+            {
+                if (curPlayer.GetComponentInChildren<CustomizableSockets>().transform.GetChild(i).childCount > 0)
+                {
+                    GameObject customizable = Instantiate(curPlayer.GetComponentInChildren<CustomizableSockets>().transform.GetChild(i).GetChild(0).gameObject,
+                        podiumCustomSockets.transform.GetChild(i));
+                    customizable.GetComponent<ICustomizable>().Init(podiumCustomSockets.GetComponentInParent<Rigidbody>());
+                    foreach (Rigidbody rb in customizable.GetComponentsInChildren<Rigidbody>())
+                        rb.isKinematic = true;
+
+                }
+            }
 
             if (curPlayerRank == 1)
                 podiumPlayer.GetComponentInChildren<Animator>().SetBool("hasFinishedFirst", true);
