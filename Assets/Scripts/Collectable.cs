@@ -139,8 +139,9 @@ public class Collectable : MonoBehaviour
                 }
                 if (name == "Aspirator(Clone)")
                 {
-                    GetComponentInParent<Transform>().GetComponentInParent<BonusSpawner>().canAspirate = true;
                     GetComponentInParent<Transform>().GetComponentInParent<BonusSpawner>().playerTest = playerTarget;
+                    GetComponentInParent<Transform>().GetComponentInParent<BonusSpawner>().AspireFruit();
+
                 }
                 if (playerTarget.GetComponent<Player>().associateFruit == GetComponent<FruitType>().typeFruit)
                 {

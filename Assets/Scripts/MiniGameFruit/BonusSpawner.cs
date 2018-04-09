@@ -30,23 +30,20 @@ public class BonusSpawner : MonoBehaviour {
     public Material matFraise;
 
 
-    /*void Start()
+    void Start()
     {
-        StartCoroutine(SpawnBonus(BonusType.ChangeFruit, changeFruitSpawnDelay));
-		StartCoroutine(SpawnBonus(BonusType.Aspirator, aspiratorFruitSpawnDelay));
-    }*/
+        minX = boxColliderSpawn.transform.position.x -(boxColliderSpawn.transform.localScale.x / 2);
+        maxX = boxColliderSpawn.transform.position.x + boxColliderSpawn.transform.localScale.x / 2;
 
-	public IEnumerator SpawnBonus(BonusType _type, float _time)
+        minZ = boxColliderSpawn.transform.position.z - (boxColliderSpawn.transform.localScale.z / 2);
+        maxZ = boxColliderSpawn.transform.position.z + boxColliderSpawn.transform.localScale.z / 2;
+    }
+
+    public IEnumerator SpawnBonus(BonusType _type, float _time)
 	{
-		while (true)
+        while (!GameManager.Instance.isTimeOver)
         {
             yield return new WaitForSeconds(_time);
-
-            minX = boxColliderSpawn.transform.position.x -(boxColliderSpawn.transform.localScale.x / 2);
-            maxX = boxColliderSpawn.transform.position.x + boxColliderSpawn.transform.localScale.x / 2;
-
-            minZ = boxColliderSpawn.transform.position.z - (boxColliderSpawn.transform.localScale.z / 2);
-            maxZ = boxColliderSpawn.transform.position.z + boxColliderSpawn.transform.localScale.z / 2;
 
             GameObject toInstantiate = GetBonusPrefabByType(_type);
 
@@ -98,19 +95,19 @@ public class BonusSpawner : MonoBehaviour {
             tabTest[i].typeFruit = typeToChange;
             if(tabTest[i].typeFruit == Fruit.Clementine)
             {
-                tabTest[i].gameObject.GetComponent<Renderer>().material = matClementine;
+                tabTest[i].gameObject.GetComponent<Renderer>().material.color = matClementine.color;
             }
             else if (tabTest[i].typeFruit == Fruit.Pomme)
             {
-                tabTest[i].gameObject.GetComponent<Renderer>().material = matPomme;
+                tabTest[i].gameObject.GetComponent<Renderer>().material.color = matPomme.color;
             }
             else if (tabTest[i].typeFruit == Fruit.Kiwi)
             {
-                tabTest[i].gameObject.GetComponent<Renderer>().material = matKiwi;
+                tabTest[i].gameObject.GetComponent<Renderer>().material.color = matKiwi.color;
             }
             else if (tabTest[i].typeFruit == Fruit.Fraise)
             {
-                tabTest[i].gameObject.GetComponent<Renderer>().material = matFraise;
+                tabTest[i].gameObject.GetComponent<Renderer>().material.color = matFraise.color;
             }
         }
         yield return new WaitForSeconds(2.0f);
@@ -119,19 +116,19 @@ public class BonusSpawner : MonoBehaviour {
             tabTest[j].typeFruit = typeToSave[j];
             if (tabTest[j].typeFruit == Fruit.Clementine)
             {
-                tabTest[j].gameObject.GetComponent<Renderer>().material = matClementine;
+                tabTest[j].gameObject.GetComponent<Renderer>().material.color = matClementine.color;
             }
             if (tabTest[j].typeFruit == Fruit.Pomme)
             {
-                tabTest[j].gameObject.GetComponent<Renderer>().material = matPomme;
+                tabTest[j].gameObject.GetComponent<Renderer>().material.color = matPomme.color;
             }
             if (tabTest[j].typeFruit == Fruit.Kiwi)
             {
-                tabTest[j].gameObject.GetComponent<Renderer>().material = matKiwi;
+                tabTest[j].gameObject.GetComponent<Renderer>().material.color = matKiwi.color;
             }
             if (tabTest[j].typeFruit == Fruit.Fraise)
             {
-                tabTest[j].gameObject.GetComponent<Renderer>().material = matFraise;
+                tabTest[j].gameObject.GetComponent<Renderer>().material.color = matFraise.color;
             }
         }
     }

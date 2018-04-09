@@ -27,6 +27,11 @@ public class FruitsSpawner : MonoBehaviour {
     public void Start()
     {
         nbPlayer = GameManager.Instance.PlayerStart.ActivePlayersAtStart;
+        minX = -(boxColliderSpawn.transform.localScale.x / 2);
+        maxX = boxColliderSpawn.transform.localScale.x / 2;
+
+        minZ = -(boxColliderSpawn.transform.localScale.z / 2);
+        maxZ = boxColliderSpawn.transform.localScale.z / 2;
     }
 
     public IEnumerator Spawner()
@@ -35,11 +40,6 @@ public class FruitsSpawner : MonoBehaviour {
         {
             yield return new WaitForSeconds(fruitsSpawnDelay);
 
-            minX = -(boxColliderSpawn.transform.localScale.x / 2);
-            maxX = boxColliderSpawn.transform.localScale.x / 2;
-
-            minZ = -(boxColliderSpawn.transform.localScale.z / 2);
-            maxZ = boxColliderSpawn.transform.localScale.z / 2;
             if (GameManager.Instance.DataContainer != null)
             {
                 switch (nbPlayer)
@@ -136,9 +136,4 @@ public class FruitsSpawner : MonoBehaviour {
             }
         }
     }
-
-    /*public void Update()
-    {
-        //fruit.GetComponent<Renderer>().material.Lerp(matClementine, matFruitPourri, 0.5f);
-    }*/
 }
