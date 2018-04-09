@@ -14,7 +14,7 @@ public class ActivateObject : MonoBehaviour
             switchToCam.VirtualCameraGameObject.SetActive(true);
 
             switchToCam.GetComponent<Cinemachine.CinemachineVirtualCamera>().Follow = col.transform;
-            switchToCam.GetComponent<Cinemachine.CinemachineVirtualCamera>().LookAt = col.transform;
+            //switchToCam.GetComponent<Cinemachine.CinemachineVirtualCamera>().LookAt = col.transform;
 
         }
     }

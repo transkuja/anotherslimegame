@@ -11,14 +11,17 @@ public class WalljumpState : PlayerState
 
     public WalljumpState(PlayerCharacterHub _playerCharacterHub) : base(_playerCharacterHub)
     {
-        maxCoolDown = 0.18f;
+        // > 0.06 sinon double saut sur le meme mur
+        maxCoolDown = 0.07f;
     }
     public override void OnBegin()
     {
         base.OnBegin();
         curFixedUpdateFct = PushedFromWall;
-        pushTime = 0.35f;
-        pushForce = 880;
+        // delay avant de retomber par défaut < 0.4 sinon sa fait de la merde, je sais pas pourquoi
+        pushTime = 0.40f;
+        // Force de répulsion > 500
+        pushForce = 800;
         timer = 0;
 
         playerCharacterHub.jumpState.NbJumpMade = 2;
@@ -30,7 +33,9 @@ public class WalljumpState : PlayerState
 
         // Freeze la velocity en xz
         playerCharacterHub.Rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ | RigidbodyConstraints.FreezeRotation;
-        playerCharacterHub.Rb.drag = 14f;
+
+        // Friction a la main
+        playerCharacterHub.Rb.drag = 25f;
     }
     public override void OnEnd()
     {
@@ -48,7 +53,7 @@ public class WalljumpState : PlayerState
         if (timer > pushTime)
         {
             playerCharacterHub.PlayerState = playerCharacterHub.freeState;
-            playerCharacterHub.Rb.AddForce(pushDirection.normalized * pushForce /10.0f);
+            playerCharacterHub.Rb.AddForce(pushDirection.normalized * pushForce /5);
         }
     }
 
