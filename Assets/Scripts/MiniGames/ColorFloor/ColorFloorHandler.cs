@@ -7,14 +7,28 @@ public static class ColorFloorHandler {
     static List<Collider>[] currentlyColoredByPlayer;
     static List<int> currentlyColoredByPlayerToInt;
     static List<Collider> pendingUnregistration = new List<Collider>();
+    static OnColoredFloorTrigger[][] board = new OnColoredFloorTrigger[8][];
 
     static bool isInitialized = false;
 
-    public static void Init(uint _nbPlayers)
+    public static void Init(uint _nbPlayers, GameObject _board)
     {
         currentlyColoredByPlayer = new List<Collider>[_nbPlayers];
         for (int i = 0; i < currentlyColoredByPlayer.Length; i++)
             currentlyColoredByPlayer[i] = new List<Collider>();
+
+        for (int i = 0; i < 8; i++)
+            board[i] = new OnColoredFloorTrigger[8];
+
+        Transform boardTr = _board.transform;
+
+        for (int i = 0; i < 8; i++)
+        {
+            for (int j = 0; j < 8; j++)
+            {
+                board[i][j] = boardTr.GetChild(i).GetChild(j).GetComponent<OnColoredFloorTrigger>();
+            }
+        }
 
         isInitialized = true;
     }
@@ -95,8 +109,7 @@ public static class ColorFloorHandler {
 
     public static void RegisterFloor(int _playerIndex, int _toRegister)
     {
-        Transform board = currentlyColoredByPlayer[_playerIndex][0].transform.parent.parent;
-        RegisterFloor(_playerIndex, board.GetChild(_toRegister / 8).GetChild(_toRegister % 8).GetComponent<Collider>(), true);
+        RegisterFloor(_playerIndex, board[_toRegister / 8][_toRegister % 8].GetComponent<Collider>(), true);
     }
 
     public static bool SquareDetection(OnColoredFloorTrigger _lastStepTrigger, int _playerIndex)

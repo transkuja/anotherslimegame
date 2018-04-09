@@ -14,6 +14,14 @@ public class ColorFloorGameMode : GameMode {
 
     public bool squareToScoreMode = false;
 
+    public GameObject boardReference;
+
+    private void Start()
+    {
+        if (boardReference == null)
+            Debug.LogError("ColorFloorGameMode: Board reference is not linked to gamemode!");
+    }
+
     public List<GameObject> RestrainedMovementStarters
     {
         get
@@ -43,6 +51,7 @@ public class ColorFloorGameMode : GameMode {
         }
 
         LaunchTimer();
+        ColorFloorHandler.Init(GameManager.Instance.ActivePlayersAtStart, boardReference);
     }
 
     public void LaunchTimer()

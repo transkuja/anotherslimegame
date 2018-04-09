@@ -4,14 +4,13 @@ using UnityEngine;
 
 public class ColorFloorPickupHandler : MonoBehaviour
 {
-
     [SerializeField]
     float pickupDelay = 0.5f;
     [SerializeField]
     int maxPickupOnMap = 3;
 
     [HideInInspector]
-    public int pickupSpawned = 0;
+    public static int pickupSpawned = 0;
 
     int mapSize = 0;
     int lineCount;
@@ -23,6 +22,7 @@ public class ColorFloorPickupHandler : MonoBehaviour
 
     IEnumerator Start()
     {
+        pickupSpawned = 0;
         lineCount = transform.childCount;
         for (int i = 0; i < transform.childCount; i++)
             mapSize += transform.GetChild(i).childCount;

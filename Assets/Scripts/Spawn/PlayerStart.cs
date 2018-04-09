@@ -181,10 +181,6 @@ public class PlayerStart : MonoBehaviour {
             PlayersReference.Add(go);
            
         }
-
-        // Ugly shit, should be handled in gamemode @Anthony
-        if (SceneManager.GetActiveScene().name == "MinigameAntho")
-            ColorFloorHandler.Init(activePlayersAtStart);
     }
 
     void InitCustomizable(CustomizableType _type, string _value, Transform _customizableParent)

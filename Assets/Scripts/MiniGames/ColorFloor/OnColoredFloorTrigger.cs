@@ -114,21 +114,6 @@ public class OnColoredFloorTrigger : MonoBehaviour {
         return transform.GetSiblingIndex() + transform.parent.GetSiblingIndex() * 8;
     }
 
-    public ColorFloorPickupHandler PickupHandler
-    {
-        get
-        {
-            if (pickupHandler == null)
-                pickupHandler = FindObjectOfType<ColorFloorPickupHandler>();
-            return pickupHandler;
-        }
-
-        set
-        {
-            pickupHandler = value;
-        }
-    }
-
     public OnColoredFloorTrigger Up
     {
         get
@@ -181,7 +166,8 @@ public class OnColoredFloorTrigger : MonoBehaviour {
                 pickupComponent.collectPickup((int)pc.playerIndex);
 
                 Destroy(pickupComponent.gameObject);
-                PickupHandler.pickupSpawned--;
+                ColorFloorPickupHandler.pickupSpawned--;
+                Debug.Log(ColorFloorPickupHandler.pickupSpawned);
             }
 
             ColorFloorHandler.RegisterFloor((int)pc.playerIndex, GetComponent<Collider>());
