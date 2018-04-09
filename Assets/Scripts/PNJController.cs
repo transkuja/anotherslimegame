@@ -10,7 +10,7 @@ public class PNJController : MonoBehaviour
     // Aggregations
     private PlayerCharacterHub playerCharacterHub;
     private Player player;
-    private Rigidbody rb;
+    //private Rigidbody rb;
 
     private Vector3 originalPos;
     private float timer;
@@ -25,7 +25,7 @@ public class PNJController : MonoBehaviour
         player = GetComponent<Player>();
 
         playerCharacterHub = player.PlayerCharacter as PlayerCharacterHub;
-        rb = playerCharacterHub.Rb;
+        //rb = playerCharacterHub.Rb;
         originalPos = transform.position;
     }
 

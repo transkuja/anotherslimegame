@@ -191,6 +191,7 @@ public class PlayerCharacterHub : PlayerCharacter {
         teleportState = new TeleportState(this);
         PlayerState = freeState;
 
+        playerController = GetComponent<PlayerControllerHub>();
     }
 
     public void Start()

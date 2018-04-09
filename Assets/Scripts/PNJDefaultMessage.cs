@@ -18,7 +18,6 @@ public class PNJDefaultMessage : MonoBehaviour {
 
     private int currentMessage = 0;
     private Vector3[] initialpos = new Vector3[2];
-    private Quaternion initialrot;
 
     // Use this for initialization
     void Start () {
@@ -33,8 +32,6 @@ public class PNJDefaultMessage : MonoBehaviour {
         hasBeenInitialized[1] = false;
         initialpos[0] = transform.position + transform.forward * 4;
         initialpos[1] = transform.position + transform.forward * 4 + transform.right * 2;
-
-        initialrot = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y + 180, transform.eulerAngles.z);
     }
 
 
