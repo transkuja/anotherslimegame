@@ -187,9 +187,9 @@ public class OnColoredFloorTrigger : MonoBehaviour {
             {
                 MinigamePickUp pickupComponent = transform.GetComponentInChildren<MinigamePickUp>();
                 pickupComponent.collectPickup((int)pc.playerIndex);
+                ColorFloorPickupHandler.spawnedPickups.Remove(pickupComponent.gameObject);
 
                 Destroy(pickupComponent.gameObject);
-                ColorFloorPickupHandler.pickupSpawned--;
             }
 
             ColorFloorHandler.RegisterFloor((int)pc.playerIndex, GetComponent<OnColoredFloorTrigger>());

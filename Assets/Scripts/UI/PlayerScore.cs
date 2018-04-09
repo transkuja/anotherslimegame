@@ -50,7 +50,6 @@ public class PlayerScore : MonoBehaviour {
 
     public void SetScoreMiniGamePtsOnly(int _playerIndex, string _points, bool _isPlayingAlone = false)
     {
-        Debug.Log(transform.GetChild(0));
         Transform scorePanel = transform.GetChild(0);
         float offset = scorePanel.GetChild((int)ScorePanel.PlayerIndex).localPosition.y / 4;
         //scorePanel.GetChild((int)ScorePanel.PlayerIndex).localPosition += offset * Vector3.up;
