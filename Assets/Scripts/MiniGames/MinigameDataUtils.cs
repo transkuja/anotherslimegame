@@ -32,6 +32,10 @@ public static class MinigameDataUtils
         {
             return FruitTitle;
         }
+        else if(curGameMode is FruitGameMode2)
+        {
+            return FruitTitle;
+        }
         else if (curGameMode is PushGameMode)
         {
             return ClassicClashTitle;
@@ -66,6 +70,10 @@ public static class MinigameDataUtils
         {
             return FruitTitle;
         }
+        else if (_minigameId == "MiniGameFruits 2")
+        {
+            return FruitTitle;
+        }
         else if (_minigameId == "MinigamePush")
         {
             return ClassicClashTitle;
@@ -92,7 +100,10 @@ public static class MinigameDataUtils
         {
             return "Collect fruits which are associated to your color";
         }
-        //\n Player 1 = Orange (Yellow)\n Player 2 = Apple (Pink)\n Player 3 = Kiwi (Green)\n Player 4 = Strawberry (Red)
+        else if (curGameMode is FruitGameMode2)
+        {
+            return "Collect fruits which are associated to your color";
+        }
         else if (curGameMode is PushGameMode)
         {
             return "Steal other players' coins!";
@@ -125,6 +136,12 @@ public static class MinigameDataUtils
             controls.Add(new ControlDetails(ControlType.Action, "Dash forward with X"));
         }
         else if (curGameMode is FruitGameMode)
+        {
+            controls.Add(new ControlDetails(ControlType.Movement));
+            controls.Add(new ControlDetails(ControlType.Jump));
+            controls.Add(new ControlDetails(ControlType.Action, "Dash forward with X"));
+        }
+        else if (curGameMode is FruitGameMode2)
         {
             controls.Add(new ControlDetails(ControlType.Movement));
             controls.Add(new ControlDetails(ControlType.Jump));
@@ -163,6 +180,11 @@ public static class MinigameDataUtils
             possiblePickups.Add(new PossiblePickup(PickUpType.Changer, "Change all fruits in scene to yours"));
             possiblePickups.Add(new PossiblePickup(PickUpType.Aspirator, "Collect all your fruits"));
         }
+        else if (curGameMode is FruitGameMode2)
+        {
+            possiblePickups.Add(new PossiblePickup(PickUpType.Changer, "Change all fruits in scene to yours"));
+            possiblePickups.Add(new PossiblePickup(PickUpType.Aspirator, "Collect all your fruits"));
+        }
         return possiblePickups;
     }
 
@@ -184,6 +206,10 @@ public static class MinigameDataUtils
         else if (curGameMode is FruitGameMode)
         {
             return "Score " + ((FruitGameMode)_curGameMode).necessaryPointsForRune;
+        }
+        else if (curGameMode is FruitGameMode2)
+        {
+            return "Score " + ((FruitGameMode2)_curGameMode).necessaryPointsForRune;
         }
         return "";
     }
