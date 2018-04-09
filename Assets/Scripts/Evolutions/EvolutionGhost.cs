@@ -16,6 +16,8 @@ public class EvolutionGhost : EvolutionComponent
 
     float trailComponentSpawnIntervalTime = 0.1f;
 
+    Transform parent = null;
+
     float emissionTimeRegenRate = 0.5f;
     float timeSinceLastTrailComponentSpawned = 0.0f;
 
@@ -103,15 +105,23 @@ public class EvolutionGhost : EvolutionComponent
         baseDustTrailMat = playerCharacter.DustTrailParticles.GetComponent<ParticleSystemRenderer>().sharedMaterial;
         ghostDustTrailMat = ResourceUtils.Instance.refPrefabGhost.GhostDustTrailMaterial;
 
+        if (GameManager.Instance.CurrentGameMode.GetType() == typeof(FruitGameMode2))
+        {
+            return;
+        }
+
+
+
         playerCharacter.Body.GetComponent<MeshRenderer>().material = ghostMat;
         playerCharacter.MainGauche.GetComponent<MeshRenderer>().material = ghostMat;
         playerCharacter.MainDroite.GetComponent<MeshRenderer>().material = ghostMat;
         playerCharacter.OreilleGauche.GetComponent<MeshRenderer>().material = ghostMat;
         playerCharacter.OreilleDroite.GetComponent<MeshRenderer>().material = ghostMat;
         playerCharacter.GhostParticles.Play();
-
         playerCharacter.DustTrailParticles.GetComponent<ParticleSystemRenderer>().material = ghostDustTrailMat;
         playerCharacter.DustTrailParticles.transform.GetChild(0).GetComponent<ParticleSystemRenderer>().material = ghostDustTrailMat;
+
+
     }
 
     public void RemoveGhostVisual()
@@ -135,6 +145,12 @@ public class EvolutionGhost : EvolutionComponent
         {
             player.evolutionTutoShown[(int)Powers.Ghost] = true;
             Utils.PopTutoText("Hold LT to leave a trail behind", player);
+        }
+
+        if (GameManager.Instance.CurrentGameMode.GetType() == typeof(FruitGameMode2))
+        {
+            if(FindObjectOfType<MovingPlatform>())
+            parent = FindObjectOfType<MovingPlatform>().transform;
         }
     }
 
@@ -207,7 +223,18 @@ public class EvolutionGhost : EvolutionComponent
                     RaycastHit hit = new RaycastHit();
                     if(Physics.Raycast(ray, out hit, 1.0f, ~(1 << LayerMask.NameToLayer("GhostTrail"))))
                     {
-                        GameObject trailPane = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.GhostTrail).GetItem(null, hit.point + Vector3.up * 0.01f, Quaternion.identity, true, true);
+                        GameObject trailPane = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.GhostTrail).GetItem(parent, hit.point + Vector3.up * 0.01f, Quaternion.identity, true, true);
+                        if (GameManager.Instance.CurrentGameMode.GetType() == typeof(FruitGameMode2))
+                        {
+                            if (GameManager.Instance.DataContainer != null)
+                            {
+                                trailPane.GetComponent<GhostTrail>().color = GameManager.Instance.DataContainer.selectedColors[(int)GetComponent<PlayerController>().PlayerIndex];
+
+                                // On enable de merde
+                                trailPane.GetComponent<GhostTrail>().gameObject.SetActive(false);
+                                trailPane.GetComponent<GhostTrail>().gameObject.SetActive(true);
+                            }
+                        }
                         float scale = Random.Range(0.8f, 1.2f);
                         trailPane.transform.localScale *= scale;
                         timeSinceLastTrailComponentSpawned = 0.0f;

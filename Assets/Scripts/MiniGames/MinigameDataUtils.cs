@@ -10,7 +10,8 @@ public static class MinigameDataUtils
     private static string ClassicKartTitle = "Classic Kart";
     private static string RunnerTitle = "Classic Runner";
     private static string SnowKartTitle = "Snow Kart";
-    private static string FruitTitle = "Frootballs";
+    private static string FruitTitle = "Classic Fruits";
+    private static string FruitTitle2 = "Super Fruits";
     private static string ClassicClashTitle = "Classic Clash";
     private static string SuperRunnerTitle = "Super Runner"; 
 
@@ -38,7 +39,7 @@ public static class MinigameDataUtils
         }
         else if(curGameMode is FruitGameMode2)
         {
-            return FruitTitle;
+            return FruitTitle2;
         }
         else if (curGameMode is PushGameMode)
         {
@@ -78,9 +79,9 @@ public static class MinigameDataUtils
         {
             return FruitTitle;
         }
-        else if (_minigameId == "MiniGameFruits 2")
+        else if (_minigameId == "MiniGameFruits2")
         {
-            return FruitTitle;
+            return FruitTitle2;
         }
         else if (_minigameId == "MinigamePush")
         {

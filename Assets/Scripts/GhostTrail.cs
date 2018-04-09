@@ -16,6 +16,7 @@ public class GhostTrail : MonoBehaviour {
     float fadeInTimer = 0.0f;
     float fadeOutTimer = 0.0f;
     float lifeTimer = 0.0f;
+    public Color color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
 
     private void OnEnable()
     {
@@ -24,7 +25,7 @@ public class GhostTrail : MonoBehaviour {
         fadeOutTimer = 0.0f;
         mr = GetComponent<MeshRenderer>();
         ps = GetComponentInChildren<ParticleSystem>();
-        mr.material.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+        mr.material.color = color;
         fadeIn = true;
         fadeOut = false;
         ps.Play();

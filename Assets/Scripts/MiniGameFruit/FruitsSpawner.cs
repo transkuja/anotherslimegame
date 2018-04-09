@@ -48,14 +48,24 @@ public class FruitsSpawner : MonoBehaviour {
                     switch (nbPlayer)
                     {
                         case 1:
-                            fruit = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.Fruits).GetItem(transform, new Vector3(Random.Range(minX, maxX), 15, Random.Range(minZ, maxZ)), Quaternion.identity, true, false, 0);
+                            subPoolIndex = Random.Range(0, ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.Fruits).PoolParent.childCount - 2);
+                            fruit = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.Fruits).GetItem(transform, new Vector3(Random.Range(minX, maxX), 15, Random.Range(minZ, maxZ)), Quaternion.identity, true, false, subPoolIndex);
                             fruit.GetComponent<BoxCollider>().enabled = true;
                             if (fruit.GetComponent<FruitType>().typeFruit == Fruit.Clementine)
                             {
                                 matClementine.color = GameManager.Instance.DataContainer.selectedColors[0];
                                 fruit.GetComponent<Renderer>().material = matClementine;
                             }
-
+                            else if (fruit.GetComponent<FruitType>().typeFruit == Fruit.Pomme)
+                            {
+                                if(matPomme.color == GameManager.Instance.DataContainer.selectedColors[0])
+                                {
+                                    matPomme.color = Color.black;
+                                    fruit.GetComponent<Renderer>().material = matPomme;
+                                }
+                                else
+                                    fruit.GetComponent<Renderer>().material = matPomme;
+                            }
                             break;
                         case 2:
                             subPoolIndex = Random.Range(0, ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.Fruits).PoolParent.childCount - 2);
@@ -121,12 +131,12 @@ public class FruitsSpawner : MonoBehaviour {
                             break;
                     }
                 }
-                /*else
+                else
                 {
                     subPoolIndex = Random.Range(0, ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.Fruits).PoolParent.childCount);
                     fruit = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.Fruits).GetItem(transform, new Vector3(Random.Range(minX, maxX), 15, Random.Range(minZ, maxZ)), Quaternion.identity, true, false, subPoolIndex);
                     fruit.GetComponent<BoxCollider>().enabled = true;
-                }*/
+                }
             }
         }
     }
