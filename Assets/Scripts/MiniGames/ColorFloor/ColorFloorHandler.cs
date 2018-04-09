@@ -25,10 +25,14 @@ public static class ColorFloorHandler {
         if (!isInitialized)
             return;
 
+        if (_toRegister.GetComponent<OnColoredFloorTrigger>().IsLocked())
+            return;
+
         if (!currentlyColoredByPlayer[_playerIndex].Contains(_toRegister))
         {
             UnregisterFloor(_toRegister);
-            _toRegister.GetComponent<Animator>().SetBool("animate", true);
+            if (!bypassSquareDetection)
+                _toRegister.GetComponent<Animator>().SetBool("animate", true);
 
             currentlyColoredByPlayer[_playerIndex].Add(_toRegister);
             _toRegister.GetComponentInChildren<MeshRenderer>().material.EnableKeyword("_EMISSION");
@@ -264,8 +268,8 @@ public static class ColorFloorHandler {
         // Standard case
         foreach (Collider col in currentlyColoredByPlayer[_playerIndex])
         {
-            col.GetComponentInChildren<MeshRenderer>().material.SetColor("_EmissionColor", Color.black);
-            col.GetComponent<OnColoredFloorTrigger>().currentOwner = -1;
+            //col.GetComponentInChildren<MeshRenderer>().material.SetColor("_EmissionColor", Color.black);
+            col.GetComponent<OnColoredFloorTrigger>().ScoreFromThisFloor();
         }
 
         currentlyColoredByPlayer[_playerIndex].Clear();
@@ -279,6 +283,7 @@ public static class ColorFloorHandler {
         int floorIndex = floorPosition.GetSiblingIndex();
         int lineIndex = lineTransform.GetSiblingIndex();
         List<Collider> pendingRegistration = new List<Collider>();
+        pendingRegistration.Add(_pickupComponent.GetComponentInParent<Collider>());
 
         if (_pickupComponent.pickupType == PickUpType.ColorAround)
         {

@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class OnColoredFloorTrigger : MonoBehaviour {
 
+    enum FloorState { Normal, AnimLocked }
+
     ColorFloorPickupHandler pickupHandler;
 
     public int currentOwner = -1;
@@ -11,6 +13,45 @@ public class OnColoredFloorTrigger : MonoBehaviour {
 
     OnColoredFloorTrigger[] neighbors = new OnColoredFloorTrigger[4];
     enum Side { Up, Down, Left, Right }
+    FloorState currentState = FloorState.Normal;
+    Material material;
+
+    public bool IsLocked()
+    {
+        return currentState == FloorState.AnimLocked;
+    }
+
+    public void ScoreFromThisFloor()
+    {
+        currentState = FloorState.AnimLocked;
+        material.SetColor("_EmissionColor", Color.white);
+        StartCoroutine(AnimScore());
+    }
+
+    IEnumerator AnimScore()
+    {
+        float time = 0.0f;
+        Color colorToApply = GameManager.Instance.PlayerStart.colorPlayer[currentOwner];
+
+        while (colorToApply.maxColorComponent < 3.5f)
+        {
+            time += Time.deltaTime*3;
+            colorToApply *= (1 + time);
+            material.SetColor("_EmissionColor", colorToApply);
+            yield return new WaitForEndOfFrame();
+        }
+        time = 0.0f;
+        while (colorToApply.maxColorComponent > 0.1f)
+        {
+            time += Time.deltaTime * 5;
+            colorToApply *= 1/(1 + time);
+            material.SetColor("_EmissionColor", colorToApply);
+            yield return new WaitForEndOfFrame();
+        }
+
+        currentOwner = -1;
+        currentState = FloorState.Normal;
+    }
 
     void InitUp()
     {
@@ -65,6 +106,7 @@ public class OnColoredFloorTrigger : MonoBehaviour {
         InitRight();
         InitLeft();
         currentOwner = -1;
+        material = GetComponentInChildren<MeshRenderer>().material;
     }
 
     public int GetFloorIndex()
