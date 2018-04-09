@@ -24,14 +24,23 @@ public class OnColoredFloorTrigger : MonoBehaviour {
     public void ScoreFromThisFloor()
     {
         currentState = FloorState.AnimLocked;
-        material.SetColor("_EmissionColor", Color.white);
         StartCoroutine(AnimScore());
+        Invoke("ResetState", 1.0f);
+    }
+
+    void ResetState()
+    {
+        if (currentState == FloorState.AnimLocked)
+        {
+            currentOwner = -1;
+            currentState = FloorState.Normal;
+        }
     }
 
     IEnumerator AnimScore()
     {
         float time = 0.0f;
-        Color colorToApply = GameManager.Instance.PlayerStart.colorPlayer[currentOwner];
+        Color colorToApply = material.GetColor("_EmissionColor");
 
         while (colorToApply.maxColorComponent < 3.5f)
         {
@@ -97,6 +106,20 @@ public class OnColoredFloorTrigger : MonoBehaviour {
         if (neighbors[(int)Side.Left] != null && neighbors[(int)Side.Left].currentOwner == currentOwner) ++result;
         if (neighbors[(int)Side.Right] != null && neighbors[(int)Side.Right].currentOwner == currentOwner) ++result;
         return result;
+    }
+
+    public bool IsPartOfAnEdge()
+    {
+        if (SameColorNeighbors() < 4)
+            return true;
+
+        int availableSides = SameColorNeighbors();
+        if (neighbors[(int)Side.Up].Left != null && neighbors[(int)Side.Up].Left.currentOwner == currentOwner) ++availableSides;
+        if (neighbors[(int)Side.Up].Right != null && neighbors[(int)Side.Up].Right.currentOwner == currentOwner) ++availableSides;
+        if (neighbors[(int)Side.Down].Left != null && neighbors[(int)Side.Down].Left.currentOwner == currentOwner) ++availableSides;
+        if (neighbors[(int)Side.Down].Right != null && neighbors[(int)Side.Up].Right.currentOwner == currentOwner) ++availableSides;
+
+        return availableSides < 8;
     }
 
     private void Start()

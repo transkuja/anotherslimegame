@@ -1,11 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Profiling;
 
 public static class ColorFloorHandler {
 
     static List<OnColoredFloorTrigger>[] currentlyColoredByPlayer;
-    static List<int> currentlyColoredByPlayerToInt;
+    static List<int>[] currentlyColoredByPlayerToInt;
     static List<OnColoredFloorTrigger> pendingUnregistration = new List<OnColoredFloorTrigger>();
     static OnColoredFloorTrigger[][] board = new OnColoredFloorTrigger[8][];
 
@@ -16,6 +17,10 @@ public static class ColorFloorHandler {
         currentlyColoredByPlayer = new List<OnColoredFloorTrigger>[_nbPlayers];
         for (int i = 0; i < currentlyColoredByPlayer.Length; i++)
             currentlyColoredByPlayer[i] = new List<OnColoredFloorTrigger>();
+
+        currentlyColoredByPlayerToInt = new List<int>[_nbPlayers];
+        for (int i = 0; i < currentlyColoredByPlayerToInt.Length; i++)
+            currentlyColoredByPlayerToInt[i] = new List<int>();
 
         for (int i = 0; i < 8; i++)
             board[i] = new OnColoredFloorTrigger[8];
@@ -49,6 +54,7 @@ public static class ColorFloorHandler {
                 _toRegister.GetComponent<Animator>().SetBool("animate", true);
 
             currentlyColoredByPlayer[_playerIndex].Add(_toRegister);
+            currentlyColoredByPlayerToInt[_playerIndex].Add(_toRegister.GetFloorIndex());
             _toRegister.GetComponentInChildren<MeshRenderer>().material.EnableKeyword("_EMISSION");
             _toRegister.GetComponentInChildren<MeshRenderer>().material.SetColor("_EmissionColor", GameManager.Instance.PlayerStart.colorPlayer[_playerIndex]);
             _toRegister.currentOwner = _playerIndex;
@@ -82,6 +88,7 @@ public static class ColorFloorHandler {
                 c.GetComponent<Animator>().SetBool("animate", true);
 
                 currentlyColoredByPlayer[_playerIndex].Add(c);
+                currentlyColoredByPlayerToInt[_playerIndex].Add(c.GetFloorIndex());
                 c.GetComponentInChildren<MeshRenderer>().material.EnableKeyword("_EMISSION");
                 c.GetComponentInChildren<MeshRenderer>().material.SetColor("_EmissionColor", GameManager.Instance.PlayerStart.colorPlayer[_playerIndex]);
                 c.currentOwner = _playerIndex;
@@ -141,7 +148,7 @@ public static class ColorFloorHandler {
         int nbIteration = 0;
         bool squared = false;
 
-        while (paths.Count > 0 && paths[0].Count < currentlyColoredByPlayer[_playerIndex].Count * 2 && !squared) // /!\
+        while (paths.Count > 0 && paths[0].Count < currentlyColoredByPlayer[_playerIndex].Count *2.0f && !squared) // /!\
         {
             OnColoredFloorTrigger _currentTrigger;
             List<List<OnColoredFloorTrigger>> newPaths = new List<List<OnColoredFloorTrigger>>();
@@ -185,7 +192,11 @@ public static class ColorFloorHandler {
                     if (_currentTrigger.Neighbors[i] == null || _currentTrigger.Neighbors[i] == path[path.Count - 2])
                         continue;
 
-                    if (_currentTrigger.Neighbors[i].currentOwner == _playerIndex)
+                    if (!_currentTrigger.Neighbors[i].IsPartOfAnEdge())
+                        continue;
+
+                    if (_currentTrigger.Neighbors[i].currentOwner == _playerIndex && 
+                        (!path.Contains(_currentTrigger.Neighbors[i]) || _currentTrigger.Neighbors[i] == _lastStepTrigger))
                     {
                         List<OnColoredFloorTrigger> newPath = new List<OnColoredFloorTrigger>();
                         newPath.AddRange(path);
@@ -210,10 +221,6 @@ public static class ColorFloorHandler {
         List<int>[] intPath = new List<int>[8];
         bool hasAHole = false;
 
-        currentlyColoredByPlayerToInt = new List<int>();
-        foreach (OnColoredFloorTrigger c in currentlyColoredByPlayer[_playerIndex])
-            currentlyColoredByPlayerToInt.Add(c.GetFloorIndex());
-
         foreach (OnColoredFloorTrigger f in path)
         {
             int floorIndex = f.GetFloorIndex();
@@ -234,12 +241,15 @@ public static class ColorFloorHandler {
                 if (intPath[i].Count == intPath[i][intPath[i].Count - 1] - intPath[i][0] + 1)
                 {
                     ++nbEdges;
+
                 }
                 else
                 {
+                    if (nbEdges == 0)
+                        continue;
                     for (int k = intPath[i][0]; k < intPath[i][intPath[i].Count - 1]; ++k)
                     {
-                        if (!currentlyColoredByPlayerToInt.Contains(k))
+                        if (!currentlyColoredByPlayerToInt[_playerIndex].Contains(k))
                         {
                             hasAHole = true;
                             RegisterFloor(_playerIndex, k);
@@ -265,6 +275,7 @@ public static class ColorFloorHandler {
             {
                 _toUnregister.currentOwner = -1;
                 currentlyColoredByPlayer[i].Remove(_toUnregister);
+                currentlyColoredByPlayerToInt[i].Remove(_toUnregister.GetFloorIndex());
             }
         }
     }
@@ -286,6 +297,7 @@ public static class ColorFloorHandler {
         }
 
         currentlyColoredByPlayer[_playerIndex].Clear();
+        currentlyColoredByPlayerToInt[_playerIndex].Clear();
     }
 
 
