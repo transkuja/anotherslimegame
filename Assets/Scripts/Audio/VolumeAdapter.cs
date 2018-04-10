@@ -12,7 +12,7 @@ public class VolumeAdapter : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if(source.volume != AudioManager.Instance.VolumeFXs)
+        if(AudioManager.Instance || source.volume != AudioManager.Instance.VolumeFXs)
             source.volume = AudioManager.Instance.VolumeFXs * multiplier;
     }
 }
