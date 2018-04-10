@@ -192,6 +192,9 @@ public class PlayerControllerKart : PlayerController {
         if (GameManager.CurrentState != GameState.Normal)
             return;
 
+        if (!sound.isPlaying)
+            sound.Play();
+
         if (dashTimer < dashCooldown)
             dashTimer += Time.deltaTime;
 

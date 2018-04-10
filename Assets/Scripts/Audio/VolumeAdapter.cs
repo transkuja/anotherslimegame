@@ -7,7 +7,8 @@ public class VolumeAdapter : MonoBehaviour {
     AudioSource source;
 	void Start () {
         source = GetComponent<AudioSource>();
-        source.volume = AudioManager.Instance.VolumeFXs * multiplier;
+        if(AudioManager.Instance)
+            source.volume = AudioManager.Instance.VolumeFXs * multiplier;
 	}
 	
 	// Update is called once per frame
