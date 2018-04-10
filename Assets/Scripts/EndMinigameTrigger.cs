@@ -13,8 +13,13 @@ public class EndMinigameTrigger : MonoBehaviour {
             if (refMinigameHandler.GetComponent<HubMinigameHandler>().hasBeenStarted && !DatabaseManager.Db.IsUnlock<DatabaseClass.HatData>(refMinigameHandler.GetComponent<HubMinigameHandler>().id))
             {
                 refMinigameHandler.WinMinigame();
-                other.GetComponent<PlayerCharacterHub>().Rb.drag = 25.0f;
-                other.GetComponent<PlayerCharacterHub>().Rb.velocity = Vector3.zero;
+
+                for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
+                {
+                    GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<PlayerCharacterHub>().Rb.drag = 25.0f;
+                    GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<PlayerCharacterHub>().Rb.velocity = Vector3.zero;
+                }
+ 
             }
 
         }
