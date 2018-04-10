@@ -42,7 +42,7 @@ public class KartGameMode : GameMode {
             if (player != null)
             {
                 player.OnDeathEvent += OnPlayerDeath;
-                player.CallOnValueChange(PlayerUIStat.Points, 0);
+                player.CallOnValueChange(PlayerUIStat.Points, 1);
             }
             PlayerControllerKart pk = playerReferences[i].GetComponent<PlayerControllerKart>();
             if (pk)
