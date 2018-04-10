@@ -96,7 +96,6 @@ public class PNJDefaultMessage : MonoBehaviour {
                 GameManager.ChangeState(GameState.ForcedPauseMGRules);
 
                 PlayerCharacterHub pc = GameManager.Instance.PlayerStart.PlayersReference[playerIndex].GetComponent<PlayerCharacterHub>();
-                pc.Anim.StartPlayback();
                 pc.Rb.drag = 25.0f;
                 pc.Rb.velocity = Vector3.zero;
             }
