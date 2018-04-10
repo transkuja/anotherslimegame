@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class RestrainedByGhostState : PlayerState
 {
-    float maxDuration = 0.75f;
+    float maxDuration = 0.60f;
     float timer = 0.0f;
 
     public void ResetTimer()
