@@ -209,6 +209,17 @@ public class Menu : MonoBehaviour {
                 }
 
                 selectedCustomizables[(int)CustomizableType.Face, i] = dataContainer.selectedFaces[i];
+
+                if (isNonable[(int)CustomizableType.Mustache] && dataContainer.mustachesSelected[i] == "None")
+                    selectedCustomizables[(int)CustomizableType.Mustache, i] = unlockedCustomizables[CustomizableType.Mustache].Count;
+                else
+                    selectedCustomizables[(int)CustomizableType.Mustache, i] = unlockedCustomizables[CustomizableType.Mustache].FindIndex(x => ((DatabaseClass.MustacheData)x).model == dataContainer.mustachesSelected[i]);
+
+                if (isNonable[(int)CustomizableType.Hat] && dataContainer.hatsSelected[i] == "None")
+                    selectedCustomizables[(int)CustomizableType.Hat, i] = unlockedCustomizables[CustomizableType.Hat].Count;
+                else
+                    selectedCustomizables[(int)CustomizableType.Hat, i] = unlockedCustomizables[CustomizableType.Hat].FindIndex(x => ((DatabaseClass.HatData)x).model == dataContainer.hatsSelected[i]);
+
             }
             SetState(MenuState.MinigameSelection);
         }
