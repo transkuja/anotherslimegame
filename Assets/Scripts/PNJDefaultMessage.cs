@@ -30,6 +30,9 @@ public class PNJDefaultMessage : MonoBehaviour {
     // Trigger Enter
     public void CreateUIMessage(int playerIndex)
     {
+        if (GetComponent<SneakyChiefBehavior>() != null && GetComponent<SneakyChiefBehavior>().IsEventOver())
+            needCallEvent = false;
+
         if (Message != null)
         {
             DestroyUIMessage(0);

@@ -29,8 +29,11 @@ public class SneakyChiefBehavior : MonoBehaviour {
 
     public void InitNextStep()
     {
-        ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles).GetItem(null, transform.position + 3.0f * Vector3.up, Quaternion.identity, true, false, (int)HitParticles.BigHit);
         currentStep++;
+        if (IsEventOver())
+            return;
+
+        ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles).GetItem(null, transform.position + 3.0f * Vector3.up, Quaternion.identity, true, false, (int)HitParticles.BigHit);
         if (nextIsABreakable[currentStep])
         {
             GameObject pot = Instantiate(sneakyChiefBreakablePrefabs[Random.Range(0, sneakyChiefBreakablePrefabs.Length)], nextTransforms[currentStep].position, nextTransforms[currentStep].rotation);
@@ -57,6 +60,11 @@ public class SneakyChiefBehavior : MonoBehaviour {
     public int GetNextMessagesLength()
     {
         return messageContainer[currentStep].messages.Length;
+    }
+
+    public bool IsEventOver()
+    {
+        return currentStep == messageContainer.Length;
     }
 }
 
