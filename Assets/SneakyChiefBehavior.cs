@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class SneakyChiefBehavior : MonoBehaviour {
 
-    public string[] messages;
+    [SerializeField]
+    SneakyChiefMessageContainer[] messageContainer;
 
     [SerializeField]
     GameObject[] sneakyChiefBreakablePrefabs;
@@ -23,9 +24,7 @@ public class SneakyChiefBehavior : MonoBehaviour {
     {
         // TODO: Load current step from database    
         currentStep = 0;
-        transform.position = nextTransforms[currentStep].position;
-        transform.rotation = nextTransforms[currentStep].rotation;
-        GetComponent<PNJController>().UpdateOriginalPosition();
+        NextStepCommonProcess();
     }
 
     public void InitNextStep()
@@ -36,17 +35,33 @@ public class SneakyChiefBehavior : MonoBehaviour {
         {
             GameObject pot = Instantiate(sneakyChiefBreakablePrefabs[Random.Range(0, sneakyChiefBreakablePrefabs.Length)], nextTransforms[currentStep].position, nextTransforms[currentStep].rotation);
             pot.GetComponent<SneakyChiefPot>().Init(gameObject);
-            transform.position = nextTransforms[currentStep].position;
-            transform.rotation = nextTransforms[currentStep].rotation;
             gameObject.SetActive(false);
         }
-        else
-        {
-            transform.position = nextTransforms[currentStep].position;
-            transform.rotation = nextTransforms[currentStep].rotation;
-        }
-        GetComponent<PNJController>().UpdateOriginalPosition();
+
+        NextStepCommonProcess();
 
     }
 
+    void NextStepCommonProcess()
+    {
+        transform.position = nextTransforms[currentStep].position;
+        transform.rotation = nextTransforms[currentStep].rotation;
+        GetComponent<PNJController>().UpdateOriginalPosition();
+    }
+
+    public string GetNextMessage(int _messageIndex)
+    {
+        return messageContainer[currentStep].messages[_messageIndex];
+    }
+
+    public int GetNextMessagesLength()
+    {
+        return messageContainer[currentStep].messages.Length;
+    }
+}
+
+[System.Serializable]
+class SneakyChiefMessageContainer
+{
+    public string[] messages;
 }

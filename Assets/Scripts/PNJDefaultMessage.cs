@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class PNJDefaultMessage : MonoBehaviour {
 
     // DEfault message
-    public String[] message;
+    public string[] defaultMessage;
 
     // Ref sur les instances
     public GameObject refCanvasParent;
@@ -20,13 +20,6 @@ public class PNJDefaultMessage : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        if (message.Length > 0)
-        {
-            for (int i = 0; i < 2; i++)
-            {
-                Message[i] = new GameObject[message.Length];
-            }
-        }
 
         // Bon sa c'est un peu dégeulasse mais sa permet de savoir si les messages ont été crés
         hasBeenInitialized[0] = false;
@@ -37,6 +30,34 @@ public class PNJDefaultMessage : MonoBehaviour {
     // Trigger Enter
     public void CreateUIMessage(int playerIndex)
     {
+        if (Message != null)
+        {
+            DestroyUIMessage(0);
+            DestroyUIMessage(1);
+        }
+
+        if (needCallEvent)
+        {
+            int nextMessagesLength = GetComponent<SneakyChiefBehavior>().GetNextMessagesLength();
+            if (nextMessagesLength > 0)
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    Message[i] = new GameObject[nextMessagesLength];
+                }
+            }
+        }
+        else
+        {
+            if (defaultMessage.Length > 0)
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    Message[i] = new GameObject[defaultMessage.Length];
+                }
+            }
+        }
+
         // Donne au uicameraapter le playerindex utilise pour s'orienter face a la camera
         refCanvas[playerIndex] = Instantiate(ResourceUtils.Instance.feedbacksManager.prefabCanvasWithUiCameraAdapter, refCanvasParent.transform);
         refCanvas[playerIndex].GetComponent<UICameraApdater>().PlayerIndex = playerIndex;
@@ -46,7 +67,11 @@ public class PNJDefaultMessage : MonoBehaviour {
         {
             Message[playerIndex][i] = Instantiate(ResourceUtils.Instance.feedbacksManager.prefabMessage, refCanvas[playerIndex].transform);
             Message[playerIndex][i].transform.GetChild(2).GetComponent<Text>().text = GetComponent<Player>().playerName;
-            Message[playerIndex][i].transform.GetChild(3).GetComponent<Text>().text = message[i];
+            if (needCallEvent)
+                Message[playerIndex][i].transform.GetChild(3).GetComponent<Text>().text = GetComponent<SneakyChiefBehavior>().GetNextMessage(i);
+            else
+                Message[playerIndex][i].transform.GetChild(3).GetComponent<Text>().text = defaultMessage[i];
+
             Message[playerIndex][i].SetActive(false);
         }
 
@@ -63,6 +88,9 @@ public class PNJDefaultMessage : MonoBehaviour {
     // TriggerExit
     public void DestroyUIMessage(int playerIndex)
     {
+        if (Message[playerIndex] == null)
+            return;
+
         currentMessage = 0;
         for (int i = 0; i < Message[playerIndex].Length; i++)
         {
