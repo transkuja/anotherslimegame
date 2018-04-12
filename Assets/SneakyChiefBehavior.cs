@@ -46,6 +46,9 @@ public class SneakyChiefBehavior : MonoBehaviour {
 
     void NextStepCommonProcess()
     {
+        if (IsEventOver())
+            return;
+
         transform.position = nextTransforms[DatabaseManager.Db.SneakyChiefProgress].position;
         transform.rotation = nextTransforms[DatabaseManager.Db.SneakyChiefProgress].rotation;
         GetComponent<PNJController>().UpdateOriginalPosition();
