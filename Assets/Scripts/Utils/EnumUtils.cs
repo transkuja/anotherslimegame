@@ -8,4 +8,4 @@ public enum HitParticles
     BigHit
 }
 
-public enum RewardType { Rune, Money, Customizable }
+public enum RewardTypeEnum { None, Rune, Money, Customizable }
