@@ -12,6 +12,7 @@ public class SneakyChiefBehavior : MonoBehaviour {
 
     // Reward list
 
+
     // Next transform
     [SerializeField]
     Transform[] nextTransforms;
@@ -33,13 +34,6 @@ public class SneakyChiefBehavior : MonoBehaviour {
             return;
 
         ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles).GetItem(null, transform.position + 3.0f * Vector3.up, Quaternion.identity, true, false, (int)HitParticles.BigHit);
-        if (nextIsABreakable[DatabaseManager.Db.SneakyChiefProgress])
-        {
-            GameObject pot = Instantiate(sneakyChiefBreakablePrefabs[Random.Range(0, sneakyChiefBreakablePrefabs.Length)], nextTransforms[DatabaseManager.Db.SneakyChiefProgress].position, nextTransforms[DatabaseManager.Db.SneakyChiefProgress].rotation);
-            pot.GetComponent<SneakyChiefPot>().Init(gameObject);
-            gameObject.SetActive(false);
-        }
-
         NextStepCommonProcess();
 
     }
@@ -48,6 +42,13 @@ public class SneakyChiefBehavior : MonoBehaviour {
     {
         if (IsEventOver())
             return;
+
+        if (nextIsABreakable[DatabaseManager.Db.SneakyChiefProgress])
+        {
+            GameObject pot = Instantiate(sneakyChiefBreakablePrefabs[Random.Range(0, sneakyChiefBreakablePrefabs.Length)], nextTransforms[DatabaseManager.Db.SneakyChiefProgress].position, nextTransforms[DatabaseManager.Db.SneakyChiefProgress].rotation);
+            pot.GetComponent<SneakyChiefPot>().Init(gameObject);
+            gameObject.SetActive(false);
+        }
 
         transform.position = nextTransforms[DatabaseManager.Db.SneakyChiefProgress].position;
         transform.rotation = nextTransforms[DatabaseManager.Db.SneakyChiefProgress].rotation;
