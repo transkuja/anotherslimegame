@@ -30,7 +30,7 @@ public class SneakyChiefBehavior : MonoBehaviour {
     public void InitNextStep()
     {
         // TODO: disappear particles
-        ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles).GetItem(null, transform.position + 3.0f * Vector3.up, Quaternion.identity, true);
+        ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles).GetItem(null, transform.position + 3.0f * Vector3.up, Quaternion.identity, true, false, (int)HitParticles.BigHit);
         currentStep++;
         if (nextIsABreakable[currentStep])
         {
