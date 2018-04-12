@@ -19,10 +19,6 @@ public class FruitsSpawner : MonoBehaviour {
     public Material matPomme;
     public Material matKiwi;
     public Material matFraise;
-    //public Material matFruitPourri;
-
-
-    public GameObject planeFruit;
 
 
     GameObject fruit;
@@ -58,9 +54,6 @@ public class FruitsSpawner : MonoBehaviour {
                         if (fruit.GetComponent<FruitType>().typeFruit == Fruit.Clementine)
                         {
                             matClementine.color = GameManager.Instance.DataContainer.selectedColors[0];
-                            /*GameObject go = Instantiate(planeFruit, new Vector3(positionToSpawnPlane.x + 125, positionToSpawnPlane.y, positionToSpawnPlane.z + 125), Quaternion.identity, transform);
-                            yield return new WaitForSeconds(1.0f);
-                            Destroy(go);*/
                             fruit.GetComponent<Renderer>().material = matClementine;
                         }
                         else if (fruit.GetComponent<FruitType>().typeFruit == Fruit.Pomme)
@@ -81,17 +74,11 @@ public class FruitsSpawner : MonoBehaviour {
                         if (fruit.GetComponent<FruitType>().typeFruit == Fruit.Clementine)
                         {
                             matClementine.color = GameManager.Instance.DataContainer.selectedColors[0];
-                            GameObject go = Instantiate(planeFruit, new Vector3(positionToSpawnPlane.x + 125, positionToSpawnPlane.y, positionToSpawnPlane.z + 125), Quaternion.identity);
-                            yield return new WaitForSeconds(1.0f);
-                            Destroy(go);
                             fruit.GetComponent<Renderer>().material = matClementine;
                         }
                         else if (fruit.GetComponent<FruitType>().typeFruit == Fruit.Pomme)
                         {
                             matPomme.color = GameManager.Instance.DataContainer.selectedColors[1];
-                            GameObject go = Instantiate(planeFruit, new Vector3(positionToSpawnPlane.x + 125, positionToSpawnPlane.y, positionToSpawnPlane.z + 125), Quaternion.identity);
-                            yield return new WaitForSeconds(1.0f);
-                            Destroy(go);
                             fruit.GetComponent<Renderer>().material = matPomme;
                         }
                         break;
@@ -102,25 +89,16 @@ public class FruitsSpawner : MonoBehaviour {
                         if (fruit.GetComponent<FruitType>().typeFruit == Fruit.Clementine)
                         {
                             matClementine.color = GameManager.Instance.DataContainer.selectedColors[0];
-                            GameObject go = Instantiate(planeFruit, new Vector3(positionToSpawnPlane.x + 125, positionToSpawnPlane.y, positionToSpawnPlane.z + 125), Quaternion.identity);
-                            yield return new WaitForSeconds(1.0f);
-                            Destroy(go);
                             fruit.GetComponent<Renderer>().material = matClementine;
                         }
                         else if (fruit.GetComponent<FruitType>().typeFruit == Fruit.Pomme)
                         {
                             matPomme.color = GameManager.Instance.DataContainer.selectedColors[1];
-                            GameObject go = Instantiate(planeFruit, new Vector3(positionToSpawnPlane.x + 125, positionToSpawnPlane.y, positionToSpawnPlane.z + 125), Quaternion.identity);
-                            yield return new WaitForSeconds(1.0f);
-                            Destroy(go);
                             fruit.GetComponent<Renderer>().material = matPomme;
                         }
                         else if (fruit.GetComponent<FruitType>().typeFruit == Fruit.Kiwi)
                         {
                             matKiwi.color = GameManager.Instance.DataContainer.selectedColors[2];
-                            GameObject go = Instantiate(planeFruit, new Vector3(positionToSpawnPlane.x + 125, positionToSpawnPlane.y, positionToSpawnPlane.z + 125), Quaternion.identity);
-                            yield return new WaitForSeconds(1.0f);
-                            Destroy(go);
                             fruit.GetComponent<Renderer>().material = matKiwi;
                         }
                         break;
@@ -131,33 +109,21 @@ public class FruitsSpawner : MonoBehaviour {
                         if (fruit.GetComponent<FruitType>().typeFruit == Fruit.Clementine)
                         {
                             matClementine.color = GameManager.Instance.DataContainer.selectedColors[0];
-                            GameObject go = Instantiate(planeFruit, positionToSpawnPlane, Quaternion.identity);
-                            yield return new WaitForSeconds(1.0f);
-                            Destroy(go);
                             fruit.GetComponent<Renderer>().material = matClementine;
                         }
                         else if (fruit.GetComponent<FruitType>().typeFruit == Fruit.Pomme)
                         {
                             matPomme.color = GameManager.Instance.DataContainer.selectedColors[1];
-                            GameObject go = Instantiate(planeFruit, positionToSpawnPlane, Quaternion.identity);
-                            yield return new WaitForSeconds(1.0f);
-                            Destroy(go);
                             fruit.GetComponent<Renderer>().material = matPomme;
                         }
                         else if (fruit.GetComponent<FruitType>().typeFruit == Fruit.Kiwi)
                         {
                             matKiwi.color = GameManager.Instance.DataContainer.selectedColors[2];
-                            GameObject go = Instantiate(planeFruit, positionToSpawnPlane, Quaternion.identity);
-                            yield return new WaitForSeconds(1.0f);
-                            Destroy(go);
                             fruit.GetComponent<Renderer>().material = matKiwi;
                         }
                         else if (fruit.GetComponent<FruitType>().typeFruit == Fruit.Fraise)
                         {
                             matFraise.color = GameManager.Instance.DataContainer.selectedColors[3];
-                            GameObject go = Instantiate(planeFruit, positionToSpawnPlane, Quaternion.identity);
-                            yield return new WaitForSeconds(1.0f);
-                            Destroy(go);
                             fruit.GetComponent<Renderer>().material = matFraise;
                         }
                         break;
