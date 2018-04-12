@@ -10,7 +10,6 @@ public class SneakyChiefBehavior : MonoBehaviour {
     [SerializeField]
     GameObject[] sneakyChiefBreakablePrefabs;
 
-    int currentStep = 0; // TODO: save in DB
     // Reward list
 
     // Next transform
@@ -23,20 +22,20 @@ public class SneakyChiefBehavior : MonoBehaviour {
     private void Start()
     {
         // TODO: Load current step from database    
-        currentStep = 0;
         NextStepCommonProcess();
     }
 
     public void InitNextStep()
     {
-        currentStep++;
+        DatabaseManager.Db.SneakyChiefProgress++;
+
         if (IsEventOver())
             return;
 
         ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles).GetItem(null, transform.position + 3.0f * Vector3.up, Quaternion.identity, true, false, (int)HitParticles.BigHit);
-        if (nextIsABreakable[currentStep])
+        if (nextIsABreakable[DatabaseManager.Db.SneakyChiefProgress])
         {
-            GameObject pot = Instantiate(sneakyChiefBreakablePrefabs[Random.Range(0, sneakyChiefBreakablePrefabs.Length)], nextTransforms[currentStep].position, nextTransforms[currentStep].rotation);
+            GameObject pot = Instantiate(sneakyChiefBreakablePrefabs[Random.Range(0, sneakyChiefBreakablePrefabs.Length)], nextTransforms[DatabaseManager.Db.SneakyChiefProgress].position, nextTransforms[DatabaseManager.Db.SneakyChiefProgress].rotation);
             pot.GetComponent<SneakyChiefPot>().Init(gameObject);
             gameObject.SetActive(false);
         }
@@ -47,24 +46,24 @@ public class SneakyChiefBehavior : MonoBehaviour {
 
     void NextStepCommonProcess()
     {
-        transform.position = nextTransforms[currentStep].position;
-        transform.rotation = nextTransforms[currentStep].rotation;
+        transform.position = nextTransforms[DatabaseManager.Db.SneakyChiefProgress].position;
+        transform.rotation = nextTransforms[DatabaseManager.Db.SneakyChiefProgress].rotation;
         GetComponent<PNJController>().UpdateOriginalPosition();
     }
 
     public string GetNextMessage(int _messageIndex)
     {
-        return messageContainer[currentStep].messages[_messageIndex];
+        return messageContainer[DatabaseManager.Db.SneakyChiefProgress].messages[_messageIndex];
     }
 
     public int GetNextMessagesLength()
     {
-        return messageContainer[currentStep].messages.Length;
+        return messageContainer[DatabaseManager.Db.SneakyChiefProgress].messages.Length;
     }
 
     public bool IsEventOver()
     {
-        return currentStep == messageContainer.Length;
+        return DatabaseManager.Db.SneakyChiefProgress == messageContainer.Length;
     }
 }
 

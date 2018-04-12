@@ -117,6 +117,9 @@ namespace DatabaseClass
         [SerializeField]
         public List<HatData> hats;
 
+        [SerializeField]
+        public int SneakyChiefProgress;
+
         public int NbRunes
         {
             get
