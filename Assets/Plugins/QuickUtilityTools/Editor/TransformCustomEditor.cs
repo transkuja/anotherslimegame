@@ -76,7 +76,7 @@ public class TransformInspector : Editor
     public override void OnInspectorGUI()
     {
         EditorGUIUtility.wideMode = TransformInspector.WIDE_MODE;
-        EditorGUIUtility.labelWidth = 4 *EditorGUIUtility.currentViewWidth/10.0f; // align field to right of inspector
+        EditorGUIUtility.labelWidth = 3 *EditorGUIUtility.currentViewWidth / 10.0f; // align field to right of inspector
         EditorGUIUtility.fieldWidth =  6 * EditorGUIUtility.currentViewWidth / 10.0f;
         this.serializedObject.Update();
 
