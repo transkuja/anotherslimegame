@@ -130,7 +130,10 @@ public class PNJDefaultMessage : MonoBehaviour {
     public void MyCustomEvent()
     {
         // My custom Event on last message.
-
+        if (GetComponent<SneakyChiefBehavior>())
+        {
+            GetComponent<SneakyChiefBehavior>().InitNextStep();
+        }
 
         GameManager.ChangeState(GameState.Normal);
     }

@@ -86,5 +86,11 @@ public class PNJController : MonoBehaviour
         playerCharacterHub.PlayerState.HandleControllerAnim(initialVelocity.x, initialVelocity.y);
     }
 
+    public void UpdateOriginalPosition()
+    {
+        originalPos = transform.position;
+        originalRot = transform.rotation;
+    }
+
 
 }

@@ -14,7 +14,8 @@ public class HubMinigameTrigger : MonoBehaviour
     {
         handler = GetComponentInParent<HubMinigameHandler>();
         defaultmessage = GetComponentInParent<PNJDefaultMessage>();
-        old_is_happy = GetComponentInParent<PNJController>().isHappy;
+        if (GetComponentInParent<PNJController>() != null)
+            old_is_happy = GetComponentInParent<PNJController>().isHappy;
     }
 
     public void OnTriggerEnter(Collider other)
