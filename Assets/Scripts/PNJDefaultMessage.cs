@@ -21,6 +21,10 @@ public class PNJDefaultMessage : MonoBehaviour {
     // Use this for initialization
     void Start () {
 
+        if (defaultMessage.Length == 0)
+        {
+            defaultMessage = new string[1]{ "I don't want to talk to you." };
+        }
         // Bon sa c'est un peu dégeulasse mais sa permet de savoir si les messages ont été crés
         hasBeenInitialized[0] = false;
         hasBeenInitialized[1] = false;
@@ -59,6 +63,8 @@ public class PNJDefaultMessage : MonoBehaviour {
                     Message[i] = new GameObject[defaultMessage.Length];
                 }
             }
+            else
+                return;
         }
 
         // Donne au uicameraapter le playerindex utilise pour s'orienter face a la camera
