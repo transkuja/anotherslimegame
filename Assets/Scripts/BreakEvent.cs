@@ -8,11 +8,14 @@ public class BreakEvent : MonoBehaviour {
 
     public CollectableType type;
 
-    public void OnBreakEvent()
+    public virtual void OnBreakEvent()
     {
-        go.GetComponentInChildren<Collectable>().enabled = true;
+        if (go.GetComponentInChildren<Collectable>() != null)
+        {
+            go.GetComponentInChildren<Collectable>().enabled = true;
 
-        Invoke("SpawnMyself", 10);
+            Invoke("SpawnMyself", 10);
+        }
     }
 
     public void SpawnMyself()

@@ -56,8 +56,8 @@ public class Breakable : MonoBehaviour {
                             break;
 
                     }
-                    GetComponent<BreakEvent>().OnBreakEvent();
                 }
+                GetComponent<BreakEvent>().OnBreakEvent();
             }
 
 
@@ -84,11 +84,12 @@ public class Breakable : MonoBehaviour {
                 AudioManager.Instance.PlayOneShot(AudioManager.Instance.punchFx);
 
 
-            if (GetComponent<MeshRenderer>()) GetComponent<MeshRenderer>().enabled = false;
-            else if (GetComponentInChildren<MeshRenderer>()) GetComponentInChildren<MeshRenderer>().enabled = false;
-            if (GetComponent<Collider>()) GetComponent<Collider>().enabled = false;
-            else if (GetComponentInChildren<Collider>()) GetComponentInChildren<Collider>().enabled = false;
+            foreach (Renderer mr in GetComponentsInChildren<Renderer>())
+                mr.enabled = false;
 
+            foreach (Collider col in GetComponentsInChildren<Collider>())
+                col.enabled = false;
+            
             // pool de morceaux cassés
             int nbFragments = Random.Range(minFragments, maxFragments);
             for (int i = 0; i < nbFragments; i++)
