@@ -15,7 +15,6 @@ public class BonusSpawner : MonoBehaviour {
     public float aspiratorFruitSpawnDelay = 25.0f;
 
     public bool canChange;
-    public bool canAspirate;
 
     public BoxCollider boxColliderSpawn;
     public float minX;
@@ -32,7 +31,7 @@ public class BonusSpawner : MonoBehaviour {
 
     void Start()
     {
-        minX = boxColliderSpawn.transform.position.x -(boxColliderSpawn.transform.localScale.x / 2);
+        minX = boxColliderSpawn.transform.position.x - (boxColliderSpawn.transform.localScale.x / 2);
         maxX = boxColliderSpawn.transform.position.x + boxColliderSpawn.transform.localScale.x / 2;
 
         minZ = boxColliderSpawn.transform.position.z - (boxColliderSpawn.transform.localScale.z / 2);
@@ -53,6 +52,8 @@ public class BonusSpawner : MonoBehaviour {
             {
                 toInstantiate = Instantiate(toInstantiate, new Vector3(Random.Range(minX, maxX), 35, Random.Range(minZ, maxZ)), Quaternion.identity, transform);
                 toInstantiate.GetComponent<Rigidbody>().useGravity = true;
+
+                StartCoroutine(UnspawnBonus(toInstantiate));
             }
 		}
 	}
@@ -67,6 +68,12 @@ public class BonusSpawner : MonoBehaviour {
         return null;
     }
 
+    IEnumerator UnspawnBonus(GameObject go)
+    {
+        yield return new WaitForSeconds(4.0f);
+        Destroy(go);
+    }
+
     public void Update()
     {
         if(canChange)
@@ -74,13 +81,6 @@ public class BonusSpawner : MonoBehaviour {
             StartCoroutine(ChangerFruit());
             canChange = false;
         }
-
-        if(canAspirate)
-        {
-            AspireFruit();
-            canAspirate = false;
-        }
-
     }
 
     public IEnumerator ChangerFruit()
