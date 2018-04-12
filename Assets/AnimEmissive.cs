@@ -21,7 +21,7 @@ public class AnimEmissive : MonoBehaviour {
             yield return new WaitForSeconds(delay);
             Color colorToApply = baseColor;
 
-            while (colorToApply.r < 2.0f)
+            while (colorToApply.maxColorComponent < 2.0f)
             {
                 time += Time.deltaTime*0.25f;
                 colorToApply *= (1 + time);
@@ -30,7 +30,7 @@ public class AnimEmissive : MonoBehaviour {
             }
 
             time = 0.0f;
-            while (colorToApply.r > baseColor.r)
+            while (colorToApply.maxColorComponent > baseColor.r)
             {
                 time += Time.deltaTime * 0.25f;
                 colorToApply *= 1 / (1 + time);
