@@ -8,7 +8,9 @@ public enum FaceType
     Face1,
     Face2,
     Face3,
-    Face4
+    Face4,
+    Face5,
+    Face6
 }
 
 public enum FaceEmotion

@@ -82,7 +82,7 @@
 			}
 
 			fixed4 c = tex2D (_MainTex, uv);
-			col = lerp(col, (saturate(c - .5f)*2.0f), c.a); //(1 - c.a) * _Color;
+			col = lerp(col, c, c.a); //(1 - c.a) * _Color;
 			col.a = 1;
 			o.Albedo = col.rgb;
 

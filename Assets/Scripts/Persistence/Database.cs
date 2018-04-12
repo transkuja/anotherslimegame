@@ -305,8 +305,10 @@ namespace DatabaseClass
 
             // Adding faces
             int idFaces = 0;
-            string[] strFace = { "Happy", "Slimy", "Weary", "Cuty", "Binety" };
+            string[] strFace = { "Happy", "Slimy", "Binety", "Weary", "Cuty", "Doty", "Kitty" };
             faces.Add(new FaceData { Id = strFace[idFaces], indiceForShader = idFaces, isUnlocked = true });
+            faces.Add(new FaceData { Id = strFace[++idFaces], indiceForShader = idFaces, isUnlocked = true });
+            faces.Add(new FaceData { Id = strFace[++idFaces], indiceForShader = idFaces, isUnlocked = true });
             faces.Add(new FaceData { Id = strFace[++idFaces], indiceForShader = idFaces, isUnlocked = true });
             faces.Add(new FaceData { Id = strFace[++idFaces], indiceForShader = idFaces, isUnlocked = true });
             faces.Add(new FaceData { Id = strFace[++idFaces], indiceForShader = idFaces, isUnlocked = true });
