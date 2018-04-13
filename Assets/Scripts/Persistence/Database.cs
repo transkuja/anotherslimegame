@@ -119,6 +119,8 @@ namespace DatabaseClass
 
         [SerializeField]
         public int SneakyChiefProgress;
+        [SerializeField]
+        public int JokerProgress;
 
         public int NbRunes
         {
@@ -360,6 +362,8 @@ namespace DatabaseClass
             //ears.Add(new EarsData { Id = strEars[idEars], model = "Ears/", isUnlocked = false });
             //ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/", isUnlocked = false });
 
+            SneakyChiefProgress = 0;
+            JokerProgress = 0;
         }
 
         public void AllCostToZero()
@@ -387,6 +391,7 @@ namespace DatabaseClass
             SetUnlock<HatData>("Cowboy", false);
             SetUnlock<ColorData>("Candy", false);
             SneakyChiefProgress = 0;
+            JokerProgress = 0;
         }
     }
 

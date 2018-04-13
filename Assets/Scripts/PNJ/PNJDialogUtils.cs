@@ -74,7 +74,15 @@ public static class PNJDialogUtils {
         "all it was doing was collecting dust!#" +
 
         "What do you call a guy with a rubber toe?\n" +
-        "Roberto!#"
+        "Roberto!#" + 
+
+        "What is invisible and smells like carrots?\n" +
+        "Rabbit farts!#" +
+
+        "I'm really starting to hate these stupid little Russian Dolls.\n" +
+        "They're so full of themselves.\n" + 
+        "Here, take this wonderful artefact,\n" +
+        "as a present for supporting me so much!#"
 
     ;
 

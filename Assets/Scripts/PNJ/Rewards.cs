@@ -33,7 +33,7 @@ public class MoneyReward : RewardType
     {
         for (int i = 0; i < quantity; i++)
         {
-            GameObject go = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.Money).GetItem(null, rewardGiver.position + Vector3.up * 0.5f, Quaternion.identity, true);
+            GameObject go = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.Money).GetItem(null, rewardGiver.position + Vector3.up + rewardGiver.forward, Quaternion.identity, true);
             go.GetComponent<Collectable>().Disperse(i);
         }
     }

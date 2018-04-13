@@ -37,7 +37,7 @@ public class PNJDefaultMessage : MonoBehaviour {
     // Trigger Enter
     public void CreateUIMessage(int playerIndex)
     {
-        if (GetComponent<SneakyChiefBehavior>() != null && GetComponent<SneakyChiefBehavior>().IsEventOver())
+        if (GetComponent<PNJDefaultBehavior>() != null && GetComponent<PNJDefaultBehavior>().IsEventOver())
             needCallEvent = false;
 
         if (Message != null)
@@ -48,7 +48,7 @@ public class PNJDefaultMessage : MonoBehaviour {
 
         if (needCallEvent)
         {
-            int nextMessagesLength = GetComponent<SneakyChiefBehavior>().GetNextMessagesLength();
+            int nextMessagesLength = GetComponent<PNJDefaultBehavior>().GetNextMessagesLength();
             if (nextMessagesLength > 0)
             {
                 for (int i = 0; i < 2; i++)
@@ -78,9 +78,9 @@ public class PNJDefaultMessage : MonoBehaviour {
         for (int i = 0; i < Message[playerIndex].Length; i++)
         {
             Message[playerIndex][i] = Instantiate(ResourceUtils.Instance.feedbacksManager.prefabMessage, refCanvas[playerIndex].transform);
-            Message[playerIndex][i].transform.GetChild(2).GetComponent<Text>().text = GetComponent<Player>().playerName;
+            Message[playerIndex][i].transform.GetChild(2).GetComponent<Text>().text = pnjName.ToString();
             if (needCallEvent)
-                Message[playerIndex][i].transform.GetChild(3).GetComponent<Text>().text = GetComponent<SneakyChiefBehavior>().GetNextMessage(i);
+                Message[playerIndex][i].transform.GetChild(3).GetComponent<Text>().text = GetComponent<PNJDefaultBehavior>().GetNextMessage(i);
             else
                 Message[playerIndex][i].transform.GetChild(3).GetComponent<Text>().text = defaultMessage.GetDefaultMessages(0).messages[i];
 
@@ -170,9 +170,9 @@ public class PNJDefaultMessage : MonoBehaviour {
     public void MyCustomEvent()
     {
         // My custom Event on last message.
-        if (GetComponent<SneakyChiefBehavior>())
+        if (GetComponent<PNJDefaultBehavior>())
         {
-            GetComponent<SneakyChiefBehavior>().InitNextStep();
+            GetComponent<PNJDefaultBehavior>().InitNextStep();
         }
 
         GameManager.ChangeState(GameState.Normal);

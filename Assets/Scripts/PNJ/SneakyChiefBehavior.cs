@@ -2,16 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SneakyChiefBehavior : MonoBehaviour {
-
-    [SerializeField]
-    PNJMessages messages;
-
+public class SneakyChiefBehavior : PNJDefaultBehavior
+{
     [SerializeField]
     GameObject[] sneakyChiefBreakablePrefabs;
-
-    // Reward list
-    RewardType[] rewards;
 
     // Next transform
     [SerializeField]
@@ -20,20 +14,12 @@ public class SneakyChiefBehavior : MonoBehaviour {
     // next transform need something to be broken
     bool[] nextIsABreakable = { false, false, true };
 
-    private void Start()
+    protected override void Start()
     {
-        messages = new PNJMessages(PNJDialogUtils.GetDefaultMessages(PNJName.SneakyChief),
-            PNJDialogUtils.GetQuestMessages(PNJName.SneakyChief),
-            PNJDialogUtils.GetDefaultEmotions(PNJName.SneakyChief),
-            PNJDialogUtils.GetQuestEmotions(PNJName.SneakyChief));
-
-        InitRewards();
-
-        // TODO: Load current step from database    
-        NextStepCommonProcess();
+        base.Start();
     }
 
-    public void InitNextStep()
+    public override void InitNextStep()
     {
         rewards[DatabaseManager.Db.SneakyChiefProgress].GetReward();
         DatabaseManager.Db.SneakyChiefProgress++;
@@ -46,7 +32,7 @@ public class SneakyChiefBehavior : MonoBehaviour {
 
     }
 
-    void NextStepCommonProcess()
+    protected override void NextStepCommonProcess()
     {
         transform.position = nextTransforms[(DatabaseManager.Db.SneakyChiefProgress == nextTransforms.Length) ? nextTransforms.Length - 1 : DatabaseManager.Db.SneakyChiefProgress].position;
         transform.rotation = nextTransforms[(DatabaseManager.Db.SneakyChiefProgress == nextTransforms.Length) ? nextTransforms.Length - 1 : DatabaseManager.Db.SneakyChiefProgress].rotation;
@@ -63,22 +49,22 @@ public class SneakyChiefBehavior : MonoBehaviour {
         }
     }
 
-    public string GetNextMessage(int _messageIndex)
+    public override string GetNextMessage(int _messageIndex)
     {
         return messages.GetQuestMessages(DatabaseManager.Db.SneakyChiefProgress).messages[_messageIndex];
     }
 
-    public int GetNextMessagesLength()
+    public override int GetNextMessagesLength()
     {
         return messages.GetQuestMessages(DatabaseManager.Db.SneakyChiefProgress).messages.Length;
     }
 
-    public bool IsEventOver()
+    public override bool IsEventOver()
     {
         return DatabaseManager.Db.SneakyChiefProgress == messages.QuestMessagesLength();
     }
 
-    void InitRewards()
+    protected override void InitRewards()
     {
         rewards = new RewardType[nextTransforms.Length];
         rewards[0] = new RewardType(transform);
