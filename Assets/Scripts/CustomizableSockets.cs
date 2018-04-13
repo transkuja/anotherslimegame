@@ -3,14 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CustomizableSockets : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public Transform[] sockets = new Transform[(int)CustomizableType.Size-2];
+    
+    public Transform GetSocket(CustomizableType type)
+    {
+        return sockets[(int)type - 2];
+    }
 }

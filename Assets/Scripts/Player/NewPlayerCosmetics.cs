@@ -9,12 +9,19 @@ public enum SkinType
     Mixed
 }
 
+public enum ColorFadeType
+{
+    None,
+    Basic,
+    Special
+}
+
 public class NewPlayerCosmetics : MonoBehaviour {
     Material bodyMat;
     Material faceMat;
 
     [SerializeField]
-    bool useColorFade;
+    int colorFadeValue;
 
     [SerializeField]
     Color bodyColor;
@@ -23,7 +30,7 @@ public class NewPlayerCosmetics : MonoBehaviour {
     Texture bodyTexture; // TEMP : Needs to be a choice field according to data from db
 
     [SerializeField]
-    FaceType faceType;
+    int faceType;
 
     [SerializeField]
     FaceEmotion faceEmotion;
@@ -34,6 +41,9 @@ public class NewPlayerCosmetics : MonoBehaviour {
     [SerializeField]
     bool applyOnStart = false;
 
+    int mustacheIndex;
+    int hatIndex;
+    int earsIndex;
 
     public Color BodyColor
     {
@@ -44,48 +54,61 @@ public class NewPlayerCosmetics : MonoBehaviour {
 
         set
         {
+            if (!bodyMat)
+                Init();
+
             bodyColor = value;
             if (skinType == SkinType.Color || skinType == SkinType.Mixed)
                 bodyMat.color = bodyColor;
         }
     }
 
-    public bool UseColorFade
+    public int ColorFadeValue
     {
         get
         {
-            return useColorFade;
+            return colorFadeValue;
         }
 
         set
         {
+            if (!bodyMat)
+                Init();
 
-            int toAssign = value ? 1 : 0;
-            bodyMat.SetInt("_ColorFade", toAssign);
+            colorFadeValue = value;
 
-            useColorFade = value;
+            bodyMat.SetInt("_ColorFade", colorFadeValue);
         }
     }
 
     void ApplyTextureOnly()
     {
+        if (!bodyMat)
+            Init();
+
         bodyMat.color = Color.white;
         bodyMat.SetTexture("_MainTex", bodyTexture);
     }
 
     void ApplyColorOnly()
     {
+        if (!bodyMat)
+            Init();
+
         bodyMat.SetTexture("_MainTex", null);
         BodyColor = bodyColor;
     }
 
     void ApplyMixed()
     {
+        if (!bodyMat)
+            Init();
+
         bodyMat.SetTexture("_MainTex", bodyTexture);
         BodyColor = bodyColor;
     }
 
-    public FaceType FaceType
+    public int FaceType
     {
         get
         {
@@ -94,8 +117,10 @@ public class NewPlayerCosmetics : MonoBehaviour {
 
         set
         {
+            if (!faceMat)
+                Init();
             faceType = value;
-            faceMat.SetTextureOffset("_MainTex", new Vector2((float)faceType/8.0f, 1 - (float)faceEmotion/8.0f));
+            faceMat.SetTextureOffset("_MainTex", new Vector2((faceType-1)/8.0f, 1 - (float)faceEmotion/8.0f)); // faceType-1 due to wrong uv config?
         }
     }
 
@@ -108,8 +133,10 @@ public class NewPlayerCosmetics : MonoBehaviour {
 
         set
         {
+            if (!faceMat)
+                Init();
             faceEmotion = value;
-            faceMat.SetTextureOffset("_MainTex", new Vector2((float)faceType / 8.0f, 1 - (float)faceEmotion / 8.0f));
+            faceMat.SetTextureOffset("_MainTex", new Vector2((faceType - 1) / 8.0f, 1 - (float)faceEmotion / 8.0f));
         }
     }
 
@@ -122,7 +149,9 @@ public class NewPlayerCosmetics : MonoBehaviour {
 
         set
         {
-            
+            if (!faceMat || !bodyMat)
+                Init();
+
             skinType = value;
             switch (skinType)
             {
@@ -148,11 +177,54 @@ public class NewPlayerCosmetics : MonoBehaviour {
 
         set
         {
+            if (!bodyMat)
+                Init();
+
             bodyTexture = value;
             if(skinType == SkinType.Texture || skinType == SkinType.Mixed)
             {
                 bodyMat.SetTexture("_MainTex", bodyTexture);
             }
+        }
+    }
+
+    public int MustacheIndex
+    {
+        get
+        {
+            return mustacheIndex;
+        }
+
+        set
+        {
+            Debug.Log(DatabaseManager.Db.mustaches[value].Id + " selected !");
+            mustacheIndex = value;
+        }
+    }
+
+    public int HatIndex
+    {
+        get
+        {
+            return hatIndex;
+        }
+
+        set
+        {
+            hatIndex = value;
+        }
+    }
+
+    public int EarsIndex
+    {
+        get
+        {
+            return earsIndex;
+        }
+
+        set
+        {
+            earsIndex = value;
         }
     }
 
@@ -163,8 +235,11 @@ public class NewPlayerCosmetics : MonoBehaviour {
 
     public void Init()
     {
-        bodyMat = GetComponentInChildren<Renderer>().materials[0];
-        faceMat = GetComponentInChildren<Renderer>().materials[1];
+        Renderer r = GetComponentInChildren<Renderer>();
+        Material[] originals = r.sharedMaterials;
+        r.materials = new Material[2];
+        bodyMat = r.materials[0] = new Material(originals[0]);
+        faceMat = r.materials[1] = new Material(originals[1]);
 
         if (applyOnStart)
             SetValuesFromEditor();
@@ -186,13 +261,7 @@ public class NewPlayerCosmetics : MonoBehaviour {
         skinType = SkinType.Mixed;
         bodyColor = bodyMat.color;
         bodyTexture = bodyMat.GetTexture("_MainTex");
-        faceType = (FaceType)bodyMat.GetFloat("_FaceType");
+        faceType = (int)bodyMat.GetFloat("_FaceType");
         faceEmotion = (FaceEmotion)bodyMat.GetFloat("_FaceEmotion");
     }
-
-    void Awake () {
-        if (bodyMat == null)
-            Init();
-	}
-
 }
