@@ -141,7 +141,7 @@ public class EvolutionGhost : EvolutionComponent
         base.Start();
         SetPower(Powers.Ghost);
         gameObject.layer = LayerMask.NameToLayer("GhostPlayer");
-        if (!player.evolutionTutoShown[(int)Powers.Ghost] && !GameManager.Instance.CurrentGameMode.IsMiniGame())
+        if (player.evolutionTutoShown != null && player.evolutionTutoShown.Length > 0 && !player.evolutionTutoShown[(int)Powers.Ghost] && !GameManager.Instance.CurrentGameMode.IsMiniGame())
         {
             player.evolutionTutoShown[(int)Powers.Ghost] = true;
             Utils.PopTutoText("Hold LT to leave a trail behind", player);

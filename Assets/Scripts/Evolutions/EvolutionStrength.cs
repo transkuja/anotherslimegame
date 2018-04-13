@@ -14,7 +14,7 @@ public class EvolutionStrength : EvolutionComponent
         SetPower(Powers.Strength);
         playerCharacter.stats.AddBuff(groundSpeedBuff);
         Player playerComponent = GetComponent<Player>();
-        if (!playerComponent.evolutionTutoShown[(int)Powers.Strength] && !GameManager.Instance.CurrentGameMode.IsMiniGame())
+        if (playerComponent.evolutionTutoShown != null && playerComponent.evolutionTutoShown.Length > 0 && !playerComponent.evolutionTutoShown[(int)Powers.Strength] && !GameManager.Instance.CurrentGameMode.IsMiniGame())
         {
             playerComponent.evolutionTutoShown[(int)Powers.Strength] = true;
             Utils.PopTutoText("Press Y in the air", playerComponent);

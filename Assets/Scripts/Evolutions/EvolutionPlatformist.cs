@@ -39,7 +39,7 @@ public class EvolutionPlatformist : EvolutionComponent {
         SetPower(Powers.Platformist);
         Player playerComponent = GetComponent<Player>();
 
-        if (!playerComponent.evolutionTutoShown[(int)Powers.Platformist] && !GameManager.Instance.CurrentGameMode.IsMiniGame())
+        if (playerComponent.evolutionTutoShown != null && playerComponent.evolutionTutoShown.Length > 0 && !playerComponent.evolutionTutoShown[(int)Powers.Platformist] && !GameManager.Instance.CurrentGameMode.IsMiniGame())
         {
             playerComponent.evolutionTutoShown[(int)Powers.Platformist] = true;
             Utils.PopTutoText("Hold RT to create platforms", playerComponent);
