@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UWPAndXInput;
+using UnityEngine.SceneManagement;
 
 public enum ViewMode {
     thirdPerson3d, // Camera + deplacement comme dans  hub
@@ -120,7 +121,7 @@ abstract public class GameMode : MonoBehaviour
         }
 
         Transform ruleScreenRef = GameManager.UiReference.RuleScreen;
-        
+
         ruleScreenRef.GetComponentInChildren<Text>().text = rules.title;
         ruleScreenRef.GetChild(1).GetComponent<Text>().text = rules.howToPlay + ((runeObjective != RuneObjective.None) ? "\n\nRune objective:\n" + rules.runeObtention : "");
         ruleScreenRef.GetChild(1).gameObject.SetActive(true);
@@ -166,6 +167,12 @@ abstract public class GameMode : MonoBehaviour
         }
 
         ruleScreenRef.gameObject.SetActive(true);
+
+        if (GameManager.Instance.previousScene == SceneManager.GetActiveScene().name)
+        {
+            ruleScreenRef.GetComponent<RuleScreenHandler>().StartMinigame();
+        }
+
     }
 
     protected virtual void Update()

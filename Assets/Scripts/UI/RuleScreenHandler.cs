@@ -104,7 +104,7 @@ public class RuleScreenHandler : MonoBehaviour {
 
     }
 
-    void StartMinigame()
+    public void StartMinigame()
     {
         minigameLaunched = true;
         CleanUpAndStart();

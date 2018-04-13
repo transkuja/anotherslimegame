@@ -56,10 +56,12 @@ public class ReplayScreenControls : MonoBehaviour {
             if (cursor == 0)
             {
                 // Reload scene
+                GameManager.Instance.previousScene = SceneManager.GetActiveScene().name;
                 SceneManager.LoadScene(SceneManager.GetActiveScene().name);
             }
             else
             {
+                GameManager.Instance.previousScene = "";
                 if (GameManager.Instance.DataContainer.launchedFromMinigameScreen)
                 {
                     SceneManager.LoadScene(0);

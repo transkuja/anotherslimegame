@@ -36,6 +36,8 @@ public class GameManager : MonoBehaviour {
 
     public int playerWhoPausedTheGame = -1;
 
+    public string previousScene = "";
+
     public static GameManager Instance
     {
         get
