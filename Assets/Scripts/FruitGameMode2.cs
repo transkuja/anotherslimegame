@@ -17,10 +17,8 @@ public class FruitGameMode2 : GameMode {
         checkRuneObjective = CheckRuneObjectiveForFruits;
 
         foreach (GameObject player in playerReferences)
-        {
-            player.GetComponent<Player>().associateFruit = (Fruit)(player.GetComponent<Player>().PlayerController.playerIndex);
             player.AddComponent<EvolutionGhost>();
-        }
+
         LaunchTimer();
     }
 

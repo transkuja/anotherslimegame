@@ -48,8 +48,6 @@ public class Player : MonoBehaviour {
 
     public int rank = 0;
 
-    public Fruit associateFruit;
-
     public MinigamePickUp.Use currentStoredPickup;
     public float airControlFactor = 0.42f;
 

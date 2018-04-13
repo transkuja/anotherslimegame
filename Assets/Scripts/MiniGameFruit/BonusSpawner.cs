@@ -86,7 +86,7 @@ public class BonusSpawner : MonoBehaviour {
     public IEnumerator ChangerFruit()
     {
 
-        Fruit typeToChange = playerTest.associateFruit;
+        Fruit typeToChange = (Fruit)(int)playerTest.GetComponent<PlayerController>().PlayerIndex;
         FruitType[] tabTest = GameObject.Find("FruitSpawner").GetComponent<FruitsSpawner>().GetComponentsInChildren<FruitType>();
         Fruit[] typeToSave = new Fruit[tabTest.Length];
         for (int i = 0; i < tabTest.Length; i++)
@@ -135,7 +135,7 @@ public class BonusSpawner : MonoBehaviour {
     
     public void AspireFruit()
     {
-        Fruit typeFruitPlayer = playerTest.associateFruit;
+        Fruit typeFruitPlayer = (Fruit)(int)playerTest.GetComponent<PlayerController>().PlayerIndex;
         FruitType[] tabTestAspirate = GameObject.Find("FruitSpawner").GetComponent<FruitsSpawner>().GetComponentsInChildren<FruitType>();
         foreach(FruitType type in tabTestAspirate)
         {
