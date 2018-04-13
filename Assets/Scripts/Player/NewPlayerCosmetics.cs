@@ -20,6 +20,8 @@ public class NewPlayerCosmetics : MonoBehaviour {
     Material bodyMat;
     Material faceMat;
 
+    CustomizableSockets customSockets;
+
     [SerializeField]
     int colorFadeValue;
 
@@ -197,8 +199,16 @@ public class NewPlayerCosmetics : MonoBehaviour {
 
         set
         {
-            Debug.Log(DatabaseManager.Db.mustaches[value].Id + " selected !");
             mustacheIndex = value;
+            if (!customSockets)
+                customSockets = GetComponent<CustomizableSockets>();
+            Transform mustacheTransform = customSockets.GetSocket(CustomizableType.Mustache);
+            while (mustacheTransform.childCount > 0)
+                DestroyImmediate(mustacheTransform.GetChild(0).gameObject);
+            if (mustacheIndex > 0)
+            {
+                Instantiate(Resources.Load((DatabaseManager.Db.mustaches[mustacheIndex-1].model)), mustacheTransform);
+            }
         }
     }
 
@@ -235,6 +245,7 @@ public class NewPlayerCosmetics : MonoBehaviour {
 
     public void Init()
     {
+        customSockets = GetComponent<CustomizableSockets>();
         Renderer r = GetComponentInChildren<Renderer>();
         Material[] originals = r.sharedMaterials;
         Material[] newMaterials = new Material[originals.Length];
@@ -270,7 +281,5 @@ public class NewPlayerCosmetics : MonoBehaviour {
         skinType = SkinType.Mixed;
         bodyColor = bodyMat.color;
         bodyTexture = bodyMat.GetTexture("_MainTex");
-        faceType = (int)bodyMat.GetFloat("_FaceType");
-        faceEmotion = (FaceEmotion)bodyMat.GetFloat("_FaceEmotion");
     }
 }
