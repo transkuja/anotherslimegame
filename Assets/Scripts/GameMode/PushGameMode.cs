@@ -8,6 +8,9 @@ public class PushGameMode : GameMode {
     [SerializeField]
     float timer;
 
+    [SerializeField]
+    int pointsOnStart = 500;
+
     public override void StartGame(List<GameObject> playerReferences)
     {
         base.StartGame(playerReferences);
@@ -19,7 +22,7 @@ public class PushGameMode : GameMode {
             player = playerReferences[i].GetComponent<Player>();
             player.UpdateCollectableValue(CollectableType.StrengthEvolution1, 1);
             player.NbLife = 3;
-            player.UpdateCollectableValue(CollectableType.Points, 500);
+            player.UpdateCollectableValue(CollectableType.Points, pointsOnStart);
         }
 
         LaunchTimer();
