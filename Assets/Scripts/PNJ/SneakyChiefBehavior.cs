@@ -5,7 +5,7 @@ using UnityEngine;
 public class SneakyChiefBehavior : MonoBehaviour {
 
     [SerializeField]
-    MessageContainer[] messageContainer;
+    PNJMessages messages;
 
     [SerializeField]
     GameObject[] sneakyChiefBreakablePrefabs;
@@ -22,6 +22,11 @@ public class SneakyChiefBehavior : MonoBehaviour {
 
     private void Start()
     {
+        messages = new PNJMessages(PNJDialogUtils.GetDefaultMessages(PNJName.SneakyChief),
+            PNJDialogUtils.GetQuestMessages(PNJName.SneakyChief),
+            PNJDialogUtils.GetDefaultEmotions(PNJName.SneakyChief),
+            PNJDialogUtils.GetQuestEmotions(PNJName.SneakyChief));
+
         InitRewards();
 
         // TODO: Load current step from database    
@@ -43,6 +48,10 @@ public class SneakyChiefBehavior : MonoBehaviour {
 
     void NextStepCommonProcess()
     {
+        transform.position = nextTransforms[(DatabaseManager.Db.SneakyChiefProgress == nextTransforms.Length) ? nextTransforms.Length - 1 : DatabaseManager.Db.SneakyChiefProgress].position;
+        transform.rotation = nextTransforms[(DatabaseManager.Db.SneakyChiefProgress == nextTransforms.Length) ? nextTransforms.Length - 1 : DatabaseManager.Db.SneakyChiefProgress].rotation;
+        GetComponent<PNJController>().UpdateOriginalPosition();
+
         if (IsEventOver())
             return;
 
@@ -52,25 +61,21 @@ public class SneakyChiefBehavior : MonoBehaviour {
             pot.GetComponent<SneakyChiefPot>().Init(gameObject);
             gameObject.SetActive(false);
         }
-
-        transform.position = nextTransforms[DatabaseManager.Db.SneakyChiefProgress].position;
-        transform.rotation = nextTransforms[DatabaseManager.Db.SneakyChiefProgress].rotation;
-        GetComponent<PNJController>().UpdateOriginalPosition();
     }
 
     public string GetNextMessage(int _messageIndex)
     {
-        return messageContainer[DatabaseManager.Db.SneakyChiefProgress].messages[_messageIndex];
+        return messages.GetQuestMessages(DatabaseManager.Db.SneakyChiefProgress).messages[_messageIndex];
     }
 
     public int GetNextMessagesLength()
     {
-        return messageContainer[DatabaseManager.Db.SneakyChiefProgress].messages.Length;
+        return messages.GetQuestMessages(DatabaseManager.Db.SneakyChiefProgress).messages.Length;
     }
 
     public bool IsEventOver()
     {
-        return DatabaseManager.Db.SneakyChiefProgress == messageContainer.Length;
+        return DatabaseManager.Db.SneakyChiefProgress == messages.QuestMessagesNbr();
     }
 
     void InitRewards()

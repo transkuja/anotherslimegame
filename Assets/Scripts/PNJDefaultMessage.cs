@@ -5,7 +5,8 @@ using UnityEngine.UI;
 public class PNJDefaultMessage : MonoBehaviour {
 
     // DEfault message
-    public MessageContainer[] defaultMessage;
+    public MessageContainer defaultMessage;
+    public PNJName pnjName;
 
     // Ref sur les instances
     public GameObject refCanvasParent;
@@ -20,11 +21,8 @@ public class PNJDefaultMessage : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        defaultMessage = new PNJMessages(PNJDialogUtils.GetDefaultMessages(pnjName), "").GetDefaultMessages();
 
-        if (defaultMessage.Length == 0)
-        {
-            defaultMessage = new MessageContainer(new string[1]{ "I don't want to talk to you." }, new FaceEmotion[1]);
-        }
         // Bon sa c'est un peu dégeulasse mais sa permet de savoir si les messages ont été crés
         hasBeenInitialized[0] = false;
         hasBeenInitialized[1] = false;
@@ -56,11 +54,11 @@ public class PNJDefaultMessage : MonoBehaviour {
         }
         else
         {
-            if (defaultMessage.Length > 0)
+            if (defaultMessage.messages.Length > 0)
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    Message[i] = new GameObject[defaultMessage.Length];
+                    Message[i] = new GameObject[defaultMessage.messages.Length];
                 }
             }
             else
@@ -79,7 +77,7 @@ public class PNJDefaultMessage : MonoBehaviour {
             if (needCallEvent)
                 Message[playerIndex][i].transform.GetChild(3).GetComponent<Text>().text = GetComponent<SneakyChiefBehavior>().GetNextMessage(i);
             else
-                Message[playerIndex][i].transform.GetChild(3).GetComponent<Text>().text = defaultMessage[i];
+                Message[playerIndex][i].transform.GetChild(3).GetComponent<Text>().text = defaultMessage.messages[i];
 
             Message[playerIndex][i].SetActive(false);
         }

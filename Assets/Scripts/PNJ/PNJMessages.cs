@@ -29,11 +29,11 @@ public class MessageContainer
 public class PNJMessages
 {
     enum PNJMessagesType { Default, Quest, Size }
-    MessageContainer[] messages;
+    MessageContainer[][] messages;
 
     public PNJMessages(string _defaultMessages, string _questMessages = "", FaceEmotion[] _defaultMessagesEmotions = null, FaceEmotion[] _questMessagesEmotions = null)
     {
-        messages = new MessageContainer[(_questMessages == "") ? 1 : 2];
+        messages = new MessageContainer[(int)PNJMessagesType.Size][];
         InitMessages(_defaultMessages, PNJMessagesType.Default, _defaultMessagesEmotions);
         InitMessages(_questMessages, PNJMessagesType.Quest, _questMessagesEmotions);
     }
@@ -42,24 +42,47 @@ public class PNJMessages
     void InitMessages(string _messages, PNJMessagesType _type, FaceEmotion[] _emotions)
     {
         if (_messages == "")
-            messages[(int)_type] = new MessageContainer();
+        {
+            messages[(int)_type] = new MessageContainer[1] { new MessageContainer() };
+        }
         else
         {
-            if (_emotions != null)
-                messages[(int)_type] = new MessageContainer(_messages.Split('\n'), _emotions);
-            else
-                messages[(int)_type] = new MessageContainer(_messages.Split('\n'));
+            string[] containers = _messages.Split('#');
+            messages[(int)_type] = new MessageContainer[containers.Length];
+            int emotionIndex = 0;
+            FaceEmotion[] faceEmotions;
+            for (int i = 0; i < containers.Length; i++)
+            {
+                //if (_emotions != null)
+                //{
+                //    faceEmotions = new FaceEmotion[containers[i].Length];
+                //    for (int j = emotionIndex; j < emotionIndex + containers[i].Length; j++)
+                //    {
+                //        faceEmotions[j - emotionIndex] = _emotions[j];
+                //    }
+                //    emotionIndex += containers[i].Length;
+
+                //    messages[(int)_type][i] = new MessageContainer(containers[i].Split('\n'), faceEmotions);
+                //}
+                //else
+                    messages[(int)_type][i] = new MessageContainer(containers[i].Split('\n'));
+            }
         }
     }
 
-    MessageContainer GetDefaultMessages()
+    public MessageContainer GetDefaultMessages(int _index = 0)
     {
-        return messages[(int)PNJMessagesType.Default];
+        return messages[(int)PNJMessagesType.Default][_index];
     }
 
-    MessageContainer GetQuestMessages()
+    public MessageContainer GetQuestMessages(int _index = 0)
     {
-        return messages[(int)PNJMessagesType.Quest];
+        return messages[(int)PNJMessagesType.Quest][_index];
+    }
+
+    public int QuestMessagesNbr()
+    {
+        return messages[(int)PNJMessagesType.Quest].Length;
     }
 }
 
