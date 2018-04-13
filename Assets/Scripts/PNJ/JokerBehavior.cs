@@ -47,13 +47,8 @@ public class JokerBehavior : PNJDefaultBehavior {
     protected override void InitRewards()
     {
         rewards = new RewardType[messages.QuestMessagesLength()];
-        rewards[0] = new MoneyReward(2, transform);
-        rewards[1] = new MoneyReward(2, transform);
-        rewards[2] = new MoneyReward(2, transform);
-        rewards[3] = new MoneyReward(2, transform);
-        rewards[4] = new MoneyReward(2, transform);
-        rewards[5] = new MoneyReward(2, transform);
-        rewards[6] = new MoneyReward(2, transform);
+        for (int i = 0; i < 7; i++)
+            rewards[i] = new MoneyReward(2, transform);
         rewards[7] = new CustomizableReward(transform, CustomizableType.Hat, "Glitter");
     }
 }

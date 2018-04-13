@@ -82,7 +82,7 @@ public static class PNJDialogUtils {
         "I'm really starting to hate these stupid little Russian Dolls.\n" +
         "They're so full of themselves.\n" + 
         "Here, take this wonderful artefact,\n" +
-        "as a present for supporting me so much!#"
+        "as a present for supporting me so much!"
 
     ;
 

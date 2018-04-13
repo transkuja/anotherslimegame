@@ -148,6 +148,11 @@ public class PNJDefaultMessage : MonoBehaviour {
                         // Cas standard
                         GameManager.ChangeState(GameState.Normal);
                     }
+
+                    BbuttonShown[playerIndex].SetActive(true);
+                    currentMessage = 0;
+                    hasBeenInitialized[playerIndex] = false;
+                    CreateUIMessage(playerIndex);
                 }
             }
             else
@@ -174,6 +179,7 @@ public class PNJDefaultMessage : MonoBehaviour {
         {
             GetComponent<PNJDefaultBehavior>().InitNextStep();
         }
+
 
         GameManager.ChangeState(GameState.Normal);
     }
