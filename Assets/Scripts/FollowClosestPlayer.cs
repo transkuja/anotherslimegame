@@ -29,11 +29,35 @@ public class FollowClosestPlayer : MonoBehaviour {
         startForward = transform.forward;
     }
 
-    void Update () {
+    void LateUpdate () {
         if (target)
+        {
+            // Parasite Code
+            if (GetComponent<Cinemachine.CinemachineDollyCart>())
+            {
+                GetComponent<Cinemachine.CinemachineDollyCart>().enabled = false;
+            }
             GetLookAtFromTarget();
+
+        }
+
         if (target == null)
+        {
             FindNewTarget();
+
+            // Parasite Code
+            if (GetComponent<Cinemachine.CinemachineDollyCart>())
+            {
+                if (Vector3.Distance(GetComponent<Cinemachine.CinemachineDollyCart>().m_Path.EvaluatePositionAtUnit(GetComponent<Cinemachine.CinemachineDollyCart>().m_Position, GetComponent<Cinemachine.CinemachineDollyCart>().m_PositionUnits), transform.position) < 0.2f)
+                    GetComponent<Cinemachine.CinemachineDollyCart>().enabled = true;
+                else
+                {
+                    Vector3 dir = GetComponent<Cinemachine.CinemachineDollyCart>().m_Path.EvaluatePositionAtUnit(GetComponent<Cinemachine.CinemachineDollyCart>().m_Position, GetComponent<Cinemachine.CinemachineDollyCart>().m_PositionUnits) - transform.position;
+                    transform.position += dir * Time.deltaTime * (speed/5.0f);
+                    targetLookAt = dir;
+                }
+            }
+        }
 
         float curSpeed = speed;
         if (speedRelativeToAngle)
