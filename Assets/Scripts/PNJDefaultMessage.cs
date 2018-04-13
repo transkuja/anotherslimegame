@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class PNJDefaultMessage : MonoBehaviour {
 
     // DEfault message
-    public string[] defaultMessage;
+    public MessageContainer[] defaultMessage;
 
     // Ref sur les instances
     public GameObject refCanvasParent;
@@ -23,7 +23,7 @@ public class PNJDefaultMessage : MonoBehaviour {
 
         if (defaultMessage.Length == 0)
         {
-            defaultMessage = new string[1]{ "I don't want to talk to you." };
+            defaultMessage = new MessageContainer(new string[1]{ "I don't want to talk to you." }, new FaceEmotion[1]);
         }
         // Bon sa c'est un peu dégeulasse mais sa permet de savoir si les messages ont été crés
         hasBeenInitialized[0] = false;
