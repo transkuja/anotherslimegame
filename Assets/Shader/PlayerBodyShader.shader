@@ -1,12 +1,10 @@
-﻿Shader "Custom/PlayerShader" {
+﻿Shader "Custom/PlayerBodyShader" {
 	Properties{
 		_Color("Color", Color) = (1,1,1,1)
 		_ColorFade("Use Color Fade ? (0 = no, 1 or more = yes)", Int) = 0
-		_EmissiveColor("Emissive Color", Color) = (0, 0, 0, 1)
-		_MainTex ("Faces", 2D) = "black" {}
+		_MainTex ("Main Texture", 2D) = "white" {}
 		_Emissive("Emissive", 2D) = "white" {}
-		_FaceType("Face Type Index", Int) = 0
-		_FaceEmotion("Face Emotion Index", Int) = 0
+		_EmissiveColor("Emissive Color", Color) = (0, 0, 0, 1)
 		_Glossiness ("Smoothness", Range(0,1)) = 0.5
 		_Metallic ("Metallic", Range(0,1)) = 0.0
 	}
@@ -26,7 +24,9 @@
 
 		struct Input {
 			float2 uv_MainTex;
+			float3 worldPos;
 		};
+
 		float _FaceType;
 		float _FaceEmotion;
 		float _ColorFade;
@@ -63,33 +63,26 @@
 		}
 
 		void surf (Input IN, inout SurfaceOutputStandard o) {
-			
-			// Albedo comes from a texture tinted by color
-			float2 mult;
-			mult.x = _FaceType / 8.0f;
-			mult.y = _FaceEmotion / -8.0f;
-
-			float2 uv = IN.uv_MainTex + mult;
+			float3 localPos = IN.worldPos - mul(unity_ObjectToWorld, float4(0, 0, 0, 1)).xyz;
 			float4 col = _Color;
 			if (_ColorFade >= 1)
 			{
 				col.rgb = float3(1, 0, 0);
 				col.rgb = RGBtoHCV(col.rgb);
-				col.r += _Time.x*2.0;
+				if(_ColorFade < 2.0f)
+					col.r += _Time.x*2.0;
+				else
+					col.r += _Time.y*0.75f - localPos.y + sin(localPos.x/4.0f * _Time.x);
 				while (col.r > 1.0)
 					col.r -= 1.0;
 				col.rgb = HUEtoRGB(col.r);
 			}
 
-			fixed4 c = tex2D (_MainTex, uv);
-			col = lerp(col, c, c.a); //(1 - c.a) * _Color;
-			col.a = 1;
-			o.Albedo = col.rgb;
+			o.Albedo = tex2D(_MainTex, IN.uv_MainTex) * col;
 
-			// Metallic and smoothness come from slider variables
 			o.Metallic = _Metallic;
 			o.Smoothness = _Glossiness;
-			o.Alpha = c.a;
+			o.Alpha = col.a;
 			o.Emission = tex2D(_Emissive, IN.uv_MainTex).rgb * _EmissiveColor;
 		}
 		ENDCG
