@@ -10,4 +10,4 @@ public enum HitParticles
 
 public enum RewardTypeEnum { None, Rune, Money, Customizable }
 
-public enum PNJName { Bob, Roger, Risotto, SneakyChief }
+public enum PNJName { Bob, Roger, Risotto, SneakyChief, Joker }

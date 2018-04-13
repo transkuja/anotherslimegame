@@ -75,7 +75,7 @@ public class SneakyChiefBehavior : MonoBehaviour {
 
     public bool IsEventOver()
     {
-        return DatabaseManager.Db.SneakyChiefProgress == messages.QuestMessagesNbr();
+        return DatabaseManager.Db.SneakyChiefProgress == messages.QuestMessagesLength();
     }
 
     void InitRewards()

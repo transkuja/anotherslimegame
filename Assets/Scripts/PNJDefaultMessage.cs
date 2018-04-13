@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class PNJDefaultMessage : MonoBehaviour {
 
     // DEfault message
-    public MessageContainer defaultMessage;
+    public PNJMessages defaultMessage;
     public PNJName pnjName;
 
     // Ref sur les instances
@@ -21,9 +21,14 @@ public class PNJDefaultMessage : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        defaultMessage = new PNJMessages(PNJDialogUtils.GetDefaultMessages(pnjName), "").GetDefaultMessages();
+        defaultMessage = new PNJMessages(
+            PNJDialogUtils.GetDefaultMessages(pnjName), 
+            PNJDialogUtils.GetQuestMessages(pnjName), 
+            PNJDialogUtils.GetDefaultEmotions(pnjName), 
+            PNJDialogUtils.GetQuestEmotions(pnjName)
+        );
 
-        // Bon sa c'est un peu dégeulasse mais sa permet de savoir si les messages ont été crés
+        // Bon sa c'est un peu dégeulasse mais sa permet de savoir si les messages ont été créés
         hasBeenInitialized[0] = false;
         hasBeenInitialized[1] = false;
     }
@@ -54,11 +59,11 @@ public class PNJDefaultMessage : MonoBehaviour {
         }
         else
         {
-            if (defaultMessage.messages.Length > 0)
+            if (defaultMessage.DefaultMessagesLength() > 0)
             {
                 for (int i = 0; i < 2; i++)
                 {
-                    Message[i] = new GameObject[defaultMessage.messages.Length];
+                    Message[i] = new GameObject[defaultMessage.DefaultMessagesLength()];
                 }
             }
             else
@@ -77,7 +82,7 @@ public class PNJDefaultMessage : MonoBehaviour {
             if (needCallEvent)
                 Message[playerIndex][i].transform.GetChild(3).GetComponent<Text>().text = GetComponent<SneakyChiefBehavior>().GetNextMessage(i);
             else
-                Message[playerIndex][i].transform.GetChild(3).GetComponent<Text>().text = defaultMessage.messages[i];
+                Message[playerIndex][i].transform.GetChild(3).GetComponent<Text>().text = defaultMessage.GetDefaultMessages(0).messages[i];
 
             Message[playerIndex][i].SetActive(false);
         }

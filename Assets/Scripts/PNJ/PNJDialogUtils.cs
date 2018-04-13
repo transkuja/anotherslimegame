@@ -43,6 +43,46 @@ public static class PNJDialogUtils {
 
     // Mr Risotto
 
+    // Joker
+    static string JokerDM = "My jokes are the best!";
+    static FaceEmotion[] JokerDE = new FaceEmotion[1] { FaceEmotion.Neutral };
+    static string JokerQM =
+        "Hi,\n" +
+        "Do you have a minute?\n" +
+        "My name's Joker,\n" +
+        "I need to practice my jokes for the joke contest.\n" +
+        "Can I tell you some and ask you what you think of them?\n" +
+        "Here's the first one,\n" +
+        "What do you call a blind dinosaur?\n" +
+        "Doyouthinkhesaurus!#" +
+
+        "Ok next!\n" +
+        "What did one hat say to another?\n" + 
+        "You stay here, I'll go on a head!#" +
+
+        "Here's another one\n" +
+        "How do think the unthinkable?\n" +
+        "With an itheberg!\n" +
+        "You know, like the Titanic!\n" +
+        "How good was this one?!#" +
+
+        "Okay, a better one\n" +
+        "What do you call a belt made out of watches?\n" +
+        "A waist of time!#" +
+
+        "I sold my vacuum the other day…\n" +
+        "all it was doing was collecting dust!#" +
+
+        "What do you call a guy with a rubber toe?\n" +
+        "Roberto!#"
+
+    ;
+
+    static FaceEmotion[] JokerQE = new FaceEmotion[19] {
+        FaceEmotion.Attack, FaceEmotion.Neutral, FaceEmotion.Attack, FaceEmotion.Neutral, FaceEmotion.Attack, FaceEmotion.Neutral, FaceEmotion.Attack,
+        FaceEmotion.Attack, FaceEmotion.Neutral, FaceEmotion.Attack, FaceEmotion.Neutral,
+        FaceEmotion.Attack, FaceEmotion.Neutral, FaceEmotion.Attack, FaceEmotion.Neutral, FaceEmotion.Attack, FaceEmotion.Neutral, FaceEmotion.Attack, FaceEmotion.Neutral
+    };
 
     public static string GetDefaultMessages(PNJName _pnjName)
     {
@@ -50,6 +90,8 @@ public static class PNJDialogUtils {
         {
             case PNJName.SneakyChief:
                 return SneakyChiefDM;
+            case PNJName.Joker:
+                return JokerDM;
         }
         return "";
     }
@@ -60,6 +102,8 @@ public static class PNJDialogUtils {
         {
             case PNJName.SneakyChief:
                 return SneakyChiefQM;
+            case PNJName.Joker:
+                return JokerQM;
         }
         return "";
     }
@@ -70,6 +114,8 @@ public static class PNJDialogUtils {
         {
             case PNJName.SneakyChief:
                 return SneakyChiefDE;
+            case PNJName.Joker:
+                return JokerDE;
         }
         return null;
     }
@@ -80,6 +126,8 @@ public static class PNJDialogUtils {
         {
             case PNJName.SneakyChief:
                 return SneakyChiefQE;
+            case PNJName.Joker:
+                return JokerQE;
         }
         return null;
     }

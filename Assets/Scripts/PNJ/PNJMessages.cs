@@ -5,6 +5,7 @@ public class MessageContainer
     public string[] messages;
     public FaceEmotion[] emotions;
 
+    int currentIndex = 0;
     public MessageContainer(string[] _messages, FaceEmotion[] _emotions)
     {
         messages = _messages;
@@ -24,13 +25,22 @@ public class MessageContainer
         messages = new string[1] { "I don't want to talk to you." };
         emotions = new FaceEmotion[1] { FaceEmotion.Neutral };
     }
+
+    public string GetNextMessage()
+    {
+        string nextMessage = messages[currentIndex];
+        currentIndex++;
+        if (currentIndex == messages.Length)
+            currentIndex = 0;
+        return nextMessage;
+    }
 }
 
 public class PNJMessages
 {
     enum PNJMessagesType { Default, Quest, Size }
     MessageContainer[][] messages;
-
+    
     public PNJMessages(string _defaultMessages, string _questMessages = "", FaceEmotion[] _defaultMessagesEmotions = null, FaceEmotion[] _questMessagesEmotions = null)
     {
         messages = new MessageContainer[(int)PNJMessagesType.Size][];
@@ -80,9 +90,14 @@ public class PNJMessages
         return messages[(int)PNJMessagesType.Quest][_index];
     }
 
-    public int QuestMessagesNbr()
+    public int QuestMessagesLength()
     {
         return messages[(int)PNJMessagesType.Quest].Length;
+    }
+
+    public int DefaultMessagesLength()
+    {
+        return messages[(int)PNJMessagesType.Default].Length;
     }
 }
 
