@@ -39,11 +39,9 @@ public static class MinigameDataUtils
         }
         else if (curGameMode is FruitGameMode)
         {
+            if (_version == 1)
+                return FruitTitle2;
             return FruitTitle;
-        }
-        else if(curGameMode is FruitGameMode2)
-        {
-            return FruitTitle2;
         }
         else if (curGameMode is PushGameMode)
         {
@@ -116,10 +114,6 @@ public static class MinigameDataUtils
         {
             return "Collect fruits which are of your color\n\n Player 1 : Red\n Player 2 : Blue\n Player 3 : Green\n Player 4 : Yellow";
         }
-        else if (curGameMode is FruitGameMode2)
-        {
-            return "Collect fruits which are of your color\n\n Player 1 : Red\n Player 2 : Blue\n Player 3 : Green\n Player 4 : Yellow";
-        }
         else if (curGameMode is PushGameMode)
         {
             return "Steal other players' coins!";
@@ -140,8 +134,8 @@ public static class MinigameDataUtils
         }
         else if (curGameMode is KartGameMode)
         {
-            controls.Add(new ControlDetails(ControlType.DrivingForward));
-            controls.Add(new ControlDetails(ControlType.DrivingReverse));
+            controls.Add(new ControlDetails(ControlType.RightTrigger));
+            controls.Add(new ControlDetails(ControlType.LeftTrigger));
             controls.Add(new ControlDetails(ControlType.Steering));
             controls.Add(new ControlDetails(ControlType.Action, "Boost with X"));
         }
@@ -150,18 +144,19 @@ public static class MinigameDataUtils
             controls.Add(new ControlDetails(ControlType.Movement));
             controls.Add(new ControlDetails(ControlType.Jump));
             controls.Add(new ControlDetails(ControlType.Action, "Dash forward with X"));
+            if (_curGameMode.minigameVersion == 1)
+            {
+                controls.Add(new ControlDetails(ControlType.RightTrigger, "Create platforms with RT"));
+            }
+
         }
         else if (curGameMode is FruitGameMode)
         {
             controls.Add(new ControlDetails(ControlType.Movement));
             controls.Add(new ControlDetails(ControlType.Jump));
             controls.Add(new ControlDetails(ControlType.Action, "Dash forward with X"));
-        }
-        else if (curGameMode is FruitGameMode2)
-        {
-            controls.Add(new ControlDetails(ControlType.Movement));
-            controls.Add(new ControlDetails(ControlType.Jump));
-            controls.Add(new ControlDetails(ControlType.Action, "Dash forward with X"));
+            if (_curGameMode.minigameVersion == 1)
+                controls.Add(new ControlDetails(ControlType.LeftTrigger, "Spray incapacitant with LT"));
         }
         else if (curGameMode is PushGameMode)
         {
@@ -197,11 +192,6 @@ public static class MinigameDataUtils
             possiblePickups.Add(new PossiblePickup(PickUpType.Changer, "Change all fruits in scene to yours"));
             possiblePickups.Add(new PossiblePickup(PickUpType.Aspirator, "Collect all your fruits"));
         }
-        else if (curGameMode is FruitGameMode2)
-        {
-            possiblePickups.Add(new PossiblePickup(PickUpType.Changer, "Change all fruits in scene to yours"));
-            possiblePickups.Add(new PossiblePickup(PickUpType.Aspirator, "Collect all your fruits"));
-        }
         return possiblePickups;
     }
 
@@ -226,10 +216,6 @@ public static class MinigameDataUtils
         else if (curGameMode is FruitGameMode)
         {
             return "Score " + ((FruitGameMode)_curGameMode).necessaryPointsForRune;
-        }
-        else if (curGameMode is FruitGameMode2)
-        {
-            return "Score " + ((FruitGameMode2)_curGameMode).necessaryPointsForRune;
         }
         return "";
     }

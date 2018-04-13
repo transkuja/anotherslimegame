@@ -15,9 +15,6 @@ public class Runner3DGameMode : GameMode {
     public RunnerLevelGenerator levelGenerator;
     int nbDeadPlayers;
 
-    [SerializeField]
-    bool usePlatformist = false;
-
     public EMode Mode
     {
         get
@@ -37,7 +34,7 @@ public class Runner3DGameMode : GameMode {
             if (player != null)
             {
                 player.OnDeathEvent += OnPlayerDeath;
-                if(usePlatformist)
+                if(minigameVersion == 1)
                 {
                     if (player.GetComponent<EvolutionPlatformist>() == null)
                         GameManager.EvolutionManager.AddEvolutionComponent(playerReferences[i], GameManager.EvolutionManager.GetEvolutionByPowerName(Powers.Platformist));

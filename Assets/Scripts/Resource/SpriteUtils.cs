@@ -58,10 +58,7 @@ public class SpriteUtils : MonoBehaviour {
             case ControlType.RightTrigger:
                 result = rightTriggerSprite;
                 break;
-            case ControlType.DrivingForward:
-                result = rightTriggerSprite;
-                break;
-            case ControlType.DrivingReverse:
+            case ControlType.LeftTrigger:
                 result = leftTriggerSprite;
                 break;
             case ControlType.Steering:

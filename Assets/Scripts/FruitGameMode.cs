@@ -17,6 +17,12 @@ public class FruitGameMode : GameMode {
 
         checkRuneObjective = CheckRuneObjectiveForFruits;
 
+        if(minigameVersion == 1)
+        {
+            foreach (GameObject player in playerReferences)
+                player.AddComponent<EvolutionGhost>();
+        }
+
         LaunchTimer();
     }
 

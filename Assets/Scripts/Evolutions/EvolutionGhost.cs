@@ -105,7 +105,7 @@ public class EvolutionGhost : EvolutionComponent
         baseDustTrailMat = playerCharacter.DustTrailParticles.GetComponent<ParticleSystemRenderer>().sharedMaterial;
         ghostDustTrailMat = ResourceUtils.Instance.refPrefabGhost.GhostDustTrailMaterial;
 
-        if (GameManager.Instance.CurrentGameMode.GetType() == typeof(FruitGameMode2))
+        if (GameManager.Instance.CurrentGameMode.GetType() == typeof(FruitGameMode))
         {
             return;
         }
@@ -147,7 +147,7 @@ public class EvolutionGhost : EvolutionComponent
             Utils.PopTutoText("Hold LT to leave a trail behind", player);
         }
 
-        if (GameManager.Instance.CurrentGameMode.GetType() == typeof(FruitGameMode2))
+        if (GameManager.Instance.CurrentGameMode.GetType() == typeof(FruitGameMode))
         {
             if(FindObjectOfType<MovingPlatform>())
             parent = FindObjectOfType<MovingPlatform>().transform;
@@ -224,7 +224,7 @@ public class EvolutionGhost : EvolutionComponent
                     if(Physics.Raycast(ray, out hit, 1.0f, ~(1 << LayerMask.NameToLayer("GhostTrail"))))
                     {
                         GameObject trailPane = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.GhostTrail).GetItem(parent, hit.point + Vector3.up * 0.01f, Quaternion.identity, true, true);
-                        if (GameManager.Instance.CurrentGameMode.GetType() == typeof(FruitGameMode2))
+                        if (GameManager.Instance.CurrentGameMode.GetType() == typeof(FruitGameMode))
                         {
                             if (GameManager.Instance.DataContainer != null)
                             {
