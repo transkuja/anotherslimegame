@@ -39,7 +39,7 @@ public class NewPlayerCosmetics : MonoBehaviour {
     SkinType skinType;
 
     [SerializeField]
-    bool applyOnStart = false;
+    public bool applyOnStart = false;
 
     int mustacheIndex;
     int hatIndex;
@@ -237,9 +237,18 @@ public class NewPlayerCosmetics : MonoBehaviour {
     {
         Renderer r = GetComponentInChildren<Renderer>();
         Material[] originals = r.sharedMaterials;
-        r.materials = new Material[2];
-        bodyMat = r.materials[0] = new Material(originals[0]);
-        faceMat = r.materials[1] = new Material(originals[1]);
+        Material[] newMaterials = new Material[originals.Length];
+
+        for(int i = 0; i < newMaterials.Length; i++)
+        {
+            newMaterials[i] = new Material(originals[i]);
+        }
+
+
+        r.sharedMaterials = newMaterials;
+
+        bodyMat = r.sharedMaterials[0];
+        faceMat = r.sharedMaterials[1];
 
         if (applyOnStart)
             SetValuesFromEditor();
