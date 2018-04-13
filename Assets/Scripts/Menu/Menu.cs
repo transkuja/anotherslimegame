@@ -9,8 +9,10 @@ using System;
 public enum CustomizableType { Color, Face, Ears, Mustache, Hat, Hands, Tail, Size }
 
 public class Menu : MonoBehaviour {
-    public enum MenuState { Common, TitleScreenModeSelection, NumberOfPlayers, CustomisationScreen, MinigameSelection }
-    MenuState currentState = MenuState.TitleScreenModeSelection;
+    public enum MenuState { Common, TitleScreen, ConfirmationScreen, ModeSelection, NumberOfPlayers, CustomisationScreen, MinigameSelection }
+    MenuState currentState = MenuState.TitleScreen;
+
+    // CustomizableType
     bool[] isNonable = { false, false, true, true, true, true, true };
 
     int currentCursor = 0;
@@ -237,7 +239,7 @@ public class Menu : MonoBehaviour {
                 }
             }
             
-            SetState(MenuState.TitleScreenModeSelection);
+            SetState(MenuState.TitleScreen);
         }
     }
 
@@ -258,7 +260,7 @@ public class Menu : MonoBehaviour {
                 || Input.GetKeyDown(KeyCode.Escape))
         {
             // For CustomisationScreen, we want to be sure that Player 1 is not in "ready" state so we handle rewind elsewhere
-            if (currentState != MenuState.TitleScreenModeSelection && currentState != MenuState.CustomisationScreen)
+            if (currentState != MenuState.TitleScreen && currentState != MenuState.CustomisationScreen)
             {
                 ReturnToPreviousState();
                 return;
@@ -284,9 +286,17 @@ public class Menu : MonoBehaviour {
                 {
                     // Do nothing
                 }
-                else if (currentState == MenuState.TitleScreenModeSelection)
+                else if (currentState == MenuState.TitleScreen)
                 {
                     UpdateSelectionVisual(3, 0);
+                }
+                else if (currentState == MenuState.ConfirmationScreen)
+                {
+                    UpdateSelectionVisual(2, 0);
+                }
+                else if (currentState == MenuState.ModeSelection)
+                {
+                    UpdateSelectionVisual(2, 0);
                 }
                 else
                 {
@@ -756,7 +766,21 @@ public class Menu : MonoBehaviour {
         transform.GetChild((int)currentState).gameObject.SetActive(true);
 
         // Mode selection step reset
-        if (currentState == MenuState.TitleScreenModeSelection)
+        if (currentState == MenuState.ModeSelection)
+        {
+            CurrentlySelectedButton = transform.GetChild((int)currentState).GetChild(0).GetChild(currentCursor).GetComponent<Button>();
+            selectedMode = -1;
+        }
+
+        // Mode selection step reset
+        if (currentState == MenuState.TitleScreen)
+        {
+            CurrentlySelectedButton = transform.GetChild((int)currentState).GetChild(0).GetChild(currentCursor).GetComponent<Button>();
+            selectedMode = -1;
+        }
+
+        // Mode selection step reset
+        if (currentState == MenuState.ConfirmationScreen)
         {
             CurrentlySelectedButton = transform.GetChild((int)currentState).GetChild(0).GetChild(currentCursor).GetComponent<Button>();
             selectedMode = -1;
@@ -940,22 +964,42 @@ public class Menu : MonoBehaviour {
             return;
 
         // Exit game has been pressed
-        if (currentCursor == 2 && currentState == MenuState.TitleScreenModeSelection)
+        if (currentState == MenuState.TitleScreen && currentCursor == 2 )
             return;
 
         if (AudioManager.Instance != null && AudioManager.Instance.buttonValidationFx != null)
             AudioManager.Instance.PlayOneShot(AudioManager.Instance.buttonValidationFx);
+
+        // Continue -> Go to Mode Selection
+        if (currentState == MenuState.TitleScreen && currentCursor == 0)
+        {
+            SetState((MenuState)((int)currentState + 2));
+            return;
+        }
+        // No -> Return to Title
+        if (currentState == MenuState.ConfirmationScreen && currentCursor == 1)
+        {
+            SetState((MenuState)((int)currentState -1));
+            return;
+        }
 
         SetState((MenuState)((int)currentState + 1));
     }
 
     void ReturnToPreviousState()
     {
-        if (currentState == MenuState.TitleScreenModeSelection)
+        if (currentState == MenuState.TitleScreen)
             return;
 
         if (AudioManager.Instance != null && AudioManager.Instance.buttonValidationFx != null)
             AudioManager.Instance.PlayOneShot(AudioManager.Instance.buttonValidationFx);
+
+        // In Mode selection -> Go to tile
+        if (currentState == MenuState.ModeSelection)
+        {
+            SetState((MenuState)((int)currentState - 2));
+            return;
+        }
 
         SetState((MenuState)((int)currentState - 1));
     }
@@ -1053,5 +1097,11 @@ public class Menu : MonoBehaviour {
     {
         Debug.Log("Exiting this exciting game.");
         Application.Quit();
+    }
+
+    public void NewGamePressed()
+    {
+        // Reset -> Unlock all -> cowboy / candy / sneakyprogress = 0
+        DatabaseManager.Db.NewGameSettings();
     }
 }

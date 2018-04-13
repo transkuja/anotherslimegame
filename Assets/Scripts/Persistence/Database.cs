@@ -379,6 +379,15 @@ namespace DatabaseClass
                 a.nbRunesToUnlock = -1;
             }
         }
+
+        public void NewGameSettings()
+        {
+            ResetAll();
+            UnlockedAll();
+            SetUnlock<HatData>("Cowboy", false);
+            SetUnlock<ColorData>("Candy", false);
+            SneakyChiefProgress = 0;
+        }
     }
 
 }
