@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BreakEventPot : BreakEvent {
 
-    public override void OnBreakEvent()
+    public override void OnBreakEvent(Player playerTarget)
     {     
         SpawnChief();
     }

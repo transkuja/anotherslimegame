@@ -26,15 +26,9 @@ public class Breakable : MonoBehaviour {
             //OnBreakEvent
             if (GetComponent<BreakEvent>() != null)
             {
-                //if (_player.GetComponent<EvolutionComponent>() != null)
-                //{
-                //    return;
-                //}
-
-                Collectable collectableData = GetComponentInChildren<Collectable>();
-                if (collectableData != null)
+                if (GetComponent<BreakEvent>().GetType() == typeof(BreakEvent))
                 {
-                    switch (collectableData.type)
+                    switch (GetComponent<BreakEvent>().type)
                     {
                         case CollectableType.AgileEvolution1:
                             if (_playerCharacterHub.GetComponent<EvolutionAgile>() != null)
@@ -54,10 +48,9 @@ public class Breakable : MonoBehaviour {
                             break;
                         default:
                             break;
-
                     }
                 }
-                GetComponent<BreakEvent>().OnBreakEvent();
+                GetComponent<BreakEvent>().OnBreakEvent(_playerCharacterHub.GetComponent<Player>());
             }
 
 
@@ -83,19 +76,11 @@ public class Breakable : MonoBehaviour {
             if (AudioManager.Instance != null && AudioManager.Instance.punchFx != null)
                 AudioManager.Instance.PlayOneShot(AudioManager.Instance.punchFx);
 
-            if (GetComponent<MeshRenderer>()) GetComponent<MeshRenderer>().enabled = false;
-            else if (GetComponentInChildren<MeshRenderer>())
-            {
-                    foreach (Renderer mr in GetComponentsInChildren<Renderer>())
-                      mr.enabled = false;
-            }
 
-            if (GetComponent<Collider>()) GetComponent<Collider>().enabled = false;
-            else if (GetComponentInChildren<Collider>())
-            {
-                foreach (Collider col in GetComponentsInChildren<Collider>())
-                    col.enabled = false;
-            }
+            foreach (Renderer mr in GetComponentsInChildren<Renderer>())
+                mr.enabled = false;
+            foreach (Collider col in GetComponentsInChildren<Collider>())
+                col.enabled = false;
 
             // pool de morceaux cassés
             int nbFragments = Random.Range(minFragments, maxFragments);

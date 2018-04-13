@@ -8,24 +8,25 @@ public class BreakEvent : MonoBehaviour {
 
     public CollectableType type;
 
-    public virtual void OnBreakEvent()
+    public virtual void OnBreakEvent(Player playerTarget)
     {
-        if (go.GetComponentInChildren<Collectable>() != null)
-        {
-            go.GetComponentInChildren<Collectable>().enabled = true;
+        playerTarget.UpdateCollectableValue(type, 1);
 
-            Invoke("SpawnMyself", 10);
-        }
+        Invoke("ReactivateMySelf", 7);
     }
 
-    public void SpawnMyself()
+    public void ReactivateMySelf()
     {
-        GetComponent<MeshRenderer>().enabled = true;
-        GetComponent<BoxCollider>().enabled = true;
-        GameObject p = ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(transform.position, transform.rotation, transform, type);
-        p.transform.localScale = new Vector3(0.33f, 0.33f, 0.33f);
-        p.GetComponent<Collectable>().enabled = false;
+        foreach (Collider col in GetComponentsInChildren<Collider>())
+            col.enabled = true;
+        foreach (Renderer mr in GetComponentsInChildren<Renderer>())
+            mr.enabled = true;
+        //GetComponent<MeshRenderer>().enabled = true;
+        //GetComponent<BoxCollider>().enabled = true;
+        //GameObject p = ResourceUtils.Instance.refPrefabLoot.SpawnCollectableInstance(transform.position, transform.rotation, transform, type);
+        //p.transform.localScale = new Vector3(0.33f, 0.33f, 0.33f);
+        //p.GetComponent<Collectable>().enabled = false;
 
-        GetComponent<BreakEvent>().go = p;
+        //GetComponent<BreakEvent>().go = p;
     }
 }
