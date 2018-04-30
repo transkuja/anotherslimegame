@@ -8,13 +8,13 @@ using UnityEngine.SceneManagement;
 public class ReplayScreenControlsHub : MonoBehaviour {
 
     public delegate void Callback(); // declare delegate type
-    public Callback callbackFct; // to store the function
+    public Callback validationFct; // to store the function
+    public Callback refusalFct;
 
     int cursor = 0;
     GamePadState prevControllerState;
     GamePadState controllerState;
 
-    public HubMinigameHandler refMinigameHandler;
     public int index = -1;
 
     [SerializeField]
@@ -58,46 +58,23 @@ public class ReplayScreenControlsHub : MonoBehaviour {
         }
 
         // Callback
-        if (callbackFct != null)
+
+        if (prevControllerState.Buttons.A == ButtonState.Released && controllerState.Buttons.A == ButtonState.Pressed)
         {
-            if (prevControllerState.Buttons.A == ButtonState.Released && controllerState.Buttons.A == ButtonState.Pressed)
+            if (AudioManager.Instance != null && AudioManager.Instance.buttonValidationFx != null)
+                AudioManager.Instance.PlayOneShot(AudioManager.Instance.buttonValidationFx);
+
+            if (cursor == 0)
             {
-                if (AudioManager.Instance != null && AudioManager.Instance.buttonValidationFx != null)
-                    AudioManager.Instance.PlayOneShot(AudioManager.Instance.buttonValidationFx);
-
-                if (cursor == 0)
-                {
-                    callbackFct();
-                }
-                else
-                {
-                    Destroy(gameObject);
-                    GameManager.ChangeState(GameState.Normal);
-                }
+                if (validationFct != null)
+                    validationFct();
             }
-        }
-        else
-        {
-            if (!refMinigameHandler)
-                return;
-
-            // Dialog
-            if (prevControllerState.Buttons.A == ButtonState.Released && controllerState.Buttons.A == ButtonState.Pressed)
+            else
             {
-                if (AudioManager.Instance != null && AudioManager.Instance.buttonValidationFx != null)
-                    AudioManager.Instance.PlayOneShot(AudioManager.Instance.buttonValidationFx);
-
-                if (cursor == 0)
-                {
-                    refMinigameHandler.PrepareForStart();
-                }
-                else
-                {
-                    refMinigameHandler.CleanMinigameHub();
-                }
+                if (refusalFct != null)
+                    refusalFct();
+                if (gameObject) Destroy(gameObject);
             }
-        }
-
-    
+        }    
     }
 }

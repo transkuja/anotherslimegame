@@ -131,6 +131,9 @@ public class InitTeleporter : MonoBehaviour {
 
     public void LoadMinigame()
     {
+        //Just in case
+        ReturnToNormalState();
+
         List<GameObject> players = GameManager.Instance.PlayerStart.PlayersReference;
         for (int i = 0; i < players.Count; i++)
         {
@@ -168,5 +171,10 @@ public class InitTeleporter : MonoBehaviour {
         }
     }
 
+
+    public void ReturnToNormalState()
+    {
+        GameManager.ChangeState(GameState.Normal);
+    }
 
 }

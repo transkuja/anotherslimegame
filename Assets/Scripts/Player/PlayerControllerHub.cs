@@ -272,7 +272,8 @@ public class PlayerControllerHub : PlayerController
                 GameObject retryMessageGo = Instantiate(ResourceUtils.Instance.feedbacksManager.prefabReplayScreenHub, GameManager.UiReference.transform);
                 retryMessageGo.transform.GetChild(0).GetChild(0).GetComponent<UnityEngine.UI.Text>().text = Utils.GetRetryMessage(MessageTypeMinigame.AreyoureadyOtherPlayer);
                 retryMessageGo.GetComponent<ReplayScreenControlsHub>().index = 1;
-                retryMessageGo.GetComponent<ReplayScreenControlsHub>().callbackFct += Player.RefInitTeleporter.LoadMinigame;
+                retryMessageGo.GetComponent<ReplayScreenControlsHub>().validationFct += Player.RefInitTeleporter.LoadMinigame;
+                retryMessageGo.GetComponent<ReplayScreenControlsHub>().refusalFct += Player.RefInitTeleporter.ReturnToNormalState;
                 GameManager.ChangeState(GameState.ForcedPauseMGRules);
             }
             else

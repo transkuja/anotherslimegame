@@ -119,8 +119,8 @@ public class HubMinigameHandler : MonoBehaviour {
             retryMessageGo.GetComponent<ReplayScreenControlsHub>().index = 0;
         }
 
-        retryMessageGo.GetComponent<ReplayScreenControlsHub>().refMinigameHandler = this;
-
+        retryMessageGo.GetComponent<ReplayScreenControlsHub>().validationFct += PrepareForStart;
+        retryMessageGo.GetComponent<ReplayScreenControlsHub>().refusalFct += CleanMinigameHub;
     }
 
     public void PrepareForStart()
@@ -236,7 +236,8 @@ public class HubMinigameHandler : MonoBehaviour {
         retryMessageGo = Instantiate(ResourceUtils.Instance.feedbacksManager.prefabReplayScreenHub, GameManager.UiReference.transform);
         retryMessageGo.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = Utils.GetRetryMessage(MessageTypeMinigame.Retry);
         retryMessageGo.GetComponent<ReplayScreenControlsHub>().index = 0;
-        retryMessageGo.GetComponent<ReplayScreenControlsHub>().refMinigameHandler = this;
+        retryMessageGo.GetComponent<ReplayScreenControlsHub>().validationFct += PrepareForStart;
+        retryMessageGo.GetComponent<ReplayScreenControlsHub>().refusalFct += CleanMinigameHub;
     }
 
     public void CreateUIHubMinigame(int playerIndex)
