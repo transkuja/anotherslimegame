@@ -99,7 +99,6 @@ public class BonusSpawner : MonoBehaviour {
 
     public IEnumerator ChangerFruit()
     {
-        //StopCoroutine(UnspawnBonus());
         Fruit typeToChange = (Fruit)(int)playerTest.GetComponent<PlayerController>().PlayerIndex;
         FruitType[] tabTest = GameObject.Find("FruitSpawner").GetComponent<FruitsSpawner>().GetComponentsInChildren<FruitType>();
         Fruit[] typeToSave = new Fruit[tabTest.Length];
@@ -107,7 +106,7 @@ public class BonusSpawner : MonoBehaviour {
         {
             typeToSave[i] = tabTest[i].typeFruit;
             tabTest[i].typeFruit = typeToChange;
-            if(tabTest[i].typeFruit == Fruit.Clementine)
+            if (tabTest[i].typeFruit == Fruit.Clementine)
             {
                 tabTest[i].gameObject.GetComponent<Renderer>().material.color = matClementine.color;
             }
@@ -125,7 +124,7 @@ public class BonusSpawner : MonoBehaviour {
             }
         }
         yield return new WaitForSeconds(2.0f);
-        for(int j = 0; j < tabTest.Length; j++)
+        for (int j = 0; j < tabTest.Length; j++)
         {
             tabTest[j].typeFruit = typeToSave[j];
             if (tabTest[j].typeFruit == Fruit.Clementine)
