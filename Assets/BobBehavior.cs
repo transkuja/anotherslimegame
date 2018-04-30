@@ -205,20 +205,12 @@ public class BobBehavior : PNJDefaultBehavior
                 else
                 {
                     triggerEnd.transform.GetChild(0).gameObject.SetActive(false);
-                    for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
-                    {
-                        GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<Player>().transform.GetChild(1).gameObject.SetActive(true);
-                    }
                 }
             }
             else
             {
                 // Fade.... ?
                 triggerEnd.transform.GetChild(0).gameObject.SetActive(true);
-                for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
-                {
-                    GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<Player>().transform.GetChild(1).gameObject.SetActive(false);
-                }
             }
         }
     }
@@ -267,9 +259,12 @@ public class BobBehavior : PNJDefaultBehavior
          );
 
         GameManager.ChangeState(GameState.Normal);
-        GetComponent<PNJDefaultMessage>().CreateUIMessage(0);
-       GetComponent<PNJDefaultMessage>().DisplayMessage(0);
 
+        // TMP
+        GetComponent<PNJDefaultMessage>().CreateUIMessage(0);
+        GetComponent<PNJDefaultMessage>().Message[0][0].SetActive(true);
+
+        yield return new WaitForSeconds(2.0f);
         hasWin = true;
         toDesactivate.SetActive(false);
         rewards[0].GetReward();

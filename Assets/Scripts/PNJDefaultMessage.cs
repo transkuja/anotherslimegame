@@ -13,7 +13,7 @@ public class PNJDefaultMessage : MonoBehaviour {
     private GameObject[] refCanvas = new GameObject[2];
     private GameObject[] BbuttonShown = new GameObject[2];
     public bool[] hasBeenInitialized = new bool[2];
-    private GameObject[][] Message = new GameObject[2][];
+    public GameObject[][] Message = new GameObject[2][];
     private int currentMessage = 0;
 
     // Event
