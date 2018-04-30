@@ -38,6 +38,17 @@ public static class PNJDialogUtils {
     };
 
     // Bob 
+    static string BobDM = "I already gave you my hat";
+    static FaceEmotion[] BobDE = new FaceEmotion[1] { FaceEmotion.Neutral };
+    static string BobQM =
+        "If you reach the goal in time\n" +
+        "I will give you my hat.#" +
+
+        "Well done, take this !"
+    ;
+    static FaceEmotion[] BobQE = new FaceEmotion[3] {
+        FaceEmotion.Neutral, FaceEmotion.Neutral, FaceEmotion.Winner
+    };
 
     // Roger
 
@@ -100,6 +111,8 @@ public static class PNJDialogUtils {
                 return SneakyChiefDM;
             case PNJName.Joker:
                 return JokerDM;
+            case PNJName.Bob:
+                return BobDM;
         }
         return "";
     }
@@ -112,6 +125,8 @@ public static class PNJDialogUtils {
                 return SneakyChiefQM;
             case PNJName.Joker:
                 return JokerQM;
+            case PNJName.Bob:
+                return BobQM;
         }
         return "";
     }
@@ -124,6 +139,8 @@ public static class PNJDialogUtils {
                 return SneakyChiefDE;
             case PNJName.Joker:
                 return JokerDE;
+            case PNJName.Bob:
+                return BobDE;
         }
         return null;
     }
@@ -136,6 +153,8 @@ public static class PNJDialogUtils {
                 return SneakyChiefQE;
             case PNJName.Joker:
                 return JokerQE;
+            case PNJName.Bob:
+                return BobQE;
         }
         return null;
     }

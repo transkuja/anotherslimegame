@@ -8,8 +8,6 @@ public delegate void UIfct(int _newValue);
 public class Player : MonoBehaviour {
     public uint activeEvolutions = 0;
 
-    public String playerName;
-
     public Transform respawnPoint;
     public GameObject cameraReference;
 

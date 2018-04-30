@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class EndMinigameTrigger : MonoBehaviour {
 
-    public HubMinigameHandler refMinigameHandler;
+    public BobBehavior refBobBehavior;
 
     private void OnTriggerEnter(Collider other)
     {
-        if( other.tag =="Player" && other.GetComponent<PlayerControllerHub>() && refMinigameHandler != null)
+        if( other.tag =="Player" && other.GetComponent<PlayerControllerHub>() && refBobBehavior != null)
         {
-            if (refMinigameHandler.GetComponent<HubMinigameHandler>().hasBeenStarted && !DatabaseManager.Db.IsUnlock<DatabaseClass.HatData>(refMinigameHandler.GetComponent<HubMinigameHandler>().id))
+            if (refBobBehavior.IsMinigameStarted() && !DatabaseManager.Db.IsUnlock<DatabaseClass.HatData>("Cowboy"))
             {
-                refMinigameHandler.WinMinigame();
+                refBobBehavior.WinMinigame();
 
                 for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
                 {

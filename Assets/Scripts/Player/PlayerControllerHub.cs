@@ -1,6 +1,8 @@
 ﻿using UWPAndXInput;
 using UnityEngine;
 
+public enum ControlsState { Normal, Dialog };
+
 // Gère les input selon l'input appelle des action codée dans une playerState.
 public class PlayerControllerHub : PlayerController
 {
@@ -9,6 +11,8 @@ public class PlayerControllerHub : PlayerController
     float timeBeforeTeleportation;
     float timeBeforeTeleportationReset = 1.5f;
     bool canTeleportAgain = true;
+
+    public ControlsState myControlState;
 
     #region Controller
 
@@ -115,10 +119,10 @@ public class PlayerControllerHub : PlayerController
             base.Update();
 
             if (GameManager.CurrentState == GameState.ForcedPauseMGRules)
-            {
-                HandlePNJWithController((int)PlayerIndex);
-            }
-            else if (GameManager.CurrentState == GameState.Normal)
+                return;
+
+ 
+            if (myControlState == ControlsState.Normal)
             {
                 HandleJumpWithController();
                 HandleMovementWithController();
@@ -126,10 +130,18 @@ public class PlayerControllerHub : PlayerController
                 PlatformistController();
                 GhostController();
                 TeleportToOtherPlayer();
-                HandlePNJWithController((int)PlayerIndex);
                 if (Player.RefInitTeleporter != null)
                     LaunchMinigameInput();
             }
+            else if(myControlState == ControlsState.Dialog)
+            {
+                Rb.drag = 25.0f;
+                Rb.velocity = Vector3.zero;
+                playerCharacterHub.PlayerState.HandleControllerAnim(0,0);
+            }
+
+            HandlePNJWithController((int)PlayerIndex);
+
         }
     }
     public Vector3 GetVelocity3DThirdPerson(Vector3 initialVelocity, float airControlFactor)
@@ -233,28 +245,17 @@ public class PlayerControllerHub : PlayerController
     public void HandlePNJWithController(int indexPlayer)
     {
         // TMP
-        if (GameManager.CurrentState == GameState.ForcedPauseMGRules)
+        if (myControlState == ControlsState.Dialog)
         {
-            if (Player.RefHubMinigameHandler != null)
-            {
-                if (PrevState.Buttons.A == ButtonState.Released && State.Buttons.A == ButtonState.Pressed)
-                    Player.RefHubMinigameHandler.DisplayMessage(indexPlayer);
-            }
-
-            else if (Player.RefMessage != null)
+            if (Player.RefMessage != null)
             {
                 if (PrevState.Buttons.A == ButtonState.Released && State.Buttons.A == ButtonState.Pressed)
                     Player.RefMessage.DisplayMessage(indexPlayer);
             }
-        } else
+        }
+        else
         {
-            if (Player.RefHubMinigameHandler != null)
-            {
-                if (PrevState.Buttons.B == ButtonState.Released && State.Buttons.B == ButtonState.Pressed)
-                    Player.RefHubMinigameHandler.DisplayMessage(indexPlayer);
-            }
-
-            else if (Player.RefMessage != null)
+            if (Player.RefMessage != null)
             {
                 if (PrevState.Buttons.B == ButtonState.Released && State.Buttons.B == ButtonState.Pressed)
                     Player.RefMessage.DisplayMessage(indexPlayer);
@@ -274,7 +275,6 @@ public class PlayerControllerHub : PlayerController
                 retryMessageGo.GetComponent<ReplayScreenControlsHub>().index = 1;
                 retryMessageGo.GetComponent<ReplayScreenControlsHub>().validationFct += Player.RefInitTeleporter.LoadMinigame;
                 retryMessageGo.GetComponent<ReplayScreenControlsHub>().refusalFct += Player.RefInitTeleporter.ReturnToNormalState;
-                GameManager.ChangeState(GameState.ForcedPauseMGRules);
             }
             else
             {
