@@ -33,7 +33,6 @@ public class Player : MonoBehaviour {
     public bool[] evolutionTutoShown = new bool[(int)Powers.Size];
     public bool costAreaTutoShown = false;
 
-    HubMinigameHandler refHubMinigameHandler;
     PNJDefaultMessage refMessage;
     InitTeleporter refInitTeleporter;
 
@@ -168,19 +167,6 @@ public class Player : MonoBehaviour {
         set
         {
             playerCharacter = value;
-        }
-    }
-
-    public HubMinigameHandler RefHubMinigameHandler
-    {
-        get
-        {
-            return refHubMinigameHandler;
-        }
-
-        set
-        {
-            refHubMinigameHandler = value;
         }
     }
 
