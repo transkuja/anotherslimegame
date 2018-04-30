@@ -122,6 +122,9 @@ namespace DatabaseClass
         [SerializeField]
         public int JokerProgress;
 
+        [SerializeField]
+        public bool[] alreadyBrokenBreakables;
+
         public int NbRunes
         {
             get
@@ -364,6 +367,8 @@ namespace DatabaseClass
 
             SneakyChiefProgress = 0;
             JokerProgress = 0;
+
+            alreadyBrokenBreakables = new bool[alreadyBrokenBreakables.Length];            
         }
 
         public void AllCostToZero()
@@ -392,6 +397,31 @@ namespace DatabaseClass
             SetUnlock<ColorData>("Candy", false);
             SneakyChiefProgress = 0;
             JokerProgress = 0;
+        }
+
+        public void ResetBreakablesState()
+        {
+            Breakable[] breakables = FindObjectsOfType<Breakable>();
+
+            int offset = 0;
+            for (int i = 0; i < breakables.Length; ++i)
+            {
+                if (!breakables[i].DropCollectables())
+                {
+                    offset++;
+                    continue;
+                }
+                else
+                {
+                    breakables[i].persistenceIndex = i - offset;
+                }
+
+            }
+
+            if (alreadyBrokenBreakables.Length == 0)
+            {
+                alreadyBrokenBreakables = new bool[breakables.Length - offset];
+            }
         }
     }
 

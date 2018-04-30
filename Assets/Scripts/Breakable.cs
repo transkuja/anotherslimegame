@@ -9,10 +9,18 @@ public class Breakable : MonoBehaviour {
     public int minCollectableDropOnBreak = 1;
     public int maxCollectableDropOnBreak = 5;
 
+    // Index in database to know if it has already been broken. -1 if no persistence.
+    public int persistenceIndex = -1;
+
     private void Start()
     {
         if (transform.gameObject.layer != LayerMask.NameToLayer("Breakable"))
             transform.gameObject.layer = LayerMask.NameToLayer("Breakable");
+    }
+
+    public bool DropCollectables()
+    {
+        return minCollectableDropOnBreak > 0 && maxCollectableDropOnBreak > 0;
     }
 
     public void HandleCollision(PlayerCharacterHub _playerCharacterHub, PlayerControllerHub _playerControllerHub)
@@ -68,7 +76,9 @@ public class Breakable : MonoBehaviour {
 
             go.transform.position = transform.position + Vector3.up * 0.5f + playerCenterToTargetCenter / 2.0f;
             go.transform.rotation = Quaternion.LookRotation(playerToTarget, Vector3.up);
-            Destroy(go, 10.0f); // TODO: use a pool instead of instantiate/destroy in chain
+
+            // Destroy item
+            Destroy(go, 10.0f);
 
             //Set vibrations
             UWPAndXInput.GamePad.VibrateForSeconds(_playerControllerHub.playerIndex, 0.8f, 0.8f, .1f);
@@ -87,11 +97,14 @@ public class Breakable : MonoBehaviour {
             for (int i = 0; i < nbFragments; i++)
                 ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.BreakablePieces).GetItem(transform, Vector3.up * 0.5f, Quaternion.identity, true);
 
-            DropCollectableOnGround();
+            if (!DatabaseManager.Db.alreadyBrokenBreakables[persistenceIndex])
+            {
+                DropCollectableOnGround();
+                DatabaseManager.Db.alreadyBrokenBreakables[persistenceIndex] = true;
+            }
+
             if (AudioManager.Instance != null && AudioManager.Instance.breakFx != null)
                 AudioManager.Instance.PlayOneShot(AudioManager.Instance.breakFx);
-
-
 
         }
     }

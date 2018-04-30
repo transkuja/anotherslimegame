@@ -59,8 +59,15 @@ public class PlayerStart : MonoBehaviour {
 
         }
 
-        if( !GameManager.Instance.IsInHub() && GameManager.Instance.SpecificPlayerUI != null)
-            GameManager.Instance.SpecificPlayerUI.Init();
+        if (!GameManager.Instance.IsInHub())
+        {
+            if (GameManager.Instance.SpecificPlayerUI != null)
+                GameManager.Instance.SpecificPlayerUI.Init();
+        }
+        else
+        {
+            DatabaseManager.Db.ResetBreakablesState();
+        }
         gameMode.StartGame(playersReference);
         gameMode.OpenRuleScreen();
 
