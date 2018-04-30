@@ -326,7 +326,7 @@ public class Player : MonoBehaviour {
         currentTimerInvincibilite += Time.deltaTime;
         if(currentTimerInvincibilite> timerInvincibilite)
         {
-            playerCharacter.Body.GetComponent<MeshRenderer>().enabled = !playerCharacter.Body.GetComponent<MeshRenderer>().enabled;
+            playerCharacter.Body.GetComponentInChildren<Renderer>().enabled = !playerCharacter.Body.GetComponentInChildren<Renderer>().enabled;
             currentTimerInvincibilite = 0.0f;
         }
     
@@ -334,6 +334,6 @@ public class Player : MonoBehaviour {
 
     public void ArreteDeClignoter()
     {
-        playerCharacter.Body.GetComponent<MeshRenderer>().enabled = true;
+        playerCharacter.Body.GetComponentInChildren<Renderer>().enabled = true;
     }
 }

@@ -2,6 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum FaceEmotion
+{
+    Neutral,
+    Attack,
+    Hit,
+    Winner,
+    Loser
+}
+
 public enum SkinType
 {
     Color,
@@ -15,7 +24,7 @@ public enum ColorFadeType
     Basic,
     Special
 }
-
+[ExecuteInEditMode]
 public class NewPlayerCosmetics : MonoBehaviour {
     public Material[] originalPlayerMats = new Material[2];
     
@@ -23,9 +32,6 @@ public class NewPlayerCosmetics : MonoBehaviour {
     Material faceMat;
 
     CustomizableSockets customSockets;
-
-    [SerializeField]
-    int colorFadeValue;
 
     [SerializeField]
     Color bodyColor;
@@ -43,16 +49,19 @@ public class NewPlayerCosmetics : MonoBehaviour {
     SkinType skinType;
 
     [SerializeField]
+    ColorFadeType colorFadeType = ColorFadeType.None;
+
+    [SerializeField]
     public bool applyOnStart = false;
 
     [SerializeField]
-    int mustacheIndex;
+    string mustache = "None";
 
     [SerializeField]
-    int hatIndex;
+    string hat = "None";
 
     [SerializeField]
-    int earsIndex;
+    string ears = "None";
 
     private void Awake()
     {
@@ -74,24 +83,6 @@ public class NewPlayerCosmetics : MonoBehaviour {
             bodyColor = value;
             if (skinType == SkinType.Color || skinType == SkinType.Mixed)
                 bodyMat.color = bodyColor;
-        }
-    }
-
-    public int ColorFadeValue
-    {
-        get
-        {
-            return colorFadeValue;
-        }
-
-        set
-        {
-            if (!bodyMat)
-                Init();
-
-            colorFadeValue = value;
-
-            bodyMat.SetInt("_ColorFade", colorFadeValue);
         }
     }
 
@@ -202,72 +193,115 @@ public class NewPlayerCosmetics : MonoBehaviour {
         }
     }
 
-    public int MustacheIndex
+    public string Mustache
     {
         get
         {
-            return mustacheIndex;
+            return mustache;
         }
 
         set
         {
-            mustacheIndex = value;
+            mustache = value;
             if (!customSockets)
                 customSockets = GetComponent<CustomizableSockets>();
             Transform mustacheTransform = customSockets.GetSocket(CustomizableType.Mustache);
             while (mustacheTransform.childCount > 0)
                 DestroyImmediate(mustacheTransform.GetChild(0).gameObject);
-            if (mustacheIndex > 0)
+            if (mustache != "None" && mustache != string.Empty)
             {
-                ICustomizable mustache = ((GameObject)Instantiate(Resources.Load((DatabaseManager.Db.mustaches[mustacheIndex-1].model)), mustacheTransform)).GetComponent<ICustomizable>();
-                mustache.Init(GetComponentInParent<Rigidbody>());
+                if (DatabaseManager.Db == null)
+                    DatabaseManager.LoadDb();
+                Debug.Log("Mustache: " + mustache);
+                DatabaseClass.MustacheData data = ((DatabaseClass.MustacheData)DatabaseManager.Db.GetDataFromId<DatabaseClass.MustacheData>(mustache));
+                
+                ICustomizable mustacheCustom = ((GameObject)Instantiate(Resources.Load(data.model), mustacheTransform)).GetComponent<ICustomizable>();
+                mustacheCustom.Init(GetComponentInParent<Rigidbody>());
             }
         }
     }
 
-    public int HatIndex
+    public string Hat
     {
         get
         {
-            return hatIndex;
+            return hat;
         }
 
         set
         {
-            hatIndex = value;
+            hat = value;
             if (!customSockets)
                 customSockets = GetComponent<CustomizableSockets>();
             Transform hatTransform = customSockets.GetSocket(CustomizableType.Hat);
             while (hatTransform.childCount > 0)
                 DestroyImmediate(hatTransform.GetChild(0).gameObject);
-            if (hatIndex > 0)
+            if (hat != "None" && hat != string.Empty)
             {
-                ICustomizable hat = ((GameObject)Instantiate(Resources.Load((DatabaseManager.Db.hats[hatIndex - 1].model)), hatTransform)).GetComponent<ICustomizable>();
-                hat.Init(GetComponentInParent<Rigidbody>());
+                if (DatabaseManager.Db == null)
+                    DatabaseManager.LoadDb();
+
+                DatabaseClass.HatData data = ((DatabaseClass.HatData)DatabaseManager.Db.GetDataFromId<DatabaseClass.HatData>(hat));
+
+                ICustomizable hatCustom = ((GameObject)Instantiate(Resources.Load(data.model), hatTransform)).GetComponent<ICustomizable>();
+                hatCustom.Init(GetComponentInParent<Rigidbody>());
+                
+                Transform earsTransform = customSockets.GetSocket(CustomizableType.Ears);
+                if (data.shouldHideEars)
+                {
+                    while (earsTransform.childCount > 0)
+                        DestroyImmediate(earsTransform.GetChild(0).gameObject);
+                }
+                else if(earsTransform.childCount == 0)
+                {
+                    Ears = ears;
+                }
             }
+                
         }
     }
 
-    public int EarsIndex
+    public string Ears
     {
         get
         {
-            return earsIndex;
+            return ears;
         }
 
         set
         {
-            earsIndex = value;
+            ears = value;
             if (!customSockets)
                 customSockets = GetComponent<CustomizableSockets>();
             Transform earsTransform = customSockets.GetSocket(CustomizableType.Hat);
             while (earsTransform.childCount > 0)
                 DestroyImmediate(earsTransform.GetChild(0).gameObject);
-            if (earsIndex > 0)
+            if (ears != "None" && ears != string.Empty)
             {
-                ICustomizable ear = ((GameObject)Instantiate(Resources.Load((DatabaseManager.Db.hats[earsIndex - 1].model)), earsTransform)).GetComponent<ICustomizable>();
-                ear.Init(GetComponentInParent<Rigidbody>());
+                if (DatabaseManager.Db == null)
+                    DatabaseManager.LoadDb();
+
+                DatabaseClass.EarsData data = ((DatabaseClass.EarsData)DatabaseManager.Db.GetDataFromId<DatabaseClass.EarsData>(ears));
+                ICustomizable earCustom = ((GameObject)Instantiate(Resources.Load(data.model), earsTransform)).GetComponent<ICustomizable>();
+                earCustom.Init(GetComponentInParent<Rigidbody>());
             }
+        }
+    }
+
+    public ColorFadeType ColorFadeType
+    {
+        get
+        {
+            return colorFadeType;
+        }
+
+        set
+        {
+            if (!bodyMat)
+                Init();
+
+            colorFadeType = value;
+            bodyMat.SetInt("_ColorFade", (int)colorFadeType);
         }
     }
 
@@ -320,7 +354,8 @@ public class NewPlayerCosmetics : MonoBehaviour {
         BodyTexture = bodyTexture;
         FaceType = faceType;
         FaceEmotion = faceEmotion;
-        MustacheIndex = mustacheIndex;
+        Mustache = mustache;
+        ColorFadeType = colorFadeType;
     }
 
     void SetValuesFromMaterials()
@@ -328,5 +363,6 @@ public class NewPlayerCosmetics : MonoBehaviour {
         skinType = SkinType.Mixed;
         bodyColor = bodyMat.color;
         bodyTexture = bodyMat.GetTexture("_MainTex");
+        ColorFadeType = (ColorFadeType)bodyMat.GetInt("_ColorFade");
     }
 }

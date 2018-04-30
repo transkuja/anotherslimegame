@@ -52,12 +52,13 @@ public class NewPlayerCosmeticsEditor : Editor
         }
 
         curFaceType = cosmetics.FaceType;
-        curMustache = cosmetics.MustacheIndex;
-        curHat = cosmetics.HatIndex;
-        curEars = cosmetics.EarsIndex;
+        curMustache = GetIndexFromString(cosmetics.Mustache, CustomizableType.Mustache);
+        curHat = GetIndexFromString(cosmetics.Hat, CustomizableType.Hat);
+        curEars = GetIndexFromString(cosmetics.Ears, CustomizableType.Ears);
         curBodyColor = cosmetics.BodyColor;
         curTexture = cosmetics.BodyTexture;
         curSkinType = cosmetics.SkinType;
+        curColorFadeType = cosmetics.ColorFadeType;
 
         if(cosmetics.originalPlayerMats == null || cosmetics.originalPlayerMats.Length < 1)
         {
@@ -69,6 +70,7 @@ public class NewPlayerCosmeticsEditor : Editor
     int curMustache = 0;
     int curHat = 0;
     int curEars = 0;
+    ColorFadeType curColorFadeType = 0;
 
     Color curBodyColor;
     Texture curTexture;
@@ -112,6 +114,10 @@ public class NewPlayerCosmeticsEditor : Editor
                 cosmetics.BodyTexture = curTexture;
         }
 
+        curColorFadeType = (ColorFadeType)EditorGUILayout.EnumPopup("Color Fade", curColorFadeType);
+        if (curColorFadeType != cosmetics.ColorFadeType)
+            cosmetics.ColorFadeType = curColorFadeType;
+
         if (facesList.Count > 0)
         {
             curFaceType = EditorGUILayout.Popup("Face Type", curFaceType, facesList.ToArray());
@@ -123,32 +129,51 @@ public class NewPlayerCosmeticsEditor : Editor
         {
             curMustache = EditorGUILayout.Popup("Mustache", curMustache, mustachesList.ToArray());
 
-            if (cosmetics.MustacheIndex != curMustache)
-                cosmetics.MustacheIndex = curMustache;
+            if (cosmetics.Mustache != mustachesList[curMustache])
+                cosmetics.Mustache = mustachesList[curMustache];
         }
 
         if (hatsList.Count > 0)
         {
             curHat = EditorGUILayout.Popup("Hat", curHat, hatsList.ToArray());
 
-            if (cosmetics.HatIndex != curHat)
-                cosmetics.HatIndex = curHat;
+            if (cosmetics.Hat != hatsList[curHat])
+                cosmetics.Hat = hatsList[curHat];
         }
 
         if (earsList.Count > 0)
         {
             curEars = EditorGUILayout.Popup("Ears", curEars, earsList.ToArray());
 
-            if (cosmetics.EarsIndex != curEars)
-                cosmetics.EarsIndex = curEars;
+            if (cosmetics.Ears != earsList[curEars])
+                cosmetics.Ears = earsList[curEars];
         }
 
         if (GUI.changed)
         {
             EditorUtility.SetDirty(cosmetics);
-
             EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
         }
 
+    }
+
+    int GetIndexFromString(string customizableName, CustomizableType type)
+    {
+        int toReturn = 0;
+        switch(type)
+        {
+            case CustomizableType.Mustache:
+                toReturn = mustachesList.FindIndex(x => x.Equals(customizableName));
+                break;
+            case CustomizableType.Hat:
+                toReturn = hatsList.FindIndex(x => x.Equals(customizableName));
+                break;
+            case CustomizableType.Ears:
+                toReturn = earsList.FindIndex(x => x.Equals(customizableName));
+                break;
+        }
+        toReturn = (toReturn < 0) ? 0 : toReturn;
+
+        return toReturn;
     }
 }

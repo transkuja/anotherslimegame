@@ -13,14 +13,7 @@ public enum FaceType
     Face6
 }
 
-public enum FaceEmotion
-{
-    Neutral,
-    Attack,
-    Hit,
-    Winner,
-    Loser
-}
+
 
 public class PlayerCosmetics : MonoBehaviour {
     Material bodyMat;

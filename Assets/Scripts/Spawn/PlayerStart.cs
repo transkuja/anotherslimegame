@@ -138,70 +138,51 @@ public class PlayerStart : MonoBehaviour {
             
             playerController.PlayerIndex = (PlayerIndex)i;
             playerController.PlayerIndexSet = true;
-
-            if (GameManager.Instance.DataContainer != null)
+            NewPlayerCosmetics playerCosmetics = go.GetComponentInChildren<NewPlayerCosmetics>();
+            if (!playerCosmetics)
             {
-                if (go.transform.GetComponentInChildren<PlayerCosmetics>() != null)
-                {
-                    if (GameManager.Instance.DataContainer.colorFadeSelected[i])
-                        go.transform.GetComponentInChildren<PlayerCosmetics>().UseColorFade = true;
-                    else
-                        go.transform.GetComponentInChildren<PlayerCosmetics>().SetUniqueColor(GameManager.Instance.DataContainer.selectedColors[i]);
-                    go.transform.GetComponentInChildren<PlayerCosmetics>().FaceType = (FaceType)GameManager.Instance.DataContainer.selectedFaces[i];
-                }
-
-                if (go.transform.GetComponentInChildren<CustomizableSockets>() != null)
-                {
-                    Transform customizableParent = go.transform.GetComponentInChildren<CustomizableSockets>().transform;
-
-                    // Init mustaches //
-                    InitCustomizable(CustomizableType.Mustache, GameManager.Instance.DataContainer.mustachesSelected[i], customizableParent);
-
-                    // Init ears //
-                    InitCustomizable(CustomizableType.Ears, GameManager.Instance.DataContainer.earsSelected[i], customizableParent);
-
-                    // Init hats //
-                    InitCustomizable(CustomizableType.Hat, GameManager.Instance.DataContainer.hatsSelected[i], customizableParent);
-
-                }
+                Debug.LogError("There is no Player Cosmetics component on this object or in children");
             }
             else
             {
-                if (i > 0)
+                if (GameManager.Instance.DataContainer != null)
                 {
-                    go.transform.GetChild(0).GetChild(0).GetComponent<Renderer>().material.SetColor("_Color", colorPlayer[i - 1]);
-                    go.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<Renderer>().material.SetColor("_Color", colorPlayer[i - 1]);
-                    go.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(1).GetComponent<Renderer>().material.SetColor("_Color", colorPlayer[i - 1]);
+                    if (GameManager.Instance.DataContainer.colorFadeSelected[i])
+                        playerCosmetics.ColorFadeType = ColorFadeType.Basic;
+                    else
+                        playerCosmetics.SetUniqueColor(GameManager.Instance.DataContainer.selectedColors[i]);
+                    playerCosmetics.FaceType = GameManager.Instance.DataContainer.selectedFaces[i];
 
-                    go.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetComponent<Renderer>().material.SetColor("_Color", colorPlayer[i - 1]);
-                    go.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(1).GetComponent<Renderer>().material.SetColor("_Color", colorPlayer[i - 1]);
+                    if (go.transform.GetComponentInChildren<CustomizableSockets>() != null)
+                    {
+                        Transform customizableParent = go.transform.GetComponentInChildren<CustomizableSockets>().transform;
+
+                        // Init mustaches //
+                        playerCosmetics.Mustache = GameManager.Instance.DataContainer.mustachesSelected[i];
+
+                        // Init ears //
+                        playerCosmetics.Ears = GameManager.Instance.DataContainer.earsSelected[i];
+
+                        // Init hats //
+                        playerCosmetics.Hat = GameManager.Instance.DataContainer.hatsSelected[i];
+                    }
+                }
+                else
+                {
+                    if (i > 0)
+                    {
+                        go.transform.GetChild(0).GetChild(0).GetComponent<Renderer>().material.SetColor("_Color", colorPlayer[i - 1]);
+                        go.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<Renderer>().material.SetColor("_Color", colorPlayer[i - 1]);
+                        go.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(1).GetComponent<Renderer>().material.SetColor("_Color", colorPlayer[i - 1]);
+
+                        go.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetComponent<Renderer>().material.SetColor("_Color", colorPlayer[i - 1]);
+                        go.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(1).GetComponent<Renderer>().material.SetColor("_Color", colorPlayer[i - 1]);
+                    }
                 }
             }
-
             PlayersReference.Add(go);
            
         }
-    }
-
-    void InitCustomizable(CustomizableType _type, string _value, Transform _customizableParent)
-    {
-        if (_value == "None" || _value == "")
-            return;
-     
-        GameObject customizable = Instantiate(Resources.Load(_value), _customizableParent.GetChild((int)_type - 2).transform) as GameObject;
-        customizable.GetComponent<ICustomizable>().Init(_customizableParent.GetComponentInParent<Rigidbody>());
-
-        // Hide ears if the hat is supposed to hide them
-        if (_type == CustomizableType.Hat)
-        {
-            DatabaseClass.HatData hat = (DatabaseClass.HatData)DatabaseManager.Db.GetDataFromModel<DatabaseClass.HatData>(_value);
-            // BUG : _value = Hats/CowboyHat au lieu de Cowboy
-            if (hat != null && hat.shouldHideEars)
-            {
-                _customizableParent.GetChild((int)CustomizableType.Ears - 2).gameObject.SetActive(false);
-            }
-        }
-        
     }
 
     void InitializeScorePanel()

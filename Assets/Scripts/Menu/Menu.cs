@@ -1073,17 +1073,17 @@ public class Menu : MonoBehaviour {
             if (unlockedCustomizables[CustomizableType.Mustache].Count == 0 || selectedCustomizables[(int)CustomizableType.Mustache, i] == unlockedCustomizables[CustomizableType.Mustache].Count)
                 selectedMustaches[i] = "None";
             else
-                selectedMustaches[i] = ((DatabaseClass.MustacheData)unlockedCustomizables[CustomizableType.Mustache][selectedCustomizables[(int)CustomizableType.Mustache, i]]).model;
+                selectedMustaches[i] = ((DatabaseClass.MustacheData)unlockedCustomizables[CustomizableType.Mustache][selectedCustomizables[(int)CustomizableType.Mustache, i]]).Id;
 
             if (unlockedCustomizables[CustomizableType.Hat].Count == 0 || selectedCustomizables[(int)CustomizableType.Hat, i] == unlockedCustomizables[CustomizableType.Hat].Count)
                 selectedHats[i] = "None";
             else
-                selectedHats[i] = ((DatabaseClass.HatData)unlockedCustomizables[CustomizableType.Hat][selectedCustomizables[(int)CustomizableType.Hat, i]]).model;
+                selectedHats[i] = ((DatabaseClass.HatData)unlockedCustomizables[CustomizableType.Hat][selectedCustomizables[(int)CustomizableType.Hat, i]]).Id;
 
             if (unlockedCustomizables[CustomizableType.Ears].Count == 0 || selectedCustomizables[(int)CustomizableType.Ears, i] == unlockedCustomizables[CustomizableType.Ears].Count)
                 selectedEars[i] = "None";
             else
-                selectedEars[i] = ((DatabaseClass.EarsData)unlockedCustomizables[CustomizableType.Ears][selectedCustomizables[(int)CustomizableType.Ears, i]]).model;
+                selectedEars[i] = ((DatabaseClass.EarsData)unlockedCustomizables[CustomizableType.Ears][selectedCustomizables[(int)CustomizableType.Ears, i]]).Id;
         }
         dataContainer.SaveData(nbPlayers, sc, sf, selectedMustaches, selectedHats, selectedEars, selectedColorFades, selectedRabbits, selectedMode == 1);
     }

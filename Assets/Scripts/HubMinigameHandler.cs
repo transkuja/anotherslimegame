@@ -60,8 +60,9 @@ public class HubMinigameHandler : MonoBehaviour {
 
         if (t == CustomizableType.Hat && id != "")
         {
-            if(DatabaseManager.Db.IsUnlock<DatabaseClass.HatData>(id))
-                toDesactivate.SetActive(false);
+            if (DatabaseManager.Db.IsUnlock<DatabaseClass.HatData>(id))
+                //toDesactivate.SetActive(false);
+                GetComponentInChildren<NewPlayerCosmetics>().Hat = "None";
         }
 
     }
@@ -331,7 +332,8 @@ public class HubMinigameHandler : MonoBehaviour {
         if (t == CustomizableType.Hat && id != "")
         {
             DatabaseManager.Db.SetUnlock<DatabaseClass.HatData>(id, true);
-            toDesactivate.SetActive(false);
+            //toDesactivate.SetActive(false);
+            GetComponentInChildren<NewPlayerCosmetics>().Hat = "None";
         }
 
         CleanMinigameHub();
