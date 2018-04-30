@@ -9,6 +9,8 @@ public class OnColoredFloorTrigger : MonoBehaviour {
     ColorFloorPickupHandler pickupHandler;
 
     public int currentOwner = -1;
+    public bool hasAnItem = false;
+
     public bool debug;
 
     OnColoredFloorTrigger[] neighbors = new OnColoredFloorTrigger[4];
@@ -183,13 +185,14 @@ public class OnColoredFloorTrigger : MonoBehaviour {
         {
             PlayerController pc = other.transform.GetComponentInParent<PlayerController>();
 
-            if (transform.childCount > 1)
+            if (hasAnItem)
             {
                 MinigamePickUp pickupComponent = transform.GetComponentInChildren<MinigamePickUp>();
                 pickupComponent.collectPickup((int)pc.playerIndex);
                 ColorFloorPickupHandler.spawnedPickups.Remove(pickupComponent.gameObject);
 
                 Destroy(pickupComponent.gameObject);
+                hasAnItem = false;
             }
 
             ColorFloorHandler.RegisterFloor((int)pc.playerIndex, GetComponent<OnColoredFloorTrigger>());

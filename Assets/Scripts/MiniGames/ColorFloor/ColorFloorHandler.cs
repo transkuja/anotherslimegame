@@ -301,6 +301,25 @@ public static class ColorFloorHandler {
     }
 
 
+    // Score points event, should be called when conditions to score points are met
+    public static void LosePoints(int _playerIndex)
+    {
+        if (!isInitialized)
+            return;
+
+        int currentPoints = GameManager.Instance.PlayerStart.PlayersReference[_playerIndex].GetComponent<Player>().NbPoints;
+        GameManager.Instance.PlayerStart.PlayersReference[_playerIndex].GetComponent<Player>().UpdateCollectableValue(CollectableType.Points, -currentPoints/2);
+
+        // Standard case
+        foreach (OnColoredFloorTrigger col in currentlyColoredByPlayer[_playerIndex])
+        {
+            col.ScoreFromThisFloor();
+        }
+
+        currentlyColoredByPlayer[_playerIndex].Clear();
+        currentlyColoredByPlayerToInt[_playerIndex].Clear();
+    }
+
     public static void ColorFloorWithPickup(MinigamePickUp _pickupComponent, int _playerIndex)
     {
         Transform floorPosition = _pickupComponent.transform.parent;

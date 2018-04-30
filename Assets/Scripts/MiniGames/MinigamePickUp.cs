@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum PickUpType { Score, ColorArrow, ColorAround, SpeedUp, Bomb, Missile, DashBoost, Changer, Aspirator }
+public enum PickUpType { Score, ColorArrow, ColorAround, SpeedUp, Bomb, Missile, DashBoost, Changer, Aspirator, BadOne }
 /*
  * Each minigame using pickups should have a MyMinigamePickUp inherited from this class with InitializeDelegates overriden.
  */

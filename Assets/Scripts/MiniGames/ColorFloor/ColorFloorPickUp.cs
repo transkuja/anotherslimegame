@@ -31,6 +31,11 @@ public class ColorFloorPickUp : MinigamePickUp {
         ColorFloorHandler.ScorePoints(_playerIndex);
     }
 
+    void BadEffect(int _playerIndex)
+    {
+        ColorFloorHandler.LosePoints(_playerIndex);
+    }
+
     void ColorFloorWithPickup(int _playerIndex)
     {
         ColorFloorHandler.ColorFloorWithPickup(this, _playerIndex);
@@ -43,7 +48,6 @@ public class ColorFloorPickUp : MinigamePickUp {
 
     void UseMissile(int _playerIndex)
     {
-        Debug.Log("truc");
         GameObject owner = GameManager.Instance.PlayerStart.PlayersReference[_playerIndex];
         GameObject missile = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.ColorFloorPickUps)
             .GetItem(
@@ -83,6 +87,7 @@ public class ColorFloorPickUp : MinigamePickUp {
             case PickUpType.ColorArrow:
             case PickUpType.ColorAround:
             case PickUpType.SpeedUp:
+            case PickUpType.BadOne:
                 collectPickup = InstantUse;
                 break;
 
@@ -108,6 +113,9 @@ public class ColorFloorPickUp : MinigamePickUp {
                 break;
             case PickUpType.Bomb:
                 usePickup = UseBomb;
+                break;
+            case PickUpType.BadOne:
+                usePickup = BadEffect;
                 break;
         }
 
