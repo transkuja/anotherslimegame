@@ -371,7 +371,9 @@ namespace DatabaseClass
             SneakyChiefProgress = 0;
             JokerProgress = 0;
 
+            if (alreadyBrokenBreakables.Length > 0)
             alreadyBrokenBreakables = new bool[alreadyBrokenBreakables.Length];
+            if(alreadyCollectedCollectables.Length > 0)
             alreadyCollectedCollectables = new bool[alreadyCollectedCollectables.Length];
         }
 
