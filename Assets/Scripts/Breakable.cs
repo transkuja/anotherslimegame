@@ -97,7 +97,7 @@ public class Breakable : MonoBehaviour {
             for (int i = 0; i < nbFragments; i++)
                 ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.BreakablePieces).GetItem(transform, Vector3.up * 0.5f, Quaternion.identity, true);
 
-            if (!DatabaseManager.Db.alreadyBrokenBreakables[persistenceIndex])
+            if (persistenceIndex != -1 && !DatabaseManager.Db.alreadyBrokenBreakables[persistenceIndex])
             {
                 DropCollectableOnGround();
                 DatabaseManager.Db.alreadyBrokenBreakables[persistenceIndex] = true;

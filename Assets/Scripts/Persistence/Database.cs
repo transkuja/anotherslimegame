@@ -125,6 +125,9 @@ namespace DatabaseClass
         [SerializeField]
         public bool[] alreadyBrokenBreakables;
 
+        [SerializeField]
+        public bool[] alreadyCollectedCollectables;
+
         public int NbRunes
         {
             get
@@ -368,7 +371,8 @@ namespace DatabaseClass
             SneakyChiefProgress = 0;
             JokerProgress = 0;
 
-            alreadyBrokenBreakables = new bool[alreadyBrokenBreakables.Length];            
+            alreadyBrokenBreakables = new bool[alreadyBrokenBreakables.Length];
+            alreadyCollectedCollectables = new bool[alreadyCollectedCollectables.Length];
         }
 
         public void AllCostToZero()
@@ -421,6 +425,26 @@ namespace DatabaseClass
             if (alreadyBrokenBreakables.Length == 0)
             {
                 alreadyBrokenBreakables = new bool[breakables.Length - offset];
+            }
+        }
+
+        public void ResetCollectablesState()
+        {
+            Collectable[] collectables = FindObjectsOfType<Collectable>();
+
+            if (alreadyCollectedCollectables.Length == 0)
+            {
+                alreadyCollectedCollectables = new bool[collectables.Length];
+            }
+
+            for (int i = 0; i < collectables.Length; ++i)
+            {
+                if (alreadyCollectedCollectables[i])
+                {
+                    Destroy(collectables[i].gameObject);
+                }
+                else
+                    collectables[i].persistenceIndex = i;
             }
         }
     }
