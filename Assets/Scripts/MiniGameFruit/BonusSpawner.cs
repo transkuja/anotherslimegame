@@ -70,7 +70,21 @@ public class BonusSpawner : MonoBehaviour {
 
     IEnumerator UnspawnBonus(GameObject go)
     {
-        yield return new WaitForSeconds(4.0f);
+        yield return new WaitForSeconds(3.0f);
+
+        go.GetComponent<MeshRenderer>().enabled = false;
+        yield return new WaitForSeconds(0.5f);
+        go.GetComponent<MeshRenderer>().enabled = true;
+        yield return new WaitForSeconds(0.5f);
+        go.GetComponent<MeshRenderer>().enabled = false;
+        yield return new WaitForSeconds(0.5f);
+        go.GetComponent<MeshRenderer>().enabled = true;
+        yield return new WaitForSeconds(0.5f);
+        go.GetComponent<MeshRenderer>().enabled = false;
+        yield return new WaitForSeconds(0.5f);
+        go.GetComponent<MeshRenderer>().enabled = true;
+        yield return new WaitForSeconds(0.5f);
+
         Destroy(go);
     }
 
@@ -85,7 +99,7 @@ public class BonusSpawner : MonoBehaviour {
 
     public IEnumerator ChangerFruit()
     {
-
+        //StopCoroutine(UnspawnBonus());
         Fruit typeToChange = (Fruit)(int)playerTest.GetComponent<PlayerController>().PlayerIndex;
         FruitType[] tabTest = GameObject.Find("FruitSpawner").GetComponent<FruitsSpawner>().GetComponentsInChildren<FruitType>();
         Fruit[] typeToSave = new Fruit[tabTest.Length];
