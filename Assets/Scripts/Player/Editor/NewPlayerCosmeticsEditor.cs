@@ -24,7 +24,13 @@ public class NewPlayerCosmeticsEditor : Editor
 
         facesList = new List<string>();
         mustachesList = new List<string>();
+        hatsList = new List<string>();
+        earsList = new List<string>();
+
         mustachesList.Add("None");
+        hatsList.Add("None");
+        earsList.Add("None");
+
         foreach (FaceData s in DatabaseManager.Db.faces)
         {
             facesList.Add(s.Id);
@@ -34,15 +40,36 @@ public class NewPlayerCosmeticsEditor : Editor
         {
             mustachesList.Add(s.Id);
         }
+
+        foreach (HatData s in DatabaseManager.Db.hats)
+        {
+            hatsList.Add(s.Id);
+        }
+
+        foreach (EarsData s in DatabaseManager.Db.ears)
+        {
+            earsList.Add(s.Id);
+        }
+
         curFaceType = cosmetics.FaceType;
         curMustache = cosmetics.MustacheIndex;
+        curHat = cosmetics.HatIndex;
+        curEars = cosmetics.EarsIndex;
         curBodyColor = cosmetics.BodyColor;
         curTexture = cosmetics.BodyTexture;
         curSkinType = cosmetics.SkinType;
+
+        if(cosmetics.originalPlayerMats == null || cosmetics.originalPlayerMats.Length < 1)
+        {
+            cosmetics.originalPlayerMats = new Material[2];
+        }
     }
 
     int curFaceType = 0;
     int curMustache = 0;
+    int curHat = 0;
+    int curEars = 0;
+
     Color curBodyColor;
     Texture curTexture;
     SkinType curSkinType;
@@ -50,13 +77,19 @@ public class NewPlayerCosmeticsEditor : Editor
 
     public override void OnInspectorGUI()
     {
+        var serializedObject = new SerializedObject(target);
+        var property = serializedObject.FindProperty("originalPlayerMats");
+        EditorGUILayout.PropertyField(property, true);
+        serializedObject.ApplyModifiedProperties();
+
         if (GUILayout.Button("Reset"))
             cosmetics.Init();
         if (GUILayout.Button("ResetAndApply"))
         {
+            bool previousBool = cosmetics.applyOnStart;
             cosmetics.applyOnStart = true;
             cosmetics.Init();
-            cosmetics.applyOnStart = false;
+            cosmetics.applyOnStart = previousBool;
         }
         GUILayout.Space(20);
         //base.DrawDefaultInspector();
@@ -92,6 +125,22 @@ public class NewPlayerCosmeticsEditor : Editor
 
             if (cosmetics.MustacheIndex != curMustache)
                 cosmetics.MustacheIndex = curMustache;
+        }
+
+        if (hatsList.Count > 0)
+        {
+            curHat = EditorGUILayout.Popup("Hat", curHat, hatsList.ToArray());
+
+            if (cosmetics.HatIndex != curHat)
+                cosmetics.HatIndex = curHat;
+        }
+
+        if (earsList.Count > 0)
+        {
+            curEars = EditorGUILayout.Popup("Ears", curEars, earsList.ToArray());
+
+            if (cosmetics.EarsIndex != curEars)
+                cosmetics.EarsIndex = curEars;
         }
 
         if (GUI.changed)

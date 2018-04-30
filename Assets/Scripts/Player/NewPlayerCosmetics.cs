@@ -17,6 +17,8 @@ public enum ColorFadeType
 }
 
 public class NewPlayerCosmetics : MonoBehaviour {
+    public Material[] originalPlayerMats = new Material[2];
+    
     Material bodyMat;
     Material faceMat;
 
@@ -43,9 +45,19 @@ public class NewPlayerCosmetics : MonoBehaviour {
     [SerializeField]
     public bool applyOnStart = false;
 
+    [SerializeField]
     int mustacheIndex;
+
+    [SerializeField]
     int hatIndex;
+
+    [SerializeField]
     int earsIndex;
+
+    private void Awake()
+    {
+        Init(true);
+    }
 
     public Color BodyColor
     {
@@ -207,7 +219,8 @@ public class NewPlayerCosmetics : MonoBehaviour {
                 DestroyImmediate(mustacheTransform.GetChild(0).gameObject);
             if (mustacheIndex > 0)
             {
-                Instantiate(Resources.Load((DatabaseManager.Db.mustaches[mustacheIndex-1].model)), mustacheTransform);
+                ICustomizable mustache = ((GameObject)Instantiate(Resources.Load((DatabaseManager.Db.mustaches[mustacheIndex-1].model)), mustacheTransform)).GetComponent<ICustomizable>();
+                mustache.Init(GetComponentInParent<Rigidbody>());
             }
         }
     }
@@ -222,6 +235,16 @@ public class NewPlayerCosmetics : MonoBehaviour {
         set
         {
             hatIndex = value;
+            if (!customSockets)
+                customSockets = GetComponent<CustomizableSockets>();
+            Transform hatTransform = customSockets.GetSocket(CustomizableType.Hat);
+            while (hatTransform.childCount > 0)
+                DestroyImmediate(hatTransform.GetChild(0).gameObject);
+            if (hatIndex > 0)
+            {
+                ICustomizable hat = ((GameObject)Instantiate(Resources.Load((DatabaseManager.Db.hats[hatIndex - 1].model)), hatTransform)).GetComponent<ICustomizable>();
+                hat.Init(GetComponentInParent<Rigidbody>());
+            }
         }
     }
 
@@ -235,6 +258,16 @@ public class NewPlayerCosmetics : MonoBehaviour {
         set
         {
             earsIndex = value;
+            if (!customSockets)
+                customSockets = GetComponent<CustomizableSockets>();
+            Transform earsTransform = customSockets.GetSocket(CustomizableType.Hat);
+            while (earsTransform.childCount > 0)
+                DestroyImmediate(earsTransform.GetChild(0).gameObject);
+            if (earsIndex > 0)
+            {
+                ICustomizable ear = ((GameObject)Instantiate(Resources.Load((DatabaseManager.Db.hats[earsIndex - 1].model)), earsTransform)).GetComponent<ICustomizable>();
+                ear.Init(GetComponentInParent<Rigidbody>());
+            }
         }
     }
 
@@ -243,12 +276,25 @@ public class NewPlayerCosmetics : MonoBehaviour {
         BodyColor = _color;
     }
 
+    public void Init(bool _applyOnStart)
+    {
+        bool prevBool = applyOnStart;
+        applyOnStart = _applyOnStart;
+        Init();
+        applyOnStart = prevBool;
+    }
+
     public void Init()
     {
         customSockets = GetComponent<CustomizableSockets>();
         Renderer r = GetComponentInChildren<Renderer>();
         Material[] originals = r.sharedMaterials;
         Material[] newMaterials = new Material[originals.Length];
+
+        if (originals == null || originals.Length < 1 || originals[0] == null)
+        {
+            originals = originalPlayerMats;
+        }
 
         for(int i = 0; i < newMaterials.Length; i++)
         {
@@ -274,6 +320,7 @@ public class NewPlayerCosmetics : MonoBehaviour {
         BodyTexture = bodyTexture;
         FaceType = faceType;
         FaceEmotion = faceEmotion;
+        MustacheIndex = mustacheIndex;
     }
 
     void SetValuesFromMaterials()
