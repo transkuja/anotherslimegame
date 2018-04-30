@@ -260,8 +260,6 @@ public class PlayerControllerHub : PlayerController
                     Player.RefMessage.DisplayMessage(indexPlayer);
             }
         }
-     
-
     }
 
     void LaunchMinigameInput()
@@ -269,8 +267,19 @@ public class PlayerControllerHub : PlayerController
         if (PrevState.Buttons.B == ButtonState.Released && State.Buttons.B == ButtonState.Pressed)
         {
             // Confirm screen
-            // Launch
-            Player.RefInitTeleporter.LoadMinigame();
+            if( GameManager.Instance.ActivePlayersAtStart > 1)
+            {
+                GameObject retryMessageGo = Instantiate(ResourceUtils.Instance.feedbacksManager.prefabReplayScreenHub, GameManager.UiReference.transform);
+                retryMessageGo.transform.GetChild(0).GetChild(0).GetComponent<UnityEngine.UI.Text>().text = Utils.GetRetryMessage(MessageTypeMinigame.AreyoureadyOtherPlayer);
+                retryMessageGo.GetComponent<ReplayScreenControlsHub>().index = 1;
+                retryMessageGo.GetComponent<ReplayScreenControlsHub>().callbackFct += Player.RefInitTeleporter.LoadMinigame;
+                GameManager.ChangeState(GameState.ForcedPauseMGRules);
+            }
+            else
+            {
+                // Launch
+                Player.RefInitTeleporter.LoadMinigame();
+            }
         }
     }
 
