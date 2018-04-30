@@ -212,7 +212,6 @@ public class NewPlayerCosmetics : MonoBehaviour {
             {
                 if (DatabaseManager.Db == null)
                     DatabaseManager.LoadDb();
-                Debug.Log("Mustache: " + mustache);
                 DatabaseClass.MustacheData data = ((DatabaseClass.MustacheData)DatabaseManager.Db.GetDataFromId<DatabaseClass.MustacheData>(mustache));
                 
                 ICustomizable mustacheCustom = ((GameObject)Instantiate(Resources.Load(data.model), mustacheTransform)).GetComponent<ICustomizable>();

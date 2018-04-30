@@ -246,10 +246,10 @@ public class ScoreScreen : MonoBehaviour {
         {
             int curPlayerRank = curPlayer.GetComponent<Player>().rank;
             GameObject podiumPlayer = podium.GetChild(curPlayerRank).gameObject;
-            PlayerCosmetics curPlayerCosmetics = curPlayer.GetComponentInChildren<PlayerCosmetics>();
-            PlayerCosmetics podiumPlayerCosmetics = podiumPlayer.GetComponentInChildren<PlayerCosmetics>();
+            NewPlayerCosmetics curPlayerCosmetics = curPlayer.GetComponentInChildren<NewPlayerCosmetics>();
+            NewPlayerCosmetics podiumPlayerCosmetics = podiumPlayer.GetComponentInChildren<NewPlayerCosmetics>();
 
-            podiumPlayerCosmetics.UseColorFade = curPlayerCosmetics.UseColorFade;
+            podiumPlayerCosmetics.ColorFadeType = curPlayerCosmetics.ColorFadeType;
             podiumPlayerCosmetics.SetUniqueColor(curPlayerCosmetics.BodyColor);
             podiumPlayerCosmetics.FaceType = curPlayerCosmetics.FaceType;
             podiumPlayerCosmetics.FaceEmotion = (curPlayerRank == 1 || curPlayerRank == 2) ? FaceEmotion.Winner : FaceEmotion.Loser;

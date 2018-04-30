@@ -65,8 +65,9 @@ public class NewPlayerCosmeticsEditor : Editor
             cosmetics.originalPlayerMats = new Material[2];
         }
     }
-
+    
     int curFaceType = 0;
+    FaceEmotion curFaceEmotion = FaceEmotion.Neutral;
     int curMustache = 0;
     int curHat = 0;
     int curEars = 0;
@@ -124,6 +125,10 @@ public class NewPlayerCosmeticsEditor : Editor
             if (cosmetics.FaceType != curFaceType)
                 cosmetics.FaceType = curFaceType;
         }
+
+        curFaceEmotion = (FaceEmotion)EditorGUILayout.EnumPopup("Face Emotion", curFaceEmotion);
+        if (curFaceEmotion != cosmetics.FaceEmotion)
+            cosmetics.FaceEmotion = curFaceEmotion;
 
         if (mustachesList.Count > 0)
         {
