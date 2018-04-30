@@ -129,6 +129,8 @@ public class ColorFloorPickupHandler : MonoBehaviour
                 // Wait for x sec, OnEnable du feedback, start coroutine, after x sec, pop
 
                 yield return new WaitForSeconds(0.33f);
+                transform.GetChild(randChild[i] / lineCount).GetChild(randChild[i] % lineSize).GetComponent<OnColoredFloorTrigger>().WarnPlayerSmthgBadIsComing();
+
                 ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.ColorFloorPickUps, 1).GetItem(
                     transform.GetChild(randChild[i] / lineCount).GetChild(randChild[i] % lineSize),
                     Vector3.up * 1.5f,

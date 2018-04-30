@@ -18,6 +18,9 @@ public class OnColoredFloorTrigger : MonoBehaviour {
     FloorState currentState = FloorState.Normal;
     Material material;
 
+    [SerializeField]
+    GameObject warningFeedback;
+
     public bool IsLocked()
     {
         return currentState == FloorState.AnimLocked;
@@ -199,5 +202,10 @@ public class OnColoredFloorTrigger : MonoBehaviour {
             currentOwner = (int)pc.playerIndex;
             //pc.GetComponent<Rigidbody>().velocity = new Vector3(pc.GetComponent<Rigidbody>().velocity.x, 0.0f, pc.GetComponent<Rigidbody>().velocity.z);
         }
+    }
+
+    public void WarnPlayerSmthgBadIsComing()
+    {
+        warningFeedback.SetActive(true);
     }
 }
