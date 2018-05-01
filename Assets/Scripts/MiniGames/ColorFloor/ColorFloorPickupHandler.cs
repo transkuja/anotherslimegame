@@ -38,7 +38,7 @@ public class ColorFloorPickupHandler : MonoBehaviour
     {
         initialSpawnRate = 5.0f - difficulty;
         currentSpawnRate = initialSpawnRate;
-        minBadPickupSpawns = (int)(difficulty * 1.5f);
+        minBadPickupSpawns = difficulty + 1;
         maxBadPickupSpawns = minBadPickupSpawns * 2;
     }
 
@@ -75,10 +75,10 @@ public class ColorFloorPickupHandler : MonoBehaviour
             lineSize = transform.GetChild(randChild / lineCount).childCount;
 
             // Makes sure we don't spawn twice at the same place
-            while (transform.GetChild(randChild / lineCount).GetChild(randChild % lineSize).GetComponent<OnColoredFloorTrigger>().hasAnItem)
+            while (transform.GetChild(randChild / lineCount).GetChild(randChild % lineSize).GetComponent<OnColoredFloorTrigger>().HasAnItem)
                 randChild = Random.Range(0, mapSize);
 
-            transform.GetChild(randChild / lineCount).GetChild(randChild % lineSize).GetComponent<OnColoredFloorTrigger>().hasAnItem = true;
+            transform.GetChild(randChild / lineCount).GetChild(randChild % lineSize).GetComponent<OnColoredFloorTrigger>().HasAnItem = true;
             int subpoolIndex = Random.Range(0, ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.ColorFloorPickUps).PoolParent.childCount);
 
             if (isUsingScorePickups)
@@ -91,7 +91,6 @@ public class ColorFloorPickupHandler : MonoBehaviour
                 }                  
             }
 
-            Debug.Log("spawn");
             spawnedPickups.Add(
                 ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.ColorFloorPickUps).GetItem(
                     transform.GetChild(randChild / lineCount).GetChild(randChild % lineSize),
@@ -112,31 +111,23 @@ public class ColorFloorPickupHandler : MonoBehaviour
         {
             yield return new WaitForSeconds(currentSpawnRate);
             currentSpawnRate *= Random.Range(0.8f, 1.1f);
-            Debug.Log("spawnbad");
 
             // Spawn pickup, no pattern
-            int[] randChild = new int[Random.Range(minBadPickupSpawns, maxBadPickupSpawns)];
+            int[] randChild = new int[Random.Range(minBadPickupSpawns, maxBadPickupSpawns + 1)];
             for (int i = 0; i < randChild.Length; ++i)
             {
                 randChild[i] = Random.Range(0, mapSize);
                 lineSize = transform.GetChild(randChild[i] / lineCount).childCount;
 
                 // Makes sure we don't spawn twice at the same place
-                while (transform.GetChild(randChild[i] / lineCount).GetChild(randChild[i] % lineSize).GetComponent<OnColoredFloorTrigger>().hasAnItem)
+                while (transform.GetChild(randChild[i] / lineCount).GetChild(randChild[i] % lineSize).GetComponent<OnColoredFloorTrigger>().HasAnItem)
                     randChild[i] = Random.Range(0, mapSize);
 
-                transform.GetChild(randChild[i] / lineCount).GetChild(randChild[i] % lineSize).GetComponent<OnColoredFloorTrigger>().hasAnItem = true;
+                transform.GetChild(randChild[i] / lineCount).GetChild(randChild[i] % lineSize).GetComponent<OnColoredFloorTrigger>().HasAnItem = true;
                 // Wait for x sec, OnEnable du feedback, start coroutine, after x sec, pop
 
                 yield return new WaitForSeconds(0.33f);
                 transform.GetChild(randChild[i] / lineCount).GetChild(randChild[i] % lineSize).GetComponent<OnColoredFloorTrigger>().WarnPlayerSmthgBadIsComing();
-
-                ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.ColorFloorPickUps, 1).GetItem(
-                    transform.GetChild(randChild[i] / lineCount).GetChild(randChild[i] % lineSize),
-                    Vector3.up * 1.5f,
-                    Quaternion.identity,
-                    true
-                );
             }
         }
     }

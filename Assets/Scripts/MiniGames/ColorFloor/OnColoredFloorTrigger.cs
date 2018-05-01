@@ -9,7 +9,7 @@ public class OnColoredFloorTrigger : MonoBehaviour {
     ColorFloorPickupHandler pickupHandler;
 
     public int currentOwner = -1;
-    public bool hasAnItem = false;
+    private bool hasAnItem = false;
 
     public bool debug;
 
@@ -182,20 +182,33 @@ public class OnColoredFloorTrigger : MonoBehaviour {
         }
     }
 
+    public bool HasAnItem
+    {
+        get
+        {
+            return GetComponentInChildren<MinigamePickUp>() != null;
+        }
+
+        set
+        {
+            hasAnItem = value;
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.transform.GetComponentInParent<PlayerController>() != null)
         {
             PlayerController pc = other.transform.GetComponentInParent<PlayerController>();
 
-            if (hasAnItem)
+            if (HasAnItem)
             {
                 MinigamePickUp pickupComponent = transform.GetComponentInChildren<MinigamePickUp>();
                 pickupComponent.collectPickup((int)pc.playerIndex);
                 ColorFloorPickupHandler.spawnedPickups.Remove(pickupComponent.gameObject);
 
                 Destroy(pickupComponent.gameObject);
-                hasAnItem = false;
+                HasAnItem = false;
             }
 
             ColorFloorHandler.RegisterFloor((int)pc.playerIndex, GetComponent<OnColoredFloorTrigger>());
