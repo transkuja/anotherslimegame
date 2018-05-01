@@ -112,8 +112,10 @@ public class ColorFloorPickupHandler : MonoBehaviour
             // Randomly ou autre
             int randomPatt = Random.Range(0, 3);
             int randomHowToSpawn = Random.Range(0, 2);
+            int numberOfLines = Random.Range(1, 3);
+            int numberOfColumns = Random.Range(1, 3);
 
-            yield return new WaitForSeconds(currentSpawnRate * ((randomPatt == 0) ? 2.0f : 1.0f)  + (randomHowToSpawn *2));
+            yield return new WaitForSeconds(currentSpawnRate * ((randomPatt == 0) ? 2.0f : 1.0f)  + (randomHowToSpawn * (numberOfLines + numberOfColumns)));
             currentSpawnRate *= Random.Range(0.8f, 1.1f);
             currentSpawnRate = Mathf.Max(currentSpawnRate, 2.0f);
 
@@ -124,9 +126,6 @@ public class ColorFloorPickupHandler : MonoBehaviour
             }
             else if (randomPatt == 1)
             {
-                int numberOfLines = Random.Range(1, 3);
-                int numberOfColumns = Random.Range(1, 3);
-
                 for (int i = 0; i < numberOfLines; i++)
                     randChild.AddRange(LineSpawnBadPickup());
                 for (int i = 0; i < numberOfColumns; i++)
@@ -134,12 +133,9 @@ public class ColorFloorPickupHandler : MonoBehaviour
             }
             else
             {
-                int numberOfAsc = Random.Range(1, 3);
-                int numberOfDesc = Random.Range(1, 3);
-
-                for (int i = 0; i < numberOfAsc; i++)
+                for (int i = 0; i < numberOfLines; i++)
                     randChild.AddRange(AscendingDiagonalBadPickup());
-                for (int i = 0; i < numberOfDesc; i++)
+                for (int i = 0; i < numberOfColumns; i++)
                     randChild.AddRange(DescendingDiagonalBadPickup());
             }
 
