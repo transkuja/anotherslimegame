@@ -113,10 +113,33 @@ public class ColorFloorPickupHandler : MonoBehaviour
             currentSpawnRate *= Random.Range(0.8f, 1.1f);
             currentSpawnRate = Mathf.Max(currentSpawnRate, 2.0f);
 
-            int[] randChild = ColumnSpawnBadPickup();
+            int[] randChild = AscendingDiagonalBadPickup();
             //StartCoroutine(SpawnOneAfterAnother(randChild));
             SpawnAtTheSameTime(randChild);
         }
+    }
+
+    int[] AscendingDiagonalBadPickup(int _startingLine = -1, int _startingColumn = -1)
+    {
+        if (_startingLine == -1 && _startingColumn == -1)
+        {
+            int randStart = Random.Range(0, 15);
+            _startingLine = Mathf.Min(randStart, 7);
+            _startingColumn = Mathf.Max(0, randStart - 7);
+        }
+        else
+        {
+            _startingLine = Mathf.Clamp(_startingLine, 0, 7);
+            _startingColumn = Mathf.Clamp(_startingColumn, 0, 7);
+        }
+        int[] result = new int[_startingLine + 1 - _startingColumn];
+
+        for (int i = 0; i < result.Length; i++)
+        {
+            result[i] = (_startingLine - i) * 8 + i + _startingColumn;
+        }
+
+        return result;
     }
 
     int[] LineSpawnBadPickup(int _lineIndex = -1)
