@@ -109,13 +109,45 @@ public class ColorFloorPickupHandler : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(currentSpawnRate);
+            // Randomly ou autre
+            int randomPatt = Random.Range(0, 3);
+            int randomHowToSpawn = Random.Range(0, 2);
+
+            yield return new WaitForSeconds(currentSpawnRate * ((randomPatt == 0) ? 2.0f : 1.0f)  + (randomHowToSpawn *2));
             currentSpawnRate *= Random.Range(0.8f, 1.1f);
             currentSpawnRate = Mathf.Max(currentSpawnRate, 2.0f);
 
-            int[] randChild = AscendingDiagonalBadPickup();
-            //StartCoroutine(SpawnOneAfterAnother(randChild));
-            SpawnAtTheSameTime(randChild);
+            List<int> randChild = new List<int>();
+            if (randomPatt == 0)
+            {
+                randChild.AddRange(RandomlySpawnBadPickup());
+            }
+            else if (randomPatt == 1)
+            {
+                int numberOfLines = Random.Range(1, 3);
+                int numberOfColumns = Random.Range(1, 3);
+
+                for (int i = 0; i < numberOfLines; i++)
+                    randChild.AddRange(LineSpawnBadPickup());
+                for (int i = 0; i < numberOfColumns; i++)
+                    randChild.AddRange(ColumnSpawnBadPickup());
+            }
+            else
+            {
+                int numberOfAsc = Random.Range(1, 3);
+                int numberOfDesc = Random.Range(1, 3);
+
+                for (int i = 0; i < numberOfAsc; i++)
+                    randChild.AddRange(AscendingDiagonalBadPickup());
+                for (int i = 0; i < numberOfDesc; i++)
+                    randChild.AddRange(DescendingDiagonalBadPickup());
+            }
+
+
+            if (randomHowToSpawn == 1)
+                StartCoroutine(SpawnOneAfterAnother(randChild.ToArray()));
+            else
+                SpawnAtTheSameTime(randChild.ToArray());
         }
     }
 
@@ -137,6 +169,29 @@ public class ColorFloorPickupHandler : MonoBehaviour
         for (int i = 0; i < result.Length; i++)
         {
             result[i] = (_startingLine - i) * 8 + i + _startingColumn;
+        }
+
+        return result;
+    }
+
+    int[] DescendingDiagonalBadPickup(int _startingLine = -1, int _startingColumn = -1)
+    {
+        if (_startingLine == -1 && _startingColumn == -1)
+        {
+            int randStart = Random.Range(0, 15);
+            _startingLine = (randStart > 7) ? 0 : randStart;
+            _startingColumn = Mathf.Max(0, randStart - 7);
+        }
+        else
+        {
+            _startingLine = Mathf.Clamp(_startingLine, 0, 7);
+            _startingColumn = Mathf.Clamp(_startingColumn, 0, 7);
+        }
+        int[] result = new int[8 - _startingLine - _startingColumn];
+
+        for (int i = 0; i < result.Length; i++)
+        {
+            result[i] = (_startingLine + i) * 8 + i + _startingColumn;
         }
 
         return result;
