@@ -33,6 +33,13 @@ public class OnColoredFloorTrigger : MonoBehaviour {
         Invoke("ResetState", 1.0f);
     }
 
+    public void ResetThisFloorNoAnim()
+    {
+        currentOwner = -1;
+        currentState = FloorState.Normal;
+        material.SetColor("_EmissionColor", Color.black);
+    }
+
     void ResetState()
     {
         if (currentState == FloorState.AnimLocked)

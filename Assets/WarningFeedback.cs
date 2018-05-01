@@ -7,7 +7,6 @@ public class WarningFeedback : MonoBehaviour {
 
     Image feedback;
     Color color;
-    float currentTimer = 0.0f;
     float maxTimer = 2.0f;
     bool alphaIncreasing = true;
 
@@ -20,15 +19,17 @@ public class WarningFeedback : MonoBehaviour {
     }
 
     void OnEnable() {
+        if (feedback == null)
+            feedback = GetComponentInChildren<Image>();
+
         color = feedback.color;
         color.a = 0.5f;
         feedback.color = color;
-        currentTimer = 0.0f;
+        StartCoroutine(DisableFeedback());
     }
 
     private void Update()
     {
-        currentTimer += Time.deltaTime;
         if (alphaIncreasing)
             color.a += Time.deltaTime*2;
         else
@@ -36,19 +37,20 @@ public class WarningFeedback : MonoBehaviour {
 
         feedback.color = color;
 
-        if (currentTimer > 1.0f)
-        {
-            transform.parent.gameObject.SetActive(false);
-
-            ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.ColorFloorPickUps, 1).GetItem(
-                transform.GetComponentInParent<OnColoredFloorTrigger>().transform,
-                Vector3.up * 1.5f,
-                Quaternion.identity,
-                true
-            );
-        }
-
         if (color.a > 0.99f) alphaIncreasing = false;
         else if (color.a < 0.45f) alphaIncreasing = true;
+    }
+
+    IEnumerator DisableFeedback()
+    {
+        yield return new WaitForSeconds(1.0f);
+        transform.parent.gameObject.SetActive(false);
+
+        ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.ColorFloorPickUps, 1).GetItem(
+            transform.GetComponentInParent<OnColoredFloorTrigger>().transform,
+            Vector3.up * 1.5f,
+            Quaternion.identity,
+            true
+        );
     }
 }

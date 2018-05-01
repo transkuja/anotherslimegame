@@ -313,7 +313,7 @@ public static class ColorFloorHandler {
         // Standard case
         foreach (OnColoredFloorTrigger col in currentlyColoredByPlayer[_playerIndex])
         {
-            col.ScoreFromThisFloor();
+            col.ResetThisFloorNoAnim();
         }
 
         currentlyColoredByPlayer[_playerIndex].Clear();

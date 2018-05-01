@@ -36,7 +36,7 @@ public class ColorFloorPickupHandler : MonoBehaviour
 
     void HandleDifficulty()
     {
-        initialSpawnRate = 5.0f - difficulty;
+        initialSpawnRate = 5.0f - difficulty/2;
         currentSpawnRate = initialSpawnRate;
         minBadPickupSpawns = difficulty + 1;
         maxBadPickupSpawns = minBadPickupSpawns * 2;
@@ -111,24 +111,75 @@ public class ColorFloorPickupHandler : MonoBehaviour
         {
             yield return new WaitForSeconds(currentSpawnRate);
             currentSpawnRate *= Random.Range(0.8f, 1.1f);
+            currentSpawnRate = Mathf.Max(currentSpawnRate, 2.0f);
 
-            // Spawn pickup, no pattern
-            int[] randChild = new int[Random.Range(minBadPickupSpawns, maxBadPickupSpawns + 1)];
-            for (int i = 0; i < randChild.Length; ++i)
-            {
+            int[] randChild = ColumnSpawnBadPickup();
+            //StartCoroutine(SpawnOneAfterAnother(randChild));
+            SpawnAtTheSameTime(randChild);
+        }
+    }
+
+    int[] LineSpawnBadPickup(int _lineIndex = -1)
+    {
+        int[] result = new int[8];
+        if (_lineIndex == -1)
+        {
+            _lineIndex = Random.Range(0, 7);
+        }
+
+        for (int i = 0; i < 8; i++)
+            result[i] = (_lineIndex * 8) + i;
+
+        return result;
+    }
+
+
+    int[] ColumnSpawnBadPickup(int _columnIndex = -1)
+    {
+        int[] result = new int[8];
+        if (_columnIndex == -1)
+        {
+            _columnIndex = Random.Range(0, 7);
+        }
+
+        for (int i = 0; i < 8; i++)
+            result[i] = _columnIndex + 8*i;
+
+        return result;
+    }
+
+
+    int[] RandomlySpawnBadPickup()
+    {
+        // Spawn pickup, no pattern
+        int[] randChild = new int[Random.Range(minBadPickupSpawns, maxBadPickupSpawns + 1)];
+        for (int i = 0; i < randChild.Length; ++i)
+        {
+            randChild[i] = Random.Range(0, mapSize);
+            lineSize = transform.GetChild(randChild[i] / lineCount).childCount;
+
+            // Makes sure we don't spawn twice at the same place
+            while (transform.GetChild(randChild[i] / lineCount).GetChild(randChild[i] % lineSize).GetComponent<OnColoredFloorTrigger>().HasAnItem)
                 randChild[i] = Random.Range(0, mapSize);
-                lineSize = transform.GetChild(randChild[i] / lineCount).childCount;
+           
+        }
+        return randChild;
+    }
 
-                // Makes sure we don't spawn twice at the same place
-                while (transform.GetChild(randChild[i] / lineCount).GetChild(randChild[i] % lineSize).GetComponent<OnColoredFloorTrigger>().HasAnItem)
-                    randChild[i] = Random.Range(0, mapSize);
+    IEnumerator SpawnOneAfterAnother(int[] _randChild)
+    {
+        for (int i = 0; i < _randChild.Length; i++)
+        {
+            yield return new WaitForSeconds(0.33f);
+            transform.GetChild(_randChild[i] / lineCount).GetChild(_randChild[i] % lineSize).GetComponent<OnColoredFloorTrigger>().WarnPlayerSmthgBadIsComing();
+        }
+    }
 
-                transform.GetChild(randChild[i] / lineCount).GetChild(randChild[i] % lineSize).GetComponent<OnColoredFloorTrigger>().HasAnItem = true;
-                // Wait for x sec, OnEnable du feedback, start coroutine, after x sec, pop
-
-                yield return new WaitForSeconds(0.33f);
-                transform.GetChild(randChild[i] / lineCount).GetChild(randChild[i] % lineSize).GetComponent<OnColoredFloorTrigger>().WarnPlayerSmthgBadIsComing();
-            }
+    void SpawnAtTheSameTime(int[] _randChild)
+    {
+        for (int i = 0; i < _randChild.Length; i++)
+        {
+            transform.GetChild(_randChild[i] / lineCount).GetChild(_randChild[i] % lineSize).GetComponent<OnColoredFloorTrigger>().WarnPlayerSmthgBadIsComing();
         }
     }
 }
