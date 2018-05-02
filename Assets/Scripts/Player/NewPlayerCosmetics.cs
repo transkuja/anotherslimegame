@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 public enum FaceEmotion
 {
     Neutral,
@@ -11,6 +12,7 @@ public enum FaceEmotion
     Loser
 }
 
+[System.Serializable]
 public enum SkinType
 {
     Color,
@@ -18,6 +20,7 @@ public enum SkinType
     Mixed
 }
 
+[System.Serializable]
 public enum ColorFadeType
 {
     None,
@@ -235,17 +238,18 @@ public class NewPlayerCosmetics : MonoBehaviour {
             Transform hatTransform = customSockets.GetSocket(CustomizableType.Hat);
             while (hatTransform.childCount > 0)
                 DestroyImmediate(hatTransform.GetChild(0).gameObject);
+            
             if (hat != "None" && hat != string.Empty)
             {
                 if (DatabaseManager.Db == null)
                     DatabaseManager.LoadDb();
 
                 DatabaseClass.HatData data = ((DatabaseClass.HatData)DatabaseManager.Db.GetDataFromId<DatabaseClass.HatData>(hat));
-
                 ICustomizable hatCustom = ((GameObject)Instantiate(Resources.Load(data.model), hatTransform)).GetComponent<ICustomizable>();
                 hatCustom.Init(GetComponentInParent<Rigidbody>());
                 
                 Transform earsTransform = customSockets.GetSocket(CustomizableType.Ears);
+                
                 if (data.shouldHideEars)
                 {
                     while (earsTransform.childCount > 0)
