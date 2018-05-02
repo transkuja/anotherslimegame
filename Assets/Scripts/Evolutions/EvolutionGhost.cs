@@ -100,7 +100,7 @@ public class EvolutionGhost : EvolutionComponent
 
     public void SetGhostVisual()
     {
-        baseMat = playerCharacter.Body.GetComponent<MeshRenderer>().sharedMaterial;
+        baseMat = playerCharacter.Body.GetComponentInChildren<Renderer>().sharedMaterial;
         ghostMat = ResourceUtils.Instance.refPrefabGhost.GhostMaterial;
         baseDustTrailMat = playerCharacter.DustTrailParticles.GetComponent<ParticleSystemRenderer>().sharedMaterial;
         ghostDustTrailMat = ResourceUtils.Instance.refPrefabGhost.GhostDustTrailMaterial;
@@ -112,11 +112,7 @@ public class EvolutionGhost : EvolutionComponent
 
 
 
-        playerCharacter.Body.GetComponent<MeshRenderer>().material = ghostMat;
-        playerCharacter.MainGauche.GetComponent<MeshRenderer>().material = ghostMat;
-        playerCharacter.MainDroite.GetComponent<MeshRenderer>().material = ghostMat;
-        playerCharacter.OreilleGauche.GetComponent<MeshRenderer>().material = ghostMat;
-        playerCharacter.OreilleDroite.GetComponent<MeshRenderer>().material = ghostMat;
+        playerCharacter.Body.GetComponentInChildren<Renderer>().material = ghostMat;
         playerCharacter.GhostParticles.Play();
         playerCharacter.DustTrailParticles.GetComponent<ParticleSystemRenderer>().material = ghostDustTrailMat;
         playerCharacter.DustTrailParticles.transform.GetChild(0).GetComponent<ParticleSystemRenderer>().material = ghostDustTrailMat;
@@ -126,11 +122,7 @@ public class EvolutionGhost : EvolutionComponent
 
     public void RemoveGhostVisual()
     {
-        playerCharacter.Body.GetComponent<MeshRenderer>().material = baseMat;
-        playerCharacter.MainGauche.GetComponent<MeshRenderer>().material = baseMat;
-        playerCharacter.MainDroite.GetComponent<MeshRenderer>().material = baseMat;
-        playerCharacter.OreilleGauche.GetComponent<MeshRenderer>().material = baseMat;
-        playerCharacter.OreilleDroite.GetComponent<MeshRenderer>().material = baseMat;
+        playerCharacter.Body.GetComponentInChildren<Renderer>().material = baseMat;
         playerCharacter.GhostParticles.Stop();
         playerCharacter.DustTrailParticles.GetComponent<ParticleSystemRenderer>().material = baseDustTrailMat;
         playerCharacter.DustTrailParticles.transform.GetChild(0).GetComponent<ParticleSystemRenderer>().material = baseDustTrailMat;

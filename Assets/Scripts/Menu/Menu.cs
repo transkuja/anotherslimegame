@@ -215,12 +215,12 @@ public class Menu : MonoBehaviour {
                 if (isNonable[(int)CustomizableType.Mustache] && dataContainer.mustachesSelected[i] == "None")
                     selectedCustomizables[(int)CustomizableType.Mustache, i] = unlockedCustomizables[CustomizableType.Mustache].Count;
                 else
-                    selectedCustomizables[(int)CustomizableType.Mustache, i] = unlockedCustomizables[CustomizableType.Mustache].FindIndex(x => ((DatabaseClass.MustacheData)x).model == dataContainer.mustachesSelected[i]);
+                    selectedCustomizables[(int)CustomizableType.Mustache, i] = unlockedCustomizables[CustomizableType.Mustache].FindIndex(x => ((DatabaseClass.MustacheData)x).Id == dataContainer.mustachesSelected[i]);
 
                 if (isNonable[(int)CustomizableType.Hat] && dataContainer.hatsSelected[i] == "None")
                     selectedCustomizables[(int)CustomizableType.Hat, i] = unlockedCustomizables[CustomizableType.Hat].Count;
                 else
-                    selectedCustomizables[(int)CustomizableType.Hat, i] = unlockedCustomizables[CustomizableType.Hat].FindIndex(x => ((DatabaseClass.HatData)x).model == dataContainer.hatsSelected[i]);
+                    selectedCustomizables[(int)CustomizableType.Hat, i] = unlockedCustomizables[CustomizableType.Hat].FindIndex(x => ((DatabaseClass.HatData)x).Id == dataContainer.hatsSelected[i]);
 
             }
             SetState(MenuState.MinigameSelection);
@@ -626,7 +626,7 @@ public class Menu : MonoBehaviour {
                 UpdatePlayerPreviewFace(_playerIndex, _unlockedIndex);
                 break;
             case CustomizableType.Ears:
-                UpdatePlayerPreviewCustomizable(_customizableType, _playerIndex, _unlockedIndex, _isNoneValue);
+                UpdatePlayerPreviewEars(_playerIndex, _unlockedIndex, _isNoneValue);
                 break;
             case CustomizableType.Hat:
                 UpdatePlayerPreviewHat(_playerIndex, _unlockedIndex, _isNoneValue);
@@ -646,77 +646,73 @@ public class Menu : MonoBehaviour {
 
     void UpdatePlayerPreviewMustache(int _playerIndex, int _selection, bool _isNoneValue)
     {
-        Transform parent = playerCustomScreens[_playerIndex].transform.GetComponentInChildren<CustomizableSockets>().transform.GetChild((int)(CustomizableType.Mustache) - 2);
+        PlayerCosmetics playerCosmetics = playerCustomScreens[_playerIndex].GetComponentInChildren<PlayerCosmetics>();
+
+        Transform parent = playerCustomScreens[_playerIndex].transform.GetComponentInChildren<CustomizableSockets>().GetSocket(CustomizableType.Mustache);
         if (parent.childCount > 0)
         {
-            Destroy(parent.GetChild(0).gameObject);
             if (_isNoneValue)
-                StartCoroutine(Sad(playerCustomScreens[_playerIndex].GetComponentInChildren<PlayerCosmetics>()));
+                StartCoroutine(Sad(playerCosmetics));
         }
         else
         {
             if (!_isNoneValue)
-                StartCoroutine(Happy(playerCustomScreens[_playerIndex].GetComponentInChildren<PlayerCosmetics>()));
+                StartCoroutine(Happy(playerCosmetics));
         }
 
         if (!_isNoneValue)
         {
-            Instantiate(Resources.Load(((DatabaseClass.MustacheData)unlockedCustomizables[CustomizableType.Mustache][_selection]).model), parent);
+            playerCosmetics.Mustache = ((DatabaseClass.MustacheData)unlockedCustomizables[CustomizableType.Mustache][_selection]).Id;
+        }
+        else
+        {
+            playerCosmetics.Mustache = String.Empty;
         }
 
     }
 
     void UpdatePlayerPreviewHat(int _playerIndex, int _selection, bool _isNoneValue)
     {
+        PlayerCosmetics playerCosmetics = playerCustomScreens[_playerIndex].GetComponentInChildren<PlayerCosmetics>();
+
         Transform parent = playerCustomScreens[_playerIndex].transform.GetComponentInChildren<CustomizableSockets>().transform.GetChild((int)(CustomizableType.Hat) - 2);
-        if (parent.childCount > 0)
-        {
-            Destroy(parent.GetChild(0).gameObject);
-        }
-        else
+        if (parent.childCount < 1)
         {
             if (!_isNoneValue)
-                StartCoroutine(Happy(playerCustomScreens[_playerIndex].GetComponentInChildren<PlayerCosmetics>()));
+                StartCoroutine(Happy(playerCosmetics));
         }
 
         if (!_isNoneValue)
         {
-            // Hide/Show ears
-            if (((DatabaseClass.HatData)unlockedCustomizables[CustomizableType.Hat][_selection]).shouldHideEars)
-                playerCustomScreens[_playerIndex].transform.GetComponentInChildren<CustomizableSockets>().transform.GetChild((int)(CustomizableType.Ears) - 2).gameObject.SetActive(false);
-            else
-                playerCustomScreens[_playerIndex].transform.GetComponentInChildren<CustomizableSockets>().transform.GetChild((int)(CustomizableType.Ears) - 2).gameObject.SetActive(false);
-
-            Instantiate(Resources.Load(((DatabaseClass.HatData)unlockedCustomizables[CustomizableType.Hat][_selection]).model), parent);
+            playerCosmetics.Hat = ((DatabaseClass.HatData)unlockedCustomizables[CustomizableType.Hat][_selection]).Id;
         }
         else
         {
-            // Show ears
-            playerCustomScreens[_playerIndex].transform.GetComponentInChildren<CustomizableSockets>().transform.GetChild((int)(CustomizableType.Ears) - 2).gameObject.SetActive(true);
+            playerCosmetics.Hat = String.Empty;
         }
     }
 
     // Default customizable update function
-    void UpdatePlayerPreviewCustomizable(CustomizableType _type, int _playerIndex, int _selection, bool _isNoneValue)
+    void UpdatePlayerPreviewEars(int _playerIndex, int _selection, bool _isNoneValue)
     {
-        Transform parent = playerCustomScreens[_playerIndex].transform.GetComponentInChildren<CustomizableSockets>().transform.GetChild((int)(_type) - 2);
-        if (parent.childCount > 0)
-        {
-            Destroy(parent.GetChild(0).gameObject);
-        }
-        else
+        PlayerCosmetics playerCosmetics = playerCustomScreens[_playerIndex].GetComponentInChildren<PlayerCosmetics>();
+
+        Transform parent = playerCustomScreens[_playerIndex].transform.GetComponentInChildren<CustomizableSockets>().transform.GetChild((int)(CustomizableType.Ears) - 2);
+
+        if (parent.childCount < 1)
         {
             if (!_isNoneValue)
-                StartCoroutine(Happy(playerCustomScreens[_playerIndex].GetComponentInChildren<PlayerCosmetics>()));
+                StartCoroutine(Happy(playerCosmetics));
         }
 
         if (!_isNoneValue)
         {
-            if (_type == CustomizableType.Ears)
-                Instantiate(Resources.Load(((DatabaseClass.EarsData)unlockedCustomizables[_type][_selection]).model), parent);
-            
+            playerCosmetics.Ears = ((DatabaseClass.EarsData)unlockedCustomizables[CustomizableType.Ears][_selection]).Id;
         }
-
+        else
+        {
+            playerCosmetics.Ears = String.Empty;
+        }
     }
 
     IEnumerator Happy(PlayerCosmetics _cosmeticsRef)
@@ -742,7 +738,7 @@ public class Menu : MonoBehaviour {
     void UpdatePlayerPreviewColor(int _playerIndex, int _selection)
     {
         // Update text and character
-        playerCustomScreens[_playerIndex].transform.GetChild(4).GetComponentInChildren<PlayerCosmetics>().UseColorFade = false;
+        playerCustomScreens[_playerIndex].transform.GetChild(4).GetComponentInChildren<PlayerCosmetics>().ColorFadeType = ColorFadeType.None;
         playerCustomScreens[_playerIndex].transform.GetChild(4).GetComponentInChildren<PlayerCosmetics>().SetUniqueColor(((DatabaseClass.ColorData)unlockedCustomizables[CustomizableType.Color][_selection]).color);
     }
 
@@ -752,7 +748,7 @@ public class Menu : MonoBehaviour {
         // Update text and character
         playerCustomScreens[_playerIndex].transform.GetChild(4).GetChild(0).gameObject.SetActive(true);
         playerCustomScreens[_playerIndex].transform.GetChild(4).GetChild(1).gameObject.SetActive(false);
-        playerCustomScreens[_playerIndex].transform.GetChild(4).GetComponentInChildren<PlayerCosmetics>().FaceType = (FaceType)((DatabaseClass.FaceData)unlockedCustomizables[CustomizableType.Face][_selection]).indiceForShader;
+        playerCustomScreens[_playerIndex].transform.GetChild(4).GetComponentInChildren<PlayerCosmetics>().FaceType = ((DatabaseClass.FaceData)unlockedCustomizables[CustomizableType.Face][_selection]).indiceForShader;
     }
 
 
@@ -887,10 +883,9 @@ public class Menu : MonoBehaviour {
             int childCount = transform.GetChild((int)MenuState.MinigameSelection).childCount;
             for (int i = 0; i < nbPlayers; i++)
             {
-                PlayerCosmetics curPlayerCosmetics = transform.GetChild((int)MenuState.MinigameSelection).GetChild(childCount - 4 + i).GetComponentInChildren<PlayerCosmetics>();
-                
+                PlayerCosmetics curPlayerCosmetics = transform.GetChild((int)MenuState.MinigameSelection).GetChild(childCount - 4 + i).GetComponentInChildren<PlayerCosmetics>(true);
                 curPlayerCosmetics.SetUniqueColor(((DatabaseClass.ColorData)unlockedCustomizables[CustomizableType.Color][selectedCustomizables[(int)CustomizableType.Color, i]]).color);
-                curPlayerCosmetics.FaceType = (FaceType)((DatabaseClass.FaceData)unlockedCustomizables[CustomizableType.Face][selectedCustomizables[(int)CustomizableType.Face, i]]).indiceForShader;
+                curPlayerCosmetics.FaceType = ((DatabaseClass.FaceData)unlockedCustomizables[CustomizableType.Face][selectedCustomizables[(int)CustomizableType.Face, i]]).indiceForShader;
 
                 // Customizables
 
@@ -914,25 +909,18 @@ public class Menu : MonoBehaviour {
 
     void UpdatePlayersOnMinigameSelectionScreen(CustomizableType _type, int _playerIndex, int _childCount)
     {
-        Transform socket = transform.GetChild((int)MenuState.MinigameSelection).GetChild(_childCount - 4 + _playerIndex).GetComponentInChildren<CustomizableSockets>().transform.GetChild((int)(_type) - 2);
-        if (socket.childCount > 0)
-            Destroy(socket.GetChild(0).gameObject);
+        PlayerCosmetics playerCosmetics = transform.GetChild((int)MenuState.MinigameSelection).GetChild(_childCount - 4 + _playerIndex).GetComponentInChildren<PlayerCosmetics>(true);
 
         if (selectedCustomizables[(int)_type, _playerIndex] != unlockedCustomizables[_type].Count && unlockedCustomizables[_type].Count > 0)
         {
             if (_type == CustomizableType.Mustache)
-                Instantiate(Resources.Load(((DatabaseClass.MustacheData)unlockedCustomizables[_type][selectedCustomizables[(int)_type, _playerIndex]]).model), socket);
+                playerCosmetics.Mustache = ((DatabaseClass.MustacheData)unlockedCustomizables[_type][selectedCustomizables[(int)_type, _playerIndex]]).Id;
             else if (_type == CustomizableType.Hat)
             {
-                DatabaseClass.HatData hatData = ((DatabaseClass.HatData)unlockedCustomizables[_type][selectedCustomizables[(int)_type, _playerIndex]]);
-                Instantiate(Resources.Load(hatData.model), socket);
-                if (hatData.shouldHideEars)
-                    socket.parent.GetChild((int)CustomizableType.Ears - 2).gameObject.SetActive(false);
-                else
-                    socket.parent.GetChild((int)CustomizableType.Ears - 2).gameObject.SetActive(true);
+                playerCosmetics.Hat = ((DatabaseClass.HatData)unlockedCustomizables[_type][selectedCustomizables[(int)_type, _playerIndex]]).Id;
             }
             else if (_type == CustomizableType.Ears)
-                Instantiate(Resources.Load(((DatabaseClass.EarsData)unlockedCustomizables[_type][selectedCustomizables[(int)_type, _playerIndex]]).model), socket);
+                playerCosmetics.Ears = ((DatabaseClass.EarsData)unlockedCustomizables[_type][selectedCustomizables[(int)_type, _playerIndex]]).Id;
         }
     }
 
@@ -951,7 +939,7 @@ public class Menu : MonoBehaviour {
         go.transform.GetChild(2).GetComponent<Text>().text = ((CustomizableType)0).ToString();
         go.transform.GetChild(3).GetComponent<Text>().text = unlockedCustomizables[0][0].Id;
         go.transform.GetChild(4).GetComponentInChildren<PlayerCosmetics>().SetUniqueColor(((DatabaseClass.ColorData)unlockedCustomizables[CustomizableType.Color][0]).color);
-        go.transform.GetChild(4).GetComponentInChildren<PlayerCosmetics>().FaceType = (FaceType)((DatabaseClass.FaceData)unlockedCustomizables[CustomizableType.Face][0]).indiceForShader;
+        go.transform.GetChild(4).GetComponentInChildren<PlayerCosmetics>().FaceType = ((DatabaseClass.FaceData)unlockedCustomizables[CustomizableType.Face][0]).indiceForShader;
         playerCustomScreens.Add(go);
 
         return go;
@@ -1073,17 +1061,17 @@ public class Menu : MonoBehaviour {
             if (unlockedCustomizables[CustomizableType.Mustache].Count == 0 || selectedCustomizables[(int)CustomizableType.Mustache, i] == unlockedCustomizables[CustomizableType.Mustache].Count)
                 selectedMustaches[i] = "None";
             else
-                selectedMustaches[i] = ((DatabaseClass.MustacheData)unlockedCustomizables[CustomizableType.Mustache][selectedCustomizables[(int)CustomizableType.Mustache, i]]).model;
+                selectedMustaches[i] = ((DatabaseClass.MustacheData)unlockedCustomizables[CustomizableType.Mustache][selectedCustomizables[(int)CustomizableType.Mustache, i]]).Id;
 
             if (unlockedCustomizables[CustomizableType.Hat].Count == 0 || selectedCustomizables[(int)CustomizableType.Hat, i] == unlockedCustomizables[CustomizableType.Hat].Count)
                 selectedHats[i] = "None";
             else
-                selectedHats[i] = ((DatabaseClass.HatData)unlockedCustomizables[CustomizableType.Hat][selectedCustomizables[(int)CustomizableType.Hat, i]]).model;
+                selectedHats[i] = ((DatabaseClass.HatData)unlockedCustomizables[CustomizableType.Hat][selectedCustomizables[(int)CustomizableType.Hat, i]]).Id;
 
             if (unlockedCustomizables[CustomizableType.Ears].Count == 0 || selectedCustomizables[(int)CustomizableType.Ears, i] == unlockedCustomizables[CustomizableType.Ears].Count)
                 selectedEars[i] = "None";
             else
-                selectedEars[i] = ((DatabaseClass.EarsData)unlockedCustomizables[CustomizableType.Ears][selectedCustomizables[(int)CustomizableType.Ears, i]]).model;
+                selectedEars[i] = ((DatabaseClass.EarsData)unlockedCustomizables[CustomizableType.Ears][selectedCustomizables[(int)CustomizableType.Ears, i]]).Id;
         }
         dataContainer.SaveData(nbPlayers, sc, sf, selectedMustaches, selectedHats, selectedEars, selectedColorFades, selectedRabbits, selectedMode == 1);
     }

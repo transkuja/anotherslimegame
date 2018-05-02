@@ -13,7 +13,6 @@ public class BobBehavior : PNJDefaultBehavior
     private GameObject retryMessageGo;
 
     public GameObject triggerEnd;
-    public GameObject toDesactivate;
     private GameObject FadeInAndOut;
 
     private Vector3[] initialpos = new Vector3[2];
@@ -40,7 +39,7 @@ public class BobBehavior : PNJDefaultBehavior
 
         if (DatabaseManager.Db.IsUnlock<DatabaseClass.HatData>("Cowboy"))
         {
-            toDesactivate.SetActive(false);
+            GetComponentInChildren<PlayerCosmetics>().Hat = "None";
             step = messages.QuestMessagesLength();
         } else
         {
@@ -266,7 +265,7 @@ public class BobBehavior : PNJDefaultBehavior
 
         yield return new WaitForSeconds(2.0f);
         hasWin = true;
-        toDesactivate.SetActive(false);
+        GetComponentInChildren<PlayerCosmetics>().Hat = "None";
         rewards[0].GetReward();
 
         CleanMinigameHub();

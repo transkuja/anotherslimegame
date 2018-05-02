@@ -20,7 +20,7 @@ public class ColorFade : MonoBehaviour {
             for(int j = 0; j < ms.Length; j++)
             {
                 mats.Add(ms[j]);
-                mats[mats.Count-1].color = Color.red;
+                mats[mats.Count-1].SetColor("_EmissionColor", Color.red);
             }
         }
 	}
@@ -30,11 +30,11 @@ public class ColorFade : MonoBehaviour {
         float h, s, v;
         foreach (Material m in mats)
         {
-            Color.RGBToHSV(m.color, out h, out s, out v);
+            Color.RGBToHSV(m.GetColor("_EmissionColor"), out h, out s, out v);
 
             h += Time.deltaTime * speed;
 
-            m.color = Color.HSVToRGB(h, s, v);
+            m.SetColor("_EmissionColor",Color.HSVToRGB(h, s, v));
         }
 	}
 }

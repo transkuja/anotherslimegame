@@ -2,17 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum FaceType
-{
-    Face0,
-    Face1,
-    Face2,
-    Face3,
-    Face4,
-    Face5,
-    Face6
-}
-
+[System.Serializable]
 public enum FaceEmotion
 {
     Neutral,
@@ -22,32 +12,64 @@ public enum FaceEmotion
     Loser
 }
 
-public class PlayerCosmetics : MonoBehaviour {
-    Material bodyMat;
-    Material[] handMats;
-    Material[] earMats;
+[System.Serializable]
+public enum SkinType
+{
+    Color,
+    Texture,
+    Mixed
+}
 
-    [SerializeField]
-    bool useColorFade;
+[System.Serializable]
+public enum ColorFadeType
+{
+    None,
+    Basic,
+    Special
+}
+[ExecuteInEditMode]
+public class PlayerCosmetics : MonoBehaviour {
+    public Material[] originalPlayerMats = new Material[2];
+    
+    Material bodyMat;
+    Material faceMat;
+
+    CustomizableSockets customSockets;
 
     [SerializeField]
     Color bodyColor;
 
     [SerializeField]
-    Color handsColor;
+    Texture bodyTexture; // TEMP : Needs to be a choice field according to data from db
 
     [SerializeField]
-    Color earColor;
-
-    [SerializeField]
-    FaceType faceType;
+    int faceType;
 
     [SerializeField]
     FaceEmotion faceEmotion;
 
     [SerializeField]
-    bool applyOnStart = false;
+    SkinType skinType;
 
+    [SerializeField]
+    ColorFadeType colorFadeType = ColorFadeType.None;
+
+    [SerializeField]
+    public bool applyOnStart = false;
+
+    [SerializeField]
+    string mustache = "None";
+
+    [SerializeField]
+    string hat = "None";
+
+    [SerializeField]
+    string ears = "None";
+
+    private void Awake()
+    {
+        Init(true);
+    }
 
     public Color BodyColor
     {
@@ -58,65 +80,43 @@ public class PlayerCosmetics : MonoBehaviour {
 
         set
         {
+            if (!bodyMat)
+                Init();
+
             bodyColor = value;
-            bodyMat.color = bodyColor;
+            if (skinType == SkinType.Color || skinType == SkinType.Mixed)
+                bodyMat.color = bodyColor;
         }
     }
 
-    public Color HandsColor
+    void ApplyTextureOnly()
     {
-        get
-        {
-            return handsColor;
-        }
+        if (!bodyMat)
+            Init();
 
-        set
-        {
-            handsColor = value;
-            foreach (Material m in handMats)
-                m.color = handsColor;
-        }
+        bodyMat.color = Color.white;
+        bodyMat.SetTexture("_MainTex", bodyTexture);
     }
 
-    public Color EarColor
+    void ApplyColorOnly()
     {
-        get
-        {
-            return earColor;
-        }
+        if (!bodyMat)
+            Init();
 
-        set
-        {
-            earColor = value;
-            foreach (Material m in earMats)
-                m.color = earColor;
-        }
+        bodyMat.SetTexture("_MainTex", null);
+        BodyColor = bodyColor;
     }
 
-    public bool UseColorFade
+    void ApplyMixed()
     {
-        get
-        {
-            return useColorFade;
-        }
+        if (!bodyMat)
+            Init();
 
-        set
-        {
-
-            int toAssign = value ? 1 : 0;
-            bodyMat.SetInt("_ColorFade", toAssign);
-
-            foreach (Material m in handMats)
-                m.SetInt("_ColorFade", toAssign);
-
-            foreach (Material m in earMats)
-                m.SetInt("_ColorFade", toAssign);
-
-            useColorFade = value;
-        }
+        bodyMat.SetTexture("_MainTex", bodyTexture);
+        BodyColor = bodyColor;
     }
 
-    public FaceType FaceType
+    public int FaceType
     {
         get
         {
@@ -125,8 +125,10 @@ public class PlayerCosmetics : MonoBehaviour {
 
         set
         {
+            if (!faceMat)
+                Init();
             faceType = value;
-            bodyMat.SetFloat("_FaceType", (float)value);
+            faceMat.SetTextureOffset("_MainTex", new Vector2((faceType-1)/8.0f, 1 - (float)faceEmotion/8.0f)); // faceType-1 due to wrong uv config?
         }
     }
 
@@ -139,30 +141,208 @@ public class PlayerCosmetics : MonoBehaviour {
 
         set
         {
+            if (!faceMat)
+                Init();
             faceEmotion = value;
-            bodyMat.SetFloat("_FaceEmotion", (float)value);
+            faceMat.SetTextureOffset("_MainTex", new Vector2((faceType - 1) / 8.0f, 1 - (float)faceEmotion / 8.0f));
+        }
+    }
+
+    public SkinType SkinType
+    {
+        get
+        {
+            return skinType;
+        }
+
+        set
+        {
+            if (!faceMat || !bodyMat)
+                Init();
+
+            skinType = value;
+            switch (skinType)
+            {
+                case SkinType.Color:
+                    ApplyColorOnly();
+                    break;
+                case SkinType.Texture:
+                    ApplyTextureOnly();
+                    break;
+                case SkinType.Mixed:
+                    ApplyMixed();
+                    break;
+            }
+        }
+    }
+
+    public Texture BodyTexture
+    {
+        get
+        {
+            return bodyTexture;
+        }
+
+        set
+        {
+            if (!bodyMat)
+                Init();
+
+            bodyTexture = value;
+            if(skinType == SkinType.Texture || skinType == SkinType.Mixed)
+            {
+                bodyMat.SetTexture("_MainTex", bodyTexture);
+            }
+        }
+    }
+
+    public string Mustache
+    {
+        get
+        {
+            return mustache;
+        }
+
+        set
+        {
+            mustache = value;
+            if (!customSockets)
+                customSockets = GetComponent<CustomizableSockets>();
+            Transform mustacheTransform = customSockets.GetSocket(CustomizableType.Mustache);
+            while (mustacheTransform.childCount > 0)
+                DestroyImmediate(mustacheTransform.GetChild(0).gameObject);
+            if (mustache != "None" && mustache != string.Empty)
+            {
+                if (DatabaseManager.Db == null)
+                    DatabaseManager.LoadDb();
+                DatabaseClass.MustacheData data = ((DatabaseClass.MustacheData)DatabaseManager.Db.GetDataFromId<DatabaseClass.MustacheData>(mustache));
+                
+                ICustomizable mustacheCustom = ((GameObject)Instantiate(Resources.Load(data.model), mustacheTransform)).GetComponent<ICustomizable>();
+                mustacheCustom.Init(GetComponentInParent<Rigidbody>());
+            }
+        }
+    }
+
+    public string Hat
+    {
+        get
+        {
+            return hat;
+        }
+
+        set
+        {
+            hat = value;
+            if (!customSockets)
+                customSockets = GetComponent<CustomizableSockets>();
+            Transform hatTransform = customSockets.GetSocket(CustomizableType.Hat);
+            while (hatTransform.childCount > 0)
+                DestroyImmediate(hatTransform.GetChild(0).gameObject);
+            
+            if (hat != "None" && hat != string.Empty)
+            {
+                if (DatabaseManager.Db == null)
+                    DatabaseManager.LoadDb();
+
+                DatabaseClass.HatData data = ((DatabaseClass.HatData)DatabaseManager.Db.GetDataFromId<DatabaseClass.HatData>(hat));
+                ICustomizable hatCustom = ((GameObject)Instantiate(Resources.Load(data.model), hatTransform)).GetComponent<ICustomizable>();
+                hatCustom.Init(GetComponentInParent<Rigidbody>());
+                
+                Transform earsTransform = customSockets.GetSocket(CustomizableType.Ears);
+                
+                if (data.shouldHideEars)
+                {
+                    while (earsTransform.childCount > 0)
+                        DestroyImmediate(earsTransform.GetChild(0).gameObject);
+                }
+                else if(earsTransform.childCount == 0)
+                {
+                    Ears = ears;
+                }
+            }
+                
+        }
+    }
+
+    public string Ears
+    {
+        get
+        {
+            return ears;
+        }
+
+        set
+        {
+            ears = value;
+            if (!customSockets)
+                customSockets = GetComponent<CustomizableSockets>();
+            Transform earsTransform = customSockets.GetSocket(CustomizableType.Ears);
+            while (earsTransform.childCount > 0)
+                DestroyImmediate(earsTransform.GetChild(0).gameObject);
+            if (ears != "None" && ears != string.Empty)
+            {
+                if (DatabaseManager.Db == null)
+                    DatabaseManager.LoadDb();
+
+                DatabaseClass.EarsData data = ((DatabaseClass.EarsData)DatabaseManager.Db.GetDataFromId<DatabaseClass.EarsData>(ears));
+                ICustomizable earCustom = ((GameObject)Instantiate(Resources.Load(data.model), earsTransform)).GetComponent<ICustomizable>();
+                earCustom.Init(GetComponentInParent<Rigidbody>());
+            }
+        }
+    }
+
+    public ColorFadeType ColorFadeType
+    {
+        get
+        {
+            return colorFadeType;
+        }
+
+        set
+        {
+            if (!bodyMat)
+                Init();
+
+            colorFadeType = value;
+            bodyMat.SetInt("_ColorFade", (int)colorFadeType);
         }
     }
 
     public void SetUniqueColor(Color _color)
     {
         BodyColor = _color;
-        EarColor = _color;
-        HandsColor = _color;
+    }
+
+    public void Init(bool _applyOnStart)
+    {
+        bool prevBool = applyOnStart;
+        applyOnStart = _applyOnStart;
+        Init();
+        applyOnStart = prevBool;
     }
 
     public void Init()
     {
-        bodyMat = GetComponent<MeshRenderer>().material;
+        customSockets = GetComponent<CustomizableSockets>();
+        Renderer r = GetComponentInChildren<Renderer>();
+        Material[] originals = r.sharedMaterials;
+        Material[] newMaterials = new Material[originals.Length];
 
-        handMats = new Material[2];
-        earMats = new Material[2];
-
-        for (int i = 0; i < 2; i++)
+        if (originals == null || originals.Length < 1 || originals[0] == null)
         {
-            handMats[i] = transform.GetChild(0).GetChild(i).GetComponent<MeshRenderer>().material;
-            earMats[i] = transform.GetChild(1).GetChild(i).GetComponent<MeshRenderer>().material;
+            originals = originalPlayerMats;
         }
+
+        for(int i = 0; i < newMaterials.Length; i++)
+        {
+            newMaterials[i] = new Material(originals[i]);
+        }
+
+
+        r.sharedMaterials = newMaterials;
+
+        bodyMat = r.sharedMaterials[0];
+        faceMat = r.sharedMaterials[1];
 
         if (applyOnStart)
             SetValuesFromEditor();
@@ -172,27 +352,20 @@ public class PlayerCosmetics : MonoBehaviour {
 
     void SetValuesFromEditor()
     {
+        SkinType = skinType;
         BodyColor = bodyColor;
-        HandsColor = handsColor;
-        EarColor = earColor;
-
+        BodyTexture = bodyTexture;
         FaceType = faceType;
         FaceEmotion = faceEmotion;
+        Mustache = mustache;
+        ColorFadeType = colorFadeType;
     }
 
     void SetValuesFromMaterials()
     {
+        skinType = SkinType.Mixed;
         bodyColor = bodyMat.color;
-        handsColor = handMats[0].color;
-        earColor = earMats[0].color;
-
-        faceType = (FaceType)bodyMat.GetFloat("_FaceType");
-        faceEmotion = (FaceEmotion)bodyMat.GetFloat("_FaceEmotion");
+        bodyTexture = bodyMat.GetTexture("_MainTex");
+        ColorFadeType = (ColorFadeType)bodyMat.GetInt("_ColorFade");
     }
-
-    void Awake () {
-        if (bodyMat == null || handMats == null || earMats == null)
-            Init();
-	}
-
 }

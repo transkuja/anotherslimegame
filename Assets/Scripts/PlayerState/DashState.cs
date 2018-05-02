@@ -38,7 +38,7 @@ public class DashState : PlayerState
         playerCharacterHub.IsGravityEnabled = false;
         playerCharacterHub.Rb.drag = 15.0f;
         CurFixedUpdateFct = OnDashState;
-
+        playerCharacterHub.GetComponentInChildren<Animator>().SetTrigger("Dash");
         //playerController.ChangeDampingValuesCameraFreeLook(0.9f);
     }
 

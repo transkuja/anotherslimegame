@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum PlayerChildren { SlimeMesh, ShadowProjector, BubbleParticles, SplashParticles, WaterTrailParticles, CameraTarget, DustTrailParticles, DashParticles, LandingParticles, TeleportParticles };
-public enum BodyPart { Body, Wings, Hammer, Staff , Customization, Size, None}
+public enum BodyPart { Body, Rig, Wings, Hammer, Staff , Customization, GhostParticles, Size, None}
 
 
 public class PlayerCharacter : MonoBehaviour {
@@ -107,24 +107,25 @@ public class PlayerCharacter : MonoBehaviour {
     {
         get
         {
-            if (!ghostParticles) ghostParticles = transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)BodyPart.Body).GetChild(2).GetComponent<ParticleSystem>();
+            if (!ghostParticles) ghostParticles = transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)BodyPart.GhostParticles).GetComponent<ParticleSystem>();
             return ghostParticles;
         }
     }
 
     [Header("BodyParts")]
+    [SerializeField]
     private Transform mainGauche;
+    [SerializeField]
     private Transform mainDroite;
-    private Transform oreilleGauche;
-    private Transform oreilleDroite;
+    [SerializeField]
     private Transform[] evolutionParts;
+    [SerializeField]
     private Transform body;
 
     public Transform MainGauche
     {
         get
         {
-            if(!mainGauche) mainGauche = transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild(0).GetChild(0).GetChild(0);
             return mainGauche;
         }
     }
@@ -132,7 +133,6 @@ public class PlayerCharacter : MonoBehaviour {
     {
         get
         {
-            if(!mainDroite) mainDroite = transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild(0).GetChild(0).GetChild(1);
             return mainDroite;
         }
     }
@@ -140,12 +140,6 @@ public class PlayerCharacter : MonoBehaviour {
     {
         get
         {
-            if (evolutionParts == null)
-            {
-                evolutionParts = new Transform[evolutionBodyParts];
-                for (int i = 0; i < evolutionBodyParts; i++)// le probleme c'est corps : i+1 -> evolution.BodyPart
-                    evolutionParts[i] = transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild(i + 1);
-            }
             return evolutionParts;
         }
     }
@@ -153,27 +147,7 @@ public class PlayerCharacter : MonoBehaviour {
     {
         get
         {
-            if (!body) body = transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)BodyPart.Body);
             return body;
         }
     }
-    public Transform OreilleGauche
-    {
-        get
-        {
-            if (!oreilleGauche) oreilleGauche = transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)BodyPart.Body).GetChild(1).GetChild(0);
-            return oreilleGauche;
-        }
-    }
-    public Transform OreilleDroite
-    {
-        get
-        {
-            if (!oreilleDroite) oreilleDroite = transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)BodyPart.Body).GetChild(1).GetChild(1);
-            return oreilleDroite;
-        }
-    }
-
-
-
 }
