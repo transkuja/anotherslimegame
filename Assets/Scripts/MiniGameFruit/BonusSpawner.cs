@@ -31,11 +31,11 @@ public class BonusSpawner : MonoBehaviour {
 
     void Start()
     {
-        minX = boxColliderSpawn.transform.position.x - (boxColliderSpawn.transform.localScale.x / 2);
-        maxX = boxColliderSpawn.transform.position.x + boxColliderSpawn.transform.localScale.x / 2;
+        minX = -(boxColliderSpawn.transform.localScale.x / 2);
+        maxX = boxColliderSpawn.transform.localScale.x / 2;
 
-        minZ = boxColliderSpawn.transform.position.z - (boxColliderSpawn.transform.localScale.z / 2);
-        maxZ = boxColliderSpawn.transform.position.z + boxColliderSpawn.transform.localScale.z / 2;
+        minZ = -(boxColliderSpawn.transform.localScale.z / 2);
+        maxZ = boxColliderSpawn.transform.localScale.z / 2;
     }
 
     public IEnumerator SpawnBonus(BonusType _type, float _time)
@@ -48,14 +48,23 @@ public class BonusSpawner : MonoBehaviour {
 
             if (toInstantiate == null)
                 Debug.Log("There's no prefab for the type " + _type + " , can't instantiate Bonus.");
-            else
+            else if (toInstantiate == fruitChange)
             {
-                toInstantiate = Instantiate(toInstantiate, new Vector3(Random.Range(minX, maxX), 35, Random.Range(minZ, maxZ)), Quaternion.identity, transform);
+                toInstantiate = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.BonusFruit).GetItem(transform, new Vector3(Random.Range(minX, maxX), 18.15f, Random.Range(minZ, maxZ)), Quaternion.identity, true, false, 0);
+
                 toInstantiate.GetComponent<Rigidbody>().useGravity = true;
 
                 StartCoroutine(UnspawnBonus(toInstantiate));
             }
-		}
+            else if (toInstantiate == aspirator)
+            {
+                toInstantiate = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.BonusFruit).GetItem(transform, new Vector3(Random.Range(minX, maxX), 18.15f, Random.Range(minZ, maxZ)), Quaternion.identity, true, false, 1);
+
+                toInstantiate.GetComponent<Rigidbody>().useGravity = true;
+
+                StartCoroutine(UnspawnBonus(toInstantiate));
+            }
+        }
 	}
 	
     GameObject GetBonusPrefabByType(BonusType _type)
@@ -70,7 +79,21 @@ public class BonusSpawner : MonoBehaviour {
 
     IEnumerator UnspawnBonus(GameObject go)
     {
-        yield return new WaitForSeconds(4.0f);
+        yield return new WaitForSeconds(3.0f);
+
+        go.GetComponent<MeshRenderer>().enabled = false;
+        yield return new WaitForSeconds(0.5f);
+        go.GetComponent<MeshRenderer>().enabled = true;
+        yield return new WaitForSeconds(0.5f);
+        go.GetComponent<MeshRenderer>().enabled = false;
+        yield return new WaitForSeconds(0.5f);
+        go.GetComponent<MeshRenderer>().enabled = true;
+        yield return new WaitForSeconds(0.5f);
+        go.GetComponent<MeshRenderer>().enabled = false;
+        yield return new WaitForSeconds(0.5f);
+        go.GetComponent<MeshRenderer>().enabled = true;
+        yield return new WaitForSeconds(0.5f);
+
         Destroy(go);
     }
 
@@ -85,7 +108,6 @@ public class BonusSpawner : MonoBehaviour {
 
     public IEnumerator ChangerFruit()
     {
-
         Fruit typeToChange = (Fruit)(int)playerTest.GetComponent<PlayerController>().PlayerIndex;
         FruitType[] tabTest = GameObject.Find("FruitSpawner").GetComponent<FruitsSpawner>().GetComponentsInChildren<FruitType>();
         Fruit[] typeToSave = new Fruit[tabTest.Length];
@@ -93,7 +115,7 @@ public class BonusSpawner : MonoBehaviour {
         {
             typeToSave[i] = tabTest[i].typeFruit;
             tabTest[i].typeFruit = typeToChange;
-            if(tabTest[i].typeFruit == Fruit.Clementine)
+            if (tabTest[i].typeFruit == Fruit.Clementine)
             {
                 tabTest[i].gameObject.GetComponent<Renderer>().material.color = matClementine.color;
             }
@@ -111,7 +133,7 @@ public class BonusSpawner : MonoBehaviour {
             }
         }
         yield return new WaitForSeconds(2.0f);
-        for(int j = 0; j < tabTest.Length; j++)
+        for (int j = 0; j < tabTest.Length; j++)
         {
             tabTest[j].typeFruit = typeToSave[j];
             if (tabTest[j].typeFruit == Fruit.Clementine)

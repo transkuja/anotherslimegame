@@ -292,7 +292,6 @@ public static class ColorFloorHandler {
         // Standard case
         foreach (OnColoredFloorTrigger col in currentlyColoredByPlayer[_playerIndex])
         {
-            //col.GetComponentInChildren<MeshRenderer>().material.SetColor("_EmissionColor", Color.black);
             col.ScoreFromThisFloor();
         }
 
@@ -300,6 +299,24 @@ public static class ColorFloorHandler {
         currentlyColoredByPlayerToInt[_playerIndex].Clear();
     }
 
+
+    // Score points event, should be called when conditions to score points are met
+    public static void LosePoints(int _playerIndex)
+    {
+        if (!isInitialized)
+            return;
+
+        //int currentPoints = GameManager.Instance.PlayerStart.PlayersReference[_playerIndex].GetComponent<Player>().NbPoints;
+        GameManager.Instance.PlayerStart.PlayersReference[_playerIndex].GetComponent<Player>().UpdateCollectableValue(CollectableType.Points, -20);
+
+        foreach (OnColoredFloorTrigger col in currentlyColoredByPlayer[_playerIndex])
+        {
+            col.ResetThisFloorNoAnim();
+        }
+
+        currentlyColoredByPlayer[_playerIndex].Clear();
+        currentlyColoredByPlayerToInt[_playerIndex].Clear();
+    }
 
     public static void ColorFloorWithPickup(MinigamePickUp _pickupComponent, int _playerIndex)
     {

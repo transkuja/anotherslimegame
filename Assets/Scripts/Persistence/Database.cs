@@ -122,6 +122,12 @@ namespace DatabaseClass
         [SerializeField]
         public int JokerProgress;
 
+        [SerializeField]
+        public bool[] alreadyBrokenBreakables;
+
+        [SerializeField]
+        public bool[] alreadyCollectedCollectables;
+
         public int NbRunes
         {
             get
@@ -348,14 +354,20 @@ namespace DatabaseClass
 
             // Adding hats
             int idHat = 0;
-            string[] strHat = { "Cap", "Chief", "Cowboy", "Glitter", "Top Hat", "Flowers" };
+            string[] strHat = { "Cap", "Chief", "Cowboy", "Glitter", "Top Hat", "Flowers", "Chinese", "Cat", "Marine", "Police", "Sombrero", "Crete", "Party" };
             hats.Add(new HatData { Id = strHat[idHat], model = "Hats/CapHat", shouldHideEars = true, isUnlocked = false });
             hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/ChiefHat", shouldHideEars = true, isUnlocked = false });
             hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/CowboyHat", shouldHideEars = true, isUnlocked = false });
             hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/GlitterHat", shouldHideEars = true, isUnlocked = false });
             hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/TopHatHat", shouldHideEars = true, isUnlocked = false });
             hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/FlowerCrown", shouldHideEars = false, isUnlocked = false });
-
+            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/ChineseHat", shouldHideEars = false, isUnlocked = false });
+            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/CatHat", shouldHideEars = false, isUnlocked = false });
+            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/MarineHat", shouldHideEars = false, isUnlocked = false });
+            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/PoliceHat", shouldHideEars = false, isUnlocked = false });
+            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/SombreroHat", shouldHideEars = false, isUnlocked = false });
+            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/CreteHat", shouldHideEars = false, isUnlocked = false });
+            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/PartyHat", shouldHideEars = false, isUnlocked = false });
             // Adding ears
             //int idEars = 0;
             //string[] strEars = { "", "" };
@@ -364,6 +376,11 @@ namespace DatabaseClass
 
             SneakyChiefProgress = 0;
             JokerProgress = 0;
+
+            if (alreadyBrokenBreakables.Length > 0)
+            alreadyBrokenBreakables = new bool[alreadyBrokenBreakables.Length];
+            if(alreadyCollectedCollectables.Length > 0)
+            alreadyCollectedCollectables = new bool[alreadyCollectedCollectables.Length];
         }
 
         public void AllCostToZero()
@@ -392,6 +409,51 @@ namespace DatabaseClass
             SetUnlock<ColorData>("Candy", false);
             SneakyChiefProgress = 0;
             JokerProgress = 0;
+        }
+
+        public void ResetBreakablesState()
+        {
+            Breakable[] breakables = FindObjectsOfType<Breakable>();
+
+            int offset = 0;
+            for (int i = 0; i < breakables.Length; ++i)
+            {
+                if (!breakables[i].DropCollectables())
+                {
+                    offset++;
+                    continue;
+                }
+                else
+                {
+                    breakables[i].persistenceIndex = i - offset;
+                }
+
+            }
+
+            if (alreadyBrokenBreakables.Length == 0)
+            {
+                alreadyBrokenBreakables = new bool[breakables.Length - offset];
+            }
+        }
+
+        public void ResetCollectablesState()
+        {
+            Collectable[] collectables = FindObjectsOfType<Collectable>();
+
+            if (alreadyCollectedCollectables.Length == 0)
+            {
+                alreadyCollectedCollectables = new bool[collectables.Length];
+            }
+
+            for (int i = 0; i < collectables.Length; ++i)
+            {
+                if (alreadyCollectedCollectables[i])
+                {
+                    Destroy(collectables[i].gameObject);
+                }
+                else
+                    collectables[i].persistenceIndex = i;
+            }
         }
     }
 

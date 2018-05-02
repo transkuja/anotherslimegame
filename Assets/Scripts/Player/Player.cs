@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using UnityEngine.UI;
 
 public enum PlayerUIStat { Life, Points, Size}
 
@@ -7,8 +8,6 @@ public delegate void UIfct(int _newValue);
 
 public class Player : MonoBehaviour {
     public uint activeEvolutions = 0;
-
-    public String playerName;
 
     public Transform respawnPoint;
     public GameObject cameraReference;
@@ -35,7 +34,6 @@ public class Player : MonoBehaviour {
     public bool[] evolutionTutoShown = new bool[(int)Powers.Size];
     public bool costAreaTutoShown = false;
 
-    HubMinigameHandler refHubMinigameHandler;
     PNJDefaultMessage refMessage;
     InitTeleporter refInitTeleporter;
 
@@ -173,19 +171,6 @@ public class Player : MonoBehaviour {
         }
     }
 
-    public HubMinigameHandler RefHubMinigameHandler
-    {
-        get
-        {
-            return refHubMinigameHandler;
-        }
-
-        set
-        {
-            refHubMinigameHandler = value;
-        }
-    }
-
     public InitTeleporter RefInitTeleporter
     {
         get
@@ -224,6 +209,22 @@ public class Player : MonoBehaviour {
                 GameManager.Instance.GlobalMoney += pickedValue;
                 break;
             case CollectableType.Points:
+                GameObject feedback = Instantiate(ResourceUtils.Instance.feedbacksManager.scorePointsPrefab, null);
+                if (pickedValue >= 0)
+                {
+                    feedback.GetComponentInChildren<Outline>().effectColor = Color.green;
+                    feedback.GetComponentInChildren<Text>().text = "+ ";
+                }
+                else
+                {
+                    feedback.GetComponentInChildren<Outline>().effectColor = Color.red;
+                    feedback.GetComponentInChildren<Text>().text = "- ";
+                }
+                feedback.transform.GetChild(0).position = Camera.main.WorldToScreenPoint(transform.position);
+
+                feedback.GetComponentInChildren<Text>().text += Utils.Abs(pickedValue).ToString();
+                feedback.GetComponentInChildren<Text>().enabled = true;
+
                 NbPoints += pickedValue;  
                 break;
             case CollectableType.Fruits:

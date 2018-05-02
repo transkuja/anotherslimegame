@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HubMinigameTrigger : MonoBehaviour
 {
-    HubMinigameHandler handler = null;
+    BobBehavior handler = null;
     PNJDefaultMessage defaultmessage = null;
 
     // TMP
@@ -12,7 +12,7 @@ public class HubMinigameTrigger : MonoBehaviour
 
     public void Start()
     {
-        handler = GetComponentInParent<HubMinigameHandler>();
+        handler = GetComponentInParent<BobBehavior>();
         defaultmessage = GetComponentInParent<PNJDefaultMessage>();
         if (GetComponentInParent<PNJController>() != null)
             old_is_happy = GetComponentInParent<PNJController>().isHappy;
@@ -27,15 +27,8 @@ public class HubMinigameTrigger : MonoBehaviour
                 // TMP
                 GetComponentInParent<PNJController>().isHappy = false;
 
-                if (handler && !handler.hasBeenStarted && !DatabaseManager.Db.IsUnlock<DatabaseClass.HatData>(handler.id))
-                {
-                    other.GetComponent<Player>().RefHubMinigameHandler = GetComponentInParent<HubMinigameHandler>();
-                    handler.CreateUIHubMinigame((int)other.GetComponent<PlayerController>().PlayerIndex);
-                }
-                else if (
-                  (handler && !handler.hasBeenStarted && defaultmessage)
-                  || (!handler && defaultmessage)
-              )
+                if ((handler && !handler.IsMinigameStarted() && defaultmessage)
+                  || (!handler && defaultmessage))
                 {
                     other.GetComponent<Player>().RefMessage = defaultmessage;
                     defaultmessage.CreateUIMessage((int)other.GetComponent<PlayerController>().PlayerIndex);
@@ -52,12 +45,7 @@ public class HubMinigameTrigger : MonoBehaviour
                 // TMP
                 GetComponentInParent<PNJController>().isHappy = old_is_happy;
 
-                if (handler && !DatabaseManager.Db.IsUnlock<DatabaseClass.HatData>(handler.id))
-                {
-                    other.GetComponent<Player>().RefHubMinigameHandler = null;
-                    handler.DestroyUIMinigame((int)other.GetComponent<PlayerController>().PlayerIndex);
-                }
-                else if (defaultmessage)
+                if (defaultmessage)
                 {
                     other.GetComponent<Player>().RefMessage = null;
                     defaultmessage.DestroyUIMessage((int)other.GetComponent<PlayerController>().PlayerIndex);

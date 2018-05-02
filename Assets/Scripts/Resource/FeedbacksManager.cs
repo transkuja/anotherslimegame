@@ -37,6 +37,9 @@ public class FeedbacksManager : MonoBehaviour
     public GameObject changerFruitPreview;
     public GameObject aspiratorFruitPreview;
 
+    [Header("Feedbacks UI")]
+    public GameObject scorePointsPrefab;
+
     public GameObject GetPickupPreview(PickUpType _type)
     {
         GameObject result = null;

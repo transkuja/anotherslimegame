@@ -12,8 +12,8 @@ public class PNJDefaultMessage : MonoBehaviour {
     public GameObject refCanvasParent;
     private GameObject[] refCanvas = new GameObject[2];
     private GameObject[] BbuttonShown = new GameObject[2];
-    private bool[] hasBeenInitialized = new bool[2];
-    private GameObject[][] Message = new GameObject[2][];
+    public bool[] hasBeenInitialized = new bool[2];
+    public GameObject[][] Message = new GameObject[2][];
     private int currentMessage = 0;
 
     // Event
@@ -141,13 +141,9 @@ public class PNJDefaultMessage : MonoBehaviour {
                     if(needCallEvent)
                     {
                         // Special event
-                        MyCustomEvent();
+                        MyCustomEvent(playerIndex);
                     }
-                    else
-                    {
-                        // Cas standard
-                        GameManager.ChangeState(GameState.Normal);
-                    }
+                    GameManager.Instance.PlayerStart.PlayersReference[playerIndex].GetComponent<PlayerControllerHub>().myControlState = ControlsState.Normal;
 
                     BbuttonShown[playerIndex].SetActive(true);
                     currentMessage = 0;
@@ -160,27 +156,18 @@ public class PNJDefaultMessage : MonoBehaviour {
                 Message[playerIndex][currentMessage].SetActive(true);
                 BbuttonShown[playerIndex].SetActive(false);
 
-                // Disable inputs except camera et change le comportement dans le player controller : si c'est en normal l'interaction se fait via B sinon A
-                GameManager.ChangeState(GameState.ForcedPauseMGRules);
-
-                // Freeze player character
-                PlayerCharacterHub pc = GameManager.Instance.PlayerStart.PlayersReference[playerIndex].GetComponent<PlayerCharacterHub>();
-                pc.Rb.drag = 25.0f;
-                pc.Rb.velocity = Vector3.zero;
+                GameManager.Instance.PlayerStart.PlayersReference[playerIndex].GetComponent<PlayerControllerHub>().myControlState = ControlsState.Dialog;
             }
         }
     }
     #endregion
 
-    public void MyCustomEvent()
+    public void MyCustomEvent(int playerIndex)
     {
         // My custom Event on last message.
         if (GetComponent<PNJDefaultBehavior>())
         {
             GetComponent<PNJDefaultBehavior>().InitNextStep();
         }
-
-
-        GameManager.ChangeState(GameState.Normal);
     }
 }

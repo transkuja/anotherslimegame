@@ -12,6 +12,8 @@ public class Collectable : MonoBehaviour
     private uint movementSpeed = 15;
     private int value = 5;
 
+    // Index in database to know if it has already been broken. -1 if no persistence.
+    public int persistenceIndex = -1;
 
     private bool isAttracted = false;
     Player playerTarget;
@@ -156,7 +158,6 @@ public class Collectable : MonoBehaviour
             {
                 // FIx rune tmp rémi
                 if (type == CollectableType.Rune)
-
                 {
                     if (GetComponent<CreateEnumFromDatabase>() == null)
                     {
@@ -178,7 +179,11 @@ public class Collectable : MonoBehaviour
             }
             else
             {
-                Destroy(this.gameObject);
+                if (persistenceIndex != -1 && !DatabaseManager.Db.alreadyCollectedCollectables[persistenceIndex])
+                {
+                    DatabaseManager.Db.alreadyCollectedCollectables[persistenceIndex] = true;
+                    Destroy(this.gameObject);
+                }
             }
         }
     }

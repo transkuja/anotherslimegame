@@ -9,12 +9,17 @@ public class OnColoredFloorTrigger : MonoBehaviour {
     ColorFloorPickupHandler pickupHandler;
 
     public int currentOwner = -1;
+    private bool hasAnItem = false;
+
     public bool debug;
 
     OnColoredFloorTrigger[] neighbors = new OnColoredFloorTrigger[4];
     enum Side { Up, Down, Left, Right }
     FloorState currentState = FloorState.Normal;
     Material material;
+
+    [SerializeField]
+    GameObject warningFeedback;
 
     public bool IsLocked()
     {
@@ -26,6 +31,13 @@ public class OnColoredFloorTrigger : MonoBehaviour {
         currentState = FloorState.AnimLocked;
         StartCoroutine(AnimScore());
         Invoke("ResetState", 1.0f);
+    }
+
+    public void ResetThisFloorNoAnim()
+    {
+        currentOwner = -1;
+        currentState = FloorState.Normal;
+        material.SetColor("_EmissionColor", Color.black);
     }
 
     void ResetState()
@@ -177,24 +189,43 @@ public class OnColoredFloorTrigger : MonoBehaviour {
         }
     }
 
+    public bool HasAnItem
+    {
+        get
+        {
+            return GetComponentInChildren<MinigamePickUp>() != null;
+        }
+
+        set
+        {
+            hasAnItem = value;
+        }
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.transform.GetComponentInParent<PlayerController>() != null)
         {
             PlayerController pc = other.transform.GetComponentInParent<PlayerController>();
 
-            if (transform.childCount > 1)
+            if (HasAnItem)
             {
                 MinigamePickUp pickupComponent = transform.GetComponentInChildren<MinigamePickUp>();
                 pickupComponent.collectPickup((int)pc.playerIndex);
                 ColorFloorPickupHandler.spawnedPickups.Remove(pickupComponent.gameObject);
 
                 Destroy(pickupComponent.gameObject);
+                HasAnItem = false;
             }
 
             ColorFloorHandler.RegisterFloor((int)pc.playerIndex, GetComponent<OnColoredFloorTrigger>());
             currentOwner = (int)pc.playerIndex;
             //pc.GetComponent<Rigidbody>().velocity = new Vector3(pc.GetComponent<Rigidbody>().velocity.x, 0.0f, pc.GetComponent<Rigidbody>().velocity.z);
         }
+    }
+
+    public void WarnPlayerSmthgBadIsComing()
+    {
+        warningFeedback.SetActive(true);
     }
 }

@@ -7,11 +7,14 @@ using UnityEngine.SceneManagement;
 
 public class ReplayScreenControlsHub : MonoBehaviour {
 
+    public delegate void Callback(); // declare delegate type
+    public Callback validationFct; // to store the function
+    public Callback refusalFct;
+
     int cursor = 0;
     GamePadState prevControllerState;
     GamePadState controllerState;
 
-    public HubMinigameHandler refMinigameHandler;
     public int index = -1;
 
     [SerializeField]
@@ -36,8 +39,8 @@ public class ReplayScreenControlsHub : MonoBehaviour {
 
     private void Update()
     {
-        if (!refMinigameHandler || index ==-1)
-            return; 
+        if (index == -1)
+            return;
 
         prevControllerState = controllerState;
         controllerState = GamePad.GetState((PlayerIndex)index);
@@ -54,6 +57,8 @@ public class ReplayScreenControlsHub : MonoBehaviour {
             UpdateCursor(cursor);
         }
 
+        // Callback
+
         if (prevControllerState.Buttons.A == ButtonState.Released && controllerState.Buttons.A == ButtonState.Pressed)
         {
             if (AudioManager.Instance != null && AudioManager.Instance.buttonValidationFx != null)
@@ -61,12 +66,15 @@ public class ReplayScreenControlsHub : MonoBehaviour {
 
             if (cursor == 0)
             {
-                refMinigameHandler.PrepareForStart();
+                if (validationFct != null)
+                    validationFct();
             }
             else
             {
-                refMinigameHandler.CleanMinigameHub();
+                if (refusalFct != null)
+                    refusalFct();
+                if (gameObject) Destroy(gameObject);
             }
-        }
+        }    
     }
 }
