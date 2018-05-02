@@ -28,7 +28,7 @@ public enum ColorFadeType
     Special
 }
 [ExecuteInEditMode]
-public class NewPlayerCosmetics : MonoBehaviour {
+public class PlayerCosmetics : MonoBehaviour {
     public Material[] originalPlayerMats = new Material[2];
     
     Material bodyMat;
