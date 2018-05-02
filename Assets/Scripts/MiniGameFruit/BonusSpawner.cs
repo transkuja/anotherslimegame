@@ -31,11 +31,11 @@ public class BonusSpawner : MonoBehaviour {
 
     void Start()
     {
-        minX = boxColliderSpawn.transform.position.x - (boxColliderSpawn.transform.localScale.x / 2);
-        maxX = boxColliderSpawn.transform.position.x + boxColliderSpawn.transform.localScale.x / 2;
+        minX = -(boxColliderSpawn.transform.localScale.x / 2);
+        maxX = boxColliderSpawn.transform.localScale.x / 2;
 
-        minZ = boxColliderSpawn.transform.position.z - (boxColliderSpawn.transform.localScale.z / 2);
-        maxZ = boxColliderSpawn.transform.position.z + boxColliderSpawn.transform.localScale.z / 2;
+        minZ = -(boxColliderSpawn.transform.localScale.z / 2);
+        maxZ = boxColliderSpawn.transform.localScale.z / 2;
     }
 
     public IEnumerator SpawnBonus(BonusType _type, float _time)
@@ -48,14 +48,23 @@ public class BonusSpawner : MonoBehaviour {
 
             if (toInstantiate == null)
                 Debug.Log("There's no prefab for the type " + _type + " , can't instantiate Bonus.");
-            else
+            else if (toInstantiate == fruitChange)
             {
-                toInstantiate = Instantiate(toInstantiate, new Vector3(Random.Range(minX, maxX), 35, Random.Range(minZ, maxZ)), Quaternion.identity, transform);
+                toInstantiate = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.BonusFruit).GetItem(transform, new Vector3(Random.Range(minX, maxX), 18.15f, Random.Range(minZ, maxZ)), Quaternion.identity, true, false, 0);
+
                 toInstantiate.GetComponent<Rigidbody>().useGravity = true;
 
                 StartCoroutine(UnspawnBonus(toInstantiate));
             }
-		}
+            else if (toInstantiate == aspirator)
+            {
+                toInstantiate = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.BonusFruit).GetItem(transform, new Vector3(Random.Range(minX, maxX), 18.15f, Random.Range(minZ, maxZ)), Quaternion.identity, true, false, 1);
+
+                toInstantiate.GetComponent<Rigidbody>().useGravity = true;
+
+                StartCoroutine(UnspawnBonus(toInstantiate));
+            }
+        }
 	}
 	
     GameObject GetBonusPrefabByType(BonusType _type)
