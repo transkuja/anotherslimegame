@@ -24,6 +24,22 @@ public class ColorFloorPickUp : MinigamePickUp {
                 transform.localEulerAngles += Vector3.up * 90;
             }
         }
+
+    }
+
+    IEnumerator OnEnableCoroutine()
+    {
+        if (pickupType == PickUpType.BadOne)
+        {
+            yield return new WaitForSeconds(2.0f);
+            ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles).GetItem(null, transform.position, Quaternion.identity, true, true, 2);
+            GetComponentInChildren<PoolChild>().ReturnToPool();
+        }
+    }
+
+    void OnEnable()
+    {
+        StartCoroutine(OnEnableCoroutine());
     }
 
     void ScorePoints(int _playerIndex)
