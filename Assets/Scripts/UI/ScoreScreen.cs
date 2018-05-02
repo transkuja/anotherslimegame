@@ -246,8 +246,8 @@ public class ScoreScreen : MonoBehaviour {
         {
             int curPlayerRank = curPlayer.GetComponent<Player>().rank;
             GameObject podiumPlayer = podium.GetChild(curPlayerRank).gameObject;
-            NewPlayerCosmetics curPlayerCosmetics = curPlayer.GetComponentInChildren<NewPlayerCosmetics>();
-            NewPlayerCosmetics podiumPlayerCosmetics = podiumPlayer.GetComponentInChildren<NewPlayerCosmetics>();
+            PlayerCosmetics curPlayerCosmetics = curPlayer.GetComponentInChildren<PlayerCosmetics>();
+            PlayerCosmetics podiumPlayerCosmetics = podiumPlayer.GetComponentInChildren<PlayerCosmetics>();
 
             podiumPlayerCosmetics.ColorFadeType = curPlayerCosmetics.ColorFadeType;
             podiumPlayerCosmetics.SetUniqueColor(curPlayerCosmetics.BodyColor);

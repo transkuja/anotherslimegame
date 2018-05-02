@@ -147,7 +147,7 @@ public class PlayerStart : MonoBehaviour {
             
             playerController.PlayerIndex = (PlayerIndex)i;
             playerController.PlayerIndexSet = true;
-            NewPlayerCosmetics playerCosmetics = go.GetComponentInChildren<NewPlayerCosmetics>();
+            PlayerCosmetics playerCosmetics = go.GetComponentInChildren<PlayerCosmetics>();
             if (!playerCosmetics)
             {
                 Debug.LogError("There is no Player Cosmetics component on this object or in children");

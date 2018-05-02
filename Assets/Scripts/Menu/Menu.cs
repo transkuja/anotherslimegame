@@ -646,7 +646,7 @@ public class Menu : MonoBehaviour {
 
     void UpdatePlayerPreviewMustache(int _playerIndex, int _selection, bool _isNoneValue)
     {
-        NewPlayerCosmetics playerCosmetics = playerCustomScreens[_playerIndex].GetComponentInChildren<NewPlayerCosmetics>();
+        PlayerCosmetics playerCosmetics = playerCustomScreens[_playerIndex].GetComponentInChildren<PlayerCosmetics>();
 
         Transform parent = playerCustomScreens[_playerIndex].transform.GetComponentInChildren<CustomizableSockets>().GetSocket(CustomizableType.Mustache);
         if (parent.childCount > 0)
@@ -673,7 +673,7 @@ public class Menu : MonoBehaviour {
 
     void UpdatePlayerPreviewHat(int _playerIndex, int _selection, bool _isNoneValue)
     {
-        NewPlayerCosmetics playerCosmetics = playerCustomScreens[_playerIndex].GetComponentInChildren<NewPlayerCosmetics>();
+        PlayerCosmetics playerCosmetics = playerCustomScreens[_playerIndex].GetComponentInChildren<PlayerCosmetics>();
 
         Transform parent = playerCustomScreens[_playerIndex].transform.GetComponentInChildren<CustomizableSockets>().transform.GetChild((int)(CustomizableType.Hat) - 2);
         if (parent.childCount < 1)
@@ -695,7 +695,7 @@ public class Menu : MonoBehaviour {
     // Default customizable update function
     void UpdatePlayerPreviewEars(int _playerIndex, int _selection, bool _isNoneValue)
     {
-        NewPlayerCosmetics playerCosmetics = playerCustomScreens[_playerIndex].GetComponentInChildren<NewPlayerCosmetics>();
+        PlayerCosmetics playerCosmetics = playerCustomScreens[_playerIndex].GetComponentInChildren<PlayerCosmetics>();
 
         Transform parent = playerCustomScreens[_playerIndex].transform.GetComponentInChildren<CustomizableSockets>().transform.GetChild((int)(CustomizableType.Ears) - 2);
 
@@ -715,7 +715,7 @@ public class Menu : MonoBehaviour {
         }
     }
 
-    IEnumerator Happy(NewPlayerCosmetics _cosmeticsRef)
+    IEnumerator Happy(PlayerCosmetics _cosmeticsRef)
     {
         _cosmeticsRef.FaceEmotion = FaceEmotion.Winner;
         yield return new WaitForSeconds(1);
@@ -723,7 +723,7 @@ public class Menu : MonoBehaviour {
             _cosmeticsRef.FaceEmotion = FaceEmotion.Neutral;
     }
 
-    IEnumerator Sad(NewPlayerCosmetics _cosmeticsRef)
+    IEnumerator Sad(PlayerCosmetics _cosmeticsRef)
     {
         if (AudioManager.Instance != null && AudioManager.Instance.shaveFx != null)
             AudioManager.Instance.PlayOneShot(AudioManager.Instance.shaveFx);
@@ -738,8 +738,8 @@ public class Menu : MonoBehaviour {
     void UpdatePlayerPreviewColor(int _playerIndex, int _selection)
     {
         // Update text and character
-        playerCustomScreens[_playerIndex].transform.GetChild(4).GetComponentInChildren<NewPlayerCosmetics>().ColorFadeType = ColorFadeType.None;
-        playerCustomScreens[_playerIndex].transform.GetChild(4).GetComponentInChildren<NewPlayerCosmetics>().SetUniqueColor(((DatabaseClass.ColorData)unlockedCustomizables[CustomizableType.Color][_selection]).color);
+        playerCustomScreens[_playerIndex].transform.GetChild(4).GetComponentInChildren<PlayerCosmetics>().ColorFadeType = ColorFadeType.None;
+        playerCustomScreens[_playerIndex].transform.GetChild(4).GetComponentInChildren<PlayerCosmetics>().SetUniqueColor(((DatabaseClass.ColorData)unlockedCustomizables[CustomizableType.Color][_selection]).color);
     }
 
     // Change the player face according to current selection
@@ -748,7 +748,7 @@ public class Menu : MonoBehaviour {
         // Update text and character
         playerCustomScreens[_playerIndex].transform.GetChild(4).GetChild(0).gameObject.SetActive(true);
         playerCustomScreens[_playerIndex].transform.GetChild(4).GetChild(1).gameObject.SetActive(false);
-        playerCustomScreens[_playerIndex].transform.GetChild(4).GetComponentInChildren<NewPlayerCosmetics>().FaceType = ((DatabaseClass.FaceData)unlockedCustomizables[CustomizableType.Face][_selection]).indiceForShader;
+        playerCustomScreens[_playerIndex].transform.GetChild(4).GetComponentInChildren<PlayerCosmetics>().FaceType = ((DatabaseClass.FaceData)unlockedCustomizables[CustomizableType.Face][_selection]).indiceForShader;
     }
 
 
@@ -883,7 +883,7 @@ public class Menu : MonoBehaviour {
             int childCount = transform.GetChild((int)MenuState.MinigameSelection).childCount;
             for (int i = 0; i < nbPlayers; i++)
             {
-                NewPlayerCosmetics curPlayerCosmetics = transform.GetChild((int)MenuState.MinigameSelection).GetChild(childCount - 4 + i).GetComponentInChildren<NewPlayerCosmetics>(true);
+                PlayerCosmetics curPlayerCosmetics = transform.GetChild((int)MenuState.MinigameSelection).GetChild(childCount - 4 + i).GetComponentInChildren<PlayerCosmetics>(true);
                 curPlayerCosmetics.SetUniqueColor(((DatabaseClass.ColorData)unlockedCustomizables[CustomizableType.Color][selectedCustomizables[(int)CustomizableType.Color, i]]).color);
                 curPlayerCosmetics.FaceType = ((DatabaseClass.FaceData)unlockedCustomizables[CustomizableType.Face][selectedCustomizables[(int)CustomizableType.Face, i]]).indiceForShader;
 
@@ -909,7 +909,7 @@ public class Menu : MonoBehaviour {
 
     void UpdatePlayersOnMinigameSelectionScreen(CustomizableType _type, int _playerIndex, int _childCount)
     {
-        NewPlayerCosmetics playerCosmetics = transform.GetChild((int)MenuState.MinigameSelection).GetChild(_childCount - 4 + _playerIndex).GetComponentInChildren<NewPlayerCosmetics>(true);
+        PlayerCosmetics playerCosmetics = transform.GetChild((int)MenuState.MinigameSelection).GetChild(_childCount - 4 + _playerIndex).GetComponentInChildren<PlayerCosmetics>(true);
 
         if (selectedCustomizables[(int)_type, _playerIndex] != unlockedCustomizables[_type].Count && unlockedCustomizables[_type].Count > 0)
         {
@@ -938,8 +938,8 @@ public class Menu : MonoBehaviour {
 
         go.transform.GetChild(2).GetComponent<Text>().text = ((CustomizableType)0).ToString();
         go.transform.GetChild(3).GetComponent<Text>().text = unlockedCustomizables[0][0].Id;
-        go.transform.GetChild(4).GetComponentInChildren<NewPlayerCosmetics>().SetUniqueColor(((DatabaseClass.ColorData)unlockedCustomizables[CustomizableType.Color][0]).color);
-        go.transform.GetChild(4).GetComponentInChildren<NewPlayerCosmetics>().FaceType = ((DatabaseClass.FaceData)unlockedCustomizables[CustomizableType.Face][0]).indiceForShader;
+        go.transform.GetChild(4).GetComponentInChildren<PlayerCosmetics>().SetUniqueColor(((DatabaseClass.ColorData)unlockedCustomizables[CustomizableType.Color][0]).color);
+        go.transform.GetChild(4).GetComponentInChildren<PlayerCosmetics>().FaceType = ((DatabaseClass.FaceData)unlockedCustomizables[CustomizableType.Face][0]).indiceForShader;
         playerCustomScreens.Add(go);
 
         return go;

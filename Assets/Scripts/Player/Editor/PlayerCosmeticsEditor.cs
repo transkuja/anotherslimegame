@@ -5,13 +5,13 @@ using UnityEditor;
 using DatabaseClass;
 using UnityEditor.SceneManagement;
 
-[CustomEditor(typeof(NewPlayerCosmetics))]
-public class NewPlayerCosmeticsEditor : Editor
+[CustomEditor(typeof(PlayerCosmetics))]
+public class PlayerCosmeticsEditor : Editor
 {
-    NewPlayerCosmetics cosmetics;
+    PlayerCosmetics cosmetics;
     private void Awake()
     {
-        cosmetics = (NewPlayerCosmetics)target;
+        cosmetics = (PlayerCosmetics)target;
     }
     List<string> facesList;
     List<string> mustachesList;
@@ -157,7 +157,10 @@ public class NewPlayerCosmeticsEditor : Editor
         if (GUI.changed)
         {
             EditorUtility.SetDirty(cosmetics);
-            EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+#if UNITY_EDITOR
+            if (!Application.isPlaying)
+                EditorSceneManager.MarkSceneDirty(EditorSceneManager.GetActiveScene());
+#endif
         }
 
     }
