@@ -276,7 +276,7 @@ public class NewPlayerCosmetics : MonoBehaviour {
             ears = value;
             if (!customSockets)
                 customSockets = GetComponent<CustomizableSockets>();
-            Transform earsTransform = customSockets.GetSocket(CustomizableType.Hat);
+            Transform earsTransform = customSockets.GetSocket(CustomizableType.Ears);
             while (earsTransform.childCount > 0)
                 DestroyImmediate(earsTransform.GetChild(0).gameObject);
             if (ears != "None" && ears != string.Empty)
