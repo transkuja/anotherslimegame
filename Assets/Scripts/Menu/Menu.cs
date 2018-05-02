@@ -215,12 +215,12 @@ public class Menu : MonoBehaviour {
                 if (isNonable[(int)CustomizableType.Mustache] && dataContainer.mustachesSelected[i] == "None")
                     selectedCustomizables[(int)CustomizableType.Mustache, i] = unlockedCustomizables[CustomizableType.Mustache].Count;
                 else
-                    selectedCustomizables[(int)CustomizableType.Mustache, i] = unlockedCustomizables[CustomizableType.Mustache].FindIndex(x => ((DatabaseClass.MustacheData)x).model == dataContainer.mustachesSelected[i]);
+                    selectedCustomizables[(int)CustomizableType.Mustache, i] = unlockedCustomizables[CustomizableType.Mustache].FindIndex(x => ((DatabaseClass.MustacheData)x).Id == dataContainer.mustachesSelected[i]);
 
                 if (isNonable[(int)CustomizableType.Hat] && dataContainer.hatsSelected[i] == "None")
                     selectedCustomizables[(int)CustomizableType.Hat, i] = unlockedCustomizables[CustomizableType.Hat].Count;
                 else
-                    selectedCustomizables[(int)CustomizableType.Hat, i] = unlockedCustomizables[CustomizableType.Hat].FindIndex(x => ((DatabaseClass.HatData)x).model == dataContainer.hatsSelected[i]);
+                    selectedCustomizables[(int)CustomizableType.Hat, i] = unlockedCustomizables[CustomizableType.Hat].FindIndex(x => ((DatabaseClass.HatData)x).Id == dataContainer.hatsSelected[i]);
 
             }
             SetState(MenuState.MinigameSelection);
@@ -914,7 +914,7 @@ public class Menu : MonoBehaviour {
         if (selectedCustomizables[(int)_type, _playerIndex] != unlockedCustomizables[_type].Count && unlockedCustomizables[_type].Count > 0)
         {
             if (_type == CustomizableType.Mustache)
-               playerCosmetics.Mustache = ((DatabaseClass.MustacheData)unlockedCustomizables[_type][selectedCustomizables[(int)_type, _playerIndex]]).Id;
+                playerCosmetics.Mustache = ((DatabaseClass.MustacheData)unlockedCustomizables[_type][selectedCustomizables[(int)_type, _playerIndex]]).Id;
             else if (_type == CustomizableType.Hat)
             {
                 playerCosmetics.Hat = ((DatabaseClass.HatData)unlockedCustomizables[_type][selectedCustomizables[(int)_type, _playerIndex]]).Id;
