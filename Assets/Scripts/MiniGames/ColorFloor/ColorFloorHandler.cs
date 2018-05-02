@@ -292,7 +292,6 @@ public static class ColorFloorHandler {
         // Standard case
         foreach (OnColoredFloorTrigger col in currentlyColoredByPlayer[_playerIndex])
         {
-            //col.GetComponentInChildren<MeshRenderer>().material.SetColor("_EmissionColor", Color.black);
             col.ScoreFromThisFloor();
         }
 

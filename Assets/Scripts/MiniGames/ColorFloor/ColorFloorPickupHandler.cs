@@ -109,7 +109,6 @@ public class ColorFloorPickupHandler : MonoBehaviour
     {
         while (true)
         {
-            // Randomly ou autre
             int randomPatt = Random.Range(0, 3);
             int randomHowToSpawn = Random.Range(0, 2);
             int numberOfLines = Random.Range(1, 3);
@@ -244,8 +243,12 @@ public class ColorFloorPickupHandler : MonoBehaviour
     {
         for (int i = 0; i < _randChild.Length; i++)
         {
+            Transform currentFloor = transform.GetChild(_randChild[i] / lineCount).GetChild(_randChild[i] % lineSize);
+            if (currentFloor.GetComponent<OnColoredFloorTrigger>().HasAnItem)
+                currentFloor.GetComponentInChildren<PoolChild>().ReturnToPool();
+
             yield return new WaitForSeconds(0.33f);
-            transform.GetChild(_randChild[i] / lineCount).GetChild(_randChild[i] % lineSize).GetComponent<OnColoredFloorTrigger>().WarnPlayerSmthgBadIsComing();
+            currentFloor.GetComponent<OnColoredFloorTrigger>().WarnPlayerSmthgBadIsComing();
         }
     }
 
@@ -253,6 +256,10 @@ public class ColorFloorPickupHandler : MonoBehaviour
     {
         for (int i = 0; i < _randChild.Length; i++)
         {
+            Transform currentFloor = transform.GetChild(_randChild[i] / lineCount).GetChild(_randChild[i] % lineSize);
+            if (currentFloor.GetComponent<OnColoredFloorTrigger>().HasAnItem)
+                currentFloor.GetComponentInChildren<PoolChild>().ReturnToPool();
+
             transform.GetChild(_randChild[i] / lineCount).GetChild(_randChild[i] % lineSize).GetComponent<OnColoredFloorTrigger>().WarnPlayerSmthgBadIsComing();
         }
     }
