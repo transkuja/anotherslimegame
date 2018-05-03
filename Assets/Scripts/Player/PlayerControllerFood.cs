@@ -41,76 +41,43 @@ public class PlayerControllerFood : PlayerController {
 
     void CompareInput()
     {
-        switch (currentInput)
+        if (prevState.Buttons.A == ButtonState.Released && state.Buttons.A == ButtonState.Pressed)
         {
-            case PossibleInputs.A:
-                if (prevState.Buttons.A == ButtonState.Released && state.Buttons.A == ButtonState.Pressed)
-                    ((FoodGameMode)GameManager.Instance.CurrentGameMode).GoodInput(this);
-                else
-                    if (
-                        (prevState.Buttons.Y == ButtonState.Released && state.Buttons.Y == ButtonState.Pressed) ||
-                        (prevState.Buttons.X == ButtonState.Released && state.Buttons.X == ButtonState.Pressed) ||
-                        (prevState.Buttons.B == ButtonState.Released && state.Buttons.B == ButtonState.Pressed) ||
-                        (prevState.Triggers.Left < 0.3f && state.Triggers.Left > 0.3f) ||
-                        (prevState.Triggers.Right < 0.3f && state.Triggers.Right > 0.3f)
-                    )
-                    CurrentCombo = 0;
-                break;
-            case PossibleInputs.X:
-                if (prevState.Buttons.X == ButtonState.Released && state.Buttons.X == ButtonState.Pressed)
-                    ((FoodGameMode)GameManager.Instance.CurrentGameMode).GoodInput(this);
-                else
-                    if (
-                        (prevState.Buttons.Y == ButtonState.Released && state.Buttons.Y == ButtonState.Pressed) ||
-                        (prevState.Buttons.A == ButtonState.Released && state.Buttons.A == ButtonState.Pressed) ||
-                        (prevState.Buttons.B == ButtonState.Released && state.Buttons.B == ButtonState.Pressed) ||
-                        (prevState.Triggers.Left < 0.3f && state.Triggers.Left > 0.3f) ||
-                        (prevState.Triggers.Right < 0.3f && state.Triggers.Right > 0.3f)
-                    )
-                    CurrentCombo = 0;
-                break;
-            case PossibleInputs.Y:
-                if (prevState.Buttons.Y == ButtonState.Released && state.Buttons.Y == ButtonState.Pressed)
-                    ((FoodGameMode)GameManager.Instance.CurrentGameMode).GoodInput(this);
-                else
-                    if (
-                        (prevState.Buttons.A == ButtonState.Released && state.Buttons.A == ButtonState.Pressed) ||
-                        (prevState.Buttons.X == ButtonState.Released && state.Buttons.X == ButtonState.Pressed) ||
-                        (prevState.Buttons.B == ButtonState.Released && state.Buttons.B == ButtonState.Pressed) ||
-                        (prevState.Triggers.Left < 0.3f && state.Triggers.Left > 0.3f) ||
-                        (prevState.Triggers.Right < 0.3f && state.Triggers.Right > 0.3f)
-                    )
-                    CurrentCombo = 0;
-                break;
-            case PossibleInputs.LT:
-                if (prevState.Triggers.Left < 0.1f && state.Triggers.Left > 0.1f)
-                    ((FoodGameMode)GameManager.Instance.CurrentGameMode).GoodInput(this);
-                else
-                    if (
-                        (prevState.Buttons.Y == ButtonState.Released && state.Buttons.Y == ButtonState.Pressed) ||
-                        (prevState.Buttons.X == ButtonState.Released && state.Buttons.X == ButtonState.Pressed) ||
-                        (prevState.Buttons.B == ButtonState.Released && state.Buttons.B == ButtonState.Pressed) ||
-                        (prevState.Buttons.A == ButtonState.Released && state.Buttons.A == ButtonState.Pressed) ||
-                        (prevState.Triggers.Right < 0.3f && state.Triggers.Right > 0.3f)
-                    )
-                    CurrentCombo = 0;
-                break;
-            case PossibleInputs.RT:
-                if (prevState.Triggers.Right < 0.1f && state.Triggers.Right > 0.1f)
-                    ((FoodGameMode)GameManager.Instance.CurrentGameMode).GoodInput(this);
-                else
-                    if (
-                        (prevState.Buttons.Y == ButtonState.Released && state.Buttons.Y == ButtonState.Pressed) ||
-                        (prevState.Buttons.X == ButtonState.Released && state.Buttons.X == ButtonState.Pressed) ||
-                        (prevState.Buttons.B == ButtonState.Released && state.Buttons.B == ButtonState.Pressed) ||
-                        (prevState.Triggers.Left < 0.3f && state.Triggers.Left > 0.3f) ||
-                        (prevState.Buttons.A == ButtonState.Released && state.Buttons.A == ButtonState.Pressed)
-                    )
-                    CurrentCombo = 0;
-                break;
-            default:
-                break;
+            CheckInput(PossibleInputs.A);
         }
+
+        if (prevState.Buttons.B == ButtonState.Released && state.Buttons.B == ButtonState.Pressed)
+        {
+            CheckInput(PossibleInputs.B);
+        }
+
+        if (prevState.Buttons.X == ButtonState.Released && state.Buttons.X == ButtonState.Pressed)
+        {
+            CheckInput(PossibleInputs.X);
+        }
+
+        if (prevState.Buttons.Y == ButtonState.Released && state.Buttons.Y == ButtonState.Pressed)
+        {
+            CheckInput(PossibleInputs.Y);
+        }
+
+        if (prevState.Triggers.Left < 0.1f && state.Triggers.Left > 0.1f)
+        {
+            CheckInput(PossibleInputs.LT);
+        }
+
+        if (prevState.Triggers.Right < 0.1f && state.Triggers.Right > 0.1f)
+        {
+            CheckInput(PossibleInputs.RT);
+        }
+    }
+
+    void CheckInput(PossibleInputs _pressed)
+    {
+        if (_pressed == currentInput)
+            ((FoodGameMode)GameManager.Instance.CurrentGameMode).GoodInput(this);
+        else
+            CurrentCombo = 0;
     }
 
     public void UpdateCurrentInput(PossibleInputs _newInput)
