@@ -66,6 +66,7 @@ public class FoodMeterHandler : MonoBehaviour {
             decreaseSpeed *= decreaseSpeedWhenFullMultiplier;
             controllers[_playerIndex].areInputsUnlocked = false;
             StartCoroutine(ResetFaceTo(FaceEmotion.Loser, _playerIndex)); // Ate too much
+            controllers[_playerIndex].currentCombo = 0;
         }
         else if (foodMeters[_playerIndex] >= 100 - (foodMeterStep))
         {
