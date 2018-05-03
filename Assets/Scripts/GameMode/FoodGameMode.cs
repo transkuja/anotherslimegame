@@ -21,6 +21,7 @@ public class FoodGameMode : GameMode {
     public float miniTail; // No, it's not deprecated
     public float maxTail;
 
+    public float maxScale;
     public FoodMeterHandler FoodMeterHandler
     {
         get
