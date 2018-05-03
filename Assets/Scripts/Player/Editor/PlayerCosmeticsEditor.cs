@@ -52,6 +52,7 @@ public class PlayerCosmeticsEditor : Editor
         }
 
         curFaceType = cosmetics.FaceType;
+        curFaceEmotion = cosmetics.FaceEmotion;
         curMustache = GetIndexFromString(cosmetics.Mustache, CustomizableType.Mustache);
         curHat = GetIndexFromString(cosmetics.Hat, CustomizableType.Hat);
         curEars = GetIndexFromString(cosmetics.Ears, CustomizableType.Ears);

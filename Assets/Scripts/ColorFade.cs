@@ -21,6 +21,7 @@ public class ColorFade : MonoBehaviour {
             {
                 mats.Add(ms[j]);
                 mats[mats.Count-1].SetColor("_EmissionColor", Color.red);
+                mats[mats.Count - 1].EnableKeyword("_EMISSION");
             }
         }
 	}
@@ -35,6 +36,7 @@ public class ColorFade : MonoBehaviour {
             h += Time.deltaTime * speed;
 
             m.SetColor("_EmissionColor",Color.HSVToRGB(h, s, v));
+            m.color = Color.white;
         }
 	}
 }
