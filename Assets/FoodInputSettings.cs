@@ -8,8 +8,8 @@ public class FoodInputSettings : MonoBehaviour {
     float targetSlotPosition;
     public float targetPositionError;
     PlayerControllerFood target;
-    Slider tail;
-    float tailInternValue = 0.0f;
+    float currentTime;
+    float timeBeforeNextInput;
 
     // 3 behaviours for "tail"
     // -- Attached && tail length < window => reduce tail length over time
@@ -19,67 +19,69 @@ public class FoodInputSettings : MonoBehaviour {
     bool isAttached = false;
     bool nextInputCalled = false;
 
-	void Start () {
+	public void Init () {
         inputSpeed = ((FoodGameMode)GameManager.Instance.CurrentGameMode).inputSpeed;
         associatedInput = (PossibleInputs)Random.Range(0, (int)PossibleInputs.Size);
-        transform.GetChild(1).GetComponent<Image>().sprite = ResourceUtils.Instance.spriteUtils.GetSpriteFromInput(associatedInput);
+        transform.GetComponentInChildren<Image>().sprite = ResourceUtils.Instance.spriteUtils.GetSpriteFromInput(associatedInput);
         target = transform.parent.parent.GetComponentInChildren<PlayerControllerFood>();
         targetSlotPosition = target.transform.position.x;
-        tail = GetComponentInChildren<Slider>();
-        tail.value = 0.0f;
-        tailInternValue = 0.0f;
-        tail.maxValue = Random.Range(((FoodGameMode)GameManager.Instance.CurrentGameMode).miniTail, ((FoodGameMode)GameManager.Instance.CurrentGameMode).maxTail);
-        tail.GetComponent<RectTransform>().SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, tail.maxValue);
+        currentTime = 0.0f;
+        timeBeforeNextInput = Random.Range(((FoodGameMode)GameManager.Instance.CurrentGameMode).miniTail, ((FoodGameMode)GameManager.Instance.CurrentGameMode).maxTail);
     }
 	
 	void Update () {
+        if (!nextInputCalled && currentTime >= timeBeforeNextInput)
+        {
+            ((FoodGameMode)GameManager.Instance.CurrentGameMode).inputTracksHandler.SendNextInput((int)target.playerIndex);
+            nextInputCalled = true;
+        }
+        else
+            currentTime += Time.deltaTime;
+
         if (!isAttached)
         {
             transform.position += Time.deltaTime * inputSpeed * Vector3.right;
-            if (tailInternValue < 10.0f)
-            {
-                tailInternValue += Time.deltaTime * (inputSpeed + 5);
-            }
-            else
-            {
-                tail.value += Time.deltaTime * (inputSpeed + 5);
-                tailInternValue = tail.value + 10.0f;
-            }
-            if (tail.value >= tail.maxValue && !nextInputCalled)
-            {
-                ((FoodGameMode)GameManager.Instance.CurrentGameMode).inputTracksHandler.SendNextInput((int)target.playerIndex);
-                nextInputCalled = true;
-            }
 
             if (transform.position.x >= targetSlotPosition - targetPositionError)
             {
+                if (target.transform.childCount > 0)
+                    Destroy(target.transform.GetChild(0).gameObject);
+
                 transform.SetParent(target.transform);
                 transform.localPosition = Vector3.zero;
                 isAttached = true;
                 // TODO: feedback YOUCANPRESSTHEBUTTONNOW
                 target.currentInput = associatedInput;
-            }
+                transform.parent.parent.GetChild(0).GetComponentInChildren<Image>().color = GetColorFromInput();
 
+            }
         }
-        else
+    }
+
+    Color GetColorFromInput()
+    {
+        switch (associatedInput)
         {
-            if (tailInternValue >= tail.maxValue)
-            {
-                if (!nextInputCalled)
-                {
-                    ((FoodGameMode)GameManager.Instance.CurrentGameMode).inputTracksHandler.SendNextInput((int)target.playerIndex);
-                    nextInputCalled = true;
-                }
-                tail.value -= Time.deltaTime * inputSpeed;
-                if (tail.value <= 0.0f)
-                {
-                    Destroy(gameObject);
-                }
-            }
-            else
-            {
-                tailInternValue += Time.deltaTime * (inputSpeed);
-            }
+            case PossibleInputs.A:
+                return Color.green;
+            case PossibleInputs.B:
+                return Color.red;
+            case PossibleInputs.Y:
+                return Color.yellow;
+            case PossibleInputs.X:
+                return new Color(0, 128, 255, 255);
         }
+        return Color.white;
+    }
+
+    public void StartGame()
+    {
+        Init();
+        transform.SetParent(target.transform);
+        transform.localPosition = Vector3.zero;
+        isAttached = true;
+        // TODO: feedback YOUCANPRESSTHEBUTTONNOW
+        target.currentInput = associatedInput;
+        transform.parent.parent.GetChild(0).GetComponentInChildren<Image>().color = GetColorFromInput();
     }
 }
