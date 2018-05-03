@@ -4,7 +4,7 @@ using UnityEngine;
 using DatabaseClass;
 using System;
 
-public enum MinigameType { Floor, Runner, Fruit, Kart, Clash, Size};
+public enum MinigameType { Floor, Runner, Fruit, Kart, Clash, Food, Size};
 
 namespace DatabaseClass
 {
@@ -373,7 +373,7 @@ namespace DatabaseClass
 
             // Adding minigames
             int idMinigames = 0;
-            string[] strMinigame = { "MinigameAntho", "MinigameKart", "MinigamePush", "Minigame3dRunner", "MiniGameFruits", "MinigameKart 2", "Minigame3dRunner 1", "MiniGameFruits2", "MinigameAnthourte" };
+            string[] strMinigame = { "MinigameAntho", "MinigameKart", "MinigamePush", "Minigame3dRunner", "MiniGameFruits", "MinigameKart 2", "Minigame3dRunner 1", "MiniGameFruits2", "MinigameAnthourte", "MinigameFood" };
             minigames.Add(new MinigameData { Id = strMinigame[idMinigames], costToUnlock = -1, nbRunesToUnlock = 1, spriteImage = "screenshotMinigameAntho", isUnlocked = false, type = MinigameType.Floor });
             minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 3, spriteImage = "screenshotMinigameKart", isUnlocked = false, type = MinigameType.Kart });
             minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 2, spriteImage = "screenshotMinigamePush", isUnlocked = false, type = MinigameType.Clash });
@@ -383,11 +383,14 @@ namespace DatabaseClass
             minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = -1, spriteImage = "screenshotMinigameSuperRunner", isUnlocked = false, type = MinigameType.Runner });
             minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = -1, spriteImage = "screenshotMinigameFruits2", isUnlocked = false, type = MinigameType.Fruit });
             minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = -1, spriteImage = "screenshotMinigameAntho2", isUnlocked = false, type = MinigameType.Floor });
+            // TODO: needs a screenshot
+            minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = -1, spriteImage = "screenshotMinigameFood", isUnlocked = false, type = MinigameType.Food });
 
             // Adding costArea
             int idRune = 0;
-            string[] strRune = { "Rune1Hub1", "Rune2Hub1", "Rune3Hub1", "Rune4Hub1", "RuneColorFloor", "RuneSneaky1" };
+            string[] strRune = { "Rune1Hub1", "Rune2Hub1", "Rune3Hub1", "Rune4Hub1", "RuneColorFloor", "RuneSneaky1", "RuneFood" };
             runes.Add(new RuneData { Id = strRune[idRune], isUnlocked = false });
+            runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
