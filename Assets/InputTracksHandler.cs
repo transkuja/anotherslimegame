@@ -10,10 +10,11 @@ public class InputTracksHandler : MonoBehaviour {
     [SerializeField]
     GameObject inputPrefab;
 
-	void Start () {
+	public void StartGame() {
         for (int i = 0; i < GameManager.Instance.CurrentGameMode.curNbPlayers; i++)
         {
-            Instantiate(inputPrefab, tracks[i].transform.GetChild(0));
+            GameObject newInput = Instantiate(inputPrefab, tracks[i].transform.GetChild(0));
+            newInput.transform.localPosition = Vector3.zero;
         }
 	}
 	

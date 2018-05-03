@@ -12,7 +12,8 @@ public class FoodGameMode : GameMode {
     public int scoreStep = 10;
 
     FoodMeterHandler foodMeterHandler;
-    InputsMeterHandler inputsMeterHandler;
+    [SerializeField]
+    InputTracksHandler inputTracksHandler;
 
     public GameObject foodMeterUI;
     public GameObject inputsUI;
@@ -29,21 +30,6 @@ public class FoodGameMode : GameMode {
         set
         {
             foodMeterHandler = value;
-        }
-    }
-
-    public InputsMeterHandler InputsMeterHandler
-    {
-        get
-        {
-            if (inputsMeterHandler == null)
-                inputsMeterHandler = inputsUI.GetComponent<InputsMeterHandler>();
-            return inputsMeterHandler;
-        }
-
-        set
-        {
-            inputsMeterHandler = value;
         }
     }
 
@@ -65,6 +51,7 @@ public class FoodGameMode : GameMode {
         // Food meter init
         FoodMeterHandler = foodMeterUI.GetComponent<FoodMeterHandler>();
 
+        inputTracksHandler.StartGame();
         // Init Inputs meter
         //InputsMeterHandler = inputsUI.GetComponent<InputsMeterHandler>();
 
