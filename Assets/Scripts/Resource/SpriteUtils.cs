@@ -74,5 +74,24 @@ public class SpriteUtils : MonoBehaviour {
         return result;
     }
 
-    
+    public Sprite GetSpriteFromInput(PossibleInputs _input)
+    {
+        switch (_input)
+        {
+            case PossibleInputs.A:
+                return jumpSprite;
+            case PossibleInputs.X:
+                return actionSprite;
+            case PossibleInputs.Y:
+                return specialActionSprite;
+            case PossibleInputs.LT:
+                return leftTriggerSprite;
+            case PossibleInputs.RT:
+                return rightTriggerSprite;
+            case PossibleInputs.B:
+                return interactionSprite;
+            default:
+                return null;
+        }
+    }
 }
