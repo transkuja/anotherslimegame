@@ -65,9 +65,27 @@ public class EvolutionComponent : MonoBehaviour {
             affectedPart = playerCharacter.EvolutionParts[(int)evolution.BodyPart - 2].gameObject;
 
             if (evolution.BodyPart == BodyPart.Hammer)
-                affectedPart.transform.SetParent(playerCharacter.MainGauche);
+            {
+                if (playerCharacter.MainDroite.childCount == 0)
+                {
+                    // Replace with a place holder to keep the body part enum correct
+                    GameObject placeHolder = new GameObject("PlaceHolder");
+                    placeHolder.transform.SetParent(affectedPart.transform.parent);
+                    placeHolder.transform.SetSiblingIndex(affectedPart.transform.GetSiblingIndex());
+                    affectedPart.transform.SetParent(playerCharacter.MainDroite);
+                }
+            }
             else if (evolution.BodyPart == BodyPart.Staff)
-                affectedPart.transform.SetParent(playerCharacter.MainDroite);
+            {
+                if (playerCharacter.MainGauche.childCount == 0)
+                {
+                    //Replace with a place holder to keep the body part enum correct
+                    GameObject placeHolder = new GameObject("PlaceHolder");
+                    placeHolder.transform.SetParent(affectedPart.transform.parent);
+                    placeHolder.transform.SetSiblingIndex(affectedPart.transform.GetSiblingIndex());
+                    affectedPart.transform.SetParent(playerCharacter.MainGauche);
+                }
+            }
         }
         affectedPart.SetActive(true);
     }
@@ -88,6 +106,8 @@ public class EvolutionComponent : MonoBehaviour {
     {
         player.activeEvolutions--;
         affectedPart.transform.SetParent(transform.GetChild((int)PlayerChildren.SlimeMesh));
+        if(affectedPart.transform.parent.Find("PlaceHoder"))
+        Destroy(affectedPart.transform.parent.Find("PlaceHoder").gameObject);
         affectedPart.transform.SetSiblingIndex((int)evolution.BodyPart);
         affectedPart.SetActive(false);
     }
