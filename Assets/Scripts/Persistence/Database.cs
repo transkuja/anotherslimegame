@@ -303,12 +303,61 @@ namespace DatabaseClass
 
             // Adding colors
             int idColors = 0;
-            string[] strColor = { "Red", "Blue", "Magenta", "Yellow", "Candy" };
-            Color[] tabColor = { new Color(255, 10, 10, 0) / 255, new Color(21, 255, 243, 0) / 255, new Color(255, 34, 249, 0) / 255, new Color(241, 255, 0, 0) / 255, new Color(255, 167, 220, 0) / 255 };
+            string[] strColor = { "Color 1",
+                                "Color 2",
+                                "Color 3",
+                                "Color 4",
+                                "Color 5",
+                                "Color 6",
+                                "Color 7",
+                                "Color 8",
+                                "Color 9",
+                                "Color 10",
+                                "Color 11",
+                                "Color 12",
+                                "Color 13",
+                                "Color 14",
+                                "Color 15",
+                                "Color 16",
+                                "Color 17",
+                                "Color 18"
+            };
+            Color[] tabColor = { new Color(255, 197, 41, 255) / 255,
+                                new Color(244, 230, 81, 255) / 255,
+                                new Color(233, 152, 0, 255) / 255,
+                                new Color(144, 27, 27, 255) / 255,
+                                new Color(170, 247, 215, 255) / 255,
+                                new Color(116, 205, 242, 255) / 255,
+                                new Color(0, 147, 210, 255) / 255,
+                                new Color(128, 131, 245, 255) / 255,
+                                new Color(61, 65, 184, 255) / 255,
+                                new Color(230, 181, 246, 255) / 255,
+                                new Color(162, 77, 191, 255) / 255,
+                                new Color(142, 223, 95, 255) / 255,
+                                new Color(143, 216, 0, 255) / 255,
+                                new Color(249, 142, 195, 255) / 255,
+                                new Color(225, 121, 71, 255) / 255,
+                                new Color(244, 59, 151, 255) / 255,
+                                new Color(236, 108, 108, 255) / 255,
+                                new Color(236, 81, 24, 255) / 255
+            };
             colors.Add(new ColorData { Id = strColor[idColors], color = tabColor[idColors], isUnlocked = true });
             colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = true });
             colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = true });
             colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = true });
+            colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = false });
+            colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = false });
+            colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = false });
+            colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = false });
+            colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = false });
+            colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = false });
+            colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = false });
+            colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = false });
+            colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = false });
+            colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = false });
+            colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = false });
+            colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = false });
+            colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = false });
             colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = false });
 
             // Adding faces
