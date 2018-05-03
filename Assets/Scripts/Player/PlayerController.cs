@@ -150,7 +150,7 @@ public class PlayerController : MonoBehaviour
     {
         if (PrevState.Buttons.B == ButtonState.Released && State.Buttons.B == ButtonState.Pressed)
         {
-            if (player.currentStoredPickup != null)
+            if (player != null && player.currentStoredPickup != null)
             {
                 player.currentStoredPickup((int)playerIndex);
                 player.currentStoredPickup = null;

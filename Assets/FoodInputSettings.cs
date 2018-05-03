@@ -7,6 +7,8 @@ public class FoodInputSettings : MonoBehaviour {
     float inputSpeed;
     float targetSlotPosition;
     public float targetPositionError;
+    PlayerControllerFood target;
+
     // 2 states, Attached/NotAttached
     // 3 behaviours for "tail"
     // -- Attached && tail length < window => reduce tail length over time
@@ -19,7 +21,8 @@ public class FoodInputSettings : MonoBehaviour {
         inputSpeed = ((FoodGameMode)GameManager.Instance.CurrentGameMode).inputSpeed;
         associatedInput = (PossibleInputs)Random.Range(0, (int)PossibleInputs.Size);
         transform.GetChild(1).GetComponent<Image>().sprite = ResourceUtils.Instance.spriteUtils.GetSpriteFromInput(associatedInput);
-        targetSlotPosition = transform.parent.parent.GetComponentInChildren<PlayerControllerFood>().transform.position.x;
+        target = transform.parent.parent.GetComponentInChildren<PlayerControllerFood>();
+        targetSlotPosition = target.transform.position.x;
     }
 	
 	void Update () {
@@ -31,6 +34,7 @@ public class FoodInputSettings : MonoBehaviour {
                 transform.position += (targetSlotPosition - transform.position.x) * Vector3.right;
                 isAttached = true;
                 // TODO: feedback YOUCANPRESSTHEBUTTONNOW
+                target.currentInput = associatedInput;
             }
 
         }
