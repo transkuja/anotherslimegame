@@ -13,7 +13,8 @@ public static class MinigameDataUtils
     private static string FruitTitle = "Classic Fruits";
     private static string FruitTitle2 = "Super Fruits";
     private static string ClassicClashTitle = "Classic Clash";
-    private static string SuperRunnerTitle = "Super Runner"; 
+    private static string SuperRunnerTitle = "Super Runner";
+    private static string FoodTitle = "Eat Them All";
 
     public static string GetTitle(GameMode _curGameMode, int _version = 0)
     {
@@ -46,6 +47,10 @@ public static class MinigameDataUtils
         else if (curGameMode is PushGameMode)
         {
             return ClassicClashTitle;
+        }
+        else if (curGameMode is FoodGameMode)
+        {
+            return FoodTitle;
         }
         return "";
     }
@@ -89,6 +94,10 @@ public static class MinigameDataUtils
         {
             return ClassicClashTitle;
         }
+        else if (_minigameId == "MinigameFood")
+        {
+            return FoodTitle;
+        }
         return "";
     }
 
@@ -117,6 +126,10 @@ public static class MinigameDataUtils
         else if (curGameMode is PushGameMode)
         {
             return "Steal other players' coins!";
+        }
+        else if (curGameMode is FoodGameMode)
+        {
+            return "Eat as much as you can by pressing the correct buttons. But beware, it's not good eating too much too fast!";
         }
         return "";
     }
@@ -216,6 +229,10 @@ public static class MinigameDataUtils
         else if (curGameMode is FruitGameMode)
         {
             return "Score " + ((FruitGameMode)_curGameMode).necessaryPointsForRune;
+        }
+        else if (curGameMode is FoodGameMode)
+        {
+            return "Eat for " + _curGameMode.necessaryPointsForRune * GameManager.Instance.ActivePlayersAtStart + " points.";
         }
         return "";
     }
