@@ -6,10 +6,24 @@ ModelImporter:
   serializedVersion: 21
   fileIDToRecycleName:
     100000: //RootNode
+    100002: Asset_Tree_01
+    100004: pCylinder1
+    100006: pCylinder2
     400000: //RootNode
+    400002: Asset_Tree_01
+    400004: pCylinder1
+    400006: pCylinder2
     2300000: //RootNode
+    2300002: Asset_Tree_01
+    2300004: pCylinder1
+    2300006: pCylinder2
     3300000: //RootNode
+    3300002: Asset_Tree_01
+    3300004: pCylinder1
+    3300006: pCylinder2
     4300000: Asset_Tree_01
+    4300002: pCylinder1
+    4300004: pCylinder2
     9500000: //RootNode
   materials:
     importMaterials: 1
