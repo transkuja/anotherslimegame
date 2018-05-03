@@ -82,6 +82,9 @@ public class FoodGameMode : GameMode {
         GameManager.Instance.PlayerStart.PlayersReference[(int)_controller.PlayerIndex].
             GetComponent<Player>().UpdateCollectableValue(CollectableType.Points, scoreStep * _controller.CurrentCombo);
 
+        // Update Combo
+        _controller.CurrentCombo++;
+
         // food meter ++
         // Faire gonfler le slime
         FoodMeterHandler.FoodMeterIncrease((int)_controller.PlayerIndex);
@@ -91,7 +94,5 @@ public class FoodGameMode : GameMode {
         // DEPRECATED: old GP
         //InputsMeterHandler.InputMeterIncrease((int)_controller.PlayerIndex);
 
-        // Update Combo
-        _controller.CurrentCombo++;
     }
 }
