@@ -23,8 +23,9 @@ public class InputTracksHandler : MonoBehaviour {
 	}
 
 
-    public void SendNextInputDude()
+    public void SendNextInput(int _trackNumber)
     {
-
+        GameObject newInput = Instantiate(inputPrefab, tracks[_trackNumber].transform.GetChild(1)); // child 1 is start position
+        newInput.transform.localPosition = Vector3.zero;
     }
 }

@@ -12,13 +12,14 @@ public class FoodGameMode : GameMode {
     public int scoreStep = 10;
 
     FoodMeterHandler foodMeterHandler;
-    [SerializeField]
-    InputTracksHandler inputTracksHandler;
+    public InputTracksHandler inputTracksHandler;
 
     public GameObject foodMeterUI;
     public GameObject inputsUI;
 
     public float inputSpeed;
+    public float miniTail; // No, it's not deprecated
+    public float maxTail;
 
     public FoodMeterHandler FoodMeterHandler
     {

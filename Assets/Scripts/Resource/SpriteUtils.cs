@@ -84,10 +84,6 @@ public class SpriteUtils : MonoBehaviour {
                 return actionSprite;
             case PossibleInputs.Y:
                 return specialActionSprite;
-            case PossibleInputs.LT:
-                return leftTriggerSprite;
-            case PossibleInputs.RT:
-                return rightTriggerSprite;
             case PossibleInputs.B:
                 return interactionSprite;
             default:

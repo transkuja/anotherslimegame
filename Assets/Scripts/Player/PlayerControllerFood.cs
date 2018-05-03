@@ -61,15 +61,6 @@ public class PlayerControllerFood : PlayerController {
             CheckInput(PossibleInputs.Y);
         }
 
-        if (prevState.Triggers.Left < 0.1f && state.Triggers.Left > 0.1f)
-        {
-            CheckInput(PossibleInputs.LT);
-        }
-
-        if (prevState.Triggers.Right < 0.1f && state.Triggers.Right > 0.1f)
-        {
-            CheckInput(PossibleInputs.RT);
-        }
     }
 
     void CheckInput(PossibleInputs _pressed)
