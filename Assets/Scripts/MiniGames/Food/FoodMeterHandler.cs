@@ -8,19 +8,21 @@ using UnityEngine.UI;
 /// </summary>
 public class FoodMeterHandler : MonoBehaviour {
 
-    // base scale 1
-    // max scale
     float maxScale;
 
     // Food meter settings
     public int foodMeterStep = 30;
 
-    public float decreaseSpeed; // good feeling with 60
-    public float decreaseSpeedWhenFullMultiplier; // with 60, 1.5 is quite good
+    public float decreaseSpeed;
+    public float decreaseSpeedWhenFullMultiplier;
 
     float[] foodMeters = new float[4];
     [SerializeField]
     PlayerControllerFood[] controllers;
+
+    float[] timerResetFace = new float[4];
+    bool[] doesFaceNeedReset = new bool[4];
+    FaceEmotion[] resetTarget = new FaceEmotion[4];
 
 	void Start () {
         maxScale = ((FoodGameMode)GameManager.Instance.CurrentGameMode).maxScale;
@@ -30,6 +32,19 @@ public class FoodMeterHandler : MonoBehaviour {
 	
 	void Update () {
         IsSliderValueNull();
+
+        for (int i = 0; i < 4; ++i)
+        {
+            if (!doesFaceNeedReset[i])
+                continue;
+
+            timerResetFace[i] -= Time.deltaTime;
+            if (timerResetFace[i] <= 0.0f)
+            {
+                GameManager.Instance.PlayerStart.PlayersReference[i].GetComponentInChildren<PlayerCosmetics>().FaceEmotion = resetTarget[i];
+                doesFaceNeedReset[i] = false;
+            }
+        }
     }
 
     void IsSliderValueNull()
@@ -51,6 +66,10 @@ public class FoodMeterHandler : MonoBehaviour {
                 foodMeters[i] -= Time.deltaTime * decreaseSpeed;
                 GameManager.Instance.PlayerStart.PlayersReference[i].transform.localScale 
                     = Vector3.one * Mathf.Max(foodMeters[i] * maxScale * 0.01f, 1.0f);
+
+                if (foodMeters[i] <= 100 - (foodMeterStep) && 
+                        GameManager.Instance.PlayerStart.PlayersReference[i].GetComponentInChildren<PlayerCosmetics>().FaceEmotion == FaceEmotion.Hit)
+                    ResetFaceTo(FaceEmotion.Neutral, i);
             }
         }
     }
@@ -65,25 +84,26 @@ public class FoodMeterHandler : MonoBehaviour {
         {
             decreaseSpeed *= decreaseSpeedWhenFullMultiplier;
             controllers[_playerIndex].areInputsUnlocked = false;
-            StartCoroutine(ResetFaceTo(FaceEmotion.Loser, _playerIndex)); // Ate too much
+            currentPlayer.GetComponentInChildren<PlayerCosmetics>().FaceEmotion = FaceEmotion.Loser; // Ate too much
+            doesFaceNeedReset[_playerIndex] = false;
             controllers[_playerIndex].currentCombo = 0;
         }
-        else if (foodMeters[_playerIndex] >= 100 - (foodMeterStep))
+        else if (foodMeters[_playerIndex] >= 100 - (foodMeterStep * 2))
         {
             // clignote
-            StartCoroutine(ResetFaceTo(FaceEmotion.Hit, _playerIndex)); // Well fed
+            ResetFaceTo(FaceEmotion.Hit, _playerIndex); // Well fed
         }
         else
         {
-            StartCoroutine(ResetFaceTo(FaceEmotion.Neutral, _playerIndex));
+            ResetFaceTo(FaceEmotion.Neutral, _playerIndex);
         }
 
     }
 
-    IEnumerator ResetFaceTo(FaceEmotion _target, int _playerIndex)
+    void ResetFaceTo(FaceEmotion _target, int _playerIndex)
     {
-        yield return new WaitForSeconds(0.33f);
-        if (GameManager.Instance.PlayerStart.PlayersReference[_playerIndex].GetComponentInChildren<PlayerCosmetics>().FaceEmotion == FaceEmotion.Winner)
-            GameManager.Instance.PlayerStart.PlayersReference[_playerIndex].GetComponentInChildren<PlayerCosmetics>().FaceEmotion = _target;
+        timerResetFace[_playerIndex] = 0.5f;
+        resetTarget[_playerIndex] = _target;
+        doesFaceNeedReset[_playerIndex] = true;
     }
 }
