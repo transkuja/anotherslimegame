@@ -55,6 +55,7 @@ public class FoodGameMode : GameMode {
         for (int i = 0; i < playerReferences.Count; i++)
         {
             Destroy(playerReferences[i].GetComponent<PlayerControllerHub>());
+
             playerReferences[i].GetComponent<Rigidbody>().useGravity = true;
             playerReferences[i].GetComponent<Player>().NbPoints = 0;
         }
@@ -65,7 +66,7 @@ public class FoodGameMode : GameMode {
         FoodMeterHandler = foodMeterUI.GetComponent<FoodMeterHandler>();
 
         // Init Inputs meter
-        InputsMeterHandler = inputsUI.GetComponent<InputsMeterHandler>();
+        //InputsMeterHandler = inputsUI.GetComponent<InputsMeterHandler>();
 
     }
 
@@ -75,7 +76,15 @@ public class FoodGameMode : GameMode {
         GameManager.Instance.LaunchFinalTimer();
     }
 
-    // TODO: should have the player index as a parameter to play with 4P
+    public override void AttributeCamera(uint activePlayersAtStart, GameObject[] cameraReferences, List<GameObject> playersReference)
+    {
+        base.AttributeCamera(activePlayersAtStart, cameraReferences, playersReference);
+        for (int i = 0; i < activePlayersAtStart; i++)
+        {
+            playersReference[i].GetComponent<Player>().cameraReference = cameraReferences[i];
+        }
+    }
+
     public void GoodInput(PlayerControllerFood _controller)
     {
         // score ++

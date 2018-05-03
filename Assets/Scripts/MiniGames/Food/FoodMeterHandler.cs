@@ -17,6 +17,7 @@ public class FoodMeterHandler : MonoBehaviour {
     [SerializeField]
     Slider[] sliders;
     Image[] fillImages;
+    [SerializeField]
     PlayerControllerFood[] controllers;
 
 	void Start () {
@@ -26,10 +27,6 @@ public class FoodMeterHandler : MonoBehaviour {
             sliders[i].value = 0;
             fillImages[i] = sliders[i].transform.GetChild(1).GetComponentInChildren<Image>();
         }
-
-        controllers = new PlayerControllerFood[(int)GameManager.Instance.PlayerStart.ActivePlayersAtStart];
-        for (int i = 0; i < controllers.Length; i++)
-            controllers[i] = GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<PlayerControllerFood>();
     }
 	
 	void Update () {

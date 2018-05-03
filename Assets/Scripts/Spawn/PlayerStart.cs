@@ -180,12 +180,8 @@ public class PlayerStart : MonoBehaviour {
                 {
                     if (i > 0)
                     {
-                        go.transform.GetChild(0).GetChild(0).GetComponent<Renderer>().material.SetColor("_Color", colorPlayer[i - 1]);
-                        go.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(0).GetComponent<Renderer>().material.SetColor("_Color", colorPlayer[i - 1]);
-                        go.transform.GetChild(0).GetChild(0).GetChild(0).GetChild(1).GetComponent<Renderer>().material.SetColor("_Color", colorPlayer[i - 1]);
-
-                        go.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(0).GetComponent<Renderer>().material.SetColor("_Color", colorPlayer[i - 1]);
-                        go.transform.GetChild(0).GetChild(0).GetChild(1).GetChild(1).GetComponent<Renderer>().material.SetColor("_Color", colorPlayer[i - 1]);
+                        foreach (Renderer r in go.transform.GetChild(0).GetComponentsInChildren<Renderer>())
+                            r.material.SetColor("_Color", colorPlayer[i - 1]);
                     }
                 }
             }
