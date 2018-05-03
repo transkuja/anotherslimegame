@@ -13,7 +13,7 @@ public class InputTracksHandler : MonoBehaviour {
 	public void StartGame() {
         for (int i = 0; i < GameManager.Instance.CurrentGameMode.curNbPlayers; i++)
         {
-            GameObject newInput = Instantiate(inputPrefab, tracks[i].transform.GetChild(0));
+            GameObject newInput = Instantiate(inputPrefab, tracks[i].transform.GetChild(1)); // child 1 is start position
             newInput.transform.localPosition = Vector3.zero;
         }
 	}

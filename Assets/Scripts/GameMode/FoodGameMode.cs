@@ -18,6 +18,8 @@ public class FoodGameMode : GameMode {
     public GameObject foodMeterUI;
     public GameObject inputsUI;
 
+    public float inputSpeed;
+
     public FoodMeterHandler FoodMeterHandler
     {
         get
