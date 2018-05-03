@@ -36,11 +36,13 @@ public class JumpState : PlayerState
     {
         base.OnBegin();
         LaunchJump();
+        playerCharacterHub.Anim.SetBool("isJumping", true);
     }
    
     public override void OnEnd()
     {
         base.OnEnd();
+        playerCharacterHub.Anim.SetBool("isJumping", false);
     }
     public void OnJump()
     {

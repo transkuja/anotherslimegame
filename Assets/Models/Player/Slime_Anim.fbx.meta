@@ -280,7 +280,7 @@ ModelImporter:
     - serializedVersion: 16
       name: Dash
       takeName: Take 001
-      firstFrame: 267
+      firstFrame: 265
       lastFrame: 279
       wrapMode: 0
       orientationOffsetY: 0
@@ -337,7 +337,7 @@ ModelImporter:
       name: Depression
       takeName: Take 001
       firstFrame: 290
-      lastFrame: 330
+      lastFrame: 370
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -364,8 +364,8 @@ ModelImporter:
     - serializedVersion: 16
       name: Walk
       takeName: Take 001
-      firstFrame: 335
-      lastFrame: 355
+      firstFrame: 371
+      lastFrame: 390
       wrapMode: 0
       orientationOffsetY: 0
       level: 0

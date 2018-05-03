@@ -162,7 +162,7 @@ public class PlayerCharacterHub : PlayerCharacter {
                 }
 
             }
-
+            Anim.SetBool("isGrounded", value);
             isGrounded = value;
         }
     }
