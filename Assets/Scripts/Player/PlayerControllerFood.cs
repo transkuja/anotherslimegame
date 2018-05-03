@@ -35,8 +35,11 @@ public class PlayerControllerFood : PlayerController {
     public override void Update () {
         base.Update();
 
-        if (areInputsUnlocked)
-            CompareInput();
+        if (GameManager.CurrentState == GameState.Normal)
+        {
+            if (areInputsUnlocked)
+                CompareInput();
+        }
     }
 
     void CompareInput()

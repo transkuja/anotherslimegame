@@ -30,6 +30,9 @@ public class FoodInputSettings : MonoBehaviour {
     }
 	
 	void Update () {
+        if (GameManager.CurrentState != GameState.Normal)
+            return;
+
         if (!nextInputCalled && currentTime >= timeBeforeNextInput)
         {
             ((FoodGameMode)GameManager.Instance.CurrentGameMode).inputTracksHandler.SendNextInput((int)target.playerIndex);

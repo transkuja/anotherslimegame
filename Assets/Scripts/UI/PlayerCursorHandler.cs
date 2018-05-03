@@ -5,12 +5,12 @@ using UnityEngine;
 public class PlayerCursorHandler : MonoBehaviour {
 
     [SerializeField]
-    GameObject[] cursorRef;
+    protected GameObject[] cursorRef;
 
-    RectTransform[] rect = new RectTransform[4];
-    float scaleFactor;
+    protected RectTransform[] rect = new RectTransform[4];
+    protected float scaleFactor;
 
-    private void Start()
+    public virtual void Start()
     {
         for (int i = 0; i < 4; ++i)
             rect[i] = transform.GetChild(i).GetComponent<RectTransform>();
@@ -18,7 +18,7 @@ public class PlayerCursorHandler : MonoBehaviour {
         scaleFactor = GetComponent<Canvas>().scaleFactor;
     }
 
-    void Update () {
+    public virtual void Update () {
 
         for (int i = 0; i < GameManager.Instance.PlayerStart.ActivePlayersAtStart; ++i)
         {

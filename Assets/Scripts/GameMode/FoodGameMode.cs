@@ -14,8 +14,8 @@ public class FoodGameMode : GameMode {
     FoodMeterHandler foodMeterHandler;
     public InputTracksHandler inputTracksHandler;
 
+    public GameObject minigameUI;
     public GameObject foodMeterUI;
-    public GameObject inputsUI;
 
     public float inputSpeed;
     public float miniTail; // No, it's not deprecated
@@ -52,13 +52,25 @@ public class FoodGameMode : GameMode {
     
 
         LaunchTimer();
+
+        if (GameManager.Instance.PlayerStart.DEBUG_SkipMinigamesRuleScreen)
+        {
+            minigameUI.SetActive(true);
+            // Food meter init
+            FoodMeterHandler = foodMeterUI.GetComponent<FoodMeterHandler>();
+
+            inputTracksHandler.StartGame();
+        }
+    }
+
+    public override void OnReadySetGoBegin()
+    {
+        base.OnReadySetGoBegin();
+        minigameUI.SetActive(true);
         // Food meter init
         FoodMeterHandler = foodMeterUI.GetComponent<FoodMeterHandler>();
 
         inputTracksHandler.StartGame();
-        // Init Inputs meter
-        //InputsMeterHandler = inputsUI.GetComponent<InputsMeterHandler>();
-
     }
 
     public void LaunchTimer()
@@ -85,14 +97,7 @@ public class FoodGameMode : GameMode {
         // Update Combo
         _controller.CurrentCombo++;
 
-        // food meter ++
-        // Faire gonfler le slime
         FoodMeterHandler.FoodMeterIncrease((int)_controller.PlayerIndex);
-
-        // input gauge ++
-        // Osef?
-        // DEPRECATED: old GP
-        //InputsMeterHandler.InputMeterIncrease((int)_controller.PlayerIndex);
 
     }
 }
