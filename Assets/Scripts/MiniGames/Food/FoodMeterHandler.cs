@@ -11,7 +11,6 @@ public class FoodMeterHandler : MonoBehaviour {
     // base scale 1
     // max scale
     float maxScale;
-    // food meter % avec 0 => scale 1, 90 ==> max scale, start clignotement
 
     // Food meter settings
     public int foodMeterStep = 30;
@@ -25,23 +24,26 @@ public class FoodMeterHandler : MonoBehaviour {
 
 	void Start () {
         maxScale = ((FoodGameMode)GameManager.Instance.CurrentGameMode).maxScale;
+        for (int i = 0; i < 4; i++)
+            foodMeters[i] = foodMeterStep;
     }
 	
 	void Update () {
         IsSliderValueNull();
     }
 
-    // Keep sliders for DEBUG, but slime will inflate instead
     void IsSliderValueNull()
     {
         for (int i = 0; i < controllers.Length; i++)
         {
-            if (foodMeters[i] <= 1.0f)
+            if (foodMeters[i] <= foodMeterStep)
             {
                 if (!controllers[i].areInputsUnlocked)
                 {
                     decreaseSpeed /= decreaseSpeedWhenFullMultiplier;
                     controllers[i].areInputsUnlocked = true;
+                    GameManager.Instance.PlayerStart.PlayersReference[i].GetComponentInChildren<PlayerCosmetics>().FaceEmotion 
+                        = FaceEmotion.Neutral;
                 }
             }
             else
@@ -59,13 +61,13 @@ public class FoodMeterHandler : MonoBehaviour {
         GameObject currentPlayer = GameManager.Instance.PlayerStart.PlayersReference[_playerIndex];
         currentPlayer.GetComponentInChildren<PlayerCosmetics>().FaceEmotion = FaceEmotion.Winner; // Should be "Eating"
 
-        if (foodMeters[_playerIndex] >= 100)
+        if (foodMeters[_playerIndex] >= 100 + foodMeterStep)
         {
             decreaseSpeed *= decreaseSpeedWhenFullMultiplier;
             controllers[_playerIndex].areInputsUnlocked = false;
             StartCoroutine(ResetFaceTo(FaceEmotion.Loser, _playerIndex)); // Ate too much
         }
-        else if (foodMeters[_playerIndex] >= 100 - (foodMeterStep * 2))
+        else if (foodMeters[_playerIndex] >= 100 - (foodMeterStep))
         {
             // clignote
             StartCoroutine(ResetFaceTo(FaceEmotion.Hit, _playerIndex)); // Well fed
