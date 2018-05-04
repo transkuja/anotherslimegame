@@ -117,6 +117,7 @@ public class PlayerControllerFood : PlayerController {
         }
         else
         {
+
             if (AudioManager.Instance != null && AudioManager.Instance.incorrectFx != null)
                 AudioManager.Instance.PlayOneShot(AudioManager.Instance.incorrectFx);
 
@@ -127,7 +128,21 @@ public class PlayerControllerFood : PlayerController {
                         = FaceEmotion.Loser;
                 Invoke("ResetStateAfterEatingSmthgBad", 1.5f);
             }
+            else
+            {
+                Invoke("ResetStateAfterWrongInput", 0.5f);
+                AreInputsUnlocked = false;
+                GameManager.Instance.PlayerStart.PlayersReference[(int)playerIndex].GetComponentInChildren<PlayerCosmetics>().FaceEmotion
+                        = FaceEmotion.Hit;
+            }
         }
+    }
+
+    void ResetStateAfterWrongInput()
+    {
+        AreInputsUnlocked = true;
+        GameManager.Instance.PlayerStart.PlayersReference[(int)playerIndex].GetComponentInChildren<PlayerCosmetics>().FaceEmotion
+                = FaceEmotion.Neutral;
     }
 
     void ResetStateAfterEatingSmthgBad()
