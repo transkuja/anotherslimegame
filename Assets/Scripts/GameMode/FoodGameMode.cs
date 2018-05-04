@@ -22,6 +22,9 @@ public class FoodGameMode : GameMode {
     public float maxTail;
 
     public float maxScale;
+
+    public bool enableBadInputs = false;
+
     public FoodMeterHandler FoodMeterHandler
     {
         get
@@ -60,6 +63,29 @@ public class FoodGameMode : GameMode {
             FoodMeterHandler = foodMeterUI.GetComponent<FoodMeterHandler>();
 
             inputTracksHandler.StartGame();
+        }
+    }
+
+    public override void ExtractVersionData(int _minigameVersion)
+    {
+        if (_minigameVersion >= 2)
+        {
+            enableBadInputs = true;
+            _minigameVersion -= 2;
+        }
+
+        if (_minigameVersion >= 1)
+        {
+            miniTail = 0.75f;
+            maxTail = 1.5f;
+            inputSpeed = 60.0f;
+            _minigameVersion -= 1;
+        }
+        else
+        {
+            miniTail = 1.0f;
+            maxTail = 2.0f;
+            inputSpeed = 50.0f;
         }
     }
 

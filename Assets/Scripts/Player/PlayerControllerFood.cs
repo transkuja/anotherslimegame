@@ -7,6 +7,7 @@ using UWPAndXInput;
 public class PlayerControllerFood : PlayerController {
     public PossibleInputs currentInput;
     public bool areInputsUnlocked = true;
+    public bool hasEatenSmthgBad = false;
 
     public int currentCombo = 0;
     public GameObject comboUI;
@@ -37,7 +38,7 @@ public class PlayerControllerFood : PlayerController {
 
         if (GameManager.CurrentState == GameState.Normal)
         {
-            if (areInputsUnlocked)
+            if (areInputsUnlocked && !hasEatenSmthgBad)
                 CompareInput();
         }
     }
@@ -71,7 +72,23 @@ public class PlayerControllerFood : PlayerController {
         if (_pressed == currentInput)
             ((FoodGameMode)GameManager.Instance.CurrentGameMode).GoodInput(this);
         else
+        {
             CurrentCombo = 0;
+            if (currentInput == PossibleInputs.BadOne)
+            {
+                hasEatenSmthgBad = true;
+                GameManager.Instance.PlayerStart.PlayersReference[(int)playerIndex].GetComponentInChildren<PlayerCosmetics>().FaceEmotion
+                        = FaceEmotion.Loser;
+                Invoke("ResetStateAfterEatingSmthgBad", 1.5f);
+            }
+        }
+    }
+
+    void ResetStateAfterEatingSmthgBad()
+    {
+        hasEatenSmthgBad = false;
+        GameManager.Instance.PlayerStart.PlayersReference[(int)playerIndex].GetComponentInChildren<PlayerCosmetics>().FaceEmotion
+                = FaceEmotion.Neutral;
     }
 
     public void UpdateCurrentInput(PossibleInputs _newInput)
