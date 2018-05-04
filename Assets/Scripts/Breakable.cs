@@ -72,13 +72,9 @@ public class Breakable : MonoBehaviour {
             // TODO: may externalize this behaviour to avoid duplication
             Vector3 playerToTarget = transform.position - _playerCharacterHub.transform.position;
             Vector3 playerCenterToTargetCenter = (transform.position + Vector3.up * 0.5f) - (_playerCharacterHub.transform.position + Vector3.up * 0.5f);
-            GameObject go = Instantiate(ResourceUtils.Instance.particleSystemManager.impactFeedback, transform);
-
-            go.transform.position = transform.position + Vector3.up * 0.5f + playerCenterToTargetCenter / 2.0f;
-            go.transform.rotation = Quaternion.LookRotation(playerToTarget, Vector3.up);
-
-            // Destroy item
-            Destroy(go, 10.0f);
+            GameObject go = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles).GetItem(transform, transform.position + Vector3.up * 0.5f + playerCenterToTargetCenter / 2.0f, Quaternion.LookRotation(playerToTarget, Vector3.up), true, true, (int)HitParticles.BigHitStar);
+            go.transform.localScale = Vector3.one;
+            go.GetComponent<ParticleSystem>().Play();
 
             //Set vibrations
             UWPAndXInput.GamePad.VibrateForSeconds(_playerControllerHub.playerIndex, 0.8f, 0.8f, .1f);
@@ -88,6 +84,7 @@ public class Breakable : MonoBehaviour {
 
 
             foreach (Renderer mr in GetComponentsInChildren<Renderer>())
+                if(mr.GetComponent<ParticleSystem>() == null)
                 mr.enabled = false;
             foreach (Collider col in GetComponentsInChildren<Collider>())
                 col.enabled = false;
