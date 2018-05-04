@@ -124,7 +124,6 @@ abstract public class GameMode : MonoBehaviour
     {
         if (!IsMiniGame())
             return;
-
         // Rune can't be obtained from minigame selection screen
         if (GameManager.Instance.DataContainer != null)
         {
@@ -137,14 +136,12 @@ abstract public class GameMode : MonoBehaviour
         ruleScreenRef.GetComponentInChildren<Text>().text = rules.title;
         ruleScreenRef.GetChild(1).GetComponent<Text>().text = rules.howToPlay + ((runeObjective != RuneObjective.None) ? "\n\nRune objective:\n" + rules.runeObtention : "");
         ruleScreenRef.GetChild(1).gameObject.SetActive(true);
-
         GameObject controlDetailsPage = new GameObject("ControlDetailsPage");
         controlDetailsPage.transform.SetParent(ruleScreenRef);
         controlDetailsPage.transform.localPosition = Vector3.zero;
         controlDetailsPage.transform.localRotation = Quaternion.identity;
         controlDetailsPage.transform.localScale = Vector3.one;
         controlDetailsPage.SetActive(false);
-
         int i = 0;
         foreach (ControlDetails control in rules.controls)
         {
@@ -154,7 +151,6 @@ abstract public class GameMode : MonoBehaviour
             entry.GetComponentInChildren<Text>().text = control.description;
             i++;
         }
-        
 
         GameObject possiblePickupsPage = new GameObject("PossiblePickupsPagePage");
         possiblePickupsPage.transform.SetParent(ruleScreenRef);
@@ -184,7 +180,6 @@ abstract public class GameMode : MonoBehaviour
         {
             ruleScreenRef.GetComponent<RuleScreenHandler>().StartMinigame();
         }
-
     }
 
     protected virtual void Update()

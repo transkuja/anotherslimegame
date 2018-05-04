@@ -50,6 +50,7 @@ public class PlayerStart : MonoBehaviour {
         GameManager.Instance.RegisterPlayerStart(this);
         SpawnPlayers();
         Debug.Assert(gameMode != null, "Missing gameMode");
+
         gameMode.AttributeCamera(activePlayersAtStart, cameraPlayerReferences, playersReference);
 
         // Inits
@@ -72,6 +73,7 @@ public class PlayerStart : MonoBehaviour {
 
         gameMode.StartGame(playersReference);
         gameMode.OpenRuleScreen();
+
 
         // Disable debug behaviour in build
 #if UNITY_EDITOR

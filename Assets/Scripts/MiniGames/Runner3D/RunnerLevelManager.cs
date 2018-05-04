@@ -41,6 +41,36 @@ namespace Runner3D
                 runnerMode = value;
             }
         }
+
+        public RunnerLevelGenerator LevelGenerator
+        {
+            get
+            {
+                if (!levelGenerator)
+                    levelGenerator = GetComponent<RunnerLevelGenerator>();
+                return levelGenerator;
+            }
+
+            set
+            {
+                levelGenerator = value;
+            }
+        }
+
+        public LevelItems Level
+        {
+            get
+            {
+                if (level == null)
+                    level = LevelGenerator.level;
+                return level;
+            }
+
+            set
+            {
+                level = value;
+            }
+        }
         #endregion
         #endregion
 
@@ -66,9 +96,9 @@ namespace Runner3D
         }
         public void UpdateCloudsPos()
         {
-            Vector3 newCloudsPos = level.clouds.transform.position;
+            Vector3 newCloudsPos = Level.clouds.transform.position;
             newCloudsPos.z = firstPlayerZRow * RunnerLevelGenerator.defaultBlockSize.z;
-            level.clouds.transform.position = newCloudsPos;
+            Level.clouds.transform.position = newCloudsPos;
         }
 
         #endregion
@@ -87,8 +117,8 @@ namespace Runner3D
             {
                 for (int i = firstPlayerZRow + 1; i <= firstPlayerZRow + variation; i++)
                 {
-                    levelGenerator.OrderLerpRow(i + nbRowUpInFrontFirst, DirLerpState.Up);
-                    levelGenerator.OrderLerpRow(i + nbRowUpInFrontFirst, DirLerpState.Down, timeBeforeFalling);
+                    LevelGenerator.OrderLerpRow(i + nbRowUpInFrontFirst, DirLerpState.Up);
+                    LevelGenerator.OrderLerpRow(i + nbRowUpInFrontFirst, DirLerpState.Down, timeBeforeFalling);
                 }
             }
             firstPlayerZRow = newCursorValue;
@@ -116,8 +146,8 @@ namespace Runner3D
             if (playerZBlockPos != firstPlayerZRow)
             {
                         // si le joueur est preque arrivé à la fin du niveau on génère de nouveaux blocs
-                if(levelGenerator.IsLevelFinishedAt((playerZBlockPos + nbRowUpInFrontFirst + 1) * RunnerLevelGenerator.defaultBlockSize.z))
-                    levelGenerator.Generate2DChunk();
+                if(LevelGenerator.IsLevelFinishedAt((playerZBlockPos + nbRowUpInFrontFirst + 1) * RunnerLevelGenerator.defaultBlockSize.z))
+                    LevelGenerator.Generate2DChunk();
                 MoveCursor(playerZBlockPos);
             }
             firstPlayerZRow = playerZBlockPos;
@@ -128,16 +158,16 @@ namespace Runner3D
         }
         public void Start()
         {
-            levelGenerator = GetComponent<RunnerLevelGenerator>();
-            level = levelGenerator.level;
+            LevelGenerator = GetComponent<RunnerLevelGenerator>();
+            Level = LevelGenerator.level;
         }
         public void OnLevelBegin()
         {
             playerRef = GameManager.Instance.PlayerStart.PlayersReference; // safe ? 
             MoveCursor(-nbRowUpInFrontFirst - 1);
             state = State.InGame;
-            level.beginAreaPrefab.GetComponent<RunnerBlocs>().SaveStartPos();
-            level.beginAreaPrefab.GetComponent<RunnerBlocs>().LauchLerp(DirLerpState.Down, timeBeforeFalling);
+            Level.beginAreaPrefab.GetComponent<RunnerBlocs>().SaveStartPos();
+            Level.beginAreaPrefab.GetComponent<RunnerBlocs>().LauchLerp(DirLerpState.Down, timeBeforeFalling);
         }
 
         public void Update()

@@ -229,8 +229,7 @@ namespace Runner3D
         public void Start()
         {
             Runner3DGameMode runnerMode = (GameManager.Instance.CurrentGameMode as Runner3DGameMode);
-            runnerMode.levelGenerator = this;
-
+            //runnerMode.levelGenerator = this;
             runnerBlocPool = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.RunnerBloc);
         }
         public void LevelBegin()
