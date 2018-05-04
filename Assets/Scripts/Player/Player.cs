@@ -1,6 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using UnityEngine.UI;
+using Random = UnityEngine.Random;
 
 public enum PlayerUIStat { Life, Points, Size}
 
@@ -220,8 +221,13 @@ public class Player : MonoBehaviour {
                     feedback.GetComponentInChildren<Outline>().effectColor = Color.red;
                     feedback.GetComponentInChildren<Text>().text = "- ";
                 }
-                feedback.transform.GetChild(0).position = Camera.main.WorldToScreenPoint(transform.position);
-
+                if (!(GameManager.Instance.CurrentGameMode is FoodGameMode))
+                    feedback.transform.GetChild(0).position = Camera.main.WorldToScreenPoint(transform.position);
+                else
+                {
+                    feedback.transform.GetChild(0).position = Camera.main.WorldToScreenPoint(transform.position);
+                    feedback.transform.GetChild(0).position += (Vector3.right * Random.Range(-50, 50) + Vector3.up * Random.Range(-50, 50));
+                }
                 feedback.GetComponentInChildren<Text>().text += Utils.Abs(pickedValue).ToString();
                 feedback.GetComponentInChildren<Text>().enabled = true;
 
