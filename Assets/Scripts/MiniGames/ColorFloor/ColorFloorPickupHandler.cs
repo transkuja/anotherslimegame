@@ -107,16 +107,14 @@ public class ColorFloorPickupHandler : MonoBehaviour
 
     IEnumerator BadPickupsSpawn()
     {
+        yield return new WaitForSeconds(currentSpawnRate);
+
         while (true)
         {
             int randomPatt = Random.Range(0, 3);
             int randomHowToSpawn = Random.Range(0, 2);
             int numberOfLines = Random.Range(1, 3);
             int numberOfColumns = Random.Range(1, 3);
-
-            yield return new WaitForSeconds(currentSpawnRate * ((randomPatt == 0) ? 2.0f : 1.0f)  + (randomHowToSpawn * (numberOfLines + numberOfColumns)));
-            currentSpawnRate *= Random.Range(0.8f, 1.1f);
-            currentSpawnRate = Mathf.Max(currentSpawnRate, 2.0f);
 
             List<int> randChild = new List<int>();
             if (randomPatt == 0)
@@ -143,6 +141,10 @@ public class ColorFloorPickupHandler : MonoBehaviour
                 StartCoroutine(SpawnOneAfterAnother(randChild.ToArray()));
             else
                 SpawnAtTheSameTime(randChild.ToArray());
+
+            yield return new WaitForSeconds(currentSpawnRate * ((randomPatt == 0) ? 1.0f : 1.5f) + (randomHowToSpawn * (numberOfLines + numberOfColumns)));
+            currentSpawnRate *= Random.Range(0.8f, 1.1f);
+            currentSpawnRate = Mathf.Max(currentSpawnRate, 2.0f);
         }
     }
 
