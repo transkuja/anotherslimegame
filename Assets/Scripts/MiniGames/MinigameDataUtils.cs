@@ -6,7 +6,15 @@ using UWPAndXInput;
 public static class MinigameDataUtils
 {
     private static string ColorFloorTitle = "Floor Coloring";
-    private static string ColorFloorV2Title = "Shape Coloring";
+    private static string ColorFloorTitleV3 = "Trapped Floor Coloring";
+    private static string ColorFloorTitleV5 = "Restrained Floor Coloring";
+    private static string ColorFloorTitleV7 = "Trapped & Restrained Floor Coloring";
+
+    private static string ColorFloorTitleV2 = "Shape Coloring";
+    private static string ColorFloorTitleV4 = "Trapped Shape Coloring";
+    private static string ColorFloorTitleV6 = "Restrained Shape Coloring";
+    private static string ColorFloorTitleV8 = "Trapped & Restrained Shape Coloring";
+
     private static string ClassicKartTitle = "Classic Kart";
     private static string RunnerTitle = "Classic Runner";
     private static string SnowKartTitle = "Snow Kart";
@@ -22,7 +30,19 @@ public static class MinigameDataUtils
         if (curGameMode is ColorFloorGameMode)
         {
             if (_version == 1)
-                return ColorFloorV2Title;
+                return ColorFloorTitleV2;
+            if (_version == 2)
+                return ColorFloorTitleV3;
+            if (_version == 3)
+                return ColorFloorTitleV4;
+            if (_version == 4)
+                return ColorFloorTitleV5;
+            if (_version == 5)
+                return ColorFloorTitleV6;
+            if (_version == 6)
+                return ColorFloorTitleV7;
+            if (_version == 7)
+                return ColorFloorTitleV8;
 
             return ColorFloorTitle;
         }
@@ -55,16 +75,30 @@ public static class MinigameDataUtils
         return "";
     }
 
-    public static string GetTitle(string _minigameId)
+    public static string GetTitle(string _minigameId, int _version)
     {
         // "MinigameAntho", "MinigameKart", "MinigamePush", "Minigame3dRunner"
         if (_minigameId == "MinigameAntho")
         {
+            if (_version == 2)
+                return ColorFloorTitleV3;
+            if (_version == 4)
+                return ColorFloorTitleV5;
+            if (_version == 6)
+                return ColorFloorTitleV7;
             return ColorFloorTitle;
+
         }
         else if (_minigameId == "MinigameAnthourte")
         {
-            return ColorFloorV2Title;
+            if (_version == 3)
+                return ColorFloorTitleV4;
+            if (_version == 5)
+                return ColorFloorTitleV6;
+            if (_version == 7)
+                return ColorFloorTitleV8;
+
+            return ColorFloorTitleV2;
         }
         else if (_minigameId == "MinigameKart")
         {
@@ -106,7 +140,7 @@ public static class MinigameDataUtils
         GameMode curGameMode = _curGameMode;
         if (curGameMode is ColorFloorGameMode)
         {
-            if (_version == 1)
+            if (_version % 2 == 1)
                 return "Encircle areas with your color to capture the center and earn points. The one with the most points win!";
 
             return "Color the floor and collect score pickup to earn points. Be the one with the most points to win!";
@@ -188,7 +222,7 @@ public static class MinigameDataUtils
 
         if (curGameMode is ColorFloorGameMode)
         {
-            if (_version == 0)
+            if (_version%2 == 0)
                 possiblePickups.Add(new PossiblePickup(PickUpType.Score, "Collect to score points"));
             possiblePickups.Add(new PossiblePickup(PickUpType.ColorAround, "Color nearby stones"));
             possiblePickups.Add(new PossiblePickup(PickUpType.ColorArrow, "Color stones in a direction"));
@@ -213,7 +247,7 @@ public static class MinigameDataUtils
         GameMode curGameMode = _curGameMode;
         if (curGameMode is ColorFloorGameMode)
         {
-            if (_version == 1)
+            if (_version%2 == 1)
                 return "Score " + ((ColorFloorGameMode)_curGameMode).necessaryPointsForRune * GameManager.Instance.ActivePlayersAtStart + " points.";
 
             return "Score " + ((ColorFloorGameMode)_curGameMode).necessaryPointsForRune * GameManager.Instance.ActivePlayersAtStart + " points.";

@@ -49,7 +49,7 @@ public class MinigameSelectionAnim : MonoBehaviour {
     {
         minigameData = _minigameData;
         GetComponentsInChildren<Image>()[3].sprite = Resources.Load<Sprite>(_minigameData.spriteImage) as Sprite;
-        GetComponentInChildren<Text>().text = MinigameDataUtils.GetTitle(_minigameData.Id);
+        GetComponentInChildren<Text>().text = MinigameDataUtils.GetTitle(_minigameData.Id, _minigameData.version);
     }
 
     public string GetMinigameId()
