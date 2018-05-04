@@ -87,6 +87,8 @@ public class FoodMeterHandler : MonoBehaviour {
             currentPlayer.GetComponentInChildren<PlayerCosmetics>().FaceEmotion = FaceEmotion.Loser; // Ate too much
             doesFaceNeedReset[_playerIndex] = false;
             controllers[_playerIndex].CurrentCombo = 0;
+            if (AudioManager.Instance != null && AudioManager.Instance.incorrectFx != null)
+                AudioManager.Instance.PlayOneShot(AudioManager.Instance.incorrectFx);
         }
         else if (foodMeters[_playerIndex] >= 100 - (foodMeterStep * 2))
         {

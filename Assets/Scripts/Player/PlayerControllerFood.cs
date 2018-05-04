@@ -70,10 +70,17 @@ public class PlayerControllerFood : PlayerController {
     void CheckInput(PossibleInputs _pressed)
     {
         if (_pressed == currentInput)
+        {
             ((FoodGameMode)GameManager.Instance.CurrentGameMode).GoodInput(this);
+            if (AudioManager.Instance != null && AudioManager.Instance.positiveSoundFx != null)
+                AudioManager.Instance.PlayOneShot(AudioManager.Instance.positiveSoundFx);
+        }
         else
         {
             CurrentCombo = 0;
+            if (AudioManager.Instance != null && AudioManager.Instance.incorrectFx != null)
+                AudioManager.Instance.PlayOneShot(AudioManager.Instance.incorrectFx);
+
             if (currentInput == PossibleInputs.BadOne)
             {
                 hasEatenSmthgBad = true;
