@@ -263,6 +263,11 @@ public class ScoreScreen : MonoBehaviour {
                 podiumPlayer.GetComponentInChildren<Animator>().SetBool("hasFinished", true);
         }
 
+        if (GameManager.Instance.CurrentGameMode.specificCameraForPodium != null)
+        {
+            GetComponent<Canvas>().worldCamera.gameObject.SetActive(false);
+            GetComponent<Canvas>().worldCamera = GameManager.Instance.CurrentGameMode.specificCameraForPodium.GetComponent<Camera>();
+        }
         GetComponent<Canvas>().worldCamera.gameObject.SetActive(true);
     }
 

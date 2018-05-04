@@ -53,6 +53,7 @@ abstract public class GameMode : MonoBehaviour
     protected int currentScore = 0;
     public CursorPlayerId cursors;
     public int minigameVersion = 0;
+    public GameObject specificCameraForPodium;
 
     #region getterSetters
     public bool TakesDamageFromPlayer

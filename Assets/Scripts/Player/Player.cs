@@ -79,7 +79,8 @@ public class Player : MonoBehaviour {
         {
             if (value == true)
             {
-                PlayerController.enabled = false;
+                if (playerController != null)
+                    PlayerController.enabled = false;
 
                 // Making the player to stop in the air 
                 PlayerCharacter.Rb.Sleep(); // Quelque part là, il y a un sleep
