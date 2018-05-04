@@ -22,13 +22,16 @@ public class FoodInputSettings : MonoBehaviour {
     bool areBadInputsEnabled = ((FoodGameMode)GameManager.Instance.CurrentGameMode).enableBadInputs;
     bool scaleAscending = true;
 
-    public void Init () {
+    public void Init (bool _firstOne = false) {
         maxRandom = (int)PossibleInputs.Size;
         if (!areBadInputsEnabled)
             maxRandom--;
 
         inputSpeed = ((FoodGameMode)GameManager.Instance.CurrentGameMode).inputSpeed;
-        associatedInput = (PossibleInputs)Random.Range(0, maxRandom);
+        if (!_firstOne)
+            associatedInput = (PossibleInputs)Random.Range(0, maxRandom);
+        else
+            associatedInput = (PossibleInputs)Random.Range(0, 4);
 
         transform.GetComponentInChildren<Image>().sprite = ResourceUtils.Instance.spriteUtils.GetSpriteFromInput(associatedInput);
         target = transform.parent.parent.GetComponentInChildren<PlayerControllerFood>();
@@ -37,7 +40,10 @@ public class FoodInputSettings : MonoBehaviour {
         if (associatedInput != PossibleInputs.BadOne)
             timeBeforeNextInput = Random.Range(((FoodGameMode)GameManager.Instance.CurrentGameMode).miniTail, ((FoodGameMode)GameManager.Instance.CurrentGameMode).maxTail);
         else
+        {
             timeBeforeNextInput = 0.5f;
+            transform.GetComponentInChildren<Image>().color = Color.red;
+        }
     }
 
     void Update () {
@@ -99,7 +105,7 @@ public class FoodInputSettings : MonoBehaviour {
 
     public void StartGame()
     {
-        Init();
+        Init(true);
         transform.SetParent(target.transform);
         transform.localPosition = Vector3.zero;
         isAttached = true;
