@@ -23,6 +23,10 @@ public static class MinigameDataUtils
     private static string ClassicClashTitle = "Classic Clash";
     private static string SuperRunnerTitle = "Super Runner";
     private static string FoodTitle = "Eat Them All";
+    private static string FoodTitleV2 = "Eat Them Faster";
+    private static string FoodTitleV3 = "Don't Eat Them All";
+    private static string FoodTitleV4 = "Don't Eat Them All Faster";
+
 
     public static string GetTitle(GameMode _curGameMode, int _version = 0)
     {
@@ -70,6 +74,12 @@ public static class MinigameDataUtils
         }
         else if (curGameMode is FoodGameMode)
         {
+            if (_version == 1)
+                return FoodTitleV2;
+            if (_version == 2)
+                return FoodTitleV3;
+            if (_version == 3)
+                return FoodTitleV4;
             return FoodTitle;
         }
         return "";
@@ -130,6 +140,12 @@ public static class MinigameDataUtils
         }
         else if (_minigameId == "MinigameFood")
         {
+            if (_version == 1)
+                return FoodTitleV2;
+            if (_version == 2)
+                return FoodTitleV3;
+            if (_version == 3)
+                return FoodTitleV4;
             return FoodTitle;
         }
         return "";
@@ -163,7 +179,7 @@ public static class MinigameDataUtils
         }
         else if (curGameMode is FoodGameMode)
         {
-            return "Eat as much as you can by pressing the correct buttons. But beware, it's not good eating too much too fast!";
+            return "Eat as much as you can by pressing the correct buttons. But beware not eating too much too fast!";
         }
         return "";
     }

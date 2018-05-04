@@ -35,6 +35,9 @@ public class SpriteUtils : MonoBehaviour {
     public Sprite leftTriggerSprite;
     public Sprite interactionSprite;
 
+    [Header("GP related")]
+    public Sprite badOneSprite;
+
     public Sprite GetControlSprite(ControlType _type)
     {
         Sprite result = null;
@@ -86,6 +89,8 @@ public class SpriteUtils : MonoBehaviour {
                 return specialActionSprite;
             case PossibleInputs.B:
                 return interactionSprite;
+            case PossibleInputs.BadOne:
+                return badOneSprite;
             default:
                 return null;
         }
