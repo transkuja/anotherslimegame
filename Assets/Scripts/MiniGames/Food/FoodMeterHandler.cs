@@ -53,10 +53,10 @@ public class FoodMeterHandler : MonoBehaviour {
         {
             if (foodMeters[i] <= foodMeterStep)
             {
-                if (!controllers[i].areInputsUnlocked)
+                if (!controllers[i].AreInputsUnlocked)
                 {
                     decreaseSpeed /= decreaseSpeedWhenFullMultiplier;
-                    controllers[i].areInputsUnlocked = true;
+                    controllers[i].AreInputsUnlocked = true;
                     GameManager.Instance.PlayerStart.PlayersReference[i].GetComponentInChildren<PlayerCosmetics>().FaceEmotion 
                         = FaceEmotion.Neutral;
                 }
@@ -83,7 +83,7 @@ public class FoodMeterHandler : MonoBehaviour {
         if (foodMeters[_playerIndex] >= 100 + foodMeterStep)
         {
             decreaseSpeed *= decreaseSpeedWhenFullMultiplier;
-            controllers[_playerIndex].areInputsUnlocked = false;
+            controllers[_playerIndex].AreInputsUnlocked = false;
             currentPlayer.GetComponentInChildren<PlayerCosmetics>().FaceEmotion = FaceEmotion.Loser; // Ate too much
             doesFaceNeedReset[_playerIndex] = false;
             controllers[_playerIndex].CurrentCombo = 0;
