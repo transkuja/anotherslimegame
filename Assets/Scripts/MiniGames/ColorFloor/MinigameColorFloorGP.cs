@@ -28,16 +28,27 @@ public class MinigameColorFloorGP : MonoBehaviour {
 
             while (true)
             {
-                yield return new WaitForSeconds(gameMode.restrainedMovementTick);
+                yield return new WaitForSeconds(gameMode.restrainedMovementTick/2);
+                Move(true);
+                yield return new WaitForSeconds(gameMode.restrainedMovementTick/2);
                 Move();
             }
         }
     }
 
-    void Move()
+    void Move(bool _moveEvoAgileOnly = false)
     {
+        if (GameManager.CurrentState != GameState.Normal)
+            return;
+
         for (int i = 0; i < nbPlayers; i++)
         {
+            if (_moveEvoAgileOnly)
+            {
+                if (GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<EvolutionAgile>() == null)
+                    continue;
+            }
+
             controllerStates[i] = GamePad.GetState((PlayerIndex)i);
 
             float x = controllerStates[i].ThumbSticks.Left.X;

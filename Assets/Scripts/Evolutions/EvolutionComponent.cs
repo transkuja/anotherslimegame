@@ -7,7 +7,7 @@ using UnityEngine.UI
 
 public class EvolutionComponent : MonoBehaviour {
     Evolution evolution;
-    float timer;
+    public float timer = -1;
     protected PlayerControllerHub playerController;
     protected PlayerCharacterHub playerCharacter;
     protected Player player;
@@ -16,10 +16,10 @@ public class EvolutionComponent : MonoBehaviour {
     protected bool isSpecialActionReleased = false;
 
     GameObject affectedPart;
+    bool timerHasBeenSet = false;
 
     public virtual void Start()
     {
-        timer = -1;
         player = GetComponent<Player>();
         playerController = GetComponent<PlayerControllerHub>();
         playerCharacter = GetComponent<PlayerCharacterHub>();
@@ -35,6 +35,7 @@ public class EvolutionComponent : MonoBehaviour {
         set
         {
             timer = value;
+            Debug.Log(timer);
         }
     }
 

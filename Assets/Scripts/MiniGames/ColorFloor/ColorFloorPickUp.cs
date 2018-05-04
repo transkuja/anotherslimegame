@@ -5,7 +5,7 @@ using UnityEngine;
 public class ColorFloorPickUp : MinigamePickUp {
 
     [SerializeField]
-    float speedBoostDuration = 10.0f;
+    float speedBoostDuration = 5.0f;
 
     [SerializeField]
     float colorArrowRotationDelay = 2.0f;
