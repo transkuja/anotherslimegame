@@ -118,10 +118,7 @@ public class FoodGameMode : GameMode {
     {
         // score ++
         GameManager.Instance.PlayerStart.PlayersReference[(int)_controller.PlayerIndex].
-            GetComponent<Player>().UpdateCollectableValue(CollectableType.Points, scoreStep * _controller.CurrentCombo);
-
-        // Update Combo
-        _controller.CurrentCombo++;
+            GetComponent<Player>().UpdateCollectableValue(CollectableType.Points, (int)(scoreStep * _controller.CurrentCombo));
 
         FoodMeterHandler.FoodMeterIncrease((int)_controller.PlayerIndex);
 

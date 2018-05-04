@@ -26,8 +26,6 @@ public class FoodMeterHandler : MonoBehaviour {
 
 	void Start () {
         maxScale = ((FoodGameMode)GameManager.Instance.CurrentGameMode).maxScale;
-        for (int i = 0; i < 4; i++)
-            foodMeters[i] = foodMeterStep;
     }
 	
 	void Update () {
@@ -51,7 +49,7 @@ public class FoodMeterHandler : MonoBehaviour {
     {
         for (int i = 0; i < controllers.Length; i++)
         {
-            if (foodMeters[i] <= foodMeterStep)
+            if (foodMeters[i] <= 0.0f)
             {
                 if (!controllers[i].AreInputsUnlocked)
                 {
@@ -64,10 +62,11 @@ public class FoodMeterHandler : MonoBehaviour {
             else
             {
                 foodMeters[i] -= Time.deltaTime * decreaseSpeed;
+                controllers[i].CurrentCombo = 1 + (foodMeters[i] * (maxScale - 1) / 100);
                 GameManager.Instance.PlayerStart.PlayersReference[i].transform.localScale 
-                    = Vector3.one * Mathf.Max(foodMeters[i] * maxScale * 0.01f, 1.0f);
+                    = Vector3.one * controllers[i].CurrentCombo;
 
-                if (foodMeters[i] <= 100 - (foodMeterStep) && 
+                if (foodMeters[i] <= 100 - (foodMeterStep * 2) && 
                         GameManager.Instance.PlayerStart.PlayersReference[i].GetComponentInChildren<PlayerCosmetics>().FaceEmotion == FaceEmotion.Hit)
                     ResetFaceTo(FaceEmotion.Neutral, i);
             }
@@ -80,17 +79,17 @@ public class FoodMeterHandler : MonoBehaviour {
         GameObject currentPlayer = GameManager.Instance.PlayerStart.PlayersReference[_playerIndex];
         currentPlayer.GetComponentInChildren<PlayerCosmetics>().FaceEmotion = FaceEmotion.Winner; // Should be "Eating"
 
-        if (foodMeters[_playerIndex] >= 100 + foodMeterStep)
+        if (foodMeters[_playerIndex] >= 100)
         {
             decreaseSpeed *= decreaseSpeedWhenFullMultiplier;
             controllers[_playerIndex].AreInputsUnlocked = false;
             currentPlayer.GetComponentInChildren<PlayerCosmetics>().FaceEmotion = FaceEmotion.Loser; // Ate too much
             doesFaceNeedReset[_playerIndex] = false;
-            controllers[_playerIndex].CurrentCombo = 0;
+            controllers[_playerIndex].CurrentCombo = 1.0f;
             if (AudioManager.Instance != null && AudioManager.Instance.incorrectFx != null)
                 AudioManager.Instance.PlayOneShot(AudioManager.Instance.incorrectFx);
         }
-        else if (foodMeters[_playerIndex] >= 100 - (foodMeterStep * 2))
+        else if (foodMeters[_playerIndex] >= 100 - (foodMeterStep * 3))
         {
             // clignote
             ResetFaceTo(FaceEmotion.Hit, _playerIndex); // Well fed

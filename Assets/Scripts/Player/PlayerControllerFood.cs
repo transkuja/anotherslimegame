@@ -9,11 +9,11 @@ public class PlayerControllerFood : PlayerController {
     private bool areInputsUnlocked = true;
     private bool hasEatenSmthgBad = false;
 
-    public int currentCombo = 0;
+    public float currentCombo = 1;
     public GameObject comboUI;
     Animator parentAnim;
 
-    public int CurrentCombo
+    public float CurrentCombo
     {
         get
         {
@@ -25,7 +25,7 @@ public class PlayerControllerFood : PlayerController {
             currentCombo = value;
 
             // update combo
-            comboUI.GetComponent<Text>().text = "X " + currentCombo;
+            comboUI.GetComponent<Text>().text = "X " + currentCombo.ToString("0.0");
         }
     }
 
@@ -61,7 +61,7 @@ public class PlayerControllerFood : PlayerController {
 
     private void Start()
     {
-        CurrentCombo = 0;
+        CurrentCombo = 1.0f;
         parentAnim = GetComponentInParent<Animator>();
     }
 
@@ -117,7 +117,6 @@ public class PlayerControllerFood : PlayerController {
         }
         else
         {
-            CurrentCombo = 0;
             if (AudioManager.Instance != null && AudioManager.Instance.incorrectFx != null)
                 AudioManager.Instance.PlayOneShot(AudioManager.Instance.incorrectFx);
 
