@@ -95,11 +95,23 @@ abstract public class GameMode : MonoBehaviour
     {
         curNbPlayers = playerReferences.Count;
         if (IsMiniGame())
+        {
             GameManager.ChangeState(GameState.ForcedPauseMGRules);
+            if (GameManager.Instance.DataContainer != null)
+                minigameVersion = GameManager.Instance.DataContainer.minigameVersion;
+
+            ExtractVersionData(minigameVersion);
+        }
         else
             GameManager.ChangeState(GameState.Normal);
 
     }
+
+    public virtual void ExtractVersionData(int _minigameVersion)
+    {
+
+    }
+
     public virtual void OnReadySetGoBegin()
     {
         if (cursors == null)

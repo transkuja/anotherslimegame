@@ -15,6 +15,7 @@ public class ColorFloorGameMode : GameMode {
     public bool squareToScoreMode = false;
 
     public GameObject boardReference;
+    public bool withBadSpawns = false;
 
     private void Start()
     {
@@ -50,10 +51,34 @@ public class ColorFloorGameMode : GameMode {
             }
         }
 
+        FindObjectOfType<ColorFloorPickupHandler>().DEBUG_forceBadSpawns = withBadSpawns;
+
         LaunchTimer();
         ColorFloorHandler.Init(GameManager.Instance.ActivePlayersAtStart, boardReference);
     }
 
+    public override void ExtractVersionData(int _minigameVersion)
+    {
+        if (_minigameVersion >= 4)
+        {
+            freeMovement = false;
+            _minigameVersion -= 4;
+        }
+        else
+        {
+            freeMovement = true;
+        }
+
+        if (_minigameVersion >= 2)
+        {
+            withBadSpawns = true;
+            _minigameVersion -= 2;
+        }
+        else
+        {
+            withBadSpawns = false;
+        }
+    }
     public void LaunchTimer()
     {
         GameManager.Instance.GameFinalTimer = timer;

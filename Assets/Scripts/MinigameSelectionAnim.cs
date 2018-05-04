@@ -56,4 +56,9 @@ public class MinigameSelectionAnim : MonoBehaviour {
     {
         return minigameData.Id;
     }
+
+    public int GetMinigameVersion()
+    {
+        return minigameData.version;
+    }
 }

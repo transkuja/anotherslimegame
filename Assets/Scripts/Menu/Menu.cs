@@ -1027,13 +1027,15 @@ public class Menu : MonoBehaviour {
         if (AudioManager.Instance != null && AudioManager.Instance.buttonValidationFx != null)
             AudioManager.Instance.PlayOneShot(AudioManager.Instance.buttonValidationFx);
 
-        SendDataToContainer();
-        SceneManager.LoadScene(transform.GetChild((int)MenuState.MinigameSelection)
-                    .GetChild(2).GetComponent<MinigameSelectionAnim>().GetMinigameId());
+        MinigameSelectionAnim minigameContainer = transform.GetChild((int)MenuState.MinigameSelection)
+                    .GetChild(2).GetComponent<MinigameSelectionAnim>();
+
+        SendDataToContainer(minigameContainer.GetMinigameVersion());
+        SceneManager.LoadScene(minigameContainer.GetMinigameId());
     }
 
 
-    void SendDataToContainer()
+    void SendDataToContainer(int _minigameVersion = 0)
     {
         // Send data to data container
         Color[] sc = new Color[nbPlayers];
@@ -1073,7 +1075,7 @@ public class Menu : MonoBehaviour {
             else
                 selectedEars[i] = ((DatabaseClass.EarsData)unlockedCustomizables[CustomizableType.Ears][selectedCustomizables[(int)CustomizableType.Ears, i]]).Id;
         }
-        dataContainer.SaveData(nbPlayers, sc, sf, selectedMustaches, selectedHats, selectedEars, selectedColorFades, selectedRabbits, selectedMode == 1);
+        dataContainer.SaveData(nbPlayers, sc, sf, selectedMustaches, selectedHats, selectedEars, _minigameVersion, selectedColorFades, selectedRabbits, selectedMode == 1);
     }
 
     private void OnDestroy()
