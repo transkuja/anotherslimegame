@@ -38,18 +38,27 @@ public class ColorFloorGameMode : GameMode {
         checkRuneObjective = CheckRuneObjectiveForColorFloor;
         necessaryPointsForRune *= playerReferences.Count;
 
-        if (!freeMovement)
+        for (int i = 0; i < playerReferences.Count; i++)
         {
-            for (int i = 0; i < playerReferences.Count; i++)
+            Destroy(playerReferences[i].GetComponent<PlayerControllerHub>());
+
+            if (!freeMovement)
             {
-                Destroy(playerReferences[i].GetComponent<PlayerControllerHub>());
                 PlayerController pc = playerReferences[i].AddComponent<PlayerController>();
                 pc.playerIndex = (PlayerIndex)i;
+
                 playerReferences[i].transform.position = restrainedMovementStarters[i].transform.position;
                 playerReferences[i].GetComponent<Rigidbody>().useGravity = true;
                 playerReferences[i].GetComponent<Player>().NbPoints = 0;
             }
+            else
+            {
+                PlayerControllerFloorColor pc = playerReferences[i].AddComponent<PlayerControllerFloorColor>();
+                pc.playerIndex = (PlayerIndex)i;
+                pc.PlayerIndexSet = true;
+            }
         }
+        
 
         FindObjectOfType<ColorFloorPickupHandler>().DEBUG_forceBadSpawns = withBadSpawns;
 

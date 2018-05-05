@@ -171,7 +171,7 @@ public class PlayerControllerHub : PlayerController
         // TMP Animation
         playerCharacterHub.PlayerState.HandleControllerAnim(State.ThumbSticks.Left.X, State.ThumbSticks.Left.Y);
     }
-    private void HandleJumpWithController()
+    public virtual void HandleJumpWithController()
     {
         if (prevState.Buttons.A == ButtonState.Released && state.Buttons.A == ButtonState.Pressed && playerCharacterHub.PlayerState != playerCharacterHub.dashState)
         {
