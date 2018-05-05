@@ -73,6 +73,8 @@ public static class ColorFloorHandler {
             }
         }
 
+        if (currentlyColoredByPlayer[_playerIndex].Count == 64)
+            ScorePoints(_playerIndex);
     }
 
     public static void RegisterAll(int _playerIndex, List<OnColoredFloorTrigger> _toRegister, OnColoredFloorTrigger _pickupOrigin, bool bypassSquareDetection = false)
