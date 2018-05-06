@@ -147,7 +147,7 @@ public class Collectable : MonoBehaviour
                 }
                 if ((int)playerTarget.GetComponent<PlayerController>().PlayerIndex == (int)GetComponent<FruitType>().typeFruit)
                 {
-                    playerTarget.UpdateCollectableValue(type, value * 6);
+                    playerTarget.UpdateCollectableValue(type, value * (6 - (int)GetComponent<FruitType>().state));
                 }
                 else
                 {

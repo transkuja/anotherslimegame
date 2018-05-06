@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class FruitsSpawner : MonoBehaviour {
+
 
     [SerializeField]
     float fruitsSpawnDelay = 0.5f;
@@ -19,6 +21,7 @@ public class FruitsSpawner : MonoBehaviour {
     public Material matPomme;
     public Material matKiwi;
     public Material matFraise;
+
 
 
     GameObject fruit;
@@ -52,12 +55,16 @@ public class FruitsSpawner : MonoBehaviour {
                 subPoolIndex = Random.Range(0, (int)nbPlayer + 1);
                 fruit = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.Fruits).GetItem(transform, positionToSpawnPlane, Quaternion.identity, true, false, subPoolIndex);
                 fruit.GetComponent<BoxCollider>().enabled = true;
+                fruit.GetComponent<FruitType>().state = StateFruit.Safe;
+                StartCoroutine(fruit.GetComponent<FruitType>().fruitsStartToRot(fruit));
             }
             else 
             {
                 subPoolIndex = Random.Range(0, (int)nbPlayer);
                 fruit = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.Fruits).GetItem(transform, positionToSpawnPlane, Quaternion.identity, true, false, subPoolIndex);
                 fruit.GetComponent<BoxCollider>().enabled = true;
+                fruit.GetComponent<FruitType>().state = StateFruit.Safe;
+                StartCoroutine(fruit.GetComponent<FruitType>().fruitsStartToRot(fruit));
             }
         }
     }
