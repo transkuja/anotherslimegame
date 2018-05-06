@@ -106,6 +106,13 @@ abstract public class GameMode : MonoBehaviour
         else
             GameManager.ChangeState(GameState.Normal);
 
+        RepositionPlayers();
+    }
+
+    // Reposition players after player start if necessary. For ex: food game mode
+    public virtual void RepositionPlayers()
+    {
+
     }
 
     public virtual void ExtractVersionData(int _minigameVersion)

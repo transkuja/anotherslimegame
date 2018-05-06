@@ -13,7 +13,7 @@ public class PlayerCursorHandlerFood : PlayerCursorHandler {
         timerStopUpdate -= Time.deltaTime;
         for (int i = 0; i < GameManager.Instance.PlayerStart.ActivePlayersAtStart; ++i)
         {
-            Vector2 computeDePommesition = Camera.main.WorldToScreenPoint(GameManager.Instance.PlayerStart.PlayersReference[i].transform.position + Vector3.up) / scaleFactor;
+            Vector2 computeDePommesition = Camera.main.WorldToScreenPoint(GameManager.Instance.PlayerStart.PlayersReference[i].transform.position + Vector3.up * 2.5f) / scaleFactor;
             rect[i].anchoredPosition = new Vector2(computeDePommesition.x, computeDePommesition.y + Screen.height * 0.025f);
         }
 	}

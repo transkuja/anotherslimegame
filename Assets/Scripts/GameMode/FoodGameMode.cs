@@ -68,6 +68,17 @@ public class FoodGameMode : GameMode {
         }
     }
 
+    public override void RepositionPlayers()
+    {
+        if (curNbPlayers == 4)
+            return;
+        Vector3[] positions = inputTracksHandler.ComputePlayerStartingPositions(curNbPlayers);
+
+        for (int i = 0; i < curNbPlayers; i++)
+        {
+            GameManager.Instance.PlayerStart.PlayersReference[i].transform.position = positions[i] + Vector3.up;
+        }
+    }
     public override void ExtractVersionData(int _minigameVersion)
     {
         if (_minigameVersion >= 2)
