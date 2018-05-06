@@ -20,9 +20,8 @@ public class InputTracksHandler : MonoBehaviour {
         }
         else if (nbPlayers == 2)
         {
-            Vector3 tmpPosition = (transform.GetChild(0).position + transform.GetChild(1).position) / 2.0f;
+            transform.GetChild(0).position = (transform.GetChild(0).position + transform.GetChild(1).position) / 2.0f;
             transform.GetChild(1).position = (transform.GetChild(2).position + transform.GetChild(3).position) / 2.0f;
-            transform.GetChild(0).position = tmpPosition;
         }
         else if (nbPlayers == 3)
         {
