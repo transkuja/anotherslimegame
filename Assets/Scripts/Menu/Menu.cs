@@ -32,11 +32,10 @@ public class Menu : MonoBehaviour {
 
     List<GameObject> playerCustomScreens = new List<GameObject>();
 
-    private List<DatabaseClass.ColorData> unlockedCustomColors = new List<DatabaseClass.ColorData>();
     private List<DatabaseClass.MinigameData[]> unlockedMinigameFirstVariante = new List<DatabaseClass.MinigameData[]>(); 
 
     // TODO: add in database missing values Ears, Hands, Tail
-    private Dictionary<CustomizableType, List<DatabaseClass.Unlockable>> unlockedCustomizables = new Dictionary<CustomizableType, List<DatabaseClass.Unlockable>>();
+    private Dictionary<CustomizableType, List<DatabaseClass.Unlockable>> customizables = new Dictionary<CustomizableType, List<DatabaseClass.Unlockable>>();
 
     GamePadState[] prevControllerStates = new GamePadState[4];
     GamePadState[] controllerStates = new GamePadState[4];
@@ -125,47 +124,31 @@ public class Menu : MonoBehaviour {
             AudioManager.Instance.Fade(AudioManager.Instance.musicMenu);
 
         for (int i = 0; i < (int)CustomizableType.Size; i++)
-            unlockedCustomizables.Add((CustomizableType)i, new List<DatabaseClass.Unlockable>());
+            customizables.Add((CustomizableType)i, new List<DatabaseClass.Unlockable>());
 
         foreach (DatabaseClass.ColorData c in DatabaseManager.Db.colors)
         {
-            if (c.isUnlocked)
-            {
-                unlockedCustomColors.Add(c);
-                unlockedCustomizables[CustomizableType.Color].Add(c);
-            }
+            customizables[CustomizableType.Color].Add(c);
         }
 
         foreach (DatabaseClass.FaceData f in DatabaseManager.Db.faces)
         {
-            if (f.isUnlocked)
-            {
-                unlockedCustomizables[CustomizableType.Face].Add(f);
-            }
+            customizables[CustomizableType.Face].Add(f);
         }
 
         foreach (DatabaseClass.EarsData ears in DatabaseManager.Db.ears)
         {
-            if (ears.isUnlocked)
-            {
-                unlockedCustomizables[CustomizableType.Ears].Add(ears);
-            }
+            customizables[CustomizableType.Ears].Add(ears);
         }
 
         foreach (DatabaseClass.MustacheData mustache in DatabaseManager.Db.mustaches)
         {
-            if (mustache.isUnlocked)
-            {
-                unlockedCustomizables[CustomizableType.Mustache].Add(mustache);
-            }
+            customizables[CustomizableType.Mustache].Add(mustache);
         }
 
         foreach (DatabaseClass.HatData hat in DatabaseManager.Db.hats)
         {
-            if (hat.isUnlocked)
-            {
-                unlockedCustomizables[CustomizableType.Hat].Add(hat);
-            }
+            customizables[CustomizableType.Hat].Add(hat);
         }
 
         int nbDifferentMinigameType = DatabaseManager.Db.GetNbUnlockedMinigamesOfEachType();
@@ -199,9 +182,9 @@ public class Menu : MonoBehaviour {
 
             for (int i = 0; i < nbPlayers; i++)
             {
-                for (int j = 0; j < unlockedCustomizables[CustomizableType.Color].Count; j++)
+                for (int j = 0; j < customizables[CustomizableType.Color].Count; j++)
                 {
-                    if (dataContainer.selectedColors[i] == ((DatabaseClass.ColorData)unlockedCustomizables[CustomizableType.Color][j]).color)
+                    if (dataContainer.selectedColors[i] == ((DatabaseClass.ColorData)customizables[CustomizableType.Color][j]).color)
                     {
                         selectedCustomizables[(int)CustomizableType.Color, i] = j;
                         break;
@@ -211,14 +194,19 @@ public class Menu : MonoBehaviour {
                 selectedCustomizables[(int)CustomizableType.Face, i] = dataContainer.selectedFaces[i];
 
                 if (isNonable[(int)CustomizableType.Mustache] && dataContainer.mustachesSelected[i] == "None")
-                    selectedCustomizables[(int)CustomizableType.Mustache, i] = unlockedCustomizables[CustomizableType.Mustache].Count;
+                    selectedCustomizables[(int)CustomizableType.Mustache, i] = customizables[CustomizableType.Mustache].Count;
                 else
-                    selectedCustomizables[(int)CustomizableType.Mustache, i] = unlockedCustomizables[CustomizableType.Mustache].FindIndex(x => ((DatabaseClass.MustacheData)x).Id == dataContainer.mustachesSelected[i]);
+                    selectedCustomizables[(int)CustomizableType.Mustache, i] = customizables[CustomizableType.Mustache].FindIndex(x => ((DatabaseClass.MustacheData)x).Id == dataContainer.mustachesSelected[i]);
 
                 if (isNonable[(int)CustomizableType.Hat] && dataContainer.hatsSelected[i] == "None")
-                    selectedCustomizables[(int)CustomizableType.Hat, i] = unlockedCustomizables[CustomizableType.Hat].Count;
+                    selectedCustomizables[(int)CustomizableType.Hat, i] = customizables[CustomizableType.Hat].Count;
                 else
-                    selectedCustomizables[(int)CustomizableType.Hat, i] = unlockedCustomizables[CustomizableType.Hat].FindIndex(x => ((DatabaseClass.HatData)x).Id == dataContainer.hatsSelected[i]);
+                    selectedCustomizables[(int)CustomizableType.Hat, i] = customizables[CustomizableType.Hat].FindIndex(x => ((DatabaseClass.HatData)x).Id == dataContainer.hatsSelected[i]);
+
+                if (isNonable[(int)CustomizableType.Ears] && dataContainer.hatsSelected[i] == "None")
+                    selectedCustomizables[(int)CustomizableType.Ears, i] = customizables[CustomizableType.Ears].Count;
+                else
+                    selectedCustomizables[(int)CustomizableType.Ears, i] = customizables[CustomizableType.Ears].FindIndex(x => ((DatabaseClass.HatData)x).Id == dataContainer.earsSelected[i]);
 
             }
             SetState(MenuState.MinigameSelection);
@@ -232,7 +220,7 @@ public class Menu : MonoBehaviour {
                 {
                     for (int j = 0; j < 4; j++)
                     {
-                        selectedCustomizables[i, j] = unlockedCustomizables[(CustomizableType)i].Count;
+                        selectedCustomizables[i, j] = customizables[(CustomizableType)i].Count;
                     }
                 }
             }
@@ -544,7 +532,7 @@ public class Menu : MonoBehaviour {
 
         CustomizableType currentCustomType = (CustomizableType)(currentlySelectedOption[_playerIndex]);
         playerCustomScreens[_playerIndex].transform.GetChild(2).GetComponent<Text>().text = currentCustomType.ToString();
-        List<DatabaseClass.Unlockable> unlockedList = unlockedCustomizables[currentCustomType];
+        List<DatabaseClass.Unlockable> unlockedList = customizables[currentCustomType];
         if (unlockedList.Count == 0)
         {
             playerCustomScreens[_playerIndex].transform.GetChild(3).GetComponent<Text>().text = "None";
@@ -557,12 +545,21 @@ public class Menu : MonoBehaviour {
                 selectedCustomizables[(int)currentCustomType, _playerIndex] = selectedCustomizables[(int)currentCustomType, _playerIndex] % ((isNonable[(int)currentCustomType]) ? unlockedList.Count + 1: unlockedList.Count);
 
             bool noneValue = selectedCustomizables[(int)currentCustomType, _playerIndex] == unlockedList.Count;
+            playerCustomScreens[_playerIndex].transform.GetChild(3).GetComponent<Text>().color = Color.white;
+            bool isUnlocked;
             if (noneValue)
+            {
                 playerCustomScreens[_playerIndex].transform.GetChild(3).GetComponent<Text>().text = "None";
+                isUnlocked = true;
+            }
             else
-                playerCustomScreens[_playerIndex].transform.GetChild(3).GetComponent<Text>().text = unlockedCustomizables[currentCustomType][selectedCustomizables[(int)currentCustomType, _playerIndex]].Id;
-
-            UpdatePlayerVisual(_playerIndex, currentCustomType, selectedCustomizables[(int)currentCustomType, _playerIndex], noneValue);
+            {
+                playerCustomScreens[_playerIndex].transform.GetChild(3).GetComponent<Text>().text = customizables[currentCustomType][selectedCustomizables[(int)currentCustomType, _playerIndex]].Id;
+                isUnlocked = customizables[currentCustomType][selectedCustomizables[(int)currentCustomType, _playerIndex]].isUnlocked;
+                if (!isUnlocked)
+                    playerCustomScreens[_playerIndex].transform.GetChild(3).GetComponent<Text>().color = Color.red;
+            }
+            UpdatePlayerVisual(_playerIndex, currentCustomType, selectedCustomizables[(int)currentCustomType, _playerIndex], noneValue || !isUnlocked);
         }
     }
 
@@ -572,7 +569,7 @@ public class Menu : MonoBehaviour {
         {
             CustomizableType currentCustomType = (CustomizableType)(i);
             playerCustomScreens[_playerIndex].transform.GetChild(2).GetComponent<Text>().text = currentCustomType.ToString();
-            List<DatabaseClass.Unlockable> unlockedList = unlockedCustomizables[currentCustomType];
+            List<DatabaseClass.Unlockable> unlockedList = customizables[currentCustomType];
             if (unlockedList.Count == 0)
             {
                 playerCustomScreens[_playerIndex].transform.GetChild(3).GetComponent<Text>().text = "None";
@@ -588,7 +585,7 @@ public class Menu : MonoBehaviour {
                 if (noneValue)
                     playerCustomScreens[_playerIndex].transform.GetChild(3).GetComponent<Text>().text = "None";
                 else
-                    playerCustomScreens[_playerIndex].transform.GetChild(3).GetComponent<Text>().text = unlockedCustomizables[currentCustomType][selectedCustomizables[(int)currentCustomType, _playerIndex]].Id;
+                    playerCustomScreens[_playerIndex].transform.GetChild(3).GetComponent<Text>().text = customizables[currentCustomType][selectedCustomizables[(int)currentCustomType, _playerIndex]].Id;
 
                 UpdatePlayerVisual(_playerIndex, currentCustomType, selectedCustomizables[(int)currentCustomType, _playerIndex], noneValue);
             }
@@ -643,7 +640,7 @@ public class Menu : MonoBehaviour {
 
         if (!_isNoneValue)
         {
-            playerCosmetics.Mustache = ((DatabaseClass.MustacheData)unlockedCustomizables[CustomizableType.Mustache][_selection]).Id;
+            playerCosmetics.Mustache = ((DatabaseClass.MustacheData)customizables[CustomizableType.Mustache][_selection]).Id;
         }
         else
         {
@@ -665,7 +662,7 @@ public class Menu : MonoBehaviour {
 
         if (!_isNoneValue)
         {
-            playerCosmetics.Hat = ((DatabaseClass.HatData)unlockedCustomizables[CustomizableType.Hat][_selection]).Id;
+            playerCosmetics.Hat = ((DatabaseClass.HatData)customizables[CustomizableType.Hat][_selection]).Id;
         }
         else
         {
@@ -688,7 +685,7 @@ public class Menu : MonoBehaviour {
 
         if (!_isNoneValue)
         {
-            playerCosmetics.Ears = ((DatabaseClass.EarsData)unlockedCustomizables[CustomizableType.Ears][_selection]).Id;
+            playerCosmetics.Ears = ((DatabaseClass.EarsData)customizables[CustomizableType.Ears][_selection]).Id;
         }
         else
         {
@@ -720,7 +717,7 @@ public class Menu : MonoBehaviour {
     {
         // Update text and character
         playerCustomScreens[_playerIndex].transform.GetChild(4).GetComponentInChildren<PlayerCosmetics>().ColorFadeType = ColorFadeType.None;
-        playerCustomScreens[_playerIndex].transform.GetChild(4).GetComponentInChildren<PlayerCosmetics>().SetUniqueColor(((DatabaseClass.ColorData)unlockedCustomizables[CustomizableType.Color][_selection]).color);
+        playerCustomScreens[_playerIndex].transform.GetChild(4).GetComponentInChildren<PlayerCosmetics>().SetUniqueColor(((DatabaseClass.ColorData)customizables[CustomizableType.Color][_selection]).color);
     }
 
     // Change the player face according to current selection
@@ -729,7 +726,7 @@ public class Menu : MonoBehaviour {
         // Update text and character
         playerCustomScreens[_playerIndex].transform.GetChild(4).GetChild(0).gameObject.SetActive(true);
         playerCustomScreens[_playerIndex].transform.GetChild(4).GetChild(1).gameObject.SetActive(false);
-        playerCustomScreens[_playerIndex].transform.GetChild(4).GetComponentInChildren<PlayerCosmetics>().FaceType = ((DatabaseClass.FaceData)unlockedCustomizables[CustomizableType.Face][_selection]).indiceForShader;
+        playerCustomScreens[_playerIndex].transform.GetChild(4).GetComponentInChildren<PlayerCosmetics>().FaceType = ((DatabaseClass.FaceData)customizables[CustomizableType.Face][_selection]).indiceForShader;
     }
 
 
@@ -857,8 +854,8 @@ public class Menu : MonoBehaviour {
             for (int i = 0; i < nbPlayers; i++)
             {
                 PlayerCosmetics curPlayerCosmetics = transform.GetChild((int)MenuState.MinigameSelection).GetChild(childCount - 4 + i).GetComponentInChildren<PlayerCosmetics>(true);
-                curPlayerCosmetics.SetUniqueColor(((DatabaseClass.ColorData)unlockedCustomizables[CustomizableType.Color][selectedCustomizables[(int)CustomizableType.Color, i]]).color);
-                curPlayerCosmetics.FaceType = ((DatabaseClass.FaceData)unlockedCustomizables[CustomizableType.Face][selectedCustomizables[(int)CustomizableType.Face, i]]).indiceForShader;
+                curPlayerCosmetics.SetUniqueColor(((DatabaseClass.ColorData)customizables[CustomizableType.Color][selectedCustomizables[(int)CustomizableType.Color, i]]).color);
+                curPlayerCosmetics.FaceType = ((DatabaseClass.FaceData)customizables[CustomizableType.Face][selectedCustomizables[(int)CustomizableType.Face, i]]).indiceForShader;
 
                 // Customizables
 
@@ -884,16 +881,16 @@ public class Menu : MonoBehaviour {
     {
         PlayerCosmetics playerCosmetics = transform.GetChild((int)MenuState.MinigameSelection).GetChild(_childCount - 4 + _playerIndex).GetComponentInChildren<PlayerCosmetics>(true);
 
-        if (selectedCustomizables[(int)_type, _playerIndex] != unlockedCustomizables[_type].Count && unlockedCustomizables[_type].Count > 0)
+        if (selectedCustomizables[(int)_type, _playerIndex] != customizables[_type].Count && customizables[_type].Count > 0)
         {
             if (_type == CustomizableType.Mustache)
-                playerCosmetics.Mustache = ((DatabaseClass.MustacheData)unlockedCustomizables[_type][selectedCustomizables[(int)_type, _playerIndex]]).Id;
+                playerCosmetics.Mustache = ((DatabaseClass.MustacheData)customizables[_type][selectedCustomizables[(int)_type, _playerIndex]]).Id;
             else if (_type == CustomizableType.Hat)
             {
-                playerCosmetics.Hat = ((DatabaseClass.HatData)unlockedCustomizables[_type][selectedCustomizables[(int)_type, _playerIndex]]).Id;
+                playerCosmetics.Hat = ((DatabaseClass.HatData)customizables[_type][selectedCustomizables[(int)_type, _playerIndex]]).Id;
             }
             else if (_type == CustomizableType.Ears)
-                playerCosmetics.Ears = ((DatabaseClass.EarsData)unlockedCustomizables[_type][selectedCustomizables[(int)_type, _playerIndex]]).Id;
+                playerCosmetics.Ears = ((DatabaseClass.EarsData)customizables[_type][selectedCustomizables[(int)_type, _playerIndex]]).Id;
         }
     }
 
@@ -910,9 +907,9 @@ public class Menu : MonoBehaviour {
             go.transform.localPosition = new Vector3(-(160) * Mathf.Pow(-1, _newPlayerIndex), (_newPlayerIndex < 2) ? 35.0f : -165.0f , 0.0f);
 
         go.transform.GetChild(2).GetComponent<Text>().text = ((CustomizableType)0).ToString();
-        go.transform.GetChild(3).GetComponent<Text>().text = unlockedCustomizables[0][0].Id;
-        go.transform.GetChild(4).GetComponentInChildren<PlayerCosmetics>().SetUniqueColor(((DatabaseClass.ColorData)unlockedCustomizables[CustomizableType.Color][0]).color);
-        go.transform.GetChild(4).GetComponentInChildren<PlayerCosmetics>().FaceType = ((DatabaseClass.FaceData)unlockedCustomizables[CustomizableType.Face][0]).indiceForShader;
+        go.transform.GetChild(3).GetComponent<Text>().text = customizables[0][0].Id;
+        go.transform.GetChild(4).GetComponentInChildren<PlayerCosmetics>().SetUniqueColor(((DatabaseClass.ColorData)customizables[CustomizableType.Color][0]).color);
+        go.transform.GetChild(4).GetComponentInChildren<PlayerCosmetics>().FaceType = ((DatabaseClass.FaceData)customizables[CustomizableType.Face][0]).indiceForShader;
         playerCustomScreens.Add(go);
 
         return go;
@@ -980,6 +977,21 @@ public class Menu : MonoBehaviour {
         if (AudioManager.Instance != null && AudioManager.Instance.buttonValidationFx != null)
             AudioManager.Instance.PlayOneShot(AudioManager.Instance.buttonValidationFx);
 
+        for (int i = 0; i < nbPlayers; i++)
+        {
+            if (customizables[CustomizableType.Mustache].Count != 0 && selectedCustomizables[(int)CustomizableType.Mustache, i] != customizables[CustomizableType.Mustache].Count 
+                    && !customizables[CustomizableType.Mustache][selectedCustomizables[(int)CustomizableType.Mustache, i]].isUnlocked)
+                selectedCustomizables[(int)CustomizableType.Mustache, i] = customizables[CustomizableType.Mustache].Count;
+
+            if (customizables[CustomizableType.Hat].Count != 0 && selectedCustomizables[(int)CustomizableType.Hat, i] != customizables[CustomizableType.Hat].Count
+                    && !customizables[CustomizableType.Hat][selectedCustomizables[(int)CustomizableType.Hat, i]].isUnlocked)
+                selectedCustomizables[(int)CustomizableType.Hat, i] = customizables[CustomizableType.Hat].Count;
+
+            if (customizables[CustomizableType.Ears].Count != 0 && selectedCustomizables[(int)CustomizableType.Ears, i] != customizables[CustomizableType.Ears].Count
+                    && !customizables[CustomizableType.Ears][selectedCustomizables[(int)CustomizableType.Ears, i]].isUnlocked)
+                selectedCustomizables[(int)CustomizableType.Ears, i] = customizables[CustomizableType.Ears].Count;
+
+        }
         // Launch HUB
         if (selectedMode == 0)
         {
@@ -1024,7 +1036,7 @@ public class Menu : MonoBehaviour {
             //else
             {
                 selectedColorFades[i] = false; // Line needed in case we come back from minigame selection screen
-                sc[i] = ((DatabaseClass.ColorData)unlockedCustomizables[CustomizableType.Color][selectedCustomizables[(int)CustomizableType.Color, i]]).color;
+                sc[i] = ((DatabaseClass.ColorData)customizables[CustomizableType.Color][selectedCustomizables[(int)CustomizableType.Color, i]]).color;
             }
 
             //if (selectedFaces[i] == unlockedFesses.Count)
@@ -1033,20 +1045,20 @@ public class Menu : MonoBehaviour {
                 selectedRabbits[i] = false; // Line needed in case we come back from minigame selection screen
 
             sf[i] = selectedCustomizables[(int)CustomizableType.Face, i];
-            if (unlockedCustomizables[CustomizableType.Mustache].Count == 0 || selectedCustomizables[(int)CustomizableType.Mustache, i] == unlockedCustomizables[CustomizableType.Mustache].Count)
+            if (customizables[CustomizableType.Mustache].Count == 0 || selectedCustomizables[(int)CustomizableType.Mustache, i] == customizables[CustomizableType.Mustache].Count)
                 selectedMustaches[i] = "None";
             else
-                selectedMustaches[i] = ((DatabaseClass.MustacheData)unlockedCustomizables[CustomizableType.Mustache][selectedCustomizables[(int)CustomizableType.Mustache, i]]).Id;
+                selectedMustaches[i] = customizables[CustomizableType.Mustache][selectedCustomizables[(int)CustomizableType.Mustache, i]].Id;
 
-            if (unlockedCustomizables[CustomizableType.Hat].Count == 0 || selectedCustomizables[(int)CustomizableType.Hat, i] == unlockedCustomizables[CustomizableType.Hat].Count)
+            if (customizables[CustomizableType.Hat].Count == 0 || selectedCustomizables[(int)CustomizableType.Hat, i] == customizables[CustomizableType.Hat].Count)
                 selectedHats[i] = "None";
             else
-                selectedHats[i] = ((DatabaseClass.HatData)unlockedCustomizables[CustomizableType.Hat][selectedCustomizables[(int)CustomizableType.Hat, i]]).Id;
+                selectedHats[i] = customizables[CustomizableType.Hat][selectedCustomizables[(int)CustomizableType.Hat, i]].Id;
 
-            if (unlockedCustomizables[CustomizableType.Ears].Count == 0 || selectedCustomizables[(int)CustomizableType.Ears, i] == unlockedCustomizables[CustomizableType.Ears].Count)
+            if (customizables[CustomizableType.Ears].Count == 0 || selectedCustomizables[(int)CustomizableType.Ears, i] == customizables[CustomizableType.Ears].Count)
                 selectedEars[i] = "None";
             else
-                selectedEars[i] = ((DatabaseClass.EarsData)unlockedCustomizables[CustomizableType.Ears][selectedCustomizables[(int)CustomizableType.Ears, i]]).Id;
+                selectedEars[i] = customizables[CustomizableType.Ears][selectedCustomizables[(int)CustomizableType.Ears, i]].Id; 
         }
         dataContainer.SaveData(nbPlayers, sc, sf, selectedMustaches, selectedHats, selectedEars, _minigameVersion, selectedColorFades, selectedRabbits, selectedMode == 1);
     }
