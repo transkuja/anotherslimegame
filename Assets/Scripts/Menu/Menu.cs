@@ -349,9 +349,6 @@ public class Menu : MonoBehaviour {
                         
                     areReady[i] = false;
 
-                    // Reactivate position feedback and reset cursor
-                    currentCursorsRow[i] = 0;
-
                     // Disable "Ready!" txt
                     playerCustomScreens[i].transform.GetChild(5).gameObject.SetActive(false);
                 }
@@ -381,15 +378,24 @@ public class Menu : MonoBehaviour {
                 }
 
                 // Y axis controls the settings selection
-                if (controllerStates[i].ThumbSticks.Left.Y > 0.5f && prevControllerStates[i].ThumbSticks.Left.Y < 0.5f
-                    || (controllerStates[i].ThumbSticks.Left.Y < -0.5f && prevControllerStates[i].ThumbSticks.Left.Y > -0.5f)
+                if (controllerStates[i].ThumbSticks.Left.Y < -0.5f && prevControllerStates[i].ThumbSticks.Left.Y > -0.5f
                     // Keyboard input
                     || (i == 0 && (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.S)))
                     || (i == 1 && (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow)))
                     )
                 {
-                    currentCursorsRow[i]++;
-                    currentCursorsRow[i] = currentCursorsRow[i] % 2;
+                    currentlySelectedOption[i]++;
+                    currentlySelectedOption[i] = currentlySelectedOption[i] % (int)CustomizableType.Size;
+                    UpdatePreview(i);
+                }
+                else if (controllerStates[i].ThumbSticks.Left.Y > 0.5f && prevControllerStates[i].ThumbSticks.Left.Y < 0.5f)  
+                {
+                    currentlySelectedOption[i]--;
+                    if (currentlySelectedOption[i] < 0)
+                        currentlySelectedOption[i] = (int)CustomizableType.Size - 1;
+                    else
+                        currentlySelectedOption[i] = currentlySelectedOption[i] % (int)CustomizableType.Size;
+                    UpdatePreview(i);
                 }
                 // X axis controls the settings values
                 else if (controllerStates[i].ThumbSticks.Left.X > 0.5f && prevControllerStates[i].ThumbSticks.Left.X < 0.5f
@@ -398,36 +404,15 @@ public class Menu : MonoBehaviour {
                     || (i == 1 && Input.GetKeyDown(KeyCode.RightArrow))
                     )
                 {
-                    if (currentCursorsRow[i] == 0)
-                    {
-                        currentlySelectedOption[i]++;
-                        currentlySelectedOption[i] = currentlySelectedOption[i] % (int)CustomizableType.Size;
-
-                    }
-                    else
-                    {
-                        selectedCustomizables[currentlySelectedOption[i], i]++;
-                    }
+                    selectedCustomizables[currentlySelectedOption[i], i]++;
                     UpdatePreview(i);
-
                 }
                 else if (controllerStates[i].ThumbSticks.Left.X < -0.5f && prevControllerStates[i].ThumbSticks.Left.X > -0.5f
                     // Keyboard input
                     || (i == 0 && Input.GetKeyDown(KeyCode.Q))
                     || (i == 1 && Input.GetKeyDown(KeyCode.LeftArrow)))
                 {
-                    if (currentCursorsRow[i] == 0)
-                    {
-                        currentlySelectedOption[i]--;
-                        if (currentlySelectedOption[i] < 0)
-                            currentlySelectedOption[i] = (int)CustomizableType.Size - 1;
-                        else
-                            currentlySelectedOption[i] = currentlySelectedOption[i] % (int)CustomizableType.Size;
-                    }
-                    else
-                    {
-                        selectedCustomizables[currentlySelectedOption[i], i]--;
-                    }
+                    selectedCustomizables[currentlySelectedOption[i], i]--;
                     UpdatePreview(i);
                 }
 
@@ -631,8 +616,9 @@ public class Menu : MonoBehaviour {
             case CustomizableType.Mustache:
                 UpdatePlayerPreviewMustache(_playerIndex, _unlockedIndex, _isNoneValue);
                 break;
-            case CustomizableType.Hands:
-            case CustomizableType.Tail:
+            case CustomizableType.Accessory:
+            case CustomizableType.Chin:
+            case CustomizableType.Forehead:
             default:
                 Debug.Log(_customizableType + " is not implemented yet.");
                 break;
