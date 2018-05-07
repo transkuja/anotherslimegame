@@ -15,10 +15,12 @@ public class FoodInputSettings : MonoBehaviour {
     bool isAttached = false;
     bool nextInputCalled = false;
     int maxRandom;
-    bool areBadInputsEnabled = ((FoodGameMode)GameManager.Instance.CurrentGameMode).enableBadInputs;
+    bool areBadInputsEnabled = false;
     bool scaleAscending = true;
 
     public void Init (bool _firstOne = false) {
+        areBadInputsEnabled = ((FoodGameMode)GameManager.Instance.CurrentGameMode).enableBadInputs;
+
         maxRandom = (int)PossibleInputs.Size;
         if (!areBadInputsEnabled)
             maxRandom--;
