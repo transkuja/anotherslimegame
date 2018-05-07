@@ -50,6 +50,7 @@ public class FoodGameMode : GameMode {
             Destroy(playerReferences[i].GetComponent<PlayerControllerHub>());
             PlayerController pc = playerReferences[i].AddComponent<PlayerController>();
             pc.playerIndex = (PlayerIndex)i;
+            pc.PlayerIndexSet = true;
 
             playerReferences[i].GetComponent<Rigidbody>().useGravity = true;
             playerReferences[i].GetComponent<Player>().NbPoints = 0;

@@ -46,6 +46,7 @@ public class ColorFloorGameMode : GameMode {
             {
                 PlayerController pc = playerReferences[i].AddComponent<PlayerController>();
                 pc.playerIndex = (PlayerIndex)i;
+                pc.PlayerIndexSet = true;
 
                 playerReferences[i].transform.position = restrainedMovementStarters[i].transform.position;
                 playerReferences[i].GetComponent<Rigidbody>().useGravity = true;
