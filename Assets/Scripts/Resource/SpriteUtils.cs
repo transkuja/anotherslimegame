@@ -27,13 +27,14 @@ public class SpriteUtils : MonoBehaviour {
     public Texture Platformist;
 
     [Header("Controls sprites")]
-    public Sprite movementSprite;
-    public Sprite jumpSprite;
-    public Sprite actionSprite;
-    public Sprite specialActionSprite;
+    public Sprite leftThumbstickSprite;
+    public Sprite AButtonSprite;
+    public Sprite BButtonSprite;
+    public Sprite XButtonSprite;
+    public Sprite YButtonSprite;
     public Sprite rightTriggerSprite;
     public Sprite leftTriggerSprite;
-    public Sprite interactionSprite;
+
 
     [Header("GP related")]
     public Sprite badOneSprite;
@@ -43,29 +44,26 @@ public class SpriteUtils : MonoBehaviour {
         Sprite result = null;
         switch(_type)
         {
-            case ControlType.Interaction:
-                result = interactionSprite;
+            case ControlType.A:
+                result = AButtonSprite;
                 break;
-            case ControlType.Action:
-                result = actionSprite;
+            case ControlType.B:
+                result = BButtonSprite;
                 break;
-            case ControlType.SpecialAction:
-                result = specialActionSprite;
+            case ControlType.X:
+                result = XButtonSprite;
                 break;
-            case ControlType.Movement:
-                result = movementSprite;
+            case ControlType.Y:
+                result = YButtonSprite;
                 break;
-            case ControlType.Jump:
-                result = jumpSprite;
+            case ControlType.LeftThumbstick:
+                result = leftThumbstickSprite;
                 break;
             case ControlType.RightTrigger:
                 result = rightTriggerSprite;
                 break;
             case ControlType.LeftTrigger:
                 result = leftTriggerSprite;
-                break;
-            case ControlType.Steering:
-                result = movementSprite;
                 break;
             default:
                 return null;
@@ -82,13 +80,13 @@ public class SpriteUtils : MonoBehaviour {
         switch (_input)
         {
             case PossibleInputs.A:
-                return jumpSprite;
-            case PossibleInputs.X:
-                return actionSprite;
-            case PossibleInputs.Y:
-                return specialActionSprite;
+                return AButtonSprite;
             case PossibleInputs.B:
-                return interactionSprite;
+                return BButtonSprite;
+            case PossibleInputs.X:
+                return XButtonSprite;
+            case PossibleInputs.Y:
+                return YButtonSprite;
             case PossibleInputs.BadOne:
                 return badOneSprite;
             default:

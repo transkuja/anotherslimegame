@@ -191,21 +191,21 @@ public static class MinigameDataUtils
 
         if (curGameMode is ColorFloorGameMode)
         {
-            controls.Add(new ControlDetails(ControlType.Movement));
-            controls.Add(new ControlDetails(ControlType.Action, "Dash forward with X"));
+            controls.Add(new ControlDetails(ControlType.LeftThumbstick));
+            controls.Add(new ControlDetails(ControlType.X, "Dash forward with X"));
         }
         else if (curGameMode is KartGameMode)
         {
-            controls.Add(new ControlDetails(ControlType.RightTrigger));
-            controls.Add(new ControlDetails(ControlType.LeftTrigger));
-            controls.Add(new ControlDetails(ControlType.Steering));
-            controls.Add(new ControlDetails(ControlType.Action, "Boost with X"));
+            controls.Add(new ControlDetails(ControlType.A, "Accelerate with A"));
+            controls.Add(new ControlDetails(ControlType.B, "Reverse with B"));
+            controls.Add(new ControlDetails(ControlType.LeftThumbstick));
+            controls.Add(new ControlDetails(ControlType.X, "Boost with X"));
         }
         else if (curGameMode is Runner3DGameMode)
         {
-            controls.Add(new ControlDetails(ControlType.Movement));
-            controls.Add(new ControlDetails(ControlType.Jump));
-            controls.Add(new ControlDetails(ControlType.Action, "Dash forward with X"));
+            controls.Add(new ControlDetails(ControlType.LeftThumbstick));
+            controls.Add(new ControlDetails(ControlType.A));
+            controls.Add(new ControlDetails(ControlType.X, "Dash forward with X"));
             if (_curGameMode.minigameVersion == 1)
             {
                 controls.Add(new ControlDetails(ControlType.RightTrigger, "Create platforms with RT"));
@@ -214,18 +214,18 @@ public static class MinigameDataUtils
         }
         else if (curGameMode is FruitGameMode)
         {
-            controls.Add(new ControlDetails(ControlType.Movement));
-            controls.Add(new ControlDetails(ControlType.Jump));
-            controls.Add(new ControlDetails(ControlType.Action, "Dash forward with X"));
+            controls.Add(new ControlDetails(ControlType.LeftThumbstick));
+            controls.Add(new ControlDetails(ControlType.A));
+            controls.Add(new ControlDetails(ControlType.X, "Dash forward with X"));
             if (_curGameMode.minigameVersion == 1)
                 controls.Add(new ControlDetails(ControlType.LeftTrigger, "Spray incapacitant with LT"));
         }
         else if (curGameMode is PushGameMode)
         {
-            controls.Add(new ControlDetails(ControlType.Movement));
-            controls.Add(new ControlDetails(ControlType.Jump));
-            controls.Add(new ControlDetails(ControlType.Action, "Dash forward with X"));
-            controls.Add(new ControlDetails(ControlType.SpecialAction, "Stomp the ground with Y"));
+            controls.Add(new ControlDetails(ControlType.LeftThumbstick));
+            controls.Add(new ControlDetails(ControlType.A));
+            controls.Add(new ControlDetails(ControlType.X, "Dash forward with X"));
+            controls.Add(new ControlDetails(ControlType.Y, "Stomp the ground with Y"));
         }
         return controls;
     }
