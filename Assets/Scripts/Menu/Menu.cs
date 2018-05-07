@@ -33,7 +33,6 @@ public class Menu : MonoBehaviour {
     List<GameObject> playerCustomScreens = new List<GameObject>();
 
     private List<DatabaseClass.ColorData> unlockedCustomColors = new List<DatabaseClass.ColorData>();
-    private List<DatabaseClass.FaceData> unlockedFesses = new List<DatabaseClass.FaceData>();
     private List<DatabaseClass.MinigameData[]> unlockedMinigameFirstVariante = new List<DatabaseClass.MinigameData[]>(); 
 
     // TODO: add in database missing values Ears, Hands, Tail
@@ -141,7 +140,6 @@ public class Menu : MonoBehaviour {
         {
             if (f.isUnlocked)
             {
-                unlockedFesses.Add(f);
                 unlockedCustomizables[CustomizableType.Face].Add(f);
             }
         }
