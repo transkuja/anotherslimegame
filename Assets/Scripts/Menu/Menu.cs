@@ -430,6 +430,8 @@ public class Menu : MonoBehaviour {
                     }
                     UpdatePreview(i);
                 }
+
+                playerCustomScreens[i].transform.GetChild(4).Rotate(Vector3.up, controllerStates[i].ThumbSticks.Right.X * 2.5f);
             }
         }
     }
