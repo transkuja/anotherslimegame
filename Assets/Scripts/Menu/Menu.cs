@@ -47,7 +47,6 @@ public class Menu : MonoBehaviour {
     int[,] selectedCustomizables = new int[(int)CustomizableType.Size, 4];
 
     // LEGACY
-    int[] currentCursorsRow = new int[4];
     bool[] selectedColorFades = new bool[4];
     bool[] selectedRabbits = new bool[4];
 
@@ -208,6 +207,8 @@ public class Menu : MonoBehaviour {
                 else
                     selectedCustomizables[(int)CustomizableType.Ears, i] = customizables[CustomizableType.Ears].FindIndex(x => ((DatabaseClass.HatData)x).Id == dataContainer.earsSelected[i]);
 
+
+                currentlySelectedOption = new int[4];
             }
             SetState(MenuState.MinigameSelection);
         }
@@ -771,8 +772,6 @@ public class Menu : MonoBehaviour {
         if (currentState == MenuState.CustomisationScreen)
         {
             areReady = new bool[nbPlayers];
-            for (int i = 0; i < 4; i++)
-                currentCursorsRow[i] = 0;
 
             // If a selection has already been made
             if (playerCustomScreens.Count > 0)
@@ -824,11 +823,13 @@ public class Menu : MonoBehaviour {
                     if (DataContainer.launchedFromMinigameScreen)
                     {
                         UpdatePreviewFull(i);
+                        UpdatePreview(i);
                     }
 
                 }
                 CurrentlySelectedButton = null;
             }
+
         }
 
         // Minigame screen reset
