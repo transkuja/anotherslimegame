@@ -34,6 +34,7 @@ public class FeedbacksManager : MonoBehaviour
     public GameObject colorAroundPreview;
     public GameObject colorArrowPreview;
     public GameObject colorFloorScorePreview;
+    public GameObject colorFloorBadInputPreview;
     public GameObject changerFruitPreview;
     public GameObject aspiratorFruitPreview;
 
@@ -59,6 +60,9 @@ public class FeedbacksManager : MonoBehaviour
                 break;
             case PickUpType.Score:
                 result = colorFloorScorePreview;
+                break;
+            case PickUpType.BadOne:
+                result = colorFloorBadInputPreview;
                 break;
             case PickUpType.SpeedUp:
                 result = speedUpPreview;
