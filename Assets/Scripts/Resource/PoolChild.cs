@@ -20,8 +20,21 @@ public class PoolChild : MonoBehaviour {
         set
         {
             pool = value;
-            currentTimer = Pool.timerReturnToPool;
+            CurrentTimer = Pool.timerReturnToPool;
             isReady = true;
+        }
+    }
+
+    public float CurrentTimer
+    {
+        get
+        {
+            return currentTimer;
+        }
+
+        set
+        {
+            currentTimer = value;
         }
     }
 
@@ -29,8 +42,8 @@ public class PoolChild : MonoBehaviour {
     {
         if (Pool != null)
         {
-            currentTimer = Pool.timerReturnToPool;
-            if (currentTimer == -1) noReturn = true;
+            CurrentTimer = Pool.timerReturnToPool;
+            if (CurrentTimer == -1) noReturn = true;
         }
     }
    
@@ -40,8 +53,8 @@ public class PoolChild : MonoBehaviour {
             if (noReturn)
                 return;
 
-            currentTimer -= Time.deltaTime;
-            if (currentTimer < 0.0f)
+            CurrentTimer -= Time.deltaTime;
+            if (CurrentTimer < 0.0f)
             {
                 ReturnToPool();
             }
