@@ -141,7 +141,7 @@ namespace DatabaseClass
             }
         }
 
-        public void SetUnlock<T>(string _id, bool isUnlocked) where T : Unlockable
+        public void SetUnlock<T>(string _id, bool isUnlocked, int _version = 0) where T : Unlockable
         {
             if (typeof(T) == typeof(ColorData))
             {
@@ -155,8 +155,8 @@ namespace DatabaseClass
             }
             else if (typeof(T) == typeof(MinigameData))
             {
-                if (minigames.Find(a => a.Id == _id) != null)
-                    minigames.Find(a => a.Id == _id).isUnlocked = isUnlocked;
+                if (minigames.Find(a => a.Id == _id && a.version == _version) != null)
+                    minigames.Find(a => a.Id == _id && a.version == _version).isUnlocked = isUnlocked;
             }
             else if (typeof(T) == typeof(RuneData))
             {
@@ -212,7 +212,7 @@ namespace DatabaseClass
             return null;
         }
 
-        public bool IsUnlock<T>(string _id) where T : Unlockable
+        public bool IsUnlock<T>(string _id, int _version = 0) where T : Unlockable
         {
             if (typeof(T) == typeof(ColorData))
             {
@@ -226,8 +226,8 @@ namespace DatabaseClass
             }
             else if (typeof(T) == typeof(MinigameData))
             {
-                if (minigames.Find(a => a.Id == _id) != null)
-                    return minigames.Find(a => a.Id == _id).isUnlocked;
+                if (minigames.Find(a => a.Id == _id && a.version == _version) != null)
+                    return minigames.Find(a => a.Id == _id && a.version == _version).isUnlocked;
             }
             else if (typeof(T) == typeof(RuneData))
             {
