@@ -13,7 +13,7 @@ public class Menu : MonoBehaviour {
     MenuState currentState = MenuState.TitleScreen;
 
     // CustomizableType
-    bool[] isNonable = { false, false, true, true, true, true, true };
+    bool[] isNonable = { false, false, true, true, true, true, true, true, true };
 
     int currentCursor = 0;
 
