@@ -145,6 +145,10 @@ public class Collectable : MonoBehaviour
                     GetComponentInParent<Transform>().GetComponentInParent<BonusSpawner>().AspireFruit();
 
                 }
+                if(name == "FruitBonus(Clone)")
+                {
+                    playerTarget.UpdateCollectableValue(type, value * 6 * 3);
+                }
                 if ((int)playerTarget.GetComponent<PlayerController>().PlayerIndex == (int)GetComponent<FruitType>().typeFruit)
                 {
                     playerTarget.UpdateCollectableValue(type, value * (6 - (int)GetComponent<FruitType>().state));

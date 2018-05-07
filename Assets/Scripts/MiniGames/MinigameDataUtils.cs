@@ -256,6 +256,7 @@ public static class MinigameDataUtils
         {
             possiblePickups.Add(new PossiblePickup(PickUpType.Changer, "Change all fruits in scene to yours"));
             possiblePickups.Add(new PossiblePickup(PickUpType.Aspirator, "Collect all your fruits"));
+            //possiblePickups.Add(new PossiblePickup(PickUpType.GiantFruit, "A mega fruit which bring more point"));
         }
         return possiblePickups;
     }

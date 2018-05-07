@@ -42,6 +42,7 @@ public class FruitGameMode : GameMode {
         base.OnReadySetGoBegin();
         GameManager.ChangeState(GameState.Normal);
         StartCoroutine(spawner.Spawner());
+        StartCoroutine(bonus.SpawnBonus(BonusSpawner.BonusType.FruitBonus, bonus.fruitBonusSpawnDelay));
         StartCoroutine(bonus.SpawnBonus(BonusSpawner.BonusType.ChangeFruit, bonus.changeFruitSpawnDelay));
         StartCoroutine(bonus.SpawnBonus(BonusSpawner.BonusType.Aspirator, bonus.aspiratorFruitSpawnDelay));
     }

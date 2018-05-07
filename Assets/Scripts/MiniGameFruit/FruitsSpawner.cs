@@ -56,7 +56,6 @@ public class FruitsSpawner : MonoBehaviour {
                 fruit = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.Fruits).GetItem(transform, positionToSpawnPlane, Quaternion.identity, true, false, subPoolIndex);
                 fruit.GetComponent<BoxCollider>().enabled = true;
                 fruit.GetComponent<FruitType>().state = StateFruit.Safe;
-                //StartCoroutine(fruit.GetComponent<FruitType>().fruitsStartToRot(fruit));
             }
             else 
             {
@@ -64,7 +63,6 @@ public class FruitsSpawner : MonoBehaviour {
                 fruit = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.Fruits).GetItem(transform, positionToSpawnPlane, Quaternion.identity, true, false, subPoolIndex);
                 fruit.GetComponent<BoxCollider>().enabled = true;
                 fruit.GetComponent<FruitType>().state = StateFruit.Safe;
-                //StartCoroutine(fruit.GetComponent<FruitType>().fruitsStartToRot(fruit));
             }
         }
     }

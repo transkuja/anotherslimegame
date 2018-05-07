@@ -3,16 +3,20 @@ using UnityEngine;
 
 public class BonusSpawner : MonoBehaviour {
 
-	public enum BonusType { ChangeFruit, Aspirator };
+	public enum BonusType { ChangeFruit, Aspirator, FruitBonus };
 
     public GameObject aspirator;
     public GameObject fruitChange;
+    public GameObject fruitBonus;
 
     [SerializeField]
     public float changeFruitSpawnDelay = 15.0f;
 
     [SerializeField]
     public float aspiratorFruitSpawnDelay = 25.0f;
+
+    [SerializeField]
+    public float fruitBonusSpawnDelay = 17.5f;
 
     public bool canChange;
 
@@ -64,6 +68,31 @@ public class BonusSpawner : MonoBehaviour {
 
                 StartCoroutine(UnspawnBonus(toInstantiate));
             }
+            else if(toInstantiate)
+            {
+                toInstantiate = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.BonusFruit).GetItem(transform, new Vector3(Random.Range(minX, maxX), 18.15f, Random.Range(minZ, maxZ)), Quaternion.identity, true, false, 2);
+                toInstantiate.GetComponent<Rigidbody>().useGravity = true;
+
+                StartCoroutine(UnspawnBonus(toInstantiate));
+                //TO DO : Mettre le type du fruit random entre les 4 possible (Et l'indiquer avec un material ?) Ou bien rien et le premier qui le prend a les points (donc pas de type précis, il est multi-type)
+                toInstantiate.GetComponent<FruitType>().typeFruit = (Fruit)Random.Range(0, (int)GameManager.Instance.PlayerStart.ActivePlayersAtStart);
+                if(toInstantiate.GetComponent<FruitType>().typeFruit == Fruit.Clementine)
+                {
+                    toInstantiate.GetComponent<Renderer>().material = matClementine;
+                }
+                else if(toInstantiate.GetComponent<FruitType>().typeFruit == Fruit.Pomme)
+                {
+                    toInstantiate.GetComponent<Renderer>().material = matPomme;
+                }
+                else if(toInstantiate.GetComponent<FruitType>().typeFruit == Fruit.Kiwi)
+                {
+                    toInstantiate.GetComponent<Renderer>().material = matKiwi;
+                }
+                else if(toInstantiate.GetComponent<FruitType>().typeFruit == Fruit.Fraise)
+                {
+                    toInstantiate.GetComponent<Renderer>().material = matFraise;
+                }
+            }
         }
 	}
 	
@@ -73,6 +102,8 @@ public class BonusSpawner : MonoBehaviour {
             return fruitChange;
         if (_type == BonusType.Aspirator)
             return aspirator;
+        if (_type == BonusType.FruitBonus)
+            return fruitBonus;
 
         return null;
     }
