@@ -169,6 +169,11 @@ public class PauseMenu : MonoBehaviour {
             CurrentState = PauseMenuState.Default;
         selection = 0;
         CurrentlySelectedButton = transform.GetChild((int)currentState + 1).GetChild(selection).GetComponentInChildren<Button>();
+
+        Cinemachine.CinemachineFreeLook curPlayerCamera = GameManager.Instance.PlayerStart.PlayersReference[GameManager.Instance.playerWhoPausedTheGame].GetComponent<Player>().cameraReference.GetComponentInChildren<Cinemachine.CinemachineFreeLook>();
+
+        transform.GetChild((int)currentState + 1).GetChild(0).GetChild(1).GetComponent<Image>().enabled = curPlayerCamera.m_XAxis.m_InvertAxis;
+        transform.GetChild((int)currentState + 1).GetChild(1).GetChild(1).GetComponent<Image>().enabled = curPlayerCamera.m_YAxis.m_InvertAxis;
     }
 
     /*
