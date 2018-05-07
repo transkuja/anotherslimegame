@@ -979,19 +979,14 @@ public class Menu : MonoBehaviour {
 
         for (int i = 0; i < nbPlayers; i++)
         {
-            if (customizables[CustomizableType.Mustache].Count != 0 && selectedCustomizables[(int)CustomizableType.Mustache, i] != customizables[CustomizableType.Mustache].Count 
-                    && !customizables[CustomizableType.Mustache][selectedCustomizables[(int)CustomizableType.Mustache, i]].isUnlocked)
-                selectedCustomizables[(int)CustomizableType.Mustache, i] = customizables[CustomizableType.Mustache].Count;
-
-            if (customizables[CustomizableType.Hat].Count != 0 && selectedCustomizables[(int)CustomizableType.Hat, i] != customizables[CustomizableType.Hat].Count
-                    && !customizables[CustomizableType.Hat][selectedCustomizables[(int)CustomizableType.Hat, i]].isUnlocked)
-                selectedCustomizables[(int)CustomizableType.Hat, i] = customizables[CustomizableType.Hat].Count;
-
-            if (customizables[CustomizableType.Ears].Count != 0 && selectedCustomizables[(int)CustomizableType.Ears, i] != customizables[CustomizableType.Ears].Count
-                    && !customizables[CustomizableType.Ears][selectedCustomizables[(int)CustomizableType.Ears, i]].isUnlocked)
-                selectedCustomizables[(int)CustomizableType.Ears, i] = customizables[CustomizableType.Ears].Count;
-
+            for (int j = 2; j < 5; j++)
+            {
+                if (customizables[(CustomizableType)j].Count != 0 && selectedCustomizables[j, i] != customizables[(CustomizableType)j].Count
+                        && !customizables[(CustomizableType)j][selectedCustomizables[j, i]].isUnlocked)
+                    selectedCustomizables[j, i] = customizables[(CustomizableType)j].Count;
+            }
         }
+
         // Launch HUB
         if (selectedMode == 0)
         {
