@@ -35,7 +35,6 @@ public class EvolutionComponent : MonoBehaviour {
         set
         {
             timer = value;
-            Debug.Log(timer);
         }
     }
 
