@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Collections;
 using System;
 
-public enum CustomizableType { Color, Face, Ears, Mustache, Hat, Hands, Tail, Size }
+public enum CustomizableType { Color, Face, Ears, Mustache, Hat, Skin, Accessory, Chin, Forehead, Size }
 
 public class Menu : MonoBehaviour {
     public enum MenuState { Common, TitleScreen, ConfirmationScreen, ModeSelection, NumberOfPlayers, CustomisationScreen, MinigameSelection }
