@@ -351,7 +351,6 @@ public class Menu : MonoBehaviour {
 
                     // Reactivate position feedback and reset cursor
                     currentCursorsRow[i] = 0;
-                    playerCustomScreens[i].transform.GetChild(1).GetChild(0).gameObject.SetActive(true);
 
                     // Disable "Ready!" txt
                     playerCustomScreens[i].transform.GetChild(5).gameObject.SetActive(false);
@@ -369,9 +368,7 @@ public class Menu : MonoBehaviour {
                     || (i == 1 && Input.GetKeyDown(KeyCode.KeypadEnter)))
                 {
                     areReady[i] = true;
-                    // Deactivate feedbacks
-                    playerCustomScreens[i].transform.GetChild(1).GetChild(0).gameObject.SetActive(false);
-                    playerCustomScreens[i].transform.GetChild(1).GetChild(1).gameObject.SetActive(false);
+
                     // Pop "Ready!" txt
                     playerCustomScreens[i].transform.GetChild(5).gameObject.SetActive(true);
 
@@ -393,8 +390,6 @@ public class Menu : MonoBehaviour {
                 {
                     currentCursorsRow[i]++;
                     currentCursorsRow[i] = currentCursorsRow[i] % 2;
-                    playerCustomScreens[i].transform.GetChild(1).GetChild(currentCursorsRow[i]).gameObject.SetActive(true);
-                    playerCustomScreens[i].transform.GetChild(1).GetChild((currentCursorsRow[i] + 1)%2).gameObject.SetActive(false);
                 }
                 // X axis controls the settings values
                 else if (controllerStates[i].ThumbSticks.Left.X > 0.5f && prevControllerStates[i].ThumbSticks.Left.X < 0.5f
@@ -755,7 +750,6 @@ public class Menu : MonoBehaviour {
     public void SetState(MenuState _newState)
     {
         currentCursor = 0;
-        //minigameCurrentCursor = new int[2];
         minigameCurrentCursor = 0;
         transform.GetChild((int)currentState).gameObject.SetActive(false);
         currentState = _newState;
@@ -851,13 +845,6 @@ public class Menu : MonoBehaviour {
 
                 }
                 CurrentlySelectedButton = null;
-            }
-
-            // Feedback reset
-            foreach (GameObject go in playerCustomScreens)
-            {
-                go.transform.GetChild(1).GetChild(0).gameObject.SetActive(true);
-                go.transform.GetChild(1).GetChild(1).gameObject.SetActive(false);
             }
         }
 
