@@ -116,7 +116,7 @@ public class PNJMessage : MonoBehaviour {
 
 
         // First Message
-        if (myBehavior && myBehavior.IsEventOver())
+        if ((myBehavior && myBehavior.IsEventOver()) || !myBehavior)
         {
             currentMessage = 0;
             myBehavior.Reset();
