@@ -147,7 +147,10 @@ public class Collectable : MonoBehaviour
                 }
                 if(name == "FruitBonus(Clone)")
                 {
-                    playerTarget.UpdateCollectableValue(type, value + 1 * 18);
+                    if ((int)playerTarget.GetComponent<PlayerController>().PlayerIndex == (int)GetComponent<FruitType>().typeFruit)
+                    {
+                        playerTarget.UpdateCollectableValue(type, value + 1 * 18);
+                    }
                 }
                 if ((int)playerTarget.GetComponent<PlayerController>().PlayerIndex == (int)GetComponent<FruitType>().typeFruit)
                 {
