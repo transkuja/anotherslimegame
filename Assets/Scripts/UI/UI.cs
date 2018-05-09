@@ -78,13 +78,6 @@ public class UI : MonoBehaviour {
         ptsText = UIref.GetChild(0).GetComponentInChildren<Text>().transform;
         runeText = UIref.GetChild(1).GetComponentInChildren<Text>().transform;
 
-        if (GameManager.Instance.IsInHub())
-        {
-            dialog1 = transform.GetChild(2);
-            dialog2 = transform.GetChild(3);
-            dialog3 = transform.GetChild(4);
-        }
-
         RuleScreen = transform.GetChild(transform.childCount-1).transform;
 
         // Merde copy de reference ..

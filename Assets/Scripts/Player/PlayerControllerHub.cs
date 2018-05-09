@@ -268,8 +268,18 @@ public class PlayerControllerHub : PlayerController
             if( GameManager.Instance.ActivePlayersAtStart > 1)
             {
                 GameObject retryMessageGo = Instantiate(ResourceUtils.Instance.feedbacksManager.prefabReplayScreenHub, GameManager.UiReference.transform);
-                retryMessageGo.transform.GetChild(0).GetChild(0).GetComponent<UnityEngine.UI.Text>().text = Utils.GetRetryMessage(MessageTypeMinigame.AreyoureadyOtherPlayer);
-                retryMessageGo.GetComponent<ReplayScreenControlsHub>().index = 1;
+                // other player
+                if ((int)playerIndex == 1)
+                {
+                    retryMessageGo.transform.GetChild(0).GetChild(0).GetComponent<UnityEngine.UI.Text>().text = Utils.GetRetryMessage(MessageTypeMinigame.AreyoureadyPlayer1);
+                    retryMessageGo.GetComponent<ReplayScreenControlsHub>().index = 0;
+                }
+                else
+                {
+                    retryMessageGo.transform.GetChild(0).GetChild(0).GetComponent<UnityEngine.UI.Text>().text = Utils.GetRetryMessage(MessageTypeMinigame.AreyoureadyPlayer2);
+                    retryMessageGo.GetComponent<ReplayScreenControlsHub>().index = 1;
+                }
+  
                 retryMessageGo.GetComponent<ReplayScreenControlsHub>().validationFct += Player.RefInitTeleporter.LoadMinigame;
                 retryMessageGo.GetComponent<ReplayScreenControlsHub>().refusalFct += Player.RefInitTeleporter.ReturnToNormalState;
             }

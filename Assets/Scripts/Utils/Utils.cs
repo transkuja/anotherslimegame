@@ -162,7 +162,9 @@ public static class Utils
         {
             case MessageTypeMinigame.AreYouReady:
                 return "Ready ?";
-            case MessageTypeMinigame.AreyoureadyOtherPlayer:
+            case MessageTypeMinigame.AreyoureadyPlayer1:
+                return "P1 Ready ?";
+            case MessageTypeMinigame.AreyoureadyPlayer2:
                 return "P2 Ready ?";
             case MessageTypeMinigame.Retry:
                 return "Retry ?";

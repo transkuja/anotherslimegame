@@ -460,14 +460,14 @@ namespace DatabaseClass
             string[] strHat = { "Cap", "Chief", "Cowboy", "Glitter", "Top Hat", "Flowers", "Chinese", "Cat", "Marine", "Police", "Sombrero", "Crete", "Party" };
             hats.Add(new HatData { Id = strHat[idHat], model = "Hats/CapHat", shouldHideEars = true, isUnlocked = false });
             hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/ChiefHat", shouldHideEars = true, isUnlocked = false });
-            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/CowboyHat", shouldHideEars = true, isUnlocked = false });
+            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/CowboyHat", shouldHideEars = true, isUnlocked = false }); // Bob give it
             hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/GlitterHat", shouldHideEars = true, isUnlocked = false });
             hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/TopHatHat", shouldHideEars = true, isUnlocked = false });
             hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/FlowerCrown", shouldHideEars = false, isUnlocked = false });
             hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/ChineseHat", shouldHideEars = false, isUnlocked = false });
             hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/CatHat", shouldHideEars = false, isUnlocked = false });
             hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/MarineHat", shouldHideEars = false, isUnlocked = false });
-            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/PoliceHat", shouldHideEars = false, isUnlocked = false });
+            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/PoliceHat", shouldHideEars = false, isUnlocked = false });  // Gwen give it
             hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/SombreroHat", shouldHideEars = false, isUnlocked = false });
             hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/CreteHat", shouldHideEars = false, isUnlocked = false });
             hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/PartyHat", shouldHideEars = false, isUnlocked = false });

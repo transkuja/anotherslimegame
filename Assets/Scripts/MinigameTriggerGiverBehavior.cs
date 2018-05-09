@@ -131,11 +131,17 @@ public class MinigameTriggerGiverBehavior : PNJDefaultBehavior
         retryMessageGo = Instantiate(ResourceUtils.Instance.feedbacksManager.prefabReplayScreenHub, GameManager.UiReference.transform);
         if (GameManager.Instance.ActivePlayersAtStart == 2)
         {
-            retryMessageGo.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = Utils.GetRetryMessage(MessageTypeMinigame.AreyoureadyOtherPlayer);
+            // other player
             if(playerIndex == 1)
+            {
+                retryMessageGo.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = Utils.GetRetryMessage(MessageTypeMinigame.AreyoureadyPlayer1);
                 retryMessageGo.GetComponent<ReplayScreenControlsHub>().index = 0;
+            }
             else
+            {
+                retryMessageGo.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = Utils.GetRetryMessage(MessageTypeMinigame.AreyoureadyPlayer2);
                 retryMessageGo.GetComponent<ReplayScreenControlsHub>().index = 1;
+            }
         }
         else
         {

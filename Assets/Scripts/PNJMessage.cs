@@ -31,6 +31,15 @@ public class PNJMessage : MonoBehaviour {
 
         myBehavior = GetComponent<PNJDefaultBehavior>();
         myCharacter = GetComponent<PlayerCharacterHub>();
+
+        // Odd stuff
+        if (GameManager.Instance.ActivePlayersAtStart == 2)
+        {
+                Message[1] = GameManager.UiReference.dialog2.gameObject;
+                Message[0] = GameManager.UiReference.dialog3.gameObject;
+        }
+        else
+            Message[0] = GameManager.UiReference.dialog1.gameObject;
     }
 
     #region DefaultMessage
@@ -43,19 +52,6 @@ public class PNJMessage : MonoBehaviour {
             return;
 
         BbuttonShown[playerIndex].SetActive(true);
-
-        // Odd stuff
-        if (GameManager.Instance.ActivePlayersAtStart == 2)
-        {
-            if (playerIndex == 1)
-                Message[playerIndex] = GameManager.UiReference.dialog2.gameObject;
-            else
-                Message[playerIndex] = GameManager.UiReference.dialog3.gameObject;
-        } else
-           Message[playerIndex] = GameManager.UiReference.dialog1.gameObject;
-
-        if (myBehavior)
-            myBehavior.Reset();
     }
 
     public void OnExitTrigger(int playerIndex)
@@ -63,10 +59,12 @@ public class PNJMessage : MonoBehaviour {
         if (myCharacter.dialogState == DialogState.Dialog)
             return;
 
-        Message[playerIndex].SetActive(false);
+        if (Message[playerIndex])
+            Message[playerIndex].SetActive(false);
         GameManager.Instance.PlayerStart.PlayersReference[playerIndex].GetComponent<PlayerCharacterHub>().dialogState = DialogState.Normal;
 
-        BbuttonShown[playerIndex].SetActive(false);
+        if (BbuttonShown[playerIndex])
+            BbuttonShown[playerIndex].SetActive(false);
     }
 
     public void DisplayMessage(int playerIndex)
@@ -118,8 +116,12 @@ public class PNJMessage : MonoBehaviour {
 
 
         // First Message
+        if (myBehavior && myBehavior.IsEventOver())
+        {
+            currentMessage = 0;
+            myBehavior.Reset();
+        }
         NextMessage(playerIndex);
-
     }
 
     public void NextMessage(int playerIndex)

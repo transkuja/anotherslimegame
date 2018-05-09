@@ -51,8 +51,8 @@ public static class PNJDialogUtils {
     };
 
     // Roger
-    static string RogerDM = "My child is messsing with\n" 
-        + "Spank him for me.";
+    static string RogerDM = "My child is messing with me.\n" 
+        + "Could you spank him for me.";
     static FaceEmotion[] RogerDE = new FaceEmotion[1] { FaceEmotion.Neutral };
     static string RogerQM = ""
     ;
