@@ -548,6 +548,7 @@ public class Menu : MonoBehaviour {
             bool noneValue = selectedCustomizables[(int)currentCustomType, _playerIndex] == unlockedList.Count;
             playerCustomScreens[_playerIndex].transform.GetChild(3).GetComponent<Text>().color = Color.white;
             bool isUnlocked;
+            DatabaseClass.Unlockable unlockableData = null;
             if (noneValue)
             {
                 playerCustomScreens[_playerIndex].transform.GetChild(3).GetComponent<Text>().text = "None";
@@ -555,12 +556,36 @@ public class Menu : MonoBehaviour {
             }
             else
             {
-                playerCustomScreens[_playerIndex].transform.GetChild(3).GetComponent<Text>().text = customizables[currentCustomType][selectedCustomizables[(int)currentCustomType, _playerIndex]].Id;
-                isUnlocked = customizables[currentCustomType][selectedCustomizables[(int)currentCustomType, _playerIndex]].isUnlocked;
+                unlockableData = customizables[currentCustomType][selectedCustomizables[(int)currentCustomType, _playerIndex]];
+                playerCustomScreens[_playerIndex].transform.GetChild(3).GetComponent<Text>().text = unlockableData.Id;
+                isUnlocked = unlockableData.isUnlocked;
+
                 if (!isUnlocked)
+                {
                     playerCustomScreens[_playerIndex].transform.GetChild(3).GetComponent<Text>().color = Color.red;
+                }
             }
+
+            HandleHowToUnlock(playerCustomScreens[_playerIndex].transform.GetChild(6), unlockableData);
             UpdatePlayerVisual(_playerIndex, currentCustomType, selectedCustomizables[(int)currentCustomType, _playerIndex], noneValue || !isUnlocked);
+        }
+    }
+
+    void HandleHowToUnlock(Transform _parent, DatabaseClass.Unlockable _unlockableData = null)
+    {
+        if (_unlockableData == null || _unlockableData.isUnlocked)
+        {
+            _parent.gameObject.SetActive(false);
+        }
+        else
+        {
+            _parent.gameObject.SetActive(true);
+            bool canBeBoughtWithGold = _unlockableData.costToUnlock != -1;
+            _parent.GetComponentInChildren<Text>().text = (canBeBoughtWithGold) ? DatabaseManager.Db.Money.ToString() + " / " + _unlockableData.costToUnlock.ToString() : "???";
+
+            _parent.GetChild(1).GetComponent<Image>().enabled = canBeBoughtWithGold;
+            _parent.GetChild(2).GetComponent<Image>().enabled = (canBeBoughtWithGold && DatabaseManager.Db.Money >= _unlockableData.costToUnlock);
+            _parent.GetComponentInChildren<Text>().color = (canBeBoughtWithGold && DatabaseManager.Db.Money < _unlockableData.costToUnlock) ? Color.red : Color.yellow;
         }
     }
 

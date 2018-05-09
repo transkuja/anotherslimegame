@@ -20,10 +20,6 @@ namespace DatabaseClass
         public int nbRunesToUnlock = -1;
 
         [SerializeField]
-        public int costToUnlock = -1;
-
-
-        [SerializeField]
         public MinigameType type;
 
         [SerializeField]
@@ -83,6 +79,9 @@ namespace DatabaseClass
 
         [SerializeField]
         public bool isUnlocked = false;
+
+        [SerializeField]
+        public int costToUnlock = -1;
 
         public virtual string Id
         {
