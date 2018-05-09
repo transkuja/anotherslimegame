@@ -48,7 +48,10 @@ public class MinigameSelectionAnim : MonoBehaviour {
     public void SetMinigame(DatabaseClass.MinigameData _minigameData)
     {
         minigameData = _minigameData;
-        GetComponentsInChildren<Image>()[3].sprite = Resources.Load<Sprite>(_minigameData.spriteImage) as Sprite;
+        if (_minigameData.isUnlocked)
+            GetComponentsInChildren<Image>()[3].sprite = Resources.Load<Sprite>(_minigameData.spriteImage) as Sprite;
+        else
+            GetComponentsInChildren<Image>()[3].sprite = Resources.Load<Sprite>("LockedMinigamePreview") as Sprite;
         GetComponentInChildren<Text>().text = MinigameDataUtils.GetTitle(_minigameData.Id, _minigameData.version);
     }
 
@@ -60,5 +63,10 @@ public class MinigameSelectionAnim : MonoBehaviour {
     public int GetMinigameVersion()
     {
         return minigameData.version;
+    }
+
+    public bool IsUnlocked()
+    {
+        return minigameData.isUnlocked;
     }
 }

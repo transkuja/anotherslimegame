@@ -32,7 +32,7 @@ public class Menu : MonoBehaviour {
 
     List<GameObject> playerCustomScreens = new List<GameObject>();
 
-    private List<DatabaseClass.MinigameData[]> unlockedMinigameFirstVariante = new List<DatabaseClass.MinigameData[]>(); 
+    private List<DatabaseClass.MinigameData[]> minigames = new List<DatabaseClass.MinigameData[]>(); 
 
     // TODO: add in database missing values Ears, Hands, Tail
     private Dictionary<CustomizableType, List<DatabaseClass.Unlockable>> customizables = new Dictionary<CustomizableType, List<DatabaseClass.Unlockable>>();
@@ -150,23 +150,19 @@ public class Menu : MonoBehaviour {
             customizables[CustomizableType.Hat].Add(hat);
         }
 
-        int nbDifferentMinigameType = DatabaseManager.Db.GetNbUnlockedMinigamesOfEachType();
-        for (int i = 0; i < nbDifferentMinigameType; i++)
+        for (int i = 0; i < (int)MinigameType.Size; i++)
         {
-            if (DatabaseManager.Db.GetUnlockedMinigamesOfType((MinigameType)i) != null)
+            if (DatabaseManager.Db.GetAllMinigamesOfType((MinigameType)i) != null)
             {
-                int nbMinigameOfType = DatabaseManager.Db.GetUnlockedMinigamesOfType((MinigameType)i).Count;
-                if( nbMinigameOfType > 0)
-                {
-                    DatabaseClass.MinigameData[] c = new DatabaseClass.MinigameData[nbMinigameOfType];
+                List<DatabaseClass.MinigameData> allMinigamesOfTypeI = DatabaseManager.Db.GetAllMinigamesOfType((MinigameType)i);
+                DatabaseClass.MinigameData[] c = new DatabaseClass.MinigameData[allMinigamesOfTypeI.Count];
 
-                    for (int j = 0; j < nbMinigameOfType; j++)
-                    {
-                        c[j] = DatabaseManager.Db.GetUnlockedMinigamesOfType((MinigameType)i)[j];
-                    }
-                    unlockedMinigameFirstVariante.Add(c);
+                for (int j = 0; j < allMinigamesOfTypeI.Count; j++)
+                {
+                    c[j] = allMinigamesOfTypeI[j];
                 }
-    
+
+                minigames.Add(c);    
             }
         }
 
@@ -469,7 +465,7 @@ public class Menu : MonoBehaviour {
             )
         {
             minigameCurrentCursor++;
-            minigameCurrentCursor %= unlockedMinigameFirstVariante.Count;
+            minigameCurrentCursor %= minigames.Count;
 
             // =======================================
             minigameCurrentVerticalCursor = 0;
@@ -487,9 +483,9 @@ public class Menu : MonoBehaviour {
             minigameCurrentVerticalCursor = 0;  
 
             if (minigameCurrentCursor < 0)
-                minigameCurrentCursor = unlockedMinigameFirstVariante.Count - 1;
+                minigameCurrentCursor = minigames.Count - 1;
             else
-                minigameCurrentCursor %= unlockedMinigameFirstVariante.Count;
+                minigameCurrentCursor %= minigames.Count;
 
             UpdateMinigameSelection();
         }
@@ -502,7 +498,7 @@ public class Menu : MonoBehaviour {
            )
         {
             minigameCurrentVerticalCursor++;
-            minigameCurrentVerticalCursor %= unlockedMinigameFirstVariante[minigameCurrentCursor].Length;
+            minigameCurrentVerticalCursor %= minigames[minigameCurrentCursor].Length;
 
             UpdateMinigameSelection();
         }
@@ -513,9 +509,9 @@ public class Menu : MonoBehaviour {
         {
             minigameCurrentVerticalCursor--;
             if (minigameCurrentVerticalCursor < 0)
-                minigameCurrentVerticalCursor = unlockedMinigameFirstVariante[minigameCurrentCursor].Length - 1;
+                minigameCurrentVerticalCursor = minigames[minigameCurrentCursor].Length - 1;
             else
-                minigameCurrentVerticalCursor %= unlockedMinigameFirstVariante[minigameCurrentCursor].Length;
+                minigameCurrentVerticalCursor %= minigames[minigameCurrentCursor].Length;
 
             UpdateMinigameSelection();
         }
@@ -528,20 +524,20 @@ public class Menu : MonoBehaviour {
 
         // Currently selected
         transform.GetChild((int)MenuState.MinigameSelection)
-                .GetChild(2).GetComponent<MinigameSelectionAnim>().SetMinigame(unlockedMinigameFirstVariante[minigameCurrentCursor][minigameCurrentVerticalCursor]);
+                .GetChild(2).GetComponent<MinigameSelectionAnim>().SetMinigame(minigames[minigameCurrentCursor][minigameCurrentVerticalCursor]);
 
         // Previous
         int previousMinigameIndex = minigameCurrentCursor - 1;
-        if (previousMinigameIndex < 0) previousMinigameIndex = unlockedMinigameFirstVariante.Count - 1;
+        if (previousMinigameIndex < 0) previousMinigameIndex = minigames.Count - 1;
         // =============================================
         transform.GetChild((int)MenuState.MinigameSelection)
-                .GetChild(0).GetComponent<MinigameSelectionAnim>().SetMinigame(unlockedMinigameFirstVariante[previousMinigameIndex][0]);
+                .GetChild(0).GetComponent<MinigameSelectionAnim>().SetMinigame(minigames[previousMinigameIndex][0]);
 
 
         // =============================================
         // Next
         transform.GetChild((int)MenuState.MinigameSelection)
-                .GetChild(1).GetComponent<MinigameSelectionAnim>().SetMinigame(unlockedMinigameFirstVariante[(minigameCurrentCursor + 1) % unlockedMinigameFirstVariante.Count][0]);
+                .GetChild(1).GetComponent<MinigameSelectionAnim>().SetMinigame(minigames[(minigameCurrentCursor + 1) % minigames.Count][0]);
     }
 
     // Move the button cursor and highlight it
@@ -898,15 +894,15 @@ public class Menu : MonoBehaviour {
 
             // Currently selected
             transform.GetChild((int)MenuState.MinigameSelection)
-                    .GetChild(2).GetComponent<MinigameSelectionAnim>().SetMinigame(unlockedMinigameFirstVariante[0][0]);
+                    .GetChild(2).GetComponent<MinigameSelectionAnim>().SetMinigame(minigames[0][0]);
 
             // Previous
             transform.GetChild((int)MenuState.MinigameSelection)
-                    .GetChild(0).GetComponent<MinigameSelectionAnim>().SetMinigame(unlockedMinigameFirstVariante[unlockedMinigameFirstVariante.Count - 1][0]);
+                    .GetChild(0).GetComponent<MinigameSelectionAnim>().SetMinigame(minigames[minigames.Count - 1][0]);
 
             // Next
             transform.GetChild((int)MenuState.MinigameSelection)
-                    .GetChild(1).GetComponent<MinigameSelectionAnim>().SetMinigame(unlockedMinigameFirstVariante[Mathf.Min(1, unlockedMinigameFirstVariante.Count - 1)][0]);
+                    .GetChild(1).GetComponent<MinigameSelectionAnim>().SetMinigame(minigames[Mathf.Min(1, minigames.Count - 1)][0]);
 
 
             // Adapt players on screen
@@ -1064,11 +1060,19 @@ public class Menu : MonoBehaviour {
 
     void GoToNextStateFromMinigameSelection()
     {
+        MinigameSelectionAnim minigameContainer = transform.GetChild((int)MenuState.MinigameSelection)
+                    .GetChild(2).GetComponent<MinigameSelectionAnim>();
+
+        if (!minigameContainer.IsUnlocked())
+        {
+            if (AudioManager.Instance != null && AudioManager.Instance.incorrectFx != null)
+                AudioManager.Instance.PlayOneShot(AudioManager.Instance.incorrectFx);
+            return;
+        }
+
         if (AudioManager.Instance != null && AudioManager.Instance.buttonValidationFx != null)
             AudioManager.Instance.PlayOneShot(AudioManager.Instance.buttonValidationFx);
 
-        MinigameSelectionAnim minigameContainer = transform.GetChild((int)MenuState.MinigameSelection)
-                    .GetChild(2).GetComponent<MinigameSelectionAnim>();
 
         SendDataToContainer(minigameContainer.GetMinigameVersion());
         SceneManager.LoadScene(minigameContainer.GetMinigameId());
