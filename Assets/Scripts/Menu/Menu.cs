@@ -314,121 +314,7 @@ public class Menu : MonoBehaviour {
         // Customisation screen inputs & behaviours
         else
         {
-            // if nb of players is not specified here, there must be a bug in state transition
-            if (nbPlayers == -1)
-                return;
-
-            // Check all players input
-            for (int i = 0; i < nbPlayers; i++)
-            {
-                // Unready player 
-                if (prevControllerStates[i].Buttons.B == ButtonState.Released && controllerStates[i].Buttons.B == ButtonState.Pressed
-                    // Keyboard input
-                    || (i == 1 && Input.GetKeyDown(KeyCode.KeypadPeriod))
-                    || (i == 0 && Input.GetKeyDown(KeyCode.Escape)))
-                {
-                    // Go back to previous state if player 1 is not ready and pressed B
-                    if (i == 0 && !areReady[0])
-                    {
-                        ReturnToPreviousState();
-                        return;
-                    }
-                        
-                    areReady[i] = false;
-
-                    // Disable "Ready!" txt
-                    playerCustomScreens[i].transform.GetChild(5).gameObject.SetActive(false);
-                }
-
-                // If the player i is ready, block all inputs
-                if (areReady[i])
-                    continue;
-
-                // Press start when you're ready to go
-                if (prevControllerStates[i].Buttons.Start == ButtonState.Released && controllerStates[i].Buttons.Start == ButtonState.Pressed
-                    || (prevControllerStates[i].Buttons.A == ButtonState.Released && controllerStates[i].Buttons.A == ButtonState.Pressed)
-                    // Keyboard input
-                    || (i == 0 && Input.GetKeyDown(KeyCode.A))
-                    || (i == 1 && Input.GetKeyDown(KeyCode.KeypadEnter)))
-                {
-                    areReady[i] = true;
-
-                    // Pop "Ready!" txt
-                    playerCustomScreens[i].transform.GetChild(5).gameObject.SetActive(true);
-
-                    // If everyone is ready, launch the game or the mini game selection screen
-                    if (IsEveryoneReady())
-                    {
-                        GoToNextStateFromCustomisationScreen();
-                        return;
-                    }
-                }
-
-                // Y axis controls the settings selection
-                if (controllerStates[i].ThumbSticks.Left.Y < -0.5f && prevControllerStates[i].ThumbSticks.Left.Y > -0.5f
-                    // Keyboard input
-                    || (i == 0 && (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.S)))
-                    || (i == 1 && (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow)))
-                    )
-                {
-                    currentlySelectedOption[i]++;
-                    currentlySelectedOption[i] = currentlySelectedOption[i] % (int)CustomizableType.Size;
-                    UpdatePreview(i);
-                }
-                else if (controllerStates[i].ThumbSticks.Left.Y > 0.5f && prevControllerStates[i].ThumbSticks.Left.Y < 0.5f)  
-                {
-                    currentlySelectedOption[i]--;
-                    if (currentlySelectedOption[i] < 0)
-                        currentlySelectedOption[i] = (int)CustomizableType.Size - 1;
-                    else
-                        currentlySelectedOption[i] = currentlySelectedOption[i] % (int)CustomizableType.Size;
-                    UpdatePreview(i);
-                }
-                // X axis controls the settings values
-                else if (controllerStates[i].ThumbSticks.Left.X > 0.5f && prevControllerStates[i].ThumbSticks.Left.X < 0.5f
-                    // Keyboard input
-                    || (i == 0 && Input.GetKeyDown(KeyCode.D))
-                    || (i == 1 && Input.GetKeyDown(KeyCode.RightArrow))
-                    )
-                {
-                    selectedCustomizables[currentlySelectedOption[i], i]++;
-                    UpdatePreview(i);
-                }
-                else if (controllerStates[i].ThumbSticks.Left.X < -0.5f && prevControllerStates[i].ThumbSticks.Left.X > -0.5f
-                    // Keyboard input
-                    || (i == 0 && Input.GetKeyDown(KeyCode.Q))
-                    || (i == 1 && Input.GetKeyDown(KeyCode.LeftArrow)))
-                {
-                    selectedCustomizables[currentlySelectedOption[i], i]--;
-                    UpdatePreview(i);
-                }
-
-                if (prevControllerStates[i].Buttons.Y == ButtonState.Released && controllerStates[i].Buttons.Y == ButtonState.Pressed)
-                {
-                    if (playerCustomScreens[i].GetComponentInChildren<UnlockableContainer>() != null) // if inactive, will be null
-                    {
-                        DatabaseClass.Unlockable unlockableData = playerCustomScreens[i].GetComponentInChildren<UnlockableContainer>().data;
-
-                        if (unlockableData.costToUnlock != -1)
-                        {
-                            if (DatabaseManager.Db.Money >= unlockableData.costToUnlock)
-                            {
-                                DatabaseManager.Db.SetUnlockByCustomType(playerCustomScreens[i].GetComponentInChildren<UnlockableContainer>().type,
-                                    playerCustomScreens[i].GetComponentInChildren<UnlockableContainer>().data.Id, true);
-                                DatabaseManager.Db.Money -= unlockableData.costToUnlock;
-
-                                if (AudioManager.Instance != null && AudioManager.Instance.buySoundFx != null)
-                                    AudioManager.Instance.Play(AudioManager.Instance.buySoundFx);
-
-                                playerCustomScreens[i].GetComponentInChildren<UnlockableContainer>().gameObject.SetActive(false);
-                                UpdatePreview(i);
-                            }
-                        }
-                    }
-                }
-
-                playerCustomScreens[i].transform.GetChild(4).Rotate(Vector3.up, controllerStates[i].ThumbSticks.Right.X * 2.5f);
-            }
+            CustomScreenControls();
         }
     }
 
@@ -451,6 +337,127 @@ public class Menu : MonoBehaviour {
         {
             buttonNeedUpdate = true;
             currentCursor--;
+        }
+    }
+
+    private void CustomScreenControls()
+    {
+        // if nb of players is not specified here, there must be a bug in state transition
+        if (nbPlayers == -1)
+        return;
+
+        // Check all players input
+        for (int i = 0; i < nbPlayers; i++)
+        {
+            // Unready player 
+            if (prevControllerStates[i].Buttons.B == ButtonState.Released && controllerStates[i].Buttons.B == ButtonState.Pressed
+                // Keyboard input
+                || (i == 1 && Input.GetKeyDown(KeyCode.KeypadPeriod))
+                || (i == 0 && Input.GetKeyDown(KeyCode.Escape)))
+            {
+                // Go back to previous state if player 1 is not ready and pressed B
+                if (i == 0 && !areReady[0])
+                {
+                    ReturnToPreviousState();
+                    return;
+                }
+
+                areReady[i] = false;
+
+                // Disable "Ready!" txt
+                playerCustomScreens[i].transform.GetChild(5).gameObject.SetActive(false);
+            }
+
+            // If the player i is ready, block all inputs
+            if (areReady[i])
+                continue;
+
+            // Press start when you're ready to go
+            if (prevControllerStates[i].Buttons.Start == ButtonState.Released && controllerStates[i].Buttons.Start == ButtonState.Pressed
+                || (prevControllerStates[i].Buttons.A == ButtonState.Released && controllerStates[i].Buttons.A == ButtonState.Pressed)
+                // Keyboard input
+                || (i == 0 && Input.GetKeyDown(KeyCode.A))
+                || (i == 1 && Input.GetKeyDown(KeyCode.KeypadEnter)))
+            {
+                areReady[i] = true;
+
+                // Pop "Ready!" txt
+                playerCustomScreens[i].transform.GetChild(5).gameObject.SetActive(true);
+
+                // If everyone is ready, launch the game or the mini game selection screen
+                if (IsEveryoneReady())
+                {
+                    GoToNextStateFromCustomisationScreen();
+                    return;
+                }
+            }
+
+            // Y axis controls the settings selection
+            if (controllerStates[i].ThumbSticks.Left.Y < -0.5f && prevControllerStates[i].ThumbSticks.Left.Y > -0.5f
+                // Keyboard input
+                || (i == 0 && (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.S)))
+                || (i == 1 && (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow)))
+                )
+            {
+                currentlySelectedOption[i]++;
+                currentlySelectedOption[i] = currentlySelectedOption[i] % (int)CustomizableType.Size;
+                UpdatePreview(i);
+            }
+            else if (controllerStates[i].ThumbSticks.Left.Y > 0.5f && prevControllerStates[i].ThumbSticks.Left.Y < 0.5f)
+            {
+                currentlySelectedOption[i]--;
+                if (currentlySelectedOption[i] < 0)
+                    currentlySelectedOption[i] = (int)CustomizableType.Size - 1;
+                else
+                    currentlySelectedOption[i] = currentlySelectedOption[i] % (int)CustomizableType.Size;
+                UpdatePreview(i);
+            }
+            // X axis controls the settings values
+            else if (controllerStates[i].ThumbSticks.Left.X > 0.5f && prevControllerStates[i].ThumbSticks.Left.X < 0.5f
+                // Keyboard input
+                || (i == 0 && Input.GetKeyDown(KeyCode.D))
+                || (i == 1 && Input.GetKeyDown(KeyCode.RightArrow))
+                )
+            {
+                selectedCustomizables[currentlySelectedOption[i], i]++;
+                UpdatePreview(i);
+            }
+            else if (controllerStates[i].ThumbSticks.Left.X < -0.5f && prevControllerStates[i].ThumbSticks.Left.X > -0.5f
+                // Keyboard input
+                || (i == 0 && Input.GetKeyDown(KeyCode.Q))
+                || (i == 1 && Input.GetKeyDown(KeyCode.LeftArrow)))
+            {
+                selectedCustomizables[currentlySelectedOption[i], i]--;
+                UpdatePreview(i);
+            }
+
+
+            // Buy controls
+            if (prevControllerStates[i].Buttons.Y == ButtonState.Released && controllerStates[i].Buttons.Y == ButtonState.Pressed)
+            {
+                if (playerCustomScreens[i].GetComponentInChildren<UnlockableContainer>() != null) // if inactive, will be null
+                {
+                    DatabaseClass.Unlockable unlockableData = playerCustomScreens[i].GetComponentInChildren<UnlockableContainer>().data;
+
+                    if (unlockableData.costToUnlock != -1)
+                    {
+                        if (DatabaseManager.Db.Money >= unlockableData.costToUnlock)
+                        {
+                            DatabaseManager.Db.SetUnlockByCustomType(playerCustomScreens[i].GetComponentInChildren<UnlockableContainer>().type,
+                                playerCustomScreens[i].GetComponentInChildren<UnlockableContainer>().data.Id, true);
+                            DatabaseManager.Db.Money -= unlockableData.costToUnlock;
+
+                            if (AudioManager.Instance != null && AudioManager.Instance.buySoundFx != null)
+                                AudioManager.Instance.Play(AudioManager.Instance.buySoundFx);
+
+                            playerCustomScreens[i].GetComponentInChildren<UnlockableContainer>().gameObject.SetActive(false);
+                            UpdatePreview(i);
+                        }
+                    }
+                }
+            }
+
+            playerCustomScreens[i].transform.GetChild(4).Rotate(Vector3.up, controllerStates[i].ThumbSticks.Right.X * 2.5f);
         }
     }
 
@@ -490,9 +497,9 @@ public class Menu : MonoBehaviour {
         // Remi
 
         if ((controllerStates[0].ThumbSticks.Left.Y > 0.5f && prevControllerStates[0].ThumbSticks.Left.Y < 0.5f)
-       // Keyboard input
-       || (Input.GetKeyDown(KeyCode.Z) || (Input.GetKeyDown(KeyCode.UpArrow)))
-       )
+           // Keyboard input
+           || (Input.GetKeyDown(KeyCode.Z) || (Input.GetKeyDown(KeyCode.UpArrow)))
+           )
         {
             minigameCurrentVerticalCursor++;
             minigameCurrentVerticalCursor %= unlockedMinigameFirstVariante[minigameCurrentCursor].Length;
