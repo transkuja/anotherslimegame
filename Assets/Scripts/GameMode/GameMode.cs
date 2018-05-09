@@ -128,6 +128,11 @@ abstract public class GameMode : MonoBehaviour
             cursors.Init();
     }
 
+    public virtual void OnReadySetGoEnd()
+    {
+
+    }
+
     public virtual void OpenRuleScreen()
     {
         if (!IsMiniGame())

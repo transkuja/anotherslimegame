@@ -296,6 +296,7 @@ public class GameManager : MonoBehaviour {
             else if (currentState == GameState.ForcedPauseMGRules)
             {
                 currentState = GameState.Normal;
+                instance.CurrentGameMode.OnReadySetGoEnd();
             }
 
         }

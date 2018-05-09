@@ -17,7 +17,7 @@ public class ShadowClipper : MonoBehaviour {
         origFarClipPlane = shadowProjector.farClipPlane;
     }
 
-    void Update()
+    void FixedUpdate()
     {
         Ray ray = new Ray(shadowProjector.transform.position
                 + shadowProjector.transform.forward.normalized * origNearClipPlane,

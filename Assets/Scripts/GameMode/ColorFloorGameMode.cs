@@ -16,6 +16,7 @@ public class ColorFloorGameMode : GameMode {
 
     public GameObject boardReference;
     public bool withBadSpawns = false;
+    public RuntimeAnimatorController RestrainedAnimatorController;
 
     private void Start()
     {
@@ -47,10 +48,10 @@ public class ColorFloorGameMode : GameMode {
                 PlayerController pc = playerReferences[i].AddComponent<PlayerController>();
                 pc.playerIndex = (PlayerIndex)i;
                 pc.PlayerIndexSet = true;
-
                 playerReferences[i].transform.position = restrainedMovementStarters[i].transform.position;
                 playerReferences[i].GetComponent<Rigidbody>().useGravity = true;
                 playerReferences[i].GetComponent<Player>().NbPoints = 0;
+                playerReferences[i].GetComponent<PlayerCharacter>().Anim.runtimeAnimatorController = RestrainedAnimatorController;
             }
             else
             {
