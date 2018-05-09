@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class MinigameTriggerGiverBehavior : PNJDefaultBehavior
 {
-
     public float timer = 31.0f;
     public float delay = 6.0f;
 

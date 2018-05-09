@@ -130,6 +130,7 @@ public static class PNJDialogUtils {
                 return SneakyChiefDM;
             case PNJName.Joker:
                 return JokerDM;
+            case PNJName.Gwen:
             case PNJName.Bob:
                 return BobDM;
             case PNJName.Roger:
@@ -148,6 +149,7 @@ public static class PNJDialogUtils {
                 return SneakyChiefQM;
             case PNJName.Joker:
                 return JokerQM;
+            case PNJName.Gwen:
             case PNJName.Bob:
                 return BobQM;
             case PNJName.Roger:
@@ -166,6 +168,7 @@ public static class PNJDialogUtils {
                 return SneakyChiefDE;
             case PNJName.Joker:
                 return JokerDE;
+            case PNJName.Gwen:
             case PNJName.Bob:
                 return BobDE;
             case PNJName.Roger:
@@ -184,6 +187,7 @@ public static class PNJDialogUtils {
                 return SneakyChiefQE;
             case PNJName.Joker:
                 return JokerQE;
+            case PNJName.Gwen:
             case PNJName.Bob:
                 return BobQE;
             case PNJName.Roger:

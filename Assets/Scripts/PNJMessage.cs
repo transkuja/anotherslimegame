@@ -53,6 +53,9 @@ public class PNJMessage : MonoBehaviour {
                 Message[playerIndex] = GameManager.UiReference.dialog3.gameObject;
         } else
            Message[playerIndex] = GameManager.UiReference.dialog1.gameObject;
+
+        if (myBehavior)
+            myBehavior.Reset();
     }
 
     public void OnExitTrigger(int playerIndex)
@@ -115,8 +118,6 @@ public class PNJMessage : MonoBehaviour {
 
 
         // First Message
-        if (myBehavior)
-            myBehavior.Reset();
         NextMessage(playerIndex);
 
     }
