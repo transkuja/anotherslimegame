@@ -51,8 +51,27 @@ public static class PNJDialogUtils {
     };
 
     // Roger
+    static string RogerDM = "My child is messsing with\n" 
+        + "Spank him for me.";
+    static FaceEmotion[] RogerDE = new FaceEmotion[1] { FaceEmotion.Neutral };
+    static string RogerQM = ""
+    ;
+
+    static FaceEmotion[] RogerQE = new FaceEmotion[3] {
+        FaceEmotion.Neutral, FaceEmotion.Neutral, FaceEmotion.Winner
+    };
 
     // Mr Risotto
+    static string RisottoDM = "I used to be in animal crossing\n"
+       + "Lollilool";
+    static FaceEmotion[] RisottoDE = new FaceEmotion[1] { FaceEmotion.Neutral };
+    static string RisottoQM = ""
+    ;
+
+    static FaceEmotion[] RisottoQE = new FaceEmotion[3] {
+        FaceEmotion.Neutral, FaceEmotion.Neutral, FaceEmotion.Winner
+    };
+
 
     // Joker
     static string JokerDM = "My jokes are the best!";
@@ -113,6 +132,10 @@ public static class PNJDialogUtils {
                 return JokerDM;
             case PNJName.Bob:
                 return BobDM;
+            case PNJName.Roger:
+                return RogerDM;
+            case PNJName.Risotto:
+                return RisottoDM;
         }
         return "";
     }
@@ -127,6 +150,10 @@ public static class PNJDialogUtils {
                 return JokerQM;
             case PNJName.Bob:
                 return BobQM;
+            case PNJName.Roger:
+                return RogerQM;
+            case PNJName.Risotto:
+                return RisottoQM;
         }
         return "";
     }
@@ -141,6 +168,10 @@ public static class PNJDialogUtils {
                 return JokerDE;
             case PNJName.Bob:
                 return BobDE;
+            case PNJName.Roger:
+                return RogerDE;
+            case PNJName.Risotto:
+                return RisottoDE;
         }
         return null;
     }
@@ -155,7 +186,21 @@ public static class PNJDialogUtils {
                 return JokerQE;
             case PNJName.Bob:
                 return BobQE;
+            case PNJName.Roger:
+                return RogerQE;
+            case PNJName.Risotto:
+                return RisottoQE;
         }
         return null;
+    }
+
+    public static void EndDialog(PlayerCharacterHub pnj, int playerIndex)
+    {
+        pnj.dialogState = DialogState.Normal;
+
+        GameManager.Instance.PlayerStart.PlayersReference[playerIndex].GetComponent<PlayerCharacterHub>().dialogState = DialogState.Normal;
+        pnj.GetComponent<PNJMessage>().currentMessage = 0;
+
+        pnj.GetComponent<PNJMessage>().Message[playerIndex].SetActive(false);
     }
 }

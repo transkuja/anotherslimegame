@@ -35,8 +35,14 @@ public class PNJController : MonoBehaviour
 
     public void Update()
     {
+        //if (GetComponent<PlayerCharacterHub>().dialogState == DialogState.Dialog)
+        //{
+        //    transform.LookAt(new Vector3(other.transform.position.x, transform.position.y, other.transform.position.z));
+
+        //}
+        if (playerCharacterHub.dialogState == DialogState.Normal)
         // Oui bob est con
-        if (GameManager.CurrentState == GameState.Normal)
+        //if (GameManager.CurrentState == GameState.Normal)
         {
             if (Vector3.Distance(originalPos, transform.position) > 1f)
             {
@@ -67,6 +73,7 @@ public class PNJController : MonoBehaviour
         } else
         {
             playerCharacterHub.Rb.velocity = Vector3.zero;
+            //transform.LookAt(new Vector3(other.transform.position.x, transform.position.y, other.transform.position.z));
         }
     }
 

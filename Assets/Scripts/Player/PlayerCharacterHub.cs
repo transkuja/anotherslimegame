@@ -2,9 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum DialogState { Normal, Dialog };
+
+
 public class PlayerCharacterHub : PlayerCharacter {
 
     private PlayerControllerHub playerController;
+
+    public DialogState dialogState;
 
     [SerializeField] public Stats stats;
 

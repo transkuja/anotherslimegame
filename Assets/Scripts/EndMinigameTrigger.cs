@@ -10,7 +10,7 @@ public class EndMinigameTrigger : MonoBehaviour {
     {
         if( other.tag =="Player" && other.GetComponent<PlayerControllerHub>() && refBobBehavior != null)
         {
-            if (refBobBehavior.IsMinigameStarted() && !DatabaseManager.Db.IsUnlock<DatabaseClass.HatData>("Cowboy"))
+            if (refBobBehavior.IsMinigameStarted() && !refBobBehavior.UnlockInDb(refBobBehavior.rewardType, refBobBehavior.currentHatToUnlock))
             {
                 refBobBehavior.WinMinigame();
 

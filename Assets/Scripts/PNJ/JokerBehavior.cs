@@ -9,10 +9,10 @@ public class JokerBehavior : PNJDefaultBehavior {
         base.Start();
     }
 
-    public override void InitNextStep()
+    public override void InitNextStep(int playerIndex = 0)
     {
         rewards[DatabaseManager.Db.JokerProgress].GetReward();
-        DatabaseManager.Db.JokerProgress++;
+        step = ++DatabaseManager.Db.JokerProgress;
 
         if (IsEventOver())
             return;
@@ -21,17 +21,17 @@ public class JokerBehavior : PNJDefaultBehavior {
 
     }
 
-    protected override void NextStepCommonProcess()
+    protected override void NextStepCommonProcess(int playerIndex = 0)
     {
-        GetComponent<PNJController>().UpdateOriginalPosition();
-
         if (IsEventOver())
             return;
+
+        GetComponent<PNJController>().UpdateOriginalPosition();
     }
 
-    public override string GetNextMessage(int _messageIndex)
+    public override string GetNextMessage(int index)
     {
-        return messages.GetQuestMessages(DatabaseManager.Db.JokerProgress).messages[_messageIndex];
+        return messages.GetQuestMessages(DatabaseManager.Db.JokerProgress).messages[index];
     }
 
     public override int GetNextMessagesLength()

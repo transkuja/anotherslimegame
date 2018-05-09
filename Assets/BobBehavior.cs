@@ -1,13 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class BobBehavior : PNJDefaultBehavior
 {
-    private int step = 0;
 
     public float timer = 31.0f;
-    public float delay = 5.0f;
+    public float delay = 6.0f;
 
     private float currentCameraForDelay = 0;
     private GameObject retryMessageGo;
@@ -21,6 +21,9 @@ public class BobBehavior : PNJDefaultBehavior
     private bool hasWin = false;
     private bool isStarted = false;
     private bool startTimerShow = false;
+
+    public CustomizableType rewardType;
+    public string currentHatToUnlock;
 
     protected override void Start()
     {
@@ -37,9 +40,10 @@ public class BobBehavior : PNJDefaultBehavior
         // Change that
         initialrot = Quaternion.Euler(transform.eulerAngles.x, transform.eulerAngles.y + 180, transform.eulerAngles.z);
 
-        if (DatabaseManager.Db.IsUnlock<DatabaseClass.HatData>("Cowboy"))
+        if (IsEventOver())
         {
-            GetComponentInChildren<PlayerCosmetics>().Hat = "None";
+            InactiveCustomzable(rewardType);
+
             step = messages.QuestMessagesLength();
         } else
         {
@@ -47,26 +51,36 @@ public class BobBehavior : PNJDefaultBehavior
         }
     }
 
-    public override void InitNextStep()
+    private void InactiveCustomzable(CustomizableType type)
+    {
+        switch (type)
+        {
+            case CustomizableType.Hat:
+                GetComponentInChildren<PlayerCosmetics>().Hat = "None";
+                break;
+        }
+    }
+
+    public override void InitNextStep(int playerIndex)
     {
         if (IsEventOver())
             return;
 
-        NextStepCommonProcess();
+        NextStepCommonProcess(playerIndex);
     }
 
-    protected override void NextStepCommonProcess()
+    protected override void NextStepCommonProcess(int playerIndex)
     {
         //GetComponent<PNJController>().UpdateOriginalPosition();
         if (IsEventOver())
             return;
 
-        AskForReadiness();
+        AskForReadiness(playerIndex);
     }
 
-    public override string GetNextMessage(int _messageIndex)
+    public override string GetNextMessage(int index)
     {
-        return messages.GetQuestMessages(step).messages[_messageIndex];
+        return messages.GetQuestMessages(step).messages[index];
     }
 
     public override int GetNextMessagesLength()
@@ -76,13 +90,34 @@ public class BobBehavior : PNJDefaultBehavior
 
     public override bool IsEventOver()
     {
-        return step == messages.QuestMessagesLength();
+        return UnlockInDb(rewardType , currentHatToUnlock);
+    }
+
+    public bool UnlockInDb(CustomizableType type, string idToUnlock)
+    {
+        switch (type)
+        {
+            case CustomizableType.Color:
+                return (DatabaseManager.Db.IsUnlock<DatabaseClass.ColorData>(idToUnlock));
+            case CustomizableType.Face:
+                return (DatabaseManager.Db.IsUnlock<DatabaseClass.FaceData>(idToUnlock));
+            case CustomizableType.Ears:
+                return (DatabaseManager.Db.IsUnlock<DatabaseClass.EarsData>(idToUnlock));
+            case CustomizableType.Mustache:
+                return (DatabaseManager.Db.IsUnlock<DatabaseClass.MustacheData>(idToUnlock));
+            case CustomizableType.Hat:
+                return (DatabaseManager.Db.IsUnlock<DatabaseClass.HatData>(idToUnlock));
+            default:
+                Debug.LogError("@Remi : cas non géré");
+                break;
+        }
+        return false;
     }
 
     protected override void InitRewards()
     {
         rewards = new RewardType[1];
-        rewards[0] = new CustomizableReward(transform, CustomizableType.Hat, "Cowboy");
+        rewards[0] = new CustomizableReward(transform, rewardType, currentHatToUnlock);
     }
 
     public bool IsMinigameStarted()
@@ -90,13 +125,18 @@ public class BobBehavior : PNJDefaultBehavior
         return startTimerShow || isStarted;
     }
 
-    public void AskForReadiness()
+    public void AskForReadiness(int playerIndex)
     {
+        EndOtherPlayerDialog(playerIndex);
+
         retryMessageGo = Instantiate(ResourceUtils.Instance.feedbacksManager.prefabReplayScreenHub, GameManager.UiReference.transform);
         if (GameManager.Instance.ActivePlayersAtStart == 2)
         {
             retryMessageGo.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = Utils.GetRetryMessage(MessageTypeMinigame.AreyoureadyOtherPlayer);
-            retryMessageGo.GetComponent<ReplayScreenControlsHub>().index = 1;
+            if(playerIndex == 1)
+                retryMessageGo.GetComponent<ReplayScreenControlsHub>().index = 0;
+            else
+                retryMessageGo.GetComponent<ReplayScreenControlsHub>().index = 1;
         }
         else
         {
@@ -122,6 +162,11 @@ public class BobBehavior : PNJDefaultBehavior
         }
 
         triggerEnd.SetActive(true);
+
+        // Reset Cam at starting pos
+        if(triggerEnd.GetComponentInChildren<Cinemachine.CinemachineDollyCart>())
+            triggerEnd.GetComponentInChildren<Cinemachine.CinemachineDollyCart>().m_Position = 0;
+
         Destroy(retryMessageGo);
 
         step++;
@@ -133,8 +178,6 @@ public class BobBehavior : PNJDefaultBehavior
     public void StartMinigame()
     {
         GameObject readySetGo = Instantiate(ResourceUtils.Instance.spriteUtils.spawnableSpriteUI, GameManager.UiReference.transform);
-
-        //GameManager.ChangeState(GameState.Normal);
         readySetGo.AddComponent<ReadySetGo>();
 
         isStarted = true;
@@ -162,18 +205,7 @@ public class BobBehavior : PNJDefaultBehavior
         if (retryMessageGo)
             Destroy(retryMessageGo);
 
-        for (int playerIndex = 0; playerIndex < GameManager.Instance.PlayerStart.PlayersReference.Count; playerIndex++)
-        {
-            if (!GetComponent<PNJDefaultMessage>().hasBeenInitialized[playerIndex])
-                return;
-
-            GetComponent<PNJDefaultMessage>().DestroyUIMessage(playerIndex);
-        }
-
-
         GameManager.ChangeState(GameState.Normal);
-
-
     }
 
     public void Update()
@@ -193,7 +225,7 @@ public class BobBehavior : PNJDefaultBehavior
             currentCameraForDelay += Time.deltaTime;
 
             // Once ????????
-            if (currentCameraForDelay > delay / 2)
+            if (currentCameraForDelay > 3 * delay / 4)
             {
                 if (currentCameraForDelay > delay)
                 {
@@ -260,15 +292,28 @@ public class BobBehavior : PNJDefaultBehavior
         GameManager.ChangeState(GameState.Normal);
 
         // TMP
-        GetComponent<PNJDefaultMessage>().CreateUIMessage(0);
-        GetComponent<PNJDefaultMessage>().Message[0][0].SetActive(true);
+        GetComponent<PNJMessage>().Message[0].SetActive(true);
+        GetComponent<PNJMessage>().currentMessage = 0;
+        GetComponent<PNJMessage>().NextMessage(0);
 
         yield return new WaitForSeconds(2.0f);
         hasWin = true;
-        GetComponentInChildren<PlayerCosmetics>().Hat = "None";
+        InactiveCustomzable(rewardType);
         rewards[0].GetReward();
 
         CleanMinigameHub();
         yield return null;
+    }
+
+    public void EndOtherPlayerDialog(int playerIndex)
+    {
+        for(int i =0; i <GameManager.Instance.ActivePlayersAtStart; i++)
+        {
+            if( i != playerIndex)
+            {
+                if(GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<Player>().RefMessage)
+                PNJDialogUtils.EndDialog(GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<Player>().RefMessage.myCharacter, i);
+            }
+        }
     }
 }

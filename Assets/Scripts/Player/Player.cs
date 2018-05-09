@@ -35,7 +35,7 @@ public class Player : MonoBehaviour {
     public bool[] evolutionTutoShown = new bool[(int)Powers.Size];
     public bool costAreaTutoShown = false;
 
-    PNJDefaultMessage refMessage;
+    PNJMessage refMessage;
     InitTeleporter refInitTeleporter;
 
     public GameObject activeTutoText;
@@ -186,7 +186,7 @@ public class Player : MonoBehaviour {
         }
     }
 
-    public PNJDefaultMessage RefMessage {
+    public PNJMessage RefMessage {
         get
         {
             return refMessage;

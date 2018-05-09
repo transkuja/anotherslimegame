@@ -5,7 +5,7 @@ using UnityEngine;
 public class HubMinigameTrigger : MonoBehaviour
 {
     BobBehavior handler = null;
-    PNJDefaultMessage defaultmessage = null;
+    PNJMessage defaultmessage = null;
 
     // TMP
     bool old_is_happy = false;
@@ -13,7 +13,9 @@ public class HubMinigameTrigger : MonoBehaviour
     public void Start()
     {
         handler = GetComponentInParent<BobBehavior>();
-        defaultmessage = GetComponentInParent<PNJDefaultMessage>();
+        defaultmessage = GetComponentInParent<PNJMessage>();
+
+        // TMP
         if (GetComponentInParent<PNJController>() != null)
             old_is_happy = GetComponentInParent<PNJController>().isHappy;
     }
@@ -26,12 +28,13 @@ public class HubMinigameTrigger : MonoBehaviour
             {
                 // TMP
                 GetComponentInParent<PNJController>().isHappy = false;
+                //
 
                 if ((handler && !handler.IsMinigameStarted() && defaultmessage)
                   || (!handler && defaultmessage))
                 {
                     other.GetComponent<Player>().RefMessage = defaultmessage;
-                    defaultmessage.CreateUIMessage((int)other.GetComponent<PlayerController>().PlayerIndex);
+                    defaultmessage.OnEnterTrigger((int)other.GetComponent<PlayerController>().PlayerIndex);
                 }
             }
         }
@@ -44,13 +47,13 @@ public class HubMinigameTrigger : MonoBehaviour
             {
                 // TMP
                 GetComponentInParent<PNJController>().isHappy = old_is_happy;
+                //
 
                 if (defaultmessage)
                 {
                     other.GetComponent<Player>().RefMessage = null;
-                    defaultmessage.DestroyUIMessage((int)other.GetComponent<PlayerController>().PlayerIndex);
+                    defaultmessage.OnExitTrigger((int)other.GetComponent<PlayerController>().PlayerIndex);
                 }
             }
     }
-
 }

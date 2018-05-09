@@ -1,8 +1,6 @@
 ﻿using UWPAndXInput;
 using UnityEngine;
 
-public enum ControlsState { Normal, Dialog };
-
 // Gère les input selon l'input appelle des action codée dans une playerState.
 public class PlayerControllerHub : PlayerController
 {
@@ -12,7 +10,6 @@ public class PlayerControllerHub : PlayerController
     float timeBeforeTeleportationReset = 1.5f;
     bool canTeleportAgain = true;
 
-    public ControlsState myControlState;
 
     #region Controller
 
@@ -122,7 +119,7 @@ public class PlayerControllerHub : PlayerController
                 return;
 
  
-            if (myControlState == ControlsState.Normal)
+            if (playerCharacterHub.dialogState == DialogState.Normal)
             {
                 HandleJumpWithController();
                 HandleMovementWithController();
@@ -133,7 +130,7 @@ public class PlayerControllerHub : PlayerController
                 if (Player.RefInitTeleporter != null)
                     LaunchMinigameInput();
             }
-            else if(myControlState == ControlsState.Dialog)
+            else if(playerCharacterHub.dialogState == DialogState.Dialog)
             {
                 Rb.drag = 25.0f;
                 Rb.velocity = Vector3.zero;
@@ -245,7 +242,7 @@ public class PlayerControllerHub : PlayerController
     public void HandlePNJWithController(int indexPlayer)
     {
         // TMP
-        if (myControlState == ControlsState.Dialog)
+        if (playerCharacterHub.dialogState == DialogState.Dialog)
         {
             if (Player.RefMessage != null)
             {
@@ -258,7 +255,7 @@ public class PlayerControllerHub : PlayerController
             if (Player.RefMessage != null)
             {
                 if (PrevState.Buttons.B == ButtonState.Released && State.Buttons.B == ButtonState.Pressed)
-                    Player.RefMessage.DisplayMessage(indexPlayer);
+                    Player.RefMessage.Interact(indexPlayer);
             }
         }
     }

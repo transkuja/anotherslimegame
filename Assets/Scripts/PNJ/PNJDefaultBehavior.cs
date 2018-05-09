@@ -7,6 +7,8 @@ public class PNJDefaultBehavior : MonoBehaviour {
     [SerializeField]
     protected PNJMessages messages;
 
+    protected int step;
+
     public PNJName pnjName;
 
     // Reward list
@@ -25,17 +27,17 @@ public class PNJDefaultBehavior : MonoBehaviour {
         NextStepCommonProcess();
     }
 
-    public virtual void InitNextStep()
+    public virtual void InitNextStep(int playerIndex = 0)
     {
 
     }
 
-    protected virtual void NextStepCommonProcess()
+    protected virtual void NextStepCommonProcess(int playerIndex = 0)
     {
         GetComponent<PNJController>().UpdateOriginalPosition();
     }
 
-    public virtual string GetNextMessage(int _messageIndex)
+    public virtual string GetNextMessage(int index)
     {
         return "";
     }
@@ -52,5 +54,10 @@ public class PNJDefaultBehavior : MonoBehaviour {
 
     protected virtual void InitRewards()
     {
+    }
+
+    public void Reset()
+    {
+        step = 0;
     }
 }

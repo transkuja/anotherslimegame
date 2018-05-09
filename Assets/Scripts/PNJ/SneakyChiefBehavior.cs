@@ -19,10 +19,10 @@ public class SneakyChiefBehavior : PNJDefaultBehavior
         base.Start();
     }
 
-    public override void InitNextStep()
+    public override void InitNextStep(int playerIndex = 0)
     {
         rewards[DatabaseManager.Db.SneakyChiefProgress].GetReward();
-        DatabaseManager.Db.SneakyChiefProgress++;
+        step = ++DatabaseManager.Db.SneakyChiefProgress;
 
         if (IsEventOver())
             return;
@@ -32,7 +32,7 @@ public class SneakyChiefBehavior : PNJDefaultBehavior
 
     }
 
-    protected override void NextStepCommonProcess()
+    protected override void NextStepCommonProcess(int playerIndex = 0)
     {
         transform.position = nextTransforms[(DatabaseManager.Db.SneakyChiefProgress == nextTransforms.Length) ? nextTransforms.Length - 1 : DatabaseManager.Db.SneakyChiefProgress].position;
         transform.rotation = nextTransforms[(DatabaseManager.Db.SneakyChiefProgress == nextTransforms.Length) ? nextTransforms.Length - 1 : DatabaseManager.Db.SneakyChiefProgress].rotation;
@@ -49,14 +49,14 @@ public class SneakyChiefBehavior : PNJDefaultBehavior
         }
     }
 
-    public override string GetNextMessage(int _messageIndex)
+    public override string GetNextMessage(int index)
     {
-        return messages.GetQuestMessages(DatabaseManager.Db.SneakyChiefProgress).messages[_messageIndex];
+        return messages.GetQuestMessages(step).messages[index];
     }
 
     public override int GetNextMessagesLength()
     {
-        return messages.GetQuestMessages(DatabaseManager.Db.SneakyChiefProgress).messages.Length;
+        return messages.GetQuestMessages(step).messages.Length;
     }
 
     public override bool IsEventOver()
