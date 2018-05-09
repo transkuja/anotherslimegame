@@ -509,6 +509,7 @@ namespace DatabaseClass
             ResetAll();
             UnlockedAll();
             SetUnlock<HatData>("Cowboy", false);
+            SetUnlock<HatData>("Police", false);
             SetUnlock<ColorData>("Candy", false);
             SneakyChiefProgress = 0;
             JokerProgress = 0;
