@@ -12,7 +12,7 @@ public class BreakEvent : MonoBehaviour {
     {
         playerTarget.UpdateCollectableValue(type, 1);
 
-        Invoke("ReactivateMySelf", 7);
+        Invoke("ReactivateMySelf", 2);
     }
 
     public void ReactivateMySelf()
