@@ -171,7 +171,7 @@ public static class MinigameDataUtils
         }
         else if (curGameMode is FruitGameMode)
         {
-            return "Collect fruits which are of your color\n\n Player 1 : Red\n Player 2 : Blue\n Player 3 : Green\n Player 4 : Yellow";
+            return "Collect fruits which are of your color\n Beware : Fruits rot in the time\n\n Player 1 : Red\n Player 2 : Blue\n Player 3 : Green\n Player 4 : Yellow";
         }
         else if (curGameMode is PushGameMode)
         {
