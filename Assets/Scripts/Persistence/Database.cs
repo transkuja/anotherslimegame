@@ -140,6 +140,42 @@ namespace DatabaseClass
             }
         }
 
+        public void SetUnlockByCustomType(CustomizableType _customType, string _id, bool isUnlocked, int _version = 0)
+        {
+            switch(_customType)
+            {
+                //case CustomizableType.Accessory:
+                //    SetUnlock<AccessoryData>(_id, isUnlocked, _version);
+                //    break;
+                //case CustomizableType.Chin:
+                //    SetUnlock<ChinData>(_id, isUnlocked, _version);
+                //    break;
+                case CustomizableType.Color:
+                    SetUnlock<ColorData>(_id, isUnlocked, _version);
+                    break;
+                case CustomizableType.Ears:
+                    SetUnlock<EarsData>(_id, isUnlocked, _version);
+                    break;
+                case CustomizableType.Face:
+                    SetUnlock<FaceData>(_id, isUnlocked, _version);
+                    break;
+                //case CustomizableType.Forehead:
+                //    SetUnlock<ForeheadData>(_id, isUnlocked, _version);
+                //    break;
+                case CustomizableType.Hat:
+                    SetUnlock<HatData>(_id, isUnlocked, _version);
+                    break;
+                case CustomizableType.Mustache:
+                    SetUnlock<MustacheData>(_id, isUnlocked, _version);
+                    break;
+                //case CustomizableType.Skin:
+                //    SetUnlock<SkinData>(_id, isUnlocked, _version);
+                //    break;
+                default:
+                    return;
+            }
+        }
+
         public void SetUnlock<T>(string _id, bool isUnlocked, int _version = 0) where T : Unlockable
         {
             if (typeof(T) == typeof(ColorData))

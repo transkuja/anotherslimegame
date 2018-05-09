@@ -403,6 +403,26 @@ public class Menu : MonoBehaviour {
                     UpdatePreview(i);
                 }
 
+                if (prevControllerStates[i].Buttons.Y == ButtonState.Released && controllerStates[i].Buttons.Y == ButtonState.Pressed)
+                {
+                    if (playerCustomScreens[i].GetComponentInChildren<UnlockableContainer>() != null) // if inactive, will be null
+                    {
+                        DatabaseClass.Unlockable unlockableData = playerCustomScreens[i].GetComponentInChildren<UnlockableContainer>().data;
+
+                        if (unlockableData.costToUnlock != -1)
+                        {
+                            if (DatabaseManager.Db.Money >= unlockableData.costToUnlock)
+                            {
+                                DatabaseManager.Db.SetUnlockByCustomType(playerCustomScreens[i].GetComponentInChildren<UnlockableContainer>().type,
+                                    playerCustomScreens[i].GetComponentInChildren<UnlockableContainer>().data.Id, true);
+                                DatabaseManager.Db.Money -= unlockableData.costToUnlock;
+                                playerCustomScreens[i].GetComponentInChildren<UnlockableContainer>().gameObject.SetActive(false);
+                                UpdatePreview(i);
+                            }
+                        }
+                    }
+                }
+
                 playerCustomScreens[i].transform.GetChild(4).Rotate(Vector3.up, controllerStates[i].ThumbSticks.Right.X * 2.5f);
             }
         }
@@ -566,12 +586,12 @@ public class Menu : MonoBehaviour {
                 }
             }
 
-            HandleHowToUnlock(playerCustomScreens[_playerIndex].transform.GetChild(6), unlockableData);
+            HandleHowToUnlock(playerCustomScreens[_playerIndex].transform.GetChild(6), unlockableData, currentCustomType);
             UpdatePlayerVisual(_playerIndex, currentCustomType, selectedCustomizables[(int)currentCustomType, _playerIndex], noneValue || !isUnlocked);
         }
     }
 
-    void HandleHowToUnlock(Transform _parent, DatabaseClass.Unlockable _unlockableData = null)
+    void HandleHowToUnlock(Transform _parent, DatabaseClass.Unlockable _unlockableData = null, CustomizableType _type = 0)
     {
         if (_unlockableData == null || _unlockableData.isUnlocked)
         {
@@ -586,6 +606,9 @@ public class Menu : MonoBehaviour {
             _parent.GetChild(1).GetComponent<Image>().enabled = canBeBoughtWithGold;
             _parent.GetChild(2).GetComponent<Image>().enabled = (canBeBoughtWithGold && DatabaseManager.Db.Money >= _unlockableData.costToUnlock);
             _parent.GetComponentInChildren<Text>().color = (canBeBoughtWithGold && DatabaseManager.Db.Money < _unlockableData.costToUnlock) ? Color.red : Color.yellow;
+
+            _parent.GetComponent<UnlockableContainer>().data = _unlockableData;
+            _parent.GetComponent<UnlockableContainer>().type = _type;
         }
     }
 
