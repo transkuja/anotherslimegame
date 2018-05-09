@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EndMinigameTrigger : MonoBehaviour {
 
-    public BobBehavior refBobBehavior;
+    public MinigameTriggerGiverBehavior refBobBehavior;
 
     private void OnTriggerEnter(Collider other)
     {

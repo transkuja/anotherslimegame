@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BobBehavior : PNJDefaultBehavior
+public class MinigameTriggerGiverBehavior : PNJDefaultBehavior
 {
 
     public float timer = 31.0f;

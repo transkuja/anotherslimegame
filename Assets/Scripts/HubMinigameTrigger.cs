@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HubMinigameTrigger : MonoBehaviour
 {
-    BobBehavior handler = null;
+    MinigameTriggerGiverBehavior handler = null;
     PNJMessage defaultmessage = null;
 
     // TMP
@@ -12,7 +12,7 @@ public class HubMinigameTrigger : MonoBehaviour
 
     public void Start()
     {
-        handler = GetComponentInParent<BobBehavior>();
+        handler = GetComponentInParent<MinigameTriggerGiverBehavior>();
         defaultmessage = GetComponentInParent<PNJMessage>();
 
         // TMP
