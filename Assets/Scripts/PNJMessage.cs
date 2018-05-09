@@ -33,7 +33,7 @@ public class PNJMessage : MonoBehaviour {
         myCharacter = GetComponent<PlayerCharacterHub>();
 
         // Odd stuff
-        if (GameManager.Instance.ActivePlayersAtStart == 2)
+        if (GameManager.Instance && GameManager.Instance.PlayerStart && GameManager.Instance.ActivePlayersAtStart == 2)
         {
                 Message[1] = GameManager.UiReference.dialog2.gameObject;
                 Message[0] = GameManager.UiReference.dialog3.gameObject;
