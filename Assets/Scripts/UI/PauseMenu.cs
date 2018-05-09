@@ -172,8 +172,16 @@ public class PauseMenu : MonoBehaviour {
 
         Cinemachine.CinemachineFreeLook curPlayerCamera = GameManager.Instance.PlayerStart.PlayersReference[GameManager.Instance.playerWhoPausedTheGame].GetComponent<Player>().cameraReference.GetComponentInChildren<Cinemachine.CinemachineFreeLook>();
 
-        transform.GetChild((int)currentState + 1).GetChild(0).GetChild(1).GetComponent<Image>().enabled = curPlayerCamera.m_XAxis.m_InvertAxis;
-        transform.GetChild((int)currentState + 1).GetChild(1).GetChild(1).GetComponent<Image>().enabled = curPlayerCamera.m_YAxis.m_InvertAxis;
+
+        if (curPlayerCamera.m_XAxis.m_InvertAxis)
+            transform.GetChild((int)PauseMenuChildren.Settings).GetChild(0).GetComponentInChildren<Text>().text = "X axis inverted";
+        else
+            transform.GetChild((int)PauseMenuChildren.Settings).GetChild(0).GetComponentInChildren<Text>().text = "X axis default";
+
+        if (curPlayerCamera.m_YAxis.m_InvertAxis)
+            transform.GetChild((int)PauseMenuChildren.Settings).GetChild(1).GetComponentInChildren<Text>().text = "Y axis inverted";
+        else
+            transform.GetChild((int)PauseMenuChildren.Settings).GetChild(1).GetComponentInChildren<Text>().text = "Y axis default";
     }
 
     /*
@@ -220,7 +228,10 @@ public class PauseMenu : MonoBehaviour {
         Cinemachine.CinemachineFreeLook curPlayerCamera = GameManager.Instance.PlayerStart.PlayersReference[GameManager.Instance.playerWhoPausedTheGame].GetComponent<Player>().cameraReference.GetComponentInChildren<Cinemachine.CinemachineFreeLook>();
         curPlayerCamera.m_XAxis.m_InvertAxis = !curPlayerCamera.m_XAxis.m_InvertAxis;
 
-        transform.GetChild((int)currentState + 1).GetChild(selection).GetChild(1).GetComponent<Image>().enabled = curPlayerCamera.m_XAxis.m_InvertAxis;
+        if (curPlayerCamera.m_XAxis.m_InvertAxis)
+            transform.GetChild((int)PauseMenuChildren.Settings).GetChild(selection).GetComponentInChildren<Text>().text = "X axis inverted";
+        else
+            transform.GetChild((int)PauseMenuChildren.Settings).GetChild(selection).GetComponentInChildren<Text>().text = "X axis default";
     }
 
     // Not inverted by default
@@ -229,7 +240,10 @@ public class PauseMenu : MonoBehaviour {
         Cinemachine.CinemachineFreeLook curPlayerCamera = GameManager.Instance.PlayerStart.PlayersReference[GameManager.Instance.playerWhoPausedTheGame].GetComponent<Player>().cameraReference.GetComponentInChildren<Cinemachine.CinemachineFreeLook>();
         curPlayerCamera.m_YAxis.m_InvertAxis = !curPlayerCamera.m_YAxis.m_InvertAxis;
 
-        transform.GetChild((int)currentState + 1).GetChild(selection).GetChild(1).GetComponent<Image>().enabled = curPlayerCamera.m_YAxis.m_InvertAxis;
+        if (curPlayerCamera.m_YAxis.m_InvertAxis)
+            transform.GetChild((int)PauseMenuChildren.Settings).GetChild(selection).GetComponentInChildren<Text>().text = "Y axis inverted";
+        else
+            transform.GetChild((int)PauseMenuChildren.Settings).GetChild(selection).GetComponentInChildren<Text>().text = "Y axis default";
     }
 
 }
