@@ -264,18 +264,4 @@ public class PauseMenu : MonoBehaviour {
         }
     }
 
-}
-
-        if (GameManager.Instance.IsInHub() || GameManager.Instance.CurrentGameMode is Runner3DGameMode)
-        {
-            Cinemachine.CinemachineFreeLook curPlayerCamera = GameManager.Instance.PlayerStart.PlayersReference[GameManager.Instance.playerWhoPausedTheGame].GetComponent<Player>().cameraReference.GetComponentInChildren<Cinemachine.CinemachineFreeLook>();
-            if (curPlayerCamera.m_YAxis.m_InvertAxis)
-                transform.GetChild((int)PauseMenuChildren.Settings).GetChild(1).GetComponentInChildren<Text>().text = "Y axis inverted";
-            else
-                transform.GetChild((int)PauseMenuChildren.Settings).GetChild(1).GetComponentInChildren<Text>().text = "Y axis default";
-        }
-        else
-        {
-            transform.GetChild((int)PauseMenuChildren.Settings).GetChild(0).GetComponentInChildren<Text>().text = "Not available";
-            transform.GetChild((int)PauseMenuChildren.Settings).GetChild(1).GetComponentInChildren<Text>().text = "Not available";
-        }
+}
