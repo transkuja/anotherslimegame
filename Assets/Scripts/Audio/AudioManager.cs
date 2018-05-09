@@ -37,6 +37,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip shaveFx;
     public AudioClip incorrectFx;
     public AudioClip positiveSoundFx;
+    public AudioClip buySoundFx;
 
     public AudioClip musicAscenseur;
     public AudioClip endElevatorFx;

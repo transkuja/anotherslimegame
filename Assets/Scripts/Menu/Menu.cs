@@ -416,6 +416,10 @@ public class Menu : MonoBehaviour {
                                 DatabaseManager.Db.SetUnlockByCustomType(playerCustomScreens[i].GetComponentInChildren<UnlockableContainer>().type,
                                     playerCustomScreens[i].GetComponentInChildren<UnlockableContainer>().data.Id, true);
                                 DatabaseManager.Db.Money -= unlockableData.costToUnlock;
+
+                                if (AudioManager.Instance != null && AudioManager.Instance.buySoundFx != null)
+                                    AudioManager.Instance.Play(AudioManager.Instance.buySoundFx);
+
                                 playerCustomScreens[i].GetComponentInChildren<UnlockableContainer>().gameObject.SetActive(false);
                                 UpdatePreview(i);
                             }
