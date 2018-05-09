@@ -90,6 +90,7 @@ public class ColorFloorGameMode : GameMode {
             withBadSpawns = false;
         }
     }
+
     public void LaunchTimer()
     {
         GameManager.Instance.GameFinalTimer = timer;

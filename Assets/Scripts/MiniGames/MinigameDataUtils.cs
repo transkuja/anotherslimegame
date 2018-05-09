@@ -290,5 +290,46 @@ public static class MinigameDataUtils
         return "";
     }
 
+    public static int[] GetMinMaxGoldTargetValues(GameMode _curGameMode, int _version = 0)
+    {
+        GameMode curGameMode = _curGameMode;
+        int[] result = new int[2];
+        if (curGameMode is ColorFloorGameMode)
+        {
+            result[0] = 0;
+            if (_version % 2 == 1)
+            {
+                result[1] = 300;
+                return result;
+            }
 
+            result[1] = 400;
+            return result;
+        }
+        else if (curGameMode is KartGameMode)
+        {
+            result[0] = 120;
+            result[1] = 30;
+            return result;
+        }
+        else if (curGameMode is Runner3DGameMode)
+        {
+            result[0] = 0;
+            result[1] = 500;
+            return result;
+        }
+        else if (curGameMode is FruitGameMode)
+        {
+            result[0] = 0;
+            result[1] = 500;
+            return result;
+        }
+        else if (curGameMode is FoodGameMode)
+        {
+            result[0] = 0;
+            result[1] = 2500;
+            return result;
+        }
+        return result;
+    }
 }

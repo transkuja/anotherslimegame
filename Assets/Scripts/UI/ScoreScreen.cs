@@ -102,6 +102,7 @@ public class ScoreScreen : MonoBehaviour {
                         timeStr,
                         (GameManager.Instance.ActivePlayersAtStart == 1)
                     );
+                    player.NbPoints = (int)time;
                 }
                 else
                 {
@@ -207,6 +208,8 @@ public class ScoreScreen : MonoBehaviour {
             if(minigameUI)
                 minigameUI.SetActive(false);
             gameObject.SetActive(true);
+
+            GameManager.Instance.CurrentGameMode.ObtainMoneyBasedOnScore();
 
             RuneObjective runeObjective = GameManager.Instance.CurrentGameMode.runeObjective;
             if (runeObjective != RuneObjective.None)

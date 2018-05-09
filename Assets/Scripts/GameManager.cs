@@ -116,7 +116,7 @@ public class GameManager : MonoBehaviour {
 
     public bool IsInHub()
     {
-        return CurrentGameMode.GetType() == typeof(HubMode);
+        return CurrentGameMode != null && CurrentGameMode.GetType() == typeof(HubMode);
     }
 
     public PlayerStart PlayerStart
