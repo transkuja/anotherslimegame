@@ -242,7 +242,11 @@ public class Player : MonoBehaviour {
                 }
                 break;
             case CollectableType.Bonus:
-
+                NbPoints += pickedValue;
+                if (NbPoints < 0)
+                {
+                    NbPoints = 0;
+                }
                 break;
             default:
                 EvolutionCheck(type);

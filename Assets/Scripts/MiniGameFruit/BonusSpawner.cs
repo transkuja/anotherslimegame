@@ -73,7 +73,6 @@ public class BonusSpawner : MonoBehaviour {
                 toInstantiate = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.BonusFruit).GetItem(transform, new Vector3(Random.Range(minX, maxX), 18.15f, Random.Range(minZ, maxZ)), Quaternion.identity, true, false, 2);
                 toInstantiate.GetComponent<Rigidbody>().useGravity = true;
 
-                StartCoroutine(UnspawnBonus(toInstantiate));
                 //TO DO : Mettre le type du fruit random entre les 4 possible (Et l'indiquer avec un material ?) Ou bien rien et le premier qui le prend a les points (donc pas de type précis, il est multi-type)
                 toInstantiate.GetComponent<FruitType>().typeFruit = (Fruit)Random.Range(0, (int)GameManager.Instance.PlayerStart.ActivePlayersAtStart);
                 if(toInstantiate.GetComponent<FruitType>().typeFruit == Fruit.Clementine)
@@ -92,6 +91,8 @@ public class BonusSpawner : MonoBehaviour {
                 {
                     toInstantiate.GetComponent<Renderer>().material = matFraise;
                 }
+
+                StartCoroutine(UnspawnBonus(toInstantiate));
             }
         }
 	}
