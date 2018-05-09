@@ -31,43 +31,10 @@ public class Breakable : MonoBehaviour {
                 )
            )
         {
-            //OnBreakEvent
-            if (GetComponent<BreakEvent>() != null)
-            {
-                if (GetComponent<BreakEvent>().GetType() == typeof(BreakEvent))
-                {
-                    switch (GetComponent<BreakEvent>().type)
-                    {
-                        case CollectableType.AgileEvolution1:
-                            if (_playerCharacterHub.GetComponent<EvolutionAgile>() != null)
-                                return;
-                            break;
-                        case CollectableType.PlatformistEvolution1:
-                            if (_playerCharacterHub.GetComponent<EvolutionPlatformist>() != null)
-                                return;
-                            break;
-                        case CollectableType.StrengthEvolution1:
-                            if (_playerCharacterHub.GetComponent<EvolutionStrength>() != null)
-                                return;
-                            break;
-                        case CollectableType.GhostEvolution1:
-                            if (_playerCharacterHub.GetComponent<EvolutionGhost>() != null)
-                                return;
-                            break;
-                        default:
-                            break;
-                    }
-                }
-                GetComponent<BreakEvent>().OnBreakEvent(_playerCharacterHub.GetComponent<Player>());
-            }
-
-
             // Specific case wall breakable
             if (GetComponent<Animation>() && !_playerCharacterHub.GetComponent<EvolutionStrength>())
                 return;
             // deep impact
-
-
 
             // TODO: may externalize this behaviour to avoid duplication
             Vector3 playerToTarget = transform.position - _playerCharacterHub.transform.position;

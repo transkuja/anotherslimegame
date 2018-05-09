@@ -12,11 +12,11 @@ public class CollectableTrigger : MonoBehaviour {
         {
             _playerCharacterHub = other.GetComponent<PlayerCharacterHub>();
             //OnBreakEvent
-            if (GetComponent<BreakEvent>() != null)
+            if (GetComponent<CollectEvent>() != null)
             {
-                if (GetComponent<BreakEvent>().GetType() == typeof(BreakEvent))
+                if (GetComponent<CollectEvent>().GetType() == typeof(CollectEvent))
                 {
-                    switch (GetComponent<BreakEvent>().type)
+                    switch (GetComponent<CollectEvent>().type)
                     {
                         case CollectableType.AgileEvolution1:
                             if (_playerCharacterHub.GetComponent<EvolutionAgile>() != null)
@@ -38,7 +38,7 @@ public class CollectableTrigger : MonoBehaviour {
                             break;
                     }
                 }
-                GetComponent<BreakEvent>().OnBreakEvent(_playerCharacterHub.GetComponent<Player>());
+                GetComponent<CollectEvent>().OnCollectEvent(_playerCharacterHub.GetComponent<Player>());
             }
         }
     }

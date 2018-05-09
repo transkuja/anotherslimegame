@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BreakEventPot : BreakEvent {
+public class BreakEventPot : CollectEvent {
 
-    public override void OnBreakEvent(Player playerTarget)
+    public override void OnCollectEvent(Player playerTarget)
     {     
         SpawnChief();
     }

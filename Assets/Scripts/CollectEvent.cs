@@ -2,15 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BreakEvent : MonoBehaviour {
+public class CollectEvent : MonoBehaviour {
 
     public GameObject go;
 
     public CollectableType type;
 
-    public virtual void OnBreakEvent(Player playerTarget)
+    public float evolutionDuration = 1.0f;
+
+    public virtual void OnCollectEvent(Player playerTarget)
     {
-        playerTarget.UpdateCollectableValue(type, 1);
+
+        GameManager.EvolutionManager.AddEvolutionComponent(
+           playerTarget.gameObject,
+           GameManager.EvolutionManager.GetEvolutionByCollectableType(type),
+           true,
+           evolutionDuration
+       );
+        //playerTarget.UpdateCollectableValue(type, 1);
 
         Invoke("ReactivateMySelf", 2);
     }
