@@ -49,10 +49,21 @@ public class MinigameSelectionAnim : MonoBehaviour {
     {
         minigameData = _minigameData;
         if (_minigameData.isUnlocked)
+        {
+            transform.GetChild(3).gameObject.SetActive(false);
+            GetComponentsInChildren<Image>()[2].enabled = true;
+            GetComponentsInChildren<Image>()[3].enabled = true;
             GetComponentsInChildren<Image>()[3].sprite = Resources.Load<Sprite>(_minigameData.spriteImage) as Sprite;
+            GetComponentInChildren<Text>().text = MinigameDataUtils.GetTitle(_minigameData.Id, _minigameData.version);
+        }
         else
-            GetComponentsInChildren<Image>()[3].sprite = Resources.Load<Sprite>("LockedMinigamePreview") as Sprite;
-        GetComponentInChildren<Text>().text = MinigameDataUtils.GetTitle(_minigameData.Id, _minigameData.version);
+        {
+            GetComponentsInChildren<Image>()[2].enabled = false;
+            GetComponentsInChildren<Image>()[3].enabled = false;
+            GetComponentInChildren<Text>().text = "?";
+            transform.GetChild(3).gameObject.SetActive(true);
+            transform.GetChild(3).GetComponentInChildren<Text>().text = DatabaseManager.Db.NbRunes.ToString() + " / " + minigameData.costToUnlock;
+        }
     }
 
     public string GetMinigameId()
