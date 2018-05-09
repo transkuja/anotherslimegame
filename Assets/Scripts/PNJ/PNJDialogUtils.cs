@@ -37,6 +37,7 @@ public static class PNJDialogUtils {
         FaceEmotion.Attack, FaceEmotion.Neutral, FaceEmotion.Attack, FaceEmotion.Neutral, FaceEmotion.Attack, FaceEmotion.Neutral, FaceEmotion.Attack, FaceEmotion.Neutral
     };
 
+    // Gwen
     // Bob 
     static string BobDM = "I already gave you my hat";
     static FaceEmotion[] BobDE = new FaceEmotion[1] { FaceEmotion.Neutral };
@@ -50,6 +51,19 @@ public static class PNJDialogUtils {
         FaceEmotion.Neutral, FaceEmotion.Neutral, FaceEmotion.Winner
     };
 
+
+    // Mickey
+    static string MickeyDM = "Nothing to say.";
+    static FaceEmotion[] MickeyDE = new FaceEmotion[1] { FaceEmotion.Neutral };
+    static string MickeyQM =
+        "Fight#" +
+
+        "Well done, take this !"
+    ;
+    static FaceEmotion[] MickeyQE = new FaceEmotion[3] {
+        FaceEmotion.Neutral, FaceEmotion.Neutral, FaceEmotion.Winner
+    };
+
     // Roger
     static string RogerDM = "My child is messing with me.\n" 
         + "Could you spank him for me.";
@@ -57,13 +71,13 @@ public static class PNJDialogUtils {
     static string RogerQM = ""
     ;
 
-    static FaceEmotion[] RogerQE = new FaceEmotion[3] {
-        FaceEmotion.Neutral, FaceEmotion.Neutral, FaceEmotion.Winner
+    static FaceEmotion[] RogerQE = new FaceEmotion[2] {
+        FaceEmotion.Neutral, FaceEmotion.Neutral
     };
 
     // Mr Risotto
     static string RisottoDM = "I used to be in animal crossing\n"
-       + "Lollilool";
+       + "This is a templated message.";
     static FaceEmotion[] RisottoDE = new FaceEmotion[1] { FaceEmotion.Neutral };
     static string RisottoQM = ""
     ;
@@ -130,6 +144,8 @@ public static class PNJDialogUtils {
                 return SneakyChiefDM;
             case PNJName.Joker:
                 return JokerDM;
+            case PNJName.Mickey:
+                return MickeyDM;
             case PNJName.Gwen:
             case PNJName.Bob:
                 return BobDM;
@@ -149,6 +165,8 @@ public static class PNJDialogUtils {
                 return SneakyChiefQM;
             case PNJName.Joker:
                 return JokerQM;
+            case PNJName.Mickey:
+                return MickeyQM;
             case PNJName.Gwen:
             case PNJName.Bob:
                 return BobQM;
@@ -168,6 +186,8 @@ public static class PNJDialogUtils {
                 return SneakyChiefDE;
             case PNJName.Joker:
                 return JokerDE;
+            case PNJName.Mickey:
+                return MickeyDE;
             case PNJName.Gwen:
             case PNJName.Bob:
                 return BobDE;
@@ -187,6 +207,8 @@ public static class PNJDialogUtils {
                 return SneakyChiefQE;
             case PNJName.Joker:
                 return JokerQE;
+            case PNJName.Mickey:
+                return MickeyQE;
             case PNJName.Gwen:
             case PNJName.Bob:
                 return BobQE;
