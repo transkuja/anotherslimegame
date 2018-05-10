@@ -83,10 +83,13 @@ public class FoodInputSettings : MonoBehaviour {
         ActiveButton(currentInput);
         CurrentInput = nextInput;
         nextInputCalled = false;
+        reverseLerpIncomingAnim = false;
+        lerpParamIncomingAnim = 0.0f;
+        newColorIncomingAnim = new Color(1, 1, 1, 0.5f);
     }
 
-    bool reverseLerpIncomingAnim = false;
-    float lerpParamIncomingAnim = 0.0f;
+    public bool reverseLerpIncomingAnim = false;
+    public float lerpParamIncomingAnim = 0.0f;
     Color newColorIncomingAnim = new Color(1, 1, 1, 0.5f);
     float currentScale = 1.0f;
 
@@ -98,9 +101,6 @@ public class FoodInputSettings : MonoBehaviour {
         {
             Invoke("SwitchInput", reactionTime);
             nextInputCalled = true;
-            reverseLerpIncomingAnim = false;
-            lerpParamIncomingAnim = 0.0f;
-            newColorIncomingAnim = new Color(1, 1, 1, 0.5f);
         }
         else
             currentTime += Time.deltaTime;
@@ -112,7 +112,7 @@ public class FoodInputSettings : MonoBehaviour {
             if (lerpParamIncomingAnim >= 1.0f || lerpParamIncomingAnim <= 0.0f)
                 reverseLerpIncomingAnim = !reverseLerpIncomingAnim;
 
-            lerpParamIncomingAnim += ((reverseLerpIncomingAnim) ? -Time.deltaTime : Time.deltaTime) * (6 / reactionTime);
+            lerpParamIncomingAnim = Mathf.Clamp(lerpParamIncomingAnim + ((reverseLerpIncomingAnim) ? -Time.deltaTime : Time.deltaTime) * (6 / reactionTime), 0, 1.0f);
             newColorIncomingAnim = new Color(1, 1, 1, Mathf.Lerp(0.25f, 0.9f, lerpParamIncomingAnim));
             transform.GetChild((int)nextInput).GetChild(0).GetComponent<Image>().color = newColorIncomingAnim;
         }
