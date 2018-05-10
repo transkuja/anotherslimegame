@@ -27,6 +27,9 @@ public class FoodInputSettings : MonoBehaviour {
 
         set
         {
+            if (currentInput == PossibleInputs.BadOne)
+                transform.GetChild((int)currentInput).GetChild(0).gameObject.SetActive(true);
+
             currentInput = value;
             transform.GetChild((int)currentInput).GetComponent<Image>().enabled = true;
             transform.GetChild((int)currentInput).GetChild(0).GetComponent<Image>().color = Color.white;
@@ -35,7 +38,10 @@ public class FoodInputSettings : MonoBehaviour {
             if (currentInput != PossibleInputs.BadOne)
                 timeBeforeNextInput = Random.Range(((FoodGameMode)GameManager.Instance.CurrentGameMode).miniTail, ((FoodGameMode)GameManager.Instance.CurrentGameMode).maxTail);
             else
+            {
                 timeBeforeNextInput = 0.5f;
+                transform.GetChild((int)currentInput).GetChild(0).gameObject.SetActive(false);
+            }
 
             nextInput = GetRandomInput();
         }
