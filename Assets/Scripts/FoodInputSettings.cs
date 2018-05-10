@@ -39,7 +39,7 @@ public class FoodInputSettings : MonoBehaviour {
                 timeBeforeNextInput = Random.Range(((FoodGameMode)GameManager.Instance.CurrentGameMode).miniTail, ((FoodGameMode)GameManager.Instance.CurrentGameMode).maxTail);
             else
             {
-                timeBeforeNextInput = 0.5f;
+                timeBeforeNextInput = 0.0f;
                 transform.GetChild((int)currentInput).GetChild(0).gameObject.SetActive(false);
             }
 
@@ -49,10 +49,20 @@ public class FoodInputSettings : MonoBehaviour {
 
     public PossibleInputs GetRandomInput(bool _firstOne = false)
     {
+        PossibleInputs result;
         if (!_firstOne)
-            return (PossibleInputs)Random.Range(0, maxRandom);
+        {
+            result = (PossibleInputs)Random.Range(0, maxRandom);
+        }
+        else
+        {
+            result = (PossibleInputs)Random.Range(0, 4);
+        }
 
-        return (PossibleInputs)Random.Range(0, 4);
+        if (result == currentInput)
+            return (PossibleInputs)((int)(result + 1) % maxRandom);
+        else
+            return result;
     }
 
     public void Init()
@@ -88,24 +98,23 @@ public class FoodInputSettings : MonoBehaviour {
         {
             Invoke("SwitchInput", reactionTime);
             nextInputCalled = true;
+            reverseLerpIncomingAnim = false;
+            lerpParamIncomingAnim = 0.0f;
+            newColorIncomingAnim = new Color(1, 1, 1, 0.5f);
         }
         else
             currentTime += Time.deltaTime;
 
         if (nextInputCalled)
         {
-            if (currentInput != nextInput)
-            {
-                // 0.5 -> 0.9 en reactionTime/3 * 2 
-                // 0.9 -> 0.5 en reactionTime/3 * 2
-                if (lerpParamIncomingAnim >= 1.0f || lerpParamIncomingAnim <= 0.0f)
-                    reverseLerpIncomingAnim = !reverseLerpIncomingAnim;
+            // 0.5 -> 0.9 en reactionTime/3 * 2 
+            // 0.9 -> 0.5 en reactionTime/3 * 2
+            if (lerpParamIncomingAnim >= 1.0f || lerpParamIncomingAnim <= 0.0f)
+                reverseLerpIncomingAnim = !reverseLerpIncomingAnim;
 
-                lerpParamIncomingAnim += ((reverseLerpIncomingAnim) ? -Time.deltaTime : Time.deltaTime) * (6 / reactionTime);
-                newColorIncomingAnim = new Color(1, 1, 1, Mathf.Lerp(0.25f, 0.9f, lerpParamIncomingAnim));
-                transform.GetChild((int)nextInput).GetChild(0).GetComponent<Image>().color = newColorIncomingAnim;
-
-            }
+            lerpParamIncomingAnim += ((reverseLerpIncomingAnim) ? -Time.deltaTime : Time.deltaTime) * (6 / reactionTime);
+            newColorIncomingAnim = new Color(1, 1, 1, Mathf.Lerp(0.25f, 0.9f, lerpParamIncomingAnim));
+            transform.GetChild((int)nextInput).GetChild(0).GetComponent<Image>().color = newColorIncomingAnim;
         }
 
         if (isInitialized)
