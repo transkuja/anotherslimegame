@@ -71,7 +71,10 @@ public class FoodInputSettings : MonoBehaviour {
         reactionTime = ((FoodGameMode)GameManager.Instance.CurrentGameMode).reactionTime;
         maxRandom = (int)PossibleInputs.Size;
         if (!areBadInputsEnabled)
+        {
             maxRandom--;
+            transform.GetChild((int)PossibleInputs.BadOne).gameObject.SetActive(false);
+        }
 
         CurrentInput = GetRandomInput(true);
 
