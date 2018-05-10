@@ -91,8 +91,8 @@ public class FoodInputSettings : MonoBehaviour {
         newColorIncomingAnim = new Color(1, 1, 1, 0.5f);
     }
 
-    public bool reverseLerpIncomingAnim = false;
-    public float lerpParamIncomingAnim = 0.0f;
+    bool reverseLerpIncomingAnim = false;
+    float lerpParamIncomingAnim = 0.0f;
     Color newColorIncomingAnim = new Color(1, 1, 1, 0.5f);
     float currentScale = 1.0f;
 
