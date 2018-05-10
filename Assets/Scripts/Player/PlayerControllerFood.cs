@@ -38,7 +38,7 @@ public class PlayerControllerFood : PlayerController {
             // update combo
             comboUIText.text = "x " + currentCombo.ToString("0.0");
             comboUISlider.value = (currentCombo - 1) * 20;
-            comboUIFillAreaImage.color = (currentCombo > 4.0f) ? Color.red : (currentCombo > 2.5f) ? (new Color(255, 174, 0) / 255) : Color.green;
+            comboUIFillAreaImage.color = (currentCombo > 4.0f) ? Color.red : (currentCombo > 2.5f) ? (new Color(255, 174, 0, 255) / 255.0f) : Color.green;
         }
     }
 

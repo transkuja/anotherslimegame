@@ -28,6 +28,8 @@ public class FoodInputSettings : MonoBehaviour {
         set
         {
             currentInput = value;
+            transform.GetChild((int)currentInput).GetComponent<Image>().enabled = true;
+            transform.GetChild((int)currentInput).GetChild(0).GetComponent<Image>().color = Color.white;
 
             currentTime = 0.0f;
             if (currentInput != PossibleInputs.BadOne)
@@ -86,14 +88,18 @@ public class FoodInputSettings : MonoBehaviour {
 
         if (nextInputCalled)
         {
-            // 0.5 -> 0.9 en reactionTime/3 * 2 
-            // 0.9 -> 0.5 en reactionTime/3 * 2
-            if (lerpParamIncomingAnim >= 1.0f || lerpParamIncomingAnim <= 0.0f)
-                reverseLerpIncomingAnim = !reverseLerpIncomingAnim;
+            if (currentInput != nextInput)
+            {
+                // 0.5 -> 0.9 en reactionTime/3 * 2 
+                // 0.9 -> 0.5 en reactionTime/3 * 2
+                if (lerpParamIncomingAnim >= 1.0f || lerpParamIncomingAnim <= 0.0f)
+                    reverseLerpIncomingAnim = !reverseLerpIncomingAnim;
 
-            lerpParamIncomingAnim += ((reverseLerpIncomingAnim) ? -Time.deltaTime : Time.deltaTime) * (6 / reactionTime);
-            newColorIncomingAnim = new Color(1, 1, 1, Mathf.Lerp(0.5f, 0.9f, lerpParamIncomingAnim));
-            transform.GetChild((int)currentInput).GetChild(0).GetComponent<Image>().color = newColorIncomingAnim;
+                lerpParamIncomingAnim += ((reverseLerpIncomingAnim) ? -Time.deltaTime : Time.deltaTime) * (6 / reactionTime);
+                newColorIncomingAnim = new Color(1, 1, 1, Mathf.Lerp(0.25f, 0.9f, lerpParamIncomingAnim));
+                transform.GetChild((int)nextInput).GetChild(0).GetComponent<Image>().color = newColorIncomingAnim;
+
+            }
         }
 
         if (isInitialized)
