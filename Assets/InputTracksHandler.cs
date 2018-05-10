@@ -64,23 +64,9 @@ public class InputTracksHandler : MonoBehaviour {
 
         for (int i = 0; i < nbPlayers; i++)
         {
-            GameObject newInput = Instantiate(inputPrefab, tracks[i].transform.GetChild(3)); // child 3 is start position
-            newInput.transform.localPosition = Vector3.zero;
-            newInput.GetComponent<FoodInputSettings>().StartGame();
+            GetComponentsInChildren<FoodInputSettings>()[i].Init();
 
             board.transform.GetChild(i).gameObject.SetActive(true);
         }
-    }
-	
-	void Update () {
-		
-	}
-
-
-    public void SendNextInput(int _trackNumber)
-    {
-        GameObject newInput = Instantiate(inputPrefab, tracks[_trackNumber].transform.GetChild(3)); // child 3 is start position
-        newInput.transform.localPosition = Vector3.zero;
-        newInput.GetComponent<FoodInputSettings>().Init();
     }
 }

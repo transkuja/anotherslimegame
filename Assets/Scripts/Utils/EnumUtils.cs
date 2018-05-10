@@ -14,4 +14,4 @@ public enum PNJName { Bob, Roger, Risotto, SneakyChief, Joker, Gwen, Mickey }
 
 public enum MessageTypeMinigame { AreYouReady, AreyoureadyPlayer1, AreyoureadyPlayer2, Retry }
 
-public enum PossibleInputs { A, X, Y, B, BadOne, Size, None }
+public enum PossibleInputs { A, B, X, Y, BadOne, Size, None }

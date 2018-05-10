@@ -25,6 +25,8 @@ public class FoodGameMode : GameMode {
 
     public bool enableBadInputs = false;
 
+    public float reactionTime = 1.0f;
+
     public FoodMeterHandler FoodMeterHandler
     {
         get

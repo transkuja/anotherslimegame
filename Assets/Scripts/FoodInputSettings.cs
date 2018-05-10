@@ -4,45 +4,73 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class FoodInputSettings : MonoBehaviour {
-    float inputSpeed;
-    float targetSlotPosition;
-    public float targetPositionError;
-    PlayerControllerFood target;
     float currentTime;
     float timeBeforeNextInput;
 
-    public PossibleInputs associatedInput;
-    bool isAttached = false;
+    private PossibleInputs currentInput;
+    public PossibleInputs nextInput;
+
     bool nextInputCalled = false;
     int maxRandom;
     bool areBadInputsEnabled = false;
     bool scaleAscending = true;
 
-    public void Init (bool _firstOne = false) {
-        areBadInputsEnabled = ((FoodGameMode)GameManager.Instance.CurrentGameMode).enableBadInputs;
+    bool isInitialized = false;
+    float reactionTime;
 
+    public PossibleInputs CurrentInput
+    {
+        get
+        {
+            return currentInput;
+        }
+
+        set
+        {
+            currentInput = value;
+
+            currentTime = 0.0f;
+            if (currentInput != PossibleInputs.BadOne)
+                timeBeforeNextInput = Random.Range(((FoodGameMode)GameManager.Instance.CurrentGameMode).miniTail, ((FoodGameMode)GameManager.Instance.CurrentGameMode).maxTail);
+            else
+                timeBeforeNextInput = 0.5f;
+
+            nextInput = GetRandomInput();
+        }
+    }
+
+    public PossibleInputs GetRandomInput(bool _firstOne = false)
+    {
+        if (!_firstOne)
+            return (PossibleInputs)Random.Range(0, maxRandom);
+
+        return (PossibleInputs)Random.Range(0, 4);
+    }
+
+    public void Init()
+    {
+        areBadInputsEnabled = ((FoodGameMode)GameManager.Instance.CurrentGameMode).enableBadInputs;
+        reactionTime = ((FoodGameMode)GameManager.Instance.CurrentGameMode).reactionTime;
         maxRandom = (int)PossibleInputs.Size;
         if (!areBadInputsEnabled)
             maxRandom--;
 
-        inputSpeed = ((FoodGameMode)GameManager.Instance.CurrentGameMode).inputSpeed;
-        if (!_firstOne)
-            associatedInput = (PossibleInputs)Random.Range(0, maxRandom);
-        else
-            associatedInput = (PossibleInputs)Random.Range(0, 4);
+        CurrentInput = GetRandomInput(true);
 
-        transform.GetComponentInChildren<Image>().sprite = ResourceUtils.Instance.spriteUtils.GetSpriteFromInput(associatedInput);
-        target = transform.parent.parent.GetComponentInChildren<PlayerControllerFood>();
-        targetSlotPosition = target.transform.position.x;
-        currentTime = 0.0f;
-        if (associatedInput != PossibleInputs.BadOne)
-            timeBeforeNextInput = Random.Range(((FoodGameMode)GameManager.Instance.CurrentGameMode).miniTail, ((FoodGameMode)GameManager.Instance.CurrentGameMode).maxTail);
-        else
-        {
-            timeBeforeNextInput = 0.5f;
-            transform.GetComponentInChildren<Image>().color = Color.red;
-        }
+        isInitialized = true;
     }
+
+    void SwitchInput()
+    {
+        ActiveButton(currentInput);
+        CurrentInput = nextInput;
+        nextInputCalled = false;
+    }
+
+    bool reverseLerpIncomingAnim = false;
+    float lerpParamIncomingAnim = 0.0f;
+    Color newColorIncomingAnim = new Color(1, 1, 1, 0.5f);
+    float currentScale = 1.0f;
 
     void Update () {
         if (GameManager.CurrentState != GameState.Normal)
@@ -50,65 +78,43 @@ public class FoodInputSettings : MonoBehaviour {
 
         if (!nextInputCalled && currentTime >= timeBeforeNextInput)
         {
-            ((FoodGameMode)GameManager.Instance.CurrentGameMode).inputTracksHandler.SendNextInput((int)target.playerIndex);
+            Invoke("SwitchInput", reactionTime);
             nextInputCalled = true;
         }
         else
             currentTime += Time.deltaTime;
 
-        if (!isAttached)
+        if (nextInputCalled)
         {
-            transform.position += Time.deltaTime * inputSpeed * Vector3.right;
+            // 0.5 -> 0.9 en reactionTime/3 * 2 
+            // 0.9 -> 0.5 en reactionTime/3 * 2
+            if (lerpParamIncomingAnim >= 1.0f || lerpParamIncomingAnim <= 0.0f)
+                reverseLerpIncomingAnim = !reverseLerpIncomingAnim;
+
+            lerpParamIncomingAnim += ((reverseLerpIncomingAnim) ? -Time.deltaTime : Time.deltaTime) * (6 / reactionTime);
+            newColorIncomingAnim = new Color(1, 1, 1, Mathf.Lerp(0.5f, 0.9f, lerpParamIncomingAnim));
+            transform.GetChild((int)currentInput).GetChild(0).GetComponent<Image>().color = newColorIncomingAnim;
+        }
+
+        if (isInitialized)
+        {
             // scale oscille entre 0.75 et 0.95
-            if (transform.localScale.x > 0.95f && scaleAscending)
+            if (currentScale > 0.95f && scaleAscending)
                 scaleAscending = false;
-            if (transform.localScale.x < 0.75f)
+            if (currentScale < 0.75f)
                 scaleAscending = true;
-            transform.localScale += ((scaleAscending) ? 0.5f : -0.5f) * Time.deltaTime * Vector3.one;
-
-            if (transform.position.x >= targetSlotPosition - targetPositionError)
-            {
-                if (target.transform.childCount > 0)
-                    Destroy(target.transform.GetChild(0).gameObject);
-
-                transform.SetParent(target.transform);
-                transform.localPosition = Vector3.zero;
-                isAttached = true;
-                transform.localScale = Vector3.one;
-                // TODO: feedback YOUCANPRESSTHEBUTTONNOW
-                target.currentInput = associatedInput;
-                transform.parent.parent.GetChild(0).GetComponentInChildren<Image>().color = GetColorFromInput();
-
-            }
+            transform.GetChild((int)currentInput).localScale += ((scaleAscending) ? 0.5f : -0.5f) * Time.deltaTime * Vector3.one;
+            currentScale = transform.GetChild((int)currentInput).localScale.x;
         }
     }
 
-    Color GetColorFromInput()
+    public void ActiveButton(PossibleInputs _toActivate)
     {
-        switch (associatedInput)
-        {
-            case PossibleInputs.A:
-                return Color.green;
-            case PossibleInputs.B:
-                return Color.red;
-            case PossibleInputs.Y:
-                return Color.yellow;
-            case PossibleInputs.X:
-                return new Color(0, 128, 255, 255);
-            case PossibleInputs.BadOne:
-                return Color.grey;
-        }
-        return Color.white;
-    }
+        transform.GetChild((int)_toActivate).GetComponent<Image>().enabled = true;
+        transform.GetChild((int)_toActivate).GetChild(0).GetComponent<Image>().color = Color.white;
 
-    public void StartGame()
-    {
-        Init(true);
-        transform.SetParent(target.transform);
-        transform.localPosition = Vector3.zero;
-        isAttached = true;
-        // TODO: feedback YOUCANPRESSTHEBUTTONNOW
-        target.currentInput = associatedInput;
-        transform.parent.parent.GetChild(0).GetComponentInChildren<Image>().color = GetColorFromInput();
+        transform.GetChild((int)CurrentInput).GetComponent<Image>().enabled = false;
+        transform.GetChild((int)CurrentInput).GetChild(0).GetComponent<Image>().color = new Color(1,1,1,0.5f);
+        transform.GetChild((int)CurrentInput).localScale = Vector3.one;
     }
 }

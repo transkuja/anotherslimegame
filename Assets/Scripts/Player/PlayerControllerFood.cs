@@ -5,13 +5,17 @@ using UnityEngine.UI;
 using UWPAndXInput;
 
 public class PlayerControllerFood : PlayerController {
-    public PossibleInputs currentInput;
     private bool areInputsUnlocked = true;
     private bool hasEatenSmthgBad = false;
 
     public float currentCombo = 1;
     public GameObject comboUI;
+    Text comboUIText;
+    Slider comboUISlider;
+    Image comboUIFillAreaImage;
     Animator parentAnim;
+
+    public FoodInputSettings foodInputSettings;
 
     public float CurrentCombo
     {
@@ -24,8 +28,17 @@ public class PlayerControllerFood : PlayerController {
         {
             currentCombo = value;
 
+            if (comboUIText == null)
+            {
+                comboUIText = comboUI.GetComponentInChildren<Text>();
+                comboUISlider = comboUI.GetComponentInChildren<Slider>();
+                comboUIFillAreaImage = comboUISlider.fillRect.transform.GetComponent<Image>();
+            }
+
             // update combo
-            comboUI.GetComponent<Text>().text = "X " + currentCombo.ToString("0.0");
+            comboUIText.text = "x " + currentCombo.ToString("0.0");
+            comboUISlider.value = (currentCombo - 1) * 20;
+            comboUIFillAreaImage.color = (currentCombo > 4.0f) ? Color.red : (currentCombo > 2.5f) ? (new Color(255, 174, 0) / 255) : Color.green;
         }
     }
 
@@ -63,6 +76,7 @@ public class PlayerControllerFood : PlayerController {
     {
         CurrentCombo = 1.0f;
         parentAnim = GetComponentInParent<Animator>();
+        foodInputSettings = GetComponent<FoodInputSettings>();
     }
 
     public override void Update () {
@@ -109,7 +123,7 @@ public class PlayerControllerFood : PlayerController {
 
     void CheckInput(PossibleInputs _pressed)
     {
-        if (_pressed == currentInput)
+        if (_pressed == foodInputSettings.CurrentInput)
         {
             ((FoodGameMode)GameManager.Instance.CurrentGameMode).GoodInput(this);
             if (AudioManager.Instance != null && AudioManager.Instance.positiveSoundFx != null)
@@ -121,7 +135,7 @@ public class PlayerControllerFood : PlayerController {
             if (AudioManager.Instance != null && AudioManager.Instance.incorrectFx != null)
                 AudioManager.Instance.PlayOneShot(AudioManager.Instance.incorrectFx);
 
-            if (currentInput == PossibleInputs.BadOne)
+            if (foodInputSettings.CurrentInput == PossibleInputs.BadOne)
             {
                 HasEatenSmthgBad = true;
                 GameManager.Instance.PlayerStart.PlayersReference[(int)playerIndex].GetComponentInChildren<PlayerCosmetics>().FaceEmotion
@@ -150,10 +164,5 @@ public class PlayerControllerFood : PlayerController {
         HasEatenSmthgBad = false;
         GameManager.Instance.PlayerStart.PlayersReference[(int)playerIndex].GetComponentInChildren<PlayerCosmetics>().FaceEmotion
                 = FaceEmotion.Neutral;
-    }
-
-    public void UpdateCurrentInput(PossibleInputs _newInput)
-    {
-        currentInput = _newInput;
     }
 }
