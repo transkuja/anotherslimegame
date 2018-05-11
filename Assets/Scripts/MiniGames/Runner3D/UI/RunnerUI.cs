@@ -15,7 +15,6 @@ public class RunnerUI : APlayerUI {
 
     public override void Init()
     {
-        base.Init();
         foreach (GameObject p in GameManager.Instance.PlayerStart.PlayersReference)
             p.GetComponent<Player>().OnDeathEvent += OnPlayerDeath;
     }

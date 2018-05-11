@@ -105,7 +105,6 @@ public class GameManager : MonoBehaviour {
     {
         get
         {
-            Debug.Assert(currentGameMode != null, "GameMode must be set on scene");
             return currentGameMode;
         }
         set
@@ -116,7 +115,7 @@ public class GameManager : MonoBehaviour {
 
     public bool IsInHub()
     {
-        return CurrentGameMode != null && CurrentGameMode.GetType() == typeof(HubMode);
+        return currentGameMode != null && CurrentGameMode.GetType() == typeof(HubMode);
     }
 
     public PlayerStart PlayerStart

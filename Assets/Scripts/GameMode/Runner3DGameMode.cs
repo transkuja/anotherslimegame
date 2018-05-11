@@ -49,9 +49,7 @@ public class Runner3DGameMode : GameMode {
     public override void OnReadySetGoBegin()
     {
         base.OnReadySetGoBegin();
-
         levelGenerator.LevelBegin();
-
     }
 
     // identique au hub bad copie collé
@@ -91,8 +89,6 @@ public class Runner3DGameMode : GameMode {
                 if (nbDeadPlayers == curNbPlayers)
                     EndGame();
                 break;
-
-
         }
     }
     public void EndGame()

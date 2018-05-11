@@ -170,22 +170,27 @@ public class PauseMenu : MonoBehaviour {
         selection = 0;
         CurrentlySelectedButton = transform.GetChild((int)currentState + 1).GetChild(selection).GetComponentInChildren<Button>();
 
-        Cinemachine.CinemachineFreeLook curPlayerCamera = GameManager.Instance.PlayerStart.PlayersReference[GameManager.Instance.playerWhoPausedTheGame].GetComponent<Player>().cameraReference.GetComponentInChildren<Cinemachine.CinemachineFreeLook>();
+        if (GameManager.Instance.IsInHub() || GameManager.Instance.CurrentGameMode is Runner3DGameMode)
+        {
+            if (!GameManager.Instance.PlayerStart)
+                return;
+            Cinemachine.CinemachineFreeLook curPlayerCamera = GameManager.Instance.PlayerStart.PlayersReference[GameManager.Instance.playerWhoPausedTheGame].GetComponent<Player>().cameraReference.GetComponentInChildren<Cinemachine.CinemachineFreeLook>();
 
             if (curPlayerCamera.m_XAxis.m_InvertAxis)
                 transform.GetChild((int)PauseMenuChildren.Settings).GetChild(0).GetComponentInChildren<Text>().text = "X axis inverted";
             else
                 transform.GetChild((int)PauseMenuChildren.Settings).GetChild(0).GetComponentInChildren<Text>().text = "X axis default";
 
-        if (curPlayerCamera.m_XAxis.m_InvertAxis)
-            transform.GetChild((int)PauseMenuChildren.Settings).GetChild(0).GetComponentInChildren<Text>().text = "X axis inverted";
+            if (curPlayerCamera.m_YAxis.m_InvertAxis)
+                transform.GetChild((int)PauseMenuChildren.Settings).GetChild(1).GetComponentInChildren<Text>().text = "Y axis inverted";
+            else
+                transform.GetChild((int)PauseMenuChildren.Settings).GetChild(1).GetComponentInChildren<Text>().text = "Y axis default";
+        }
         else
-            transform.GetChild((int)PauseMenuChildren.Settings).GetChild(0).GetComponentInChildren<Text>().text = "X axis default";
-
-        if (curPlayerCamera.m_YAxis.m_InvertAxis)
-            transform.GetChild((int)PauseMenuChildren.Settings).GetChild(1).GetComponentInChildren<Text>().text = "Y axis inverted";
-        else
-            transform.GetChild((int)PauseMenuChildren.Settings).GetChild(1).GetComponentInChildren<Text>().text = "Y axis default";
+        {
+            transform.GetChild((int)PauseMenuChildren.Settings).GetChild(0).GetComponentInChildren<Text>().text = "Not available";
+            transform.GetChild((int)PauseMenuChildren.Settings).GetChild(1).GetComponentInChildren<Text>().text = "Not available";
+        }
     }
 
     /*
