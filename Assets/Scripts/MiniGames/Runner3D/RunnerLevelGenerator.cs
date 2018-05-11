@@ -19,7 +19,6 @@ namespace Runner3D
             // prefab to populate level : 
         [SerializeField] GameObject arrivalPrefab;
         [SerializeField] GameObject cloudsPrefabModel;
-        [SerializeField] GameObject wallModel;
         [SerializeField] GameObject beginAreaModel;
         PoolLeader runnerBlocPool;
             
@@ -123,19 +122,6 @@ namespace Runner3D
             return (zPos >= nextZChunkOffset);
         }
 
-        public void InitWalls()
-        {
-            int wallRows = 2;
-            level.wallsInGame = new GameObject[wallRows];
-            Vector3 wallPosition = Vector3.zero;
-            // Init left walls :
-            wallPosition.x = levelFinalSize.x;
-            level.wallsInGame[0] = Instantiate(wallModel,wallPosition,Quaternion.identity);
-
-            // init right Walls :
-            wallPosition.x = -levelFinalSize.x;
-            level.wallsInGame[1] = Instantiate(wallModel, wallPosition, Quaternion.identity);
-        }
         public void InitClouds()
         {
             level.clouds = Instantiate(cloudsPrefabModel, transform);
@@ -222,7 +208,6 @@ namespace Runner3D
             level = new LevelItems();
             lastChunkLineBlocPos = new List<int>();
             blockLineList = new List<RunnerBlocs[]>();
-            InitWalls();
             InitClouds();
             InitBeginArea();
         }
