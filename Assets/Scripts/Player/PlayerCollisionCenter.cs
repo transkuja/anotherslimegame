@@ -12,8 +12,6 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
     [SerializeField]
     bool drawGizmos = true;
-    [SerializeField]
-    GameObject hitParticles;
     // PlayerBouncyPhysics
     [SerializeField]
     [Range(10.0f, 2000.0f)]
@@ -136,10 +134,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
                             Physics.IgnoreCollision(playersCollided[i], GetComponent<Collider>(), true);
                             // Don't reimpacted the same player twice see invicibilityFrame
 
-                            GameObject go = Instantiate(hitParticles);
-                            go.transform.position = transform.position + Vector3.up * 0.5f + playerCenterToTargetCenter / 2.0f;
-                            go.transform.rotation = Quaternion.LookRotation(playerToTarget, Vector3.up);
-                            Destroy(go, 10.0f);
+                            GameObject go = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles).GetItem(null, transform.position + Vector3.up * 0.5f + playerCenterToTargetCenter / 2.0f, Quaternion.LookRotation(playerToTarget, Vector3.up), true, true, (int)HitParticles.HitStar);
                             hasCollidedWithAPlayer = true;
                             currentTimerStop = timerStopOnDashCollision;
 
@@ -180,10 +175,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
                             Physics.IgnoreCollision(playersCollided[i], GetComponent<Collider>(), true);
                             // Don't reimpacted the same player twice see invicibilityFrame
 
-                            GameObject go = Instantiate(hitParticles);
-                            go.transform.position = transform.position+Vector3.up*0.5f + playerCenterToTargetCenter / 2.0f;
-                            go.transform.rotation = Quaternion.LookRotation(playerToTarget, Vector3.up);
-                            Destroy(go, 10.0f);
+                            GameObject go = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles).GetItem(null, transform.position + Vector3.up * 0.5f + playerCenterToTargetCenter / 2.0f, Quaternion.LookRotation(playerToTarget, Vector3.up), true, true, (int)HitParticles.HitStar);
                             hasCollidedWithAPlayer = true;
                             currentTimerStop = timerStopOnDashCollision;
 
@@ -230,10 +222,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
                             Physics.IgnoreCollision(rabiteCollided[i], GetComponent<Collider>(), true);
                             // Don't reimpacted the same player twice see invicibilityFrame
                             impactedRabite.Add(rabiteCollided[i].GetComponent<AIRabite>());
-                            GameObject go = Instantiate(hitParticles);
-                            go.transform.position = transform.position + Vector3.up * 0.5f + rabiteCenterToTargetCenter / 2.0f;
-                            go.transform.rotation = Quaternion.LookRotation(rabiteToTarget, Vector3.up);
-                            Destroy(go, 10.0f);
+                            GameObject go = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles).GetItem(null, transform.position + Vector3.up * 0.5f + rabiteCenterToTargetCenter / 2.0f, Quaternion.LookRotation(rabiteToTarget, Vector3.up), true, true, (int)HitParticles.HitStar);
                             hasCollidedWithAPlayer = true;
                             currentTimerStop = timerStopOnDashCollision;
 
@@ -258,10 +247,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
                             Physics.IgnoreCollision(rabiteCollided[i], GetComponent<Collider>(), true);
                             // Don't reimpacted the same player twice see invicibilityFrame
                             impactedRabite.Add(rabiteCollided[i].GetComponent<AIRabite>());
-                            GameObject go = Instantiate(hitParticles);
-                            go.transform.position = transform.position + Vector3.up * 0.5f + rabiteCenterToTargetCenter / 2.0f;
-                            go.transform.rotation = Quaternion.LookRotation(rabiteToTarget, Vector3.up);
-                            Destroy(go, 10.0f);
+                            GameObject go = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles).GetItem(null, transform.position + Vector3.up * 0.5f + rabiteCenterToTargetCenter / 2.0f, Quaternion.LookRotation(rabiteToTarget, Vector3.up), true, true, (int)HitParticles.HitStar);
                             hasCollidedWithAPlayer = true;
                             currentTimerStop = timerStopOnDashCollision;
 
