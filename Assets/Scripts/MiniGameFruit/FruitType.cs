@@ -24,10 +24,12 @@ public class FruitType : MonoBehaviour {
     public Material matFraise;
 
     [SerializeField]
-    float timer;
-
-    [SerializeField]
     PoolChild poolchild;
+
+    public float t1 = 4;
+    public float t2 = 3;
+    public float t3 = 2;
+    public float t4 = 1;
 
     public void Start()
     {
@@ -39,148 +41,129 @@ public class FruitType : MonoBehaviour {
     //Ils donnent moins de points selon l'état du fruit
     public void Update()
     {
-        //timer = poolchild.CurrentTimer;
+
+        if (GameManager.Instance.CurrentGameMode.minigameVersion == 1)
+            return;
+
         if (GetComponent<Collectable>().type != CollectableType.Bonus)
         {
             if (typeFruit == Fruit.Clementine)
             {
-                if (poolchild.CurrentTimer > 8.0f)
+                if (poolchild.CurrentTimer >= 8.0f)
                 {
-                    GetComponent<Renderer>().material.Lerp(matClementine, rotFruit, 0.0f);
+                    GetComponent<Renderer>().material = matClementine;
                     state = StateFruit.Safe;
                 }
 
-                if (poolchild.CurrentTimer <= 0.2f)
+                else if (poolchild.CurrentTimer < t4)
                 {
-                    GetComponent<Renderer>().material.Lerp(matClementine, rotFruit, 0.0f);
-                    state = StateFruit.Safe;
-                }
-                else if (poolchild.CurrentTimer < 2.0f)
-                {
-                    GetComponent<Renderer>().material.Lerp(matClementine, rotFruit, 1.0f);
                     state = StateFruit.CompletelyRot;
                 }
-                else if (poolchild.CurrentTimer < 3.5f)
+                else if (poolchild.CurrentTimer < t3)
                 {
-                    GetComponent<Renderer>().material.Lerp(matClementine, rotFruit, 0.75f);
                     state = StateFruit.EndRot;
                 }
-                else if (poolchild.CurrentTimer < 5.0f)
+                else if (poolchild.CurrentTimer < t2)
                 {
-                    GetComponent<Renderer>().material.Lerp(matClementine, rotFruit, 0.50f);
                     state = StateFruit.MiddleRot;
                 }
-                else if (poolchild.CurrentTimer < 6.5f)
+                else if (poolchild.CurrentTimer < t1)
                 {
-                    GetComponent<Renderer>().material.Lerp(matClementine, rotFruit, 0.25f);
                     state = StateFruit.BeginRot;
                 }
+
+
+                if (poolchild.CurrentTimer <= t1)
+                    GetComponent<Renderer>().material.Lerp(matClementine, rotFruit, (t1 - poolchild.CurrentTimer) / (t1));
             }
 
             if (typeFruit == Fruit.Pomme)
             {
-                if (poolchild.CurrentTimer > 8.0f)
+                if (poolchild.CurrentTimer >= 8.0f)
                 {
-                    GetComponent<Renderer>().material.Lerp(matPomme, rotFruit, 0.0f);
+                    GetComponent<Renderer>().material = matPomme;
                     state = StateFruit.Safe;
                 }
-
-                if (poolchild.CurrentTimer <= 0.2f)
+                else if (poolchild.CurrentTimer < t4)
                 {
-                    GetComponent<Renderer>().material.Lerp(matPomme, rotFruit, 0.0f);
-                    state = StateFruit.Safe;
-                }
-                else if (poolchild.CurrentTimer < 2.0f)
-                {
-                    GetComponent<Renderer>().material.Lerp(matPomme, rotFruit, 1.0f);
                     state = StateFruit.CompletelyRot;
                 }
-                else if (poolchild.CurrentTimer < 3.5f)
+                else if (poolchild.CurrentTimer < t3)
                 {
-                    GetComponent<Renderer>().material.Lerp(matPomme, rotFruit, 0.75f);
                     state = StateFruit.EndRot;
                 }
-                else if (poolchild.CurrentTimer < 5.0f)
+                else if (poolchild.CurrentTimer < t2)
                 {
-                    GetComponent<Renderer>().material.Lerp(matPomme, rotFruit, 0.50f);
                     state = StateFruit.MiddleRot;
                 }
-                else if (poolchild.CurrentTimer < 6.5f)
+                else if (poolchild.CurrentTimer < t1)
                 {
-                    GetComponent<Renderer>().material.Lerp(matPomme, rotFruit, 0.25f);
                     state = StateFruit.BeginRot;
                 }
+
+                if (poolchild.CurrentTimer <= t1)
+                    GetComponent<Renderer>().material.Lerp(matPomme, rotFruit, (t1 - poolchild.CurrentTimer) / (t1));
             }
 
             if (typeFruit == Fruit.Kiwi)
             {
-                if (poolchild.CurrentTimer > 8.0f)
+                if (poolchild.CurrentTimer >= 8.0f)
                 {
-                    GetComponent<Renderer>().material.Lerp(matKiwi, rotFruit, 0.0f);
+                    GetComponent<Renderer>().material = matKiwi;
                     state = StateFruit.Safe;
                 }
-
-                if (poolchild.CurrentTimer <= 0.2f)
+                else if (poolchild.CurrentTimer < t4)
                 {
-                    GetComponent<Renderer>().material.Lerp(matKiwi, rotFruit, 0.0f);
-                    state = StateFruit.Safe;
-                }
-                else if (poolchild.CurrentTimer < 2.0f)
-                {
-                    GetComponent<Renderer>().material.Lerp(matKiwi, rotFruit, 1.0f);
                     state = StateFruit.CompletelyRot;
                 }
-                else if (poolchild.CurrentTimer < 3.5f)
+                else if (poolchild.CurrentTimer < t3)
                 {
-                    GetComponent<Renderer>().material.Lerp(matKiwi, rotFruit, 0.75f);
                     state = StateFruit.EndRot;
                 }
-                else if (poolchild.CurrentTimer < 5.0f)
+                else if (poolchild.CurrentTimer < t2)
                 {
-                    GetComponent<Renderer>().material.Lerp(matKiwi, rotFruit, 0.50f);
                     state = StateFruit.MiddleRot;
                 }
-                else if (poolchild.CurrentTimer < 6.5f)
+                else if (poolchild.CurrentTimer < t1)
                 {
-                    GetComponent<Renderer>().material.Lerp(matKiwi, rotFruit, 0.25f);
                     state = StateFruit.BeginRot;
                 }
+
+                if (poolchild.CurrentTimer <= t1)
+                    GetComponent<Renderer>().material.Lerp(matKiwi, rotFruit, (t1 - poolchild.CurrentTimer) / (t1));
             }
 
             if (typeFruit == Fruit.Fraise)
             {
-                if (poolchild.CurrentTimer > 8.0f)
+                if (poolchild.CurrentTimer >= 8.0f)
                 {
-                    GetComponent<Renderer>().material.Lerp(matFraise, rotFruit, 0.0f);
+                    GetComponent<Renderer>().material = matFraise;
                     state = StateFruit.Safe;
                 }
 
-                if (poolchild.CurrentTimer <= 0.2f)
+                if (poolchild.CurrentTimer < t4)
                 {
-                    GetComponent<Renderer>().material.Lerp(matFraise, rotFruit, 0.0f);
-                    state = StateFruit.Safe;
-                }
-                else if (poolchild.CurrentTimer < 2.0f)
-                {
-                    GetComponent<Renderer>().material.Lerp(matFraise, rotFruit, 1.0f);
                     state = StateFruit.CompletelyRot;
                 }
-                else if (poolchild.CurrentTimer < 3.5f)
+                else if (poolchild.CurrentTimer < t3)
                 {
-                    GetComponent<Renderer>().material.Lerp(matFraise, rotFruit, 0.75f);
                     state = StateFruit.EndRot;
                 }
-                else if (poolchild.CurrentTimer < 5.0f)
+                else if (poolchild.CurrentTimer < t2)
                 {
-                    GetComponent<Renderer>().material.Lerp(matFraise, rotFruit, 0.50f);
                     state = StateFruit.MiddleRot;
                 }
-                else if (poolchild.CurrentTimer < 6.5f)
+                else if (poolchild.CurrentTimer < t1)
                 {
-                    GetComponent<Renderer>().material.Lerp(matFraise, rotFruit, 0.25f);
                     state = StateFruit.BeginRot;
                 }
+
+
+                if (poolchild.CurrentTimer <= t1)
+                    GetComponent<Renderer>().material.Lerp(matFraise, rotFruit, (t1 - poolchild.CurrentTimer) / (t1));
             }
+
         }
+
     }
 }

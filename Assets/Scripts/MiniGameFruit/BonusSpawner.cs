@@ -111,20 +111,20 @@ public class BonusSpawner : MonoBehaviour {
 
     IEnumerator UnspawnBonus(GameObject go)
     {
-        yield return new WaitForSeconds(3.0f);
+        yield return new WaitForSeconds(5.0f);
 
         go.GetComponent<MeshRenderer>().enabled = false;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
         go.GetComponent<MeshRenderer>().enabled = true;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
         go.GetComponent<MeshRenderer>().enabled = false;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
         go.GetComponent<MeshRenderer>().enabled = true;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
         go.GetComponent<MeshRenderer>().enabled = false;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
         go.GetComponent<MeshRenderer>().enabled = true;
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
 
         Destroy(go);
     }
