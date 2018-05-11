@@ -281,8 +281,6 @@ public class PlayerCollisionCenter : MonoBehaviour {
                     if (c.isActiveAndEnabled && !c.IsAttracted && !c.haveToDisperse)
                     {
                         Physics.IgnoreCollision(collectablesCollided[i], GetComponent<Collider>(), true);
-                        if(c.GetComponent<Animator>())
-                            c.GetComponent<Animator>().enabled = false;
                         c.PickUp(GetComponent<Player>());
                     }
                 }

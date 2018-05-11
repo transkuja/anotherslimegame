@@ -79,9 +79,9 @@ public class Collectable : MonoBehaviour
                 GetComponent<Collider>().enabled = true;
             playerTarget = null;
             if (GetComponent<Animator>())
-            {
                 GetComponent<Animator>().enabled = true;
-            }
+            if (GetComponent<Rigidbody>())
+                GetComponent<Rigidbody>().WakeUp();
         }
     }
 
@@ -119,6 +119,11 @@ public class Collectable : MonoBehaviour
             if (!Utils.IsAnEvolutionCollectable(GetComponent<Collectable>().type) || player.activeEvolutions <= 1)
             {
                 IsAttracted = true;
+                if(GetComponent<Animator>())
+                    GetComponent<Animator>().enabled = false;
+                if (GetComponent<Rigidbody>())
+                    GetComponent<Rigidbody>().Sleep();
+                // En theorie sa sert a rien
                 GetComponent<Collider>().enabled = false;
                 playerTarget = player;
                 return;
@@ -130,7 +135,7 @@ public class Collectable : MonoBehaviour
     {
         transform.position = Vector3.Lerp(transform.position, (playerTarget.transform.position + Vector3.up * .5f), Time.deltaTime * movementSpeed);
         //GetComponent<Rigidbody>().velocity = (direction * movementSpeed * Time.deltaTime * 50.0f);
-        if (Vector3.Distance(playerTarget.transform.position + Vector3.up * 0.5f, transform.position) < .8f)
+        if (Vector3.Distance(playerTarget.transform.position + Vector3.up * 0.5f, transform.position) <= 1.0f)
         {
             if (GetComponent<FruitType>())
             {
