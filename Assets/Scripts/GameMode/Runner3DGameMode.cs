@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UWPAndXInput;
 using Runner3D;
+using RockVR;
+
 public class Runner3DGameMode : GameMode {
 
     public enum EMode
@@ -22,6 +24,8 @@ public class Runner3DGameMode : GameMode {
             return mode;
         }
     }
+
+    public RockVR.Video.VideoCaptureCtrl vrcapture;
 
     public override void StartGame(List<GameObject> playerReferences)
     {
@@ -49,6 +53,8 @@ public class Runner3DGameMode : GameMode {
     public override void OnReadySetGoBegin()
     {
         base.OnReadySetGoBegin();
+
+        vrcapture.StartCapture();
         levelGenerator.LevelBegin();
     }
 
