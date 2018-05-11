@@ -83,9 +83,9 @@ public class PlayerCharacterHub : PlayerCharacter {
             PlayerState.OnBegin();
 #if UNITY_EDITOR
             if (GetComponent<PlayerControllerHub>())
-                DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.NbJumpMade, value.ToString(), (int)GetComponent<PlayerControllerHub>().playerIndex);
+                DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.CurrentState, value.ToString(), (int)GetComponent<PlayerControllerHub>().playerIndex);
             else
-                DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.NbJumpMade, value.ToString(), -1);
+                DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.CurrentState, value.ToString(), -1);
 #endif
         }
     }

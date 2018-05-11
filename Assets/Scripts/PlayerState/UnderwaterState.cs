@@ -21,6 +21,10 @@ public class UnderwaterState : PlayerState
     public override void OnBegin()
     {
         base.OnBegin();
+
+        hasStartedGoingUp = false;
+        hasReachedTheSurface = false;
+
         waterTolerance = playerCharacterHub.GetComponent<SphereCollider>().radius;
         if (hasReachedTheSurface)
         {
@@ -67,10 +71,12 @@ public class UnderwaterState : PlayerState
     public override void OnUpdate()
     {
         base.OnUpdate();
-        if (!hasReachedTheSurface && hasStartedGoingUp && playerCharacterHub.transform.position.y > waterLevel - waterTolerance)
+
+        // Le moment ou on etait en train de remonter et qu'on a atteint la surface
+        if (!hasReachedTheSurface && hasStartedGoingUp && playerCharacterHub.transform.position.y > waterLevel - waterTolerance -0.1f)
         {
-            hasReachedTheSurface = true;
             playerCharacterHub.Anim.SetBool("isBoobbing", true);
+            hasReachedTheSurface = true;
         }
 
         // Critical case
@@ -91,22 +97,31 @@ public class UnderwaterState : PlayerState
     // Disable gravity when underwater
     public override void HandleGravity()
     {
-        if (playerCharacterHub.transform.position.y < waterLevel - waterTolerance - 1f)
-        {
-            hasStartedGoingUp = true;
-        }
+        float seuilAPartirDuquelOnRemonte = waterLevel - waterTolerance - 1f;
 
+        // Quand on est en train de remonter
         if (!hasReachedTheSurface && hasStartedGoingUp)
         {
             playerCharacterHub.Rb.AddForce(Gravity.underwaterGravity * Vector3.down);
         }
 
-        if (!hasStartedGoingUp && playerCharacterHub.transform.position.y < waterLevel - waterTolerance && playerCharacterHub.transform.position.y > waterLevel - waterTolerance - 1f)
+        // Declenche le fait de remonter
+        if (playerCharacterHub.transform.position.y < seuilAPartirDuquelOnRemonte)
+        {
+            hasStartedGoingUp = true;
+        }
+
+        // Rentre dans l'eau
+        if (!hasStartedGoingUp && playerCharacterHub.transform.position.y > seuilAPartirDuquelOnRemonte
+                               && playerCharacterHub.transform.position.y < waterLevel - waterTolerance + 1 )
         {
             playerCharacterHub.Rb.AddForce(Gravity.defaultGravity * Vector3.down);
         }
 
-        if (hasReachedTheSurface)
+        if (hasReachedTheSurface && hasStartedGoingUp)
+        {
             playerCharacterHub.Rb.velocity = new Vector3(playerCharacterHub.Rb.velocity.x, 0, playerCharacterHub.Rb.velocity.z);
+        }
+
     }
 }
