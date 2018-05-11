@@ -115,7 +115,7 @@ public class PlayerState {
     {
         if (playerCharacterHub.IsGravityEnabled)
         {
-            playerCharacterHub.Rb.AddForce(Gravity.defaultGravity * Vector3.down);
+            playerCharacterHub.Rb.AddForce(Gravity.defaultGravity * Vector3.down * playerCharacterHub.gravityFactor);
         }
     }
     public virtual void OnJumpPressed()

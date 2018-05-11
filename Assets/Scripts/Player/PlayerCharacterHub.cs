@@ -46,6 +46,8 @@ public class PlayerCharacterHub : PlayerCharacter {
 
     private bool pendingStepSound = false;
 
+    public float gravityFactor = 1.0f;
+
     #region Getters/Setters
     /// StateManagment
     public PlayerState PreviousPlayerState
@@ -114,9 +116,9 @@ public class PlayerCharacterHub : PlayerCharacter {
 
 #if UNITY_EDITOR
             if (GetComponent<PlayerControllerHub>())
-                DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.NbJumpMade, value.ToString(), (int)GetComponent<PlayerControllerHub>().playerIndex);
+                DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.IsGrounded, value.ToString(), (int)GetComponent<PlayerControllerHub>().playerIndex);
             else
-                DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.NbJumpMade, value.ToString(), -1);
+                DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.IsGrounded, value.ToString(), -1);
 #endif
             if (value == true)
             {
@@ -161,6 +163,7 @@ public class PlayerCharacterHub : PlayerCharacter {
             }
             else
             {
+                gravityFactor = 1.0f;
                 if (DustTrailParticles && DustTrailParticles.GetComponent<ParticleSystem>() != null)
                 {
                     DustTrailParticles.GetComponent<ParticleSystem>().Stop();
@@ -225,13 +228,17 @@ public class PlayerCharacterHub : PlayerCharacter {
             PlayerState.OnUpdate();
         if (Rb.velocity.y > 0.05f && !IsGrounded)
             HandleJumpDeformer();
-        if (Rb.velocity.y < 0.0f && IsGrounded)
+
+        if ((Rb.velocity.y < 0.0f && IsGrounded) || (Rb.velocity.y >= 0.0f && jumpState.NbJumpMade == 0))
         {
             if (!Physics.Raycast(transform.position + Vector3.up * 0.5f + raycastOffsetPlayer * transform.forward, Vector3.down, raycastDist, groundLayersToCheck)
                     && !Physics.Raycast(transform.position + Vector3.up * 0.5f - raycastOffsetPlayer * transform.forward, Vector3.down, raycastDist, groundLayersToCheck)
                     && !Physics.Raycast(transform.position + Vector3.up * 0.5f + raycastOffsetPlayer * transform.right, Vector3.down, raycastDist, groundLayersToCheck)
                     && !Physics.Raycast(transform.position + Vector3.up * 0.5f - raycastOffsetPlayer * transform.right, Vector3.down, raycastDist, groundLayersToCheck))
+            {
                 IsGrounded = false;
+            }
+
         }
 
         if (!IsGrounded)
@@ -298,9 +305,13 @@ public class PlayerCharacterHub : PlayerCharacter {
                     || Physics.Raycast(transform.position + Vector3.up * 0.5f - raycastOffsetPlayer * transform.forward, Vector3.down, raycastDist, groundLayersToCheck)
                     || Physics.Raycast(transform.position + Vector3.up * 0.5f + raycastOffsetPlayer * transform.right, Vector3.down, raycastDist, groundLayersToCheck)
                     || Physics.Raycast(transform.position + Vector3.up * 0.5f - raycastOffsetPlayer * transform.right, Vector3.down, raycastDist, groundLayersToCheck))
+            {
+                if (dotProduct > 0.8f && dotProduct < 1.2f)
+                    gravityFactor = 0.2f;
                 IsGrounded = true;
-        }
+            }
 
+        }
     }
     public void OnCollisionStay(Collision collision)
     {
