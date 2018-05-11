@@ -60,13 +60,18 @@ public class Breakable : MonoBehaviour {
             int nbFragments = Random.Range(minFragments, maxFragments);
             for (int i = 0; i < nbFragments; i++)
                 ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.BreakablePieces).GetItem(transform, Vector3.up * 0.5f, Quaternion.identity, true);
-
-            if (persistenceIndex != -1 && !DatabaseManager.Db.alreadyBrokenBreakables[persistenceIndex])
+            if (GameManager.Instance.IsInHub())
+            {
+                if (persistenceIndex != -1 && !DatabaseManager.Db.alreadyBrokenBreakables[persistenceIndex])
+                {
+                    DropCollectableOnGround();
+                    DatabaseManager.Db.alreadyBrokenBreakables[persistenceIndex] = true;
+                }
+            }
+            else
             {
                 DropCollectableOnGround();
-                DatabaseManager.Db.alreadyBrokenBreakables[persistenceIndex] = true;
             }
-
             if (AudioManager.Instance != null && AudioManager.Instance.breakFx != null)
                 AudioManager.Instance.PlayOneShot(AudioManager.Instance.breakFx);
 
