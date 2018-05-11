@@ -93,6 +93,10 @@ public class Runner3DGameMode : GameMode {
     }
     public void EndGame()
     {
+        DebugDestroy dd = FindObjectOfType<DebugDestroy>();
+        if (dd)
+            Destroy(dd.gameObject);
+
         GameObject[] playerTab = GameManager.Instance.PlayerStart.PlayersReference.ToArray();
         Array.Sort(playerTab, 
             (GameObject player, GameObject other) => {
