@@ -176,6 +176,18 @@ public class PlayerStart : MonoBehaviour {
 
                         // Init hats //
                         playerCosmetics.Hat = GameManager.Instance.DataContainer.hatsSelected[i];
+
+                        // Init forehead //
+                        playerCosmetics.Forehead = GameManager.Instance.DataContainer.foreheadsSelected[i];
+
+                        // Init skin //
+                        playerCosmetics.Skin = GameManager.Instance.DataContainer.skinsSelected[i];                        
+                        
+                        // Init chin //
+                        playerCosmetics.Chin = GameManager.Instance.DataContainer.chinsSelected[i];
+
+                        // Init accessory //
+                        playerCosmetics.Accessory = GameManager.Instance.DataContainer.accessoriesSelected[i];
                     }
                 }
                 else

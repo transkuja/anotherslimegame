@@ -707,8 +707,17 @@ public class Menu : MonoBehaviour {
                 UpdatePlayerPreviewMustache(_playerIndex, _unlockedIndex, _isNoneValue);
                 break;
             case CustomizableType.Accessory:
+                UpdatePlayerPreviewAccessory(_playerIndex, _unlockedIndex, _isNoneValue);
+                break;
             case CustomizableType.Chin:
+                UpdatePlayerPreviewChin(_playerIndex, _unlockedIndex, _isNoneValue);
+                break;
             case CustomizableType.Forehead:
+                UpdatePlayerPreviewForehead(_playerIndex, _unlockedIndex, _isNoneValue);
+                break;
+            case CustomizableType.Skin:
+                UpdatePlayerPreviewSkin(_playerIndex, _unlockedIndex, _isNoneValue);
+                break;
             default:
                 Debug.Log(_customizableType + " is not implemented yet.");
                 break;
@@ -765,7 +774,6 @@ public class Menu : MonoBehaviour {
         }
     }
 
-    // Default customizable update function
     void UpdatePlayerPreviewEars(int _playerIndex, int _selection, bool _isNoneValue)
     {
         PlayerCosmetics playerCosmetics = playerCustomScreens[_playerIndex].GetComponentInChildren<PlayerCosmetics>();
@@ -785,6 +793,83 @@ public class Menu : MonoBehaviour {
         else
         {
             playerCosmetics.Ears = String.Empty;
+        }
+    }
+
+    void UpdatePlayerPreviewChin(int _playerIndex, int _selection, bool _isNoneValue)
+    {
+        PlayerCosmetics playerCosmetics = playerCustomScreens[_playerIndex].GetComponentInChildren<PlayerCosmetics>();
+
+        Transform parent = playerCustomScreens[_playerIndex].transform.GetComponentInChildren<CustomizableSockets>().transform.GetChild((int)(CustomizableType.Chin) - 2);
+        if (parent.childCount < 1)
+        {
+            if (!_isNoneValue)
+                StartCoroutine(Happy(playerCosmetics));
+        }
+
+        if (!_isNoneValue)
+        {
+            playerCosmetics.Chin = ((DatabaseClass.HatData)customizables[CustomizableType.Chin][_selection]).Id;
+        }
+        else
+        {
+            playerCosmetics.Chin = String.Empty;
+        }
+    }
+
+    void UpdatePlayerPreviewSkin(int _playerIndex, int _selection, bool _isNoneValue)
+    {
+        PlayerCosmetics playerCosmetics = playerCustomScreens[_playerIndex].GetComponentInChildren<PlayerCosmetics>();
+
+        if (!_isNoneValue)
+        {
+            playerCosmetics.Skin = ((DatabaseClass.HatData)customizables[CustomizableType.Hat][_selection]).Id;
+        }
+        else
+        {
+            playerCosmetics.Skin = String.Empty;
+        }
+    }
+
+    void UpdatePlayerPreviewAccessory(int _playerIndex, int _selection, bool _isNoneValue)
+    {
+        PlayerCosmetics playerCosmetics = playerCustomScreens[_playerIndex].GetComponentInChildren<PlayerCosmetics>();
+
+        Transform parent = playerCustomScreens[_playerIndex].transform.GetComponentInChildren<CustomizableSockets>().transform.GetChild((int)(CustomizableType.Accessory) - 2);
+        if (parent.childCount < 1)
+        {
+            if (!_isNoneValue)
+                StartCoroutine(Happy(playerCosmetics));
+        }
+
+        if (!_isNoneValue)
+        {
+            playerCosmetics.Accessory = ((DatabaseClass.HatData)customizables[CustomizableType.Accessory][_selection]).Id;
+        }
+        else
+        {
+            playerCosmetics.Accessory = String.Empty;
+        }
+    }
+
+    void UpdatePlayerPreviewForehead(int _playerIndex, int _selection, bool _isNoneValue)
+    {
+        PlayerCosmetics playerCosmetics = playerCustomScreens[_playerIndex].GetComponentInChildren<PlayerCosmetics>();
+
+        Transform parent = playerCustomScreens[_playerIndex].transform.GetComponentInChildren<CustomizableSockets>().transform.GetChild((int)(CustomizableType.Forehead) - 2);
+        if (parent.childCount < 1)
+        {
+            if (!_isNoneValue)
+                StartCoroutine(Happy(playerCosmetics));
+        }
+
+        if (!_isNoneValue)
+        {
+            playerCosmetics.Forehead = ((DatabaseClass.HatData)customizables[CustomizableType.Forehead][_selection]).Id;
+        }
+        else
+        {
+            playerCosmetics.Forehead = String.Empty;
         }
     }
 
@@ -810,6 +895,10 @@ public class Menu : MonoBehaviour {
     // Change the player color according to current selection
     void UpdatePlayerPreviewColor(int _playerIndex, int _selection)
     {
+        // Do not update color if a skin is selected
+        if (selectedCustomizables[(int)CustomizableType.Skin, _playerIndex] != customizables[CustomizableType.Skin].Count)
+            return;
+
         // Update text and character
         playerCustomScreens[_playerIndex].transform.GetChild(4).GetComponentInChildren<PlayerCosmetics>().ColorFadeType = ColorFadeType.None;
         playerCustomScreens[_playerIndex].transform.GetChild(4).GetComponentInChildren<PlayerCosmetics>().SetUniqueColor(((DatabaseClass.ColorData)customizables[CustomizableType.Color][_selection]).color);
@@ -963,6 +1052,18 @@ public class Menu : MonoBehaviour {
                 // Hat //
                 UpdatePlayersOnMinigameSelectionScreen(CustomizableType.Hat, i, childCount);
 
+                // Chin //
+                UpdatePlayersOnMinigameSelectionScreen(CustomizableType.Chin, i, childCount);
+
+                // Skin //
+                UpdatePlayersOnMinigameSelectionScreen(CustomizableType.Skin, i, childCount);
+
+                // Accessory //
+                UpdatePlayersOnMinigameSelectionScreen(CustomizableType.Accessory, i, childCount);
+
+                // Forehead //
+                UpdatePlayersOnMinigameSelectionScreen(CustomizableType.Forehead, i, childCount);
+
             }
 
             for (int i = nbPlayers; i < 4; i++)
@@ -978,14 +1079,32 @@ public class Menu : MonoBehaviour {
 
         if (selectedCustomizables[(int)_type, _playerIndex] != customizables[_type].Count && customizables[_type].Count > 0)
         {
-            if (_type == CustomizableType.Mustache)
-                playerCosmetics.Mustache = ((DatabaseClass.MustacheData)customizables[_type][selectedCustomizables[(int)_type, _playerIndex]]).Id;
-            else if (_type == CustomizableType.Hat)
+            switch (_type)
             {
-                playerCosmetics.Hat = ((DatabaseClass.HatData)customizables[_type][selectedCustomizables[(int)_type, _playerIndex]]).Id;
+                case CustomizableType.Mustache:
+                    playerCosmetics.Mustache = ((DatabaseClass.MustacheData)customizables[_type][selectedCustomizables[(int)_type, _playerIndex]]).Id;
+                    break;
+                case CustomizableType.Hat:
+                    playerCosmetics.Hat = ((DatabaseClass.HatData)customizables[_type][selectedCustomizables[(int)_type, _playerIndex]]).Id;
+                    break;
+                case CustomizableType.Ears:
+                    playerCosmetics.Ears = ((DatabaseClass.EarsData)customizables[_type][selectedCustomizables[(int)_type, _playerIndex]]).Id;
+                    break;
+                case CustomizableType.Skin:
+                    playerCosmetics.Skin = ((DatabaseClass.SkinData)customizables[_type][selectedCustomizables[(int)_type, _playerIndex]]).Id;
+                    break;
+                case CustomizableType.Chin:
+                    playerCosmetics.Chin = ((DatabaseClass.ChinData)customizables[_type][selectedCustomizables[(int)_type, _playerIndex]]).Id;
+                    break;
+                case CustomizableType.Forehead:
+                    playerCosmetics.Forehead = ((DatabaseClass.ForeheadData)customizables[_type][selectedCustomizables[(int)_type, _playerIndex]]).Id;
+                    break;
+                case CustomizableType.Accessory:
+                    playerCosmetics.Accessory = ((DatabaseClass.AccessoryData)customizables[_type][selectedCustomizables[(int)_type, _playerIndex]]).Id;
+                    break;
+                default:
+                    break;
             }
-            else if (_type == CustomizableType.Ears)
-                playerCosmetics.Ears = ((DatabaseClass.EarsData)customizables[_type][selectedCustomizables[(int)_type, _playerIndex]]).Id;
         }
     }
 

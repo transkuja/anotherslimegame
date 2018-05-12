@@ -17,6 +17,10 @@ public class PlayerCosmeticsEditor : Editor
     List<string> mustachesList;
     List<string> hatsList;
     List<string> earsList;
+    List<string> accessoriesList;
+    List<string> chinsList;
+    List<string> skinsList;
+    List<string> foreheadsList;
 
     public void OnEnable()
     {
@@ -26,10 +30,18 @@ public class PlayerCosmeticsEditor : Editor
         mustachesList = new List<string>();
         hatsList = new List<string>();
         earsList = new List<string>();
+        accessoriesList = new List<string>();
+        chinsList = new List<string>();
+        skinsList = new List<string>();
+        foreheadsList = new List<string>();
 
         mustachesList.Add("None");
         hatsList.Add("None");
         earsList.Add("None");
+        accessoriesList.Add("None");
+        chinsList.Add("None");
+        skinsList.Add("None");
+        foreheadsList.Add("None");
 
         foreach (FaceData s in DatabaseManager.Db.faces)
         {
@@ -51,11 +63,34 @@ public class PlayerCosmeticsEditor : Editor
             earsList.Add(s.Id);
         }
 
+        foreach (AccessoryData s in DatabaseManager.Db.accessories)
+        {
+            accessoriesList.Add(s.Id);
+        }
+
+        foreach (ChinData s in DatabaseManager.Db.chins)
+        {
+            chinsList.Add(s.Id);
+        }
+
+        foreach (SkinData s in DatabaseManager.Db.skins)
+        {
+            skinsList.Add(s.Id);
+        }
+
+        foreach (ForeheadData s in DatabaseManager.Db.foreheads)
+        {
+            foreheadsList.Add(s.Id);
+        }
+
         curFaceType = cosmetics.FaceType;
         curFaceEmotion = cosmetics.FaceEmotion;
         curMustache = GetIndexFromString(cosmetics.Mustache, CustomizableType.Mustache);
         curHat = GetIndexFromString(cosmetics.Hat, CustomizableType.Hat);
         curEars = GetIndexFromString(cosmetics.Ears, CustomizableType.Ears);
+        curChin = GetIndexFromString(cosmetics.Ears, CustomizableType.Chin);
+        curForehead = GetIndexFromString(cosmetics.Ears, CustomizableType.Forehead);
+        curAccessory = GetIndexFromString(cosmetics.Ears, CustomizableType.Accessory);
         curBodyColor = cosmetics.BodyColor;
         curTexture = cosmetics.BodyTexture;
         curSkinType = cosmetics.SkinType;
@@ -72,6 +107,9 @@ public class PlayerCosmeticsEditor : Editor
     int curMustache = 0;
     int curHat = 0;
     int curEars = 0;
+    int curChin = 0;
+    int curForehead = 0;
+    int curAccessory = 0;
     ColorFadeType curColorFadeType = 0;
 
     Color curBodyColor;

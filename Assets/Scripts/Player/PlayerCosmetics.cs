@@ -66,6 +66,18 @@ public class PlayerCosmetics : MonoBehaviour {
     [SerializeField]
     string ears = "None";
 
+    [SerializeField]
+    string accessory = "None";
+
+    [SerializeField]
+    string forehead = "None";
+
+    [SerializeField]
+    string skin = "None";
+
+    [SerializeField]
+    string chin = "None";
+
     private void Awake()
     {
         Init(true);
@@ -145,6 +157,34 @@ public class PlayerCosmetics : MonoBehaviour {
                 Init();
             faceEmotion = value;
             faceMat.SetTextureOffset("_MainTex", new Vector2((faceType - 1) / 8.0f, 1 - (float)faceEmotion / 8.0f));
+        }
+    }
+
+    public string Skin
+    {
+        get
+        {
+            return skin;
+        }
+
+        set
+        {
+            skin = value;
+            
+            if (skin != "None" && skin != string.Empty)
+            {
+                if (DatabaseManager.Db == null)
+                    DatabaseManager.LoadDb();
+
+                DatabaseClass.SkinData data = ((DatabaseClass.SkinData)DatabaseManager.Db.GetDataFromId<DatabaseClass.SkinData>(skin));
+                bodyTexture = Resources.Load(data.texture) as Texture;
+                SkinType = SkinType.Texture;
+            }
+            else
+            {
+                bodyTexture = null;
+                SkinType = SkinType.Color;
+            }
         }
     }
 
@@ -290,6 +330,88 @@ public class PlayerCosmetics : MonoBehaviour {
             }
         }
     }
+
+    public string Accessory
+    {
+        get
+        {
+            return accessory;
+        }
+
+        set
+        {
+            accessory = value;
+            if (!customSockets)
+                customSockets = GetComponent<CustomizableSockets>();
+            Transform accessoryTransform = customSockets.GetSocket(CustomizableType.Accessory);
+            while (accessoryTransform.childCount > 0)
+                DestroyImmediate(accessoryTransform.GetChild(0).gameObject);
+            if (accessory != "None" && accessory != string.Empty)
+            {
+                if (DatabaseManager.Db == null)
+                    DatabaseManager.LoadDb();
+
+                DatabaseClass.AccessoryData data = ((DatabaseClass.AccessoryData)DatabaseManager.Db.GetDataFromId<DatabaseClass.AccessoryData>(accessory));
+                ICustomizable accessoryCustom = ((GameObject)Instantiate(Resources.Load(data.model), accessoryTransform)).GetComponent<ICustomizable>();
+                accessoryCustom.Init(GetComponentInParent<Rigidbody>());
+            }
+        }
+    }
+
+    public string Forehead
+    {
+        get
+        {
+            return forehead;
+        }
+
+        set
+        {
+            forehead = value;
+            if (!customSockets)
+                customSockets = GetComponent<CustomizableSockets>();
+            Transform foreheadTransform = customSockets.GetSocket(CustomizableType.Forehead);
+            while (foreheadTransform.childCount > 0)
+                DestroyImmediate(foreheadTransform.GetChild(0).gameObject);
+            if (forehead != "None" && forehead != string.Empty)
+            {
+                if (DatabaseManager.Db == null)
+                    DatabaseManager.LoadDb();
+
+                DatabaseClass.ForeheadData data = ((DatabaseClass.ForeheadData)DatabaseManager.Db.GetDataFromId<DatabaseClass.ForeheadData>(forehead));
+                ICustomizable foreheadCustom = ((GameObject)Instantiate(Resources.Load(data.model), foreheadTransform)).GetComponent<ICustomizable>();
+                foreheadCustom.Init(GetComponentInParent<Rigidbody>());
+            }
+        }
+    }
+
+    public string Chin
+    {
+        get
+        {
+            return chin;
+        }
+
+        set
+        {
+            chin = value;
+            if (!customSockets)
+                customSockets = GetComponent<CustomizableSockets>();
+            Transform chinTransform = customSockets.GetSocket(CustomizableType.Chin);
+            while (chinTransform.childCount > 0)
+                DestroyImmediate(chinTransform.GetChild(0).gameObject);
+            if (chin != "None" && chin != string.Empty)
+            {
+                if (DatabaseManager.Db == null)
+                    DatabaseManager.LoadDb();
+
+                DatabaseClass.ChinData data = ((DatabaseClass.ChinData)DatabaseManager.Db.GetDataFromId<DatabaseClass.ChinData>(chin));
+                ICustomizable chinCustom = ((GameObject)Instantiate(Resources.Load(data.model), chinTransform)).GetComponent<ICustomizable>();
+                chinCustom.Init(GetComponentInParent<Rigidbody>());
+            }
+        }
+    }
+
 
     public ColorFadeType ColorFadeType
     {
