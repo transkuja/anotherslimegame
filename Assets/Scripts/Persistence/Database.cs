@@ -582,7 +582,21 @@ namespace DatabaseClass
             int idForeheads = 0;
             string[] strForeheads = { "Unicorn" };
             foreheads.Add(new ForeheadData { Id = strForeheads[idForeheads], model = "Foreheads/Unicorn", isUnlocked = false });
-        
+
+            // Adding chins
+            int idChins = 0;
+            string[] strChins = { "Bow Tie", "Goatee" };
+            chins.Add(new ChinData { Id = strChins[idChins], model = "Chins/BowTie", isUnlocked = false });
+            chins.Add(new ChinData { Id = strChins[++idChins], model = "Chins/Goatee", isUnlocked = false });
+
+            // Adding accessories
+            int idAccessories = 0;
+            string[] strAccessories = { "Glasses", "Long Glasses", "Nose Glasses", "Boss Glasses" };
+            accessories.Add(new AccessoryData { Id = strAccessories[idAccessories], model = "Accessories/Glasses", isUnlocked = false });
+            accessories.Add(new AccessoryData { Id = strAccessories[++idAccessories], model = "Accessories/LongGlasses", isUnlocked = false });
+            accessories.Add(new AccessoryData { Id = strAccessories[++idAccessories], model = "Accessories/NoseGlasses", isUnlocked = false });
+            accessories.Add(new AccessoryData { Id = strAccessories[++idAccessories], model = "Accessories/BossGlasses", isUnlocked = false });
+
             SneakyChiefProgress = 0;
             JokerProgress = 0;
 
