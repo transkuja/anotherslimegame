@@ -150,6 +150,26 @@ public class Menu : MonoBehaviour {
             customizables[CustomizableType.Hat].Add(hat);
         }
 
+        foreach (DatabaseClass.AccessoryData accessory in DatabaseManager.Db.accessories)
+        {
+            customizables[CustomizableType.Accessory].Add(accessory);
+        }
+
+        foreach (DatabaseClass.ChinData chin in DatabaseManager.Db.chins)
+        {
+            customizables[CustomizableType.Chin].Add(chin);
+        }
+
+        foreach (DatabaseClass.SkinData skin in DatabaseManager.Db.skins)
+        {
+            customizables[CustomizableType.Skin].Add(skin);
+        }
+
+        foreach (DatabaseClass.ForeheadData forehead in DatabaseManager.Db.foreheads)
+        {
+            customizables[CustomizableType.Forehead].Add(forehead);
+        }
+
         for (int i = 0; i < (int)MinigameType.Size; i++)
         {
             if (DatabaseManager.Db.GetAllMinigamesOfType((MinigameType)i) != null)
@@ -198,11 +218,30 @@ public class Menu : MonoBehaviour {
                 else
                     selectedCustomizables[(int)CustomizableType.Hat, i] = customizables[CustomizableType.Hat].FindIndex(x => ((DatabaseClass.HatData)x).Id == dataContainer.hatsSelected[i]);
 
-                if (isNonable[(int)CustomizableType.Ears] && dataContainer.hatsSelected[i] == "None")
+                if (isNonable[(int)CustomizableType.Ears] && dataContainer.earsSelected[i] == "None")
                     selectedCustomizables[(int)CustomizableType.Ears, i] = customizables[CustomizableType.Ears].Count;
                 else
                     selectedCustomizables[(int)CustomizableType.Ears, i] = customizables[CustomizableType.Ears].FindIndex(x => ((DatabaseClass.HatData)x).Id == dataContainer.earsSelected[i]);
 
+                if (isNonable[(int)CustomizableType.Chin] && dataContainer.chinsSelected[i] == "None")
+                    selectedCustomizables[(int)CustomizableType.Chin, i] = customizables[CustomizableType.Chin].Count;
+                else
+                    selectedCustomizables[(int)CustomizableType.Chin, i] = customizables[CustomizableType.Chin].FindIndex(x => ((DatabaseClass.HatData)x).Id == dataContainer.earsSelected[i]);
+
+                if (isNonable[(int)CustomizableType.Skin] && dataContainer.skinsSelected[i] == "None")
+                    selectedCustomizables[(int)CustomizableType.Skin, i] = customizables[CustomizableType.Skin].Count;
+                else
+                    selectedCustomizables[(int)CustomizableType.Skin, i] = customizables[CustomizableType.Skin].FindIndex(x => ((DatabaseClass.HatData)x).Id == dataContainer.earsSelected[i]);
+
+                if (isNonable[(int)CustomizableType.Accessory] && dataContainer.accessoriesSelected[i] == "None")
+                    selectedCustomizables[(int)CustomizableType.Accessory, i] = customizables[CustomizableType.Accessory].Count;
+                else
+                    selectedCustomizables[(int)CustomizableType.Accessory, i] = customizables[CustomizableType.Accessory].FindIndex(x => ((DatabaseClass.HatData)x).Id == dataContainer.earsSelected[i]);
+
+                if (isNonable[(int)CustomizableType.Forehead] && dataContainer.foreheadsSelected[i] == "None")
+                    selectedCustomizables[(int)CustomizableType.Forehead, i] = customizables[CustomizableType.Forehead].Count;
+                else
+                    selectedCustomizables[(int)CustomizableType.Forehead, i] = customizables[CustomizableType.Forehead].FindIndex(x => ((DatabaseClass.HatData)x).Id == dataContainer.earsSelected[i]);
 
                 currentlySelectedOption = new int[4];
             }
@@ -1088,6 +1127,11 @@ public class Menu : MonoBehaviour {
         string[] selectedHats = new string[nbPlayers];
         string[] selectedEars = new string[nbPlayers];
 
+        string[] selectedChins = new string[nbPlayers];
+        string[] selectedSkins = new string[nbPlayers];
+        string[] selectedAccessories = new string[nbPlayers];
+        string[] selectedForeheads = new string[nbPlayers];
+
         for (int i = 0; i < nbPlayers; i++)
         {
             //if (selectedColors[i] == unlockedCustomColors.Count)
@@ -1117,9 +1161,32 @@ public class Menu : MonoBehaviour {
             if (customizables[CustomizableType.Ears].Count == 0 || selectedCustomizables[(int)CustomizableType.Ears, i] == customizables[CustomizableType.Ears].Count)
                 selectedEars[i] = "None";
             else
-                selectedEars[i] = customizables[CustomizableType.Ears][selectedCustomizables[(int)CustomizableType.Ears, i]].Id; 
+                selectedEars[i] = customizables[CustomizableType.Ears][selectedCustomizables[(int)CustomizableType.Ears, i]].Id;
+
+            ///////////////////////////////////////////////////////////////////////////////
+            if (customizables[CustomizableType.Chin].Count == 0 || selectedCustomizables[(int)CustomizableType.Chin, i] == customizables[CustomizableType.Chin].Count)
+                selectedChins[i] = "None";
+            else
+                selectedChins[i] = customizables[CustomizableType.Chin][selectedCustomizables[(int)CustomizableType.Chin, i]].Id;
+
+            if (customizables[CustomizableType.Skin].Count == 0 || selectedCustomizables[(int)CustomizableType.Skin, i] == customizables[CustomizableType.Skin].Count)
+                selectedSkins[i] = "None";
+            else
+                selectedSkins[i] = customizables[CustomizableType.Skin][selectedCustomizables[(int)CustomizableType.Skin, i]].Id;
+
+            if (customizables[CustomizableType.Forehead].Count == 0 || selectedCustomizables[(int)CustomizableType.Forehead, i] == customizables[CustomizableType.Forehead].Count)
+                selectedForeheads[i] = "None";
+            else
+                selectedForeheads[i] = customizables[CustomizableType.Forehead][selectedCustomizables[(int)CustomizableType.Forehead, i]].Id;
+
+            if (customizables[CustomizableType.Accessory].Count == 0 || selectedCustomizables[(int)CustomizableType.Accessory, i] == customizables[CustomizableType.Accessory].Count)
+                selectedAccessories[i] = "None";
+            else
+                selectedAccessories[i] = customizables[CustomizableType.Accessory][selectedCustomizables[(int)CustomizableType.Accessory, i]].Id;
+            ////////////////////////////////////////////////////////////////////////////////
         }
-        dataContainer.SaveData(nbPlayers, sc, sf, selectedMustaches, selectedHats, selectedEars, _minigameVersion, selectedColorFades, selectedRabbits, selectedMode == 1);
+        dataContainer.SaveData(nbPlayers, sc, sf, selectedMustaches, selectedHats, selectedEars, selectedForeheads, selectedChins,
+                selectedSkins, selectedAccessories, _minigameVersion, selectedColorFades, selectedRabbits, selectedMode == 1);
     }
 
     private void OnDestroy()
