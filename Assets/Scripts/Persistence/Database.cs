@@ -65,6 +65,28 @@ namespace DatabaseClass
     }
 
     [System.Serializable]
+    public class AccessoryData : ModelData
+    {
+    }
+
+    [System.Serializable]
+    public class ChinData : ModelData
+    {
+    }
+
+    [System.Serializable]
+    public class SkinData : Unlockable
+    {
+        [SerializeField]
+        public string texture;
+    }
+
+    [System.Serializable]
+    public class ForeheadData : ModelData
+    {
+    }
+
+    [System.Serializable]
     public class HatData : ModelData
     {
         public bool shouldHideEars;
@@ -120,6 +142,18 @@ namespace DatabaseClass
         public List<HatData> hats;
 
         [SerializeField]
+        public List<AccessoryData> accessories;
+
+        [SerializeField]
+        public List<ChinData> chins;
+
+        [SerializeField]
+        public List<SkinData> skins;
+
+        [SerializeField]
+        public List<ForeheadData> foreheads;
+
+        [SerializeField]
         public int SneakyChiefProgress;
         [SerializeField]
         public int JokerProgress;
@@ -144,12 +178,12 @@ namespace DatabaseClass
         {
             switch(_customType)
             {
-                //case CustomizableType.Accessory:
-                //    SetUnlock<AccessoryData>(_id, isUnlocked, _version);
-                //    break;
-                //case CustomizableType.Chin:
-                //    SetUnlock<ChinData>(_id, isUnlocked, _version);
-                //    break;
+                case CustomizableType.Accessory:
+                    SetUnlock<AccessoryData>(_id, isUnlocked, _version);
+                    break;
+                case CustomizableType.Chin:
+                    SetUnlock<ChinData>(_id, isUnlocked, _version);
+                    break;
                 case CustomizableType.Color:
                     SetUnlock<ColorData>(_id, isUnlocked, _version);
                     break;
@@ -159,18 +193,18 @@ namespace DatabaseClass
                 case CustomizableType.Face:
                     SetUnlock<FaceData>(_id, isUnlocked, _version);
                     break;
-                //case CustomizableType.Forehead:
-                //    SetUnlock<ForeheadData>(_id, isUnlocked, _version);
-                //    break;
+                case CustomizableType.Forehead:
+                    SetUnlock<ForeheadData>(_id, isUnlocked, _version);
+                    break;
                 case CustomizableType.Hat:
                     SetUnlock<HatData>(_id, isUnlocked, _version);
                     break;
                 case CustomizableType.Mustache:
                     SetUnlock<MustacheData>(_id, isUnlocked, _version);
                     break;
-                //case CustomizableType.Skin:
-                //    SetUnlock<SkinData>(_id, isUnlocked, _version);
-                //    break;
+                case CustomizableType.Skin:
+                    SetUnlock<SkinData>(_id, isUnlocked, _version);
+                    break;
                 default:
                     return;
             }
@@ -213,6 +247,26 @@ namespace DatabaseClass
                 if (hats.Find(a => a.Id == _id) != null)
                     hats.Find(a => a.Id == _id).isUnlocked = isUnlocked;
             }
+            else if (typeof(T) == typeof(AccessoryData))
+            {
+                if (accessories.Find(a => a.Id == _id) != null)
+                    accessories.Find(a => a.Id == _id).isUnlocked = isUnlocked;
+            }
+            else if (typeof(T) == typeof(ChinData))
+            {
+                if (chins.Find(a => a.Id == _id) != null)
+                    chins.Find(a => a.Id == _id).isUnlocked = isUnlocked;
+            }
+            else if (typeof(T) == typeof(SkinData))
+            {
+                if (skins.Find(a => a.Id == _id) != null)
+                    skins.Find(a => a.Id == _id).isUnlocked = isUnlocked;
+            }
+            else if (typeof(T) == typeof(ForeheadData))
+            {
+                if (foreheads.Find(a => a.Id == _id) != null)
+                    foreheads.Find(a => a.Id == _id).isUnlocked = isUnlocked;
+            }
         }
 
         public Unlockable GetDataFromId<T>(string _id) where T : Unlockable
@@ -231,7 +285,14 @@ namespace DatabaseClass
                 return mustaches.Find(a => a.Id == _id);
             else if (typeof(T) == typeof(HatData))
                 return hats.Find(a => a.Id == _id);
-
+            else if (typeof(T) == typeof(ChinData))
+                return chins.Find(a => a.Id == _id);
+            else if (typeof(T) == typeof(SkinData))
+                return skins.Find(a => a.Id == _id);
+            else if (typeof(T) == typeof(AccessoryData))
+                return accessories.Find(a => a.Id == _id);
+            else if (typeof(T) == typeof(ForeheadData))
+                return foreheads.Find(a => a.Id == _id);
             return null;
         }
 
@@ -243,7 +304,12 @@ namespace DatabaseClass
                 return mustaches.Find(a => a.model == _model);
             else if (typeof(T) == typeof(HatData))
                 return hats.Find(a => a.model == _model);
-
+            else if (typeof(T) == typeof(ChinData))
+                return chins.Find(a => a.model == _model);
+            else if (typeof(T) == typeof(AccessoryData))
+                return accessories.Find(a => a.model == _model);
+            else if (typeof(T) == typeof(ForeheadData))
+                return foreheads.Find(a => a.model == _model);
             return null;
         }
 
@@ -283,6 +349,26 @@ namespace DatabaseClass
             {
                 if (hats.Find(a => a.Id == _id) != null)
                     return hats.Find(a => a.Id == _id).isUnlocked;
+            }
+            else if (typeof(T) == typeof(ChinData))
+            {
+                if (chins.Find(a => a.Id == _id) != null)
+                    return chins.Find(a => a.Id == _id).isUnlocked;
+            }
+            else if (typeof(T) == typeof(SkinData))
+            {
+                if (skins.Find(a => a.Id == _id) != null)
+                    return skins.Find(a => a.Id == _id).isUnlocked;
+            }
+            else if (typeof(T) == typeof(AccessoryData))
+            {
+                if (accessories.Find(a => a.Id == _id) != null)
+                    return accessories.Find(a => a.Id == _id).isUnlocked;
+            }
+            else if (typeof(T) == typeof(ForeheadData))
+            {
+                if (foreheads.Find(a => a.Id == _id) != null)
+                    return foreheads.Find(a => a.Id == _id).isUnlocked;
             }
             return false;
         }
@@ -327,6 +413,14 @@ namespace DatabaseClass
                 a.isUnlocked = true;
             foreach (Unlockable a in hats)
                 a.isUnlocked = true;
+            foreach (Unlockable a in accessories)
+                a.isUnlocked = true;
+            foreach (Unlockable a in skins)
+                a.isUnlocked = true;
+            foreach (Unlockable a in chins)
+                a.isUnlocked = true;
+            foreach (Unlockable a in foreheads)
+                a.isUnlocked = true;
         }
 
         public void ResetAll() {
@@ -337,6 +431,11 @@ namespace DatabaseClass
             ears = new List<EarsData>();
             mustaches = new List<MustacheData>();
             hats = new List<HatData>();
+            accessories = new List<AccessoryData>();
+            skins = new List<SkinData>();
+            chins = new List<ChinData>();
+            foreheads = new List<ForeheadData>();
+
             Money = 0;
 
             // Adding colors
