@@ -5,6 +5,7 @@ using UWPAndXInput;
 using System.Collections.Generic;
 using System.Collections;
 using System;
+using UnityEngine.Video;
 
 public enum CustomizableType { Color, Face, Ears, Mustache, Hat, Skin, Accessory, Chin, Forehead, Size }
 
@@ -58,6 +59,11 @@ public class Menu : MonoBehaviour {
     [SerializeField]
     GameObject menuCursor;
     GameObject currentCursorVisual;
+
+    // Video Player
+    private float timerBeforeStartingVideo = 2.0f;
+    private float currentTimerBeforeStartingVideo = 0.0f;
+    private bool isPlayingAVideo = false;
 
     public SlimeDataContainer DataContainer
     {
@@ -351,6 +357,31 @@ public class Menu : MonoBehaviour {
         {
             CustomScreenControls();
         }
+
+        // Video player
+        if (!isPlayingAVideo && selectedMode == 1 && currentState == MenuState.MinigameSelection)
+        {
+            if (minigames[minigameCurrentCursor][minigameCurrentVerticalCursor].videoPreview != "")
+            {
+                currentTimerBeforeStartingVideo += Time.deltaTime;
+                if (currentTimerBeforeStartingVideo > timerBeforeStartingVideo)
+                {
+                    VideoPlayer vp = transform.GetChild((int)MenuState.MinigameSelection)
+                        .GetChild(2).GetComponent<MinigameSelectionAnim>().GetComponentInChildren<VideoPlayer>();
+
+                    transform.GetChild((int)MenuState.MinigameSelection)
+                    .GetChild(2).GetChild(2).GetComponentInChildren<RawImage>().enabled = true;
+
+                    if (vp)
+                    {
+                        vp.Play();
+                        isPlayingAVideo = true;
+                    }
+
+                }
+           
+            }
+        }
     }
 
     private void DefaultCursorControls()
@@ -564,6 +595,25 @@ public class Menu : MonoBehaviour {
         // Currently selected
         transform.GetChild((int)MenuState.MinigameSelection)
                 .GetChild(2).GetComponent<MinigameSelectionAnim>().SetMinigame(minigames[minigameCurrentCursor][minigameCurrentVerticalCursor]);
+
+        // stop previous video player
+        transform.GetChild((int)MenuState.MinigameSelection)
+         .GetChild(2).GetChild(2).GetComponentInChildren<RawImage>().enabled = false;
+
+        VideoPlayer vp = transform.GetChild((int)MenuState.MinigameSelection)
+            .GetChild(2).GetComponent<MinigameSelectionAnim>().GetComponentInChildren<VideoPlayer>();
+
+        if (vp && vp.isPlaying)
+        {
+            isPlayingAVideo = false;
+            vp.Stop();
+        }
+
+        // Restart timer
+        if (minigames[minigameCurrentCursor][minigameCurrentVerticalCursor].videoPreview != "")
+        {
+            currentTimerBeforeStartingVideo = 0.0f;
+        }
 
         // Previous
         int previousMinigameIndex = minigameCurrentCursor - 1;

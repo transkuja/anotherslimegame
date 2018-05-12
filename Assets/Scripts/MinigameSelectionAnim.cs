@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
 public class MinigameSelectionAnim : MonoBehaviour {
 
@@ -53,6 +54,14 @@ public class MinigameSelectionAnim : MonoBehaviour {
             transform.GetChild(3).gameObject.SetActive(false);
             GetComponentsInChildren<Image>()[2].enabled = true;
             GetComponentsInChildren<Image>()[3].enabled = true;
+
+            // Load video preview
+            if (_minigameData.videoPreview != "")
+            {
+                if (GetComponentInChildren<VideoPlayer>())
+                    GetComponentInChildren<VideoPlayer>().clip = Resources.Load<VideoClip>(_minigameData.videoPreview) as VideoClip;
+            }
+
             GetComponentsInChildren<Image>()[3].sprite = Resources.Load<Sprite>(_minigameData.spriteImage) as Sprite;
             GetComponentInChildren<Text>().text = MinigameDataUtils.GetTitle(_minigameData.Id, _minigameData.version);
         }
