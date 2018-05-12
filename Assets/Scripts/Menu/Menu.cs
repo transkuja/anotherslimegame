@@ -809,7 +809,7 @@ public class Menu : MonoBehaviour {
 
         if (!_isNoneValue)
         {
-            playerCosmetics.Chin = ((DatabaseClass.HatData)customizables[CustomizableType.Chin][_selection]).Id;
+            playerCosmetics.Chin = ((DatabaseClass.ChinData)customizables[CustomizableType.Chin][_selection]).Id;
         }
         else
         {
@@ -823,7 +823,7 @@ public class Menu : MonoBehaviour {
 
         if (!_isNoneValue)
         {
-            playerCosmetics.Skin = ((DatabaseClass.HatData)customizables[CustomizableType.Hat][_selection]).Id;
+            playerCosmetics.Skin = ((DatabaseClass.SkinData)customizables[CustomizableType.Skin][_selection]).Id;
         }
         else
         {
@@ -844,7 +844,7 @@ public class Menu : MonoBehaviour {
 
         if (!_isNoneValue)
         {
-            playerCosmetics.Accessory = ((DatabaseClass.HatData)customizables[CustomizableType.Accessory][_selection]).Id;
+            playerCosmetics.Accessory = ((DatabaseClass.AccessoryData)customizables[CustomizableType.Accessory][_selection]).Id;
         }
         else
         {
@@ -865,7 +865,7 @@ public class Menu : MonoBehaviour {
 
         if (!_isNoneValue)
         {
-            playerCosmetics.Forehead = ((DatabaseClass.HatData)customizables[CustomizableType.Forehead][_selection]).Id;
+            playerCosmetics.Forehead = ((DatabaseClass.ForeheadData)customizables[CustomizableType.Forehead][_selection]).Id;
         }
         else
         {

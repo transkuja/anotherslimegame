@@ -578,6 +578,11 @@ namespace DatabaseClass
             //ears.Add(new EarsData { Id = strEars[idEars], model = "Ears/", isUnlocked = false });
             //ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/", isUnlocked = false });
 
+            // Adding foreheads
+            int idForeheads = 0;
+            string[] strForeheads = { "Unicorn" };
+            foreheads.Add(new ForeheadData { Id = strForeheads[idForeheads], model = "Foreheads/Unicorn", isUnlocked = false });
+        
             SneakyChiefProgress = 0;
             JokerProgress = 0;
 
