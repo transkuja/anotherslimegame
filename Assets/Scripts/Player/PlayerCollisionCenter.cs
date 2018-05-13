@@ -108,12 +108,12 @@ public class PlayerCollisionCenter : MonoBehaviour {
             {
                 for (int i = 0; i < playersCollided.Length; i++)
                 {
-                    Vector3 playerToTarget = playersCollided[i].transform.position - transform.position;
-                    Vector3 playerCenterToTargetCenter = (playersCollided[i].transform.position + Vector3.up * 0.5f) - (transform.position + Vector3.up * 0.5f);
-                    
                     // TODO : faire une fonction plus tard
                     if (player == playersCollided[i].GetComponent<Player>())
                         continue;
+
+                    Vector3 playerToTarget = playersCollided[i].transform.position - transform.position;
+                    Vector3 playerCenterToTargetCenter = (playersCollided[i].transform.position + Vector3.up * 0.5f) - (transform.position + Vector3.up * 0.5f);
 
                     if (playerCharacter.PlayerState is DashDownState)
                     {
