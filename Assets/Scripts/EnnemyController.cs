@@ -33,6 +33,9 @@ public class EnnemyController : MonoBehaviour {
 
     int separationMask;
 
+    public GameObject pillarLight;
+    public GameObject pillarLight2;
+
     public enum RabiteState
     {
         Wander,
@@ -151,19 +154,20 @@ public class EnnemyController : MonoBehaviour {
             playerToWanderTarget = currentWanderPosTarget - transform.position;
             //rabiteAnimator.SetBool("Ismoving", true);
             currentWanderState = WanderState.Moving;
+            rb.drag = 0;
         }
         if(currentWanderState == WanderState.Moving)
         {
-
-            Vector3 playerToWanderTarget2 = new Vector3(playerToWanderTarget.x, 0, playerToWanderTarget.z);
-            transform.LookAt(playerToWanderTarget2);
+            transform.LookAt(currentWanderPosTarget);
 
             HandleMovement(0, 1);
 
-            if (Vector3.Distance(playerToWanderTarget, transform.position) < 2.0f)
+            if (Vector3.Distance(currentWanderPosTarget, transform.position) < 2.0f)
             {
                 //rabiteAnimator.SetBool("Ismoving", false);
                 currentWanderState = WanderState.Idle;
+                rb.velocity = Vector3.zero;
+                rb.drag = 2;
             }
         }
 
@@ -172,12 +176,15 @@ public class EnnemyController : MonoBehaviour {
         if (playersCollided.Length > 0)
         {
             currentTarget = playersCollided[0].gameObject;
-
-            if (playersCollided[0].transform != transform && Vector3.Angle(currentTarget.transform.position - transform.position, transform.forward) < 200) // Verification en cone
+            if (currentTarget.GetComponent<PlayerControllerHub>())
             {
-                CurrentState = RabiteState.Pursuit;
-                //rabiteAnimator.SetBool("Ismoving", true);
+                if (playersCollided[0].transform != transform && Vector3.Angle(currentTarget.transform.position - transform.position, transform.forward) < 200) // Verification en cone
+                {
+                    CurrentState = RabiteState.Pursuit;
+                    //rabiteAnimator.SetBool("Ismoving", true);
+                }
             }
+
         }
 
     }
@@ -229,9 +236,14 @@ public class EnnemyController : MonoBehaviour {
         rb.constraints = RigidbodyConstraints.None;
         rb.drag = 0.2f;
         isDead = true;
+
+        Destroy(pillarLight);
+        Destroy(pillarLight2);
+
+        GetComponentInChildren<PlayerCosmetics>().FaceEmotion = FaceEmotion.Hit;
     }
 
-    public virtual void HandleMovement(float x, float y)
+    public void HandleMovement(float x, float y)
     {
         Vector3 initialVelocity = playerCharacterHub.PlayerState.HandleSpeed(x, y);
         Vector3 velocityVec = initialVelocity.z * transform.forward;
@@ -247,4 +259,14 @@ public class EnnemyController : MonoBehaviour {
         playerCharacterHub.PlayerState.HandleControllerAnim(initialVelocity.x, initialVelocity.y);
     }
 
+
+    public void OnCollisionEnter(Collision collision)
+    {
+        if(isDead)
+        {
+            ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles).GetItem(null, transform.position + 3.0f * Vector3.up, Quaternion.identity, true, false, (int)HitParticles.BigHit);
+            Destroy(this.gameObject);
+        }
+
+    }
 }

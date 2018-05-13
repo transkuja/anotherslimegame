@@ -420,12 +420,20 @@ public class PlayerCollisionCenter : MonoBehaviour {
     public IEnumerator ReactivateCollider(Player p)
     {
         yield return new WaitForSeconds(invincibilityFrame);
-        p.GetComponent<PlayerCollisionCenter>().canBeHit = true;
-        p.ArreteDeClignoter();
+        if(p)
+        {
+            p.GetComponent<PlayerCollisionCenter>().canBeHit = true;
+            p.ArreteDeClignoter();
+        }
         yield return new WaitForSeconds(0.3f);
-        impactedPlayers.Remove(p);
-        Physics.IgnoreCollision(p.GetComponent<Collider>(), GetComponent<Collider>(), false);
-
+        if (p)
+        {
+            impactedPlayers.Remove(p);
+            Physics.IgnoreCollision(p.GetComponent<Collider>(), GetComponent<Collider>(), false);
+        } else
+        {
+            impactedPlayers.Clear();
+        }
         yield return null;
     }
 
