@@ -171,7 +171,10 @@ public static class MinigameDataUtils
         }
         else if (curGameMode is FruitGameMode)
         {
-            return "Collect fruits which are of your color\n Beware : Fruits rot in the time\n\n Player 1 : Red\n Player 2 : Blue\n Player 3 : Green\n Player 4 : Yellow";
+            if(curGameMode.minigameVersion == 0)
+                return "Collect balls of your color\n Beware : Fruits rot in the time\n";
+            else
+                return "Collect balss of your color\n Beware : Ground is moving\n";
         }
         else if (curGameMode is PushGameMode)
         {
@@ -254,9 +257,9 @@ public static class MinigameDataUtils
         }
         else if (curGameMode is FruitGameMode)
         {
-            possiblePickups.Add(new PossiblePickup(PickUpType.Changer, "Change all fruits in scene to yours"));
-            possiblePickups.Add(new PossiblePickup(PickUpType.Aspirator, "Collect all your fruits"));
-            possiblePickups.Add(new PossiblePickup(PickUpType.GiantFruit, "A mega fruit which give you more point"));
+            possiblePickups.Add(new PossiblePickup(PickUpType.Changer, "Convert all balls to your color"));
+            possiblePickups.Add(new PossiblePickup(PickUpType.Aspirator, "Collect all balls of your color"));
+            possiblePickups.Add(new PossiblePickup(PickUpType.GiantFruit, "A mega ball which give you more point"));
         }
         return possiblePickups;
     }
