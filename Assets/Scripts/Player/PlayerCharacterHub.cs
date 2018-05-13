@@ -82,8 +82,8 @@ public class PlayerCharacterHub : PlayerCharacter {
             playerState = value;
             PlayerState.OnBegin();
 #if UNITY_EDITOR
-            if (GetComponent<PlayerControllerHub>())
-                DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.CurrentState, value.ToString(), (int)GetComponent<PlayerControllerHub>().playerIndex);
+            if (playerController)
+                DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.CurrentState, value.ToString(), (int)playerController.playerIndex);
             else
                 DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.CurrentState, value.ToString(), -1);
 #endif
@@ -115,8 +115,8 @@ public class PlayerCharacterHub : PlayerCharacter {
         {
 
 #if UNITY_EDITOR
-            if (GetComponent<PlayerControllerHub>())
-                DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.IsGrounded, value.ToString(), (int)GetComponent<PlayerControllerHub>().playerIndex);
+            if (playerController)
+                DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.IsGrounded, value.ToString(), (int)playerController.playerIndex);
             else
                 DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.IsGrounded, value.ToString(), -1);
 #endif
@@ -185,8 +185,8 @@ public class PlayerCharacterHub : PlayerCharacter {
         {
             isGravityEnabled = value;
 #if UNITY_EDITOR
-            if (GetComponent<PlayerControllerHub>())
-                DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.NbJumpMade, value.ToString(), (int)GetComponent<PlayerControllerHub>().playerIndex);
+            if (playerController)
+                DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.NbJumpMade, value.ToString(), (int)playerController.playerIndex);
             else
                 DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.NbJumpMade, value.ToString(), -1);
 #endif
