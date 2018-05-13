@@ -189,10 +189,7 @@ public class EnnemyController : MonoBehaviour {
 
     void Pursuit()
     {
-        Vector3 transformToTarget = currentTarget.transform.position - transform.position;
-
-        //Vector3 transformToTarget2 = new Vector3(transformToTarget.x, 0, transformToTarget.z);
-        transform.LookAt(transformToTarget);
+        transform.LookAt(currentTarget.transform.position);
 
         //transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(transformToTarget2, Vector3.up), Time.deltaTime * 8.0f);
         HandleMovement(0, 1);
@@ -211,9 +208,8 @@ public class EnnemyController : MonoBehaviour {
 
     void Attack()
     {
-        Vector3 transformToTarget = currentTarget.transform.position - transform.position;
         //Vector3 transformToTarget2 = new Vector3(transformToTarget.x, 0, transformToTarget.z);
-        transform.LookAt(transformToTarget);
+        transform.LookAt(currentTarget.transform.position);
         ////rabiteAnimator.SetBool("IsAttacking", true);
         //transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(currentTarget.transform.position - transform.position, Vector3.up), Time.deltaTime * 8.0f);
 

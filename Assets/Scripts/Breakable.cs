@@ -44,6 +44,7 @@ public class Breakable : MonoBehaviour {
             go.GetComponent<ParticleSystem>().Play();
 
             //Set vibrations
+            if( _playerControllerHub)
             UWPAndXInput.GamePad.VibrateForSeconds(_playerControllerHub.playerIndex, 0.8f, 0.8f, .1f);
 
             if (AudioManager.Instance != null && AudioManager.Instance.punchFx != null)
