@@ -88,9 +88,9 @@ public class PlayerCosmeticsEditor : Editor
         curMustache = GetIndexFromString(cosmetics.Mustache, CustomizableType.Mustache);
         curHat = GetIndexFromString(cosmetics.Hat, CustomizableType.Hat);
         curEars = GetIndexFromString(cosmetics.Ears, CustomizableType.Ears);
-        curChin = GetIndexFromString(cosmetics.Ears, CustomizableType.Chin);
-        curForehead = GetIndexFromString(cosmetics.Ears, CustomizableType.Forehead);
-        curAccessory = GetIndexFromString(cosmetics.Ears, CustomizableType.Accessory);
+        curChin = GetIndexFromString(cosmetics.Chin, CustomizableType.Chin);
+        curForehead = GetIndexFromString(cosmetics.Forehead, CustomizableType.Forehead);
+        curAccessory = GetIndexFromString(cosmetics.Accessory, CustomizableType.Accessory);
         curBodyColor = cosmetics.BodyColor;
         curTexture = cosmetics.BodyTexture;
         curSkinType = cosmetics.SkinType;
@@ -193,6 +193,30 @@ public class PlayerCosmeticsEditor : Editor
                 cosmetics.Ears = earsList[curEars];
         }
 
+        if (chinsList.Count > 0)
+        {
+            curChin = EditorGUILayout.Popup("Chins", curChin, chinsList.ToArray());
+
+            if (cosmetics.Chin != chinsList[curChin])
+                cosmetics.Chin = chinsList[curChin];
+        }
+
+        if (foreheadsList.Count > 0)
+        {
+            curForehead = EditorGUILayout.Popup("Foreheads", curForehead, foreheadsList.ToArray());
+
+            if (cosmetics.Forehead != foreheadsList[curForehead])
+                cosmetics.Forehead = foreheadsList[curForehead];
+        }
+
+        if (accessoriesList.Count > 0)
+        {
+            curAccessory = EditorGUILayout.Popup("Accessories", curAccessory, accessoriesList.ToArray());
+
+            if (cosmetics.Accessory != accessoriesList[curAccessory])
+                cosmetics.Accessory = accessoriesList[curAccessory];
+        }
+
         if (GUI.changed)
         {
             EditorUtility.SetDirty(cosmetics);
@@ -217,6 +241,15 @@ public class PlayerCosmeticsEditor : Editor
                 break;
             case CustomizableType.Ears:
                 toReturn = earsList.FindIndex(x => x.Equals(customizableName));
+                break;
+            case CustomizableType.Chin:
+                toReturn = chinsList.FindIndex(x => x.Equals(customizableName));
+                break;
+            case CustomizableType.Forehead:
+                toReturn = foreheadsList.FindIndex(x => x.Equals(customizableName));
+                break;
+            case CustomizableType.Accessory:
+                toReturn = accessoriesList.FindIndex(x => x.Equals(customizableName));
                 break;
         }
         toReturn = (toReturn < 0) ? 0 : toReturn;

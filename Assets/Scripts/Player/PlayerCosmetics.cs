@@ -255,6 +255,11 @@ public class PlayerCosmetics : MonoBehaviour {
             if (!customSockets)
                 customSockets = GetComponent<CustomizableSockets>();
             Transform mustacheTransform = customSockets.GetSocket(CustomizableType.Mustache);
+            if (mustacheTransform == null)
+            {
+                Debug.LogWarning("Mustache Socket not found");
+                return;
+            }
             while (mustacheTransform.childCount > 0)
                 DestroyImmediate(mustacheTransform.GetChild(0).gameObject);
             if (mustache != "None" && mustache != string.Empty)
@@ -284,6 +289,11 @@ public class PlayerCosmetics : MonoBehaviour {
             if (!customSockets)
                 customSockets = GetComponent<CustomizableSockets>();
             Transform hatTransform = customSockets.GetSocket(CustomizableType.Hat);
+            if (hatTransform == null)
+            {
+                Debug.LogWarning("Hat Socket not found");
+                return;
+            }
             while (hatTransform.childCount > 0)
                 DestroyImmediate(hatTransform.GetChild(0).gameObject);
             
@@ -327,6 +337,11 @@ public class PlayerCosmetics : MonoBehaviour {
             if (!customSockets)
                 customSockets = GetComponent<CustomizableSockets>();
             Transform earsTransform = customSockets.GetSocket(CustomizableType.Ears);
+            if (earsTransform == null)
+            {
+                Debug.LogWarning("Ears Socket not found");
+                return;
+            }
             while (earsTransform.childCount > 0)
                 DestroyImmediate(earsTransform.GetChild(0).gameObject);
             if (ears != "None" && ears != string.Empty)
@@ -369,6 +384,11 @@ public class PlayerCosmetics : MonoBehaviour {
             if (!customSockets)
                 customSockets = GetComponent<CustomizableSockets>();
             Transform accessoryTransform = customSockets.GetSocket(CustomizableType.Accessory);
+            if (accessoryTransform == null)
+            {
+                Debug.LogWarning("Accessory Socket not found");
+                return;
+            }
             while (accessoryTransform.childCount > 0)
                 DestroyImmediate(accessoryTransform.GetChild(0).gameObject);
             if (accessory != "None" && accessory != string.Empty)
@@ -398,6 +418,11 @@ public class PlayerCosmetics : MonoBehaviour {
             if (!customSockets)
                 customSockets = GetComponent<CustomizableSockets>();
             Transform foreheadTransform = customSockets.GetSocket(CustomizableType.Forehead);
+            if (foreheadTransform == null)
+            {
+                Debug.LogWarning("Forehead Socket not found");
+                return;
+            }
             while (foreheadTransform.childCount > 0)
                 DestroyImmediate(foreheadTransform.GetChild(0).gameObject);
             if (forehead != "None" && forehead != string.Empty)
@@ -427,6 +452,11 @@ public class PlayerCosmetics : MonoBehaviour {
             if (!customSockets)
                 customSockets = GetComponent<CustomizableSockets>();
             Transform chinTransform = customSockets.GetSocket(CustomizableType.Chin);
+            if (chinTransform == null)
+            {
+                Debug.LogWarning("Chin Socket not found");
+                return;
+            }
             while (chinTransform.childCount > 0)
                 DestroyImmediate(chinTransform.GetChild(0).gameObject);
             if (chin != "None" && chin != string.Empty)
@@ -435,6 +465,11 @@ public class PlayerCosmetics : MonoBehaviour {
                     DatabaseManager.LoadDb();
 
                 DatabaseClass.ChinData data = ((DatabaseClass.ChinData)DatabaseManager.Db.GetDataFromId<DatabaseClass.ChinData>(chin));
+                if(data == null)
+                {
+                    chin = "None";
+                    return;
+                }
                 ICustomizable chinCustom = ((GameObject)Instantiate(Resources.Load(data.model), chinTransform)).GetComponent<ICustomizable>();
                 chinCustom.Init(GetComponentInParent<Rigidbody>());
             }
