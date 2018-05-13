@@ -26,7 +26,11 @@ public class FoodGameMode : GameMode {
     public bool enableBadInputs = false;
 
     public float reactionTime = 1.0f;
+    [HideInInspector]
     public Vector3[] startingPositions = new Vector3[4];
+
+    public GameObject platePrefab;
+    public Transform platesLocation;
 
     public FoodMeterHandler FoodMeterHandler
     {
@@ -141,8 +145,14 @@ public class FoodGameMode : GameMode {
     public void GoodInput(PlayerControllerFood _controller)
     {
         // score ++
-        GameManager.Instance.PlayerStart.PlayersReference[(int)_controller.PlayerIndex].
-            GetComponent<Player>().UpdateCollectableValue(CollectableType.Points, (int)(scoreStep * _controller.CurrentCombo));
+        Player currentPlayer = GameManager.Instance.PlayerStart.PlayersReference[(int)_controller.PlayerIndex].GetComponent<Player>();
+        currentPlayer.UpdateCollectableValue(CollectableType.Points, (int)(scoreStep * _controller.CurrentCombo));
+
+        if (platesLocation.GetChild((int)_controller.PlayerIndex).childCount < currentPlayer.NbPoints / 150)
+        {
+            GameObject plate = Instantiate(platePrefab, platesLocation.GetChild((int)_controller.PlayerIndex));
+            plate.transform.localPosition = currentPlayer.NbPoints / 150 * Vector3.up * 0.2f;
+        }
 
         FoodMeterHandler.FoodMeterIncrease((int)_controller.PlayerIndex);
 
@@ -151,8 +161,12 @@ public class FoodGameMode : GameMode {
     public void BadInput(PlayerControllerFood _controller)
     {
         // score --
-        GameManager.Instance.PlayerStart.PlayersReference[(int)_controller.PlayerIndex].
-            GetComponent<Player>().UpdateCollectableValue(CollectableType.Points, -scoreStep);
+        Player currentPlayer = GameManager.Instance.PlayerStart.PlayersReference[(int)_controller.PlayerIndex].GetComponent<Player>();
+        currentPlayer.UpdateCollectableValue(CollectableType.Points, -scoreStep);
+
+        int platesCount = platesLocation.GetChild((int)_controller.PlayerIndex).childCount;
+        if (platesCount > currentPlayer.NbPoints / 150)
+            Destroy(platesLocation.GetChild((int)_controller.PlayerIndex).GetChild(platesCount - 1).gameObject);
 
     }
 
