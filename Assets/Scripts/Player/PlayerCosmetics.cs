@@ -33,6 +33,7 @@ public class PlayerCosmetics : MonoBehaviour {
     
     Material bodyMat;
     Material faceMat;
+    Material[] earsMats;
 
     CustomizableSockets customSockets;
 
@@ -94,10 +95,13 @@ public class PlayerCosmetics : MonoBehaviour {
         {
             if (!bodyMat)
                 Init();
-
+            
             bodyColor = value;
             if (skinType == SkinType.Color || skinType == SkinType.Mixed)
+            {
                 bodyMat.color = bodyColor;
+                SetEarsColor(bodyColor);
+            }
         }
     }
 
@@ -240,6 +244,8 @@ public class PlayerCosmetics : MonoBehaviour {
     {
         get
         {
+            if (mustache == string.Empty)
+                mustache = "None";
             return mustache;
         }
 
@@ -267,6 +273,8 @@ public class PlayerCosmetics : MonoBehaviour {
     {
         get
         {
+            if (hat == string.Empty)
+                hat = "None";
             return hat;
         }
 
@@ -308,6 +316,8 @@ public class PlayerCosmetics : MonoBehaviour {
     {
         get
         {
+            if (ears == string.Empty)
+                ears = "None";
             return ears;
         }
 
@@ -327,7 +337,20 @@ public class PlayerCosmetics : MonoBehaviour {
                 DatabaseClass.EarsData data = ((DatabaseClass.EarsData)DatabaseManager.Db.GetDataFromId<DatabaseClass.EarsData>(ears));
                 ICustomizable earCustom = ((GameObject)Instantiate(Resources.Load(data.model), earsTransform)).GetComponent<ICustomizable>();
                 earCustom.Init(GetComponentInParent<Rigidbody>());
+                InitEarsMats();
+                SetEarsColor(BodyColor);
             }
+        }
+    }
+
+    void SetEarsColor(Color color)
+    {
+        if(earsMats == null || earsMats.Length == 0)
+            return;
+
+        foreach(Material m in earsMats)
+        {
+            m.color = color;
         }
     }
 
@@ -335,6 +358,8 @@ public class PlayerCosmetics : MonoBehaviour {
     {
         get
         {
+            if (accessory == string.Empty)
+                accessory = "None";
             return accessory;
         }
 
@@ -362,6 +387,8 @@ public class PlayerCosmetics : MonoBehaviour {
     {
         get
         {
+            if (forehead == string.Empty)
+                forehead = "None";
             return forehead;
         }
 
@@ -389,6 +416,8 @@ public class PlayerCosmetics : MonoBehaviour {
     {
         get
         {
+            if (chin == string.Empty)
+                chin = "None";
             return chin;
         }
 
@@ -443,13 +472,35 @@ public class PlayerCosmetics : MonoBehaviour {
         applyOnStart = prevBool;
     }
 
+    void InitEarsMats()
+    {
+        Renderer[] earsRenderers = customSockets.GetSocket(CustomizableType.Ears).GetComponentsInChildren<Renderer>();
+        if(earsRenderers == null || earsRenderers.Length == 0)
+        {
+            earsMats = null;
+            return;
+        }
+        Material[] newEarsMaterials = new Material[earsRenderers.Length];
+
+        for (int i = 0; i < newEarsMaterials.Length; i++)
+        {
+            newEarsMaterials[i] = new Material(originalPlayerMats[0]);
+        }
+
+        for (int i = 0; i < earsRenderers.Length; i++)
+        {
+            earsRenderers[i].sharedMaterial = newEarsMaterials[i];
+        }
+        earsMats = newEarsMaterials;
+    }
+
     public void Init()
     {
         customSockets = GetComponent<CustomizableSockets>();
         Renderer r = GetComponentInChildren<Renderer>();
+
         Material[] originals = r.sharedMaterials;
         Material[] newMaterials = new Material[originals.Length];
-
         if (originals == null || originals.Length < 1 || originals[0] == null)
         {
             originals = originalPlayerMats;
@@ -460,12 +511,11 @@ public class PlayerCosmetics : MonoBehaviour {
             newMaterials[i] = new Material(originals[i]);
         }
 
-
         r.sharedMaterials = newMaterials;
 
         bodyMat = r.sharedMaterials[0];
         faceMat = r.sharedMaterials[1];
-
+        
         if (applyOnStart)
             SetValuesFromEditor();
         else
@@ -480,6 +530,10 @@ public class PlayerCosmetics : MonoBehaviour {
         FaceType = faceType;
         FaceEmotion = faceEmotion;
         Mustache = mustache;
+        Ears = ears;
+        Accessory = accessory;
+        Chin = chin;
+        Forehead = forehead;
         ColorFadeType = colorFadeType;
     }
 
