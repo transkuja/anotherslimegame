@@ -77,7 +77,8 @@ public static class PNJDialogUtils {
 
     // Mr Risotto
     static string RisottoDM = "I used to be in animal crossing\n"
-       + "This is a templated message.";
+       + "Look across the sea. There is a mythical island\n"
+       + "where balls fall from a giant tree.";
     static FaceEmotion[] RisottoDE = new FaceEmotion[1] { FaceEmotion.Neutral };
     static string RisottoQM = ""
     ;
