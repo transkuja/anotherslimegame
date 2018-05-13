@@ -264,8 +264,9 @@ public class EnnemyController : MonoBehaviour {
     {
         if(isDead)
         {
+            playerCharacterHub.PlayerState.OnEnd();
             ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles).GetItem(null, transform.position + 3.0f * Vector3.up, Quaternion.identity, true, false, (int)HitParticles.BigHit);
-            Destroy(this.gameObject);
+            this.gameObject.SetActive(false);
         }
 
     }
