@@ -60,7 +60,7 @@ public class FoodGameMode : GameMode {
         }
     }
 
-    void CreateAPileOfPancakes(int _playerIndex)
+    void CreateAPileOfPancakes(int _playerIndex, bool _init = false)
     {
         GameObject pile = new GameObject("Pile of Pancakes");
         pile.transform.SetParent(pileOfPancakesLocation.GetChild(_playerIndex));
@@ -76,7 +76,8 @@ public class FoodGameMode : GameMode {
         }
         GameObject topPancake = Instantiate(pancakeTopPrefab, pile.transform);
         topPancake.transform.localPosition = numberOfPancakesPerPile * Vector3.up * 0.2f;
-        ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles).GetItem(null, pile.transform.position, Quaternion.identity, true, true);
+        if (!_init)
+            ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles).GetItem(null, pile.transform.position, Quaternion.identity, true, true);
     }
 
     public override void StartGame(List<GameObject> playerReferences)
@@ -95,7 +96,7 @@ public class FoodGameMode : GameMode {
             playerReferences[i].GetComponent<Rigidbody>().isKinematic = true;
             playerReferences[i].GetComponent<Player>().NbPoints = 0;
 
-            CreateAPileOfPancakes(i);
+            CreateAPileOfPancakes(i, true);
         }
     
 
