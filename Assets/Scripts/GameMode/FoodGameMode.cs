@@ -55,7 +55,8 @@ public class FoodGameMode : GameMode {
             pc.playerIndex = (PlayerIndex)i;
             pc.PlayerIndexSet = true;
 
-            playerReferences[i].GetComponent<Rigidbody>().useGravity = true;
+            playerReferences[i].GetComponent<Rigidbody>().useGravity = false;
+            playerReferences[i].GetComponent<Rigidbody>().isKinematic = true;
             playerReferences[i].GetComponent<Player>().NbPoints = 0;
         }
     
