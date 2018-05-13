@@ -574,9 +574,9 @@ namespace DatabaseClass
             hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/MagicalHat", shouldHideEars = false, isUnlocked = false });
             hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/WitchHat", shouldHideEars = false, isUnlocked = false });
             // Adding ears
-            //int idEars = 0;
-            //string[] strEars = { "", "" };
-            //ears.Add(new EarsData { Id = strEars[idEars], model = "Ears/", isUnlocked = false });
+            int idEars = 0;
+            string[] strEars = { "Ears1"};
+            ears.Add(new EarsData { Id = strEars[idEars], model = "Ears/Ears1", isUnlocked = true });
             //ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/", isUnlocked = false });
 
             // Adding foreheads
