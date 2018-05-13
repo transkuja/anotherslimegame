@@ -30,12 +30,14 @@ public class FoodGameMode : GameMode {
     public Vector3[] startingPositions = new Vector3[4];
 
     [Header("Pancakes settings")]
+    Vector3 offsetPlates = new Vector3(-3.5f, 0.92f, -4.39f);
+    Vector3 offsetPancakes = new Vector3(0.0f, 0.92f, -3.39f);
     [SerializeField]
     GameObject platePrefab;
     [SerializeField]
-    Transform platesLocation;
+    GameObject platesLocation;
     [SerializeField]
-    Transform pileOfPancakesLocation;
+    GameObject pileOfPancakesLocation;
     [SerializeField]
     GameObject pancakeTopPrefab;
     [SerializeField]
@@ -63,7 +65,7 @@ public class FoodGameMode : GameMode {
     void CreateAPileOfPancakes(int _playerIndex, bool _init = false)
     {
         GameObject pile = new GameObject("Pile of Pancakes");
-        pile.transform.SetParent(pileOfPancakesLocation.GetChild(_playerIndex));
+        pile.transform.SetParent(pileOfPancakesLocation.transform.GetChild(_playerIndex));
         pile.transform.localPosition = Vector3.zero;
 
         GameObject plate = Instantiate(platePrefab, pile.transform);
@@ -95,10 +97,8 @@ public class FoodGameMode : GameMode {
             playerReferences[i].GetComponent<Rigidbody>().useGravity = false;
             playerReferences[i].GetComponent<Rigidbody>().isKinematic = true;
             playerReferences[i].GetComponent<Player>().NbPoints = 0;
-
-            CreateAPileOfPancakes(i, true);
         }
-    
+
 
         LaunchTimer();
 
@@ -109,6 +109,22 @@ public class FoodGameMode : GameMode {
             FoodMeterHandler = foodMeterUI.GetComponent<FoodMeterHandler>();
 
             inputTracksHandler.StartGame();
+        }
+
+
+        platesLocation = new GameObject("Empty Plates");
+        pileOfPancakesLocation = new GameObject("Piles of Pancakes");
+        for (int i = 0; i < playerReferences.Count; i++)
+        {
+            GameObject plates = new GameObject("Plates" + i);
+            plates.transform.SetParent(platesLocation.transform);
+            Debug.Log(startingPositions[i]);
+            plates.transform.position = startingPositions[i] + offsetPlates;
+
+            GameObject pile = new GameObject("Pile" + i);
+            pile.transform.SetParent(pileOfPancakesLocation.transform);
+            pile.transform.position = startingPositions[i] + offsetPancakes;
+            CreateAPileOfPancakes(i, true);
         }
     }
 
@@ -182,7 +198,7 @@ public class FoodGameMode : GameMode {
         // score ++
         Player currentPlayer = GameManager.Instance.PlayerStart.PlayersReference[(int)_controller.PlayerIndex].GetComponent<Player>();
         currentPlayer.UpdateCollectableValue(CollectableType.Points, (int)(scoreStep * _controller.CurrentCombo));
-        Transform pileOfPancake = pileOfPancakesLocation.GetChild((int)_controller.PlayerIndex).GetChild(0);
+        Transform pileOfPancake = pileOfPancakesLocation.transform.GetChild((int)_controller.PlayerIndex).GetChild(0);
 
         if (eatPancakeOnNextInput[(int)_controller.PlayerIndex])
         {
@@ -195,8 +211,8 @@ public class FoodGameMode : GameMode {
         if (pileOfPancake.childCount == 1)
         {
             GameObject plate = pileOfPancake.GetChild(0).gameObject;
-            plate.transform.SetParent(platesLocation.GetChild((int)_controller.PlayerIndex));
-            plate.transform.localPosition = platesLocation.GetChild((int)_controller.PlayerIndex).childCount * Vector3.up * 0.2f;
+            plate.transform.SetParent(platesLocation.transform.GetChild((int)_controller.PlayerIndex));
+            plate.transform.localPosition = platesLocation.transform.GetChild((int)_controller.PlayerIndex).childCount * Vector3.up * 0.2f;
 
             Destroy(pileOfPancake.gameObject);
             CreateAPileOfPancakes((int)_controller.PlayerIndex);
