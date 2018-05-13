@@ -49,7 +49,6 @@ public class Menu : MonoBehaviour {
 
     // LEGACY
     bool[] selectedColorFades = new bool[4];
-    bool[] selectedRabbits = new bool[4];
 
     [SerializeField]
     SlimeDataContainer dataContainer;
@@ -1311,10 +1310,6 @@ public class Menu : MonoBehaviour {
                 sc[i] = ((DatabaseClass.ColorData)customizables[CustomizableType.Color][selectedCustomizables[(int)CustomizableType.Color, i]]).color;
             }
 
-            //if (selectedFaces[i] == unlockedFesses.Count)
-            //    selectedRabbits[i] = true;
-            //else
-                selectedRabbits[i] = false; // Line needed in case we come back from minigame selection screen
 
             sf[i] = selectedCustomizables[(int)CustomizableType.Face, i];
             if (customizables[CustomizableType.Mustache].Count == 0 || selectedCustomizables[(int)CustomizableType.Mustache, i] == customizables[CustomizableType.Mustache].Count)
@@ -1355,7 +1350,7 @@ public class Menu : MonoBehaviour {
             ////////////////////////////////////////////////////////////////////////////////
         }
         dataContainer.SaveData(nbPlayers, sc, sf, selectedMustaches, selectedHats, selectedEars, selectedForeheads, selectedChins,
-                selectedSkins, selectedAccessories, _minigameVersion, selectedColorFades, selectedRabbits, selectedMode == 1);
+                selectedSkins, selectedAccessories, _minigameVersion, selectedColorFades, selectedMode == 1);
     }
 
     private void OnDestroy()

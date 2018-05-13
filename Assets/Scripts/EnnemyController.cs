@@ -2,7 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AIRabite : MonoBehaviour {
+public class EnnemyController : MonoBehaviour {
+
+    private PlayerCharacterHub playerCharacterHub;
+    private Player player;
+    private Rigidbody rb;
 
     [Header("Zone")]
     [SerializeField]
@@ -12,13 +16,6 @@ public class AIRabite : MonoBehaviour {
 
     [SerializeField]
     float zoneHalfExtent = 30.0f;
-
-    [Header("Colliders")]
-    [SerializeField]
-    Collider AliveCollider;
-
-    [SerializeField]
-    Collider DeadCollider;
 
     [Header("Parameters")]
     [SerializeField]
@@ -76,33 +73,35 @@ public class AIRabite : MonoBehaviour {
     }
 
     GameObject currentTarget = null;
-    private Animator rabiteAnimator;
-    private Rigidbody rb;
+    //private Animator rabiteAnimator;
 
     bool isDead = false;
 
     private void Start()
     {
+        playerCharacterHub = GetComponent<PlayerCharacterHub>();
+        player = GetComponent<Player>();
+
         if (useStartPositionAsZonePosition)
             zonePosition = transform.position;
 
         CurrentState = RabiteState.Wander;
-        rabiteAnimator = GetComponent<Animator>();
-        rb = GetComponent<Rigidbody>();
+        //rabiteAnimator = GetComponent<Animator>();
+        rb = playerCharacterHub.Rb;
         separationMask = LayerMask.GetMask(new string[] { "Player" });
     }
 
-    private void Update()
+    public void Update()
     {
         ApplyGravity();
 
         if (GameManager.CurrentState != GameState.Normal)
         {
-            rabiteAnimator.StartPlayback();
+            //rabiteAnimator.StartPlayback();
             return;
         }
 
-        rabiteAnimator.StopPlayback();
+        //rabiteAnimator.StopPlayback();
         switch(CurrentState)
         {
             case RabiteState.Wander:
@@ -146,7 +145,7 @@ public class AIRabite : MonoBehaviour {
         wanderTimer += Time.deltaTime;
         if (wanderTimer > nextActionTime)
         {
-            rabiteAnimator.SetBool("Ismoving", false);
+            //rabiteAnimator.SetBool("Ismoving", false);
             currentWanderState = (WanderState)Random.Range(0, 2);
 
             wanderTimer = 0.0f;
@@ -156,7 +155,7 @@ public class AIRabite : MonoBehaviour {
         {
             currentWanderPosTarget = GetRandomPointInZone();
             playerToWanderTarget = currentWanderPosTarget - transform.position;
-            rabiteAnimator.SetBool("Ismoving", true);
+            //rabiteAnimator.SetBool("Ismoving", true);
             currentWanderState = WanderState.Moving;
         }
         if(currentWanderState == WanderState.Moving)
@@ -165,7 +164,7 @@ public class AIRabite : MonoBehaviour {
             MoveTowards(playerToWanderTarget);
             if(Vector3.Distance(currentWanderPosTarget, transform.position) < 2.0f)
             {
-                rabiteAnimator.SetBool("Ismoving", false);
+                //rabiteAnimator.SetBool("Ismoving", false);
                 currentWanderState = WanderState.Idle;
             }
         }
@@ -179,7 +178,7 @@ public class AIRabite : MonoBehaviour {
             if (playersCollided[0].transform != transform && Vector3.Angle(currentTarget.transform.position - transform.position, transform.forward) < 200) // Verification en cone
             {
                 CurrentState = RabiteState.Pursuit;
-                rabiteAnimator.SetBool("Ismoving", true);
+                //rabiteAnimator.SetBool("Ismoving", true);
             }
         }
 
@@ -209,9 +208,7 @@ public class AIRabite : MonoBehaviour {
 
         if (Vector3.Distance(currentTarget.transform.position, transform.position) < attackRange)
         {
-            if (GameManager.Instance.DataContainer.GetComponent<SlimeDataContainer>().rabbitSelected[GameManager.Instance.PlayerStart.PlayersReference.IndexOf(currentTarget)])
-                return;
-            rabiteAnimator.SetBool("Ismoving", false);
+            //rabiteAnimator.SetBool("Ismoving", false);
             CurrentState = RabiteState.Attack;
         }
         else if(Vector3.Distance(currentTarget.transform.position, transform.position) > pursuitMaxRange)
@@ -222,23 +219,21 @@ public class AIRabite : MonoBehaviour {
 
     void Attack()
     {
-        rabiteAnimator.SetBool("IsAttacking", true);
+        //rabiteAnimator.SetBool("IsAttacking", true);
         transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(currentTarget.transform.position - transform.position, Vector3.up), Time.deltaTime * 8.0f);
         if (Vector3.Distance(currentTarget.transform.position, transform.position) > attackMaxRange)
         {
-            rabiteAnimator.SetBool("IsAttacking", false);
-            rabiteAnimator.SetBool("Ismoving", true);
+            //rabiteAnimator.SetBool("IsAttacking", false);
+            //rabiteAnimator.SetBool("Ismoving", true);
+            playerCharacterHub.PlayerState = playerCharacterHub.dashState;
             CurrentState = RabiteState.Pursuit;
         }
     }
 
     void Die()
     {
-        rabiteAnimator.SetBool("IsDying", true);
+        //rabiteAnimator.SetBool("IsDying", true);
         rb.constraints = RigidbodyConstraints.None;
-        DeadCollider.enabled = true;
-        AliveCollider.enabled = false;
-        DeadCollider.material.bounciness = 0.75f;
         rb.drag = 0.2f;
         isDead = true;
     }

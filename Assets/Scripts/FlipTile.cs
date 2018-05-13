@@ -104,9 +104,9 @@ public class FlipTile : MonoBehaviour {
                 Physics.IgnoreCollision(collision.collider, GetComponentInChildren<Collider>(), true);
                 StartCoroutine(ReactivateColliders(collision.collider, collision.rigidbody.GetComponent<PlayerControllerKart>().HitRecoveryTime));
             }
-            else if(collision.rigidbody.GetComponent<AIRabite>())
+            else if(collision.rigidbody.GetComponent<EnnemyController>())
             {
-                collision.rigidbody.GetComponent<AIRabite>().CurrentState = AIRabite.RabiteState.Dead;
+                collision.rigidbody.GetComponent<EnnemyController>().CurrentState = EnnemyController.RabiteState.Dead;
             }
         }
     }

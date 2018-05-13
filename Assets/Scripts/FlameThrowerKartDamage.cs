@@ -12,9 +12,9 @@ public class FlameThrowerKartDamage : MonoBehaviour {
             Physics.IgnoreCollision(other, GetComponent<Collider>(), true);
             StartCoroutine(ReactivateTriggerForPlayerCollider(other, .75f));
         }
-        else if (other.GetComponent<AIRabite>())
+        else if (other.GetComponent<EnnemyController>())
         {
-            other.GetComponent<AIRabite>().CurrentState = AIRabite.RabiteState.Dead;
+            other.GetComponent<EnnemyController>().CurrentState = EnnemyController.RabiteState.Dead;
         }
     }
 

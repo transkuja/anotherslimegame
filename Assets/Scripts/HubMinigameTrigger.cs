@@ -7,6 +7,8 @@ public class HubMinigameTrigger : MonoBehaviour
     MinigameTriggerGiverBehavior handler = null;
     PNJMessage defaultmessage = null;
 
+    PNJController pc;
+
     // TMP
     bool old_is_happy = false;
 
@@ -16,8 +18,9 @@ public class HubMinigameTrigger : MonoBehaviour
         defaultmessage = GetComponentInParent<PNJMessage>();
 
         // TMP
-        if (GetComponentInParent<PNJController>() != null)
-            old_is_happy = GetComponentInParent<PNJController>().isHappy;
+        pc = GetComponentInParent<PNJController>();
+        if (pc != null)
+            old_is_happy = pc.isHappy;
     }
 
     public void OnTriggerEnter(Collider other)
@@ -27,7 +30,8 @@ public class HubMinigameTrigger : MonoBehaviour
             if (GameManager.CurrentState == GameState.Normal)
             {
                 // TMP
-                GetComponentInParent<PNJController>().isHappy = false;
+                if (pc != null)
+                    pc.isHappy = false;
                 //
 
                 if ((handler && !handler.IsMinigameStarted() && defaultmessage)
@@ -46,7 +50,8 @@ public class HubMinigameTrigger : MonoBehaviour
             if (GameManager.CurrentState == GameState.Normal)
             {
                 // TMP
-                GetComponentInParent<PNJController>().isHappy = old_is_happy;
+                if (pc != null)
+                    pc.isHappy = old_is_happy;
                 //
 
                 if (defaultmessage)

@@ -11,7 +11,6 @@ public class SlimeDataContainer : MonoBehaviour {
     public Color[] selectedColors = new Color[4];
     public int[] selectedFaces = new int[4];
     public bool[] colorFadeSelected = new bool[4];
-    public bool[] rabbitSelected = new bool[4];
     public string[] mustachesSelected = new string[4];
     public string[] hatsSelected = new string[4];
     public string[] earsSelected = new string[4];
@@ -44,13 +43,12 @@ public class SlimeDataContainer : MonoBehaviour {
     public void SaveData(int _nbPlayers, Color[] _selectedColors, int[] _selectedFaces, 
         string[] _selectedMustaches, string[] _selectedHats, string[] _selectedEars, string[] _selectedForeheads, 
         string[] _selectedChins, string[] _selectedSkins, string[] _selectedAccessories, int _minigameVersion = 0,
-        bool[] _colorFadeSelected = null, bool[] _rabbitSelected = null, bool _launchedFromMinigameScreen = false)
+        bool[] _colorFadeSelected = null, bool _launchedFromMinigameScreen = false)
     {
         selectedColors = _selectedColors;
         selectedFaces = _selectedFaces;
         nbPlayers = _nbPlayers;
         colorFadeSelected = (_colorFadeSelected == null) ? new bool[4] : _colorFadeSelected;
-        rabbitSelected = (_rabbitSelected == null) ? new bool[4] : _rabbitSelected;
         mustachesSelected = _selectedMustaches;
         hatsSelected = _selectedHats;
         earsSelected = _selectedEars;

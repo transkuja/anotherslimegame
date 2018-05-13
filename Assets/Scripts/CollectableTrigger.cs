@@ -8,7 +8,7 @@ public class CollectableTrigger : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<PlayerCharacterHub>())
+        if (other.GetComponent<PlayerCharacterHub>() && other.GetComponent<PlayerControllerHub>())
         {
             _playerCharacterHub = other.GetComponent<PlayerCharacterHub>();
             //OnBreakEvent

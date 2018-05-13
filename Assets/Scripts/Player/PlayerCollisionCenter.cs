@@ -32,7 +32,6 @@ public class PlayerCollisionCenter : MonoBehaviour {
     // @<remi
     private List<Player> impactedPlayers = new List<Player>();
     private List<Vector3> impactedPlayersOldVelocities = new List<Vector3>();
-    private List<AIRabite> impactedRabite = new List<AIRabite>();
 
     private float invincibilityFrame = 2.0f;
     bool onceRepulsion;
@@ -41,10 +40,6 @@ public class PlayerCollisionCenter : MonoBehaviour {
     float sphereCheckRadius;
 
     LayerMask defaultMask;
-
-    int separationMaskRabite;
-    Collider[] rabiteCollided;
-    float sphereCheckRadiusRabite;
 
     int separationMask2;
     Collider[] collectablesCollided;
@@ -86,15 +81,11 @@ public class PlayerCollisionCenter : MonoBehaviour {
     void Start()
     {
         repulsionFactor = 35;
-        impactedRabite = new List<AIRabite>();
 
         // default mask
         defaultMask = 0;
 
-        separationMaskRabite = LayerMask.GetMask(new string[] { "Rabite" });
-        sphereCheckRadiusRabite = 5.0f;
-
-        separationMask = LayerMask.GetMask(new string[] { "Player", "GhostPlayer" });
+        separationMask = LayerMask.GetMask(new string[] { "Player", "GhostPlayer", "Rabite" });
         sphereCheckRadius = 5.0f;
 
         separationMask2 = LayerMask.GetMask(new string[] { "Collectable" });
@@ -146,7 +137,8 @@ public class PlayerCollisionCenter : MonoBehaviour {
                             impactedPlayerRigidbody.velocity = Vector3.zero;
 
                             //Set vibrations
-                            UWPAndXInput.GamePad.VibrateForSeconds(playerController.playerIndex, 0.8f, 0.8f, .1f);
+                            if(playerController)
+                                UWPAndXInput.GamePad.VibrateForSeconds(playerController.playerIndex, 0.8f, 0.8f, .1f);
 
                             if (impactedPlayer.PlayerController)
                             {
@@ -187,7 +179,8 @@ public class PlayerCollisionCenter : MonoBehaviour {
                             impactedPlayerRigidbody.velocity = Vector3.zero;
 
                             //Set vibrations
-                            UWPAndXInput.GamePad.VibrateForSeconds(playerController.playerIndex, 0.8f, 0.8f, .1f);
+                            if(playerController)
+                                UWPAndXInput.GamePad.VibrateForSeconds(playerController.playerIndex, 0.8f, 0.8f, .1f);
 
                             if (impactedPlayer.PlayerController)
                             {
@@ -203,70 +196,6 @@ public class PlayerCollisionCenter : MonoBehaviour {
                 }
             }
         }
-
-
-        if (playerCharacter.PlayerState is DashState || playerCharacter.PlayerState is DashDownState)
-        {
-            rabiteCollided = Physics.OverlapSphere(transform.position, sphereCheckRadiusRabite, separationMaskRabite);
-            if (rabiteCollided.Length > 0)
-            {
-                for (int i = 0; i < rabiteCollided.Length; i++)
-                {
-                    Vector3 rabiteToTarget = rabiteCollided[i].transform.position - transform.position;
-                    Vector3 rabiteCenterToTargetCenter = (rabiteCollided[i].transform.position + Vector3.up * 0.5f) - (transform.position + Vector3.up * 0.5f);
-
-                    if (playerCharacter.PlayerState is DashDownState)
-                    {
-                        if (!impactedRabite.Contains(rabiteCollided[i].GetComponent<AIRabite>()))
-                        {
-                            Physics.IgnoreCollision(rabiteCollided[i], GetComponent<Collider>(), true);
-                            // Don't reimpacted the same player twice see invicibilityFrame
-                            impactedRabite.Add(rabiteCollided[i].GetComponent<AIRabite>());
-                            GameObject go = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles).GetItem(null, transform.position + Vector3.up * 0.5f + rabiteCenterToTargetCenter / 2.0f, Quaternion.LookRotation(rabiteToTarget, Vector3.up), true, true, (int)HitParticles.HitStar);
-                            hasCollidedWithAPlayer = true;
-                            currentTimerStop = timerStopOnDashCollision;
-
-                            playerCharacter.PlayerState = playerCharacter.frozenState;
-
-                            rb.velocity = Vector3.zero;
-
-                            rabiteCollided[i].GetComponent<Rigidbody>().velocity = Vector3.zero;
-
-                            //Set vibrations
-                            UWPAndXInput.GamePad.VibrateForSeconds(playerController.playerIndex, 0.8f, 0.8f, .1f);
-
-                            if (AudioManager.Instance != null && AudioManager.Instance.punchFx != null)
-                                AudioManager.Instance.PlayOneShot(AudioManager.Instance.punchFx);
-                        }
-                    }
-
-                    else if (rabiteCollided[i].transform != transform && Vector3.Angle(rabiteToTarget, transform.forward) < 45) // Verification en cone
-                    {
-                        if (!impactedRabite.Contains(rabiteCollided[i].GetComponent<AIRabite>()))
-                        {
-                            Physics.IgnoreCollision(rabiteCollided[i], GetComponent<Collider>(), true);
-                            // Don't reimpacted the same player twice see invicibilityFrame
-                            impactedRabite.Add(rabiteCollided[i].GetComponent<AIRabite>());
-                            GameObject go = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles).GetItem(null, transform.position + Vector3.up * 0.5f + rabiteCenterToTargetCenter / 2.0f, Quaternion.LookRotation(rabiteToTarget, Vector3.up), true, true, (int)HitParticles.HitStar);
-                            hasCollidedWithAPlayer = true;
-                            currentTimerStop = timerStopOnDashCollision;
-
-                            playerCharacter.PlayerState = playerCharacter.frozenState;
-                          
-                            playerController.Rb.velocity = Vector3.zero;
-                            rabiteCollided[i].GetComponent<Rigidbody>().velocity = Vector3.zero;
-
-                            //Set vibrations
-                            UWPAndXInput.GamePad.VibrateForSeconds(playerController.playerIndex, 0.8f, 0.8f, .1f);
-
-                            if (AudioManager.Instance != null && AudioManager.Instance.punchFx != null)
-                                AudioManager.Instance.PlayOneShot(AudioManager.Instance.punchFx);
-                        }
-                    }
-                }
-            }
-        }
-
 
         collectablesCollided = Physics.OverlapSphere(transform.position, sphereCheckRadiusCollectables, separationMask2);
         if (collectablesCollided.Length > 0)
@@ -306,10 +235,6 @@ public class PlayerCollisionCenter : MonoBehaviour {
                 {
                     ((PlayerCharacterHub)impactedPlayers[i].PlayerCharacter).PlayerState = ((PlayerCharacterHub)impactedPlayers[i].PlayerCharacter).freeState;
                     ImpactHandling(impactedPlayers[i]);
-                }
-                for (int i = 0; i < impactedRabite.Count; i++)
-                {
-                    ImpactHandling(impactedRabite[i]);
                 }
                 hasCollidedWithAPlayer = false;
             }
@@ -394,6 +319,8 @@ public class PlayerCollisionCenter : MonoBehaviour {
         {
             if (GameManager.Instance.IsInHub() && playerImpacted.GetComponent<PlayerController>())
                 DamagePlayerHub();
+            else if (GameManager.Instance.IsInHub() && playerImpacted.gameObject.layer == LayerMask.NameToLayer("Rabite"))
+                playerImpacted.GetComponentInChildren<EnnemyController>().CurrentState = EnnemyController.RabiteState.Dead;
             else
                 DamagePlayer(playerImpacted.GetComponent<Player>(), PlayerUIStat.Points);
         }
@@ -520,31 +447,5 @@ public class PlayerCollisionCenter : MonoBehaviour {
             Gizmos.color = new Color(0, 1, 0, 0.5f);
             Gizmos.DrawSphere(transform.position, 5.0f);
         }
-    }
-
-    public void ImpactHandling(AIRabite rabite)
-    {
-        rabite.CurrentState = AIRabite.RabiteState.Dead;
-        ExpulseRabite(rabite.GetComponent<Collider>().ClosestPoint(transform.position), rabite.GetComponent<Rigidbody>(), repulsionFactor);
-    }
-
-    public void ExpulseRabite(Vector3 collisionPoint, Rigidbody rbPlayerToExpulse, float repulsionFactor)
-    {
-        Vector3 direction = rbPlayerToExpulse.position - collisionPoint;
-        direction.y = 0;
-
-        direction.Normalize() ;
-        //rbPlayerToExpulse.AddForce(new Vector3(direction.x * repulsionFactor, rbPlayerToExpulse.velocity.y + 15.0f, direction.z * repulsionFactor), ForceMode.Impulse);
-        rbPlayerToExpulse.AddForceAtPosition(new Vector3(direction.x * repulsionFactor, rbPlayerToExpulse.velocity.y + 15.0f, direction.z * repulsionFactor), rbPlayerToExpulse.position + Vector3.up,ForceMode.Impulse);
-
-        StartCoroutine(ReactivateCollider(rbPlayerToExpulse.GetComponent<AIRabite>()));
-    }
-
-    public IEnumerator ReactivateCollider(AIRabite p)
-    {
-        yield return new WaitForSeconds(invincibilityFrame/2.0f);
-        impactedRabite.Remove(p);
-        Physics.IgnoreCollision(p.GetComponent<Collider>(), GetComponent<Collider>(), false);
-        yield return null;
-    }
+    }    
 }

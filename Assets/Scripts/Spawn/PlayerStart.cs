@@ -8,7 +8,6 @@ public class PlayerStart : MonoBehaviour {
 
     Transform[] playerStart;
     public GameObject playerPrefab;
-    public GameObject playerRabbitPrefab;
 
     [SerializeField] GameObject PlayerUI;
     [SerializeField] GameMode gameMode;
@@ -117,13 +116,7 @@ public class PlayerStart : MonoBehaviour {
 
         for (int i = 0; i < activePlayersAtStart; i++)
         {
-            GameObject go;
-            if (GameManager.Instance.DataContainer != null && GameManager.Instance.DataContainer.rabbitSelected[i])
-            {
-                go = Instantiate(playerRabbitPrefab);
-            }
-            else
-                go = Instantiate(playerPrefab);
+            GameObject go = Instantiate(playerPrefab);
 
             if (GameManager.Instance.IsInHub())
             {
