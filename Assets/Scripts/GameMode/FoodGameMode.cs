@@ -154,4 +154,9 @@ public class FoodGameMode : GameMode {
             GetComponent<Player>().UpdateCollectableValue(CollectableType.Points, -scoreStep);
 
     }
+
+    public override void EndMinigame()
+    {
+        minigameUI.SetActive(false);
+    }
 }

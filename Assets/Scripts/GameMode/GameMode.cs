@@ -254,6 +254,12 @@ abstract public class GameMode : MonoBehaviour
         Destroy(cameraForBlackBackground, 0.05f);
     }
 
+    // Used to handle specific extra behavior at the end of the minigame
+    public virtual void EndMinigame()
+    {
+
+    }
+
     /* 
      * This method should only be overriden if players can finish the minigame separately. 
      * Else, end game is already called by GameManager final countdown (tududuuuu duuuu     tududu du duuuu).

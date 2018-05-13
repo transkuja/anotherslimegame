@@ -207,6 +207,8 @@ public class ScoreScreen : MonoBehaviour {
             GameManager.UiReference.GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
             if(minigameUI)
                 minigameUI.SetActive(false);
+            GameManager.Instance.CurrentGameMode.EndMinigame();
+
             gameObject.SetActive(true);
 
             GameManager.Instance.CurrentGameMode.ObtainMoneyBasedOnScore();
