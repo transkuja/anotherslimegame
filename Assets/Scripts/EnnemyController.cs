@@ -142,7 +142,6 @@ public class EnnemyController : MonoBehaviour {
         wanderTimer += Time.deltaTime;
         if (wanderTimer > nextActionTime)
         {
-            //rabiteAnimator.SetBool("Ismoving", false);
             currentWanderState = (WanderState)Random.Range(0, 2);
 
             wanderTimer = 0.0f;
@@ -152,7 +151,7 @@ public class EnnemyController : MonoBehaviour {
         {
             currentWanderPosTarget = GetRandomPointInZone();
             playerToWanderTarget = currentWanderPosTarget - transform.position;
-            //rabiteAnimator.SetBool("Ismoving", true);
+
             currentWanderState = WanderState.Moving;
             rb.drag = 0;
         }
@@ -164,7 +163,6 @@ public class EnnemyController : MonoBehaviour {
 
             if (Vector3.Distance(currentWanderPosTarget, transform.position) < 2.0f)
             {
-                //rabiteAnimator.SetBool("Ismoving", false);
                 currentWanderState = WanderState.Idle;
                 rb.velocity = Vector3.zero;
                 rb.drag = 2;
@@ -176,6 +174,8 @@ public class EnnemyController : MonoBehaviour {
         if (playersCollided.Length > 0)
         {
             currentTarget = playersCollided[0].gameObject;
+
+            // Test useless except npc are on the same layer as player
             if (currentTarget.GetComponent<PlayerControllerHub>())
             {
                 if (playersCollided[0].transform != transform && Vector3.Angle(currentTarget.transform.position - transform.position, transform.forward) < 200) // Verification en cone
@@ -184,9 +184,7 @@ public class EnnemyController : MonoBehaviour {
                     //rabiteAnimator.SetBool("Ismoving", true);
                 }
             }
-
         }
-
     }
 
     Vector3 GetRandomPointInZone()
@@ -197,14 +195,10 @@ public class EnnemyController : MonoBehaviour {
     void Pursuit()
     {
         transform.LookAt(currentTarget.transform.position);
-
-        //transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(transformToTarget2, Vector3.up), Time.deltaTime * 8.0f);
         HandleMovement(0, 1);
-        //MoveTowards(transformToTarget);
 
         if (Vector3.Distance(currentTarget.transform.position, transform.position) < attackRange)
         {
-            //rabiteAnimator.SetBool("Ismoving", false);
             CurrentState = RabiteState.Attack;
         }
         else if(Vector3.Distance(currentTarget.transform.position, transform.position) > pursuitMaxRange)
@@ -215,24 +209,17 @@ public class EnnemyController : MonoBehaviour {
 
     void Attack()
     {
-        //Vector3 transformToTarget2 = new Vector3(transformToTarget.x, 0, transformToTarget.z);
         transform.LookAt(currentTarget.transform.position);
-        ////rabiteAnimator.SetBool("IsAttacking", true);
-        //transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(currentTarget.transform.position - transform.position, Vector3.up), Time.deltaTime * 8.0f);
-
-
         if (Vector3.Distance(currentTarget.transform.position, transform.position) > attackMaxRange)
         {
-            //rabiteAnimator.SetBool("IsAttacking", false);
-            //rabiteAnimator.SetBool("Ismoving", true);
             playerCharacterHub.PlayerState = playerCharacterHub.dashState;
+            currentWanderState = WanderState.Idle;
             CurrentState = RabiteState.Pursuit;
         }
     }
 
     void Die()
     {
-        //rabiteAnimator.SetBool("IsDying", true);
         rb.constraints = RigidbodyConstraints.None;
         rb.drag = 0.2f;
         isDead = true;
@@ -252,7 +239,6 @@ public class EnnemyController : MonoBehaviour {
         else
             velocityVec += initialVelocity.x * transform.right;
 
-
         playerCharacterHub.PlayerState.Move(velocityVec, player.airControlFactor, x, y);
 
         // TMP Animation
@@ -264,6 +250,7 @@ public class EnnemyController : MonoBehaviour {
     {
         if(isDead)
         {
+            // Force end state
             playerCharacterHub.PlayerState.OnEnd();
             ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles).GetItem(null, transform.position + 3.0f * Vector3.up, Quaternion.identity, true, false, (int)HitParticles.BigHit);
             this.gameObject.SetActive(false);

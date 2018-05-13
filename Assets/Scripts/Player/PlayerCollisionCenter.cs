@@ -202,11 +202,14 @@ public class PlayerCollisionCenter : MonoBehaviour {
         {
             for (int i = 0; i < collectablesCollided.Length; i++)
             {
-                //Vector3 collectableToTarget = collectablesCollided[i].transform.position - transform.position;
-
                 if (collectablesCollided[i].transform != transform) // Verification en cone
                 {
                     Collectable c = collectablesCollided[i].GetComponent<Collectable>();
+
+                    // Enemy and PNJ cant pick anything except money
+                    if (c.type != CollectableType.Money && (GetComponent<EnnemyController>() || GetComponent<PNJController>()))
+                        return;
+
                     if (c.isActiveAndEnabled && !c.IsAttracted && !c.haveToDisperse)
                     {
                         Physics.IgnoreCollision(collectablesCollided[i], GetComponent<Collider>(), true);
@@ -263,9 +266,13 @@ public class PlayerCollisionCenter : MonoBehaviour {
                 // Can't confirm implications
                 DefaultCollision(collision, ((PlayerCharacterHub)collidedPlayer.PlayerCharacter));
 
-                if (AudioManager.Instance != null && AudioManager.Instance.wahhFx != null)
-                    //if (!AudioManager.Instance.sourceFX.isPlaying)
+                // Not enemy or pnj
+                if( !(GetComponent<EnnemyController>() || GetComponent<PNJController>()))
+                {
+                    if (AudioManager.Instance != null && AudioManager.Instance.wahhFx != null)
+                        //if (!AudioManager.Instance.sourceFX.isPlaying)
                         AudioManager.Instance.PlayOneShot(AudioManager.Instance.wahhFx);
+                }
             }
         }
 

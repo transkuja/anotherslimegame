@@ -137,53 +137,56 @@ public class Collectable : MonoBehaviour
         //GetComponent<Rigidbody>().velocity = (direction * movementSpeed * Time.deltaTime * 50.0f);
         if (Vector3.Distance(playerTarget.transform.position + Vector3.up * 0.5f, transform.position) <= 1.0f)
         {
-            if (GetComponent<FruitType>())
+            // Won't play the sound fx and wont update player money
+            if (!(playerTarget.GetComponent<EnnemyController>() || playerTarget.GetComponent<PNJController>()))
             {
-                if (name == "fruitChanger(Clone)")
+                if (GetComponent<FruitType>())
                 {
-                    GetComponentInParent<Transform>().GetComponentInParent<BonusSpawner>().canChange = true;
-                    GetComponentInParent<Transform>().GetComponentInParent<BonusSpawner>().playerTest = playerTarget;
-                }
-                if (name == "Aspirator(Clone)")
-                {
-                    GetComponentInParent<Transform>().GetComponentInParent<BonusSpawner>().playerTest = playerTarget;
-                    GetComponentInParent<Transform>().GetComponentInParent<BonusSpawner>().AspireFruit();
+                    if (name == "fruitChanger(Clone)")
+                    {
+                        GetComponentInParent<Transform>().GetComponentInParent<BonusSpawner>().canChange = true;
+                        GetComponentInParent<Transform>().GetComponentInParent<BonusSpawner>().playerTest = playerTarget;
+                    }
+                    if (name == "Aspirator(Clone)")
+                    {
+                        GetComponentInParent<Transform>().GetComponentInParent<BonusSpawner>().playerTest = playerTarget;
+                        GetComponentInParent<Transform>().GetComponentInParent<BonusSpawner>().AspireFruit();
 
-                }
-                if(name == "FruitBonus(Clone)")
-                {
+                    }
+                    if (name == "FruitBonus(Clone)")
+                    {
+                        if ((int)playerTarget.GetComponent<PlayerController>().PlayerIndex == (int)GetComponent<FruitType>().typeFruit)
+                        {
+                            playerTarget.UpdateCollectableValue(type, value + 1 * 18);
+                        }
+                    }
                     if ((int)playerTarget.GetComponent<PlayerController>().PlayerIndex == (int)GetComponent<FruitType>().typeFruit)
                     {
-                        playerTarget.UpdateCollectableValue(type, value + 1 * 18);
+                        playerTarget.UpdateCollectableValue(type, value * (6 - (int)GetComponent<FruitType>().state));
                     }
-                }
-                if ((int)playerTarget.GetComponent<PlayerController>().PlayerIndex == (int)GetComponent<FruitType>().typeFruit)
-                {
-                    playerTarget.UpdateCollectableValue(type, value * (6 - (int)GetComponent<FruitType>().state));
+                    else
+                    {
+                        playerTarget.UpdateCollectableValue(type, -value * 2);
+                    }
                 }
                 else
                 {
-                    playerTarget.UpdateCollectableValue(type, -value * 2);
-                }
-            }
-            else
-            {
-                // FIx rune tmp rémi
-                if (type == CollectableType.Rune)
-                {
-                    if (GetComponent<CreateEnumFromDatabase>() == null)
+                    // FIx rune tmp rémi
+                    if (type == CollectableType.Rune)
                     {
-                        Debug.LogError("Attract fct : It's a rune, it need a createEnumFromDatabase component link to the associated rune");
-                        return;
+                        if (GetComponent<CreateEnumFromDatabase>() == null)
+                        {
+                            Debug.LogError("Attract fct : It's a rune, it need a createEnumFromDatabase component link to the associated rune");
+                            return;
+                        }
+                        string s = GetComponent<CreateEnumFromDatabase>().enumFromList[GetComponent<CreateEnumFromDatabase>().HideInt];
+                        DatabaseManager.Db.SetUnlock<DatabaseClass.RuneData>(s, true);
                     }
-                    string s = GetComponent<CreateEnumFromDatabase>().enumFromList[GetComponent<CreateEnumFromDatabase>().HideInt];
-                    DatabaseManager.Db.SetUnlock<DatabaseClass.RuneData>(s, true);
+                    playerTarget.UpdateCollectableValue(type, value);
                 }
 
-                playerTarget.UpdateCollectableValue(type, value);
+                if (AudioManager.Instance != null && AudioManager.Instance.coinFX != null) AudioManager.Instance.PlayOneShot(AudioManager.Instance.coinFX);
             }
-
-            if (AudioManager.Instance != null && AudioManager.Instance.coinFX != null) AudioManager.Instance.PlayOneShot(AudioManager.Instance.coinFX);
 
             if (GetComponent<PoolChild>())
             {
