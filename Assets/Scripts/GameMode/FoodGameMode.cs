@@ -29,8 +29,21 @@ public class FoodGameMode : GameMode {
     [HideInInspector]
     public Vector3[] startingPositions = new Vector3[4];
 
-    public GameObject platePrefab;
-    public Transform platesLocation;
+    [Header("Pancakes settings")]
+    [SerializeField]
+    GameObject platePrefab;
+    [SerializeField]
+    Transform platesLocation;
+    [SerializeField]
+    Transform pileOfPancakesLocation;
+    [SerializeField]
+    GameObject pancakeTopPrefab;
+    [SerializeField]
+    GameObject pancakePrefab;
+
+    [SerializeField]
+    int numberOfPancakesPerPile;
+    bool[] eatPancakeOnNextInput = new bool[4];
 
     public FoodMeterHandler FoodMeterHandler
     {
@@ -45,6 +58,25 @@ public class FoodGameMode : GameMode {
         {
             foodMeterHandler = value;
         }
+    }
+
+    void CreateAPileOfPancakes(int _playerIndex)
+    {
+        GameObject pile = new GameObject("Pile of Pancakes");
+        pile.transform.SetParent(pileOfPancakesLocation.GetChild(_playerIndex));
+        pile.transform.localPosition = Vector3.zero;
+
+        GameObject plate = Instantiate(platePrefab, pile.transform);
+        plate.transform.localPosition = Vector3.up * 0.2f;
+
+        for (int i = 0; i < numberOfPancakesPerPile - 1; i++)
+        {
+            GameObject pancake = Instantiate(pancakePrefab, pile.transform);
+            pancake.transform.localPosition = (i + 1) * Vector3.up * 0.2f;
+        }
+        GameObject topPancake = Instantiate(pancakeTopPrefab, pile.transform);
+        topPancake.transform.localPosition = numberOfPancakesPerPile * Vector3.up * 0.2f;
+        ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles).GetItem(null, pile.transform.position, Quaternion.identity, true, true);
     }
 
     public override void StartGame(List<GameObject> playerReferences)
@@ -62,6 +94,8 @@ public class FoodGameMode : GameMode {
             playerReferences[i].GetComponent<Rigidbody>().useGravity = false;
             playerReferences[i].GetComponent<Rigidbody>().isKinematic = true;
             playerReferences[i].GetComponent<Player>().NbPoints = 0;
+
+            CreateAPileOfPancakes(i);
         }
     
 
@@ -147,28 +181,41 @@ public class FoodGameMode : GameMode {
         // score ++
         Player currentPlayer = GameManager.Instance.PlayerStart.PlayersReference[(int)_controller.PlayerIndex].GetComponent<Player>();
         currentPlayer.UpdateCollectableValue(CollectableType.Points, (int)(scoreStep * _controller.CurrentCombo));
+        Transform pileOfPancake = pileOfPancakesLocation.GetChild((int)_controller.PlayerIndex).GetChild(0);
 
-        if (platesLocation.GetChild((int)_controller.PlayerIndex).childCount < currentPlayer.NbPoints / 150)
+        if (eatPancakeOnNextInput[(int)_controller.PlayerIndex])
         {
-            GameObject plate = Instantiate(platePrefab, platesLocation.GetChild((int)_controller.PlayerIndex));
-            plate.transform.localPosition = currentPlayer.NbPoints / 150 * Vector3.up * 0.2f;
+            DestroyImmediate(pileOfPancake.GetChild(pileOfPancake.childCount - 1).gameObject);
+        }
+        eatPancakeOnNextInput[(int)_controller.PlayerIndex] = !eatPancakeOnNextInput[(int)_controller.PlayerIndex];
+
+        //if (platesLocation.GetChild((int)_controller.PlayerIndex).childCount < currentPlayer.NbPoints / 150)
+        //{
+        if (pileOfPancake.childCount == 1)
+        {
+            GameObject plate = pileOfPancake.GetChild(0).gameObject;
+            plate.transform.SetParent(platesLocation.GetChild((int)_controller.PlayerIndex));
+            plate.transform.localPosition = platesLocation.GetChild((int)_controller.PlayerIndex).childCount * Vector3.up * 0.2f;
+
+            Destroy(pileOfPancake.gameObject);
+            CreateAPileOfPancakes((int)_controller.PlayerIndex);
         }
 
         FoodMeterHandler.FoodMeterIncrease((int)_controller.PlayerIndex);
 
     }
 
-    public void BadInput(PlayerControllerFood _controller)
-    {
-        // score --
-        Player currentPlayer = GameManager.Instance.PlayerStart.PlayersReference[(int)_controller.PlayerIndex].GetComponent<Player>();
-        currentPlayer.UpdateCollectableValue(CollectableType.Points, -scoreStep);
+    //public void BadInput(PlayerControllerFood _controller)
+    //{
+    //     score --
+    //    Player currentPlayer = GameManager.Instance.PlayerStart.PlayersReference[(int)_controller.PlayerIndex].GetComponent<Player>();
+    //    currentPlayer.UpdateCollectableValue(CollectableType.Points, -scoreStep);
 
-        int platesCount = platesLocation.GetChild((int)_controller.PlayerIndex).childCount;
-        if (platesCount > currentPlayer.NbPoints / 150)
-            Destroy(platesLocation.GetChild((int)_controller.PlayerIndex).GetChild(platesCount - 1).gameObject);
+    //    int platesCount = platesLocation.GetChild((int)_controller.PlayerIndex).childCount;
+    //    if (platesCount > currentPlayer.NbPoints / 150)
+    //        Destroy(platesLocation.GetChild((int)_controller.PlayerIndex).GetChild(platesCount - 1).gameObject);
 
-    }
+    //}
 
     public override void EndMinigame()
     {

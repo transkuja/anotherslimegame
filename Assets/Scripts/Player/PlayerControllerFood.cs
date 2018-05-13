@@ -142,7 +142,7 @@ public class PlayerControllerFood : PlayerController {
                 foodInputSettings.transform.GetChild((int)_pressed).GetComponent<Image>().color = Color.red;
                 foodInputSettings.transform.GetChild((int)_pressed).GetComponent<Image>().enabled = true;
 
-                ((FoodGameMode)GameManager.Instance.CurrentGameMode).BadInput(this);
+                //((FoodGameMode)GameManager.Instance.CurrentGameMode).BadInput(this);
             }
         }
     }
