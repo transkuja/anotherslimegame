@@ -259,16 +259,16 @@ public class PlayerCollisionCenter : MonoBehaviour {
         // Interaction Joueur / Joueur
         if (collision.gameObject.GetComponent<Player>())
         {
-            Player collidedPlayer = collision.transform.gameObject.GetComponent<Player>();
+            PlayerCharacterHub collidedPlayer = collision.gameObject.GetComponent<PlayerCharacterHub>();
 
             if (collidedPlayer == null) return;
 
             if (!(playerCharacter.PlayerState is DashState)
-                && !(((PlayerCharacterHub)collidedPlayer.PlayerCharacter).PlayerState is DashState))
+                && !(collidedPlayer.PlayerState is DashState))
             {
                 // Default interaction no one is dashing of using an abilty
                 // Can't confirm implications
-                DefaultCollision(collision, ((PlayerCharacterHub)collidedPlayer.PlayerCharacter));
+                DefaultCollision(collision, collidedPlayer);
 
                 // Not enemy nor pnj
                 if( !isAPlayer)
