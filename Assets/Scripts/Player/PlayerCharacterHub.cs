@@ -155,20 +155,19 @@ public class PlayerCharacterHub : PlayerCharacter {
                 }
                 if (PlayerState != underwaterState)
                 {
-                    if (DustTrailParticles && DustTrailParticles.GetComponent<ParticleSystem>() != null)
+                    if (DustTrailParticles)
                     {
-                        DustTrailParticles.GetComponent<ParticleSystem>().Play();
+                        DustTrailParticles.Play();
                     }
                 }
             }
             else
             {
                 gravityFactor = 1.0f;
-                if (DustTrailParticles && DustTrailParticles.GetComponent<ParticleSystem>() != null)
+                if (DustTrailParticles)
                 {
-                    DustTrailParticles.GetComponent<ParticleSystem>().Stop();
+                    DustTrailParticles.Stop();
                 }
-
             }
             Anim.SetBool("isGrounded", value);
             isGrounded = value;
