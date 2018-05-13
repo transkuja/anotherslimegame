@@ -19,8 +19,6 @@ public class EvolutionAgile : EvolutionComponent {
         playerCharacter.stats.AddBuff(jumpHeightBuff);
 
         playerComponent = GetComponent<Player>();
-        Debug.Log("Start AgileEvolution");
-
         if (playerComponent.evolutionTutoShown != null && playerComponent.evolutionTutoShown.Length > 0 && !playerComponent.evolutionTutoShown[(int)Powers.Agile] && !GameManager.Instance.CurrentGameMode.IsMiniGame())
         {
             GetComponent<Player>().evolutionTutoShown[(int)Powers.Agile] = true;
