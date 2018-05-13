@@ -31,8 +31,7 @@ public class EnnemyController : MonoBehaviour {
 
     int separationMask;
 
-    public GameObject pillarLight;
-    public GameObject pillarLight2;
+    public GameObject feedbackenemy;
 
     GameObject currentTarget = null;
     bool originReach = true;
@@ -228,9 +227,7 @@ public class EnnemyController : MonoBehaviour {
         rb.drag = 0.2f;
         isDead = true;
 
-        Destroy(pillarLight);
-        Destroy(pillarLight2);
-
+        Destroy(feedbackenemy);
         GetComponentInChildren<PlayerCosmetics>().FaceEmotion = FaceEmotion.Hit;
     }
 
