@@ -32,12 +32,11 @@ public class FoodGameMode : GameMode {
     [Header("Pancakes settings")]
     Vector3 offsetPlates = new Vector3(-3.5f, 0.92f, -4.39f);
     Vector3 offsetPancakes = new Vector3(0.0f, 0.92f, -3.39f);
+    GameObject platesLocation;
+    GameObject pileOfPancakesLocation;
+
     [SerializeField]
     GameObject platePrefab;
-    [SerializeField]
-    GameObject platesLocation;
-    [SerializeField]
-    GameObject pileOfPancakesLocation;
     [SerializeField]
     GameObject pancakeTopPrefab;
     [SerializeField]
@@ -155,8 +154,9 @@ public class FoodGameMode : GameMode {
 
         if (_minigameVersion >= 1)
         {
-            miniTail = 0.75f;
-            maxTail = 1.5f;
+            miniTail = 0.5f;
+            maxTail = 1.0f;
+            reactionTime = 0.66f;
             inputSpeed = 60.0f;
             _minigameVersion -= 1;
         }
@@ -165,6 +165,7 @@ public class FoodGameMode : GameMode {
             miniTail = 1.0f;
             maxTail = 2.0f;
             inputSpeed = 50.0f;
+            reactionTime = 1.0f;
         }
     }
 
