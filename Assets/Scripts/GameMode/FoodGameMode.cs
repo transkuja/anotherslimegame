@@ -26,6 +26,7 @@ public class FoodGameMode : GameMode {
     public bool enableBadInputs = false;
 
     public float reactionTime = 1.0f;
+    public Vector3[] startingPositions = new Vector3[4];
 
     public FoodMeterHandler FoodMeterHandler
     {
@@ -74,12 +75,18 @@ public class FoodGameMode : GameMode {
     public override void RepositionPlayers()
     {
         if (curNbPlayers == 4)
+        {
+            for (int i = 0; i < 4; i++)
+                startingPositions[i] = GameManager.Instance.PlayerStart.PlayersReference[i].transform.position;
             return;
+        }
+
         Vector3[] positions = inputTracksHandler.ComputePlayerStartingPositions(curNbPlayers);
 
         for (int i = 0; i < curNbPlayers; i++)
         {
             GameManager.Instance.PlayerStart.PlayersReference[i].transform.position = positions[i] + Vector3.up;
+            startingPositions[i] = GameManager.Instance.PlayerStart.PlayersReference[i].transform.position;
         }
     }
     public override void ExtractVersionData(int _minigameVersion)

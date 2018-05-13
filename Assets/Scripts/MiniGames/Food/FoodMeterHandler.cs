@@ -26,8 +26,11 @@ public class FoodMeterHandler : MonoBehaviour {
     bool[] doesFaceNeedReset = new bool[4];
     FaceEmotion[] resetTarget = new FaceEmotion[4];
 
-	void Start () {
-        maxScale = ((FoodGameMode)GameManager.Instance.CurrentGameMode).maxScale;
+    FoodGameMode gameMode;
+
+    void Start () {
+        gameMode = ((FoodGameMode)GameManager.Instance.CurrentGameMode);
+        maxScale = gameMode.maxScale;
         decreaseSpeedInitial = decreaseSpeed;
         decreaseSpeedBuffed = decreaseSpeedInitial * decreaseSpeedWhenFullMultiplier;
     }
@@ -71,6 +74,11 @@ public class FoodMeterHandler : MonoBehaviour {
                 controllers[i].CurrentCombo = 1 + (foodMeters[i] * (maxScale - 1) / 100);
                 GameManager.Instance.PlayerStart.PlayersReference[i].transform.localScale 
                     = Vector3.one * controllers[i].CurrentCombo;
+
+                GameManager.Instance.PlayerStart.PlayersReference[i].transform.position 
+                    = new Vector3(GameManager.Instance.PlayerStart.PlayersReference[i].transform.position.x,
+                            GameManager.Instance.PlayerStart.PlayersReference[i].transform.position.y, 
+                            (gameMode.startingPositions[i].z + controllers[i].CurrentCombo - 1));
 
                 if (foodMeters[i] <= 100 - (foodMeterStep * 2) && 
                         GameManager.Instance.PlayerStart.PlayersReference[i].GetComponentInChildren<PlayerCosmetics>().FaceEmotion == FaceEmotion.Hit)
