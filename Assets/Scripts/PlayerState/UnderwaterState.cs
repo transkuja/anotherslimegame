@@ -32,6 +32,10 @@ public class UnderwaterState : PlayerState
         }
         else
         {
+            // Just annoying when an ennemy is moving next to the water
+            if (playerCharacterHub.GetComponent<EnnemyController>())
+                return;
+
             if (AudioManager.Instance != null && AudioManager.Instance.splashWaterFx != null)
             {
                 if (playerCharacterHub.GetComponent<PNJController>() && playerCharacterHub.GetComponent<PNJController>().myAudioSource != null)

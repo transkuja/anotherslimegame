@@ -19,22 +19,25 @@ public class EnnemyController : MonoBehaviour {
 
     [Header("Parameters")]
     [SerializeField]
-    float moveSpeed = 2500.0f;
-    [SerializeField]
     float playerDetectionRadius = 10.0f;
     [SerializeField]
     float pursuitMaxRange = 40.0f;
 
     [SerializeField]
-    float attackRange = 2.0f;
+    float attackRange = 5.0f;
 
     [SerializeField]
-    float attackMaxRange = 3.0f;
+    float attackMaxRange = 9.0f;
 
     int separationMask;
 
     public GameObject pillarLight;
     public GameObject pillarLight2;
+
+    GameObject currentTarget = null;
+    bool originReach = true;
+
+    bool isDead = false;
 
     public enum RabiteState
     {
@@ -75,36 +78,27 @@ public class EnnemyController : MonoBehaviour {
         }
     }
 
-    GameObject currentTarget = null;
-    //private Animator rabiteAnimator;
-
-    bool isDead = false;
 
     private void Start()
     {
         playerCharacterHub = GetComponent<PlayerCharacterHub>();
         player = GetComponent<Player>();
+        rb = playerCharacterHub.Rb;
 
         if (useStartPositionAsZonePosition)
             zonePosition = transform.position;
 
         CurrentState = RabiteState.Wander;
-        //rabiteAnimator = GetComponent<Animator>();
-        rb = playerCharacterHub.Rb;
         separationMask = LayerMask.GetMask(new string[] { "Player" });
     }
 
     public void Update()
     {
-        //ApplyGravity();
-
         if (GameManager.CurrentState != GameState.Normal || isDead)
         {
-            //rabiteAnimator.StartPlayback();
             return;
         }
 
-        //rabiteAnimator.StopPlayback();
         switch(CurrentState)
         {
             case RabiteState.Wander:
@@ -140,19 +134,29 @@ public class EnnemyController : MonoBehaviour {
     void Wander()
     {
         wanderTimer += Time.deltaTime;
-        if (wanderTimer > nextActionTime)
+        if (originReach && wanderTimer > nextActionTime)
         {
             currentWanderState = (WanderState)Random.Range(0, 2);
 
             wanderTimer = 0.0f;
             nextActionTime = Random.Range(1.0f, 2.0f);
         }
-        if(currentWanderState == WanderState.ChooseDestination)
+        else if (!originReach && wanderTimer > 15)
+        {
+            // Tp just in case
+            transform.position = zonePosition;
+            originReach = true;
+            wanderTimer = 0.0f;
+            ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles).GetItem(null, transform.position + 3.0f * Vector3.up, Quaternion.identity, true, false, (int)HitParticles.BigHit);
+
+        }
+        if (currentWanderState == WanderState.ChooseDestination)
         {
             currentWanderPosTarget = GetRandomPointInZone();
             playerToWanderTarget = currentWanderPosTarget - transform.position;
 
             currentWanderState = WanderState.Moving;
+            originReach = false;
             rb.drag = 0;
         }
         if(currentWanderState == WanderState.Moving)
@@ -163,6 +167,7 @@ public class EnnemyController : MonoBehaviour {
 
             if (Vector3.Distance(currentWanderPosTarget, transform.position) < 2.0f)
             {
+                originReach = true;
                 currentWanderState = WanderState.Idle;
                 rb.velocity = Vector3.zero;
                 rb.drag = 2;
@@ -181,7 +186,6 @@ public class EnnemyController : MonoBehaviour {
                 if (playersCollided[0].transform != transform && Vector3.Angle(currentTarget.transform.position - transform.position, transform.forward) < 200) // Verification en cone
                 {
                     CurrentState = RabiteState.Pursuit;
-                    //rabiteAnimator.SetBool("Ismoving", true);
                 }
             }
         }
@@ -213,7 +217,7 @@ public class EnnemyController : MonoBehaviour {
         if (Vector3.Distance(currentTarget.transform.position, transform.position) > attackMaxRange)
         {
             playerCharacterHub.PlayerState = playerCharacterHub.dashState;
-            currentWanderState = WanderState.Idle;
+            currentWanderState = WanderState.Moving;
             CurrentState = RabiteState.Pursuit;
         }
     }
@@ -254,7 +258,8 @@ public class EnnemyController : MonoBehaviour {
             playerCharacterHub.PlayerState.OnEnd();
             ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles).GetItem(null, transform.position + 3.0f * Vector3.up, Quaternion.identity, true, false, (int)HitParticles.BigHit);
             this.gameObject.SetActive(false);
-        }
 
+            Destroy(this.gameObject, 10);
+        }
     }
 }

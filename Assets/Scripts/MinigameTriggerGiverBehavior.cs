@@ -42,9 +42,9 @@ public class MinigameTriggerGiverBehavior : PNJDefaultBehavior
         if (IsEventOver())
         {
             InactiveCustomzable(rewardType);
-
             step = messages.QuestMessagesLength();
-        } else
+        }
+        else
         {
             step = 0;
         }
@@ -70,7 +70,6 @@ public class MinigameTriggerGiverBehavior : PNJDefaultBehavior
 
     protected override void NextStepCommonProcess(int playerIndex)
     {
-        //GetComponent<PNJController>().UpdateOriginalPosition();
         if (IsEventOver())
             return;
 
@@ -158,7 +157,6 @@ public class MinigameTriggerGiverBehavior : PNJDefaultBehavior
 
     public void PrepareForStart()
     {
-
         for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
         {
             GameManager.Instance.PlayerStart.PlayersReference[i].transform.position = initialpos[i];
@@ -176,10 +174,9 @@ public class MinigameTriggerGiverBehavior : PNJDefaultBehavior
 
         step++;
 
-
         startTimerShow = true;
-
     }
+
     public void StartMinigame()
     {
         GameObject readySetGo = Instantiate(ResourceUtils.Instance.spriteUtils.spawnableSpriteUI, GameManager.UiReference.transform);
@@ -195,12 +192,8 @@ public class MinigameTriggerGiverBehavior : PNJDefaultBehavior
     {
         isStarted = false;
         startTimerShow = false;
-
         triggerEnd.SetActive(false);
-
-        //currentMessage = 0; in destroy
         GameManager.Instance.CleanEndFinalCountdown();
-
     }
 
     public void CleanMinigameHub()
@@ -294,17 +287,21 @@ public class MinigameTriggerGiverBehavior : PNJDefaultBehavior
           () => FadeInAndOut == null
          );
 
-        GameManager.ChangeState(GameState.Normal);
-
-        // TMP
+        GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerCharacterHub>().dialogState = DialogState.Dialog;
+        GetComponent<PNJMessage>().myCharacter.dialogState = DialogState.Dialog;
+   
         GetComponent<PNJMessage>().Message[0].SetActive(true);
         GetComponent<PNJMessage>().currentMessage = 0;
         GetComponent<PNJMessage>().NextMessage(0);
 
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(1.0f);
         hasWin = true;
         InactiveCustomzable(rewardType);
         rewards[0].GetReward();
+
+        // Force Normal
+        GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerCharacterHub>().dialogState = DialogState.Normal;
+        GetComponent<PNJMessage>().myCharacter.dialogState = DialogState.Normal;
 
         CleanMinigameHub();
         yield return null;

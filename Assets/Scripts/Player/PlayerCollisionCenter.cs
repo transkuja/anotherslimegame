@@ -26,6 +26,8 @@ public class PlayerCollisionCenter : MonoBehaviour {
     [Range(0.0f, 40.0f)]
     float impactPropagationThreshold;
 
+    private bool isAPlayer = true;
+
     // Collision with strength on one player
     [SerializeField] float repulsionFactor = 2000;
 
@@ -93,6 +95,8 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
         separationMask3 = LayerMask.GetMask(new string[] { "Breakable" });
 
+        if (GetComponent<EnnemyController>() || GetComponent<PNJController>())
+            isAPlayer = false;
     }
 
     private void Update()
@@ -207,7 +211,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
                     Collectable c = collectablesCollided[i].GetComponent<Collectable>();
 
                     // Enemy and PNJ cant pick anything except money
-                    if (c.type != CollectableType.Money && (GetComponent<EnnemyController>() || GetComponent<PNJController>()))
+                    if (c.type != CollectableType.Money && (!isAPlayer))
                         return;
 
                     if (c.isActiveAndEnabled && !c.IsAttracted && !c.haveToDisperse)
@@ -266,11 +270,10 @@ public class PlayerCollisionCenter : MonoBehaviour {
                 // Can't confirm implications
                 DefaultCollision(collision, ((PlayerCharacterHub)collidedPlayer.PlayerCharacter));
 
-                // Not enemy or pnj
-                if( !(GetComponent<EnnemyController>() || GetComponent<PNJController>()))
+                // Not enemy nor pnj
+                if( !isAPlayer)
                 {
                     if (AudioManager.Instance != null && AudioManager.Instance.wahhFx != null)
-                        //if (!AudioManager.Instance.sourceFX.isPlaying)
                         AudioManager.Instance.PlayOneShot(AudioManager.Instance.wahhFx);
                 }
             }
@@ -320,7 +323,6 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
     public void ImpactHandling(Player playerImpacted)
     {
-
         // Damage Behavior
         if (GameManager.Instance.CurrentGameMode.TakesDamageFromPlayer)
         {

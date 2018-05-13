@@ -107,9 +107,15 @@ public class PNJMessage : MonoBehaviour {
             return;
 
         // Both character hub dialogState change to Dialog
-        GameManager.Instance.PlayerStart.PlayersReference[playerIndex].GetComponent<PlayerCharacterHub>().dialogState = DialogState.Dialog;
-        myCharacter.dialogState = DialogState.Dialog;
+        PlayerCharacterHub joueurQuiluiParle = GameManager.Instance.PlayerStart.PlayersReference[playerIndex].GetComponent<PlayerCharacterHub>();
+        if (joueurQuiluiParle)
+        {
+            joueurQuiluiParle.dialogState = DialogState.Dialog;
+            transform.LookAt(new Vector3(joueurQuiluiParle.transform.position.x, transform.position.y, joueurQuiluiParle.transform.position.z));
+        }
 
+        myCharacter.dialogState = DialogState.Dialog;
+   
         // Display Message Hide Button B
         BbuttonShown[playerIndex].SetActive(false);
         Message[playerIndex].SetActive(true);

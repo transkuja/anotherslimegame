@@ -6,43 +6,34 @@ using UnityEngine.UI;
 
 public class PNJController : MonoBehaviour
 {
-
     // Aggregations
     private PlayerCharacterHub playerCharacterHub;
     private Player player;
-    //private Rigidbody rb;
 
     private Vector3 originalPos;
     private Quaternion originalRot;
     private float timer;
     [Range(5, 20)]
-    public float timerToTpBack = 20;
+    public float timerToTpBack = 15;
 
     public AudioSource myAudioSource;
 
+    // Gosse
     public bool isHappy = false;
-
 
     void Start()
     {
         player = GetComponent<Player>();
-
         playerCharacterHub = player.PlayerCharacter as PlayerCharacterHub;
-        //rb = playerCharacterHub.Rb;
+
         originalPos = transform.position;
         originalRot = transform.rotation;
     }
 
     public void Update()
     {
-        //if (GetComponent<PlayerCharacterHub>().dialogState == DialogState.Dialog)
-        //{
-        //    transform.LookAt(new Vector3(other.transform.position.x, transform.position.y, other.transform.position.z));
-
-        //}
+        // retourne à la postion d'origine
         if (playerCharacterHub.dialogState == DialogState.Normal)
-        // Oui bob est con
-        //if (GameManager.CurrentState == GameState.Normal)
         {
             if (Vector3.Distance(originalPos, transform.position) > 1f)
             {
@@ -54,6 +45,7 @@ public class PNJController : MonoBehaviour
                 {
                     transform.position = originalPos;
                     timer = 0;
+                    ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles).GetItem(null, transform.position + 3.0f * Vector3.up, Quaternion.identity, true, false, (int)HitParticles.BigHit);
                 }
             }
             else if (!isHappy && Vector3.Distance(originalPos, transform.position) < 0.5f)
