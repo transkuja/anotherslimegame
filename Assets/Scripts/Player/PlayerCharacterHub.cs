@@ -28,9 +28,6 @@ public class PlayerCharacterHub : PlayerCharacter {
     public PausedState pausedState;
     public TeleportState teleportState;
 
-    // Deformer
-    private MeshDeformer deformer;
-
     // Component : 
     private PlayerState playerState;
     private PlayerState previousPlayerState;
@@ -221,16 +218,12 @@ public class PlayerCharacterHub : PlayerCharacter {
     {
         raycastOffsetPlayer = GetComponent<SphereCollider>().radius;
 
-        deformer = GetComponentInChildren<MeshDeformer>();
-
     }
 
     public void Update()
     {
         if (PlayerState != null)
             PlayerState.OnUpdate();
-        if (Rb.velocity.y > 0.05f && !IsGrounded)
-            HandleJumpDeformer();
 
         if ((Rb.velocity.y < 0.0f && IsGrounded) || (Rb.velocity.y >= 0.0f && jumpState.NbJumpMade == 0))
         {
@@ -289,18 +282,6 @@ public class PlayerCharacterHub : PlayerCharacter {
                 LandingParticles.Play();
             }
         }
-        if (deformer)
-        {
-            float force = 20f;
-            float vel = collision.relativeVelocity.magnitude / collision.contacts.Length;
-
-            for (int i = 0; i < collision.contacts.Length; i++)
-            {
-                Vector3 point = collision.contacts[i].point;
-                deformer.AddDeformingForce(point, vel * force);
-
-            }
-        }
 
         if (!collision.transform.GetComponent<Player>())
         {
@@ -323,20 +304,6 @@ public class PlayerCharacterHub : PlayerCharacter {
     public void OnCollisionExit(Collision collision)
     {
         PlayerState.CollisionExit(collision);
-    }
-
-    public void HandleJumpDeformer()
-    {
-        float force = 900f;
-        float forceOffset = 0.1f;
-
-        if (deformer)
-        {
-            Vector3 point = transform.position - transform.up;
-            point += transform.up * forceOffset;
-            deformer.AddDeformingForce(point, -force / 3.0f);
-            deformer.AddDeformingForce(point, force / 5.0f);
-        }
     }
 
 #if UNITY_EDITOR
