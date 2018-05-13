@@ -13,7 +13,7 @@ public class PlayerControllerFood : PlayerController {
     Text comboUIText;
     Slider comboUISlider;
     Image comboUIFillAreaImage;
-    Animator parentAnim;
+    public Animator parentAnim;
 
     public FoodInputSettings foodInputSettings;
 
@@ -52,8 +52,6 @@ public class PlayerControllerFood : PlayerController {
         set
         {
             areInputsUnlocked = value;
-            if (!areInputsUnlocked)
-                parentAnim.SetBool("wrong", true);
         }
     }
 
@@ -67,8 +65,7 @@ public class PlayerControllerFood : PlayerController {
         set
         {
             hasEatenSmthgBad = value;
-            if (hasEatenSmthgBad)
-                parentAnim.SetBool("wrong", true);
+            parentAnim.SetBool("wrong", hasEatenSmthgBad);
         }
     }
 
@@ -86,13 +83,7 @@ public class PlayerControllerFood : PlayerController {
         {
             if (AreInputsUnlocked && !HasEatenSmthgBad)
             {
-                parentAnim.SetBool("wrong", false);
                 CompareInput();
-            }
-            else
-            {
-                parentAnim.SetBool("wrong", true);
-
             }
         }
     }
@@ -144,19 +135,30 @@ public class PlayerControllerFood : PlayerController {
             }
             else
             {
-                Invoke("ResetStateAfterWrongInput", 0.5f);
+                StartCoroutine(ResetStateAfterWrongInput(_pressed));
                 AreInputsUnlocked = false;
                 GameManager.Instance.PlayerStart.PlayersReference[(int)playerIndex].GetComponentInChildren<PlayerCosmetics>().FaceEmotion
                         = FaceEmotion.Hit;
+                foodInputSettings.transform.GetChild((int)_pressed).GetComponent<Image>().color = Color.red;
+                foodInputSettings.transform.GetChild((int)_pressed).GetComponent<Image>().enabled = true;
+
+                ((FoodGameMode)GameManager.Instance.CurrentGameMode).BadInput(this);
             }
         }
     }
 
-    void ResetStateAfterWrongInput()
+    IEnumerator ResetStateAfterWrongInput(PossibleInputs _wrongInput)
     {
+        yield return new WaitForSeconds(0.3f);
+
         AreInputsUnlocked = true;
         GameManager.Instance.PlayerStart.PlayersReference[(int)playerIndex].GetComponentInChildren<PlayerCosmetics>().FaceEmotion
                 = FaceEmotion.Neutral;
+
+        if (_wrongInput != foodInputSettings.CurrentInput)
+            foodInputSettings.transform.GetChild((int)_wrongInput).GetComponent<Image>().enabled = false;
+        foodInputSettings.transform.GetChild((int)_wrongInput).GetComponent<Image>().color = Color.white;
+
     }
 
     void ResetStateAfterEatingSmthgBad()

@@ -60,6 +60,7 @@ public class FoodMeterHandler : MonoBehaviour {
                     if (decreaseSpeed + 1 < decreaseSpeedInitial)
                         decreaseSpeed = decreaseSpeedInitial;
                     controllers[i].AreInputsUnlocked = true;
+                    controllers[i].parentAnim.SetBool("wrong", false);
                     GameManager.Instance.PlayerStart.PlayersReference[i].GetComponentInChildren<PlayerCosmetics>().FaceEmotion 
                         = FaceEmotion.Neutral;
                 }
@@ -88,6 +89,7 @@ public class FoodMeterHandler : MonoBehaviour {
         {
             decreaseSpeed = decreaseSpeedBuffed;
             controllers[_playerIndex].AreInputsUnlocked = false;
+            controllers[_playerIndex].parentAnim.SetBool("wrong", true);
             currentPlayer.GetComponentInChildren<PlayerCosmetics>().FaceEmotion = FaceEmotion.Loser; // Ate too much
             doesFaceNeedReset[_playerIndex] = false;
             controllers[_playerIndex].CurrentCombo = 1.0f;

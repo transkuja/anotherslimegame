@@ -139,4 +139,12 @@ public class FoodGameMode : GameMode {
         FoodMeterHandler.FoodMeterIncrease((int)_controller.PlayerIndex);
 
     }
+
+    public void BadInput(PlayerControllerFood _controller)
+    {
+        // score --
+        GameManager.Instance.PlayerStart.PlayersReference[(int)_controller.PlayerIndex].
+            GetComponent<Player>().UpdateCollectableValue(CollectableType.Points, -scoreStep);
+
+    }
 }

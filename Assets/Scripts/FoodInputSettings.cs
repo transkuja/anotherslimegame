@@ -135,6 +135,7 @@ public class FoodInputSettings : MonoBehaviour {
     public void ActiveButton(PossibleInputs _toActivate)
     {
         transform.GetChild((int)_toActivate).GetComponent<Image>().enabled = true;
+        transform.GetChild((int)_toActivate).GetComponent<Image>().color = Color.white;
         transform.GetChild((int)_toActivate).GetChild(0).GetComponent<Image>().color = Color.white;
 
         transform.GetChild((int)CurrentInput).GetComponent<Image>().enabled = false;
