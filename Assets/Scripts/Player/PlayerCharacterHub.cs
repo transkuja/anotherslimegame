@@ -8,6 +8,7 @@ public enum DialogState { Normal, Dialog };
 public class PlayerCharacterHub : PlayerCharacter {
 
     private PlayerControllerHub playerController;
+    private PNJController pnjController;
 
     public DialogState dialogState;
 
@@ -128,8 +129,8 @@ public class PlayerCharacterHub : PlayerCharacter {
                     downDashState.nbDashDownMade = 0;
                     dashState.nbDashMade = 0;
 #if UNITY_EDITOR
-                    if (GetComponent<JumpManager>() != null && (playerController && !playerController.tryByPassJumpStop))
-                        GetComponent<JumpManager>().Stop();
+                    if (JumpManager != null && (playerController && !playerController.tryByPassJumpStop))
+                        JumpManager.Stop();
 #endif
                     Anim.SetBool("isExpulsed", false);
 
@@ -139,9 +140,9 @@ public class PlayerCharacterHub : PlayerCharacter {
                         {
                             if (AudioManager.Instance != null && AudioManager.Instance.sandStepFx != null)
                             {
-                                if (GetComponent<PNJController>() && GetComponent<PNJController>().myAudioSource != null)
+                                if (pnjController && pnjController.myAudioSource != null)
                                 {
-                                    GetComponent<PNJController>().myAudioSource.PlayOneShot(AudioManager.Instance.sandStepFx, 5);
+                                    pnjController.myAudioSource.PlayOneShot(AudioManager.Instance.sandStepFx, 5);
                                 }
                                 else
                                 {
@@ -212,6 +213,8 @@ public class PlayerCharacterHub : PlayerCharacter {
         PlayerState = freeState;
 
         playerController = GetComponent<PlayerControllerHub>();
+
+        pnjController = GetComponent<PNJController>();
     }
 
     public void Start()
@@ -219,6 +222,7 @@ public class PlayerCharacterHub : PlayerCharacter {
         raycastOffsetPlayer = GetComponent<SphereCollider>().radius;
 
         deformer = GetComponentInChildren<MeshDeformer>();
+
     }
 
     public void Update()
