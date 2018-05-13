@@ -119,7 +119,8 @@ public class PNJMessage : MonoBehaviour {
         if ((myBehavior && myBehavior.IsEventOver()) || !myBehavior)
         {
             currentMessage = 0;
-            myBehavior.Reset();
+            if( myBehavior)
+                myBehavior.Reset();
         }
         NextMessage(playerIndex);
     }
