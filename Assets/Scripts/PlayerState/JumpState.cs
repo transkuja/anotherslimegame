@@ -8,8 +8,9 @@ public class JumpState : PlayerState
 {
     private int nbJumpMade = 0;
 
-    public PlayerControllerHub pch;
-    public PNJController pnj;
+    private PlayerControllerHub pch;
+    private PNJController pnj;
+    private JumpManager jm;
 
     public int NbJumpMade
     {
@@ -36,6 +37,7 @@ public class JumpState : PlayerState
 
         pch = playerCharacterHub.GetComponent<PlayerControllerHub>();
         pnj = playerCharacterHub.GetComponent<PNJController>();
+        jm = playerCharacterHub.GetComponent<JumpManager>();
     }
    
     public override void OnBegin()
@@ -67,8 +69,8 @@ public class JumpState : PlayerState
     public void LaunchJump()
     {
         playerCharacterHub.IsGrounded = false;
-        JumpManager jm;
-        if (jm = playerCharacterHub.GetComponent<JumpManager>())
+
+        if (jm)
         {
             jm.Jump(JumpManager.JumpEnum.Basic);
 
@@ -77,20 +79,16 @@ public class JumpState : PlayerState
                 if (pnj && pnj.myAudioSource != null)
                 {
                     pnj.myAudioSource.PlayOneShot(AudioManager.Instance.jumpFx, 0.5f);
-                } else
+                }
+                else
                 {
                     AudioManager.Instance.PlayOneShot(AudioManager.Instance.jumpFx);
                 }
             }
-         
         }
-        else
-            Debug.LogError("No jump manager attached to player!");
-
         NbJumpMade++;
     }
 
-   
     public override void OnJumpPressed()
     {
         if (NbJumpMade < playerCharacterHub.stats.Get(Stats.StatType.JUMP_NB))
