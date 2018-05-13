@@ -93,9 +93,9 @@ public class EnnemyController : MonoBehaviour {
 
     public void Update()
     {
-        ApplyGravity();
+        //ApplyGravity();
 
-        if (GameManager.CurrentState != GameState.Normal)
+        if (GameManager.CurrentState != GameState.Normal || isDead)
         {
             //rabiteAnimator.StartPlayback();
             return;
@@ -114,15 +114,9 @@ public class EnnemyController : MonoBehaviour {
                 Attack();
                 break;
             case RabiteState.Dead:
-                if (!isDead)
-                    Die();
+                Die();
                 break;
         }
-    }
-
-    void MoveTowards(Vector3 direction)
-    {
-        rb.AddForce(direction.normalized * moveSpeed * Time.deltaTime);
     }
 
     enum WanderState
@@ -149,7 +143,7 @@ public class EnnemyController : MonoBehaviour {
             currentWanderState = (WanderState)Random.Range(0, 2);
 
             wanderTimer = 0.0f;
-            nextActionTime = Random.Range(1.0f, 3.0f);
+            nextActionTime = Random.Range(1.0f, 2.0f);
         }
         if(currentWanderState == WanderState.ChooseDestination)
         {
@@ -160,9 +154,13 @@ public class EnnemyController : MonoBehaviour {
         }
         if(currentWanderState == WanderState.Moving)
         {
-            transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(playerToWanderTarget, Vector3.up), Time.deltaTime*8.0f);
-            MoveTowards(playerToWanderTarget);
-            if(Vector3.Distance(currentWanderPosTarget, transform.position) < 2.0f)
+
+            Vector3 playerToWanderTarget2 = new Vector3(playerToWanderTarget.x, 0, playerToWanderTarget.z);
+            transform.LookAt(playerToWanderTarget2);
+
+            HandleMovement(0, 1);
+
+            if (Vector3.Distance(playerToWanderTarget, transform.position) < 2.0f)
             {
                 //rabiteAnimator.SetBool("Ismoving", false);
                 currentWanderState = WanderState.Idle;
@@ -184,16 +182,6 @@ public class EnnemyController : MonoBehaviour {
 
     }
 
-    void ApplyGravity()
-    {
-        if(CurrentState == RabiteState.Dead)
-        {
-            rb.AddForce(Vector3.down * 9.81f * 50.0f * Time.deltaTime);
-        }
-        else
-            rb.AddForce(Vector3.down * 9.81f * 500.0f * Time.deltaTime);
-    }
-
     Vector3 GetRandomPointInZone()
     {
         return zonePosition + new Vector3(Random.Range(0.0f, zoneHalfExtent), 0, Random.Range(0.0f, zoneHalfExtent));
@@ -202,9 +190,13 @@ public class EnnemyController : MonoBehaviour {
     void Pursuit()
     {
         Vector3 transformToTarget = currentTarget.transform.position - transform.position;
-        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(transformToTarget, Vector3.up), Time.deltaTime * 8.0f);
 
-        MoveTowards(transformToTarget);
+        //Vector3 transformToTarget2 = new Vector3(transformToTarget.x, 0, transformToTarget.z);
+        transform.LookAt(transformToTarget);
+
+        //transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(transformToTarget2, Vector3.up), Time.deltaTime * 8.0f);
+        HandleMovement(0, 1);
+        //MoveTowards(transformToTarget);
 
         if (Vector3.Distance(currentTarget.transform.position, transform.position) < attackRange)
         {
@@ -219,8 +211,13 @@ public class EnnemyController : MonoBehaviour {
 
     void Attack()
     {
-        //rabiteAnimator.SetBool("IsAttacking", true);
-        transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(currentTarget.transform.position - transform.position, Vector3.up), Time.deltaTime * 8.0f);
+        Vector3 transformToTarget = currentTarget.transform.position - transform.position;
+        //Vector3 transformToTarget2 = new Vector3(transformToTarget.x, 0, transformToTarget.z);
+        transform.LookAt(transformToTarget);
+        ////rabiteAnimator.SetBool("IsAttacking", true);
+        //transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(currentTarget.transform.position - transform.position, Vector3.up), Time.deltaTime * 8.0f);
+
+
         if (Vector3.Distance(currentTarget.transform.position, transform.position) > attackMaxRange)
         {
             //rabiteAnimator.SetBool("IsAttacking", false);
@@ -237,4 +234,21 @@ public class EnnemyController : MonoBehaviour {
         rb.drag = 0.2f;
         isDead = true;
     }
+
+    public virtual void HandleMovement(float x, float y)
+    {
+        Vector3 initialVelocity = playerCharacterHub.PlayerState.HandleSpeed(x, y);
+        Vector3 velocityVec = initialVelocity.z * transform.forward;
+        if (!playerCharacterHub.IsGrounded)
+            velocityVec += initialVelocity.x * transform.right * player.airControlFactor;
+        else
+            velocityVec += initialVelocity.x * transform.right;
+
+
+        playerCharacterHub.PlayerState.Move(velocityVec, player.airControlFactor, x, y);
+
+        // TMP Animation
+        playerCharacterHub.PlayerState.HandleControllerAnim(initialVelocity.x, initialVelocity.y);
+    }
+
 }
