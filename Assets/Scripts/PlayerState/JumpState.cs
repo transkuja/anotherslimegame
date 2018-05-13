@@ -8,6 +8,9 @@ public class JumpState : PlayerState
 {
     private int nbJumpMade = 0;
 
+    public PlayerControllerHub pch;
+    public PNJController pnj;
+
     public int NbJumpMade
     {
         get
@@ -19,8 +22,8 @@ public class JumpState : PlayerState
         {
             nbJumpMade = value;
 #if UNITY_EDITOR
-            if(playerCharacterHub.GetComponent<PlayerControllerHub>())
-            DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.NbJumpMade, value.ToString(), (int)playerCharacterHub.GetComponent<PlayerControllerHub>().playerIndex);
+            if(pch)
+            DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.NbJumpMade, value.ToString(), (int)pch.playerIndex);
             else
             DebugTools.UpdatePlayerInfos(DebugTools.DebugPlayerInfos.NbJumpMade, value.ToString(), -1);
 #endif
@@ -30,6 +33,9 @@ public class JumpState : PlayerState
     public JumpState(PlayerCharacterHub _playerCharacterHub) : base(_playerCharacterHub)
     {
         curUpdateFct = OnJump;
+
+        pch = playerCharacterHub.GetComponent<PlayerControllerHub>();
+        pnj = playerCharacterHub.GetComponent<PNJController>();
     }
    
     public override void OnBegin()
@@ -68,9 +74,9 @@ public class JumpState : PlayerState
 
             if (AudioManager.Instance != null && AudioManager.Instance.jumpFx != null)
             {
-                if (playerCharacterHub.GetComponent<PNJController>() && playerCharacterHub.GetComponent<PNJController>().myAudioSource != null)
+                if (pnj && pnj.myAudioSource != null)
                 {
-                    playerCharacterHub.GetComponent<PNJController>().myAudioSource.PlayOneShot(AudioManager.Instance.jumpFx, 0.5f);
+                    pnj.myAudioSource.PlayOneShot(AudioManager.Instance.jumpFx, 0.5f);
                 } else
                 {
                     AudioManager.Instance.PlayOneShot(AudioManager.Instance.jumpFx);
@@ -96,9 +102,9 @@ public class JumpState : PlayerState
             
                 if (AudioManager.Instance != null && AudioManager.Instance.youpiFX != null)
                 {
-                    if (playerCharacterHub.GetComponent<PNJController>() && playerCharacterHub.GetComponent<PNJController>().myAudioSource != null)
+                    if (pnj && pnj.myAudioSource != null)
                     {
-                        playerCharacterHub.GetComponent<PNJController>().myAudioSource.PlayOneShot(AudioManager.Instance.youpiFX, 0.5f);
+                        pnj.myAudioSource.PlayOneShot(AudioManager.Instance.youpiFX, 0.5f);
                     }
                     else
                     {
