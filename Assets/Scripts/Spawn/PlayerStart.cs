@@ -127,7 +127,14 @@ public class PlayerStart : MonoBehaviour {
                     Player currentPlayer = go.GetComponent<Player>();
                     currentPlayer.respawnPoint = playerStart[i];
                 }
-
+                else
+                {
+                    Transform playerSpawn = playerStart[i];
+                    go.transform.position = playerSpawn.position;
+                    go.transform.rotation = playerSpawn.rotation;
+                    Player currentPlayer = go.GetComponent<Player>();
+                    currentPlayer.respawnPoint = playerSpawn;
+                }
                 go.AddComponent<WindBlowingSound>();
             }
             else
