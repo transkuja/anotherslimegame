@@ -133,6 +133,9 @@ public class CostArea : MonoBehaviour {
         // Force unlock minigame : checking at each frame if a minigame have been unlocked
         if (isActive)
         {
+            if (!(mgData!=null))
+                return;
+
             if (mgData.nbRunesToUnlock == -1 && mgData.costToUnlock == -1)
             {
                 // to avoid checking at each frame if a -1 minigame have been unlocked
