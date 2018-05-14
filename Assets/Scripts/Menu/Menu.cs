@@ -944,10 +944,6 @@ public class Menu : MonoBehaviour {
     // Change the player color according to current selection
     void UpdatePlayerPreviewColor(int _playerIndex, int _selection)
     {
-        // Do not update color if a skin is selected
-        if (selectedCustomizables[(int)CustomizableType.Skin, _playerIndex] != customizables[CustomizableType.Skin].Count)
-            return;
-
         // Update text and character
         playerCustomScreens[_playerIndex].transform.GetChild(4).GetComponentInChildren<PlayerCosmetics>().ColorFadeType = ColorFadeType.None;
         playerCustomScreens[_playerIndex].transform.GetChild(4).GetComponentInChildren<PlayerCosmetics>().SetUniqueColor(((DatabaseClass.ColorData)customizables[CustomizableType.Color][_selection]).color);
