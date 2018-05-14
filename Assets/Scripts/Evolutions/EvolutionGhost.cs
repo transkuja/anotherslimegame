@@ -113,7 +113,8 @@ public class EvolutionGhost : EvolutionComponent
 
 
         playerCharacter.Body.GetComponentInChildren<Renderer>().material = ghostMat;
-        playerCharacter.GhostParticles.Play();
+        if(playerCharacter.GhostParticles)
+            playerCharacter.GhostParticles.Play();
         playerCharacter.DustTrailParticles.GetComponent<ParticleSystemRenderer>().material = ghostDustTrailMat;
         playerCharacter.DustTrailParticles.transform.GetChild(0).GetComponent<ParticleSystemRenderer>().material = ghostDustTrailMat;
 
