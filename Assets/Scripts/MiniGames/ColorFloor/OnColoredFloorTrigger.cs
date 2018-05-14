@@ -42,7 +42,7 @@ public class OnColoredFloorTrigger : MonoBehaviour {
 
     void ResetState()
     {
-        if (currentState == FloorState.AnimLocked)
+        if (currentState == FloorState.AnimLocked || material.GetColor("_EmissionColor") == Color.black)
         {
             currentOwner = -1;
             currentState = FloorState.Normal;
@@ -71,6 +71,7 @@ public class OnColoredFloorTrigger : MonoBehaviour {
         }
 
         currentOwner = -1;
+        material.SetColor("_EmissionColor", Color.black);
         currentState = FloorState.Normal;
     }
 
