@@ -374,6 +374,15 @@ namespace DatabaseClass
             return false;
         }
 
+        public MinigameData GetUnlockedMinigameOfType(MinigameType t, int version = 0)
+        {
+            List<MinigameData> unlocked = GetUnlockedMinigamesOfType(t);
+            if (unlocked != null)
+                return unlocked.Find(a => a.version == version);
+            else
+                return null;
+        }
+
         public List<MinigameData> GetUnlockedMinigamesOfType(MinigameType t)
         {
             return minigames.FindAll(a => a.isUnlocked == true && a.type == t);
