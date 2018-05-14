@@ -617,6 +617,14 @@ namespace DatabaseClass
             accessories.Add(new AccessoryData { Id = strAccessories[++idAccessories], model = "Accessories/NoseGlasses", isUnlocked = false });
             accessories.Add(new AccessoryData { Id = strAccessories[++idAccessories], model = "Accessories/BossGlasses", isUnlocked = false });
 
+            // Adding Skins
+            int idSkins = 0;
+            string[] strSkins = { "Catch1", "Catch2", "Special1", "Special2"};
+            skins.Add(new SkinData { Id = strSkins[idSkins], texture = "Skins/Catch1", isUnlocked = false});
+            skins.Add(new SkinData { Id = strSkins[++idSkins], texture = "Skins/Catch2", isUnlocked = false });
+            skins.Add(new SkinData { Id = strSkins[++idSkins], texture = "Skins/Spe1", isUnlocked = false });
+            skins.Add(new SkinData { Id = strSkins[++idSkins], texture = "Skins/Spe2", isUnlocked = false });
+
             SneakyChiefProgress = 0;
             JokerProgress = 0;
 

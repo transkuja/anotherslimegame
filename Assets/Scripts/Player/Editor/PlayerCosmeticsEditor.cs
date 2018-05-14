@@ -91,6 +91,7 @@ public class PlayerCosmeticsEditor : Editor
         curChin = GetIndexFromString(cosmetics.Chin, CustomizableType.Chin);
         curForehead = GetIndexFromString(cosmetics.Forehead, CustomizableType.Forehead);
         curAccessory = GetIndexFromString(cosmetics.Accessory, CustomizableType.Accessory);
+        curSkin = GetIndexFromString(cosmetics.Skin, CustomizableType.Skin);
         curBodyColor = cosmetics.BodyColor;
         curTexture = cosmetics.BodyTexture;
         curSkinType = cosmetics.SkinType;
@@ -110,6 +111,7 @@ public class PlayerCosmeticsEditor : Editor
     int curChin = 0;
     int curForehead = 0;
     int curAccessory = 0;
+    int curSkin = 0;
     ColorFadeType curColorFadeType = 0;
 
     Color curBodyColor;
@@ -135,24 +137,24 @@ public class PlayerCosmeticsEditor : Editor
         }
         GUILayout.Space(20);
         //base.DrawDefaultInspector();
-        curSkinType = (SkinType)EditorGUILayout.EnumPopup("Skin Type", curSkinType);
+        //curSkinType = (SkinType)EditorGUILayout.EnumPopup("Skin Type", curSkinType);
 
-        if (curSkinType != cosmetics.SkinType)
-            cosmetics.SkinType = curSkinType;
+        //if (curSkinType != cosmetics.SkinType)
+        //    cosmetics.SkinType = curSkinType;
 
-        if(curSkinType == SkinType.Color || curSkinType == SkinType.Mixed)
-        {
+        //if(curSkinType == SkinType.Color || curSkinType == SkinType.Mixed)
+        //{
             curBodyColor = EditorGUILayout.ColorField("Color", curBodyColor);
             if (curBodyColor != cosmetics.BodyColor)
                 cosmetics.BodyColor = curBodyColor;
-        }
+        //}
 
-        if (curSkinType == SkinType.Texture || curSkinType == SkinType.Mixed)
-        {
-            curTexture = EditorGUILayout.ObjectField("Texture", curTexture, typeof(Texture), false) as Texture;
-            if (curTexture != cosmetics.BodyTexture)
-                cosmetics.BodyTexture = curTexture;
-        }
+        //if (curSkinType == SkinType.Texture || curSkinType == SkinType.Mixed)
+        //{
+        //    curTexture = EditorGUILayout.ObjectField("Texture", curTexture, typeof(Texture), false) as Texture;
+        //    if (curTexture != cosmetics.BodyTexture)
+        //        cosmetics.BodyTexture = curTexture;
+        //}
 
         curColorFadeType = (ColorFadeType)EditorGUILayout.EnumPopup("Color Fade", curColorFadeType);
         if (curColorFadeType != cosmetics.ColorFadeType)
@@ -217,6 +219,14 @@ public class PlayerCosmeticsEditor : Editor
                 cosmetics.Accessory = accessoriesList[curAccessory];
         }
 
+        if (accessoriesList.Count > 0)
+        {
+            curSkin = EditorGUILayout.Popup("Skins", curSkin, skinsList.ToArray());
+
+            if (cosmetics.Skin != skinsList[curSkin])
+                cosmetics.Skin = skinsList[curSkin];
+        }
+
         if (GUI.changed)
         {
             EditorUtility.SetDirty(cosmetics);
@@ -250,6 +260,9 @@ public class PlayerCosmeticsEditor : Editor
                 break;
             case CustomizableType.Accessory:
                 toReturn = accessoriesList.FindIndex(x => x.Equals(customizableName));
+                break;
+            case CustomizableType.Skin:
+                toReturn = skinsList.FindIndex(x => x.Equals(customizableName));
                 break;
         }
         toReturn = (toReturn < 0) ? 0 : toReturn;

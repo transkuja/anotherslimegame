@@ -100,8 +100,8 @@ public class PlayerCosmetics : MonoBehaviour {
             if (skinType == SkinType.Color || skinType == SkinType.Mixed)
             {
                 bodyMat.color = bodyColor;
-                SetEarsColor(bodyColor);
             }
+            SetEarsColor(bodyColor);
         }
     }
 
@@ -569,6 +569,7 @@ public class PlayerCosmetics : MonoBehaviour {
         Accessory = accessory;
         Chin = chin;
         Forehead = forehead;
+        Skin = skin;
         ColorFadeType = colorFadeType;
     }
 
