@@ -575,9 +575,19 @@ namespace DatabaseClass
             hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/WitchHat", shouldHideEars = false, isUnlocked = false });
             // Adding ears
             int idEars = 0;
-            string[] strEars = { "Ears1"};
+            string[] strEars = { "Ears1", "Ears2", "Ears3", "Ears4", "Ears5", "Ears6", "Ears7", "Ears8", "Ears9", "Ears10", "Ears11", "Ears12" };
             ears.Add(new EarsData { Id = strEars[idEars], model = "Ears/Ears1", isUnlocked = true });
-            //ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/", isUnlocked = false });
+            ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/Ears2", isUnlocked = false });
+            ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/Ears3", isUnlocked = false });
+            ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/Ears4", isUnlocked = false });
+            ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/Ears5", isUnlocked = false });
+            ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/Ears6", isUnlocked = false });
+            ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/Ears7", isUnlocked = false });
+            ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/Ears8", isUnlocked = false });
+            ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/Ears9", isUnlocked = false });
+            ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/Ears10", isUnlocked = false });
+            ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/Ears11", isUnlocked = false });
+            ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/Ears12", isUnlocked = false });
 
             // Adding foreheads
             int idForeheads = 0;
