@@ -64,19 +64,21 @@ public class FoodGameMode : GameMode {
     void CreateAPileOfPancakes(int _playerIndex, bool _init = false)
     {
         GameObject pile = new GameObject("Pile of Pancakes");
+        float[] possibleTopRotations = { 45.0f, 66.0f, 0.0f, 133.0f };
         pile.transform.SetParent(pileOfPancakesLocation.transform.GetChild(_playerIndex));
         pile.transform.localPosition = Vector3.zero;
 
         GameObject plate = Instantiate(platePrefab, pile.transform);
-        plate.transform.localPosition = Vector3.up * 0.2f;
+        plate.transform.localPosition = Vector3.zero;
 
         for (int i = 0; i < numberOfPancakesPerPile - 1; i++)
         {
             GameObject pancake = Instantiate(pancakePrefab, pile.transform);
-            pancake.transform.localPosition = (i + 1) * Vector3.up * 0.2f;
+            pancake.transform.localPosition = (i + 1) * Vector3.up * 0.1f + Random.Range(-0.1f, 0.1f) * Vector3.right + Random.Range(-0.1f, 0.1f) * Vector3.forward;
         }
         GameObject topPancake = Instantiate(pancakeTopPrefab, pile.transform);
-        topPancake.transform.localPosition = numberOfPancakesPerPile * Vector3.up * 0.2f;
+        topPancake.transform.localPosition = numberOfPancakesPerPile * Vector3.up * 0.1f;
+        topPancake.transform.localEulerAngles = Vector3.up * possibleTopRotations[Random.Range(0, possibleTopRotations.Length)];
         if (!_init)
             ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles).GetItem(null, pile.transform.position, Quaternion.identity, true, true);
     }
@@ -117,7 +119,6 @@ public class FoodGameMode : GameMode {
         {
             GameObject plates = new GameObject("Plates" + i);
             plates.transform.SetParent(platesLocation.transform);
-            Debug.Log(startingPositions[i]);
             plates.transform.position = startingPositions[i] + offsetPlates;
 
             GameObject pile = new GameObject("Pile" + i);
@@ -201,11 +202,11 @@ public class FoodGameMode : GameMode {
         currentPlayer.UpdateCollectableValue(CollectableType.Points, (int)(scoreStep * _controller.CurrentCombo));
         Transform pileOfPancake = pileOfPancakesLocation.transform.GetChild((int)_controller.PlayerIndex).GetChild(0);
 
-        if (eatPancakeOnNextInput[(int)_controller.PlayerIndex])
-        {
-            DestroyImmediate(pileOfPancake.GetChild(pileOfPancake.childCount - 1).gameObject);
-        }
-        eatPancakeOnNextInput[(int)_controller.PlayerIndex] = !eatPancakeOnNextInput[(int)_controller.PlayerIndex];
+        //if (eatPancakeOnNextInput[(int)_controller.PlayerIndex])
+        //{
+        DestroyImmediate(pileOfPancake.GetChild(pileOfPancake.childCount - 1).gameObject);
+        //}
+        //eatPancakeOnNextInput[(int)_controller.PlayerIndex] = !eatPancakeOnNextInput[(int)_controller.PlayerIndex];
 
         //if (platesLocation.GetChild((int)_controller.PlayerIndex).childCount < currentPlayer.NbPoints / 150)
         //{
@@ -213,7 +214,16 @@ public class FoodGameMode : GameMode {
         {
             GameObject plate = pileOfPancake.GetChild(0).gameObject;
             plate.transform.SetParent(platesLocation.transform.GetChild((int)_controller.PlayerIndex));
-            plate.transform.localPosition = platesLocation.transform.GetChild((int)_controller.PlayerIndex).childCount * Vector3.up * 0.2f;
+            plate.transform.localPosition = platesLocation.transform.GetChild((int)_controller.PlayerIndex).childCount * Vector3.up * 0.1f
+                + Random.Range(-1.0f, 1.0f) * Vector3.right + Random.Range(-1.0f, 1.0f) * Vector3.forward;
+            plate.transform.localEulerAngles = Vector3.up * Random.Range(0, 360);
+
+            plate.AddComponent<BoxCollider>().size *= 0.75f;
+            plate.AddComponent<Rigidbody>().useGravity = true;
+
+            // Remove food on plate
+            for (int i = 0; i < plate.transform.childCount; i++)
+                Destroy(plate.transform.GetChild(i).gameObject);
 
             Destroy(pileOfPancake.gameObject);
             CreateAPileOfPancakes((int)_controller.PlayerIndex);
