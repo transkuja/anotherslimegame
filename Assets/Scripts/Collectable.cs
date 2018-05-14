@@ -6,6 +6,7 @@ public class Collectable : MonoBehaviour
 {
     [SerializeField]
     public CollectableType type;
+    public string idRune;
     public bool needInitialisation = true;
     public bool haveToDisperse = false;
 
@@ -48,13 +49,7 @@ public class Collectable : MonoBehaviour
     {
         if( type == CollectableType.Rune)
         {
-            if(GetComponent<CreateEnumFromDatabase>() == null)
-            {
-                Debug.LogError("Start :It's a rune, it need a createEnumFromDatabase component link to the associated rune");
-                return;
-            }
-            string s = GetComponent<CreateEnumFromDatabase>().enumFromList[GetComponent<CreateEnumFromDatabase>().HideInt];
-            if (DatabaseManager.Db.IsUnlock<DatabaseClass.RuneData>(s))
+            if (DatabaseManager.Db.IsUnlock<DatabaseClass.RuneData>(idRune))
             {
                 gameObject.SetActive(false);
                 return;
@@ -174,13 +169,7 @@ public class Collectable : MonoBehaviour
                     // FIx rune tmp rémi
                     if (type == CollectableType.Rune)
                     {
-                        if (GetComponent<CreateEnumFromDatabase>() == null)
-                        {
-                            Debug.LogError("Attract fct : It's a rune, it need a createEnumFromDatabase component link to the associated rune");
-                            return;
-                        }
-                        string s = GetComponent<CreateEnumFromDatabase>().enumFromList[GetComponent<CreateEnumFromDatabase>().HideInt];
-                        DatabaseManager.Db.SetUnlock<DatabaseClass.RuneData>(s, true);
+                        DatabaseManager.Db.SetUnlock<DatabaseClass.RuneData>(idRune, true);
                     }
                     playerTarget.UpdateCollectableValue(type, value);
                 }

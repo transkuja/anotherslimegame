@@ -170,14 +170,14 @@ public class CostArea : MonoBehaviour {
     void GiveReward(PlayerControllerHub _player)
     {
         // debloque le minijeu
-        if (GetComponent<CreateEnumFromDatabase>() == null)
-        {
-            Debug.LogError("createEnumFromDatabase component link to the associated rune");
-            return;
-        }
-        string s = GetComponent<CreateEnumFromDatabase>().enumFromList[GetComponent<CreateEnumFromDatabase>().HideInt];
-        DatabaseManager.Db.SetUnlock<DatabaseClass.MinigameData>(s, true);
-        UnlockAssociatedMinigame(s);
+        //if (GetComponent<CreateEnumFromDatabase>() == null)
+        //{
+        //    Debug.LogError("createEnumFromDatabase component link to the associated rune");
+        //    return;
+        //}
+        //string s = GetComponent<CreateEnumFromDatabase>().enumFromList[GetComponent<CreateEnumFromDatabase>().HideInt];
+        //DatabaseManager.Db.SetUnlock<DatabaseClass.MinigameData>(s, true);
+        //UnlockAssociatedMinigame(s);
     }
 
     public void UnlockAssociatedMinigame(string minigameIdFromDatabase)
