@@ -13,10 +13,11 @@ public class FoodMeterHandler : MonoBehaviour {
     // Food meter settings
     public int foodMeterStep = 30;
 
-    public float decreaseSpeed;
-    float decreaseSpeedInitial;
-    float decreaseSpeedBuffed;
-    public float decreaseSpeedWhenFullMultiplier;
+    [SerializeField]
+    int decreaseSpeed;
+    int[] effectiveDecreaseSpeed = new int[4];
+    int decreaseSpeedInitial;
+    int decreaseSpeedBuffed;
 
     float[] foodMeters = new float[4];
     [SerializeField]
@@ -32,7 +33,9 @@ public class FoodMeterHandler : MonoBehaviour {
         gameMode = ((FoodGameMode)GameManager.Instance.CurrentGameMode);
         maxScale = gameMode.maxScale;
         decreaseSpeedInitial = decreaseSpeed;
-        decreaseSpeedBuffed = decreaseSpeedInitial * decreaseSpeedWhenFullMultiplier;
+        decreaseSpeedBuffed = (int)(decreaseSpeedInitial * 1.5f);
+        for (int i = 0; i < 4; i++)
+            effectiveDecreaseSpeed[i] = decreaseSpeed;
     }
 	
 	void Update () {
@@ -60,8 +63,8 @@ public class FoodMeterHandler : MonoBehaviour {
             {
                 if (!controllers[i].AreInputsUnlocked)
                 {
-                    if (decreaseSpeed + 1 < decreaseSpeedInitial)
-                        decreaseSpeed = decreaseSpeedInitial;
+                    if (effectiveDecreaseSpeed[i] != decreaseSpeedInitial)
+                        effectiveDecreaseSpeed[i] = decreaseSpeedInitial;
                     controllers[i].AreInputsUnlocked = true;
                     controllers[i].parentAnim.SetBool("wrong", false);
                     GameManager.Instance.PlayerStart.PlayersReference[i].GetComponentInChildren<PlayerCosmetics>().FaceEmotion 
@@ -70,7 +73,7 @@ public class FoodMeterHandler : MonoBehaviour {
             }
             else
             {
-                foodMeters[i] -= Time.deltaTime * decreaseSpeed;
+                foodMeters[i] -= Time.deltaTime * effectiveDecreaseSpeed[i];
                 controllers[i].CurrentCombo = 1 + (foodMeters[i] * (maxScale - 1) / 100);
                 GameManager.Instance.PlayerStart.PlayersReference[i].transform.localScale 
                     = Vector3.one * controllers[i].CurrentCombo;
@@ -95,7 +98,7 @@ public class FoodMeterHandler : MonoBehaviour {
 
         if (foodMeters[_playerIndex] >= 100)
         {
-            decreaseSpeed = decreaseSpeedBuffed;
+            effectiveDecreaseSpeed[_playerIndex] = decreaseSpeedBuffed;
             controllers[_playerIndex].AreInputsUnlocked = false;
             controllers[_playerIndex].parentAnim.SetBool("wrong", true);
             currentPlayer.GetComponentInChildren<PlayerCosmetics>().FaceEmotion = FaceEmotion.Loser; // Ate too much
