@@ -522,7 +522,7 @@ public class Menu : MonoBehaviour {
                 }
             }
 
-            playerCustomScreens[i].transform.GetChild(4).Rotate(Vector3.up, controllerStates[i].ThumbSticks.Right.X * 2.5f);
+            playerCustomScreens[i].transform.GetChild(4).Rotate(Vector3.up, controllerStates[i].ThumbSticks.Right.X * 150.0f * Time.deltaTime);
         }
     }
 
