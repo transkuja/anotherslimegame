@@ -75,7 +75,7 @@ public class ButtonTrigger : MonoBehaviour {
         button.transform.GetChild(0).GetComponent<Renderer>().material.Lerp(_mat, _newMat, currentTimer / timer);
 
         // would need to rethink this
-        if (!isActive)
+        if (isActive)
             door.SetActive(isActive);
 
         door.transform.localScale = Vector3.Lerp(_scale1, _scale2, currentTimer / timer);
