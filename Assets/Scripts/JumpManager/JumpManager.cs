@@ -38,7 +38,8 @@ public class JumpManager : MonoBehaviour
     void SetGravity()
     {
         playerCharacter.IsGravityEnabled = false;
-        forceStopCoroutine = StartCoroutine("ForceStop");
+        if( playerCharacter.isActiveAndEnabled)
+            forceStopCoroutine = StartCoroutine("ForceStop");
     }
 
     IEnumerator ForceStop()

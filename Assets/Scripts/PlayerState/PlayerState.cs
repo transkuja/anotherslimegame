@@ -36,7 +36,7 @@ public class PlayerState {
     public virtual void OnEnd()
     {
         stateAvailable = false;
-        if(playerCharacterHub) playerCharacterHub.StartCoroutine(StateCooldown(maxCoolDown));
+        if(playerCharacterHub && playerCharacterHub.isActiveAndEnabled) playerCharacterHub.StartCoroutine(StateCooldown(maxCoolDown));
     }
     public IEnumerator StateCooldown(float maxCoolDown)
     {
