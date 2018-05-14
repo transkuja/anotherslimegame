@@ -11,7 +11,12 @@ public class AudioManager : MonoBehaviour
 
     public AudioClip musicMenu;
     public AudioClip musicGame;
-    public AudioClip musicMinigame;
+    public AudioClip musicFruitMinigame;
+    public AudioClip musicRunnerMinigame;
+    public AudioClip musicFoodMinigame;
+    public AudioClip musicKartMinigame;
+    public AudioClip musicClashMinigame;
+    public AudioClip musicFloorMinigame;
 
     public AudioClip coinFX;
     public AudioClip youpiFX;
@@ -124,7 +129,21 @@ public class AudioManager : MonoBehaviour
                 s_instance.Fade(musicGame);
             }
             else
-                s_instance.Fade(musicMinigame);
+            {
+                if( GameManager.Instance.CurrentGameMode is FruitGameMode)
+                    s_instance.Fade(musicFruitMinigame);
+                else if (GameManager.Instance.CurrentGameMode is PushGameMode)
+                    s_instance.Fade(musicClashMinigame);
+                else if (GameManager.Instance.CurrentGameMode is Runner3DGameMode)
+                    s_instance.Fade(musicRunnerMinigame);
+                else if (GameManager.Instance.CurrentGameMode is FoodGameMode)
+                    s_instance.Fade(musicFoodMinigame);
+                else if (GameManager.Instance.CurrentGameMode is ColorFloorGameMode)
+                    s_instance.Fade(musicFloorMinigame);
+                else if (GameManager.Instance.CurrentGameMode is KartGameMode)
+                    s_instance.Fade(musicKartMinigame);
+            }
+    
         }
     }
 
