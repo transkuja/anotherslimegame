@@ -140,7 +140,7 @@ public class PNJMessage : MonoBehaviour {
         }
         else
         {
-            Message[playerIndex].transform.GetChild(2).GetComponent<Text>().text = defaultMessage.GetDefaultMessages(0).GetNextMessage();
+            Message[playerIndex].transform.GetChild(2).GetComponent<Text>().text = defaultMessage.GetDefaultMessages(0).GetNextMessage(currentMessage);
         }
 
     }

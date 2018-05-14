@@ -26,12 +26,12 @@ public class MessageContainer
         emotions = new FaceEmotion[1] { FaceEmotion.Neutral };
     }
 
-    public string GetNextMessage()
+    public string GetNextMessage(int currentIndex)
     {
-        string nextMessage = messages[currentIndex];
-        currentIndex++;
         if (currentIndex == messages.Length)
             currentIndex = 0;
+        string nextMessage = messages[currentIndex];
+
         return nextMessage;
     }
 }
