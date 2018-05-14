@@ -231,22 +231,22 @@ public class Menu : MonoBehaviour {
                 if (isNonable[(int)CustomizableType.Chin] && dataContainer.chinsSelected[i] == "None")
                     selectedCustomizables[(int)CustomizableType.Chin, i] = customizables[CustomizableType.Chin].Count;
                 else
-                    selectedCustomizables[(int)CustomizableType.Chin, i] = customizables[CustomizableType.Chin].FindIndex(x => ((DatabaseClass.ChinData)x).Id == dataContainer.earsSelected[i]);
+                    selectedCustomizables[(int)CustomizableType.Chin, i] = customizables[CustomizableType.Chin].FindIndex(x => ((DatabaseClass.ChinData)x).Id == dataContainer.chinsSelected[i]);
 
                 if (isNonable[(int)CustomizableType.Skin] && dataContainer.skinsSelected[i] == "None")
                     selectedCustomizables[(int)CustomizableType.Skin, i] = customizables[CustomizableType.Skin].Count;
                 else
-                    selectedCustomizables[(int)CustomizableType.Skin, i] = customizables[CustomizableType.Skin].FindIndex(x => ((DatabaseClass.SkinData)x).Id == dataContainer.earsSelected[i]);
+                    selectedCustomizables[(int)CustomizableType.Skin, i] = customizables[CustomizableType.Skin].FindIndex(x => ((DatabaseClass.SkinData)x).Id == dataContainer.skinsSelected[i]);
 
                 if (isNonable[(int)CustomizableType.Accessory] && dataContainer.accessoriesSelected[i] == "None")
                     selectedCustomizables[(int)CustomizableType.Accessory, i] = customizables[CustomizableType.Accessory].Count;
                 else
-                    selectedCustomizables[(int)CustomizableType.Accessory, i] = customizables[CustomizableType.Accessory].FindIndex(x => ((DatabaseClass.AccessoryData)x).Id == dataContainer.earsSelected[i]);
+                    selectedCustomizables[(int)CustomizableType.Accessory, i] = customizables[CustomizableType.Accessory].FindIndex(x => ((DatabaseClass.AccessoryData)x).Id == dataContainer.accessoriesSelected[i]);
 
                 if (isNonable[(int)CustomizableType.Forehead] && dataContainer.foreheadsSelected[i] == "None")
                     selectedCustomizables[(int)CustomizableType.Forehead, i] = customizables[CustomizableType.Forehead].Count;
                 else
-                    selectedCustomizables[(int)CustomizableType.Forehead, i] = customizables[CustomizableType.Forehead].FindIndex(x => ((DatabaseClass.ForeheadData)x).Id == dataContainer.earsSelected[i]);
+                    selectedCustomizables[(int)CustomizableType.Forehead, i] = customizables[CustomizableType.Forehead].FindIndex(x => ((DatabaseClass.ForeheadData)x).Id == dataContainer.foreheadsSelected[i]);
 
                 currentlySelectedOption = new int[4];
             }
