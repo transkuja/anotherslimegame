@@ -255,8 +255,21 @@ public class EnnemyController : MonoBehaviour {
             playerCharacterHub.PlayerState.OnEnd();
             ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles).GetItem(null, transform.position + 3.0f * Vector3.up, Quaternion.identity, true, false, (int)HitParticles.BigHit);
             this.gameObject.SetActive(false);
-
+            DropCollectableOnGround();
             Destroy(this.gameObject, 10);
+        }
+    }
+
+    void DropCollectableOnGround()
+    {
+        int numberOfCollectablesToDrop = Random.Range(5, 15);
+        for (int i = 0; i < numberOfCollectablesToDrop; i++)
+        {
+            if (GameManager.Instance.IsInHub())
+            {
+                GameObject go = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.Money).GetItem(null, transform.position + Vector3.up * 0.5f, Quaternion.identity, true);
+                go.GetComponent<Collectable>().Disperse(i);
+            }
         }
     }
 }
