@@ -31,7 +31,12 @@ namespace DatabaseClass
     [System.Serializable]
     public class RuneData : Unlockable
     {
-        // Empty
+        [SerializeField]
+        public bool unlockedInMinigame = false;
+        [SerializeField]
+        public MinigameType associatedMinigame;
+        [SerializeField]
+        public int associatedMinigameVersion;
     }
 
     [System.Serializable]
@@ -433,6 +438,11 @@ namespace DatabaseClass
                 a.isUnlocked = true;
         }
 
+        public RuneData GetRuneFromMinigame(MinigameType minigameType, int minigameVersion)
+        {
+            return runes.Find(rune => rune.associatedMinigame == minigameType && rune.associatedMinigameVersion == minigameVersion);
+        }
+
         public void ResetAll() {
             colors = new List<ColorData>();
             faces = new List<FaceData>();
@@ -554,9 +564,9 @@ namespace DatabaseClass
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
+            runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false, unlockedInMinigame = true, associatedMinigame = MinigameType.Floor, associatedMinigameVersion = 2 });
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
-            runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
-            runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
+            runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false, unlockedInMinigame = true, associatedMinigame = MinigameType.Food, associatedMinigameVersion = 0 });
 
             // Adding mustaches
             int idMustache = 0;
