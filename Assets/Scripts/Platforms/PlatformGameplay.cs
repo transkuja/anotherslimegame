@@ -191,26 +191,10 @@ public class PlatformGameplay : MonoBehaviour {
             else
                 baseRotation.rotateAxis.Normalize();
 
-            Material mat = GetComponentInChildren<MeshRenderer>().material;
-            if (!(GameManager.Instance.CurrentGameMode is Runner3DGameMode))
-                mat.SetColor("_EmissionColor", ResourceUtils.Instance.isMovingEmissiveColor);
         }
         lerpOriginPosition = transform.position;
         lerpNewPosition = transform.position + movingDistance * ((isAWorldAxis) ? movingAxis : (transform.rotation * movingAxis));
-        delayTimer = delayBetweenMovements;
-
-        if (isBouncy)
-        {
-            Material mat = GetComponentInChildren<MeshRenderer>().material;
-            mat.SetColor("_EmissionColor", ResourceUtils.Instance.bounceEmissiveColor);
-        }
-
-        if (isMoving)
-        {
-            Material mat = GetComponentInChildren<MeshRenderer>().material;
-            if (!(GameManager.Instance.CurrentGameMode is Runner3DGameMode ))
-                mat.SetColor("_EmissionColor", ResourceUtils.Instance.isMovingEmissiveColor);
-        }
+        delayTimer = delayBetweenMovements;      
     }
 
     void Update() {
