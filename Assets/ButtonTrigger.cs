@@ -64,7 +64,10 @@ public class ButtonTrigger : MonoBehaviour {
                     || pch.PlayerState is DashDownState)
                 {
                     hasToMoveButton = true;
+
+                    // play hit particles
                     ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles).GetItem(null, transform.position + 3.0f * Vector3.up, Quaternion.identity, true, false, (int)HitParticles.BigHit);
+
                     currentTimer = 0.0f;
                     currentResetTimer = 0.0f;
                 }
