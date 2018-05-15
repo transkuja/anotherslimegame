@@ -573,10 +573,11 @@ namespace DatabaseClass
 
             // Adding mustaches
             int idMustache = 0;
-            string[] strMustache = { "Curved", "Second", "Third" };
+            string[] strMustache = { "Curved", "Monopoly Guy", "Short", "Chinese" };
             mustaches.Add(new MustacheData { Id = strMustache[idMustache], model = "Mustaches/CurvedMustache", isUnlocked = false, costToUnlock = 400 });
             mustaches.Add(new MustacheData { Id = strMustache[++idMustache], model = "Mustaches/SecondMustache", isUnlocked = false, costToUnlock = 400 });
             mustaches.Add(new MustacheData { Id = strMustache[++idMustache], model = "Mustaches/ThirdMustache", isUnlocked = false, costToUnlock = 400 });
+            mustaches.Add(new MustacheData { Id = strMustache[++idMustache], model = "Mustaches/ChineseMustache", isUnlocked = false, costToUnlock = 400 });
 
             // Adding hats
             int idHat = 0;
