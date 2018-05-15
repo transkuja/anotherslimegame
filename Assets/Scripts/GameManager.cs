@@ -332,7 +332,8 @@ public class GameManager : MonoBehaviour {
     {
         finalTimerInitialized = false;
         isTimeOver = true;
-        UiReference.TimerText.gameObject.SetActive(false);
+        if(UiReference.TimerText == null)
+            UiReference.TimerText.gameObject.SetActive(false);
     }
 
     public void DEBUG_EndFinalCountdown()
