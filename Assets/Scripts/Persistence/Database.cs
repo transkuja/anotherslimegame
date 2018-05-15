@@ -559,7 +559,7 @@ namespace DatabaseClass
 
             // Adding costArea
             int idRune = 0;
-            string[] strRune = { "Rune1Hub1", "Rune2Hub1", "Rune3Hub1", "Rune4Hub1", "RuneColorFloor", "RuneSneaky1", "RuneFood" };
+            string[] strRune = { "Rune1Hub1", "Rune2Hub1", "Rune3Hub1", "Rune4Hub1", "RuneColorFloor", "RuneSneaky1", "RuneFood", "RuneRunner", "RuneKart" };
             runes.Add(new RuneData { Id = strRune[idRune], isUnlocked = false });
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
@@ -567,6 +567,8 @@ namespace DatabaseClass
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false, unlockedInMinigame = true, associatedMinigame = MinigameType.Floor, associatedMinigameVersion = 2 });
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false, unlockedInMinigame = true, associatedMinigame = MinigameType.Food, associatedMinigameVersion = 0 });
+            runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false, unlockedInMinigame = true, associatedMinigame = MinigameType.Runner, associatedMinigameVersion = 0 });
+            runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false, unlockedInMinigame = true, associatedMinigame = MinigameType.Kart, associatedMinigameVersion = 0 });
 
             // Adding mustaches
             int idMustache = 0;
@@ -705,10 +707,7 @@ namespace DatabaseClass
         {
             Collectable[] collectables = FindObjectsOfType<Collectable>();
 
-            if (alreadyCollectedCollectables.Length == 0)
-            {
-                alreadyCollectedCollectables = new bool[collectables.Length];
-            }
+            alreadyCollectedCollectables = new bool[collectables.Length];
 
             for (int i = 0; i < collectables.Length; ++i)
             {
