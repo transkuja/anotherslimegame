@@ -360,7 +360,7 @@ public class Menu : MonoBehaviour {
         // Video player
         if (!isPlayingAVideo && selectedMode == 1 && currentState == MenuState.MinigameSelection)
         {
-            if (minigames[minigameCurrentCursor][minigameCurrentVerticalCursor].videoPreview != "")
+            if (minigames[minigameCurrentCursor][minigameCurrentVerticalCursor].isUnlocked && minigames[minigameCurrentCursor][minigameCurrentVerticalCursor].videoPreview != "")
             {
                 currentTimerBeforeStartingVideo += Time.deltaTime;
                 if (currentTimerBeforeStartingVideo > timerBeforeStartingVideo)
