@@ -41,6 +41,9 @@ public class CostArea : MonoBehaviour {
 
     DatabaseClass.MinigameData mgData;
 
+    [SerializeField]
+    GameObject[] minigameName;
+
     public CollectableType Currency
     {
         get
@@ -187,4 +190,21 @@ public class CostArea : MonoBehaviour {
         return currencyRune;
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.GetComponent<PlayerController>())
+        {
+            minigameName[(int)other.GetComponent<PlayerController>().PlayerIndex].SetActive(true);
+            foreach (TextMesh tm in minigameName[(int)other.GetComponent<PlayerController>().PlayerIndex].GetComponentsInChildren<TextMesh>())
+                tm.text = MinigameDataUtils.GetTitle(mgData.Id, minigameVersion);
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.GetComponent<PlayerController>())
+        {
+            minigameName[(int)other.GetComponent<PlayerController>().PlayerIndex].SetActive(false);
+        }
+    }
 }
