@@ -3,14 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class FrozenState : PlayerState {
-
+    public float maxFrozenTime = 5.0f;
+    float timer = 0.0f;
     public FrozenState(PlayerCharacterHub _playerCharacterHub) : base(_playerCharacterHub)
     {
     }
 
+    public override void OnBegin()
+    {
+        base.OnBegin();
+        timer = 0.0f;
+    }
+
     public override void OnUpdate() 
     {
-
+        timer += Time.deltaTime;
+        if(timer >= maxFrozenTime)
+        {
+            playerCharacterHub.PlayerState = playerCharacterHub.freeState;
+        }
     }
 
     public override void OnFixedUpdate()
