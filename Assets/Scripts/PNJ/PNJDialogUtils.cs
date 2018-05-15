@@ -76,9 +76,10 @@ public static class PNJDialogUtils {
     };
 
     // Mr Risotto
-    static string RisottoDM = "I used to be in animal crossing\n"
-       + "Look across the sea. There is a mythical island\n"
-       + "where balls fall from a giant tree.";
+    static string RisottoDM = "Hi, I'm Mr Risotto!\n"
+       + "I often go to this island over there to get ingredients for my infamous recipe\n"
+       + "It's too bad you're too short on your feet to check these islands out,\n"
+       + "even if you don't really have feet.";
     static FaceEmotion[] RisottoDE = new FaceEmotion[1] { FaceEmotion.Neutral };
     static string RisottoQM = ""
     ;
@@ -99,7 +100,9 @@ public static class PNJDialogUtils {
         "Can I tell you some and ask you what you think of them?\n" +
         "Here's the first one,\n" +
         "What do you call a blind dinosaur?\n" +
-        "Doyouthinkhesaurus!#" +
+        "Doyouthinkhesaurus!\n" +
+        "...\n" + 
+        "Do you think he saur us?!#" +
 
         "Ok next!\n" +
         "What did one hat say to another?\n" + 
@@ -124,11 +127,54 @@ public static class PNJDialogUtils {
         "What is invisible and smells like carrots?\n" +
         "Rabbit farts!#" +
 
+        // 7
         "I'm really starting to hate these stupid little Russian Dolls.\n" +
         "They're so full of themselves.\n" + 
         "Here, take this wonderful artefact,\n" +
-        "as a present for supporting me so much!"
+        "as a present for supporting me so much!#" +
 
+        "Oh you're still here? Then I guess I'll have to entertain you a bit more!\n" +
+        "Let's have fun!\n" + 
+        "...\n" +
+        "What's the difference between a piano and a fish?!\n" +
+        "You can tune a piano, but you can't tuna fish!#" +
+
+        "One more!\n" +
+        "What do you call a magician dog?\n" +
+        "A labracadabrador!#" +
+
+        "One more!\n" +
+        "What do you call a magician dog?\n" +
+        "A labracadabrador!#" +
+
+        "Did you hear about the restaurant on the moon?\n" +
+        "Great food, but no atmosphere.#" +
+
+        "Why did the scarecrow get promoted?\n" +
+        "He was outstanding in his field!#" +
+
+        "Woosh! I'm getting really good at this!\n" +
+        "A few more and if you're still there I may give you something else!\n" +
+        "Why do gorillas have big nostrils?!\n" +
+        "Because gorillas have big fingers!#" +
+
+        "I used to be a banker,\n" +
+        "but I lost interest.#" +
+
+        "I'm reading a book about anti-gravity,\n" +
+        "it's impossible to put down!#" +
+
+        // 16
+        "You're such a good person!\n" +
+        "...\n" +
+        "...\n" +
+        "...\n" +
+        "...\n" +
+        "...\n" +
+        "...\n" +
+        "No, really, I mean it, it wasn't one of my jokes!\n" +
+        "There!\n" +
+        "Take this shiny thing I found the other day while I was fleeing from angry rabbits!#"
     ;
 
     static FaceEmotion[] JokerQE = new FaceEmotion[19] {

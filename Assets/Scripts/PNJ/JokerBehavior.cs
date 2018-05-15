@@ -50,5 +50,8 @@ public class JokerBehavior : PNJDefaultBehavior {
         for (int i = 0; i < 7; i++)
             rewards[i] = new MoneyReward(2, transform);
         rewards[7] = new CustomizableReward(transform, CustomizableType.Hat, "Glitter");
+        for (int i = 8; i < 16; i++)
+            rewards[i] = new MoneyReward(4, transform);
+        rewards[7] = new RuneReward("RuneJoker1", transform);
     }
 }
