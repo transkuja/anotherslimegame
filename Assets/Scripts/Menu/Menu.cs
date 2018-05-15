@@ -662,12 +662,11 @@ public class Menu : MonoBehaviour {
 
             bool noneValue = selectedCustomizables[(int)currentCustomType, _playerIndex] == unlockedList.Count;
             playerCustomScreens[_playerIndex].transform.GetChild(3).GetComponent<Text>().color = Color.white;
-            bool isUnlocked;
+            bool isUnlocked = false;
             DatabaseClass.Unlockable unlockableData = null;
             if (noneValue)
             {
                 playerCustomScreens[_playerIndex].transform.GetChild(3).GetComponent<Text>().text = "None";
-                isUnlocked = true;
             }
             else
             {
@@ -1238,7 +1237,7 @@ public class Menu : MonoBehaviour {
 
         for (int i = 0; i < nbPlayers; i++)
         {
-            for (int j = 2; j < 5; j++)
+            for (int j = 2; j < (int)CustomizableType.Size; j++)
             {
                 if (customizables[(CustomizableType)j].Count != 0 && selectedCustomizables[j, i] != customizables[(CustomizableType)j].Count
                         && !customizables[(CustomizableType)j][selectedCustomizables[j, i]].isUnlocked)
