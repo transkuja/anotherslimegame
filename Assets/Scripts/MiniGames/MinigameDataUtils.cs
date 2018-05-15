@@ -16,8 +16,9 @@ public static class MinigameDataUtils
     private static string ColorFloorTitleV8 = "Trapped & Restrained Shape Coloring";
 
     private static string ClassicKartTitle = "Classic Kart";
-    private static string RunnerTitle = "Classic Runner";
     private static string SnowKartTitle = "Snow Kart";
+    private static string EasyKartTitle = "Easy Kart";
+    private static string RunnerTitle = "Classic Runner";
     private static string FruitTitle = "Classic Fruits";
     private static string FruitTitle2 = "Super Fruits";
     private static string ClashWithSpikesTitle = "Trapped Clash";
@@ -54,7 +55,9 @@ public static class MinigameDataUtils
         else if (curGameMode is KartGameMode)
         {
             if (_version == 1)
-                return SnowKartTitle; 
+                return SnowKartTitle;
+            if (_version == 2)
+                return EasyKartTitle;
             return ClassicKartTitle;
         }
         else if (curGameMode is Runner3DGameMode)
@@ -120,6 +123,10 @@ public static class MinigameDataUtils
         else if (_minigameId == "MinigameKart 2")
         {
             return SnowKartTitle;
+        }
+        else if (_minigameId == "MinigameKart 3")
+        {
+            return EasyKartTitle;
         }
         else if (_minigameId == "Minigame3dRunner")
         {
