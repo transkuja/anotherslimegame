@@ -287,9 +287,9 @@ public static class MinigameDataUtils
         if (curGameMode is ColorFloorGameMode)
         {
             if (_version%2 == 1)
-                return "Score " + ((ColorFloorGameMode)_curGameMode).necessaryPointsForRune * GameManager.Instance.ActivePlayersAtStart + " points.";
+                return "Score " + _curGameMode.necessaryPointsForRune * GameManager.Instance.ActivePlayersAtStart + " points.";
 
-            return "Score " + ((ColorFloorGameMode)_curGameMode).necessaryPointsForRune * GameManager.Instance.ActivePlayersAtStart + " points.";
+            return "Score " + _curGameMode.necessaryPointsForRune * GameManager.Instance.ActivePlayersAtStart + " points.";
         }
         else if (curGameMode is KartGameMode)
         {
@@ -297,11 +297,11 @@ public static class MinigameDataUtils
         }
         else if (curGameMode is Runner3DGameMode)
         {
-            return "Beat 1:00";
+            return "Run for " + _curGameMode.necessaryPointsForRune + "m!";
         }
         else if (curGameMode is FruitGameMode)
         {
-            return "Score " + ((FruitGameMode)_curGameMode).necessaryPointsForRune;
+            return "Score " + _curGameMode.necessaryPointsForRune;
         }
         else if (curGameMode is FoodGameMode)
         {

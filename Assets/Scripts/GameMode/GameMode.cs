@@ -38,7 +38,6 @@ abstract public class GameMode : MonoBehaviour
     // Use to remove damage on points based on gamemode when players collide with a trap. Players will still be expulsed
     [SerializeField] private bool takesDamageFromTraps = true;
     [SerializeField] private ViewMode viewMode = ViewMode.thirdPerson3d;
-    [SerializeField] private string runeToUnlockId;
 
     public int curNbPlayers;
 
@@ -271,11 +270,11 @@ abstract public class GameMode : MonoBehaviour
 
     public bool IsRuneUnlocked()
     {
-        return DatabaseManager.Db.IsUnlock<DatabaseClass.RuneData>(runeToUnlockId);
+        return DatabaseManager.Db.GetRuneFromMinigame(this, minigameVersion).isUnlocked;
     }
 
     public void UnlockRune()
     {
-        DatabaseManager.Db.SetUnlock<DatabaseClass.RuneData>(runeToUnlockId, true);
+        DatabaseManager.Db.SetUnlock<DatabaseClass.RuneData>(DatabaseManager.Db.GetRuneFromMinigame(this, minigameVersion).Id, true);
     }
 }

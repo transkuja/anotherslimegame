@@ -438,6 +438,29 @@ namespace DatabaseClass
                 a.isUnlocked = true;
         }
 
+        public RuneData GetRuneFromMinigame(GameMode minigameGameMode, int minigameVersion)
+        {
+            if (minigameGameMode is Runner3DGameMode)
+                return GetRuneFromMinigame(MinigameType.Runner, minigameVersion);
+
+            if (minigameGameMode is PushGameMode)
+                return GetRuneFromMinigame(MinigameType.Clash, minigameVersion);
+
+            if (minigameGameMode is FoodGameMode)
+                return GetRuneFromMinigame(MinigameType.Food, minigameVersion);
+
+            if (minigameGameMode is KartGameMode)
+                return GetRuneFromMinigame(MinigameType.Kart, minigameVersion);
+
+            if (minigameGameMode is ColorFloorGameMode)
+                return GetRuneFromMinigame(MinigameType.Floor, minigameVersion);
+
+            if (minigameGameMode is FruitGameMode)
+                return GetRuneFromMinigame(MinigameType.Fruit, minigameVersion);
+
+            return null;
+        }
+
         public RuneData GetRuneFromMinigame(MinigameType minigameType, int minigameVersion)
         {
             return runes.Find(rune => rune.associatedMinigame == minigameType && rune.associatedMinigameVersion == minigameVersion);
