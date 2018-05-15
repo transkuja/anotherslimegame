@@ -698,10 +698,7 @@ namespace DatabaseClass
 
             }
 
-            if (alreadyBrokenBreakables.Length == 0)
-            {
-                alreadyBrokenBreakables = new bool[breakables.Length - offset];
-            }
+            alreadyBrokenBreakables = new bool[breakables.Length - offset];
         }
 
         public void ResetCollectablesState()
