@@ -12,7 +12,7 @@ public class SneakyChiefBehavior : PNJDefaultBehavior
     Transform[] nextTransforms;
 
     // next transform need something to be broken
-    bool[] nextIsABreakable = { false, false, true };
+    bool[] nextIsABreakable = { false, false, true, false, false, true, true };
 
     protected override void Start()
     {
@@ -70,5 +70,9 @@ public class SneakyChiefBehavior : PNJDefaultBehavior
         rewards[0] = new RewardType(transform);
         rewards[1] = new MoneyReward(40, transform);
         rewards[2] = new RuneReward("RuneSneaky1", transform);
+        rewards[3] = new MoneyReward(40, transform);
+        rewards[4] = new MoneyReward(40, transform);
+        rewards[5] = new MoneyReward(50, transform);
+        rewards[6] = new RuneReward("RuneSneaky2", transform);
     }
 }

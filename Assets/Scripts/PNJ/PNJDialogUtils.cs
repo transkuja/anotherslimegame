@@ -21,6 +21,7 @@ public static class PNJDialogUtils {
         "Let's do it one more time.\n" +
         "If you find me this time, I'll give you this shiny rune.#" +
 
+        // 3
         "Right.Take it.\n" +
         "I don't know what it's used for anyway.\n" +
         "But I won't admit defeat yet.\n" +
@@ -28,7 +29,23 @@ public static class PNJDialogUtils {
         "If you want to claim you are that good at finding me,\n" +
         "the greatest ninja of all time,\n" +
         "you'll have to find me at my full potential.\n" +
-        "See you dumby!"
+        "See you dumby!#" +
+
+        "It does not count, I was practicing.\n" +
+        "...#" +
+
+        "I was not hiding up here,\n" +
+        "I was looking for fresh air but it seems it ran out the second you arrived.\n" +
+        "See ya never!#" +
+
+        "Why are you breaking all these pots?!\n" +
+        "Only to find me?!\n" +
+        "How barbaric.#n" +
+
+        "FINE!\n" +
+        "Will you let go of me if I give you this crappy thing I found in the sewer?!\n" +
+        "Youngsters these days,\n" +
+        "you can't hide in pots without being disturbed!"
     ;
 
     static FaceEmotion[] SneakyChiefQE = new FaceEmotion[19] {
@@ -174,7 +191,7 @@ public static class PNJDialogUtils {
         "...\n" +
         "No, really, I mean it, it wasn't one of my jokes!\n" +
         "There!\n" +
-        "Take this shiny thing I found the other day while I was fleeing from angry rabbits!#"
+        "Take this shiny thing I found the other day while I was fleeing from angry rabbits!"
     ;
 
     static FaceEmotion[] JokerQE = new FaceEmotion[19] {
