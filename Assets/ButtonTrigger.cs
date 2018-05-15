@@ -1,6 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class ButtonTrigger : MonoBehaviour {
 
@@ -14,6 +13,8 @@ public class ButtonTrigger : MonoBehaviour {
     public Transform transformArrive;
     private Material mat;
     public Material newMat;
+
+    public Text text;
 
     private bool isActivating = false;
 
@@ -49,6 +50,8 @@ public class ButtonTrigger : MonoBehaviour {
         posOrigin = thisButton.transform.localPosition;
         posArrive = transformArrive.localPosition;
 
+        text.text = "";
+
         mat = transform.GetChild(0).GetComponent<Renderer>().sharedMaterial;
 
     }
@@ -69,7 +72,7 @@ public class ButtonTrigger : MonoBehaviour {
                     ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles).GetItem(null, transform.position + 3.0f * Vector3.up, Quaternion.identity, true, false, (int)HitParticles.BigHit);
 
                     currentTimer = 0.0f;
-                    currentResetTimer = 0.0f;
+                    currentResetTimer = resetTimer;
                 }
             }
         }
@@ -126,12 +129,14 @@ public class ButtonTrigger : MonoBehaviour {
 
         if(!hasToMoveButton && isActive && hasToResetAutomatically)
         {
-            currentResetTimer += Time.deltaTime;
-            if(currentResetTimer > resetTimer)
+            currentResetTimer -= Time.deltaTime;
+            text.text = Mathf.RoundToInt(currentResetTimer).ToString();
+            if (currentResetTimer <= 0)
             {
                 hasToMoveButton = true;
                 currentTimer = 0.0f;
-                currentResetTimer = 0.0f;
+                text.text = "";
+                currentResetTimer = resetTimer;
             }
         }
     }
