@@ -194,9 +194,15 @@ public class CostArea : MonoBehaviour {
     {
         if (other.GetComponent<PlayerController>())
         {
-            minigameName[(int)other.GetComponent<PlayerController>().PlayerIndex].SetActive(true);
-            foreach (TextMesh tm in minigameName[(int)other.GetComponent<PlayerController>().PlayerIndex].GetComponentsInChildren<TextMesh>())
-                tm.text = MinigameDataUtils.GetTitle(mgData.Id, minigameVersion);
+            if (teleporter.GetComponent<TeleporterToMinigame>().isTeleporterActive)
+            {
+                minigameName[(int)other.GetComponent<PlayerController>().PlayerIndex].SetActive(true);
+                foreach (TextMesh tm in minigameName[(int)other.GetComponent<PlayerController>().PlayerIndex].GetComponentsInChildren<TextMesh>())
+                    tm.text = MinigameDataUtils.GetTitle(mgData.Id, minigameVersion);
+
+                teleporter.GetComponent<TeleporterToMinigame>().CreateButtonFeedback((int)other.GetComponent<PlayerController>().PlayerIndex);
+                other.GetComponent<Player>().RefInitTeleporter = teleporter.GetComponent<TeleporterToMinigame>();
+            }
         }
     }
 
@@ -204,7 +210,12 @@ public class CostArea : MonoBehaviour {
     {
         if (other.GetComponent<PlayerController>())
         {
-            minigameName[(int)other.GetComponent<PlayerController>().PlayerIndex].SetActive(false);
+            if (teleporter.GetComponent<TeleporterToMinigame>().isTeleporterActive)
+            {
+                minigameName[(int)other.GetComponent<PlayerController>().PlayerIndex].SetActive(false);
+                teleporter.GetComponent<TeleporterToMinigame>().DestroyButtonFeedback((int)other.GetComponent<PlayerController>().PlayerIndex);
+                other.GetComponent<Player>().RefInitTeleporter = null;
+            }
         }
     }
 }

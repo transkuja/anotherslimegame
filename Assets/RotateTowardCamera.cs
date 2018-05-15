@@ -12,6 +12,7 @@ public class RotateTowardCamera : MonoBehaviour {
     {
         cameraRef = GameManager.Instance.PlayerStart.PlayersReference[indexPlayer].GetComponent<Player>().cameraReference.GetComponentInChildren<Camera>().transform;
     }
+
     void Update () {
         transform.rotation = Quaternion.LookRotation(cameraRef.forward);
 	}
