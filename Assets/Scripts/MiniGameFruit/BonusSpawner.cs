@@ -20,7 +20,7 @@ public class BonusSpawner : MonoBehaviour {
 
     public bool canChange;
 
-    public BoxCollider boxColliderSpawn;
+    public MeshCollider boxColliderSpawn;
     public float minX;
     public float minZ;
     public float maxX;
@@ -112,6 +112,7 @@ public class BonusSpawner : MonoBehaviour {
     IEnumerator UnspawnBonus(GameObject go)
     {
         yield return new WaitForSeconds(5.0f);
+        go.GetComponentInChildren<Projector>().gameObject.SetActive(false);
 
         go.GetComponent<MeshRenderer>().enabled = false;
         yield return new WaitForSeconds(0.2f);

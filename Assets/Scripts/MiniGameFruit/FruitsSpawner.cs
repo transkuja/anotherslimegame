@@ -9,7 +9,7 @@ public class FruitsSpawner : MonoBehaviour {
     [SerializeField]
     float fruitsSpawnDelay = 0.6f;
 
-    public BoxCollider boxColliderSpawn;
+    public MeshCollider boxColliderSpawn;
     public float minX;
     public float minZ;
     public float maxX;

@@ -130,13 +130,16 @@ public class Collectable : MonoBehaviour
     {
         transform.position = Vector3.Lerp(transform.position, (playerTarget.transform.position + Vector3.up * .5f), Time.deltaTime * movementSpeed);
         //GetComponent<Rigidbody>().velocity = (direction * movementSpeed * Time.deltaTime * 50.0f);
+        //Debug.Log(Vector3.Distance(playerTarget.transform.position + Vector3.up * 0.5f, transform.position));
         if (Vector3.Distance(playerTarget.transform.position + Vector3.up * 0.5f, transform.position) <= 1.0f)
         {
+            //Debug.Log("Entree");
             // Won't play the sound fx and wont update player money
             if (!(playerTarget.GetComponent<EnnemyController>() || playerTarget.GetComponent<PNJController>()))
             {
                 if (GetComponent<FruitType>())
                 {
+                    //Debug.Log("EntreeFruit");
                     if (name == "fruitChanger(Clone)")
                     {
                         GetComponentInParent<Transform>().GetComponentInParent<BonusSpawner>().canChange = true;
@@ -148,7 +151,7 @@ public class Collectable : MonoBehaviour
                         GetComponentInParent<Transform>().GetComponentInParent<BonusSpawner>().AspireFruit();
 
                     }
-                    if (name == "FruitBonus(Clone)")
+                    if (name == "FruitBonuss(Clone)")
                     {
                         if ((int)playerTarget.GetComponent<PlayerController>().PlayerIndex == (int)GetComponent<FruitType>().typeFruit)
                         {
