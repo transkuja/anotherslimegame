@@ -502,20 +502,20 @@ namespace DatabaseClass
             colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = true });
             colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = true });
             colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = true });
-            colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = false });
-            colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = false });
-            colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = false });
-            colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = false });
-            colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = false });
-            colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = false });
-            colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = false });
-            colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = false });
-            colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = false });
-            colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = false });
-            colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = false });
-            colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = false });
-            colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = false });
-            colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = false });
+            colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = true });
+            colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = true });
+            colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = true });
+            colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = true });
+            colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = true });
+            colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = true });
+            colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = true });
+            colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = true });
+            colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = true });
+            colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = true });
+            colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = true });
+            colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = true });
+            colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = true });
+            colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = true });
 
             // Adding faces
             int idFaces = 0;
@@ -533,15 +533,15 @@ namespace DatabaseClass
             string[] strMinigame = { "MinigameAntho", "MinigameAntho", "MinigameAntho", "MinigameAntho", "MinigameKart", "MinigamePush", "MinigamePush 1",
                     "Minigame3dRunner", "MiniGameFruits", "MinigameKart 2", "Minigame3dRunner 1", "MiniGameFruits2", "MinigameAnthourte",
                     "MinigameAnthourte", "MinigameAnthourte", "MinigameAnthourte", "MinigameFood", "MinigameFood", "MinigameFood", "MinigameFood" };
-            minigames.Add(new MinigameData { Id = strMinigame[idMinigames], costToUnlock = -1, nbRunesToUnlock = 1, spriteImage = "screenshotMinigameAntho", isUnlocked = false, type = MinigameType.Floor, version = 0 });
+            minigames.Add(new MinigameData { Id = strMinigame[idMinigames], costToUnlock = -1, nbRunesToUnlock = 1, spriteImage = "screenshotMinigameAntho", isUnlocked = true, type = MinigameType.Floor, version = 0 });
             minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 3, spriteImage = "screenshotMinigameAntho", isUnlocked = false, type = MinigameType.Floor, version = 2});
             minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 3, spriteImage = "screenshotMinigameAntho", isUnlocked = false, type = MinigameType.Floor, version = 4 });
             minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 3, spriteImage = "screenshotMinigameAntho", isUnlocked = false, type = MinigameType.Floor, version = 6 });
 
             minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 3, spriteImage = "screenshotMinigameKart", isUnlocked = false, type = MinigameType.Kart });
             minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 2, spriteImage = "screenshotMinigamePush", isUnlocked = false, type = MinigameType.Clash, version = 0 });
-            minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 2, spriteImage = "screenshotMinigamePush", isUnlocked = false, type = MinigameType.Clash, version = 1 });
-            minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 4, spriteImage = "screenshotMinigameRunner", videoPreview = "VideoRunner3D",  isUnlocked = false, type = MinigameType.Runner });
+            minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 2, spriteImage = "screenshotMinigamePush", isUnlocked = true, type = MinigameType.Clash, version = 1 });
+            minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 4, spriteImage = "screenshotMinigameRunner", videoPreview = "VideoRunner3D",  isUnlocked = true, type = MinigameType.Runner });
             minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 5, spriteImage = "screenshotMinigameFruits", isUnlocked = false, type = MinigameType.Fruit });
             minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = -1, spriteImage = "screenshotSnowKart", isUnlocked = false, type = MinigameType.Kart });
             minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = -1, spriteImage = "screenshotMinigameSuperRunner", isUnlocked = false, type = MinigameType.Runner });
@@ -552,7 +552,7 @@ namespace DatabaseClass
             minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = -1, spriteImage = "screenshotMinigameAntho2", isUnlocked = false, type = MinigameType.Floor, version = 7 });
 
             // TODO: needs a screenshot
-            minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = -1, spriteImage = "screenshotMinigameFood", isUnlocked = false, type = MinigameType.Food });
+            minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = -1, spriteImage = "screenshotMinigameFood", isUnlocked = true, type = MinigameType.Food });
             minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = -1, spriteImage = "screenshotMinigameFood", isUnlocked = false, type = MinigameType.Food, version = 1 });
             minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = -1, spriteImage = "screenshotMinigameFood", isUnlocked = false, type = MinigameType.Food, version = 2 });
             minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = -1, spriteImage = "screenshotMinigameFood", isUnlocked = false, type = MinigameType.Food, version = 3 });
@@ -571,78 +571,78 @@ namespace DatabaseClass
             // Adding mustaches
             int idMustache = 0;
             string[] strMustache = { "Curved", "Second", "Third" };
-            mustaches.Add(new MustacheData { Id = strMustache[idMustache], model = "Mustaches/CurvedMustache", isUnlocked = false });
-            mustaches.Add(new MustacheData { Id = strMustache[++idMustache], model = "Mustaches/SecondMustache", isUnlocked = false });
-            mustaches.Add(new MustacheData { Id = strMustache[++idMustache], model = "Mustaches/ThirdMustache", isUnlocked = false });
+            mustaches.Add(new MustacheData { Id = strMustache[idMustache], model = "Mustaches/CurvedMustache", isUnlocked = false, costToUnlock = 400 });
+            mustaches.Add(new MustacheData { Id = strMustache[++idMustache], model = "Mustaches/SecondMustache", isUnlocked = false, costToUnlock = 400 });
+            mustaches.Add(new MustacheData { Id = strMustache[++idMustache], model = "Mustaches/ThirdMustache", isUnlocked = false, costToUnlock = 400 });
 
             // Adding hats
             int idHat = 0;
             string[] strHat = { "Cap", "Chief", "Cowboy", "Glitter", "Top Hat", "Flowers", "Chinese", "Cat", "Marine", "Police", "Sombrero", "Crete", "Party", "Magical", "Witch" };
-            hats.Add(new HatData { Id = strHat[idHat], model = "Hats/CapHat", shouldHideEars = true, isUnlocked = false });
-            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/ChiefHat", shouldHideEars = true, isUnlocked = false });
+            hats.Add(new HatData { Id = strHat[idHat], model = "Hats/CapHat", shouldHideEars = true, isUnlocked = false, costToUnlock = 200 });
+            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/ChiefHat", shouldHideEars = true, isUnlocked = false, costToUnlock = 200 });
             hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/CowboyHat", shouldHideEars = true, isUnlocked = false }); // Bob give it
-            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/GlitterHat", shouldHideEars = true, isUnlocked = false });
-            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/TopHatHat", shouldHideEars = true, isUnlocked = false });
-            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/FlowerCrown", shouldHideEars = false, isUnlocked = false });
-            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/ChineseHat", shouldHideEars = false, isUnlocked = false });
-            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/CatHat", shouldHideEars = false, isUnlocked = false });
-            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/MarineHat", shouldHideEars = false, isUnlocked = false });
+            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/GlitterHat", shouldHideEars = true, isUnlocked = false, costToUnlock = 200 });
+            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/TopHatHat", shouldHideEars = true, isUnlocked = false, costToUnlock = 200 });
+            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/FlowerCrown", shouldHideEars = false, isUnlocked = false, costToUnlock = 200 });
+            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/ChineseHat", shouldHideEars = false, isUnlocked = false, costToUnlock = 200 });
+            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/CatHat", shouldHideEars = false, isUnlocked = false, costToUnlock = 200 });
+            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/MarineHat", shouldHideEars = false, isUnlocked = false, costToUnlock = 200 });
             hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/PoliceHat", shouldHideEars = false, isUnlocked = false });  // Gwen give it
-            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/SombreroHat", shouldHideEars = false, isUnlocked = false });
-            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/CreteHat", shouldHideEars = false, isUnlocked = false });
-            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/PartyHat", shouldHideEars = false, isUnlocked = false });
-            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/MagicalHat", shouldHideEars = false, isUnlocked = false });
-            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/WitchHat", shouldHideEars = false, isUnlocked = false });
+            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/SombreroHat", shouldHideEars = false, isUnlocked = false, costToUnlock = 200 });
+            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/CreteHat", shouldHideEars = false, isUnlocked = false, costToUnlock = 200 });
+            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/PartyHat", shouldHideEars = false, isUnlocked = false, costToUnlock = 200 });
+            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/MagicalHat", shouldHideEars = false, isUnlocked = false, costToUnlock = 200 });
+            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/WitchHat", shouldHideEars = false, isUnlocked = false, costToUnlock = 200 });
             // Adding ears
             int idEars = 0;
             string[] strEars = { "Ears1", "Ears2", "Ears3", "Ears4", "Ears5", "Ears6", "Ears7", "Ears8", "Ears9", "Ears10", "Ears11", "Ears12" };
-            ears.Add(new EarsData { Id = strEars[idEars], model = "Ears/Ears1", isUnlocked = true });
-            ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/Ears2", isUnlocked = false });
-            ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/Ears3", isUnlocked = false });
-            ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/Ears4", isUnlocked = false });
-            ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/Ears5", isUnlocked = false });
-            ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/Ears6", isUnlocked = false });
-            ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/Ears7", isUnlocked = false });
-            ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/Ears8", isUnlocked = false });
-            ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/Ears9", isUnlocked = false });
-            ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/Ears10", isUnlocked = false });
-            ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/Ears11", isUnlocked = false });
-            ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/Ears12", isUnlocked = false });
+            ears.Add(new EarsData { Id = strEars[idEars], model = "Ears/Ears1", isUnlocked = true, costToUnlock = 200 });
+            ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/Ears2", isUnlocked = false, costToUnlock = 200 });
+            ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/Ears3", isUnlocked = false, costToUnlock = 200 });
+            ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/Ears4", isUnlocked = false, costToUnlock = 200 });
+            ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/Ears5", isUnlocked = false, costToUnlock = 200 });
+            ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/Ears6", isUnlocked = false, costToUnlock = 200 });
+            ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/Ears7", isUnlocked = false, costToUnlock = 200 });
+            ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/Ears8", isUnlocked = false, costToUnlock = 200 });
+            ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/Ears9", isUnlocked = false, costToUnlock = 200 });
+            ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/Ears10", isUnlocked = false, costToUnlock = 200 });
+            ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/Ears11", isUnlocked = false, costToUnlock = 200 });
+            ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/Ears12", isUnlocked = false, costToUnlock = 200 });
 
             // Adding foreheads
             int idForeheads = 0;
             string[] strForeheads = { "Unicorn" };
-            foreheads.Add(new ForeheadData { Id = strForeheads[idForeheads], model = "Foreheads/Unicorn", isUnlocked = false });
+            foreheads.Add(new ForeheadData { Id = strForeheads[idForeheads], model = "Foreheads/Unicorn", isUnlocked = false, costToUnlock = 300 });
 
             // Adding chins
             int idChins = 0;
             string[] strChins = { "Bow Tie", "Goatee" };
-            chins.Add(new ChinData { Id = strChins[idChins], model = "Chins/BowTie", isUnlocked = false });
-            chins.Add(new ChinData { Id = strChins[++idChins], model = "Chins/Goatee", isUnlocked = false });
+            chins.Add(new ChinData { Id = strChins[idChins], model = "Chins/BowTie", isUnlocked = false, costToUnlock = 300 });
+            chins.Add(new ChinData { Id = strChins[++idChins], model = "Chins/Goatee", isUnlocked = false, costToUnlock = 300 });
 
             // Adding accessories
             int idAccessories = 0;
             string[] strAccessories = { "Glasses", "Long Glasses", "Nose Glasses", "Boss Glasses" };
-            accessories.Add(new AccessoryData { Id = strAccessories[idAccessories], model = "Accessories/Glasses", isUnlocked = false });
-            accessories.Add(new AccessoryData { Id = strAccessories[++idAccessories], model = "Accessories/LongGlasses", isUnlocked = false });
-            accessories.Add(new AccessoryData { Id = strAccessories[++idAccessories], model = "Accessories/NoseGlasses", isUnlocked = false });
-            accessories.Add(new AccessoryData { Id = strAccessories[++idAccessories], model = "Accessories/BossGlasses", isUnlocked = false });
+            accessories.Add(new AccessoryData { Id = strAccessories[idAccessories], model = "Accessories/Glasses", isUnlocked = false, costToUnlock = 200 });
+            accessories.Add(new AccessoryData { Id = strAccessories[++idAccessories], model = "Accessories/LongGlasses", isUnlocked = false, costToUnlock = 200 });
+            accessories.Add(new AccessoryData { Id = strAccessories[++idAccessories], model = "Accessories/NoseGlasses", isUnlocked = false, costToUnlock = 200 });
+            accessories.Add(new AccessoryData { Id = strAccessories[++idAccessories], model = "Accessories/BossGlasses", isUnlocked = false, costToUnlock = 200 });
 
             // Adding Skins
             int idSkins = 0;
             string[] strSkins = { "Catch1", "Catch2", "Special1", "Special2"};
-            skins.Add(new SkinData { Id = strSkins[idSkins], texture = "Skins/Catch1", isUnlocked = false});
+            skins.Add(new SkinData { Id = strSkins[idSkins], texture = "Skins/Catch1", isUnlocked = false });
             skins.Add(new SkinData { Id = strSkins[++idSkins], texture = "Skins/Catch2", isUnlocked = false });
-            skins.Add(new SkinData { Id = strSkins[++idSkins], texture = "Skins/Spe1", isUnlocked = false });
-            skins.Add(new SkinData { Id = strSkins[++idSkins], texture = "Skins/Spe2", isUnlocked = false });
+            skins.Add(new SkinData { Id = strSkins[++idSkins], texture = "Skins/Spe1", isUnlocked = false, costToUnlock = 600 });
+            skins.Add(new SkinData { Id = strSkins[++idSkins], texture = "Skins/Spe2", isUnlocked = false, costToUnlock = 600 });
 
             SneakyChiefProgress = 0;
             JokerProgress = 0;
 
             if (alreadyBrokenBreakables.Length > 0)
-            alreadyBrokenBreakables = new bool[alreadyBrokenBreakables.Length];
+                alreadyBrokenBreakables = new bool[alreadyBrokenBreakables.Length];
             if(alreadyCollectedCollectables.Length > 0)
-            alreadyCollectedCollectables = new bool[alreadyCollectedCollectables.Length];
+                alreadyCollectedCollectables = new bool[alreadyCollectedCollectables.Length];
         }
 
         public void AllCostToZero()
@@ -666,12 +666,14 @@ namespace DatabaseClass
         public void NewGameSettings()
         {
             ResetAll();
+        }
+
+        public void DEBUG_UnlockedAllExceptPNJ()
+        {
+            ResetAll();
             UnlockedAll();
             SetUnlock<HatData>("Cowboy", false);
             SetUnlock<HatData>("Police", false);
-            SetUnlock<ColorData>("Color 5", false);
-            SneakyChiefProgress = 0;
-            JokerProgress = 0;
         }
 
         public void ResetBreakablesState()

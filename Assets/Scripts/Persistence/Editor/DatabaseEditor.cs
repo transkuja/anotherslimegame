@@ -23,6 +23,9 @@ public class DatabaseEditor : Editor
         if (GUILayout.Button("Unlock All"))
             comp.UnlockedAll();
 
+        if (GUILayout.Button("Unlock all/ reset quests"))
+            comp.DEBUG_UnlockedAllExceptPNJ();
+
         if (GUILayout.Button("All Cost to Zero"))
             comp.AllCostToZero();
 
