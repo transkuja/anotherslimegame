@@ -36,7 +36,7 @@ public class Player : MonoBehaviour {
     public bool costAreaTutoShown = false;
 
     PNJMessage refMessage;
-    InitTeleporter refInitTeleporter;
+    TeleporterToMinigame refInitTeleporter;
 
     public GameObject activeTutoText;
     private GameObject pendingTutoText;
@@ -173,7 +173,7 @@ public class Player : MonoBehaviour {
         }
     }
 
-    public InitTeleporter RefInitTeleporter
+    public TeleporterToMinigame RefInitTeleporter
     {
         get
         {

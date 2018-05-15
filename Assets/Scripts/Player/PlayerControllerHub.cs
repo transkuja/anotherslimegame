@@ -293,11 +293,11 @@ public class PlayerControllerHub : PlayerController
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.GetComponentInChildren<InitTeleporter>())
+        if (collision.collider.GetComponentInChildren<TeleporterToMinigame>())
         {
-            if (collision.collider.GetComponentInChildren<InitTeleporter>().teleportToMinigame)
+            if (collision.collider.GetComponentInChildren<TeleporterToMinigame>().isTeleporterActive)
             {
-                Player.RefInitTeleporter = collision.collider.GetComponentInChildren<InitTeleporter>();
+                Player.RefInitTeleporter = collision.collider.GetComponentInChildren<TeleporterToMinigame>();
                 Player.RefInitTeleporter.CreateButtonFeedback((int)playerIndex);
             }
         }
@@ -305,13 +305,12 @@ public class PlayerControllerHub : PlayerController
 
     private void OnCollisionExit(Collision collision)
     {
-        if (collision.collider.GetComponentInChildren<InitTeleporter>())
+        if (collision.collider.GetComponentInChildren<TeleporterToMinigame>())
         {
-            if (collision.collider.GetComponentInChildren<InitTeleporter>().teleportToMinigame)
+            if (collision.collider.GetComponentInChildren<TeleporterToMinigame>().isTeleporterActive)
             {
                 Player.RefInitTeleporter.DestroyButtonFeedback((int)playerIndex);
                 Player.RefInitTeleporter = null;
-
             }
         }
     }

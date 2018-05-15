@@ -54,7 +54,6 @@ public class TheButton : MonoBehaviour {
                 MoveWater(positionToReach, lerpStartValue);
                 if (lerpValue >= 1.0f)
                 {
-                    transform.GetChild(0).GetComponent<CostArea>().Reactivate();
                     HUBManager.instance.WaterState = WaterState.Clear;
                 }
                 break;

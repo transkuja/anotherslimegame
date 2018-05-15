@@ -23,9 +23,6 @@ public class CostArea : MonoBehaviour {
     Color isActiveColor;
 
     [SerializeField]
-    int cost;
-
-    [SerializeField]
     bool isActive = true;
 
     [Header("Children references")]
@@ -36,16 +33,11 @@ public class CostArea : MonoBehaviour {
     [SerializeField]
     Transform rewardPreview;
     [SerializeField]
-    Transform halo;
-    [SerializeField]
-    [Tooltip("Only on the right prefab.")]
-    InitTeleporter teleporterToMiniGame; // ====> TODO: move initTeleporter on teleporter
+    Transform isActiveParticles;
 
     [Header("Currency Sprites")]
     [SerializeField]
     Sprite currencyRune;
-
-    Color initialColor;
 
     DatabaseClass.MinigameData mgData;
 
@@ -54,14 +46,6 @@ public class CostArea : MonoBehaviour {
         get
         {
             return currency;
-        }
-    }
-
-    public int Cost
-    {
-        get
-        {
-            return cost;
         }
     }
 
@@ -74,14 +58,18 @@ public class CostArea : MonoBehaviour {
             // is active -> false
             UnlockAssociatedMinigame(mgData.Id);
         }
+        else
+        {
+            mgData = DatabaseManager.Db.minigames.Find(a => a.type == minigameType && a.version == minigameVersion);
+        }
 
-        initialColor = halo.GetComponent<ParticleSystem>().main.startColor.color;
         Init();  
     }
 
     void Init()
     {
-        costText.text = "x " + cost;
+        if (mgData != null)
+            costText.text = "x " + mgData.nbRunesToUnlock;
         currencyLogo.sprite = GetLogoFromCurrency(currency);
         if (currency == CollectableType.Rune)
         {
@@ -112,19 +100,15 @@ public class CostArea : MonoBehaviour {
         costText.color = Color.grey;
         currencyLogo.color = Color.grey;
         rewardPreview.gameObject.SetActive(false);
-        ParticleSystem.MainModule main = halo.GetComponent<ParticleSystem>().main;
-        main.startColor = Color.white;
     }
 
     public void Reactivate()
     {
         costText.color = Color.white;
-        costText.text = "x " + cost;
+        if (mgData != null)
+            costText.text = "x " + mgData.nbRunesToUnlock;
         currencyLogo.color = Color.white;
         rewardPreview.gameObject.SetActive(true);
-        ParticleSystem.MainModule main = halo.GetComponent<ParticleSystem>().main;
-        main.startColor = initialColor;
-
         isActive = true;
     }
 
@@ -133,7 +117,7 @@ public class CostArea : MonoBehaviour {
         // Force unlock minigame : checking at each frame if a minigame have been unlocked
         if (isActive)
         {
-            if (!(mgData!=null))
+            if (mgData == null)
                 return;
 
             if (mgData.nbRunesToUnlock == -1 && mgData.costToUnlock == -1)
@@ -162,11 +146,6 @@ public class CostArea : MonoBehaviour {
         else if (currency == CollectableType.Rune)
             money = GameManager.Instance.Runes;
 
-        if (money >= cost)
-        {
-            _player.Player.UpdateCollectableValue(Currency, -Cost);
-            return true;
-        }
         return false;
     }
 
@@ -188,25 +167,24 @@ public class CostArea : MonoBehaviour {
         isActive = false;
         teleporter.GetComponent<Renderer>().material.EnableKeyword("_EMISSION");
         teleporter.GetComponent<Renderer>().material.SetColor("_EmissionColor", isActiveColor);
-        teleporterToMiniGame.TeleportToMinigame(minigameIdFromDatabase);
+        teleporter.GetComponent<TeleporterToMinigame>().TeleportToMinigame(minigameIdFromDatabase, minigameVersion);
+
         // Replace by the child
         costText.transform.parent.gameObject.SetActive(false);
         //rewardPreview.gameObject.SetActive(false);
         rewardPreview.transform.localPosition += new Vector3(0.0f, 1.0f, 0.0f);
-        halo.gameObject.SetActive(false);
-        teleporterToMiniGame.gameObject.SetActive(true);
+        isActiveParticles.gameObject.SetActive(true);
+        teleporter.GetComponent<TeleporterToMinigame>().isTeleporterActive = true;
     }
 
     GameObject GetRewardModelFromRewardType()
     {
         return ResourceUtils.Instance.feedbacksManager.prefabCostAreaKeyFeedback;
-   }
+    }
 
     Sprite GetLogoFromCurrency(CollectableType _currency)
     {
         return currencyRune;
     }
 
-    ////////////////////////////////////// EVENTS //////////////////////////////////////////
- 
 }
