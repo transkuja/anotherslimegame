@@ -4,96 +4,185 @@ using UnityEngine;
 
 public class ButtonTrigger : MonoBehaviour {
 
-    public GameObject door;
-    public GameObject button;
+    public Activable[] activable;
+    public ButtonTrigger[] button;
+
+    // This button
+    private GameObject thisButton;
     private Vector3 posOrigin;
     private Vector3 posArrive;
     public Transform transformArrive;
     private Material mat;
     public Material newMat;
 
-    private bool isActive = false;
+    private bool isActivating = false;
 
-    private bool active = false;
-    public float timer = 2.0f;
+    public bool isActive = false;
+
+    private bool doCommand = false;
+    private bool doAction = false;
+
+    private bool hasToMoveButton = false;
+
+    // Anim button
+    private float timer = 0.5f;
     private float currentTimer = 0.0f;
 
-    public bool isABackAndForthAction = false;
 
-    private Vector3 scalePorteOrigin;
-    private Vector3 scalePorteArrive;
+    // Reset
+    public float resetTimer = 5.0f;
+    private float currentResetTimer = 0.0f;
+
+    // Options
+    public bool isABackAndForthAction = false;
+    public bool hasToResetAutomatically = false;
 
     public void Start()
     {
-        mat = transform.GetChild(0).GetComponent<Renderer>().sharedMaterial;
-        posOrigin = button.transform.localPosition;
+        if (button.Length == 0)
+            Debug.LogError("At least one button");
+
+        if (activable.Length == 0)
+            Debug.LogError("At least one activable");
+
+        thisButton = transform.GetChild(1).gameObject;
+        posOrigin = thisButton.transform.localPosition;
         posArrive = transformArrive.localPosition;
-        scalePorteOrigin = door.transform.localScale;
-        scalePorteArrive = new Vector3(scalePorteOrigin.x, 0, scalePorteOrigin.z);
+
+        mat = transform.GetChild(0).GetComponent<Renderer>().sharedMaterial;
+
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider collider)
     {
-        if (!active && (!isActive || isABackAndForthAction))
+        if (!hasToMoveButton && (!isActivating || isABackAndForthAction))
         {
-            if (collision.gameObject.GetComponent<Player>())
+            if (collider.gameObject.GetComponent<Player>())
             {
-                PlayerCharacterHub pch = collision.gameObject.GetComponent<PlayerCharacterHub>();
+                PlayerCharacterHub pch = collider.gameObject.GetComponent<PlayerCharacterHub>();
                 if (pch.PlayerState is DashState
                     || pch.PlayerState is DashDownState)
                 {
-                    active = true;
+                    hasToMoveButton = true;
                     ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles).GetItem(null, transform.position + 3.0f * Vector3.up, Quaternion.identity, true, false, (int)HitParticles.BigHit);
                     currentTimer = 0.0f;
+                    currentResetTimer = 0.0f;
                 }
             }
         }
     }
 
     public void Update()
-    {
-        if (active)
+    {            
+        // Behavior button
+        if (hasToMoveButton)
         {
-            if (!isActive)
+            if (!isActivating)
             {
-                ActivateButton(mat, newMat, posOrigin, posArrive, scalePorteOrigin, scalePorteArrive);
+                ActivateButton();  
             }
             else
             {
-                ActivateButton(newMat, mat, posArrive, posOrigin, scalePorteArrive, scalePorteOrigin);
+                DesactivateButton();
+            }
+
+            if (doCommand)
+            {
+                Command();
+            }
+        }
+
+        // Behavior activable
+        if(doAction)
+        {
+            doAction = false;
+
+            bool allActive = true;
+            for (int i = 0; i < button.Length; i++)
+            {
+                if (!button[i].isActive)
+                {
+                    allActive = false;
+                }
+            }
+
+            if (activable[0].isActive && !allActive)
+            {
+                for (int i = 0; i < activable.Length; i++)
+                {
+                    activable[i].Active(false);
+                }
+            } else if(!activable[0].isActive && allActive)
+            {
+                for (int i = 0; i < activable.Length; i++)
+                {
+                    activable[i].Active(true);
+                }
+            }
+        }
+
+        if(!hasToMoveButton && isActive && hasToResetAutomatically)
+        {
+            currentResetTimer += Time.deltaTime;
+            if(currentResetTimer > resetTimer)
+            {
+                hasToMoveButton = true;
+                currentTimer = 0.0f;
+                currentResetTimer = 0.0f;
             }
         }
     }
 
-    public void ActivateButton(Material _mat, Material _newMat, Vector3 _pos1, Vector3 _pos2, Vector3 _scale1, Vector3 _scale2)
+    public void Command()
+    {
+
+        // true
+        doCommand = false;
+        isActive = !isActive;
+        doAction = true;
+    }
+
+    public void ActivateButton()
     {
         currentTimer += Time.deltaTime;
 
         // lerp position and mat
-        button.transform.localPosition = Vector3.Lerp(_pos1, _pos2, currentTimer / timer);
-        transform.GetChild(0).GetComponent<Renderer>().material.Lerp(_mat, _newMat, currentTimer / timer);
-        button.transform.GetChild(0).GetComponent<Renderer>().material.Lerp(_mat, _newMat, currentTimer / timer);
-
-        // would need to rethink this
-        if (isActive)
-            door.SetActive(isActive);
-
-        door.transform.localScale = Vector3.Lerp(_scale1, _scale2, currentTimer / timer);
+        thisButton.transform.localPosition = Vector3.Lerp(posOrigin, posArrive, currentTimer / timer);
+        transform.GetChild(0).GetComponent<Renderer>().material.Lerp(mat, newMat, currentTimer / timer);
+        thisButton.transform.GetChild(0).GetComponent<Renderer>().material.Lerp(mat, newMat, currentTimer / timer);
 
         if (currentTimer >= timer)
         {
             // force set mat
-            transform.GetChild(0).GetComponent<Renderer>().material = _newMat;
-            button.transform.GetChild(0).GetComponent<Renderer>().material = _newMat;
-
+            transform.GetChild(0).GetComponent<Renderer>().material = newMat;
+            thisButton.transform.GetChild(0).GetComponent<Renderer>().material = newMat;
 
             // Activation
-            active = false;
-            isActive = !isActive;
+            hasToMoveButton = false;
+            doCommand = true;
+            isActivating = true;
+        }
+    }
+    public void DesactivateButton()
+    {
+        currentTimer += Time.deltaTime;
 
-            // would need to rethink this
-            if ( isActive)
-                door.SetActive(!isActive);
+        // lerp position and mat
+        thisButton.transform.localPosition = Vector3.Lerp(posArrive, posOrigin, currentTimer / timer);
+        transform.GetChild(0).GetComponent<Renderer>().material.Lerp(newMat, mat, currentTimer / timer);
+        thisButton.transform.GetChild(0).GetComponent<Renderer>().material.Lerp(newMat, mat, currentTimer / timer);
+
+        if (currentTimer >= timer)
+        {
+            // force set mat
+            transform.GetChild(0).GetComponent<Renderer>().material = mat;
+            thisButton.transform.GetChild(0).GetComponent<Renderer>().material = mat; ;
+
+            // Activation
+            hasToMoveButton = false;
+            doCommand = true;
+
+            isActivating = false;
         }
     }
 }
