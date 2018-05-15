@@ -82,9 +82,6 @@ public class CostArea : MonoBehaviour {
         {
             GameObject rewardFeedback = Instantiate(rewardPrefab, rewardPreview);
             rewardFeedback.transform.localPosition = Vector3.zero;
-            // TODO: UGLY, tweak the feedback a bit instead (may be hard for position as the pivot point for hammer is not centered)
-            rewardFeedback.transform.localPosition += Vector3.up * 2.0f;
-            rewardPreview.localScale = Vector3.one * 0.5f;
         }
         else
         {
@@ -125,7 +122,6 @@ public class CostArea : MonoBehaviour {
                 // to avoid checking at each frame if a -1 minigame have been unlocked
                 isActive = false;
             }
-
             else if (mgData.nbRunesToUnlock <= GameManager.Instance.Runes)
             {
                 // Force unlock if not already ( case at runtime )
@@ -172,7 +168,11 @@ public class CostArea : MonoBehaviour {
         // Replace by the child
         costText.transform.parent.gameObject.SetActive(false);
         //rewardPreview.gameObject.SetActive(false);
-        rewardPreview.transform.localPosition += new Vector3(0.0f, 1.0f, 0.0f);
+        if (DatabaseManager.Db.GetRuneFromMinigame(minigameType, minigameVersion).isUnlocked)
+            rewardPreview.gameObject.SetActive(false);
+        else
+            rewardPreview.transform.localPosition = Vector3.up * rewardPreview.transform.localPosition.y;
+
         isActiveParticles.gameObject.SetActive(true);
         teleporter.GetComponent<TeleporterToMinigame>().isTeleporterActive = true;
     }
