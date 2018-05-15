@@ -128,18 +128,18 @@ public static class PNJDialogUtils {
         "Here's another one\n" +
         "How do think the unthinkable?\n" +
         "With an itheberg!\n" +
-        "You know, like the Titanic!\n" +
+        "You know, like the Titanic! The unSINKable!\n" +
         "How good was this one?!#" +
 
         "Okay, a better one\n" +
         "What do you call a belt made out of watches?\n" +
         "A waist of time!#" +
 
-        "I sold my vacuum the other day…\n" +
+        "I sold my vacuum the other day...\n" +
         "all it was doing was collecting dust!#" +
 
-        "What do you call a guy with a rubber toe?\n" +
-        "Roberto!#" + 
+        "How much does a skeleton weigh?\n" +
+        "A skeleTON!#" + 
 
         "What is invisible and smells like carrots?\n" +
         "Rabbit farts!#" +
@@ -167,6 +167,9 @@ public static class PNJDialogUtils {
         "Did you hear about the restaurant on the moon?\n" +
         "Great food, but no atmosphere.#" +
 
+        "Why don't dinosaurs talk?\n" +
+        "Because they're extinct.#" +
+
         "Why did the scarecrow get promoted?\n" +
         "He was outstanding in his field!#" +
 
@@ -181,7 +184,7 @@ public static class PNJDialogUtils {
         "I'm reading a book about anti-gravity,\n" +
         "it's impossible to put down!#" +
 
-        // 16
+        // 17
         "You're such a good person!\n" +
         "...\n" +
         "...\n" +
