@@ -54,10 +54,10 @@ public class PNJMessage : MonoBehaviour {
         BbuttonShown[playerIndex].SetActive(true);
     }
 
-    public void OnExitTrigger(int playerIndex)
+    public bool OnExitTrigger(int playerIndex)
     {
         if (myCharacter.dialogState == DialogState.Dialog)
-            return;
+            return false;
 
         if (Message[playerIndex])
             Message[playerIndex].SetActive(false);
@@ -65,6 +65,8 @@ public class PNJMessage : MonoBehaviour {
 
         if (BbuttonShown[playerIndex])
             BbuttonShown[playerIndex].SetActive(false);
+
+        return true;
     }
 
     public void DisplayMessage(int playerIndex)

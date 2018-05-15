@@ -56,8 +56,8 @@ public class HubMinigameTrigger : MonoBehaviour
 
                 if (defaultmessage)
                 {
-                    other.GetComponent<Player>().RefMessage = null;
-                    defaultmessage.OnExitTrigger((int)other.GetComponent<PlayerController>().PlayerIndex);
+                    if( defaultmessage.OnExitTrigger((int)other.GetComponent<PlayerController>().PlayerIndex))
+                        other.GetComponent<Player>().RefMessage = null;
                 }
             }
     }
