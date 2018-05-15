@@ -259,7 +259,7 @@ public class GameManager : MonoBehaviour {
                         curPlayerCharacter.PlayerState = curPlayerCharacter.pausedState;
                     }
                 }
-                
+                Time.timeScale = 0;
             }
         }
 
@@ -269,7 +269,7 @@ public class GameManager : MonoBehaviour {
             {
                 if (pauseMenuReference == null)
                     return;
-
+                Time.timeScale = 1;
                 currentState = GameState.Normal;
                 pauseMenuReference.gameObject.SetActive(false);
                 UiReference.TooglePersistenceUI(false);

@@ -12,7 +12,7 @@ public class UiFadeInAndOut : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-        timer += Time.deltaTime;
+        timer += Time.unscaledDeltaTime;
         if (timer > duration)
         {
             Destroy(this.gameObject);

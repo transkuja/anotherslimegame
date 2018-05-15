@@ -234,7 +234,7 @@ public class UI : MonoBehaviour {
         while(timer < seconds)
         {
             yield return null;
-            timer += Time.deltaTime;
+            timer += Time.unscaledDeltaTime;
             foreach(Image i in images)
             {
                 i.color = new Color(i.color.r, i.color.g, i.color.b, Mathf.Lerp(0.0f, 1.0f, timer / seconds));
@@ -256,7 +256,7 @@ public class UI : MonoBehaviour {
         while (timer < seconds)
         {
             yield return null;
-            timer += Time.deltaTime;
+            timer += Time.unscaledDeltaTime;
             foreach (Image i in images)
             {
                 i.color = new Color(i.color.r, i.color.g, i.color.b, Mathf.Lerp(1.0f, 0.0f, timer / seconds));
