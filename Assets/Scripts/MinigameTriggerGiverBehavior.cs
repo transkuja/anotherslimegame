@@ -291,10 +291,8 @@ public class MinigameTriggerGiverBehavior : PNJDefaultBehavior
         GetComponent<PNJMessage>().myCharacter.dialogState = DialogState.Dialog;
    
         GetComponent<PNJMessage>().Message[0].SetActive(true);
-        GetComponent<PNJMessage>().currentMessage = 0;
         GetComponent<PNJMessage>().NextMessage(0);
 
-        yield return new WaitForSeconds(1.0f);
         hasWin = true;
         InactiveCustomzable(rewardType);
         rewards[0].GetReward();

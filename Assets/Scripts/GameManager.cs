@@ -332,7 +332,7 @@ public class GameManager : MonoBehaviour {
     {
         finalTimerInitialized = false;
         isTimeOver = true;
-        if(UiReference.TimerText == null)
+        if(UiReference.TimerText)
             UiReference.TimerText.gameObject.SetActive(false);
     }
 

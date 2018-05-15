@@ -6,10 +6,9 @@ public class BreakEventPot : CollectEvent {
 
     public override void OnCollectEvent(Player playerTarget)
     {     
-        SpawnChief();
     }
 
-    void SpawnChief()
+    public void SpawnChief()
     {
         GetComponentInChildren<SneakyChiefPot>().sneakyChiefReference.SetActive(true);
     }

@@ -31,6 +31,11 @@ public class Breakable : MonoBehaviour {
                 )
            )
         {
+            if (GetComponent<BreakEventPot>())
+            {
+                GetComponent<BreakEventPot>().SpawnChief();
+            }
+
             // Specific case wall breakable
             if (GetComponent<Animation>() && !_playerCharacterHub.GetComponent<EvolutionStrength>())
                 return;
