@@ -20,7 +20,8 @@ public static class MinigameDataUtils
     private static string SnowKartTitle = "Snow Kart";
     private static string FruitTitle = "Classic Fruits";
     private static string FruitTitle2 = "Super Fruits";
-    private static string ClassicClashTitle = "Classic Clash";
+    private static string ClashWithSpikesTitle = "Trapped Clash";
+    private static string ClashWithPotsTitle = "Clash";
     private static string SuperRunnerTitle = "Super Runner";
     private static string FoodTitle = "Eat Them All";
     private static string FoodTitleV2 = "Eat Them Faster";
@@ -70,7 +71,9 @@ public static class MinigameDataUtils
         }
         else if (curGameMode is PushGameMode)
         {
-            return ClassicClashTitle;
+            if (_version == 1)
+                return ClashWithPotsTitle;
+            return ClashWithSpikesTitle;
         }
         else if (curGameMode is FoodGameMode)
         {
@@ -136,7 +139,11 @@ public static class MinigameDataUtils
         }
         else if (_minigameId == "MinigamePush")
         {
-            return ClassicClashTitle;
+            return ClashWithSpikesTitle;
+        }
+        else if (_minigameId == "MinigamePush 1")
+        {
+            return ClashWithPotsTitle;
         }
         else if (_minigameId == "MinigameFood")
         {
@@ -174,11 +181,14 @@ public static class MinigameDataUtils
             if(curGameMode.minigameVersion == 0)
                 return "Collect balls of your color\n Beware : Fruits rot in the time\n";
             else
-                return "Collect balss of your color\n Beware : Ground is moving\n";
+                return "Collect balls of your color\n Beware : Ground is moving\n";
         }
         else if (curGameMode is PushGameMode)
         {
-            return "Steal other players' coins!";
+            if (curGameMode.minigameVersion == 0)
+                return "Steal other players' coins!";
+            else
+                return "Break the vases and steal other players' coins!";
         }
         else if (curGameMode is FoodGameMode)
         {

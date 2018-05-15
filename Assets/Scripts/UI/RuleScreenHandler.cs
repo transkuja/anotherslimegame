@@ -175,7 +175,7 @@ public class MinigameRules
     public List<ControlDetails> controls = new List<ControlDetails>();
     public List<PossiblePickup> possiblePickups = new List<PossiblePickup>();
 
-    public MinigameRules(GameMode _curGameMode, int _version = 0)
+    public MinigameRules(GameMode _curGameMode, int _version)
     {
         title = MinigameDataUtils.GetTitle(_curGameMode, _version);
         howToPlay = MinigameDataUtils.GetDescription(_curGameMode, _version);
