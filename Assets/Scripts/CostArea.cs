@@ -165,16 +165,21 @@ public class CostArea : MonoBehaviour {
     {
         isActive = false;
         teleporter.GetComponent<Renderer>().material.EnableKeyword("_EMISSION");
-        teleporter.GetComponent<Renderer>().material.SetColor("_EmissionColor", isActiveColor);
         teleporter.GetComponent<TeleporterToMinigame>().TeleportToMinigame(minigameIdFromDatabase, minigameVersion);
 
         // Replace by the child
         costText.transform.parent.gameObject.SetActive(false);
         //rewardPreview.gameObject.SetActive(false);
         if (DatabaseManager.Db.GetRuneFromMinigame(minigameType, minigameVersion).isUnlocked)
+        {
             rewardPreview.gameObject.SetActive(false);
+            teleporter.GetComponent<Renderer>().material.SetColor("_EmissionColor", isActiveColor * 0.66f);
+        }
         else
+        {
+            teleporter.GetComponent<Renderer>().material.SetColor("_EmissionColor", isActiveColor);
             rewardPreview.transform.localPosition = Vector3.up * rewardPreview.transform.localPosition.y;
+        }
 
         isActiveParticles.gameObject.SetActive(true);
         teleporter.GetComponent<TeleporterToMinigame>().isTeleporterActive = true;
