@@ -37,6 +37,9 @@ public class ButtonTrigger : MonoBehaviour {
     // Options
     public bool isABackAndForthAction = false;
     public bool hasToResetAutomatically = false;
+    public bool hasToLockAfterActivation = false;
+
+    private bool isLock = false;
 
     public void Start()
     {
@@ -58,6 +61,9 @@ public class ButtonTrigger : MonoBehaviour {
 
     private void OnTriggerEnter(Collider collider)
     {
+        if (hasToLockAfterActivation && isLock)
+            return;
+
         if (!hasToMoveButton && (!isActivating || isABackAndForthAction))
         {
             if (collider.gameObject.GetComponent<Player>())
@@ -124,6 +130,7 @@ public class ButtonTrigger : MonoBehaviour {
                 {
                     activable[i].Active(true);
                 }
+                isLock = true;
             }
         }
 
