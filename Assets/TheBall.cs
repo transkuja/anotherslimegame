@@ -36,7 +36,14 @@ public class TheBall : MonoBehaviour {
                 // play hit particles
                 ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles).GetItem(null, transform.position + 3.0f * Vector3.up + direction * 2, Quaternion.identity, true, false, (int)HitParticles.HitStar);
 
-                rb.AddForce(7000 * direction * Time.deltaTime, ForceMode.Impulse);
+                rb.AddForce(200 * direction, ForceMode.Impulse);
+
+                //Set vibrations
+                UWPAndXInput.GamePad.VibrateForSeconds(pch.GetComponent<PlayerController>().playerIndex, 0.8f, 0.8f, .1f);
+
+
+                if (AudioManager.Instance != null && AudioManager.Instance.punchFx != null)
+                    AudioManager.Instance.PlayOneShot(AudioManager.Instance.punchFx);
             }
         }
     }
