@@ -181,6 +181,12 @@ public class PlayerCosmetics : MonoBehaviour {
                     DatabaseManager.LoadDb();
 
                 DatabaseClass.SkinData data = ((DatabaseClass.SkinData)DatabaseManager.Db.GetDataFromId<DatabaseClass.SkinData>(skin));
+                if (data == null)
+                {
+                    Debug.LogWarning("Can't find data of " + skin + " in the database");
+                    skin = "None";
+                    return;
+                }
                 bodyTexture = Resources.Load(data.texture) as Texture;
                 SkinType = SkinType.Texture;
             }
@@ -262,12 +268,17 @@ public class PlayerCosmetics : MonoBehaviour {
             }
             while (mustacheTransform.childCount > 0)
                 DestroyImmediate(mustacheTransform.GetChild(0).gameObject);
-            if (mustache != "None" && mustache != string.Empty)
+            if (Mustache != "None" && Mustache != string.Empty)
             {
                 if (DatabaseManager.Db == null)
                     DatabaseManager.LoadDb();
                 DatabaseClass.MustacheData data = ((DatabaseClass.MustacheData)DatabaseManager.Db.GetDataFromId<DatabaseClass.MustacheData>(mustache));
-                
+                if(data == null)
+                {
+                    Debug.LogWarning("Can't find data of " + mustache + " in the database");
+                    mustache = "None";
+                    return;
+                }
                 ICustomizable mustacheCustom = ((GameObject)Instantiate(Resources.Load(data.model), mustacheTransform)).GetComponent<ICustomizable>();
                 mustacheCustom.Init(GetComponentInParent<Rigidbody>());
             }
@@ -303,6 +314,13 @@ public class PlayerCosmetics : MonoBehaviour {
                     DatabaseManager.LoadDb();
 
                 DatabaseClass.HatData data = ((DatabaseClass.HatData)DatabaseManager.Db.GetDataFromId<DatabaseClass.HatData>(hat));
+                if (data == null)
+                {
+                    Debug.LogWarning("Can't find data of " + hat + " in the database");
+                    hat = "None";
+                    return;
+                }
+
                 ICustomizable hatCustom = ((GameObject)Instantiate(Resources.Load(data.model), hatTransform)).GetComponent<ICustomizable>();
                 hatCustom.Init(GetComponentInParent<Rigidbody>());
                 
@@ -350,6 +368,14 @@ public class PlayerCosmetics : MonoBehaviour {
                     DatabaseManager.LoadDb();
 
                 DatabaseClass.EarsData data = ((DatabaseClass.EarsData)DatabaseManager.Db.GetDataFromId<DatabaseClass.EarsData>(ears));
+
+                if (data == null)
+                {
+                    Debug.LogWarning("Can't find data of " + ears + " in the database");
+                    ears = "None";
+                    return;
+                }
+
                 ICustomizable earCustom = ((GameObject)Instantiate(Resources.Load(data.model), earsTransform)).GetComponent<ICustomizable>();
                 earCustom.Init(GetComponentInParent<Rigidbody>());
                 InitEarsMats();
@@ -397,6 +423,13 @@ public class PlayerCosmetics : MonoBehaviour {
                     DatabaseManager.LoadDb();
 
                 DatabaseClass.AccessoryData data = ((DatabaseClass.AccessoryData)DatabaseManager.Db.GetDataFromId<DatabaseClass.AccessoryData>(accessory));
+                if (data == null)
+                {
+                    Debug.LogWarning("Can't find data of " + accessory + " in the database");
+                    accessory = "None";
+                    return;
+                }
+
                 ICustomizable accessoryCustom = ((GameObject)Instantiate(Resources.Load(data.model), accessoryTransform)).GetComponent<ICustomizable>();
                 accessoryCustom.Init(GetComponentInParent<Rigidbody>());
             }
@@ -431,6 +464,12 @@ public class PlayerCosmetics : MonoBehaviour {
                     DatabaseManager.LoadDb();
 
                 DatabaseClass.ForeheadData data = ((DatabaseClass.ForeheadData)DatabaseManager.Db.GetDataFromId<DatabaseClass.ForeheadData>(forehead));
+                if (data == null)
+                {
+                    Debug.LogWarning("Can't find data of " + forehead + " in the database");
+                    forehead = "None";
+                    return;
+                }
                 ICustomizable foreheadCustom = ((GameObject)Instantiate(Resources.Load(data.model), foreheadTransform)).GetComponent<ICustomizable>();
                 foreheadCustom.Init(GetComponentInParent<Rigidbody>());
             }
@@ -467,6 +506,7 @@ public class PlayerCosmetics : MonoBehaviour {
                 DatabaseClass.ChinData data = ((DatabaseClass.ChinData)DatabaseManager.Db.GetDataFromId<DatabaseClass.ChinData>(chin));
                 if(data == null)
                 {
+                    Debug.LogWarning("Can't find data of " + chin + " in the database");
                     chin = "None";
                     return;
                 }
