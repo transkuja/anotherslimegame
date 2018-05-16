@@ -226,7 +226,6 @@ public class EnnemyController : MonoBehaviour {
         rb.constraints = RigidbodyConstraints.None;
         rb.drag = 0.2f;
         isDead = true;
-        Destroy(feedbackenemy);
         GetComponentInChildren<PlayerCosmetics>().FaceEmotion = FaceEmotion.Hit;
     }
 
@@ -253,7 +252,8 @@ public class EnnemyController : MonoBehaviour {
             // Force end state
             GetComponentInChildren<Animator>().SetBool("isExpulsed", false);
             GetComponentInChildren<Animator>().Play("Idle");
-            transform.GetChild(0).rotation = Quaternion.identity;
+            GetComponentInChildren<Animator>().enabled = false;
+            
             playerCharacterHub.PlayerState = playerCharacterHub.freeState;
             ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles).GetItem(null, transform.position + 3.0f * Vector3.up, Quaternion.identity, true, false, (int)HitParticles.BigHit);
             this.gameObject.SetActive(false);
@@ -277,11 +277,18 @@ public class EnnemyController : MonoBehaviour {
 
     public void Reactivate()
     {
-   CurrentState = RabiteState.Wander;
+        transform.position = zonePosition;
+        CurrentState = RabiteState.Wander;
         isDead = false;
-        GetComponentInChildren<Animator>();
-        transform.position = zonePosition+ Vector3.up;
-        transform.rotation = Quaternion.identity;
+        rb.constraints = RigidbodyConstraints.FreezeRotation;
+        rb.drag = 2f;
+        transform.GetChild(0).localPosition = new Vector3(0f, .6f, 0f);
+        transform.GetChild(0).localRotation = Quaternion.identity;
+        transform.GetChild(0).localScale = Vector3.one;
+        GetComponentInChildren<PlayerCosmetics>().Ears = "Ears1";
+        transform.GetChild(0).GetComponentInChildren<TwoPartEarsCustomizable>().Init(rb);
+        GetComponentInChildren<Animator>().enabled = true;
+        GetComponentInChildren<PlayerCosmetics>().FaceEmotion = FaceEmotion.Neutral;
         ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles).GetItem(null, transform.position + 3.0f * Vector3.up, Quaternion.identity, true, false, (int)HitParticles.BigHit);
         
         this.gameObject.SetActive(true);
