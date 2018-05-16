@@ -64,6 +64,12 @@ public class Menu : MonoBehaviour {
     private float currentTimerBeforeStartingVideo = 0.0f;
     private bool isPlayingAVideo = false;
 
+    MinigameType selectedMinigameType;
+    bool minigameTypeSelected = false;
+
+    [SerializeField]
+    GameObject minigameVersionUIPrefab;
+
     public SlimeDataContainer DataContainer
     {
         get
@@ -120,6 +126,8 @@ public class Menu : MonoBehaviour {
 
     private void Start()
     {
+        minigameTypeSelected = false;
+
         // Deactivate debug tools in menu
         if (ResourceUtils.Instance != null && ResourceUtils.Instance.debugTools != null)
             ResourceUtils.Instance.debugTools.ActivateDebugMode();
@@ -345,8 +353,17 @@ public class Menu : MonoBehaviour {
                 {
                     if (selectedMode == 1 && currentState == MenuState.MinigameSelection)
                     {
-                        GoToNextStateFromMinigameSelection();
-                        return;
+                        if (!minigameTypeSelected)
+                        {
+                            selectedMinigameType = (MinigameType)minigameCurrentCursor;
+                            minigameTypeSelected = true;
+                            ShowMinigamesOfType(selectedMinigameType);
+                        }
+                        else
+                        {
+                            GoToNextStateFromMinigameSelection();
+                            return;
+                        }
                     }
                 }
             }
@@ -358,29 +375,67 @@ public class Menu : MonoBehaviour {
         }
 
         // Video player
-        if (!isPlayingAVideo && selectedMode == 1 && currentState == MenuState.MinigameSelection)
-        {
-            if (minigames[minigameCurrentCursor][minigameCurrentVerticalCursor].isUnlocked && minigames[minigameCurrentCursor][minigameCurrentVerticalCursor].videoPreview != "")
-            {
-                currentTimerBeforeStartingVideo += Time.deltaTime;
-                if (currentTimerBeforeStartingVideo > timerBeforeStartingVideo)
-                {
-                    VideoPlayer vp = transform.GetChild((int)MenuState.MinigameSelection)
-                        .GetChild(2).GetComponent<MinigameSelectionAnim>().GetComponentInChildren<VideoPlayer>();
+        //if (!isPlayingAVideo && selectedMode == 1 && currentState == MenuState.MinigameSelection && minigameTypeSelected)
+        //{
+        //    if (minigames[minigameCurrentCursor][minigameCurrentVerticalCursor].isUnlocked && minigames[minigameCurrentCursor][minigameCurrentVerticalCursor].videoPreview != "")
+        //    {
+        //        currentTimerBeforeStartingVideo += Time.deltaTime;
+        //        if (currentTimerBeforeStartingVideo > timerBeforeStartingVideo)
+        //        {
+        //            VideoPlayer vp = transform.GetChild((int)MenuState.MinigameSelection)
+        //                .GetChild(2).GetComponent<MinigameSelectionAnim>().GetComponentInChildren<VideoPlayer>();
 
-                    transform.GetChild((int)MenuState.MinigameSelection)
-                    .GetChild(2).GetChild(2).GetComponentInChildren<RawImage>().enabled = true;
+        //            transform.GetChild((int)MenuState.MinigameSelection)
+        //            .GetChild(2).GetChild(2).GetComponentInChildren<RawImage>().enabled = true;
 
-                    if (vp)
-                    {
-                        vp.Play();
-                        isPlayingAVideo = true;
-                    }
+        //            if (vp)
+        //            {
+        //                vp.Play();
+        //                isPlayingAVideo = true;
+        //            }
 
-                }
+        //        }
            
-            }
+        //    }
+        //}
+    }
+
+    private void ShowMinigamesOfType(MinigameType _type)
+    {
+        for (int i = 0; i < (int)MinigameType.Size; i++)
+        {
+            if (i == (int)_type)
+                continue;
+
+            transform.GetChild((int)MenuState.MinigameSelection).GetChild(1).GetChild(i).GetComponent<MinigameSelectionAnim>().Hide();
         }
+
+        //for (int i = 0; i < transform.GetChild((int)MenuState.MinigameSelection).GetChild(2).childCount; i++)
+        //    DestroyImmediate(transform.GetChild((int)MenuState.MinigameSelection).GetChild(2).GetChild(i).gameObject);
+
+        for (int i = 0; i < minigames[(int)_type].Length; i++)
+        {
+            GameObject _newButton = Instantiate(minigameVersionUIPrefab, transform.GetChild((int)MenuState.MinigameSelection).GetChild(2));
+            _newButton.GetComponent<MinigameSelectionAnim>().SetMinigame(minigames[(int)_type][i]);
+
+            _newButton.transform.localPosition = Vector3.right * 250.0f + Vector3.up * ((minigames[(int)_type].Length * 25 - 25) - (50 * i));
+            _newButton.transform.localScale = Vector3.one;
+        }
+    }
+
+    void ReturnToMinigameTypeSelection()
+    {
+        for (int i = 0; i < (int)MinigameType.Size; i++)
+        {
+            if (i == minigameCurrentCursor)
+                continue;
+
+            transform.GetChild((int)MenuState.MinigameSelection).GetChild(1).GetChild(i).GetComponent<MinigameSelectionAnim>().Show();
+        }
+
+        Debug.Log(transform.GetChild((int)MenuState.MinigameSelection).GetChild(2).childCount);
+        for (int i = 0; i < transform.GetChild((int)MenuState.MinigameSelection).GetChild(2).childCount; i++)
+            Destroy(transform.GetChild((int)MenuState.MinigameSelection).GetChild(2).GetChild(i).gameObject);
     }
 
     private void DefaultCursorControls()
@@ -533,13 +588,13 @@ public class Menu : MonoBehaviour {
             || (Input.GetKeyDown(KeyCode.D) || (Input.GetKeyDown(KeyCode.RightArrow)))
             )
         {
-            minigameCurrentCursor++;
-            minigameCurrentCursor %= minigames.Count;
+            if (minigameCurrentCursor < (int)MinigameType.Size -1)
+            {
+                minigameCurrentCursor++;
+                minigameCurrentCursor %= (int)MinigameType.Size;
 
-            // =======================================
-            minigameCurrentVerticalCursor = 0;
-
-            UpdateMinigameSelection();
+                UpdateMinigameSelection(minigameCurrentCursor - 1);
+            }
         }
         else if ((controllerStates[0].ThumbSticks.Left.X < -0.5f && prevControllerStates[0].ThumbSticks.Left.X > -0.5f)
             // Keyboard input
@@ -548,84 +603,86 @@ public class Menu : MonoBehaviour {
         {
             minigameCurrentCursor--;
 
-            // =======================================
-            minigameCurrentVerticalCursor = 0;  
-
             if (minigameCurrentCursor < 0)
-                minigameCurrentCursor = minigames.Count - 1;
+                minigameCurrentCursor = 0;
             else
-                minigameCurrentCursor %= minigames.Count;
-
-            UpdateMinigameSelection();
+                UpdateMinigameSelection(minigameCurrentCursor + 1);
         }
-
-        // Remi
 
         if ((controllerStates[0].ThumbSticks.Left.Y > 0.5f && prevControllerStates[0].ThumbSticks.Left.Y < 0.5f)
            // Keyboard input
            || (Input.GetKeyDown(KeyCode.Z) || (Input.GetKeyDown(KeyCode.UpArrow)))
            )
         {
-            minigameCurrentVerticalCursor++;
-            minigameCurrentVerticalCursor %= minigames[minigameCurrentCursor].Length;
-
-            UpdateMinigameSelection();
+            if (minigameTypeSelected)
+            {
+                minigameCurrentVerticalCursor++;
+                minigameCurrentVerticalCursor %= minigames[minigameCurrentCursor].Length;
+            }
+            else
+            {
+                if (minigameCurrentCursor >= (int)MinigameType.Size / 2)
+                {
+                    minigameCurrentCursor -= (int)MinigameType.Size / 2;
+                    UpdateMinigameSelection(minigameCurrentCursor + (int)MinigameType.Size / 2);
+                }
+            }
         }
         else if ((controllerStates[0].ThumbSticks.Left.Y < -0.5f && prevControllerStates[0].ThumbSticks.Left.Y > -0.5f)
             // Keyboard input
             || (Input.GetKeyDown(KeyCode.S) || (Input.GetKeyDown(KeyCode.DownArrow)))
             )
         {
-            minigameCurrentVerticalCursor--;
-            if (minigameCurrentVerticalCursor < 0)
-                minigameCurrentVerticalCursor = minigames[minigameCurrentCursor].Length - 1;
+            if (minigameTypeSelected)
+            {
+                minigameCurrentVerticalCursor--;
+                if (minigameCurrentVerticalCursor < 0)
+                    minigameCurrentVerticalCursor = minigames[minigameCurrentCursor].Length - 1;
+                else
+                    minigameCurrentVerticalCursor %= minigames[minigameCurrentCursor].Length;
+            }
             else
-                minigameCurrentVerticalCursor %= minigames[minigameCurrentCursor].Length;
-
-            UpdateMinigameSelection();
+            {
+                Debug.Log(minigameCurrentCursor);
+                if (minigameCurrentCursor < (int)MinigameType.Size / 2)
+                {
+                    minigameCurrentCursor += (int)MinigameType.Size / 2;
+                    UpdateMinigameSelection(minigameCurrentCursor - (int)MinigameType.Size / 2);
+                }
+            }
+            //UpdateMinigameSelection();
         }
     }
 
-    private void UpdateMinigameSelection()
+    private void UpdateMinigameSelection(int _oldValue)
     {
         if (AudioManager.Instance != null && AudioManager.Instance.changeOptionFx != null)
             AudioManager.Instance.PlayOneShot(AudioManager.Instance.changeOptionFx);
 
+        transform.GetChild((int)MenuState.MinigameSelection).GetChild(1).GetChild(_oldValue).GetComponent<MinigameSelectionAnim>().IsSelected(false);
+
         // Currently selected
-        transform.GetChild((int)MenuState.MinigameSelection)
-                .GetChild(2).GetComponent<MinigameSelectionAnim>().SetMinigame(minigames[minigameCurrentCursor][minigameCurrentVerticalCursor]);
+        transform.GetChild((int)MenuState.MinigameSelection).GetChild(1).GetChild(minigameCurrentCursor).GetComponent<MinigameSelectionAnim>().IsSelected(true);
+            //SetMinigame(minigames[minigameCurrentCursor][minigameCurrentVerticalCursor]);
 
-        // stop previous video player
-        transform.GetChild((int)MenuState.MinigameSelection)
-         .GetChild(2).GetChild(2).GetComponentInChildren<RawImage>().enabled = false;
+        //// stop previous video player
+        //transform.GetChild((int)MenuState.MinigameSelection)
+        // .GetChild(2).GetChild(2).GetComponentInChildren<RawImage>().enabled = false;
 
-        VideoPlayer vp = transform.GetChild((int)MenuState.MinigameSelection)
-            .GetChild(2).GetComponent<MinigameSelectionAnim>().GetComponentInChildren<VideoPlayer>();
+        //VideoPlayer vp = transform.GetChild((int)MenuState.MinigameSelection)
+        //    .GetChild(2).GetComponent<MinigameSelectionAnim>().GetComponentInChildren<VideoPlayer>();
 
-        if (vp && vp.isPlaying)
-        {
-            isPlayingAVideo = false;
-            vp.Stop();
-        }
+        //if (vp && vp.isPlaying)
+        //{
+        //    isPlayingAVideo = false;
+        //    vp.Stop();
+        //}
 
         // Restart timer
-        if (minigames[minigameCurrentCursor][minigameCurrentVerticalCursor].videoPreview != "")
-        {
-            currentTimerBeforeStartingVideo = 0.0f;
-        }
-
-        // Previous
-        int previousMinigameIndex = minigameCurrentCursor - 1;
-        if (previousMinigameIndex < 0) previousMinigameIndex = minigames.Count - 1;
-        // =============================================
-        transform.GetChild((int)MenuState.MinigameSelection)
-                .GetChild(0).GetComponent<MinigameSelectionAnim>().SetMinigame(minigames[previousMinigameIndex][0]);
-
-
-        // =============================================
-        // Next
-        transform.GetChild((int)MenuState.MinigameSelection)
-                .GetChild(1).GetComponent<MinigameSelectionAnim>().SetMinigame(minigames[(minigameCurrentCursor + 1) % minigames.Count][0]);
+        //if (minigames[minigameCurrentCursor][minigameCurrentVerticalCursor].videoPreview != "")
+        //{
+        //    currentTimerBeforeStartingVideo = 0.0f;
+        //}
     }
 
     // Move the button cursor and highlight it
@@ -961,7 +1018,6 @@ public class Menu : MonoBehaviour {
     public void SetState(MenuState _newState)
     {
         currentCursor = 0;
-        minigameCurrentCursor = 0;
         transform.GetChild((int)currentState).gameObject.SetActive(false);
         currentState = _newState;
         transform.GetChild((int)currentState).gameObject.SetActive(true);
@@ -1063,92 +1119,10 @@ public class Menu : MonoBehaviour {
         if (currentState == MenuState.MinigameSelection)
         {
             CurrentlySelectedButton = null;
-
-            // Currently selected
-            transform.GetChild((int)MenuState.MinigameSelection)
-                    .GetChild(2).GetComponent<MinigameSelectionAnim>().SetMinigame(minigames[0][0]);
-
-            // Previous
-            transform.GetChild((int)MenuState.MinigameSelection)
-                    .GetChild(0).GetComponent<MinigameSelectionAnim>().SetMinigame(minigames[minigames.Count - 1][0]);
-
-            // Next
-            transform.GetChild((int)MenuState.MinigameSelection)
-                    .GetChild(1).GetComponent<MinigameSelectionAnim>().SetMinigame(minigames[Mathf.Min(1, minigames.Count - 1)][0]);
-
-
-            // Adapt players on screen
-            int childCount = transform.GetChild((int)MenuState.MinigameSelection).childCount;
-            for (int i = 0; i < nbPlayers; i++)
-            {
-                PlayerCosmetics curPlayerCosmetics = transform.GetChild((int)MenuState.MinigameSelection).GetChild(childCount - 4 + i).GetComponentInChildren<PlayerCosmetics>(true);
-                curPlayerCosmetics.SetUniqueColor(((DatabaseClass.ColorData)customizables[CustomizableType.Color][selectedCustomizables[(int)CustomizableType.Color, i]]).color);
-                curPlayerCosmetics.FaceType = ((DatabaseClass.FaceData)customizables[CustomizableType.Face][selectedCustomizables[(int)CustomizableType.Face, i]]).indiceForShader;
-
-                // Customizables
-
-                // Mustache //
-                UpdatePlayersOnMinigameSelectionScreen(CustomizableType.Mustache, i, childCount);
-
-                // Ears //
-                UpdatePlayersOnMinigameSelectionScreen(CustomizableType.Ears, i, childCount);
-
-                // Hat //
-                UpdatePlayersOnMinigameSelectionScreen(CustomizableType.Hat, i, childCount);
-
-                // Chin //
-                UpdatePlayersOnMinigameSelectionScreen(CustomizableType.Chin, i, childCount);
-
-                // Skin //
-                UpdatePlayersOnMinigameSelectionScreen(CustomizableType.Skin, i, childCount);
-
-                // Accessory //
-                UpdatePlayersOnMinigameSelectionScreen(CustomizableType.Accessory, i, childCount);
-
-                // Forehead //
-                UpdatePlayersOnMinigameSelectionScreen(CustomizableType.Forehead, i, childCount);
-
-            }
-
-            for (int i = nbPlayers; i < 4; i++)
-            {
-                transform.GetChild((int)MenuState.MinigameSelection).GetChild(childCount - 4 + i).gameObject.SetActive(false);
-            }
-        }
-    }
-
-    void UpdatePlayersOnMinigameSelectionScreen(CustomizableType _type, int _playerIndex, int _childCount)
-    {
-        PlayerCosmetics playerCosmetics = transform.GetChild((int)MenuState.MinigameSelection).GetChild(_childCount - 4 + _playerIndex).GetComponentInChildren<PlayerCosmetics>(true);
-
-        if (selectedCustomizables[(int)_type, _playerIndex] != customizables[_type].Count && customizables[_type].Count > 0)
-        {
-            switch (_type)
-            {
-                case CustomizableType.Mustache:
-                    playerCosmetics.Mustache = ((DatabaseClass.MustacheData)customizables[_type][selectedCustomizables[(int)_type, _playerIndex]]).Id;
-                    break;
-                case CustomizableType.Hat:
-                    playerCosmetics.Hat = ((DatabaseClass.HatData)customizables[_type][selectedCustomizables[(int)_type, _playerIndex]]).Id;
-                    break;
-                case CustomizableType.Ears:
-                    playerCosmetics.Ears = ((DatabaseClass.EarsData)customizables[_type][selectedCustomizables[(int)_type, _playerIndex]]).Id;
-                    break;
-                case CustomizableType.Skin:
-                    playerCosmetics.Skin = ((DatabaseClass.SkinData)customizables[_type][selectedCustomizables[(int)_type, _playerIndex]]).Id;
-                    break;
-                case CustomizableType.Chin:
-                    playerCosmetics.Chin = ((DatabaseClass.ChinData)customizables[_type][selectedCustomizables[(int)_type, _playerIndex]]).Id;
-                    break;
-                case CustomizableType.Forehead:
-                    playerCosmetics.Forehead = ((DatabaseClass.ForeheadData)customizables[_type][selectedCustomizables[(int)_type, _playerIndex]]).Id;
-                    break;
-                case CustomizableType.Accessory:
-                    playerCosmetics.Accessory = ((DatabaseClass.AccessoryData)customizables[_type][selectedCustomizables[(int)_type, _playerIndex]]).Id;
-                    break;
-                default:
-                    break;
-            }
+            // MINIGAMES TYPE
+            int oldValue = minigameCurrentCursor;
+            minigameCurrentCursor = 0;
+            UpdateMinigameSelection(oldValue);
         }
     }
 
@@ -1210,6 +1184,15 @@ public class Menu : MonoBehaviour {
         if (AudioManager.Instance != null && AudioManager.Instance.buttonValidationFx != null)
             AudioManager.Instance.PlayOneShot(AudioManager.Instance.buttonValidationFx);
 
+        if (currentState == MenuState.MinigameSelection)
+        {
+            if (minigameTypeSelected)
+            {
+                minigameTypeSelected = false;
+                ReturnToMinigameTypeSelection();
+                return;
+            }
+        }
         // In Mode selection -> Go to tile
         if (currentState == MenuState.ModeSelection)
         {
