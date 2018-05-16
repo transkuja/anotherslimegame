@@ -197,6 +197,112 @@ public static class PNJDialogUtils {
         "Take this shiny thing I found the other day while I was fleeing from angry rabbits!"
     ;
 
+
+
+    // Remi
+    static string RemiDM = "Miaou!!\n"
+       + "I like add new thing in this world, like rabbit, butterfly or some decorations\n"
+       + "Even if some people are not really agree with that\n"
+       + "Meow!!.";
+    static FaceEmotion[] RemiDE = new FaceEmotion[4] { FaceEmotion.Neutral, FaceEmotion.Winner, FaceEmotion.Attack, FaceEmotion.Neutral };
+    /*static string RemiQM = ""
+    ;
+
+    static FaceEmotion[] RemiQE = new FaceEmotion[3] {
+        FaceEmotion.Neutral, FaceEmotion.Neutral, FaceEmotion.Winner
+    };*/
+
+
+
+    // Antho
+    static string AnthoDM = "I am going to try to frighten you\n"
+       + "Boouuuhh!!\n"
+       + "Frightening, isn' t it? No, I retry !\n"
+       + "Boooooooouuuuuuuuhhhhhh!!\n"
+       + "Not yet ? \n"
+       + "BOOOUUUHHHH!!\n"
+       + "Last try !"
+       + "BOOOOOOOOOOOUUUUUUUUUHHHHHHH!!\n"
+       + "YEAH !! I managed to frighten you !!!!!.";
+    static FaceEmotion[] AnthoDE = new FaceEmotion[1] { FaceEmotion.Attack };
+    /*static string AnthoQM = ""
+    ;
+
+    static FaceEmotion[] AnthoQE = new FaceEmotion[3] {
+        FaceEmotion.Neutral, FaceEmotion.Neutral, FaceEmotion.Winner
+    };*/
+
+
+    // Olivier
+    static string OlivierDM = "I have worked in this project\n"
+       + "But now I'm in internship\n"
+       + "And I think I miss the most interesting part of this project.";
+    static FaceEmotion[] OlivierDE = new FaceEmotion[3] { FaceEmotion.Hit, FaceEmotion.Neutral, FaceEmotion.Loser };
+    /*static string OlivierQM = ""
+    ;
+
+    static FaceEmotion[] OlivierQE = new FaceEmotion[3] {
+        FaceEmotion.Neutral, FaceEmotion.Neutral, FaceEmotion.Winner
+    };*/
+
+
+    // Anais
+    static string AnaisDM = "I love make a lot of customizable\n"
+       + "Espacially hats.";
+    static FaceEmotion[] AnaisDE = new FaceEmotion[1] { FaceEmotion.Winner };
+    /*static string AnaisQM = ""
+    ;
+
+    static FaceEmotion[] AnaisQE = new FaceEmotion[3] {
+        FaceEmotion.Neutral, FaceEmotion.Neutral, FaceEmotion.Winner
+    };*/
+
+
+
+    // Seb
+    static string SebDM = "Arf .... I lost my color fade script\n"
+       + "But don't worry about this\n"
+       + "I will make a new one.";
+    static FaceEmotion[] SebDE = new FaceEmotion[3] { FaceEmotion.Loser, FaceEmotion.Neutral, FaceEmotion.Winner };
+    /*static string SebQM = ""
+    ;
+
+    static FaceEmotion[] SebQE = new FaceEmotion[3] {
+        FaceEmotion.Neutral, FaceEmotion.Neutral, FaceEmotion.Winner
+    };*/
+
+
+    // Mathieu
+    static string MathieuDM = "Do you know what is my favorite animal ?\n"
+       + "No ? I'ill give you a hint.\n"
+       + "Aaaaooouuuhhhh!!\n"
+       + "You find it, don't you ?\n"
+       + "Yes, it is wolf. Good answer.";
+    static FaceEmotion[] MathieuDE = new FaceEmotion[5] { FaceEmotion.Neutral, FaceEmotion.Loser, FaceEmotion.Neutral, FaceEmotion.Attack, FaceEmotion.Winner };
+    /*static string MathieuQM = ""
+    ;
+
+    static FaceEmotion[] MathieuQE = new FaceEmotion[3] {
+        FaceEmotion.Neutral, FaceEmotion.Neutral, FaceEmotion.Winner
+    };*/
+
+
+    // Theo
+    static string TheoDM = "You know about my friend Mel ?\n"
+        + "This is his Beche\n"
+        + "Yes, this is the Beche a Mel";
+    static FaceEmotion[] TheoDE = new FaceEmotion[3] { FaceEmotion.Neutral, FaceEmotion.Hit, FaceEmotion.Winner };
+    /*static string TheoQM = ""
+    ;
+
+    static FaceEmotion[] TheoQE = new FaceEmotion[3] {
+        FaceEmotion.Neutral, FaceEmotion.Neutral, FaceEmotion.Winner
+    };*/
+
+
+
+
+
     static FaceEmotion[] JokerQE = new FaceEmotion[19] {
         FaceEmotion.Attack, FaceEmotion.Neutral, FaceEmotion.Attack, FaceEmotion.Neutral, FaceEmotion.Attack, FaceEmotion.Neutral, FaceEmotion.Attack,
         FaceEmotion.Attack, FaceEmotion.Neutral, FaceEmotion.Attack, FaceEmotion.Neutral,
@@ -220,6 +326,20 @@ public static class PNJDialogUtils {
                 return RogerDM;
             case PNJName.Risotto:
                 return RisottoDM;
+            case PNJName.Remi:
+                return RemiDM;
+            case PNJName.Antho:
+                return AnthoDM;
+            case PNJName.Olivier:
+                return OlivierDM;
+            case PNJName.Anais:
+                return AnaisDM;
+            case PNJName.Seb:
+                return SebDM;
+            case PNJName.Mathieu:
+                return MathieuDM;
+            case PNJName.Theo:
+                return TheoDM;
         }
         return "";
     }
@@ -241,6 +361,20 @@ public static class PNJDialogUtils {
                 return RogerQM;
             case PNJName.Risotto:
                 return RisottoQM;
+            /*case PNJName.Remi:
+                return RemiQM;
+            case PNJName.Remi:
+                return RemiQM;
+            case PNJName.Olivier:
+                return OlivierQM;
+            case PNJName.Anais:
+                return AnaisQM;
+            case PNJName.Seb:
+                return SebQM;
+            case PNJName.Mathieu:
+                return MathieuQM;
+            case PNJName.Theo:
+                return TheoQM;*/
         }
         return "";
     }
@@ -262,6 +396,20 @@ public static class PNJDialogUtils {
                 return RogerDE;
             case PNJName.Risotto:
                 return RisottoDE;
+            case PNJName.Remi:
+                return RemiDE;
+            case PNJName.Antho:
+                return AnthoDE;
+            case PNJName.Olivier:
+                return OlivierDE;
+            case PNJName.Anais:
+                return AnaisDE;
+            case PNJName.Seb:
+                return SebDE;
+            case PNJName.Mathieu:
+                return MathieuDE;
+            case PNJName.Theo:
+                return TheoDE;
         }
         return null;
     }
@@ -283,6 +431,20 @@ public static class PNJDialogUtils {
                 return RogerQE;
             case PNJName.Risotto:
                 return RisottoQE;
+            /*case PNJName.Remi:
+                return RemiQE;
+            case PNJName.Antho:
+                return AnthoQE;
+            case PNJName.Olivier:
+                return OlivierQE;
+            case PNJName.Anais:
+                return AnaisQE;
+            case PNJName.Seb:
+                return SebQE;
+            case PNJName.Mathieu:
+                return MathieuQE;
+            case PNJName.Theo:
+                return TheoQE;*/
         }
         return null;
     }
