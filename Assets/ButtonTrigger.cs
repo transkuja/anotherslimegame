@@ -79,13 +79,23 @@ public class ButtonTrigger : MonoBehaviour {
 
                     currentTimer = 0.0f;
                     currentResetTimer = resetTimer;
+
+                    //Set vibrations
+                    UWPAndXInput.GamePad.VibrateForSeconds(pch.GetComponent<PlayerController>().playerIndex, 0.8f, 0.8f, .1f);
+
+
+                    if (AudioManager.Instance != null && AudioManager.Instance.punchFx != null)
+                        AudioManager.Instance.PlayOneShot(AudioManager.Instance.punchFx);
                 }
             }
         }
     }
 
     public void Update()
-    {            
+    {
+        if (hasToLockAfterActivation && isLock)
+            return;
+
         // Behavior button
         if (hasToMoveButton)
         {
@@ -130,11 +140,16 @@ public class ButtonTrigger : MonoBehaviour {
                 {
                     activable[i].Active(true);
                 }
-                isLock = true;
+                for (int i = 0; i < button.Length; i++)
+                {
+                    button[i].text.text = "";
+                    button[i].isLock = true;
+                }
+
             }
         }
 
-        if(!hasToMoveButton && isActive && hasToResetAutomatically)
+        if(!isLock && !hasToMoveButton && isActive && hasToResetAutomatically)
         {
             currentResetTimer -= Time.deltaTime;
             text.text = Mathf.RoundToInt(currentResetTimer).ToString();
