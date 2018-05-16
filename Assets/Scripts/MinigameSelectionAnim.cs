@@ -31,6 +31,11 @@ public class MinigameSelectionAnim : MonoBehaviour {
     [SerializeField]
     bool isMinigameTypeOnly = false;
 
+    bool isEnlarging = false;
+    bool isReducing = false;
+
+    Vector3 initialPosition;
+
     private void Start()
     {
         if (isMinigameTypeOnly)
@@ -75,6 +80,21 @@ public class MinigameSelectionAnim : MonoBehaviour {
     {
         //GetComponentsInChildren<Image>()[3].sprite = Resources.Load<Sprite>(_minigameData.spriteImage) as Sprite;
 
+    }
+
+    public void EnlargeYourUI()
+    {
+        initialPosition = transform.localPosition;
+        isEnlarging = true;
+        lerpValue = 0.0f;
+        isReducing = false;
+    }
+
+    public void ReduceYourUI()
+    {
+        isEnlarging = false;
+        isReducing = true;
+        lerpValue = 1.0f;
     }
 
     public void SetMinigame(DatabaseClass.MinigameData _minigameData)
@@ -122,47 +142,52 @@ public class MinigameSelectionAnim : MonoBehaviour {
 
     public void IsSelected(bool _isSelected)
     {
+
         if (_isSelected)
         {
-            transform.GetChild(0).GetComponent<Image>().sprite = feedbackMinigameIsSelected;
+            transform.GetComponentInChildren<Image>().sprite = feedbackMinigameIsSelected;
             hasBeenSelected = true;
             hasBeenDeselected = false;
         }
         else
         {
-            transform.GetChild(0).GetComponent<Image>().sprite = initialBackground;
+            transform.GetComponentInChildren<Image>().sprite = initialBackground;
             hasBeenDeselected = true;
             hasBeenSelected = false;
         }
+  
     }
 
     private void Update()
     {
-        if (!isHiding && !isShowing)
+        if (!isEnlarging && !isReducing)
         {
-            if (hasBeenSelected || hasBeenDeselected)
+            if (!isHiding && !isShowing)
             {
-                lerpValue = lerpValue + ((hasBeenSelected) ? Time.deltaTime : -Time.deltaTime) * 2.5f;
-                transform.localScale = Vector3.one * Mathf.Lerp(1.0f, 1.25f, lerpValue);
+                if (hasBeenSelected || hasBeenDeselected)
+                {
+                    lerpValue = lerpValue + ((hasBeenSelected) ? Time.deltaTime : -Time.deltaTime) * 2.5f;
+                    transform.localScale = Vector3.one * Mathf.Lerp(1.0f, 1.25f, lerpValue);
 
-                if (hasBeenSelected && lerpValue > 1.0f)
-                {
-                    hasBeenSelected = false;
-                    lerpValue = 1.0f;
-                }
-                if (hasBeenDeselected && lerpValue < 0.0f)
-                {
-                    hasBeenDeselected = false;
-                    lerpValue = 0.0f;
+                    if (hasBeenSelected && lerpValue > 1.0f)
+                    {
+                        hasBeenSelected = false;
+                        lerpValue = 1.0f;
+                    }
+                    if (hasBeenDeselected && lerpValue < 0.0f)
+                    {
+                        hasBeenDeselected = false;
+                        lerpValue = 0.0f;
+                    }
                 }
             }
-        }
-        else
-        {
-            //if (lerpValue < 0.0f || lerpValue > 1.0f)
-            //{
+            else
+            {
+                //if (lerpValue < 0.0f || lerpValue > 1.0f)
+                //{
                 lerpValue = lerpValue + ((isShowing) ? Time.deltaTime : -Time.deltaTime) * 3.0f;
                 transform.localScale = Vector3.one * Mathf.Lerp(0.0f, 1.0f, lerpValue);
+
                 if (isShowing && lerpValue > 1.0f)
                 {
                     isShowing = false;
@@ -171,7 +196,23 @@ public class MinigameSelectionAnim : MonoBehaviour {
                 {
                     isHiding = false;
                 }
-            //}
+                //}
+            }
+        }
+        else
+        {
+            lerpValue = lerpValue + ((isEnlarging) ? Time.deltaTime : -Time.deltaTime) * 2.0f;
+            transform.localScale = Vector3.right * Mathf.Lerp(1.25f, 2.25f, lerpValue) + Vector3.up * Mathf.Lerp(1.25f, 2.0f, lerpValue);
+            transform.localPosition = Vector3.Lerp(initialPosition, new Vector3(-150.0f, 0.0f, 0.0f), lerpValue);
+
+            if (isEnlarging && lerpValue > 1.0f)
+            {
+                isEnlarging = false;
+            }
+            if (isReducing && lerpValue < 0.0f)
+            {
+                isReducing = false;
+            }
         }
     }
 
