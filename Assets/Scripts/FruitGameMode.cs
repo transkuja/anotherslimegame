@@ -22,7 +22,6 @@ public class FruitGameMode : GameMode {
             foreach (GameObject player in playerReferences)
                 player.AddComponent<EvolutionGhost>();
         }
-
         LaunchTimer();
     }
 
