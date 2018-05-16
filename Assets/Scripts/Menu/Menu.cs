@@ -424,9 +424,7 @@ public class Menu : MonoBehaviour {
             _newButton.transform.localScale = Vector3.one;
         }
 
-        transform.GetChild((int)MenuState.MinigameSelection).GetChild(2).GetChild(0).GetComponent<MinigameSelectionAnim>().IsSelected(true);
-
-
+        UpdateMinigameVersionSelection(0);
     }
 
     void ReturnToMinigameTypeSelection()
@@ -712,6 +710,9 @@ public class Menu : MonoBehaviour {
 
         // Currently selected
         transform.GetChild((int)MenuState.MinigameSelection).GetChild(2).GetChild(minigameCurrentVerticalCursor).GetComponent<MinigameSelectionAnim>().IsSelected(true);
+
+        transform.GetChild((int)MenuState.MinigameSelection).GetChild(1).GetChild((int)selectedMinigameType).GetComponent<MinigameSelectionAnim>()
+            .SetMinigame(minigames[(int)selectedMinigameType][minigameCurrentVerticalCursor]);
     }
 
 

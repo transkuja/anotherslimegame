@@ -29,99 +29,93 @@ public class MinigameSelectionAnim : MonoBehaviour {
     bool isShowing = false;
 
     [SerializeField]
-    bool isMinigameTypeOnly = false;
+    bool isMinigamePanel = false;
 
     bool isEnlarging = false;
     bool isReducing = false;
 
     Vector3 initialPosition;
 
+    [SerializeField]
+    GameObject costToUnlockChild;
+
     private void Start()
     {
-        if (isMinigameTypeOnly)
+        if (isMinigamePanel)
         {
-            // Title
-            transform.GetChild(1).GetComponentInChildren<Text>().text = Utils.MinigameTypeStr[transform.GetSiblingIndex()];
-
-            // Visual
-            transform.GetChild(2).GetComponentsInChildren<Image>()[1].sprite = Resources.Load<Sprite>(Utils.MinigameTypeSprite[transform.GetSiblingIndex()]) as Sprite;
+            MinigameGenericInformationLoad();
         }
     }
 
-    public void IsSelected(bool _isSelected, bool _moveToTheLeft)
+    void MinigameGenericInformationLoad()
     {
-        isSelected = _isSelected;
-
-        if (isSelected)
+        if (DatabaseManager.Db.GetUnlockedMinigamesOfType((MinigameType)transform.GetSiblingIndex()) == null ||
+            DatabaseManager.Db.GetUnlockedMinigamesOfType((MinigameType)transform.GetSiblingIndex()).Count == 0)
         {
-            if (_moveToTheLeft)
-            {
-
-            }
-            else
-            {
-
-            }
+            costToUnlockChild.SetActive(true);
+            GetComponentInChildren<Text>().text = "Locked";
+            costToUnlockChild.GetComponentInChildren<Text>().text = "";
+            costToUnlockChild.transform.GetChild(0).GetComponent<Image>().enabled = false;
+            transform.GetChild(2).gameObject.SetActive(false);
         }
         else
         {
-            if (_moveToTheLeft)
-            {
+            costToUnlockChild.SetActive(false);
+            transform.GetChild(2).gameObject.SetActive(true);
 
-            }
-            else
-            {
+            // Title
+            GetComponentInChildren<Text>().text = Utils.MinigameTypeStr[transform.GetSiblingIndex()];
 
-            }
+            // Visual
+            transform.GetComponentsInChildren<Image>()[3].sprite = Resources.Load<Sprite>(Utils.MinigameTypeSprite[transform.GetSiblingIndex()]) as Sprite;
         }
-    }
-
-    public void ChangeMinigameVersionSelected()
-    {
-        //GetComponentsInChildren<Image>()[3].sprite = Resources.Load<Sprite>(_minigameData.spriteImage) as Sprite;
-
-    }
-
-    public void EnlargeYourUI()
-    {
-        initialPosition = transform.localPosition;
-        isEnlarging = true;
-        lerpValue = 0.0f;
-        isReducing = false;
-    }
-
-    public void ReduceYourUI()
-    {
-        isEnlarging = false;
-        isReducing = true;
-        lerpValue = 1.0f;
     }
 
     public void SetMinigame(DatabaseClass.MinigameData _minigameData)
     {
         minigameData = _minigameData;
-        transform.GetChild(1).gameObject.SetActive(!_minigameData.isUnlocked);
+        costToUnlockChild.SetActive(!_minigameData.isUnlocked);
 
-        if (_minigameData.isUnlocked)
+        // Update minigame version prefab (on the right)
+        if (!isMinigamePanel)
         {
-            //transform.GetChild(3).gameObject.SetActive(false);
-            //GetComponentsInChildren<Image>()[2].enabled = true;
-            //GetComponentsInChildren<Image>()[3].enabled = true;
-
-            //// Load video preview
-            //if (_minigameData.videoPreview != "")
-            //{
-            //    if (GetComponentInChildren<VideoPlayer>())
-            //        GetComponentInChildren<VideoPlayer>().clip = Resources.Load<VideoClip>(_minigameData.videoPreview) as VideoClip;
-            //}
-
-            //GetComponentsInChildren<Image>()[3].sprite = Resources.Load<Sprite>(_minigameData.spriteImage) as Sprite;
-            GetComponentInChildren<Text>().text = MinigameDataUtils.GetTitle(_minigameData.Id, _minigameData.version);
+            if (_minigameData.isUnlocked)
+            {
+                GetComponentInChildren<Text>().text = MinigameDataUtils.GetTitle(_minigameData.Id, _minigameData.version);
+            }
+            else
+            {
+                GetComponentInChildren<Text>().text = "";
+                transform.GetChild(1).GetComponentInChildren<Text>().text = DatabaseManager.Db.NbRunes.ToString() + " / " + minigameData.nbRunesToUnlock;
+            }
         }
+        // Update the huge panel (left side)
         else
         {
-            GetComponentInChildren<Text>().text = "";
-            transform.GetChild(1).GetComponentInChildren<Text>().text = DatabaseManager.Db.NbRunes.ToString() + " / " + minigameData.nbRunesToUnlock;
+            if (_minigameData.isUnlocked)
+            {
+                //transform.GetChild(3).gameObject.SetActive(false);
+                //GetComponentsInChildren<Image>()[2].enabled = true;
+                //GetComponentsInChildren<Image>()[3].enabled = true;
+
+                //// Load video preview
+                //if (_minigameData.videoPreview != "")
+                //{
+                //    if (GetComponentInChildren<VideoPlayer>())
+                //        GetComponentInChildren<VideoPlayer>().clip = Resources.Load<VideoClip>(_minigameData.videoPreview) as VideoClip;
+                //}
+
+                GetComponentInChildren<Text>().text = MinigameDataUtils.GetTitle(_minigameData.Id, _minigameData.version);
+                transform.GetChild(2).gameObject.SetActive(true);
+                GetComponentsInChildren<Image>()[3].sprite = Resources.Load<Sprite>(_minigameData.spriteImage) as Sprite;
+            }
+            else
+            {
+                GetComponentInChildren<Text>().text = "Find more runes!";
+                costToUnlockChild.GetComponentInChildren<Text>().text = DatabaseManager.Db.NbRunes.ToString() + " / " + minigameData.nbRunesToUnlock;
+                costToUnlockChild.transform.GetChild(0).GetComponent<Image>().enabled = true;
+                transform.GetChild(2).gameObject.SetActive(false);
+            }
         }
     }
 
@@ -142,7 +136,6 @@ public class MinigameSelectionAnim : MonoBehaviour {
 
     public void IsSelected(bool _isSelected)
     {
-
         if (_isSelected)
         {
             transform.GetComponentInChildren<Image>().sprite = feedbackMinigameIsSelected;
@@ -231,4 +224,21 @@ public class MinigameSelectionAnim : MonoBehaviour {
         hasBeenSelected = false;
         hasBeenDeselected = false;
     }
+
+    public void EnlargeYourUI()
+    {
+        initialPosition = transform.localPosition;
+        isEnlarging = true;
+        lerpValue = 0.0f;
+        isReducing = false;
+    }
+
+    public void ReduceYourUI()
+    {
+        isEnlarging = false;
+        isReducing = true;
+        lerpValue = 1.0f;
+        MinigameGenericInformationLoad();
+    }
+
 }
