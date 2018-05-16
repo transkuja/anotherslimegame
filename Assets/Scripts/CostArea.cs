@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 using UWPAndXInput;
+using DatabaseClass;
 
 public class CostArea : MonoBehaviour {
 
@@ -52,18 +53,28 @@ public class CostArea : MonoBehaviour {
         }
     }
 
+    public MinigameData MgData
+    {
+        get
+        {
+            if (mgData == null)
+                mgData = DatabaseManager.Db.minigames.Find(a => a.type == minigameType && a.version == minigameVersion);
+            return mgData;
+        }
+
+        set
+        {
+            mgData = value;
+        }
+    }
+
     public void Start()
     {
         // Desactive la cost area si le minijeu a deja été debloqué
-        mgData = DatabaseManager.Db.GetUnlockedMinigameOfType(minigameType, minigameVersion);
-        if (mgData != null)
+        if (MgData.isUnlocked)
         {
             // is active -> false
-            UnlockAssociatedMinigame(mgData.Id);
-        }
-        else
-        {
-            mgData = DatabaseManager.Db.minigames.Find(a => a.type == minigameType && a.version == minigameVersion);
+            UnlockAssociatedMinigame(MgData.Id);
         }
 
         Init();  
@@ -71,8 +82,7 @@ public class CostArea : MonoBehaviour {
 
     void Init()
     {
-        if (mgData != null)
-            costText.text = "x " + mgData.nbRunesToUnlock;
+        costText.text = "x " + MgData.nbRunesToUnlock;
         currencyLogo.sprite = GetLogoFromCurrency(currency);
         if (currency == CollectableType.Rune)
         {
@@ -105,8 +115,7 @@ public class CostArea : MonoBehaviour {
     public void Reactivate()
     {
         costText.color = Color.white;
-        if (mgData != null)
-            costText.text = "x " + mgData.nbRunesToUnlock;
+        costText.text = "x " + MgData.nbRunesToUnlock;
         currencyLogo.color = Color.white;
         rewardPreview.gameObject.SetActive(true);
         isActive = true;
@@ -117,21 +126,18 @@ public class CostArea : MonoBehaviour {
         // Force unlock minigame : checking at each frame if a minigame have been unlocked
         if (isActive)
         {
-            if (mgData == null)
-                return;
-
-            if (mgData.nbRunesToUnlock == -1 && mgData.costToUnlock == -1)
+            if (MgData.nbRunesToUnlock == -1 && MgData.costToUnlock == -1)
             {
                 // to avoid checking at each frame if a -1 minigame have been unlocked
                 isActive = false;
             }
-            else if (mgData.nbRunesToUnlock <= GameManager.Instance.Runes)
+            else if (MgData.nbRunesToUnlock <= GameManager.Instance.Runes)
             {
                 // Force unlock if not already ( case at runtime )
-                DatabaseManager.Db.SetUnlock<DatabaseClass.MinigameData>(mgData.Id, true, mgData.version);
+                DatabaseManager.Db.SetUnlock<DatabaseClass.MinigameData>(MgData.Id, true, MgData.version);
 
                 // Will avoid checking afterwards : isactive -> false
-                UnlockAssociatedMinigame(mgData.Id);
+                UnlockAssociatedMinigame(MgData.Id);
                 // Notifiier le joueur ici ? 
             }
         }
@@ -203,7 +209,7 @@ public class CostArea : MonoBehaviour {
             {
                 minigameName[(int)other.GetComponent<PlayerController>().PlayerIndex].SetActive(true);
                 foreach (TextMesh tm in minigameName[(int)other.GetComponent<PlayerController>().PlayerIndex].GetComponentsInChildren<TextMesh>())
-                    tm.text = MinigameDataUtils.GetTitle(mgData.Id, minigameVersion);
+                    tm.text = MinigameDataUtils.GetTitle(MgData.Id, minigameVersion);
 
                 teleporter.GetComponent<TeleporterToMinigame>().CreateButtonFeedback((int)other.GetComponent<PlayerController>().PlayerIndex);
                 other.GetComponent<Player>().RefInitTeleporter = teleporter.GetComponent<TeleporterToMinigame>();

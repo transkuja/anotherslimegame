@@ -35,15 +35,17 @@ public static class PNJDialogUtils {
         "...#" +
 
         "I was not hiding up here,\n" +
-        "I was looking for fresh air but it seems it ran out the second you arrived.\n" +
+        "I was looking for fresh air but it seems it ran out \n" +
+        "the second you arrived.\n" +
         "See ya never!#" +
 
         "Why are you breaking all these pots?!\n" +
         "Only to find me?!\n" +
-        "How barbaric.#n" +
+        "How barbaric.#" +
 
         "FINE!\n" +
-        "Will you let go of me if I give you this crappy thing I found in the sewer?!\n" +
+        "Will you let go of me if I give you \n" +
+        "this crappy thing I found in the sewer?!\n" +
         "Youngsters these days,\n" +
         "you can't hide in pots without being disturbed!"
     ;
