@@ -12,6 +12,9 @@ public static class ColorFloorHandler {
 
     static bool isInitialized = false;
 
+    public static MinigameColorFloorGP restrainedGP;
+    public static int[] playerCurrentPositionsFreeMovement = new int[4];
+
     public static void Init(uint _nbPlayers, GameObject _board)
     {
         currentlyColoredByPlayer = new List<OnColoredFloorTrigger>[_nbPlayers];
@@ -26,6 +29,10 @@ public static class ColorFloorHandler {
             board[i] = new OnColoredFloorTrigger[8];
 
         Transform boardTr = _board.transform;
+        restrainedGP = _board.GetComponent<MinigameColorFloorGP>();
+
+        for (int i = 0; i < 4; i++)
+            playerCurrentPositionsFreeMovement[i] = -1;
 
         for (int i = 0; i < 8; i++)
         {
@@ -43,6 +50,9 @@ public static class ColorFloorHandler {
     {
         if (!isInitialized)
             return;
+
+        if (_fromAPickup == null && !bypassSquareDetection)
+            playerCurrentPositionsFreeMovement[_playerIndex] = _toRegister.GetFloorIndex();
 
         if (_toRegister.IsLocked())
             return;

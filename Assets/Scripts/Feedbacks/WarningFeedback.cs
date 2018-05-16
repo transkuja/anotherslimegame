@@ -46,11 +46,45 @@ public class WarningFeedback : MonoBehaviour {
         yield return new WaitForSeconds(1.0f);
         transform.parent.gameObject.SetActive(false);
 
-        ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.ColorFloorPickUps, 1).GetItem(
-            transform.GetComponentInParent<OnColoredFloorTrigger>().transform,
-            Vector3.up * 1.5f,
-            Quaternion.identity,
-            true
-        );
+
+        for (int i = 0; i < GameManager.Instance.CurrentGameMode.curNbPlayers; i++)
+        {
+            if (((ColorFloorGameMode)GameManager.Instance.CurrentGameMode).freeMovement)
+            {
+                if (transform.GetComponentInParent<OnColoredFloorTrigger>().GetFloorIndex() == ColorFloorHandler.playerCurrentPositionsFreeMovement[i])
+                {
+                    ColorFloorHandler.LosePoints(i);
+                }
+                else
+                {
+                    ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.ColorFloorPickUps, 1).GetItem(
+                        transform.GetComponentInParent<OnColoredFloorTrigger>().transform,
+                        Vector3.up * 1.5f,
+                        Quaternion.identity,
+                        true
+                    );
+                }
+            }
+            else
+            {
+                if (transform.GetComponentInParent<OnColoredFloorTrigger>().GetFloorIndex()
+                    == ColorFloorHandler.restrainedGP.playerCurrentPositions[i].GetComponentInChildren<OnColoredFloorTrigger>().GetFloorIndex())
+                {
+                    ColorFloorHandler.LosePoints(i);
+                }
+                else
+                {
+                    ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.ColorFloorPickUps, 1).GetItem(
+                        transform.GetComponentInParent<OnColoredFloorTrigger>().transform,
+                        Vector3.up * 1.5f,
+                        Quaternion.identity,
+                        true
+                    );
+                }
+            }
+        }
+
+
+        //if (ColorFloorHandler.playerCurrentPositionsFreeMovement)
     }
 }

@@ -211,18 +211,23 @@ public class OnColoredFloorTrigger : MonoBehaviour {
 
             if (HasAnItem)
             {
-                MinigamePickUp pickupComponent = transform.GetComponentInChildren<MinigamePickUp>();
-                pickupComponent.collectPickup((int)pc.playerIndex);
-                ColorFloorPickupHandler.spawnedPickups.Remove(pickupComponent.gameObject);
-
-                Destroy(pickupComponent.gameObject);
-                HasAnItem = false;
+                CollectPickUp((int)pc.playerIndex);
             }
 
             ColorFloorHandler.RegisterFloor((int)pc.playerIndex, GetComponent<OnColoredFloorTrigger>());
             currentOwner = (int)pc.playerIndex;
             //pc.GetComponent<Rigidbody>().velocity = new Vector3(pc.GetComponent<Rigidbody>().velocity.x, 0.0f, pc.GetComponent<Rigidbody>().velocity.z);
         }
+    }
+
+    public void CollectPickUp(int _playerIndex)
+    {
+        MinigamePickUp pickupComponent = transform.GetComponentInChildren<MinigamePickUp>();
+        pickupComponent.collectPickup(_playerIndex);
+        ColorFloorPickupHandler.spawnedPickups.Remove(pickupComponent.gameObject);
+
+        Destroy(pickupComponent.gameObject);
+        HasAnItem = false;
     }
 
     public void WarnPlayerSmthgBadIsComing()

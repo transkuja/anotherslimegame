@@ -13,7 +13,7 @@ public class MinigameColorFloorGP : MonoBehaviour {
     uint nbPlayers;
     GamePadState[] controllerStates = new GamePadState[4];
 
-    GameObject[] playerCurrentPositions = new GameObject[4];
+    public GameObject[] playerCurrentPositions = new GameObject[4];
 
     [SerializeField]
     LayerMask restrainedMovementLayerMask;
