@@ -22,7 +22,7 @@ public class SneakyChiefBehavior : PNJDefaultBehavior
     public override void InitNextStep(int playerIndex = 0)
     {
         rewards[DatabaseManager.Db.SneakyChiefProgress].GetReward();
-        step = ++DatabaseManager.Db.SneakyChiefProgress;
+        ++DatabaseManager.Db.SneakyChiefProgress;
 
         if (IsEventOver())
             return;
@@ -51,12 +51,12 @@ public class SneakyChiefBehavior : PNJDefaultBehavior
 
     public override string GetNextMessage(int index)
     {
-        return messages.GetQuestMessages(step).messages[index];
+        return messages.GetQuestMessages(DatabaseManager.Db.SneakyChiefProgress).messages[index];
     }
 
     public override int GetNextMessagesLength()
     {
-        return messages.GetQuestMessages(step).messages.Length;
+        return messages.GetQuestMessages(DatabaseManager.Db.SneakyChiefProgress).messages.Length;
     }
 
     public override bool IsEventOver()
