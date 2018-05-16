@@ -30,11 +30,11 @@ public class FruitsSpawner : MonoBehaviour {
     public void Start()
     {
         nbPlayer = GameManager.Instance.PlayerStart.ActivePlayersAtStart;
-        minX = -(boxColliderSpawn.transform.localScale.x / 2);
-        maxX = boxColliderSpawn.transform.localScale.x / 2;
+        minX = -(boxColliderSpawn.transform.localScale.x);
+        maxX = boxColliderSpawn.transform.localScale.x ;
 
-        minZ = -(boxColliderSpawn.transform.localScale.z / 2);
-        maxZ = boxColliderSpawn.transform.localScale.z / 2;
+        minZ = -(boxColliderSpawn.transform.localScale.z);
+        maxZ = boxColliderSpawn.transform.localScale.z ;
 
         matClementine.color = GameManager.Instance.PlayerStart.colorPlayer[0];
         matPomme.color = GameManager.Instance.PlayerStart.colorPlayer[1];
