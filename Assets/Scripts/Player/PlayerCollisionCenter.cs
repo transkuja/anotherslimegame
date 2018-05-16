@@ -171,7 +171,10 @@ public class PlayerCollisionCenter : MonoBehaviour {
                             Physics.IgnoreCollision(playersCollided[i], GetComponent<Collider>(), true);
                             // Don't reimpacted the same player twice see invicibilityFrame
 
-                            GameObject go = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles).GetItem(null, transform.position + Vector3.up * 0.5f + playerCenterToTargetCenter / 2.0f, Quaternion.LookRotation(playerToTarget, Vector3.up), true, true, (int)HitParticles.HitStar);
+                            GameObject go = Instantiate(ResourceUtils.Instance.particleSystemManager.impactFeedback);
+                            go.transform.position = transform.position + Vector3.up * 0.5f + playerCenterToTargetCenter / 2.0f;
+                            go.transform.rotation = Quaternion.LookRotation(playerToTarget, Vector3.up);
+                            Destroy(go, 10.0f);
                             hasCollidedWithAPlayer = true;
                             currentTimerStop = timerStopOnDashCollision;
 
