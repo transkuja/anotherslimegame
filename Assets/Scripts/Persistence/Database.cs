@@ -742,14 +742,16 @@ namespace DatabaseClass
 
             }
 
-            alreadyBrokenBreakables = new bool[breakables.Length - offset];
+            if (alreadyBrokenBreakables.Length != breakables.Length - offset)
+                alreadyBrokenBreakables = new bool[breakables.Length - offset];
         }
 
         public void ResetCollectablesState()
         {
             Collectable[] collectables = FindObjectsOfType<Collectable>();
 
-            alreadyCollectedCollectables = new bool[collectables.Length];
+            if (alreadyCollectedCollectables.Length != collectables.Length)
+                alreadyCollectedCollectables = new bool[collectables.Length];
 
             for (int i = 0; i < collectables.Length; ++i)
             {
