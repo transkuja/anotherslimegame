@@ -226,7 +226,6 @@ public class EnnemyController : MonoBehaviour {
         rb.constraints = RigidbodyConstraints.None;
         rb.drag = 0.2f;
         isDead = true;
-
         Destroy(feedbackenemy);
         GetComponentInChildren<PlayerCosmetics>().FaceEmotion = FaceEmotion.Hit;
     }
@@ -252,6 +251,9 @@ public class EnnemyController : MonoBehaviour {
         if(isDead)
         {
             // Force end state
+            GetComponentInChildren<Animator>().SetBool("isExpulsed", false);
+            GetComponentInChildren<Animator>().Play("Idle");
+            transform.GetChild(0).rotation = Quaternion.identity;
             playerCharacterHub.PlayerState = playerCharacterHub.freeState;
             ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles).GetItem(null, transform.position + 3.0f * Vector3.up, Quaternion.identity, true, false, (int)HitParticles.BigHit);
             this.gameObject.SetActive(false);
@@ -275,8 +277,13 @@ public class EnnemyController : MonoBehaviour {
 
     public void Reactivate()
     {
+   CurrentState = RabiteState.Wander;
         isDead = false;
-        transform.position = zonePosition;
+        GetComponentInChildren<Animator>();
+        transform.position = zonePosition+ Vector3.up;
+        transform.rotation = Quaternion.identity;
+        ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles).GetItem(null, transform.position + 3.0f * Vector3.up, Quaternion.identity, true, false, (int)HitParticles.BigHit);
+        
         this.gameObject.SetActive(true);
     }
 }
