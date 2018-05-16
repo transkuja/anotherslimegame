@@ -41,6 +41,8 @@ public class Runner3DGameMode : GameMode {
                 }
             }
         }
+        checkRuneObjective = CheckRuneObjectiveForRunner;
+
         if (curNbPlayers == 1)
             mode = EMode.SoloInfinite;
         else
@@ -108,5 +110,18 @@ public class Runner3DGameMode : GameMode {
             player.HasFinishedTheRun = true;
             GameManager.Instance.ScoreScreenReference.RefreshScores(player);
         }
+    }
+
+    bool CheckRuneObjectiveForRunner()
+    {
+        int pointsObjective = 0;
+        int curScore = 0;
+        foreach (GameObject go in GameManager.Instance.PlayerStart.PlayersReference)
+        {
+            curScore += go.GetComponent<Player>().NbPoints;
+            pointsObjective += necessaryPointsForRune;
+        }
+        currentScore = curScore;
+        return curScore >= pointsObjective;
     }
 }

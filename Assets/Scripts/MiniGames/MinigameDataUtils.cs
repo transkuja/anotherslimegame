@@ -297,11 +297,11 @@ public static class MinigameDataUtils
         }
         else if (curGameMode is Runner3DGameMode)
         {
-            return "Run for " + _curGameMode.necessaryPointsForRune + "m!";
+            return "Run for " + _curGameMode.necessaryPointsForRune * GameManager.Instance.ActivePlayersAtStart + "m!";
         }
         else if (curGameMode is FruitGameMode)
         {
-            return "Score " + _curGameMode.necessaryPointsForRune;
+            return "Score " + _curGameMode.necessaryPointsForRune * GameManager.Instance.ActivePlayersAtStart;
         }
         else if (curGameMode is FoodGameMode)
         {

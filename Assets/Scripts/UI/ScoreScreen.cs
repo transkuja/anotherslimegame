@@ -222,7 +222,7 @@ public class ScoreScreen : MonoBehaviour {
                     if (runeObjective == RuneObjective.Points)
                     {
                         runeObjectiveUI.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "0";
-                        runeObjectiveUI.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = GameManager.Instance.CurrentGameMode.necessaryPointsForRune.ToString();
+                        runeObjectiveUI.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = (GameManager.Instance.CurrentGameMode.necessaryPointsForRune * GameManager.Instance.PlayerStart.ActivePlayersAtStart).ToString();
                         runeObjectiveUI.transform.GetChild(0).GetChild(0).localPosition += Vector3.right * 60;
                         runeObjectiveUI.transform.GetChild(0).GetChild(1).localPosition += Vector3.left * 60;
                     }
