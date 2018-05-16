@@ -85,6 +85,8 @@ namespace DatabaseClass
     {
         [SerializeField]
         public string texture;
+        [SerializeField]
+        public SkinType skinType;
     }
 
     [System.Serializable]
@@ -677,11 +679,15 @@ namespace DatabaseClass
 
             // Adding Skins
             int idSkins = 0;
-            string[] strSkins = { "Catch1", "Catch2", "Special1", "Special2"};
-            skins.Add(new SkinData { Id = strSkins[idSkins], texture = "Skins/Catch1", isUnlocked = false });
-            skins.Add(new SkinData { Id = strSkins[++idSkins], texture = "Skins/Catch2", isUnlocked = false });
-            skins.Add(new SkinData { Id = strSkins[++idSkins], texture = "Skins/Spe1", isUnlocked = false, costToUnlock = 600 });
-            skins.Add(new SkinData { Id = strSkins[++idSkins], texture = "Skins/Spe2", isUnlocked = false, costToUnlock = 600 });
+            string[] strSkins = { "Catch1", "Catch2", "Catch3", "Panda", "Tatoo1", "Tatoo2", "Special1", "Special2"};
+            skins.Add(new SkinData { Id = strSkins[idSkins], texture = "Skins/Catch1", skinType = SkinType.Texture, isUnlocked = false });
+            skins.Add(new SkinData { Id = strSkins[++idSkins], texture = "Skins/Catch2", skinType = SkinType.Texture, isUnlocked = false });
+            skins.Add(new SkinData { Id = strSkins[++idSkins], texture = "Skins/Catch3", skinType = SkinType.Texture, isUnlocked = false });
+            skins.Add(new SkinData { Id = strSkins[++idSkins], texture = "Skins/Panda", skinType = SkinType.Texture, isUnlocked = false });
+            skins.Add(new SkinData { Id = strSkins[++idSkins], texture = "Skins/Base1", skinType = SkinType.Mixed, isUnlocked = false });
+            skins.Add(new SkinData { Id = strSkins[++idSkins], texture = "Skins/Base2", skinType = SkinType.Mixed, isUnlocked = false });
+            skins.Add(new SkinData { Id = strSkins[++idSkins], texture = "Skins/Spe1", skinType = SkinType.Texture, isUnlocked = false, costToUnlock = 600 });
+            skins.Add(new SkinData { Id = strSkins[++idSkins], texture = "Skins/Spe2", skinType = SkinType.Texture, isUnlocked = false, costToUnlock = 600 });
 
             SneakyChiefProgress = 0;
             JokerProgress = 0;

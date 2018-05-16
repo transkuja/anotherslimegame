@@ -41,7 +41,10 @@ public class PlayerCosmetics : MonoBehaviour {
     Color bodyColor;
 
     [SerializeField]
-    Texture bodyTexture; // TEMP : Needs to be a choice field according to data from db
+    Texture bodyTexture;
+
+    [SerializeField]
+    Texture earsTexture;
 
     [SerializeField]
     int faceType;
@@ -100,8 +103,8 @@ public class PlayerCosmetics : MonoBehaviour {
             if (skinType == SkinType.Color || skinType == SkinType.Mixed)
             {
                 bodyMat.color = bodyColor;
+                SetEarsColor(bodyColor);
             }
-            SetEarsColor(bodyColor);
         }
     }
 
@@ -119,7 +122,7 @@ public class PlayerCosmetics : MonoBehaviour {
         if (!bodyMat)
             Init();
 
-        bodyMat.SetTexture("_MainTex", null);
+        SetSkinTextures("");
         BodyColor = bodyColor;
     }
 
@@ -187,15 +190,30 @@ public class PlayerCosmetics : MonoBehaviour {
                     skin = "None";
                     return;
                 }
-                bodyTexture = Resources.Load(data.texture) as Texture;
-                SkinType = SkinType.Texture;
+                SkinType = data.skinType;
+                SetSkinTextures(data.texture);
             }
             else
             {
-                bodyTexture = null;
+                BodyTexture = null;
+                EarsTexture = null;
                 SkinType = SkinType.Color;
             }
         }
+    }
+
+    void SetSkinTextures(string baseTexturePath)
+    {
+        BodyTexture = Resources.Load(baseTexturePath) as Texture;
+        Texture tex = Resources.Load(baseTexturePath + "_Metallic") as Texture;
+        bodyMat.SetFloat("_Metallic", tex == null? 0 : 1);
+        bodyMat.SetTexture("_MetallicTex", tex);
+        tex = Resources.Load(baseTexturePath + "_Smoothness") as Texture;
+        bodyMat.SetFloat("_Smoothness", tex == null ? 0 : 1);
+        bodyMat.SetTexture("_SmoothnessTex", tex);
+        //bodyMat.SetTexture("_Normal", Resources.Load(baseTexturePath + "_Normal") as Texture);
+        bodyMat.SetTexture("_Height", Resources.Load(baseTexturePath + "_Height") as Texture);
+        EarsTexture = Resources.Load(baseTexturePath + "_Ears") as Texture;
     }
 
     public SkinType SkinType
@@ -242,6 +260,31 @@ public class PlayerCosmetics : MonoBehaviour {
             if(skinType == SkinType.Texture || skinType == SkinType.Mixed)
             {
                 bodyMat.SetTexture("_MainTex", bodyTexture);
+            }
+        }
+    }
+
+    public Texture EarsTexture
+    {
+        get
+        {
+            return earsTexture;
+        }
+
+        set
+        {
+            if (!bodyMat)
+                Init();
+
+            earsTexture = value;
+            if (ears == "None" || earsMats == null || earsMats.Length == 0)
+                return;
+            if (skinType == SkinType.Texture || skinType == SkinType.Mixed)
+            {
+                foreach(Material mat in earsMats)
+                {
+                    mat.SetTexture("_MainTex", earsTexture);
+                }
             }
         }
     }
@@ -602,6 +645,7 @@ public class PlayerCosmetics : MonoBehaviour {
         SkinType = skinType;
         BodyColor = bodyColor;
         BodyTexture = bodyTexture;
+        EarsTexture = earsTexture;
         FaceType = faceType;
         FaceEmotion = faceEmotion;
         Mustache = mustache;

@@ -5,8 +5,12 @@
 		_MainTex ("Main Texture", 2D) = "white" {}
 		_Emissive("Emissive", 2D) = "white" {}
 		_EmissiveColor("Emissive Color", Color) = (0, 0, 0, 1)
-		_Glossiness ("Smoothness", Range(0,1)) = 0.5
+		_Smoothness ("Smoothness", Range(0,1)) = 0.5
+		_SmoothnessTex("Smoothness Texture", 2D) = "white" {}
+		_MetallicTex("Metallic Texture", 2D) = "white" {}
 		_Metallic ("Metallic", Range(0,1)) = 0.0
+		_Normal("Normal", 2D) = "bump" {}
+		_Height("Height Map", 2D) = "black" {}
 	}
 	SubShader {
 		Tags { "RenderType"="Opaque" "IgnoreProjector" = "True" }
@@ -21,16 +25,21 @@
 
 		sampler2D _MainTex;
 		sampler2D _Emissive;
+		sampler2D _SmoothnessTex;
+		sampler2D _Normal;
+		sampler2D _MetallicTex;
+		sampler2D _Height;
 
 		struct Input {
 			float2 uv_MainTex;
+			float2 uv_BumpMap;
 			float3 worldPos;
 		};
 
 		float _FaceType;
 		float _FaceEmotion;
 		float _ColorFade;
-		half _Glossiness;
+		half _Smoothness;
 		half _Metallic;
 		fixed4 _Color;
 		fixed4 _EmissiveColor;
@@ -78,10 +87,11 @@
 				col.rgb = HUEtoRGB(col.r);
 			}
 
-			o.Albedo = tex2D(_MainTex, IN.uv_MainTex) * col;
+			o.Albedo = tex2D(_MainTex, IN.uv_MainTex).rgb * col;
+			o.Metallic = tex2D(_MetallicTex, IN.uv_MainTex).rgb * _Metallic;
+			o.Smoothness = tex2D(_SmoothnessTex, IN.uv_MainTex).rgb * _Smoothness;
 
-			o.Metallic = _Metallic;
-			o.Smoothness = _Glossiness;
+			o.Normal = UnpackNormal(tex2D(_Normal, IN.uv_BumpMap));
 			o.Alpha = col.a;
 			o.Emission = tex2D(_Emissive, IN.uv_MainTex).rgb * _EmissiveColor;
 		}
