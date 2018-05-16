@@ -252,11 +252,11 @@ public class EnnemyController : MonoBehaviour {
         if(isDead)
         {
             // Force end state
-            playerCharacterHub.PlayerState.OnEnd();
+            playerCharacterHub.PlayerState = playerCharacterHub.freeState;
             ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles).GetItem(null, transform.position + 3.0f * Vector3.up, Quaternion.identity, true, false, (int)HitParticles.BigHit);
             this.gameObject.SetActive(false);
             DropCollectableOnGround();
-            Destroy(this.gameObject, 10);
+            Invoke("Reactivate", 60);
         }
     }
 
@@ -271,5 +271,12 @@ public class EnnemyController : MonoBehaviour {
                 go.GetComponent<Collectable>().Disperse(i);
             }
         }
+    }
+
+    public void Reactivate()
+    {
+        isDead = false;
+        transform.position = zonePosition;
+        this.gameObject.SetActive(true);
     }
 }
