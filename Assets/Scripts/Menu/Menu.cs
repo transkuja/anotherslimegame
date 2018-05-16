@@ -410,6 +410,8 @@ public class Menu : MonoBehaviour {
             transform.GetChild((int)MenuState.MinigameSelection).GetChild(1).GetChild(i).GetComponent<MinigameSelectionAnim>().Hide();
         }
 
+        transform.GetChild((int)MenuState.MinigameSelection).GetChild(1).GetChild((int)_type).GetComponent<MinigameSelectionAnim>().EnlargeYourUI();
+
         //for (int i = 0; i < transform.GetChild((int)MenuState.MinigameSelection).GetChild(2).childCount; i++)
         //    DestroyImmediate(transform.GetChild((int)MenuState.MinigameSelection).GetChild(2).GetChild(i).gameObject);
 
@@ -421,6 +423,10 @@ public class Menu : MonoBehaviour {
             _newButton.transform.localPosition = Vector3.right * 250.0f + Vector3.up * ((minigames[(int)_type].Length * 25 - 25) - (50 * i));
             _newButton.transform.localScale = Vector3.one;
         }
+
+        transform.GetChild((int)MenuState.MinigameSelection).GetChild(2).GetChild(0).GetComponent<MinigameSelectionAnim>().IsSelected(true);
+
+
     }
 
     void ReturnToMinigameTypeSelection()
@@ -433,9 +439,10 @@ public class Menu : MonoBehaviour {
             transform.GetChild((int)MenuState.MinigameSelection).GetChild(1).GetChild(i).GetComponent<MinigameSelectionAnim>().Show();
         }
 
-        Debug.Log(transform.GetChild((int)MenuState.MinigameSelection).GetChild(2).childCount);
         for (int i = 0; i < transform.GetChild((int)MenuState.MinigameSelection).GetChild(2).childCount; i++)
             Destroy(transform.GetChild((int)MenuState.MinigameSelection).GetChild(2).GetChild(i).gameObject);
+
+        transform.GetChild((int)MenuState.MinigameSelection).GetChild(1).GetChild((int)selectedMinigameType).GetComponent<MinigameSelectionAnim>().ReduceYourUI();
     }
 
     private void DefaultCursorControls()
@@ -588,12 +595,15 @@ public class Menu : MonoBehaviour {
             || (Input.GetKeyDown(KeyCode.D) || (Input.GetKeyDown(KeyCode.RightArrow)))
             )
         {
-            if (minigameCurrentCursor < (int)MinigameType.Size -1)
+            if (!minigameTypeSelected)
             {
-                minigameCurrentCursor++;
-                minigameCurrentCursor %= (int)MinigameType.Size;
+                if (minigameCurrentCursor < (int)MinigameType.Size - 1)
+                {
+                    minigameCurrentCursor++;
+                    minigameCurrentCursor %= (int)MinigameType.Size;
 
-                UpdateMinigameSelection(minigameCurrentCursor - 1);
+                    UpdateMinigameSelection(minigameCurrentCursor - 1);
+                }
             }
         }
         else if ((controllerStates[0].ThumbSticks.Left.X < -0.5f && prevControllerStates[0].ThumbSticks.Left.X > -0.5f)
@@ -601,12 +611,15 @@ public class Menu : MonoBehaviour {
             || (Input.GetKeyDown(KeyCode.Q) || (Input.GetKeyDown(KeyCode.LeftArrow)))
             )
         {
-            minigameCurrentCursor--;
+            if (!minigameTypeSelected)
+            {
+                minigameCurrentCursor--;
 
-            if (minigameCurrentCursor < 0)
-                minigameCurrentCursor = 0;
-            else
-                UpdateMinigameSelection(minigameCurrentCursor + 1);
+                if (minigameCurrentCursor < 0)
+                    minigameCurrentCursor = 0;
+                else
+                    UpdateMinigameSelection(minigameCurrentCursor + 1);
+            }
         }
 
         if ((controllerStates[0].ThumbSticks.Left.Y > 0.5f && prevControllerStates[0].ThumbSticks.Left.Y < 0.5f)
@@ -616,8 +629,14 @@ public class Menu : MonoBehaviour {
         {
             if (minigameTypeSelected)
             {
-                minigameCurrentVerticalCursor++;
-                minigameCurrentVerticalCursor %= minigames[minigameCurrentCursor].Length;
+                int oldValue = minigameCurrentVerticalCursor;
+                minigameCurrentVerticalCursor--;
+                if (minigameCurrentVerticalCursor < 0)
+                    minigameCurrentVerticalCursor = minigames[(int)selectedMinigameType].Length - 1;
+                else
+                    minigameCurrentVerticalCursor %= minigames[(int)selectedMinigameType].Length;
+
+                UpdateMinigameVersionSelection(oldValue);
             }
             else
             {
@@ -635,15 +654,14 @@ public class Menu : MonoBehaviour {
         {
             if (minigameTypeSelected)
             {
-                minigameCurrentVerticalCursor--;
-                if (minigameCurrentVerticalCursor < 0)
-                    minigameCurrentVerticalCursor = minigames[minigameCurrentCursor].Length - 1;
-                else
-                    minigameCurrentVerticalCursor %= minigames[minigameCurrentCursor].Length;
+                int oldValue = minigameCurrentVerticalCursor;
+                minigameCurrentVerticalCursor++;
+                minigameCurrentVerticalCursor %= minigames[(int)selectedMinigameType].Length;
+
+                UpdateMinigameVersionSelection(oldValue);
             }
             else
             {
-                Debug.Log(minigameCurrentCursor);
                 if (minigameCurrentCursor < (int)MinigameType.Size / 2)
                 {
                     minigameCurrentCursor += (int)MinigameType.Size / 2;
@@ -684,6 +702,18 @@ public class Menu : MonoBehaviour {
         //    currentTimerBeforeStartingVideo = 0.0f;
         //}
     }
+
+    private void UpdateMinigameVersionSelection(int _oldValue)
+    {
+        if (AudioManager.Instance != null && AudioManager.Instance.changeOptionFx != null)
+            AudioManager.Instance.PlayOneShot(AudioManager.Instance.changeOptionFx);
+
+        transform.GetChild((int)MenuState.MinigameSelection).GetChild(2).GetChild(_oldValue).GetComponent<MinigameSelectionAnim>().IsSelected(false);
+
+        // Currently selected
+        transform.GetChild((int)MenuState.MinigameSelection).GetChild(2).GetChild(minigameCurrentVerticalCursor).GetComponent<MinigameSelectionAnim>().IsSelected(true);
+    }
+
 
     // Move the button cursor and highlight it
     void UpdateSelectionVisual(int _nbButtons, int _childOffset)
@@ -1189,6 +1219,7 @@ public class Menu : MonoBehaviour {
             if (minigameTypeSelected)
             {
                 minigameTypeSelected = false;
+                minigameCurrentVerticalCursor = 0;
                 ReturnToMinigameTypeSelection();
                 return;
             }
@@ -1246,7 +1277,7 @@ public class Menu : MonoBehaviour {
     void GoToNextStateFromMinigameSelection()
     {
         MinigameSelectionAnim minigameContainer = transform.GetChild((int)MenuState.MinigameSelection)
-                    .GetChild(2).GetComponent<MinigameSelectionAnim>();
+                    .GetChild(2).GetChild(minigameCurrentVerticalCursor).GetComponent<MinigameSelectionAnim>();
 
         if (!minigameContainer.IsUnlocked())
         {
