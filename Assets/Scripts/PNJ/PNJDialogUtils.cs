@@ -249,8 +249,9 @@ public static class PNJDialogUtils {
 
 
     // Anais
-    static string AnaisDM = "I love make a lot of customizable\n"
-       + "Espacially hats.";
+    static string AnaisDM = "I could beat the slime out of anyone,\n"
+       + "But people think I'm cute.\n"
+       + "I wonder why."; 
     static FaceEmotion[] AnaisDE = new FaceEmotion[1] { FaceEmotion.Winner };
     /*static string AnaisQM = ""
     ;
@@ -262,7 +263,7 @@ public static class PNJDialogUtils {
 
 
     // Seb
-    static string SebDM = "Arf .... I lost my color fade script\n"
+    static string SebDM = "See my  .... I lost my color fade script\n"
        + "But don't worry about this\n"
        + "I will make a new one.";
     static FaceEmotion[] SebDE = new FaceEmotion[3] { FaceEmotion.Loser, FaceEmotion.Neutral, FaceEmotion.Winner };

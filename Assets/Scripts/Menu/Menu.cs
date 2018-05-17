@@ -431,6 +431,8 @@ public class Menu : MonoBehaviour {
     void ReturnToMinigameTypeSelection()
     {
         canChangeSelection = false;
+        HideDifficulty();
+
         for (int i = 0; i < transform.GetChild((int)MenuState.MinigameSelection).GetChild(2).childCount; i++)
             Destroy(transform.GetChild((int)MenuState.MinigameSelection).GetChild(2).GetChild(i).gameObject);
 
@@ -731,8 +733,46 @@ public class Menu : MonoBehaviour {
 
         transform.GetChild((int)MenuState.MinigameSelection).GetChild(1).GetChild((int)selectedMinigameType).GetComponent<MinigameSelectionAnim>()
             .SetMinigame(minigames[(int)selectedMinigameType][minigameCurrentVerticalCursor]);
+
+        UpdateDifficulty();
     }
 
+    void UpdateDifficulty()
+    {
+        int difficulty = minigames[(int)selectedMinigameType][minigameCurrentVerticalCursor].difficulty;
+
+        if (!minigames[(int)selectedMinigameType][minigameCurrentVerticalCursor].isUnlocked)
+        {
+            HideDifficulty();
+        }
+        else
+        {
+            Image[] difficultyDots = transform.GetChild((int)MenuState.MinigameSelection).GetChild(3).GetComponentsInChildren<Image>();
+
+            for (int i = 0; i < difficulty; i++)
+            {
+                difficultyDots[i].color = Color.white;
+                if (difficulty % 2 == 0)
+                {
+                    difficultyDots[i].transform.localPosition = Vector3.right * (i * 15 - ((difficulty / 2) * 15) + 7.5f);
+                }
+                else
+                {
+                    difficultyDots[i].transform.localPosition = Vector3.right * (i * 15 - (((difficulty / 2)) * 15));
+                }
+            }
+
+            for (int i = difficulty; i < 5; i++)
+                difficultyDots[i].color = new Color(1, 1, 1, 0);
+        }
+    }
+
+    void HideDifficulty()
+    {
+        Image[] difficultyDots = transform.GetChild((int)MenuState.MinigameSelection).GetChild(3).GetComponentsInChildren<Image>();
+        for (int i = 0; i < 5; i++)
+            difficultyDots[i].color = new Color(1, 1, 1, 0);
+    }
 
     // Move the button cursor and highlight it
     void UpdateSelectionVisual(int _nbButtons, int _childOffset)
