@@ -37,7 +37,6 @@ public class ColorFloorGameMode : GameMode {
         base.StartGame(playerReferences);
         rules = new MinigameRules(this, minigameVersion);
         checkRuneObjective = CheckRuneObjectiveForColorFloor;
-        necessaryPointsForRune *= playerReferences.Count;
 
         for (int i = 0; i < playerReferences.Count; i++)
         {

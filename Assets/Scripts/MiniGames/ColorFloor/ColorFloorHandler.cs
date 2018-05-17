@@ -319,7 +319,7 @@ public static class ColorFloorHandler {
             return;
 
         //int currentPoints = GameManager.Instance.PlayerStart.PlayersReference[_playerIndex].GetComponent<Player>().NbPoints;
-        GameManager.Instance.PlayerStart.PlayersReference[_playerIndex].GetComponent<Player>().UpdateCollectableValue(CollectableType.Points, -20);
+        GameManager.Instance.PlayerStart.PlayersReference[_playerIndex].GetComponent<Player>().UpdateCollectableValue(CollectableType.Points, -5);
 
         foreach (OnColoredFloorTrigger col in currentlyColoredByPlayer[_playerIndex])
         {
