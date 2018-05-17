@@ -11,8 +11,14 @@ public class DebugDestroy : MonoBehaviour {
     }
     void RemoveBlackScreen()
     {
-        if (GameManager.Instance.PlayerStart.PlayersReference.Count != 3)
-            Destroy(this.gameObject);
+        if (GameManager.Instance.DataContainer)
+        {
+            if (GameManager.Instance.DataContainer.nbPlayers != 3)
+                Destroy(this.gameObject);
+        }
+        else
+            if (GameManager.Instance.ActivePlayersAtStart != 3)
+                Destroy(this.gameObject);
     }
 
 }
