@@ -6,16 +6,16 @@ using UWPAndXInput;
 public static class MinigameDataUtils
 {
     private static string ColorFloorTitle = "Floor Coloring";
-    private static string ColorFloorTitleV3 = "Trapped Floor Coloring";
-    private static string ColorFloorTitleV5 = "Restrained Floor Coloring";
-    private static string ColorFloorTitleV7 = "Trapped & Restrained Floor Coloring";
+    private static string ColorFloorTitleV3 = "Trapped Coloring";
+    private static string ColorFloorTitleV5 = "Bouncy Coloring";
+    private static string ColorFloorTitleV7 = "Trapped Bouncy Coloring";
 
     private static string ColorFloorTitleV2 = "Shape Coloring";
-    private static string ColorFloorTitleV4 = "Trapped Shape Coloring";
-    private static string ColorFloorTitleV6 = "Restrained Shape Coloring";
-    private static string ColorFloorTitleV8 = "Trapped & Restrained Shape Coloring";
+    private static string ColorFloorTitleV4 = "Trapped Shaper";
+    private static string ColorFloorTitleV6 = "Bouncy Shaper";
+    private static string ColorFloorTitleV8 = "Trapped Bouncy Shaper";
 
-    private static string ClassicKartTitle = "Classic Kart";
+    private static string ClassicKartTitle = "Kart From Hell";
     private static string SnowKartTitle = "Snow Kart";
     private static string EasyKartTitle = "Easy Kart";
     private static string RunnerTitle = "Classic Runner";
@@ -27,7 +27,7 @@ public static class MinigameDataUtils
     private static string FoodTitle = "Eat Them All";
     private static string FoodTitleV2 = "Eat Them Faster";
     private static string FoodTitleV3 = "Don't Eat Them All";
-    private static string FoodTitleV4 = "Don't Eat Them All Faster";
+    private static string FoodTitleV4 = "Gluttony";
 
 
     public static string GetTitle(GameMode _curGameMode, int _version = 0)
