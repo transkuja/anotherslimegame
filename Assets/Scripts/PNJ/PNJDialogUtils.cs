@@ -70,6 +70,24 @@ public static class PNJDialogUtils {
         FaceEmotion.Neutral, FaceEmotion.Neutral, FaceEmotion.Winner
     };
 
+    // Gwen
+    static string GwenDM = "Shoo, I need space.";
+    static FaceEmotion[] GwenDE = new FaceEmotion[1] { FaceEmotion.Neutral };
+    static string GwenQM =
+        "I've been watching you and let me say...\n" +
+        "You suck.\n" +
+        "I bet you won't be able to run over there in time.#" +
+        "in time.#" +
+
+        "Well, eat my watermelon. You can have my hat.\n" +
+        "My life sucks anyway.\n" +
+        "Hopefully I've a nice view on the beach from here.\n" + 
+        "Have you seen how beautiful the sand is?"
+    ;
+    static FaceEmotion[] GwenQE = new FaceEmotion[3] {
+        FaceEmotion.Neutral, FaceEmotion.Neutral, FaceEmotion.Winner
+    };
+
 
     // Mickey
     static string MickeyDM = "Nothing to say.";
@@ -202,10 +220,14 @@ public static class PNJDialogUtils {
 
 
     // Remi
-    static string RemiDM = "Miaou!!\n"
-       + "I like add new thing in this world, like rabbit, butterfly or some decorations\n"
-       + "Even if some people are not really agree with that\n"
-       + "Meow!!.";
+    static string RemiDM = "I exiled myself here because nobody wanted to\n"
+       + "here my jokes. They called them inappropriate for\n"
+       + "this world.\n"
+       + "I think I'll just live in the clouds for a while.\n"
+       + "You may hear me sing if you pass by,\n"
+       + "and if you're willing to hit me, I'll be grateful.\n"
+       + "There's no one around here to play with me.";
+
     static FaceEmotion[] RemiDE = new FaceEmotion[4] { FaceEmotion.Neutral, FaceEmotion.Winner, FaceEmotion.Attack, FaceEmotion.Neutral };
     /*static string RemiQM = ""
     ;
@@ -217,15 +239,11 @@ public static class PNJDialogUtils {
 
 
     // Antho
-    static string AnthoDM = "I am going to try to frighten you\n"
-       + "Boouuuhh!!\n"
-       + "Frightening, isn' t it? No, I retry !\n"
-       + "Boooooooouuuuuuuuhhhhhh!!\n"
-       + "Not yet ? \n"
-       + "BOOOUUUHHHH!!\n"
-       + "Last try !"
-       + "BOOOOOOOOOOOUUUUUUUUUHHHHHHH!!\n"
-       + "YEAH !! I managed to frighten you !!!!!.";
+    static string AnthoDM = "One day I'll give you something cool to do.\n"
+       + "For now, I'm just standing there with my cool glasses.\n"
+       + "And I may have left enough money in the pots around\n"
+       + "for you to buy them.";
+       
     static FaceEmotion[] AnthoDE = new FaceEmotion[1] { FaceEmotion.Attack };
     /*static string AnthoQM = ""
     ;
@@ -263,9 +281,10 @@ public static class PNJDialogUtils {
 
 
     // Seb
-    static string SebDM = "See my  .... I lost my color fade script\n"
-       + "But don't worry about this\n"
-       + "I will make a new one.";
+    static string SebDM = "See my wonderful color?\n"
+       + "I won't give it for free.\n"
+       + "...\n"
+       + "It doesn't mean I'd give it for money";
     static FaceEmotion[] SebDE = new FaceEmotion[3] { FaceEmotion.Loser, FaceEmotion.Neutral, FaceEmotion.Winner };
     /*static string SebQM = ""
     ;
@@ -279,8 +298,8 @@ public static class PNJDialogUtils {
     static string MathieuDM = "Do you know what is my favorite animal ?\n"
        + "No ? I'ill give you a hint.\n"
        + "Aaaaooouuuhhhh!!\n"
-       + "You find it, don't you ?\n"
-       + "Yes, it is wolf. Good answer.";
+       + "You found it, don't you ?\n"
+       + "Yes, it's the wolf. Good answer.";
     static FaceEmotion[] MathieuDE = new FaceEmotion[5] { FaceEmotion.Neutral, FaceEmotion.Loser, FaceEmotion.Neutral, FaceEmotion.Attack, FaceEmotion.Winner };
     /*static string MathieuQM = ""
     ;
@@ -291,9 +310,10 @@ public static class PNJDialogUtils {
 
 
     // Theo
-    static string TheoDM = "You know about my friend Mel ?\n"
-        + "This is his Beche\n"
-        + "Yes, this is the Beche a Mel";
+    static string TheoDM = "I used to tell jokes but\n"
+        + "I've been replaced.\n"
+        + "Now I just stare at the sea,\n"
+        + "listen to metal and drink beers.";
     static FaceEmotion[] TheoDE = new FaceEmotion[3] { FaceEmotion.Neutral, FaceEmotion.Hit, FaceEmotion.Winner };
     /*static string TheoQM = ""
     ;
@@ -323,6 +343,7 @@ public static class PNJDialogUtils {
             case PNJName.Mickey:
                 return MickeyDM;
             case PNJName.Gwen:
+                return GwenDM;
             case PNJName.Bob:
                 return BobDM;
             case PNJName.Roger:
@@ -358,6 +379,7 @@ public static class PNJDialogUtils {
             case PNJName.Mickey:
                 return MickeyQM;
             case PNJName.Gwen:
+                return GwenQM;
             case PNJName.Bob:
                 return BobQM;
             case PNJName.Roger:
