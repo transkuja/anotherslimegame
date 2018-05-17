@@ -116,9 +116,9 @@ public class Runner3DGameMode : GameMode {
     {
         int pointsObjective = 0;
         int curScore = 0;
-        foreach (GameObject go in GameManager.Instance.PlayerStart.PlayersReference)
+        for (int i = 0; i < curNbPlayers; i++)
         {
-            curScore += go.GetComponent<Player>().NbPoints;
+            curScore += GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<Player>().NbPoints;
             pointsObjective += necessaryPointsForRune;
         }
         currentScore = curScore;

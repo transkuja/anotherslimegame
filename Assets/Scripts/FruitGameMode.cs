@@ -63,10 +63,10 @@ public class FruitGameMode : GameMode {
     {
         int pointsObjectiveFruit = 0;
         int curScoreFruit = 0;
-        foreach (GameObject go in GameManager.Instance.PlayerStart.PlayersReference)
+        for (int i = 0; i < curNbPlayers; i++)
         {
-            curScoreFruit += go.GetComponent<Player>().NbPoints;
-            pointsObjectiveFruit += necessaryPointsForRune;
+            curScore += GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<Player>().NbPoints;
+            pointsObjective += necessaryPointsForRune;
         }
         currentScore = curScoreFruit;
         return curScoreFruit >= pointsObjectiveFruit;
