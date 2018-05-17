@@ -45,6 +45,7 @@ public class MinigameSelectionAnim : MonoBehaviour {
         {
             MinigameGenericInformationLoad();
         }
+        initialPosition = transform.localPosition;
     }
 
     void MinigameGenericInformationLoad()
@@ -212,6 +213,7 @@ public class MinigameSelectionAnim : MonoBehaviour {
     public void Hide()
     {
         isHiding = true;
+        isShowing = false;
         lerpValue = 1.0f;
         hasBeenSelected = false;
         hasBeenDeselected = false;
@@ -220,6 +222,7 @@ public class MinigameSelectionAnim : MonoBehaviour {
     public void Show()
     {
         isShowing = true;
+        isHiding = false;
         lerpValue = 0.0f;
         hasBeenSelected = false;
         hasBeenDeselected = false;
@@ -227,7 +230,6 @@ public class MinigameSelectionAnim : MonoBehaviour {
 
     public void EnlargeYourUI()
     {
-        initialPosition = transform.localPosition;
         isEnlarging = true;
         lerpValue = 0.0f;
         isReducing = false;
