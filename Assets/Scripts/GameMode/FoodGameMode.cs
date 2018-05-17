@@ -87,6 +87,7 @@ public class FoodGameMode : GameMode {
     {
         base.StartGame(playerReferences);
         rules = new MinigameRules(this, minigameVersion);
+        checkRuneObjective = CheckRuneObjectiveForFood;
 
         for (int i = 0; i < playerReferences.Count; i++)
         {
@@ -249,4 +250,18 @@ public class FoodGameMode : GameMode {
     {
         minigameUI.SetActive(false);
     }
+
+    bool CheckRuneObjectiveForFood()
+    {
+        int pointsObjective = 0;
+        int curScore = 0;
+        foreach (GameObject go in GameManager.Instance.PlayerStart.PlayersReference)
+        {
+            curScore += go.GetComponent<Player>().NbPoints;
+            pointsObjective += necessaryPointsForRune;
+        }
+        currentScore = curScore;
+        return curScore >= pointsObjective;
+    }
+
 }
