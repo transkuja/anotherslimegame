@@ -61,15 +61,15 @@ public class FruitGameMode : GameMode {
 
     bool CheckRuneObjectiveForFruits()
     {
-        int pointsObjectiveFruit = 0;
-        int curScoreFruit = 0;
+        int pointsObjective = 0;
+        int curScore = 0;
         for (int i = 0; i < curNbPlayers; i++)
         {
             curScore += GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<Player>().NbPoints;
             pointsObjective += necessaryPointsForRune;
         }
-        currentScore = curScoreFruit;
-        return curScoreFruit >= pointsObjectiveFruit;
+        currentScore = curScore;
+        return curScore >= pointsObjective;
     }
 
 }
