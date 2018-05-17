@@ -124,7 +124,8 @@ public class EvolutionGhost : EvolutionComponent
     public void RemoveGhostVisual()
     {
         playerCharacter.Body.GetComponentInChildren<Renderer>().material = baseMat;
-        playerCharacter.GhostParticles.Stop();
+        if (playerCharacter.GhostParticles)
+            playerCharacter.GhostParticles.Stop();
         playerCharacter.DustTrailParticles.GetComponent<ParticleSystemRenderer>().material = baseDustTrailMat;
         playerCharacter.DustTrailParticles.transform.GetChild(0).GetComponent<ParticleSystemRenderer>().material = baseDustTrailMat;
     }
