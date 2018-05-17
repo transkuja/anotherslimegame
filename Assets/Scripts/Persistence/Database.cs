@@ -597,6 +597,16 @@ namespace DatabaseClass
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
+            runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
+            runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
+            runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
+            runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
+            runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
+
+            // PNJeez
+            runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
+            runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
+            runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
 
             // Minigames runes
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false, unlockedInMinigame = true, associatedMinigame = MinigameType.Kart, associatedMinigameVersion = 2 });
