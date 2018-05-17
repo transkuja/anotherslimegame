@@ -71,18 +71,18 @@ public static class PNJDialogUtils {
     };
 
     // Gwen
-    static string GwenDM = "Shoo, I need space.";
+    static string GwenDM = "Shoo, I need space.\n" +
+        "My life sucks anyway.\n" +
+        "Hopefully I've a nice view on the beach from here.\n" +
+        "Have you seen how beautiful the sand is?";
+
     static FaceEmotion[] GwenDE = new FaceEmotion[1] { FaceEmotion.Neutral };
     static string GwenQM =
         "I've been watching you and let me say...\n" +
         "You suck.\n" +
         "I bet you won't be able to run over there in time.#" +
-        "in time.#" +
 
-        "Well, eat my watermelon. You can have my hat.\n" +
-        "My life sucks anyway.\n" +
-        "Hopefully I've a nice view on the beach from here.\n" + 
-        "Have you seen how beautiful the sand is?"
+        "Well, eat my watermelon. You can have my hat." 
     ;
     static FaceEmotion[] GwenQE = new FaceEmotion[3] {
         FaceEmotion.Neutral, FaceEmotion.Neutral, FaceEmotion.Winner
