@@ -107,7 +107,7 @@ public class PlayerCharacter : MonoBehaviour {
     {
         get
         {
-            if (!ghostParticles) ghostParticles = transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)BodyPart.GhostParticles+1).GetComponent<ParticleSystem>();
+            if (!ghostParticles) ghostParticles = transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild((int)BodyPart.GhostParticles).GetComponent<ParticleSystem>();
             return ghostParticles;
         }
     }
