@@ -315,7 +315,7 @@ public class DebugTools : MonoBehaviour {
                     Debug.Log("DEBUG: All minigames unlocked.");
                 }
             }
-            
+
             if (Input.GetKeyDown(KeyCode.R))
             {
                 if (DatabaseManager.Db.IsUnlock<DatabaseClass.RuneData>(DatabaseManager.Db.runes[DatabaseManager.Db.runes.Count - 1].Id))
@@ -368,6 +368,11 @@ public class DebugTools : MonoBehaviour {
 
                     Debug.Log("DEBUG: All hats unlocked.");
                 }
+            }
+
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                DatabaseManager.Db.UnlockedAll();
             }
         }
 
