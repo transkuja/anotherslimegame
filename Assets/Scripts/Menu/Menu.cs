@@ -69,6 +69,7 @@ public class Menu : MonoBehaviour {
 
     [SerializeField]
     GameObject minigameVersionUIPrefab;
+    bool canChangeSelection = true;
 
     public SlimeDataContainer DataContainer
     {
@@ -429,6 +430,16 @@ public class Menu : MonoBehaviour {
 
     void ReturnToMinigameTypeSelection()
     {
+        canChangeSelection = false;
+        for (int i = 0; i < transform.GetChild((int)MenuState.MinigameSelection).GetChild(2).childCount; i++)
+            Destroy(transform.GetChild((int)MenuState.MinigameSelection).GetChild(2).GetChild(i).gameObject);
+
+        transform.GetChild((int)MenuState.MinigameSelection).GetChild(1).GetChild((int)selectedMinigameType).GetComponent<MinigameSelectionAnim>().ReduceYourUI();
+        Invoke("ShowMinigameTypesOnReturn", 0.4f);
+    }
+
+    void ShowMinigameTypesOnReturn()
+    {
         for (int i = 0; i < (int)MinigameType.Size; i++)
         {
             if (i == minigameCurrentCursor)
@@ -436,11 +447,12 @@ public class Menu : MonoBehaviour {
 
             transform.GetChild((int)MenuState.MinigameSelection).GetChild(1).GetChild(i).GetComponent<MinigameSelectionAnim>().Show();
         }
+        Invoke("CanChangeSelection", 0.2f);
+    }
 
-        for (int i = 0; i < transform.GetChild((int)MenuState.MinigameSelection).GetChild(2).childCount; i++)
-            Destroy(transform.GetChild((int)MenuState.MinigameSelection).GetChild(2).GetChild(i).gameObject);
-
-        transform.GetChild((int)MenuState.MinigameSelection).GetChild(1).GetChild((int)selectedMinigameType).GetComponent<MinigameSelectionAnim>().ReduceYourUI();
+    void CanChangeSelection()
+    {
+        canChangeSelection = true;
     }
 
     private void DefaultCursorControls()
@@ -593,7 +605,7 @@ public class Menu : MonoBehaviour {
             || (Input.GetKeyDown(KeyCode.D) || (Input.GetKeyDown(KeyCode.RightArrow)))
             )
         {
-            if (!minigameTypeSelected)
+            if (!minigameTypeSelected && canChangeSelection)
             {
                 if (minigameCurrentCursor < (int)MinigameType.Size - 1)
                 {
@@ -609,7 +621,7 @@ public class Menu : MonoBehaviour {
             || (Input.GetKeyDown(KeyCode.Q) || (Input.GetKeyDown(KeyCode.LeftArrow)))
             )
         {
-            if (!minigameTypeSelected)
+            if (!minigameTypeSelected && canChangeSelection)
             {
                 minigameCurrentCursor--;
 
@@ -638,10 +650,13 @@ public class Menu : MonoBehaviour {
             }
             else
             {
-                if (minigameCurrentCursor >= (int)MinigameType.Size / 2)
+                if (canChangeSelection)
                 {
-                    minigameCurrentCursor -= (int)MinigameType.Size / 2;
-                    UpdateMinigameSelection(minigameCurrentCursor + (int)MinigameType.Size / 2);
+                    if (minigameCurrentCursor >= (int)MinigameType.Size / 2)
+                    {
+                        minigameCurrentCursor -= (int)MinigameType.Size / 2;
+                        UpdateMinigameSelection(minigameCurrentCursor + (int)MinigameType.Size / 2);
+                    }
                 }
             }
         }
@@ -660,10 +675,13 @@ public class Menu : MonoBehaviour {
             }
             else
             {
-                if (minigameCurrentCursor < (int)MinigameType.Size / 2)
+                if (canChangeSelection)
                 {
-                    minigameCurrentCursor += (int)MinigameType.Size / 2;
-                    UpdateMinigameSelection(minigameCurrentCursor - (int)MinigameType.Size / 2);
+                    if (minigameCurrentCursor < (int)MinigameType.Size / 2)
+                    {
+                        minigameCurrentCursor += (int)MinigameType.Size / 2;
+                        UpdateMinigameSelection(minigameCurrentCursor - (int)MinigameType.Size / 2);
+                    }
                 }
             }
             //UpdateMinigameSelection();
