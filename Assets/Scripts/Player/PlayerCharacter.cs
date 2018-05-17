@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum PlayerChildren { SlimeMesh, ShadowProjector, BubbleParticles, SplashParticles, WaterTrailParticles, CameraTarget, DustTrailParticles, DashParticles, LandingParticles, TeleportParticles };
-public enum BodyPart { Body, Rig, Wings, Hammer, Staff , Customization, GhostParticles, Size, None}
+public enum BodyPart { Body, Rig, Wings, Hammer, Staff , PlaceHolder, Customization, GhostParticles, Size, None}
 
 
 public class PlayerCharacter : MonoBehaviour {
