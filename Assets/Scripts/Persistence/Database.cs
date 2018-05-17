@@ -580,7 +580,7 @@ namespace DatabaseClass
             minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 7, spriteImage = "screenshotMinigameAntho2", isUnlocked = false, type = MinigameType.Floor, version = 7, difficulty = 5 });
 
             // TODO: needs a screenshot
-            minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 5, spriteImage = "screenshotMinigameFood", isUnlocked = true, type = MinigameType.Food, difficulty = 1 });
+            minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 5, spriteImage = "screenshotMinigameFood", isUnlocked = false, type = MinigameType.Food, difficulty = 1 });
             minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 15, spriteImage = "screenshotMinigameFood", isUnlocked = false, type = MinigameType.Food, version = 1, difficulty = 2 });
             minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 11, spriteImage = "screenshotMinigameFood", isUnlocked = false, type = MinigameType.Food, version = 2, difficulty = 2 });
             minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 24, spriteImage = "screenshotMinigameFood", isUnlocked = false, type = MinigameType.Food, version = 3, difficulty = 3 });
