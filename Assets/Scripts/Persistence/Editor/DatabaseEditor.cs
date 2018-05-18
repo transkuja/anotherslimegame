@@ -32,6 +32,9 @@ public class DatabaseEditor : Editor
         if (GUILayout.Button("All rune to -1 cost to 100"))
             comp.TestCost();
 
+        if (GUILayout.Button("Playtest settings"))
+            comp.UnlockAllMinigamesAndAlmostAllCustomizables();
+
         base.OnInspectorGUI();
 
         EditorUtility.SetDirty(comp);

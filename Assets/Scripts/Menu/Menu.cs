@@ -586,6 +586,7 @@ public class Menu : MonoBehaviour {
                         DatabaseManager.Db.SetUnlockByCustomType(playerCustomScreens[0].GetComponentInChildren<UnlockableContainer>().type,
                             playerCustomScreens[0].GetComponentInChildren<UnlockableContainer>().data.Id, true);
                         DatabaseManager.Db.Money -= unlockableData.costToUnlock;
+                        transform.GetComponentInChildren<HandleMoneyUIMenu>().GetComponent<Text>().text = DatabaseManager.Db.Money.ToString();
 
                         if (AudioManager.Instance != null && AudioManager.Instance.buySoundFx != null)
                             AudioManager.Instance.Play(AudioManager.Instance.buySoundFx);
@@ -840,7 +841,7 @@ public class Menu : MonoBehaviour {
         {
             _parent.gameObject.SetActive(true);
             bool canBeBoughtWithGold = _unlockableData.costToUnlock != -1;
-            _parent.GetComponentInChildren<Text>().text = (canBeBoughtWithGold) ? DatabaseManager.Db.Money.ToString() + " / " + _unlockableData.costToUnlock.ToString() : "???";
+            _parent.GetComponentInChildren<Text>().text = (canBeBoughtWithGold) ? _unlockableData.costToUnlock.ToString() : "???";
 
             _parent.GetChild(1).GetComponent<Image>().enabled = canBeBoughtWithGold;
             _parent.GetChild(2).GetComponent<Image>().enabled = (canBeBoughtWithGold && DatabaseManager.Db.Money >= _unlockableData.costToUnlock);
