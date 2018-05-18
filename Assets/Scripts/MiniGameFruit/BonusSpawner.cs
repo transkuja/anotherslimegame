@@ -35,11 +35,11 @@ public class BonusSpawner : MonoBehaviour {
 
     void Start()
     {
-        minX = -(boxColliderSpawn.transform.localScale.x / 2);
-        maxX = boxColliderSpawn.transform.localScale.x / 2;
+        minX = -(boxColliderSpawn.transform.localScale.x);
+        maxX = boxColliderSpawn.transform.localScale.x;
 
-        minZ = -(boxColliderSpawn.transform.localScale.z / 2);
-        maxZ = boxColliderSpawn.transform.localScale.z / 2;
+        minZ = -(boxColliderSpawn.transform.localScale.z);
+        maxZ = boxColliderSpawn.transform.localScale.z;
     }
 
     public IEnumerator SpawnBonus(BonusType _type, float _time)
