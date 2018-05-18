@@ -6,6 +6,8 @@ public class PulsingEmissive : MonoBehaviour {
 
     Material material;
     [SerializeField]
+    bool useCurrentEmissiveColor;
+    [SerializeField]
     Color initialColor;
     float time;
 
@@ -14,6 +16,8 @@ public class PulsingEmissive : MonoBehaviour {
         material = GetComponentInChildren<Renderer>().material;
         material.EnableKeyword("_EMISSION");
 
+        if (useCurrentEmissiveColor)
+            initialColor = material.GetColor("_EmissionColor");
         material.SetColor("_EmissionColor", initialColor);
 
         time = 0;
@@ -22,7 +26,7 @@ public class PulsingEmissive : MonoBehaviour {
         {
             Color colorToApply = material.GetColor("_EmissionColor");
 
-            while (colorToApply.maxColorComponent < 1.5f)
+            while (colorToApply.maxColorComponent < initialColor.maxColorComponent * 1.5f)
             {
                 time += Time.deltaTime * 0.05f;
                 colorToApply *= (1 + time);
@@ -31,7 +35,7 @@ public class PulsingEmissive : MonoBehaviour {
             }
 
             time = 0.0f;
-            while (colorToApply.maxColorComponent > 0.4f)
+            while (colorToApply.maxColorComponent > initialColor.maxColorComponent * 0.4f)
             {
                 time += Time.deltaTime * 0.05f;
                 colorToApply *= 1 / (1 + time);

@@ -12,10 +12,23 @@ public class Breakable : MonoBehaviour {
     // Index in database to know if it has already been broken. -1 if no persistence.
     public int persistenceIndex = -1;
 
-    private void Start()
+    IEnumerator Start()
     {
         if (transform.gameObject.layer != LayerMask.NameToLayer("Breakable"))
             transform.gameObject.layer = LayerMask.NameToLayer("Breakable");
+
+        yield return new WaitForSeconds(0.5f);
+
+        if (GameManager.Instance.IsInHub())
+        {
+            if (GetComponent<PulsingEmissive>())
+            {
+                if (persistenceIndex != -1 && !DatabaseManager.Db.alreadyBrokenBreakables[persistenceIndex])
+                {
+                    GetComponent<PulsingEmissive>().enabled = true;
+                }
+            }
+        }
     }
 
     public bool DropCollectables()
