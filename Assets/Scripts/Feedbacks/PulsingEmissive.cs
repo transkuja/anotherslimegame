@@ -10,6 +10,12 @@ public class PulsingEmissive : MonoBehaviour {
     [SerializeField]
     Color initialColor;
     float time;
+    [SerializeField]
+    float pulseRangeMin = 0.4f;
+    [SerializeField]
+    float pulseRangeMax = 1.5f;
+    [SerializeField]
+    float pulseSpeed = 5;
 
     IEnumerator Start()
     {
@@ -26,18 +32,18 @@ public class PulsingEmissive : MonoBehaviour {
         {
             Color colorToApply = material.GetColor("_EmissionColor");
 
-            while (colorToApply.maxColorComponent < initialColor.maxColorComponent * 1.5f)
+            while (colorToApply.maxColorComponent < initialColor.maxColorComponent * pulseRangeMax && pulseRangeMax > 0.0f)
             {
-                time += Time.deltaTime * 0.05f;
+                time += Time.deltaTime * pulseSpeed * 0.01f;
                 colorToApply *= (1 + time);
                 material.SetColor("_EmissionColor", colorToApply);
                 yield return new WaitForEndOfFrame();
             }
 
             time = 0.0f;
-            while (colorToApply.maxColorComponent > initialColor.maxColorComponent * 0.4f)
+            while (colorToApply.maxColorComponent > initialColor.maxColorComponent * pulseRangeMin && pulseRangeMin > 0.0f)
             {
-                time += Time.deltaTime * 0.05f;
+                time += Time.deltaTime * pulseSpeed * 0.01f;
                 colorToApply *= 1 / (1 + time);
                 material.SetColor("_EmissionColor", colorToApply);
                 yield return new WaitForEndOfFrame();
