@@ -164,13 +164,21 @@ public class ScoreScreen : MonoBehaviour {
             if (!_curPlayer.HasFinishedTheRun)
             {
                 _curPlayer.HasFinishedTheRun = true;
-                if (remainingPlayers.Count == 0
-                    || remainingPlayers[remainingPlayers.Count - 1].NbPoints > _curPlayer.NbPoints)
-                {
+
+                if (remainingPlayers.Count == 0)
                     remainingPlayers.Add(_curPlayer);
-                }
                 else
-                    remainingPlayers.Insert(remainingPlayers.Count - 1, _curPlayer);
+                    for (int j = 0; j < remainingPlayers.Count; j++)
+                    {
+                        if(remainingPlayers[remainingPlayers.Count - (j+1)].NbPoints > _curPlayer.NbPoints)
+                        {
+                            remainingPlayers.Insert(remainingPlayers.Count - j, _curPlayer);
+                            break;
+                        }
+                        else
+                            continue;
+
+                    }
             }
         }
         RefreshScoresTimeOver(remainingPlayers.ToArray());
