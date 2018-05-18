@@ -170,14 +170,18 @@ public class ScoreScreen : MonoBehaviour {
                 else
                     for (int j = 0; j < remainingPlayers.Count; j++)
                     {
-                        if(remainingPlayers[remainingPlayers.Count - (j+1)].NbPoints > _curPlayer.NbPoints)
+                        if (remainingPlayers[remainingPlayers.Count - (j + 1)].NbPoints > _curPlayer.NbPoints)
                         {
                             remainingPlayers.Insert(remainingPlayers.Count - j, _curPlayer);
                             break;
                         }
+                        else if (j == remainingPlayers.Count - 1)
+                        {
+                            remainingPlayers.Insert(0, _curPlayer);
+                            break;
+                        }
                         else
                             continue;
-
                     }
             }
         }
