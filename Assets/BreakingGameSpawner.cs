@@ -9,7 +9,7 @@ public class BreakingGameSpawner : MonoBehaviour {
     [Tooltip("% of chance each pot will be trapped.")]
     [Range(10, 100)]
     [SerializeField]
-    float trapFrequency = 10.0f;
+    public float trapFrequency = 10.0f;
 
     int lineCount;
     int mapSize;

@@ -258,7 +258,8 @@ public class EnnemyController : MonoBehaviour {
             ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles).GetItem(null, transform.position + 3.0f * Vector3.up, Quaternion.identity, true, false, (int)HitParticles.BigHit);
             this.gameObject.SetActive(false);
             DropCollectableOnGround();
-            Invoke("Reactivate", 60);
+            if (GameManager.Instance.IsInHub())
+                Invoke("Reactivate", 60);
         }
     }
 

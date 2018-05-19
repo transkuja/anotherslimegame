@@ -36,6 +36,11 @@ public class Breakable : MonoBehaviour {
         return minCollectableDropOnBreak > 0 && maxCollectableDropOnBreak > 0;
     }
 
+    public virtual bool OverrideDestruction(PlayerCharacterHub _playerCharacterHub)
+    {
+        return false;
+    }
+
     public void HandleCollision(PlayerCharacterHub _playerCharacterHub, PlayerControllerHub _playerControllerHub)
     {
         if (_playerCharacterHub != null && (
@@ -44,6 +49,9 @@ public class Breakable : MonoBehaviour {
                 )
            )
         {
+            if (OverrideDestruction(_playerCharacterHub))
+                return;
+
             if (GetComponent<BreakEventPot>())
             {
                 GetComponent<BreakEventPot>().SpawnChief();

@@ -331,12 +331,16 @@ public class PlayerCollisionCenter : MonoBehaviour {
         {
             if (GameManager.Instance.IsInHub() && playerImpacted.GetComponent<PlayerController>())
                 DamagePlayerHub();
-            else if (GameManager.Instance.IsInHub() && playerImpacted.gameObject.layer == LayerMask.NameToLayer("Rabite"))
-                playerImpacted.GetComponentInChildren<EnnemyController>().CurrentState = EnnemyController.RabiteState.Dead;
             else
                 DamagePlayer(playerImpacted.GetComponent<Player>(), PlayerUIStat.Points);
         }
-        
+
+        if (playerImpacted.gameObject.layer == LayerMask.NameToLayer("Rabite"))
+        {
+            if (GameManager.Instance.IsInHub() || gameObject.layer != LayerMask.NameToLayer("Rabite"))
+                playerImpacted.GetComponentInChildren<EnnemyController>().CurrentState = EnnemyController.RabiteState.Dead;
+        }
+
         ExpulsePlayer(playerImpacted.GetComponent<Collider>().ClosestPoint(transform.position), playerImpacted.PlayerCharacter.Rb, repulsionFactor);
     }
 
