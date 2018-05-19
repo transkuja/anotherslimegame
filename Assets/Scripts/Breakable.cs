@@ -94,7 +94,13 @@ public class Breakable : MonoBehaviour {
             if (AudioManager.Instance != null && AudioManager.Instance.breakFx != null)
                 AudioManager.Instance.PlayOneShot(AudioManager.Instance.breakFx);
 
+            PostCollisionProcess(_playerCharacterHub, _playerControllerHub);
         }
+    }
+
+    public virtual void PostCollisionProcess(PlayerCharacterHub _playerCharacterHub, PlayerControllerHub _playerControllerHub)
+    {
+
     }
 
     void DropCollectableOnGround()

@@ -25,7 +25,11 @@ public class WarningFeedback : MonoBehaviour {
         color = feedback.color;
         color.a = 0.5f;
         feedback.color = color;
-        StartCoroutine(DisableFeedback());
+        if (GetComponentInParent<OnColoredFloorTrigger>())
+            StartCoroutine(DisableFeedbackColorFloor());
+        else if (GetComponentInParent<BoardFloor>())
+            StartCoroutine(DisableFeedbackBreaking());
+
     }
 
     private void Update()
@@ -41,7 +45,7 @@ public class WarningFeedback : MonoBehaviour {
         else if (color.a < 0.45f) alphaIncreasing = true;
     }
 
-    IEnumerator DisableFeedback()
+    IEnumerator DisableFeedbackColorFloor()
     {
         yield return new WaitForSeconds(1.0f);
         transform.parent.gameObject.SetActive(false);
@@ -79,5 +83,18 @@ public class WarningFeedback : MonoBehaviour {
             );
         }
 
+    }
+
+    IEnumerator DisableFeedbackBreaking()
+    {
+        yield return new WaitForSeconds(1.0f);
+        transform.parent.gameObject.SetActive(false);
+
+        ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.BreakingPots).GetItem(
+                transform.GetComponentInParent<BoardFloor>().transform,
+                Vector3.up,
+                Quaternion.identity,
+                true
+            );
     }
 }

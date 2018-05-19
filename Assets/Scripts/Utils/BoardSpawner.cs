@@ -7,7 +7,7 @@ using Random = UnityEngine.Random;
 
 public static class BoardSpawner
 {
-
+    public enum Pattern { CenteredSquare4x4, Borders, Losange, X, Plus, HappyFace, SquareEmptySquare, Corners, Center4x4, Center3x3, Center2x2, Size }
     public static int[] AscendingDiagonalBadPickup(int _startingLine = -1, int _startingColumn = -1)
     {
         if (_startingLine == -1 && _startingColumn == -1)
@@ -80,5 +80,26 @@ public static class BoardSpawner
             result[i] = _columnIndex + 8 * i;
 
         return result;
+    }
+
+    public static int[] GetPattern(Pattern _pattern)
+    {
+        switch (_pattern)
+        {
+            case Pattern.Borders:
+            case Pattern.Center2x2:
+            case Pattern.Center3x3:
+            case Pattern.Center4x4:
+            case Pattern.CenteredSquare4x4:
+            case Pattern.Corners:
+            case Pattern.HappyFace:
+            case Pattern.Losange:
+            case Pattern.Plus:
+            case Pattern.SquareEmptySquare:
+            case Pattern.X:
+            default:
+                return ColumnSpawnBadPickup();
+        }
+        
     }
 }

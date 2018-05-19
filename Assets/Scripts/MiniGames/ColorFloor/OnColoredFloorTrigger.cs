@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OnColoredFloorTrigger : MonoBehaviour {
+public class OnColoredFloorTrigger : BoardFloor {
 
     enum FloorState { Normal, AnimLocked }
 
@@ -17,9 +17,6 @@ public class OnColoredFloorTrigger : MonoBehaviour {
     enum Side { Up, Down, Left, Right }
     FloorState currentState = FloorState.Normal;
     Material material;
-
-    [SerializeField]
-    GameObject warningFeedback;
 
     public bool IsLocked()
     {
@@ -145,11 +142,6 @@ public class OnColoredFloorTrigger : MonoBehaviour {
         material = GetComponentInChildren<MeshRenderer>().material;
     }
 
-    public int GetFloorIndex()
-    {
-        return transform.GetSiblingIndex() + transform.parent.GetSiblingIndex() * 8;
-    }
-
     public OnColoredFloorTrigger Up
     {
         get
@@ -228,10 +220,5 @@ public class OnColoredFloorTrigger : MonoBehaviour {
 
         Destroy(pickupComponent.gameObject);
         HasAnItem = false;
-    }
-
-    public void WarnPlayerSmthgBadIsComing()
-    {
-        warningFeedback.SetActive(true);
     }
 }

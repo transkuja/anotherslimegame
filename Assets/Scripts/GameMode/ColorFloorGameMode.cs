@@ -59,9 +59,9 @@ public class ColorFloorGameMode : GameMode {
                 pc.PlayerIndexSet = true;
             }
         }
-        
 
-        FindObjectOfType<ColorFloorPickupHandler>().DEBUG_forceBadSpawns = withBadSpawns;
+
+        boardReference.GetComponent<ColorFloorPickupHandler>().DEBUG_forceBadSpawns = withBadSpawns;
 
         LaunchTimer();
         ColorFloorHandler.Init(GameManager.Instance.ActivePlayersAtStart, boardReference);
