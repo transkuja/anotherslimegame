@@ -124,16 +124,16 @@ public class ColorFloorPickupHandler : MonoBehaviour
             else if (randomPatt == 1)
             {
                 for (int i = 0; i < numberOfLines; i++)
-                    randChild.AddRange(LineSpawnBadPickup());
+                    randChild.AddRange(BoardSpawner.LineSpawnBadPickup());
                 for (int i = 0; i < numberOfColumns; i++)
-                    randChild.AddRange(ColumnSpawnBadPickup());
+                    randChild.AddRange(BoardSpawner.ColumnSpawnBadPickup());
             }
             else
             {
                 for (int i = 0; i < numberOfLines; i++)
-                    randChild.AddRange(AscendingDiagonalBadPickup());
+                    randChild.AddRange(BoardSpawner.AscendingDiagonalBadPickup());
                 for (int i = 0; i < numberOfColumns; i++)
-                    randChild.AddRange(DescendingDiagonalBadPickup());
+                    randChild.AddRange(BoardSpawner.DescendingDiagonalBadPickup());
             }
 
 
@@ -147,82 +147,6 @@ public class ColorFloorPickupHandler : MonoBehaviour
             currentSpawnRate = Mathf.Max(currentSpawnRate, 2.0f);
         }
     }
-
-    int[] AscendingDiagonalBadPickup(int _startingLine = -1, int _startingColumn = -1)
-    {
-        if (_startingLine == -1 && _startingColumn == -1)
-        {
-            int randStart = Random.Range(0, 15);
-            _startingLine = Mathf.Min(randStart, 7);
-            _startingColumn = Mathf.Max(0, randStart - 7);
-        }
-        else
-        {
-            _startingLine = Mathf.Clamp(_startingLine, 0, 7);
-            _startingColumn = Mathf.Clamp(_startingColumn, 0, 7);
-        }
-        int[] result = new int[_startingLine + 1 - _startingColumn];
-
-        for (int i = 0; i < result.Length; i++)
-        {
-            result[i] = (_startingLine - i) * 8 + i + _startingColumn;
-        }
-
-        return result;
-    }
-
-    int[] DescendingDiagonalBadPickup(int _startingLine = -1, int _startingColumn = -1)
-    {
-        if (_startingLine == -1 && _startingColumn == -1)
-        {
-            int randStart = Random.Range(0, 15);
-            _startingLine = (randStart > 7) ? 0 : randStart;
-            _startingColumn = Mathf.Max(0, randStart - 7);
-        }
-        else
-        {
-            _startingLine = Mathf.Clamp(_startingLine, 0, 7);
-            _startingColumn = Mathf.Clamp(_startingColumn, 0, 7);
-        }
-        int[] result = new int[8 - _startingLine - _startingColumn];
-
-        for (int i = 0; i < result.Length; i++)
-        {
-            result[i] = (_startingLine + i) * 8 + i + _startingColumn;
-        }
-
-        return result;
-    }
-
-    int[] LineSpawnBadPickup(int _lineIndex = -1)
-    {
-        int[] result = new int[8];
-        if (_lineIndex == -1)
-        {
-            _lineIndex = Random.Range(0, 7);
-        }
-
-        for (int i = 0; i < 8; i++)
-            result[i] = (_lineIndex * 8) + i;
-
-        return result;
-    }
-
-
-    int[] ColumnSpawnBadPickup(int _columnIndex = -1)
-    {
-        int[] result = new int[8];
-        if (_columnIndex == -1)
-        {
-            _columnIndex = Random.Range(0, 7);
-        }
-
-        for (int i = 0; i < 8; i++)
-            result[i] = _columnIndex + 8*i;
-
-        return result;
-    }
-
 
     int[] RandomlySpawnBadPickup()
     {
