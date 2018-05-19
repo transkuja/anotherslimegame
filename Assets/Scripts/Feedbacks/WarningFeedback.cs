@@ -46,7 +46,7 @@ public class WarningFeedback : MonoBehaviour {
         yield return new WaitForSeconds(1.0f);
         transform.parent.gameObject.SetActive(false);
 
-
+        bool skipTrapSetup = false;
         for (int i = 0; i < GameManager.Instance.CurrentGameMode.curNbPlayers; i++)
         {
             if (((ColorFloorGameMode)GameManager.Instance.CurrentGameMode).freeMovement)
@@ -54,15 +54,7 @@ public class WarningFeedback : MonoBehaviour {
                 if (transform.GetComponentInParent<OnColoredFloorTrigger>().GetFloorIndex() == ColorFloorHandler.playerCurrentPositionsFreeMovement[i])
                 {
                     ColorFloorHandler.LosePoints(i);
-                }
-                else
-                {
-                    ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.ColorFloorPickUps, 1).GetItem(
-                        transform.GetComponentInParent<OnColoredFloorTrigger>().transform,
-                        Vector3.up * 1.5f,
-                        Quaternion.identity,
-                        true
-                    );
+                    skipTrapSetup = true;
                 }
             }
             else
@@ -71,20 +63,21 @@ public class WarningFeedback : MonoBehaviour {
                     == ColorFloorHandler.restrainedGP.playerCurrentPositions[i].GetComponentInChildren<OnColoredFloorTrigger>().GetFloorIndex())
                 {
                     ColorFloorHandler.LosePoints(i);
+                    skipTrapSetup = true;
                 }
-                else
-                {
-                    ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.ColorFloorPickUps, 1).GetItem(
-                        transform.GetComponentInParent<OnColoredFloorTrigger>().transform,
-                        Vector3.up * 1.5f,
-                        Quaternion.identity,
-                        true
-                    );
-                }
+
             }
         }
 
+        if (!skipTrapSetup)
+        {
+            ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.ColorFloorPickUps, 1).GetItem(
+                transform.GetComponentInParent<OnColoredFloorTrigger>().transform,
+                Vector3.up * 1.5f,
+                Quaternion.identity,
+                true
+            );
+        }
 
-        //if (ColorFloorHandler.playerCurrentPositionsFreeMovement)
     }
 }
