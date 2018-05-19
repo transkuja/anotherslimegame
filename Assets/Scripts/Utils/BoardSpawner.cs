@@ -54,7 +54,7 @@ public static class BoardSpawner
         return result;
     }
 
-    public static int[] LineSpawnBadPickup(int _lineIndex = -1)
+    public static int[] LineSpawnBadPickup(int _lineIndex = -1, int _lineStartingPoint = 0, int _lineEndPoint = 7)
     {
         int[] result = new int[8];
         if (_lineIndex == -1)
@@ -62,13 +62,13 @@ public static class BoardSpawner
             _lineIndex = Random.Range(0, 7);
         }
 
-        for (int i = 0; i < 8; i++)
+        for (int i = _lineStartingPoint; i <= _lineEndPoint; i++)
             result[i] = (_lineIndex * 8) + i;
 
         return result;
     }
 
-    public static int[] ColumnSpawnBadPickup(int _columnIndex = -1)
+    public static int[] ColumnSpawnBadPickup(int _columnIndex = -1, int _columnStartingPoint = 0, int _columnEndPoint = 7)
     {
         int[] result = new int[8];
         if (_columnIndex == -1)
@@ -76,7 +76,7 @@ public static class BoardSpawner
             _columnIndex = Random.Range(0, 7);
         }
 
-        for (int i = 0; i < 8; i++)
+        for (int i = _columnStartingPoint; i <= _columnEndPoint; i++)
             result[i] = _columnIndex + 8 * i;
 
         return result;
