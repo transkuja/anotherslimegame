@@ -124,16 +124,16 @@ public class ColorFloorPickupHandler : MonoBehaviour
             else if (randomPatt == 1)
             {
                 for (int i = 0; i < numberOfLines; i++)
-                    randChild.AddRange(BoardSpawner.LineSpawnBadPickup());
+                    randChild.AddRange(BoardSpawner.LineSpawn());
                 for (int i = 0; i < numberOfColumns; i++)
-                    randChild.AddRange(BoardSpawner.ColumnSpawnBadPickup());
+                    randChild.AddRange(BoardSpawner.ColumnSpawn());
             }
             else
             {
                 for (int i = 0; i < numberOfLines; i++)
-                    randChild.AddRange(BoardSpawner.AscendingDiagonalBadPickup());
+                    randChild.AddRange(BoardSpawner.AscendingDiagonal());
                 for (int i = 0; i < numberOfColumns; i++)
-                    randChild.AddRange(BoardSpawner.DescendingDiagonalBadPickup());
+                    randChild.AddRange(BoardSpawner.DescendingDiagonal());
             }
 
 

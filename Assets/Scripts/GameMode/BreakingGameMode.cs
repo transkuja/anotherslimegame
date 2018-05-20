@@ -15,6 +15,20 @@ public class BreakingGameMode : GameMode {
 
     public int activePots = 0;
 
+    public int ActivePots
+    {
+        get
+        {
+            return activePots;
+        }
+
+        set
+        {
+            activePots = value;
+            Debug.Log(activePots);
+        }
+    }
+
     private void Start()
     {
         if (boardReference == null)

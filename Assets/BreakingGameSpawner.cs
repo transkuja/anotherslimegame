@@ -22,12 +22,15 @@ public class BreakingGameSpawner : MonoBehaviour {
 
         yield return new WaitUntil(() => GameManager.CurrentState != GameState.ForcedPauseMGRules);
         gameMode = (BreakingGameMode)GameManager.Instance.CurrentGameMode;
-        
+
+        if (gameMode.curNbPlayers > 2)
+            trapFrequency *= 2;
+        else if (gameMode.curNbPlayers == 2)
+            trapFrequency *= 1.5f;
+
         while (true)
         {
             yield return new WaitUntil(() => gameMode.activePots == 0);
-
-            int randomPatt = Random.Range(0, (int)BoardSpawner.Pattern.Size);
 
             int[] randIndex = BoardSpawner.GetPattern((BoardSpawner.Pattern)Random.Range(0, (int)BoardSpawner.Pattern.Size));
             gameMode.activePots = randIndex.Length;

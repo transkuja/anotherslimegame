@@ -28,7 +28,7 @@ public class BreakableForBreakingMinigame : Breakable {
         if (!gameModeCalled)
         {
             gameModeRef = ((BreakingGameMode)GameManager.Instance.CurrentGameMode);
-            gameModeRef.activePots--;
+            gameModeRef.ActivePots--;
 
             gameModeCalled = true;
             _playerCharacterHub.GetComponent<Player>().NbPoints++;
