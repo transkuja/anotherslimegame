@@ -15,6 +15,9 @@ public class BreakingGameMode : GameMode {
 
     public int activePots = 0;
 
+    [SerializeField]
+    Material alternativeMaterial;
+
     public int ActivePots
     {
         get
@@ -64,6 +67,10 @@ public class BreakingGameMode : GameMode {
         if (minigameVersion == 4)
         {
             necessaryPointsForRune = 90;
+            foreach (BoardFloor f in FindObjectsOfType<BoardFloor>())
+            {
+                f.GetComponentInChildren<Renderer>().material = alternativeMaterial;
+            }
         }
     }
 
