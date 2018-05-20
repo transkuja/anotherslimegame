@@ -65,7 +65,7 @@ public class Breakable : MonoBehaviour {
             // TODO: may externalize this behaviour to avoid duplication
             Vector3 playerToTarget = transform.position - _playerCharacterHub.transform.position;
             Vector3 playerCenterToTargetCenter = (transform.position + Vector3.up * 0.5f) - (_playerCharacterHub.transform.position + Vector3.up * 0.5f);
-            GameObject go = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles).GetItem(transform, transform.position + Vector3.up * 0.5f + playerCenterToTargetCenter / 2.0f, Quaternion.LookRotation(playerToTarget, Vector3.up), true, true, (int)HitParticles.BigHitStar);
+            GameObject go = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles).GetItem(null, transform.position + Vector3.up * 0.5f + playerCenterToTargetCenter / 2.0f, Quaternion.LookRotation(playerToTarget, Vector3.up), true, true, (int)HitParticles.BigHitStar);
             go.transform.localScale = Vector3.one;
             go.GetComponent<ParticleSystem>().Play();
 
@@ -86,7 +86,7 @@ public class Breakable : MonoBehaviour {
             // pool de morceaux cassés
             int nbFragments = Random.Range(minFragments, maxFragments);
             for (int i = 0; i < nbFragments; i++)
-                ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.BreakablePieces).GetItem(transform, Vector3.up * 0.5f, Quaternion.identity, true);
+                ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.BreakablePieces).GetItem(null, transform.position + Vector3.up * 0.5f, Quaternion.identity, true);
             if (GameManager.Instance.IsInHub())
             {
                 if (persistenceIndex != -1 && !DatabaseManager.Db.alreadyBrokenBreakables[persistenceIndex])

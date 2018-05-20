@@ -402,7 +402,7 @@ public static class MinigameDataUtils
             else
             {
                 result[0] = 0;
-                result[1] = 60;
+                result[1] = 450;
             }
             return result;
         }

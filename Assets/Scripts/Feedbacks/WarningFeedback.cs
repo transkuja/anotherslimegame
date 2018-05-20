@@ -9,6 +9,7 @@ public class WarningFeedback : MonoBehaviour {
     Color color;
     float maxTimer = 2.0f;
     bool alphaIncreasing = true;
+    public float reactionTime = 1.0f;
 
     private void Start()
     {
@@ -47,7 +48,7 @@ public class WarningFeedback : MonoBehaviour {
 
     IEnumerator DisableFeedbackColorFloor()
     {
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(reactionTime);
         transform.parent.gameObject.SetActive(false);
 
         bool skipTrapSetup = false;
@@ -87,14 +88,9 @@ public class WarningFeedback : MonoBehaviour {
 
     IEnumerator DisableFeedbackBreaking()
     {
-        yield return new WaitForSeconds(1.0f);
+        yield return new WaitForSeconds(reactionTime);
         transform.parent.gameObject.SetActive(false);
 
-        ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.BreakingPots).GetItem(
-                transform.GetComponentInParent<BoardFloor>().transform,
-                Vector3.up,
-                Quaternion.identity,
-                true
-            );
+        transform.GetComponentInParent<BoardFloor>().Fall(reactionTime);
     }
 }

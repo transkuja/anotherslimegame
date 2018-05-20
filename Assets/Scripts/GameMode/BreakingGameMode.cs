@@ -18,6 +18,8 @@ public class BreakingGameMode : GameMode {
     [SerializeField]
     Material alternativeMaterial;
 
+    int nbDeadPlayers = 0;
+
     public int ActivePots
     {
         get
@@ -47,6 +49,16 @@ public class BreakingGameMode : GameMode {
         rules = new MinigameRules(this, minigameVersion);
         checkRuneObjective = CheckRuneObjectiveForBreaking;
 
+        if (minigameVersion == 4)
+        {
+            for (int i = 0; i < playerReferences.Count; i++)
+            {
+                Player player = playerReferences[i].GetComponent<Player>();
+                if (player != null)
+                    player.OnDeathEvent += OnPlayerDeath;
+            }
+        }
+
         boardReference.GetComponent<BreakingGameSpawner>().withTrappedPots = withTrappedPots;
 
         LaunchTimer();
@@ -66,18 +78,38 @@ public class BreakingGameMode : GameMode {
         // Breakable ground version = 4
         if (minigameVersion == 4)
         {
-            necessaryPointsForRune = 90;
+            necessaryPointsForRune = 300;
             foreach (BoardFloor f in FindObjectsOfType<BoardFloor>())
             {
                 f.GetComponentInChildren<Renderer>().material = alternativeMaterial;
             }
+
+
+            nbDeadPlayers = 0;
         }
     }
 
+    float minigameTimer;
+
     public void LaunchTimer()
     {
-        GameManager.Instance.GameFinalTimer = timer;
-        GameManager.Instance.LaunchFinalTimer();
+        if (minigameVersion == 4)
+        {
+            minigameTimer = 0.0f;
+        }
+        else
+        {
+            GameManager.Instance.GameFinalTimer = timer;
+            GameManager.Instance.LaunchFinalTimer();
+        }
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+        if (GameManager.CurrentState != GameState.Normal)
+            return;
+        minigameTimer += Time.deltaTime;
     }
 
     public override void AttributeCamera(uint activePlayersAtStart, GameObject[] cameraReferences, List<GameObject> playersReference)
@@ -96,13 +128,35 @@ public class BreakingGameMode : GameMode {
     {
         int pointsObjective = 0;
         int curScore = 0;
-        for (int i = 0; i < curNbPlayers; i++)
+
+        if (minigameVersion != 4)
         {
-            curScore += GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<Player>().NbPoints;
-            pointsObjective += necessaryPointsForRune;
+            for (int i = 0; i < curNbPlayers; i++)
+            {
+                curScore += GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<Player>().NbPoints;
+                pointsObjective += necessaryPointsForRune;
+            }
         }
+        else
+        {
+            if (curNbPlayers == 2)
+                curScore = Mathf.Max(GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<Player>().NbPoints,
+                    GameManager.Instance.PlayerStart.PlayersReference[1].GetComponent<Player>().NbPoints);
+            else
+                curScore = GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<Player>().NbPoints;
+        }
+
         currentScore = curScore;
         return curScore >= pointsObjective;
+    }
+
+    public void OnPlayerDeath(Player player)
+    {
+        player.gameObject.SetActive(false);
+        player.NbPoints = (int)minigameTimer * 10;
+        nbDeadPlayers++;
+        if (nbDeadPlayers == curNbPlayers)
+            GameManager.Instance.ScoreScreenReference.RankPlayersByPoints();
     }
 
 }
