@@ -445,7 +445,7 @@ namespace DatabaseClass
             if (minigameGameMode is Runner3DGameMode)
                 return GetRuneFromMinigame(MinigameType.Runner, minigameVersion);
 
-            if (minigameGameMode is PushGameMode)
+            if (minigameGameMode is PushGameMode || minigameGameMode is BreakingGameMode)
                 return GetRuneFromMinigame(MinigameType.Clash, minigameVersion);
 
             if (minigameGameMode is FoodGameMode)
@@ -557,7 +557,8 @@ namespace DatabaseClass
             int idMinigames = 0;
             string[] strMinigame = { "MinigameAntho", "MinigameAntho", "MinigameAntho", "MinigameAntho", "MinigameKart 3", "MinigamePush", "MinigamePush 1",
                     "Minigame3dRunner", "MiniGameFruits", "MinigameKart 2", "MinigameKart", "Minigame3dRunner 1", "MiniGameFruits2", "MinigameAnthourte",
-                    "MinigameAnthourte", "MinigameAnthourte", "MinigameAnthourte", "MinigameFood", "MinigameFood", "MinigameFood", "MinigameFood" };
+                    "MinigameAnthourte", "MinigameAnthourte", "MinigameAnthourte", "MinigameFood", "MinigameFood", "MinigameFood", "MinigameFood",
+                    "MinigameAnthourloupe", "MinigameAnthourloupe", "MinigameAnthourloupe" };
             minigames.Add(new MinigameData { Id = strMinigame[idMinigames], costToUnlock = -1, nbRunesToUnlock = -1, spriteImage = "screenshotMinigameAntho", isUnlocked = true, type = MinigameType.Floor, version = 0, difficulty = 1 });
             minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 2, spriteImage = "screenshotMinigameAntho", isUnlocked = false, type = MinigameType.Floor, version = 2, difficulty = 3 });
             minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = -1, spriteImage = "screenshotMinigameAntho", isUnlocked = true, type = MinigameType.Floor, version = 4, difficulty = 2 });
@@ -585,6 +586,11 @@ namespace DatabaseClass
             minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 11, spriteImage = "screenshotMinigameFood", isUnlocked = false, type = MinigameType.Food, version = 2, difficulty = 2 });
             minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 24, spriteImage = "screenshotMinigameFood", isUnlocked = false, type = MinigameType.Food, version = 3, difficulty = 3 });
 
+            minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = -1, spriteImage = "screenshotMinigamePush", isUnlocked = true, type = MinigameType.Clash, version = 2, difficulty = 1 });
+            minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = -1, spriteImage = "screenshotMinigamePush", isUnlocked = true, type = MinigameType.Clash, version = 3, difficulty = 3 });
+            minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = -1, spriteImage = "screenshotMinigamePush", isUnlocked = true, type = MinigameType.Clash, version = 4, difficulty = 4 });
+
+
             // Adding costArea
             int idRune = 0;
             string[] strRune = { "Rune1Hub1", "Rune2Hub1", "Rune3Hub1", "Rune4Hub1", "Rune5Hub1",
@@ -592,7 +598,8 @@ namespace DatabaseClass
                 "RuneSneaky1", "RuneJoker1", "RuneSneaky2",
                 "RuneKart1", "RuneFC1", "RuneRunner", "RuneFC2", "RuneFood",
                 "RuneKart2", "RuneFC3", "RuneFood", "RuneFC4", "RuneFood",
-                "RuneRunner2", "RuneKart3", "RuneFood4" };
+                "RuneRunner2", "RuneKart3", "RuneFood4",
+                "RuneBreaking1", "RuneBreaking2", "RuneBreaking3" };
             runes.Add(new RuneData { Id = strRune[idRune], isUnlocked = false });
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
@@ -625,6 +632,10 @@ namespace DatabaseClass
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false, unlockedInMinigame = true, associatedMinigame = MinigameType.Runner, associatedMinigameVersion = 1 });
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false, unlockedInMinigame = true, associatedMinigame = MinigameType.Kart, associatedMinigameVersion = 0 });
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false, unlockedInMinigame = true, associatedMinigame = MinigameType.Food, associatedMinigameVersion = 3 });
+
+            runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false, unlockedInMinigame = true, associatedMinigame = MinigameType.Clash, associatedMinigameVersion = 2 });
+            runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false, unlockedInMinigame = true, associatedMinigame = MinigameType.Clash, associatedMinigameVersion = 3 });
+            runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false, unlockedInMinigame = true, associatedMinigame = MinigameType.Clash, associatedMinigameVersion = 4 });
 
             // Adding mustaches
             int idMustache = 0;

@@ -33,6 +33,9 @@ public class BreakingGameMode : GameMode {
     {
         if (boardReference == null)
             Debug.LogError("BreakingGameMode: Board reference is not linked to gamemode!");
+
+        if (minigameVersion < 2)
+            minigameVersion = 2;
     }
 
     public override void StartGame(List<GameObject> playerReferences)
@@ -49,7 +52,19 @@ public class BreakingGameMode : GameMode {
 
     public override void ExtractVersionData(int _minigameVersion)
     {
-        withTrappedPots = (_minigameVersion == 1);
+        // Default version = 2
+        if (minigameVersion == 2)
+            necessaryPointsForRune = 200;
+        if (minigameVersion == 3)
+        {
+            withTrappedPots = true;
+            necessaryPointsForRune = 200;
+        }
+        // Breakable ground version = 4
+        if (minigameVersion == 4)
+        {
+            necessaryPointsForRune = 90;
+        }
     }
 
     public void LaunchTimer()

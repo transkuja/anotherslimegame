@@ -29,6 +29,9 @@ public static class MinigameDataUtils
     private static string FoodTitleV3 = "Don't Eat Them All";
     private static string FoodTitleV4 = "Gluttony";
 
+    private static string BreakingTitle = "Jar Pieces";
+    private static string BreakingTrapsTitle = "Beware The Rabbits";
+    private static string BreakingGroundTitle = "Slime Against Gravity";
 
     public static string GetTitle(GameMode _curGameMode, int _version = 0)
     {
@@ -87,6 +90,14 @@ public static class MinigameDataUtils
             if (_version == 3)
                 return FoodTitleV4;
             return FoodTitle;
+        }
+        else if (curGameMode is BreakingGameMode)
+        {
+            if (_version == 3)
+                return BreakingTrapsTitle;
+            if (_version == 4)
+                return BreakingGroundTitle;
+            return BreakingTitle;
         }
         return "";
     }
@@ -162,6 +173,14 @@ public static class MinigameDataUtils
                 return FoodTitleV4;
             return FoodTitle;
         }
+        else if (_minigameId == "MinigameAnthourloupe")
+        {
+            if (_version == 3)
+                return BreakingTrapsTitle;
+            if (_version == 4)
+                return BreakingGroundTitle;
+            return BreakingTitle;
+        }
         return "";
     }
 
@@ -200,6 +219,16 @@ public static class MinigameDataUtils
         else if (curGameMode is FoodGameMode)
         {
             return "Eat as much as you can by pressing the correct buttons. But beware not eating too much too fast!";
+        }
+        else if (curGameMode is BreakingGameMode)
+        {
+            if (_version == 4)
+                return "Survive!";
+            string desc = "Break pots as fast as you can!\n";
+            if (_version == 3)
+                desc += "Be careful, rabbits may be hiding inside.";
+
+            return desc;
         }
         return "";
     }
@@ -246,6 +275,12 @@ public static class MinigameDataUtils
             controls.Add(new ControlDetails(ControlType.A));
             controls.Add(new ControlDetails(ControlType.X, "Dash forward with X"));
             controls.Add(new ControlDetails(ControlType.Y, "Stomp the ground with Y"));
+        }
+        else if (curGameMode is BreakingGameMode)
+        {
+            controls.Add(new ControlDetails(ControlType.LeftThumbstick));
+            controls.Add(new ControlDetails(ControlType.A));
+            controls.Add(new ControlDetails(ControlType.X, "Dash forward with X"));
         }
         return controls;
     }
@@ -307,6 +342,13 @@ public static class MinigameDataUtils
         {
             return "Eat for " + _curGameMode.necessaryPointsForRune * GameManager.Instance.ActivePlayersAtStart + " points.";
         }
+        else if (curGameMode is BreakingGameMode)
+        {
+            if (_version < 4)
+                return "Break " + _curGameMode.necessaryPointsForRune * GameManager.Instance.ActivePlayersAtStart + " pots.";
+
+            return "Survive during " + _curGameMode.necessaryPointsForRune + " seconds.";
+        }
         return "";
     }
 
@@ -348,6 +390,20 @@ public static class MinigameDataUtils
         {
             result[0] = 0;
             result[1] = 2500;
+            return result;
+        }
+        else if (curGameMode is BreakingGameMode)
+        {
+            if (_version < 4)
+            {
+                result[0] = 0;
+                result[1] = 250;
+            }
+            else
+            {
+                result[0] = 0;
+                result[1] = 60;
+            }
             return result;
         }
         return result;

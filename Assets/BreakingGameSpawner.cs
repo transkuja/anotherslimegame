@@ -49,7 +49,7 @@ public class BreakingGameSpawner : MonoBehaviour {
             //if (currentFloor.GetComponent<BoardFloor>().HasAnItem)
             //    currentFloor.GetComponentInChildren<PoolChild>().ReturnToPool();
 
-            if (gameMode.minigameVersion > 1)
+            if (gameMode.minigameVersion == 4)
                 transform.GetChild(_index[i] / lineCount).GetChild(_index[i] % lineCount).GetComponent<BoardFloor>().WarnPlayerSmthgBadIsComing();
             else
             {
