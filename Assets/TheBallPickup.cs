@@ -33,19 +33,20 @@ public class TheBallPickup : TheBall {
 
     Powers type;
 
-    private void OnEnable()
+    public virtual void OnEnable()
     {
         lastHitPlayer = -1;
 
+        GetComponentInChildren<MeshRenderer>().material.EnableKeyword("_EMISSION");
         if (Random.Range(0, 2) == 0)
         {
             type = Powers.Agile;
-            GetComponentInChildren<Renderer>().material.color = Color.cyan;
+            GetComponentInChildren<Renderer>().material.SetColor("_EmissionColor", Color.cyan);
         }
         else
         {
             type = Powers.Strength;
-            GetComponentInChildren<Renderer>().material.color = new Color(1.0f, 0.35f, 0.0f);
+            GetComponentInChildren<Renderer>().material.SetColor("_EmissionColor", new Color(1.0f, 0.35f, 0.0f));
         }
     }
 

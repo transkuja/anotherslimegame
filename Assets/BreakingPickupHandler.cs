@@ -9,6 +9,8 @@ public class BreakingPickupHandler : MonoBehaviour {
 
     [SerializeField]
     GameObject ballPrefab;
+    [SerializeField]
+    GameObject bombPrefab;
 
     GameObject spawnedBall;
 
@@ -19,13 +21,30 @@ public class BreakingPickupHandler : MonoBehaviour {
 
         if (hasPickups)
             StartCoroutine(PickupCoroutine());
+
+        if (hasBadPickups)
+            StartCoroutine(BadPickupCoroutine());
+    }
+
+    IEnumerator BadPickupCoroutine()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(Random.Range(3.0f, 5.0f));
+
+            int spawnFrom = Random.Range(0, transform.childCount);
+            GameObject spawnedBomb = Instantiate(bombPrefab, transform.GetChild(spawnFrom).position + Vector3.up * 2.0f, transform.GetChild(spawnFrom).rotation);
+            spawnedBomb.GetComponent<Rigidbody>().AddForce((spawnedBomb.transform.forward + Vector3.up) * 100, ForceMode.Impulse);
+        }
     }
 
     IEnumerator PickupCoroutine()
     {
+        yield return new WaitForSeconds(5.0f);
+
         while (true)
         {
-            yield return new WaitForSeconds(2.0f);
+            yield return new WaitForSeconds(5.0f);
 
             int spawnFrom = Random.Range(0, transform.childCount);
             spawnedBall = Instantiate(ballPrefab, transform.GetChild(spawnFrom).position + Vector3.up * 2.0f, transform.GetChild(spawnFrom).rotation);
