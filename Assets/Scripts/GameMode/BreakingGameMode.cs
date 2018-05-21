@@ -139,6 +139,7 @@ public class BreakingGameMode : GameMode {
         }
         else
         {
+            pointsObjective += necessaryPointsForRune;
             if (curNbPlayers == 2)
                 curScore = Mathf.Max(GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<Player>().NbPoints,
                     GameManager.Instance.PlayerStart.PlayersReference[1].GetComponent<Player>().NbPoints);
