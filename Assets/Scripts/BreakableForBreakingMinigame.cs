@@ -20,8 +20,6 @@ public class BreakableForBreakingMinigame : Breakable {
                 mr.enabled = true;
         foreach (Collider col in GetComponentsInChildren<Collider>())
             col.enabled = true;
-
-        Debug.Log("reset");
     }
 
     public override bool OverrideDestruction(PlayerCharacterHub _playerCharacterHub)

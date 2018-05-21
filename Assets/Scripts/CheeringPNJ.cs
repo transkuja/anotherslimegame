@@ -13,6 +13,8 @@ public class CheeringPNJ : MonoBehaviour {
     bool noHatNorEars = false;
     [SerializeField]
     bool randomScale = true;
+    [SerializeField]
+    bool noRoll = false;
 
     IEnumerator Start () {
         cosmetics = GetComponentInChildren<PlayerCosmetics>();
@@ -62,7 +64,7 @@ public class CheeringPNJ : MonoBehaviour {
             cosmetics.FaceEmotion = FaceEmotion.Winner;
             int randAnim = Random.Range(0, 3);
             if (randAnim == 0) animator.SetTrigger("Applause");
-            else if (randAnim == 1) animator.SetTrigger("Roll");
+            else if (randAnim == 1 && !noRoll) animator.SetTrigger("Roll");
             else animator.SetTrigger("Dance");
 
             yield return new WaitUntil(() => animator.GetCurrentAnimatorClipInfo(0)[0].clip.name == "Idle");

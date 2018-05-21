@@ -60,6 +60,7 @@ public class BreakingGameMode : GameMode {
         }
 
         boardReference.GetComponent<BreakingGameSpawner>().withTrappedPots = withTrappedPots;
+        FindObjectOfType<BreakingPickupHandler>().InitPickups((minigameVersion < 4), (minigameVersion == 2));
 
         LaunchTimer();
         ColorFloorHandler.Init(GameManager.Instance.ActivePlayersAtStart, boardReference);
