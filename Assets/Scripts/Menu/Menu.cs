@@ -1442,4 +1442,9 @@ public class Menu : MonoBehaviour {
         // Reset -> Unlock all -> cowboy / candy / sneakyprogress = 0
         DatabaseManager.Db.NewGameSettings();
     }
+
+    void RandomizeSelection()
+    {
+
+    }
 }
