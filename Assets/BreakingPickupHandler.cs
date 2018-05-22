@@ -28,6 +28,7 @@ public class BreakingPickupHandler : MonoBehaviour {
 
     IEnumerator BadPickupCoroutine()
     {
+        yield return new WaitUntil(() => GameManager.CurrentState != GameState.ForcedPauseMGRules);
         while (true)
         {
             yield return new WaitForSeconds(Random.Range(3.0f, 5.0f));
@@ -40,6 +41,7 @@ public class BreakingPickupHandler : MonoBehaviour {
 
     IEnumerator PickupCoroutine()
     {
+        yield return new WaitUntil(() => GameManager.CurrentState != GameState.ForcedPauseMGRules);
         yield return new WaitForSeconds(5.0f);
 
         while (true)
