@@ -54,8 +54,8 @@ public class TheBallPickup : TheBall {
 
     public override void OnHit(PlayerCharacterHub _pch)
     {
-        ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles)
-            .GetItem(null, transform.position, Quaternion.identity, true, false, (int)HitParticles.BigHit);
+        if (_pch.GetComponent<EnnemyController>())
+            return;
 
         lastHitPlayer = (int)_pch.GetComponent<PlayerController>().PlayerIndex;
         int playerLeading = 0;
