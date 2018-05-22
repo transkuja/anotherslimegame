@@ -725,4 +725,121 @@ public class PlayerCosmetics : MonoBehaviour {
             Forehead = DatabaseManager.Db.foreheads[Random.Range(0, DatabaseManager.Db.foreheads.Count)].Id;
         }
     }
+
+    public void RandomSelectionUnlocked()
+    {
+        // Clean up
+        Skin = "None";
+        Ears = "None";
+        Hat = "None";
+        Mustache = "None";
+        Accessory = "None";
+        Chin = "None";
+        Forehead = "None";
+
+        // Random
+        bool hasSkin = (Random.Range(0, 2) == 1);
+
+        if (hasSkin)
+        {
+            List<DatabaseClass.SkinData> skins = new List<DatabaseClass.SkinData>();
+            skins.AddRange(DatabaseManager.Db.skins);
+            foreach (DatabaseClass.SkinData data in DatabaseManager.Db.skins)
+            {
+                if (!data.isUnlocked)
+                    skins.Remove(data);
+            }
+            if (skins.Count > 0)
+                Skin = skins[Random.Range(0, skins.Count)].Id;
+        }
+        else
+        {
+            SetUniqueColor(DatabaseManager.Db.colors[Random.Range(0, DatabaseManager.Db.colors.Count)].color);
+        }
+
+        FaceType = DatabaseManager.Db.faces[Random.Range(0, DatabaseManager.Db.faces.Count)].indiceForShader;
+        bool hasEars = (Random.Range(0, 2) == 1);
+        bool hasHat = (Random.Range(0, 2) == 1);
+        bool hasMustache = (Random.Range(0, 2) == 1);
+        bool hasAccessory = (Random.Range(0, 2) == 1);
+        bool hasChin = (Random.Range(0, 2) == 1);
+        bool hasForehead = (Random.Range(0, 4) == 1);
+
+        if (hasHat)
+        {
+            List<DatabaseClass.HatData> hats = new List<DatabaseClass.HatData>();
+            hats.AddRange(DatabaseManager.Db.hats);
+            foreach (DatabaseClass.HatData data in DatabaseManager.Db.hats)
+            {
+                if (!data.isUnlocked)
+                    hats.Remove(data);
+            }
+            if (hats.Count > 0)
+                Hat = hats[Random.Range(0, hats.Count)].Id;
+        }
+        else
+        {
+            if (hasEars)
+            {
+                List<DatabaseClass.EarsData> ears = new List<DatabaseClass.EarsData>();
+                ears.AddRange(DatabaseManager.Db.ears);
+                foreach (DatabaseClass.EarsData data in DatabaseManager.Db.ears)
+                {
+                    if (!data.isUnlocked)
+                        ears.Remove(data);
+                }
+                if (ears.Count > 0)
+                    Ears = ears[Random.Range(0, ears.Count)].Id;
+            }
+        }
+
+        if (hasMustache)
+        {
+            List<DatabaseClass.MustacheData> mustaches = new List<DatabaseClass.MustacheData>();
+            mustaches.AddRange(DatabaseManager.Db.mustaches);
+            foreach (DatabaseClass.MustacheData data in DatabaseManager.Db.mustaches)
+            {
+                if (!data.isUnlocked)
+                    mustaches.Remove(data);
+            }
+            if (mustaches.Count > 0)
+                Mustache = mustaches[Random.Range(0, mustaches.Count)].Id;
+        }
+        if (hasAccessory)
+        {
+            List<DatabaseClass.AccessoryData> accessories = new List<DatabaseClass.AccessoryData>();
+            accessories.AddRange(DatabaseManager.Db.accessories);
+            foreach (DatabaseClass.AccessoryData data in DatabaseManager.Db.accessories)
+            {
+                if (!data.isUnlocked)
+                    accessories.Remove(data);
+            }
+            if (accessories.Count > 0)
+                Accessory = accessories[Random.Range(0, accessories.Count)].Id;
+        }
+        if (hasChin)
+        {
+            List<DatabaseClass.ChinData> chins = new List<DatabaseClass.ChinData>();
+            chins.AddRange(DatabaseManager.Db.chins);
+            foreach (DatabaseClass.ChinData data in DatabaseManager.Db.chins)
+            {
+                if (!data.isUnlocked)
+                    chins.Remove(data);
+            }
+            if (chins.Count > 0)
+                Chin = chins[Random.Range(0, chins.Count)].Id;
+        }
+        if (hasForehead)
+        {
+            List<DatabaseClass.ForeheadData> foreheads = new List<DatabaseClass.ForeheadData>();
+            foreheads.AddRange(DatabaseManager.Db.foreheads);
+            foreach (DatabaseClass.ForeheadData data in DatabaseManager.Db.foreheads)
+            {
+                if (!data.isUnlocked)
+                    foreheads.Remove(data);
+            }
+            if (foreheads.Count > 0)
+                Forehead = foreheads[Random.Range(0, foreheads.Count)].Id;
+        }
+    }
 }

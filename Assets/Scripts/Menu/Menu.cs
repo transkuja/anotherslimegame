@@ -574,7 +574,7 @@ public class Menu : MonoBehaviour {
             if (prevControllerStates[i].Buttons.X == ButtonState.Released && controllerStates[i].Buttons.X == ButtonState.Pressed)
             {
                 PlayerCosmetics cosmetics = playerCustomScreens[i].GetComponentInChildren<PlayerCosmetics>();
-                cosmetics.RandomSelection();
+                cosmetics.RandomSelectionUnlocked();
 
                 // Update selection after random
                 for (int j = 0; j < customizables[CustomizableType.Color].Count; j++)
