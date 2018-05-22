@@ -79,6 +79,7 @@ public abstract class APlayerUI : MonoBehaviour {
     {
         _uiPlayer.GetChild(0).gameObject.SetActive(_enable);
         _uiPlayer.GetChild(1).gameObject.SetActive(_enable);
+        _uiPlayer.GetComponent<Image>().enabled = _enable;
     }
 
     void HandleTextChangeInit(uint _nbrPlayers)
@@ -122,33 +123,30 @@ public abstract class APlayerUI : MonoBehaviour {
 
     private void UpdateSpriteColorBasedOnSelection()
     {
-        if (SlimeDataContainer.instance != null)
-        {
-            //UIref.transform.GetChild(i).GetChild(0).GetComponent<Image>().color = (SlimeDataContainer.instance.colorFadeSelected[i] ? SlimeDataContainer.instance.selectedColors[i] : Color.white);
+        //UIref.transform.GetChild(i).GetChild(0).GetComponent<Image>().color = (SlimeDataContainer.instance.colorFadeSelected[i] ? SlimeDataContainer.instance.selectedColors[i] : Color.white);
 
-            // TMP: Should use color from slimedatacontainer instead
-            switch (GameManager.Instance.PlayerStart.ActivePlayersAtStart)
-            {
-                case 1:
-                    UIrefLeft.transform.GetChild(1).GetChild(0).GetComponent<Text>().color = GameManager.Instance.PlayerStart.colorPlayer[0];
-                    break;
-                case 2:
-                    Debug.Log(GameManager.Instance.PlayerStart.colorPlayer[0]);
-                    UIrefLeft.transform.GetChild(1).GetChild(0).GetComponent<Text>().color = GameManager.Instance.PlayerStart.colorPlayer[0];
-                    UIrefRight.transform.GetChild(0).GetChild(0).GetComponent<Text>().color = GameManager.Instance.PlayerStart.colorPlayer[1];
-                    break;
-                case 3:
-                    UIrefLeft.transform.GetChild(0).GetChild(0).GetComponent<Text>().color = GameManager.Instance.PlayerStart.colorPlayer[0];
-                    UIrefLeft.transform.GetChild(1).GetChild(0).GetComponent<Text>().color = GameManager.Instance.PlayerStart.colorPlayer[1];
-                    UIrefRight.transform.GetChild(0).GetChild(0).GetComponent<Text>().color = GameManager.Instance.PlayerStart.colorPlayer[2];
-                    break;
-                default:
-                    UIrefLeft.transform.GetChild(0).GetChild(0).GetComponent<Text>().color = GameManager.Instance.PlayerStart.colorPlayer[0];
-                    UIrefLeft.transform.GetChild(1).GetChild(0).GetComponent<Text>().color = GameManager.Instance.PlayerStart.colorPlayer[1];
-                    UIrefRight.transform.GetChild(0).GetChild(0).GetComponent<Text>().color = GameManager.Instance.PlayerStart.colorPlayer[2];
-                    UIrefRight.transform.GetChild(1).GetChild(0).GetComponent<Text>().color = GameManager.Instance.PlayerStart.colorPlayer[3];
-                    break;
-            }
+        // TMP: Should use color from slimedatacontainer instead
+        switch (GameManager.Instance.PlayerStart.ActivePlayersAtStart)
+        {
+            case 1:
+                UIrefLeft.transform.GetChild(1).GetChild(0).GetComponent<Text>().color = GameManager.Instance.PlayerStart.colorPlayer[0];
+                break;
+            case 2:
+                Debug.Log(GameManager.Instance.PlayerStart.colorPlayer[0]);
+                UIrefLeft.transform.GetChild(1).GetChild(0).GetComponent<Text>().color = GameManager.Instance.PlayerStart.colorPlayer[0];
+                UIrefRight.transform.GetChild(0).GetChild(0).GetComponent<Text>().color = GameManager.Instance.PlayerStart.colorPlayer[1];
+                break;
+            case 3:
+                UIrefLeft.transform.GetChild(0).GetChild(0).GetComponent<Text>().color = GameManager.Instance.PlayerStart.colorPlayer[0];
+                UIrefLeft.transform.GetChild(1).GetChild(0).GetComponent<Text>().color = GameManager.Instance.PlayerStart.colorPlayer[1];
+                UIrefRight.transform.GetChild(0).GetChild(0).GetComponent<Text>().color = GameManager.Instance.PlayerStart.colorPlayer[2];
+                break;
+            default:
+                UIrefLeft.transform.GetChild(0).GetChild(0).GetComponent<Text>().color = GameManager.Instance.PlayerStart.colorPlayer[0];
+                UIrefLeft.transform.GetChild(1).GetChild(0).GetComponent<Text>().color = GameManager.Instance.PlayerStart.colorPlayer[1];
+                UIrefRight.transform.GetChild(0).GetChild(0).GetComponent<Text>().color = GameManager.Instance.PlayerStart.colorPlayer[2];
+                UIrefRight.transform.GetChild(1).GetChild(0).GetComponent<Text>().color = GameManager.Instance.PlayerStart.colorPlayer[3];
+                break;
         }
     }
 }
