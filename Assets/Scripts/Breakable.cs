@@ -45,7 +45,7 @@ public class Breakable : MonoBehaviour {
     {
         if (_playerCharacterHub != null && (
                 _playerCharacterHub.PlayerState == _playerCharacterHub.dashState
-                || _playerCharacterHub.PlayerState == _playerCharacterHub.downDashState
+                || (_playerCharacterHub.PlayerState == _playerCharacterHub.downDashState && _playerCharacterHub.Rb.velocity.y < 0.0f)
                 )
            )
         {
@@ -65,7 +65,14 @@ public class Breakable : MonoBehaviour {
             // TODO: may externalize this behaviour to avoid duplication
             Vector3 playerToTarget = transform.position - _playerCharacterHub.transform.position;
             Vector3 playerCenterToTargetCenter = (transform.position + Vector3.up * 0.5f) - (_playerCharacterHub.transform.position + Vector3.up * 0.5f);
-            GameObject go = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles).GetItem(null, transform.position + Vector3.up * 0.5f + playerCenterToTargetCenter / 2.0f, Quaternion.LookRotation(playerToTarget, Vector3.up), true, true, (int)HitParticles.BigHitStar);
+            GameObject go = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles).GetItem(
+                null, 
+                transform.position + Vector3.up * 0.5f + ((_playerCharacterHub.PlayerState == _playerCharacterHub.downDashState) ? Vector3.zero : (playerCenterToTargetCenter / 2.0f)),
+                Quaternion.LookRotation(playerToTarget, Vector3.up),
+                true,
+                true,
+                (int)HitParticles.BigHitStar
+            );
             go.transform.localScale = Vector3.one;
             go.GetComponent<ParticleSystem>().Play();
 
