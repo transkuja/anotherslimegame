@@ -30,7 +30,6 @@ public class BreakingGameMode : GameMode {
         set
         {
             activePots = value;
-            Debug.Log(activePots);
         }
     }
 

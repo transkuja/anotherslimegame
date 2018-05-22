@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class BreakableForBreakingMinigame : Breakable {
 
@@ -37,7 +38,15 @@ public class BreakableForBreakingMinigame : Breakable {
             gameModeRef.ActivePots--;
 
             gameModeCalled = true;
-            _playerCharacterHub.GetComponent<Player>().NbPoints++;
+            _playerCharacterHub.GetComponent<Player>().UpdateCollectableValue(CollectableType.Points, 1);
+
+            // Handle feedback
+            GameObject feedback = Instantiate(ResourceUtils.Instance.feedbacksManager.scorePointsPrefab, null);
+            feedback.GetComponentInChildren<Outline>().effectColor = Color.green;
+            feedback.GetComponentInChildren<Text>().text = "+ 1";
+            feedback.transform.GetChild(0).position = Camera.main.WorldToScreenPoint(transform.position);
+            feedback.GetComponentInChildren<Text>().enabled = true;
+
             if (gameModeRef.withTrappedPots && Random.Range(0, 100) < gameModeRef.boardReference.GetComponent<BreakingGameSpawner>().trapFrequency)
                 Invoke("DelayedSummonRabbit", 0.3f);
             else

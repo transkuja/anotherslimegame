@@ -212,26 +212,29 @@ public class Player : MonoBehaviour {
                 GameManager.Instance.GlobalMoney += pickedValue;
                 break;
             case CollectableType.Points:
-                GameObject feedback = Instantiate(ResourceUtils.Instance.feedbacksManager.scorePointsPrefab, null);
-                if (pickedValue >= 0)
+                if (!(GameManager.Instance.CurrentGameMode is BreakingGameMode))
                 {
-                    feedback.GetComponentInChildren<Outline>().effectColor = Color.green;
-                    feedback.GetComponentInChildren<Text>().text = "+ ";
+                    GameObject feedback = Instantiate(ResourceUtils.Instance.feedbacksManager.scorePointsPrefab, null);
+                    if (pickedValue >= 0)
+                    {
+                        feedback.GetComponentInChildren<Outline>().effectColor = Color.green;
+                        feedback.GetComponentInChildren<Text>().text = "+ ";
+                    }
+                    else
+                    {
+                        feedback.GetComponentInChildren<Outline>().effectColor = Color.red;
+                        feedback.GetComponentInChildren<Text>().text = "- ";
+                    }
+                    if (!(GameManager.Instance.CurrentGameMode is FoodGameMode))
+                        feedback.transform.GetChild(0).position = Camera.main.WorldToScreenPoint(transform.position);
+                    else
+                    {
+                        feedback.transform.GetChild(0).position = Camera.main.WorldToScreenPoint(transform.position);
+                        feedback.transform.GetChild(0).position += (Vector3.right * Random.Range(-50, 50) + Vector3.up * Random.Range(-50, 50));
+                    }
+                    feedback.GetComponentInChildren<Text>().text += Utils.Abs(pickedValue).ToString();
+                    feedback.GetComponentInChildren<Text>().enabled = true;
                 }
-                else
-                {
-                    feedback.GetComponentInChildren<Outline>().effectColor = Color.red;
-                    feedback.GetComponentInChildren<Text>().text = "- ";
-                }
-                if (!(GameManager.Instance.CurrentGameMode is FoodGameMode))
-                    feedback.transform.GetChild(0).position = Camera.main.WorldToScreenPoint(transform.position);
-                else
-                {
-                    feedback.transform.GetChild(0).position = Camera.main.WorldToScreenPoint(transform.position);
-                    feedback.transform.GetChild(0).position += (Vector3.right * Random.Range(-50, 50) + Vector3.up * Random.Range(-50, 50));
-                }
-                feedback.GetComponentInChildren<Text>().text += Utils.Abs(pickedValue).ToString();
-                feedback.GetComponentInChildren<Text>().enabled = true;
 
                 NbPoints += pickedValue;  
                 break;
