@@ -19,8 +19,8 @@ public static class MinigameDataUtils
     private static string SnowKartTitle = "Snow Kart";
     private static string EasyKartTitle = "Easy Kart";
     private static string RunnerTitle = "Classic Runner";
-    private static string FruitTitle = "Classic Fruits";
-    private static string FruitTitle2 = "Super Fruits";
+    private static string FruitTitle = "Classic Balls";
+    private static string FruitTitle2 = "Super Balls";
     private static string ClashWithSpikesTitle = "Trapped Clash";
     private static string ClashWithPotsTitle = "Clash";
     private static string SuperRunnerTitle = "Super Runner";
@@ -205,7 +205,7 @@ public static class MinigameDataUtils
         else if (curGameMode is FruitGameMode)
         {
             if(curGameMode.minigameVersion == 0)
-                return "Collect balls of your color\n Beware : Fruits rot in the time\n";
+                return "Collect balls of your color\n Beware : Balls degrade in the time\n";
             else
                 return "Collect balls of your color\n Beware : Ground is moving\n";
         }
