@@ -200,7 +200,7 @@ public static class MinigameDataUtils
         }
         else if (curGameMode is Runner3DGameMode)
         {
-            return "RUN !";
+            return "RUN !\n Beware : Platforms disappears after some time";
         }
         else if (curGameMode is FruitGameMode)
         {
