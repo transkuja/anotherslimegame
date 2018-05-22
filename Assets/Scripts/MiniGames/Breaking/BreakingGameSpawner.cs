@@ -60,7 +60,7 @@ public class BreakingGameSpawner : MonoBehaviour {
 
             int[] randIndex = BoardSpawner.GetPattern((BoardSpawner.Pattern)Random.Range(0, (int)BoardSpawner.Pattern.Size));
             Fall(randIndex);
-            reactionTime *= 0.9f;
+            reactionTime -= 0.1f;
             reactionTime = Mathf.Clamp(reactionTime * 0.9f, 0.5f, 2.0f);
         }
     }
