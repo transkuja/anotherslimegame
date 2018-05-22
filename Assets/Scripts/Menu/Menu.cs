@@ -532,7 +532,7 @@ public class Menu : MonoBehaviour {
             }
 
             // Y axis controls the settings selection
-            if (controllerStates[i].ThumbSticks.Left.Y < -0.5f && prevControllerStates[i].ThumbSticks.Left.Y > -0.5f
+            if (controllerStates[i].Buttons.RightShoulder == ButtonState.Pressed && prevControllerStates[i].Buttons.RightShoulder == ButtonState.Released
                 // Keyboard input
                 || (i == 0 && (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.S)))
                 || (i == 1 && (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow)))
@@ -542,7 +542,7 @@ public class Menu : MonoBehaviour {
                 currentlySelectedOption[i] = currentlySelectedOption[i] % (int)CustomizableType.Size;
                 UpdatePreview(i);
             }
-            else if (controllerStates[i].ThumbSticks.Left.Y > 0.5f && prevControllerStates[i].ThumbSticks.Left.Y < 0.5f)
+            else if (controllerStates[i].Buttons.LeftShoulder == ButtonState.Pressed && prevControllerStates[i].Buttons.LeftShoulder == ButtonState.Released)
             {
                 currentlySelectedOption[i]--;
                 if (currentlySelectedOption[i] < 0)
