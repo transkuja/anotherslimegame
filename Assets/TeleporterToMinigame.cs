@@ -53,8 +53,8 @@ public class TeleporterToMinigame : MonoBehaviour {
             GameManager.Instance.playerEvolutionTutoShown[i] = currentPlayer.evolutionTutoShown;
         }
 
-        GameManager.Instance.savedPositionInHub = transform.position + transform.forward * 5.0f;
-        GameManager.Instance.savedRotationInHub = Quaternion.LookRotation(-transform.forward);
+        GameManager.Instance.savedPositionInHub = transform.parent.position + transform.parent.forward * 5.0f;
+        GameManager.Instance.savedRotationInHub = Quaternion.LookRotation(transform.parent.forward);
 
         GameManager.Instance.DataContainer.minigameVersion = minigameVersion;
         SceneManager.LoadScene(minigameSceneToTeleportTo);
