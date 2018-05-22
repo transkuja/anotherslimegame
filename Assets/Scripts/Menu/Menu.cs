@@ -570,8 +570,13 @@ public class Menu : MonoBehaviour {
                 UpdatePreview(i);
             }
             playerCustomScreens[i].transform.GetChild(4).Rotate(Vector3.up, controllerStates[i].ThumbSticks.Right.X * 150.0f * Time.deltaTime);
-        }
 
+            if (prevControllerStates[i].Buttons.X == ButtonState.Released && controllerStates[i].Buttons.X == ButtonState.Pressed)
+            {
+                playerCustomScreens[i].GetComponentInChildren<PlayerCosmetics>().RandomSelection();
+            }
+        }
+       
         // Buy controls
         if (prevControllerStates[0].Buttons.Y == ButtonState.Released && controllerStates[0].Buttons.Y == ButtonState.Pressed)
         {
@@ -1442,9 +1447,5 @@ public class Menu : MonoBehaviour {
         // Reset -> Unlock all -> cowboy / candy / sneakyprogress = 0
         DatabaseManager.Db.NewGameSettings();
     }
-
-    void RandomizeSelection()
-    {
-
-    }
+    
 }

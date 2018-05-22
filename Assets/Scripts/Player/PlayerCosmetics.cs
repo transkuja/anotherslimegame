@@ -664,4 +664,49 @@ public class PlayerCosmetics : MonoBehaviour {
         bodyTexture = bodyMat.GetTexture("_MainTex");
         ColorFadeType = (ColorFadeType)bodyMat.GetInt("_ColorFade");
     }
+
+    public void RandomSelection()
+    {
+        // Clean up
+        Skin = "None";
+        Ears = "None";
+        Hat = "None";
+        Mustache = "None";
+        Accessory = "None";
+        Chin = "None";
+        Forehead = "None";
+
+        // Random
+        bool hasSkin = (Random.Range(0, 2) == 1);
+
+        if (hasSkin)
+            Skin = DatabaseManager.Db.skins[Random.Range(0, DatabaseManager.Db.skins.Count)].Id;
+        else
+            SetUniqueColor(DatabaseManager.Db.colors[Random.Range(0, DatabaseManager.Db.colors.Count)].color);
+
+        FaceType = DatabaseManager.Db.faces[Random.Range(0, DatabaseManager.Db.faces.Count)].indiceForShader;
+        bool hasEars = (Random.Range(0, 2) == 1);
+        bool hasHat = (Random.Range(0, 2) == 1);
+        bool hasMustache = (Random.Range(0, 2) == 1);
+        bool hasAccessory = (Random.Range(0, 2) == 1);
+        bool hasChin = (Random.Range(0, 2) == 1);
+        bool hasForehead = (Random.Range(0, 4) == 1);
+
+        if (hasHat)
+            Hat = DatabaseManager.Db.hats[Random.Range(0, DatabaseManager.Db.hats.Count)].Id;
+        else
+        {
+            if (hasEars)
+                Ears = DatabaseManager.Db.ears[Random.Range(0, DatabaseManager.Db.ears.Count)].Id;
+        }
+
+        if (hasMustache)
+            Mustache = DatabaseManager.Db.mustaches[Random.Range(0, DatabaseManager.Db.mustaches.Count)].Id;
+        if (hasAccessory)
+            Accessory = DatabaseManager.Db.accessories[Random.Range(0, DatabaseManager.Db.accessories.Count)].Id;
+        if (hasChin)
+            Chin = DatabaseManager.Db.chins[Random.Range(0, DatabaseManager.Db.chins.Count)].Id;
+        if (hasForehead)
+            Forehead = DatabaseManager.Db.foreheads[Random.Range(0, DatabaseManager.Db.foreheads.Count)].Id;
+    }
 }
