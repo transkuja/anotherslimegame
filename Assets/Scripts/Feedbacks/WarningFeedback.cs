@@ -59,6 +59,7 @@ public class WarningFeedback : MonoBehaviour {
                 if (transform.GetComponentInParent<OnColoredFloorTrigger>().GetFloorIndex() == ColorFloorHandler.playerCurrentPositionsFreeMovement[i])
                 {
                     ColorFloorHandler.LosePoints(i);
+                    ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles).GetItem(null, transform.position, Quaternion.identity, true, true, 4);
                     skipTrapSetup = true;
                 }
             }
@@ -68,6 +69,7 @@ public class WarningFeedback : MonoBehaviour {
                     == ColorFloorHandler.restrainedGP.playerCurrentPositions[i].GetComponentInChildren<OnColoredFloorTrigger>().GetFloorIndex())
                 {
                     ColorFloorHandler.LosePoints(i);
+                    ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles).GetItem(null, transform.position, Quaternion.identity, true, true, 4);
                     skipTrapSetup = true;
                 }
 

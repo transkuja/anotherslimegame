@@ -32,8 +32,11 @@ public class ColorFloorPickUp : MinigamePickUp {
         if (pickupType == PickUpType.BadOne)
         {
             yield return new WaitForSeconds(2.0f);
-            ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles).GetItem(null, transform.position, Quaternion.identity, true, true, 2);
-            GetComponentInChildren<PoolChild>().ReturnToPool();
+            // TODO: anim
+            if (!cancelBadPickupCoroutine)
+                GetComponentInChildren<PoolChild>().ReturnToPool();
+            else
+                cancelBadPickupCoroutine = false;
         }
     }
 
@@ -47,9 +50,14 @@ public class ColorFloorPickUp : MinigamePickUp {
         ColorFloorHandler.ScorePoints(_playerIndex);
     }
 
+    bool cancelBadPickupCoroutine = false;
+
     void BadEffect(int _playerIndex)
     {
         ColorFloorHandler.LosePoints(_playerIndex);
+        ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles).GetItem(null, transform.position, Quaternion.identity, true, true, 4);
+        cancelBadPickupCoroutine = true;
+        GetComponentInChildren<PoolChild>().ReturnToPool();
     }
 
     void ColorFloorWithPickup(int _playerIndex)
