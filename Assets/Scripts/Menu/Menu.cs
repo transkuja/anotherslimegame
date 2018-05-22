@@ -573,7 +573,56 @@ public class Menu : MonoBehaviour {
 
             if (prevControllerStates[i].Buttons.X == ButtonState.Released && controllerStates[i].Buttons.X == ButtonState.Pressed)
             {
-                playerCustomScreens[i].GetComponentInChildren<PlayerCosmetics>().RandomSelection();
+                PlayerCosmetics cosmetics = playerCustomScreens[i].GetComponentInChildren<PlayerCosmetics>();
+                cosmetics.RandomSelection();
+
+                // Update selection after random
+                for (int j = 0; j < customizables[CustomizableType.Color].Count; j++)
+                {
+                    if (cosmetics.BodyColor == ((DatabaseClass.ColorData)customizables[CustomizableType.Color][j]).color)
+                    {
+                        selectedCustomizables[(int)CustomizableType.Color, i] = j;
+                        break;
+                    }
+                }
+
+                selectedCustomizables[(int)CustomizableType.Face, i] = cosmetics.FaceType;
+
+                if (cosmetics.Mustache == "None" || cosmetics.Mustache == string.Empty)
+                    selectedCustomizables[(int)CustomizableType.Mustache, i] = customizables[CustomizableType.Mustache].Count;
+                else
+                    selectedCustomizables[(int)CustomizableType.Mustache, i] = customizables[CustomizableType.Mustache].FindIndex(x => ((DatabaseClass.MustacheData)x).Id == cosmetics.Mustache);
+
+                if (cosmetics.Hat == "None" || cosmetics.Hat == string.Empty)
+                    selectedCustomizables[(int)CustomizableType.Hat, i] = customizables[CustomizableType.Hat].Count;
+                else
+                    selectedCustomizables[(int)CustomizableType.Hat, i] = customizables[CustomizableType.Hat].FindIndex(x => ((DatabaseClass.HatData)x).Id == cosmetics.Hat);
+
+                if (cosmetics.Accessory == "None" || cosmetics.Accessory == string.Empty)
+                    selectedCustomizables[(int)CustomizableType.Accessory, i] = customizables[CustomizableType.Accessory].Count;
+                else
+                    selectedCustomizables[(int)CustomizableType.Accessory, i] = customizables[CustomizableType.Accessory].FindIndex(x => ((DatabaseClass.AccessoryData)x).Id == cosmetics.Accessory);
+
+                if (cosmetics.Ears == "None" || cosmetics.Ears == string.Empty)
+                    selectedCustomizables[(int)CustomizableType.Ears, i] = customizables[CustomizableType.Ears].Count;
+                else
+                    selectedCustomizables[(int)CustomizableType.Ears, i] = customizables[CustomizableType.Ears].FindIndex(x => ((DatabaseClass.EarsData)x).Id == cosmetics.Ears);
+
+                if (cosmetics.Chin == "None" || cosmetics.Chin == string.Empty)
+                    selectedCustomizables[(int)CustomizableType.Chin, i] = customizables[CustomizableType.Chin].Count;
+                else
+                    selectedCustomizables[(int)CustomizableType.Chin, i] = customizables[CustomizableType.Chin].FindIndex(x => ((DatabaseClass.ChinData)x).Id == cosmetics.Chin);
+
+                if (cosmetics.Skin == "None" || cosmetics.Skin == string.Empty)
+                    selectedCustomizables[(int)CustomizableType.Skin, i] = customizables[CustomizableType.Skin].Count;
+                else
+                    selectedCustomizables[(int)CustomizableType.Skin, i] = customizables[CustomizableType.Skin].FindIndex(x => ((DatabaseClass.SkinData)x).Id == cosmetics.Skin);
+
+                if (cosmetics.Forehead == "None" || cosmetics.Forehead == string.Empty)
+                    selectedCustomizables[(int)CustomizableType.Forehead, i] = customizables[CustomizableType.Forehead].Count;
+                else
+                    selectedCustomizables[(int)CustomizableType.Forehead, i] = customizables[CustomizableType.Forehead].FindIndex(x => ((DatabaseClass.ForeheadData)x).Id == cosmetics.Forehead);
+
             }
         }
        
@@ -1161,9 +1210,9 @@ public class Menu : MonoBehaviour {
                     if (nbPlayers == 1)
                         playerCustomScreens[i].transform.localPosition = new Vector3(0.0f, -65.0f, 0.0f);
                     if (nbPlayers == 2)
-                        playerCustomScreens[i].transform.localPosition = new Vector3(-160 + (2 * i * 160), -65.0f, 0.0f);
+                        playerCustomScreens[i].transform.localPosition = new Vector3(-180 + (2 * i * 180), -65.0f, 0.0f);
                     if (nbPlayers >= 3)
-                        playerCustomScreens[i].transform.localPosition = new Vector3(-(160) * Mathf.Pow(-1, i), (i < 2) ? 35.0f : -165.0f, 0.0f);
+                        playerCustomScreens[i].transform.localPosition = new Vector3(-(180) * Mathf.Pow(-1, i), (i < 2) ? 25.0f : -165.0f, 0.0f);
 
                     UpdatePreviewFull(i);
                     UpdatePreview(i); // Used to reset cursors last position
