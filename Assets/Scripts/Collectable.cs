@@ -9,7 +9,7 @@ public class Collectable : MonoBehaviour
     public string idRune;
     public bool needInitialisation = true;
     public bool haveToDisperse = false;
-
+    ParticleSystem pickupParticles;
     private uint movementSpeed = 15;
     private int value = 5;
 
@@ -55,6 +55,7 @@ public class Collectable : MonoBehaviour
                 return;
             }
         }
+        pickupParticles = GetComponentInChildren<ParticleSystem>();
     }
 
     private void OnEnable()
@@ -118,6 +119,10 @@ public class Collectable : MonoBehaviour
                     GetComponent<Animator>().enabled = false;
                 if (GetComponent<Rigidbody>())
                     GetComponent<Rigidbody>().Sleep();
+                if(pickupParticles)
+                {
+                    pickupParticles.Play();
+                }
                 // En theorie sa sert a rien
                 GetComponent<Collider>().enabled = false;
                 playerTarget = player;
@@ -179,18 +184,27 @@ public class Collectable : MonoBehaviour
 
                 if (AudioManager.Instance != null && AudioManager.Instance.coinFX != null) AudioManager.Instance.PlayOneShot(AudioManager.Instance.coinFX);
             }
-
-            if (GetComponent<PoolChild>())
-            {
-                GetComponent<PoolChild>().ReturnToPool();
-            }
+            GetComponent<Renderer>().enabled = false;
+            if (pickupParticles)
+                StartCoroutine(WaitForParticles());
             else
+                DisableOrDestroy();
+            
+        }
+    }
+
+    void DisableOrDestroy()
+    {
+        if (GetComponent<PoolChild>())
+        {
+            GetComponent<PoolChild>().ReturnToPool();
+        }
+        else
+        {
+            if (persistenceIndex != -1 && !DatabaseManager.Db.alreadyCollectedCollectables[persistenceIndex])
             {
-                if (persistenceIndex != -1 && !DatabaseManager.Db.alreadyCollectedCollectables[persistenceIndex])
-                {
-                    DatabaseManager.Db.alreadyCollectedCollectables[persistenceIndex] = true;
-                    Destroy(this.gameObject);
-                }
+                DatabaseManager.Db.alreadyCollectedCollectables[persistenceIndex] = true;
+                Destroy(this.gameObject);
             }
         }
     }
@@ -200,5 +214,16 @@ public class Collectable : MonoBehaviour
         yield return new WaitForSeconds(1.0f);
         haveToDisperse = false;
         yield return null;
+    }
+
+    IEnumerator WaitForParticles()
+    {
+        pickupParticles.transform.SetParent(null);
+        yield return new WaitForSeconds(pickupParticles.main.duration);
+        pickupParticles.Stop();
+        pickupParticles.transform.SetParent(transform);
+        pickupParticles.transform.localPosition = Vector3.zero;
+        pickupParticles.transform.localRotation = Quaternion.identity;
+        DisableOrDestroy();
     }
 }
