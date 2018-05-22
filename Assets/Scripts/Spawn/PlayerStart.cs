@@ -51,6 +51,15 @@ public class PlayerStart : MonoBehaviour {
                 {
                     colorPlayer = SlimeDataContainer.instance.playerColorsUI;
                 }
+                else
+                {
+                    colorPlayer = new Color[4];
+                    colorPlayer[0] = Color.red;
+                    colorPlayer[1] = Color.blue;
+                    colorPlayer[2] = Color.green;
+                    colorPlayer[3] = Color.yellow;
+
+                }
             }
                 
             return colorPlayer;
