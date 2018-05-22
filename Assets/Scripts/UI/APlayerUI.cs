@@ -129,23 +129,23 @@ public abstract class APlayerUI : MonoBehaviour {
         switch (GameManager.Instance.PlayerStart.ActivePlayersAtStart)
         {
             case 1:
-                UIrefLeft.transform.GetChild(1).GetChild(0).GetComponent<Text>().color = GameManager.Instance.PlayerStart.colorPlayer[0];
+                UIrefLeft.transform.GetChild(1).GetChild(0).GetComponent<Text>().color = GameManager.Instance.PlayerStart.ColorPlayer[0];
                 break;
             case 2:
-                Debug.Log(GameManager.Instance.PlayerStart.colorPlayer[0]);
-                UIrefLeft.transform.GetChild(1).GetChild(0).GetComponent<Text>().color = GameManager.Instance.PlayerStart.colorPlayer[0];
-                UIrefRight.transform.GetChild(0).GetChild(0).GetComponent<Text>().color = GameManager.Instance.PlayerStart.colorPlayer[1];
+                Debug.Log(GameManager.Instance.PlayerStart.ColorPlayer[0]);
+                UIrefLeft.transform.GetChild(1).GetChild(0).GetComponent<Text>().color = GameManager.Instance.PlayerStart.ColorPlayer[0];
+                UIrefRight.transform.GetChild(0).GetChild(0).GetComponent<Text>().color = GameManager.Instance.PlayerStart.ColorPlayer[1];
                 break;
             case 3:
-                UIrefLeft.transform.GetChild(0).GetChild(0).GetComponent<Text>().color = GameManager.Instance.PlayerStart.colorPlayer[0];
-                UIrefLeft.transform.GetChild(1).GetChild(0).GetComponent<Text>().color = GameManager.Instance.PlayerStart.colorPlayer[1];
-                UIrefRight.transform.GetChild(0).GetChild(0).GetComponent<Text>().color = GameManager.Instance.PlayerStart.colorPlayer[2];
+                UIrefLeft.transform.GetChild(0).GetChild(0).GetComponent<Text>().color = GameManager.Instance.PlayerStart.ColorPlayer[0];
+                UIrefLeft.transform.GetChild(1).GetChild(0).GetComponent<Text>().color = GameManager.Instance.PlayerStart.ColorPlayer[1];
+                UIrefRight.transform.GetChild(0).GetChild(0).GetComponent<Text>().color = GameManager.Instance.PlayerStart.ColorPlayer[2];
                 break;
             default:
-                UIrefLeft.transform.GetChild(0).GetChild(0).GetComponent<Text>().color = GameManager.Instance.PlayerStart.colorPlayer[0];
-                UIrefLeft.transform.GetChild(1).GetChild(0).GetComponent<Text>().color = GameManager.Instance.PlayerStart.colorPlayer[1];
-                UIrefRight.transform.GetChild(0).GetChild(0).GetComponent<Text>().color = GameManager.Instance.PlayerStart.colorPlayer[2];
-                UIrefRight.transform.GetChild(1).GetChild(0).GetComponent<Text>().color = GameManager.Instance.PlayerStart.colorPlayer[3];
+                UIrefLeft.transform.GetChild(0).GetChild(0).GetComponent<Text>().color = GameManager.Instance.PlayerStart.ColorPlayer[0];
+                UIrefLeft.transform.GetChild(1).GetChild(0).GetComponent<Text>().color = GameManager.Instance.PlayerStart.ColorPlayer[1];
+                UIrefRight.transform.GetChild(0).GetChild(0).GetComponent<Text>().color = GameManager.Instance.PlayerStart.ColorPlayer[2];
+                UIrefRight.transform.GetChild(1).GetChild(0).GetComponent<Text>().color = GameManager.Instance.PlayerStart.ColorPlayer[3];
                 break;
         }
     }

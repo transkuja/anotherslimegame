@@ -21,7 +21,7 @@ public class PlayerStart : MonoBehaviour {
 
     List<GameObject> playersReference = new List<GameObject>();
     [SerializeField]
-    public Color[] colorPlayer;
+    private Color[] colorPlayer;
 
 
 
@@ -41,8 +41,30 @@ public class PlayerStart : MonoBehaviour {
         }
     }
 
+    public Color[] ColorPlayer
+    {
+        get
+        {
+            if (colorPlayer == null)
+            {
+                if (SlimeDataContainer.instance != null)
+                {
+                    colorPlayer = SlimeDataContainer.instance.playerColorsUI;
+                }
+            }
+                
+            return colorPlayer;
+        }
+
+        set
+        {
+            colorPlayer = value;
+        }
+    }
+
     void Start()
     {
+        colorPlayer = null;
         playerStart = new Transform[4];
         for (int i = 0; i < transform.childCount; i++)
             playerStart[i] = transform.GetChild(i);
@@ -195,7 +217,7 @@ public class PlayerStart : MonoBehaviour {
                     if (i > 0)
                     {
                         foreach (Renderer r in go.transform.GetChild(0).GetComponentsInChildren<Renderer>())
-                            r.material.SetColor("_Color", colorPlayer[i - 1]);
+                            r.material.SetColor("_Color", ColorPlayer[i - 1]);
                     }
                 }
             }

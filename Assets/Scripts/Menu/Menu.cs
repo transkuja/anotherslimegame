@@ -1204,14 +1204,7 @@ public class Menu : MonoBehaviour {
 
             for (int i = 0; i < playerCustomScreens.Count; i++)
             {
-                if (i == 0)
-                    playerCustomScreens[i].transform.GetChild(0).GetChild(0).GetComponent<Image>().color = new Color(255, 99, 99, 255) / 255.0f;
-                if (i == 1)
-                    playerCustomScreens[i].transform.GetChild(0).GetChild(0).GetComponent<Image>().color = new Color(118, 150, 248, 255) / 255.0f;
-                if (i == 2)
-                    playerCustomScreens[i].transform.GetChild(0).GetChild(0).GetComponent<Image>().color = new Color(80, 223, 135, 255) / 255.0f;
-                if (i == 3)
-                    playerCustomScreens[i].transform.GetChild(0).GetChild(0).GetComponent<Image>().color = new Color(249, 215, 72, 255) / 255.0f;
+                playerCustomScreens[i].transform.GetChild(0).GetChild(0).GetComponent<Image>().color = SlimeDataContainer.instance.playerColorsMenu[i];
             }
 
         }

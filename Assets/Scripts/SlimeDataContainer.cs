@@ -6,6 +6,13 @@ using UnityEngine.SceneManagement;
 using DatabaseClass;
 
 public class SlimeDataContainer : MonoBehaviour {
+    [Tooltip("These are the player colors (R,B,G,Y). These are definitive, do not change them.")]
+    public Color[] playerColorsMenu = new Color[4];
+    [Tooltip("These are the player colors (R,B,G,Y). These are definitive, do not change them.")]
+    public Color[] playerColorsUI = new Color[4];
+    [Tooltip("These are the player colors (R,B,G,Y). These are definitive, do not change them.")]
+    public Color[] playerColorsEmissive = new Color[4];
+
     public static SlimeDataContainer instance = null;
     public int nbPlayers = -1;
     public Color[] selectedColors = new Color[4];

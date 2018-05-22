@@ -66,7 +66,7 @@ public static class ColorFloorHandler {
             currentlyColoredByPlayer[_playerIndex].Add(_toRegister);
             currentlyColoredByPlayerToInt[_playerIndex].Add(_toRegister.GetFloorIndex());
             _toRegister.GetComponentInChildren<MeshRenderer>().material.EnableKeyword("_EMISSION");
-            _toRegister.GetComponentInChildren<MeshRenderer>().material.SetColor("_EmissionColor", GameManager.Instance.PlayerStart.colorPlayer[_playerIndex]);
+            _toRegister.GetComponentInChildren<MeshRenderer>().material.SetColor("_EmissionColor", GameManager.Instance.PlayerStart.ColorPlayer[_playerIndex]);
             _toRegister.currentOwner = _playerIndex;
 
 
@@ -102,7 +102,7 @@ public static class ColorFloorHandler {
                 currentlyColoredByPlayer[_playerIndex].Add(c);
                 currentlyColoredByPlayerToInt[_playerIndex].Add(c.GetFloorIndex());
                 c.GetComponentInChildren<MeshRenderer>().material.EnableKeyword("_EMISSION");
-                c.GetComponentInChildren<MeshRenderer>().material.SetColor("_EmissionColor", GameManager.Instance.PlayerStart.colorPlayer[_playerIndex]);
+                c.GetComponentInChildren<MeshRenderer>().material.SetColor("_EmissionColor", GameManager.Instance.PlayerStart.ColorPlayer[_playerIndex]);
                 c.currentOwner = _playerIndex;
             }
         }

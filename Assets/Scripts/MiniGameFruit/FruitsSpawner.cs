@@ -36,10 +36,10 @@ public class FruitsSpawner : MonoBehaviour {
         minZ = -(boxColliderSpawn.transform.localScale.z);
         maxZ = boxColliderSpawn.transform.localScale.z ;
 
-        matClementine.color = GameManager.Instance.PlayerStart.colorPlayer[0];
-        matPomme.color = GameManager.Instance.PlayerStart.colorPlayer[1];
-        matKiwi.color = GameManager.Instance.PlayerStart.colorPlayer[2];
-        matFraise.color = GameManager.Instance.PlayerStart.colorPlayer[3];
+        matClementine.color = GameManager.Instance.PlayerStart.ColorPlayer[0];
+        matPomme.color = GameManager.Instance.PlayerStart.ColorPlayer[1];
+        matKiwi.color = GameManager.Instance.PlayerStart.ColorPlayer[2];
+        matFraise.color = GameManager.Instance.PlayerStart.ColorPlayer[3];
     }
 
     public IEnumerator Spawner()
