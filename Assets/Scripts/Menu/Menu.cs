@@ -333,7 +333,7 @@ public class Menu : MonoBehaviour {
                 }
                 else if (currentState == MenuState.TitleScreen)
                 {
-                    UpdateSelectionVisual(3, 0);
+                    UpdateSelectionVisual(4, 0);
                 }
                 else if (currentState == MenuState.ConfirmationScreen)
                 {
@@ -1318,7 +1318,7 @@ public class Menu : MonoBehaviour {
             return;
 
         // Exit game has been pressed
-        if (currentState == MenuState.TitleScreen && currentCursor == 2 )
+        if (currentState == MenuState.TitleScreen && currentCursor >= 2)
             return;
 
         if (AudioManager.Instance != null && AudioManager.Instance.buttonValidationFx != null)
