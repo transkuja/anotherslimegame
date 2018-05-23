@@ -22,12 +22,15 @@ public class TheBall : MonoBehaviour {
             PlayerCharacterHub pch = collision.gameObject.GetComponent<PlayerCharacterHub>();
             if (pch.PlayerState is DashDownState || pch.PlayerState is DashState)
             {
-                OnHit(pch);                
+                OnKick(pch);                
+            } else
+            {
+                OnHit(pch);
             }
         }
     }
 
-    public virtual void OnHit(PlayerCharacterHub _pch)
+    public virtual void OnKick(PlayerCharacterHub _pch)
     {
         Vector3 collisionPoint = _pch.GetComponent<Collider>().ClosestPoint(transform.position);
         Vector3 direction = transform.position - collisionPoint;
@@ -48,5 +51,19 @@ public class TheBall : MonoBehaviour {
 
         if (AudioManager.Instance != null && AudioManager.Instance.punchFx != null)
             AudioManager.Instance.PlayOneShot(AudioManager.Instance.punchFx);
+    }
+
+
+    public virtual void OnHit(PlayerCharacterHub _pch)
+    {
+        Vector3 collisionPoint = _pch.GetComponent<Collider>().ClosestPoint(transform.position);
+        Vector3 direction = transform.position - collisionPoint;
+        direction.y = 0;
+
+        direction.Normalize();
+
+        direction += (Vector3.up * 0.3f);
+
+        rb.AddForce(50 * direction, ForceMode.Impulse);
     }
 }
