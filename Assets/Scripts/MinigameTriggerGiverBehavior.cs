@@ -127,6 +127,13 @@ public class MinigameTriggerGiverBehavior : PNJDefaultBehavior
     {
         EndOtherPlayerDialog(playerIndex);
 
+        // Stop all players from moving
+        for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
+        {
+            GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<PlayerCharacterHub>().Rb.drag = 25.0f;
+            GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<PlayerCharacterHub>().Rb.velocity = Vector3.zero;
+        }
+
         retryMessageGo = Instantiate(ResourceUtils.Instance.feedbacksManager.prefabReplayScreenHub, GameManager.UiReference.transform);
         if (GameManager.Instance.ActivePlayersAtStart == 2)
         {
@@ -159,6 +166,10 @@ public class MinigameTriggerGiverBehavior : PNJDefaultBehavior
     {
         for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
         {
+            // Stop all players from moving
+            GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<PlayerCharacterHub>().Rb.drag = 25.0f;
+            GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<PlayerCharacterHub>().Rb.velocity = Vector3.zero;
+
             GameManager.Instance.PlayerStart.PlayersReference[i].transform.position = initialpos[i];
             GameManager.Instance.PlayerStart.PlayersReference[i].transform.rotation = initialrot;
             GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<Player>().cameraReference.GetComponentInChildren<Cinemachine.CinemachineFreeLook>().m_RecenterToTargetHeading.m_enabled = true;
@@ -255,6 +266,13 @@ public class MinigameTriggerGiverBehavior : PNJDefaultBehavior
         retryMessageGo.GetComponent<ReplayScreenControlsHub>().index = 0;
         retryMessageGo.GetComponent<ReplayScreenControlsHub>().validationFct += PrepareForStart;
         retryMessageGo.GetComponent<ReplayScreenControlsHub>().refusalFct += CleanMinigameHub;
+
+        // Stop all players from moving
+        for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
+        {
+            GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<PlayerCharacterHub>().Rb.drag = 25.0f;
+            GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<PlayerCharacterHub>().Rb.velocity = Vector3.zero;
+        }
     }
 
     public void WinMinigame()
