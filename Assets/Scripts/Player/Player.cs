@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
 
-public enum PlayerUIStat { Life, Points, Size}
+public enum PlayerUIStat { Life, Points, Laps, Size}
 
 public delegate void UIfct(int _newValue);
 

@@ -48,6 +48,10 @@ public class PlayerControllerKart : PlayerController {
 
     int currentAccelerationButtonPressed = 0;
 
+    public int checkpointsPassed = 0;
+    public int laps = 0;
+
+
     Vector3 targetForward;
     float dashTimer = 0.0f;
     float hitTimer = 0.0f;

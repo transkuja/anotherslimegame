@@ -182,7 +182,7 @@ public class EnnemyController : MonoBehaviour {
             currentTarget = playersCollided[0].gameObject;
 
             // Test useless except npc are on the same layer as player
-            if (currentTarget.GetComponent<PlayerControllerHub>())
+            if (currentTarget.GetComponent<PlayerController>())
             {
                 if (playersCollided[0].transform != transform && Vector3.Angle(currentTarget.transform.position - transform.position, transform.forward) < 200) // Verification en cone
                 {
@@ -257,7 +257,11 @@ public class EnnemyController : MonoBehaviour {
             GetComponentInChildren<Animator>().enabled = false;
             
             playerCharacterHub.PlayerState = playerCharacterHub.freeState;
-            ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles).GetItem(null, transform.position + 3.0f * Vector3.up, Quaternion.identity, true, false, (int)HitParticles.BigHit);
+            if (ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles) != null)
+                ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles).GetItem(null, transform.position + 3.0f * Vector3.up, Quaternion.identity, true, false, (int)HitParticles.BigHit);
+            else
+                Destroy(Instantiate(ResourceUtils.Instance.particleSystemManager.impactFeedback, transform.position + 3.0f * Vector3.up, Quaternion.identity), 10.0f);
+
             this.gameObject.SetActive(false);
             DropCollectableOnGround();
             if (GameManager.Instance.IsInHub() && !isSpawned)

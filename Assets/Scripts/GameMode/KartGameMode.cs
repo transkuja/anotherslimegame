@@ -9,6 +9,8 @@ public class KartGameMode : GameMode {
     PlayerControllerKart.DrivingCondition defaultDrivingCondition = PlayerControllerKart.DrivingCondition.Normal;
 
     public int NumberOfLaps = 5;
+    int currentPtsIndex = 4;
+    public float maxTime = 75f;
 
     float timer;
 
@@ -42,7 +44,7 @@ public class KartGameMode : GameMode {
             if (player != null)
             {
                 player.OnDeathEvent += OnPlayerDeath;
-                player.CallOnValueChange(PlayerUIStat.Points, 1);
+                player.CallOnValueChange(PlayerUIStat.Laps, 1);
             }
             PlayerControllerKart pk = playerReferences[i].GetComponent<PlayerControllerKart>();
             if (pk)
@@ -55,6 +57,8 @@ public class KartGameMode : GameMode {
     public void LaunchTimer()
     {
         timer = 0.0f;
+        GameManager.Instance.GameFinalTimer = maxTime;
+        GameManager.Instance.LaunchFinalTimer();
     }
 
     protected override void Update()
@@ -96,12 +100,14 @@ public class KartGameMode : GameMode {
         }
 
         player.FinishTime = timer;
+        player.NbPoints = currentPtsIndex--;
         GameManager.Instance.ScoreScreenReference.RefreshScores(player, timer, TimeFormat.MinSecMil);
+
     }
 
     public bool CheckRuneObjectiveForKart()
     {
-        return firstFinishTime <= necessaryTimeForRune;
+        return firstFinishTime >= 0f && firstFinishTime <= necessaryTimeForRune;
     }
 
     public void OnPlayerDeath(Player player)

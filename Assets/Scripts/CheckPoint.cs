@@ -19,13 +19,14 @@ public class CheckPoint : MonoBehaviour {
     private void OnTriggerEnter(Collider other)
     {
         Player player = other.gameObject.GetComponent<Player>();
-        if(player)
+        if(player && !player.GetComponent<EnnemyController>())
         {
             if(isStart)
                 player.respawnPoint = transform;
             else if(player.respawnPoint.GetComponent<CheckPoint>() && player.respawnPoint.GetComponent<CheckPoint>().Index == index-1)
             {
                 player.respawnPoint = transform;
+                player.GetComponent<PlayerControllerKart>().checkpointsPassed++;
             }
         }
     }
