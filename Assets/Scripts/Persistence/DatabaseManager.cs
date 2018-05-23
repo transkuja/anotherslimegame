@@ -39,12 +39,6 @@ public class DatabaseManager : MonoBehaviour {
             Destroy(this);
     }
 
-    public void Start()
-    {
-
-    }
-
-
     public static bool LoadDb()
     {
         if (instance == null)
