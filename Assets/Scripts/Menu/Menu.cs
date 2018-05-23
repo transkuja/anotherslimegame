@@ -10,7 +10,7 @@ using UnityEngine.Video;
 public enum CustomizableType { Color, Face, Ears, Mustache, Hat, Skin, Accessory, Chin, Forehead, Size }
 
 public class Menu : MonoBehaviour {
-    public enum MenuState { Common, TitleScreen, ConfirmationScreen, ModeSelection, NumberOfPlayers, CustomisationScreen, MinigameSelection }
+    public enum MenuState { Common, TitleScreen, ConfirmationScreen, ModeSelection, NumberOfPlayers, CustomisationScreen, MinigameSelection, Credits }
     MenuState currentState = MenuState.TitleScreen;
 
     // CustomizableType
@@ -70,6 +70,9 @@ public class Menu : MonoBehaviour {
     [SerializeField]
     GameObject minigameVersionUIPrefab;
     bool canChangeSelection = true;
+
+    [SerializeField]
+    bool creditsShown = false;
 
     public SlimeDataContainer DataContainer
     {
@@ -295,6 +298,12 @@ public class Menu : MonoBehaviour {
                 || Input.GetKeyDown(KeyCode.Backspace)
                 || Input.GetKeyDown(KeyCode.Escape))
         {
+            if (creditsShown)
+            {
+                creditsShown = false;
+                transform.GetChild((int)MenuState.Credits).gameObject.SetActive(false);
+            }
+
             // For CustomisationScreen, we want to be sure that Player 1 is not in "ready" state so we handle rewind elsewhere
             if (currentState != MenuState.TitleScreen && currentState != MenuState.CustomisationScreen)
             {
@@ -345,10 +354,17 @@ public class Menu : MonoBehaviour {
                 // Keyboard input
                 || Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
             {
+                if (creditsShown)
+                {
+                    creditsShown = false;
+                    transform.GetChild((int)MenuState.Credits).gameObject.SetActive(false);
+                }
+
                 if (CurrentlySelectedButton != null)
                 {
                     CurrentlySelectedButton.onClick.Invoke();
-                    GoToNextState();
+                    if (!creditsShown)
+                        GoToNextState();
                 }
                 else
                 {
@@ -1496,6 +1512,12 @@ public class Menu : MonoBehaviour {
     {
         // Reset -> Unlock all -> cowboy / candy / sneakyprogress = 0
         DatabaseManager.Db.NewGameSettings();
+    }
+
+    public void ShowCredits()
+    {
+        creditsShown = true;
+        transform.GetChild((int)MenuState.Credits).gameObject.SetActive(true);
     }
     
 }
