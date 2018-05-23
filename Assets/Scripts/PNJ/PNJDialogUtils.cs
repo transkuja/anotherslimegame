@@ -297,9 +297,9 @@ public static class PNJDialogUtils {
     // Mathieu
     static string MathieuDM = "Do you know what is my favorite animal ?\n"
        + "No ? I'ill give you a hint.\n"
-       + "Aaaaooouuuhhhh!!\n"
+       + "Owooooo !!\n"
        + "You found it, don't you ?\n"
-       + "Yes, it's the wolf. Good answer.";
+       + "That was the wolf, if it wasn't obvious.";
     static FaceEmotion[] MathieuDE = new FaceEmotion[5] { FaceEmotion.Neutral, FaceEmotion.Loser, FaceEmotion.Neutral, FaceEmotion.Attack, FaceEmotion.Winner };
     /*static string MathieuQM = ""
     ;
