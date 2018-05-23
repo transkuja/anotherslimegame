@@ -89,7 +89,15 @@ public class ScoreScreen : MonoBehaviour {
             return;
         }
 
-        String timeStr = TimeFormatUtils.GetFormattedTime(time, timeFormat);
+        string timeStr;
+        if(_time == -1f)
+        {
+            timeStr = "---";
+        }
+        else
+        {
+            timeStr = TimeFormatUtils.GetFormattedTime(time, timeFormat);
+        }
 
         if(GameManager.Instance.CurrentGameMode.IsMiniGame())
         {
@@ -188,6 +196,69 @@ public class ScoreScreen : MonoBehaviour {
         RefreshScoresTimeOver(remainingPlayers.ToArray());
     }
 
+    public void RankKartPlayers()
+    {
+        List<GameObject> playersReference = GameManager.Instance.PlayerStart.PlayersReference;
+        List<Player> timeOutPlayers = new List<Player>();
+        List<Player> finishedInTimePlayers = new List<Player>();
+
+        for (int i = 0; i < playersReference.Count; i++)
+        {
+            Player _curPlayer = playersReference[i].GetComponent<Player>();
+            if (!_curPlayer.HasFinishedTheRun)
+            {
+                _curPlayer.HasFinishedTheRun = true;
+                _curPlayer.NbPoints = _curPlayer.GetComponent<PlayerControllerKart>().checkpointsPassed;
+
+                if (timeOutPlayers.Count == 0)
+                    timeOutPlayers.Add(_curPlayer);
+                else
+                    for (int j = 0; j < timeOutPlayers.Count; j++)
+                    {
+                        if (timeOutPlayers[timeOutPlayers.Count - (j + 1)].NbPoints > _curPlayer.NbPoints)
+                        {
+                            timeOutPlayers.Insert(timeOutPlayers.Count - j, _curPlayer);
+                            break;
+                        }
+                        else if (j == timeOutPlayers.Count - 1)
+                        {
+                            timeOutPlayers.Insert(0, _curPlayer);
+                            break;
+                        }
+                        else
+                            continue;
+                    }
+            }
+            else
+            {
+                if (finishedInTimePlayers.Count == 0)
+                    finishedInTimePlayers.Add(_curPlayer);
+                else
+                    for (int j = 0; j < finishedInTimePlayers.Count; j++)
+                    {
+                        if (finishedInTimePlayers[finishedInTimePlayers.Count - (j + 1)].FinishTime < _curPlayer.FinishTime)
+                        {
+                            finishedInTimePlayers.Insert(finishedInTimePlayers.Count - j, _curPlayer);
+                            break;
+                        }
+                        else if (j == finishedInTimePlayers.Count - 1)
+                        {
+                            finishedInTimePlayers.Insert(0, _curPlayer);
+                            break;
+                        }
+                        else
+                            continue;
+                    }
+            }
+
+        }
+        finishedInTimePlayers.AddRange(timeOutPlayers);
+        for (int i = 0; i < finishedInTimePlayers.Count; i++)
+        {
+            RefreshScores(finishedInTimePlayers[i], finishedInTimePlayers[i].FinishTime, TimeFormat.MinSecMil);
+        }
+    }
+
     void RefreshScoresTimeOver(Player[] _remainingPlayers)
     {
         for (int i = 0; i < _remainingPlayers.Length; i++)
@@ -240,8 +311,17 @@ public class ScoreScreen : MonoBehaviour {
                     }
                     else if (runeObjective == RuneObjective.Time)
                     {
-                        runeObjectiveUI.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "00:00:00";
-                        runeObjectiveUI.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = TimeFormatUtils.GetFormattedTime(GameManager.Instance.CurrentGameMode.necessaryTimeForRune, TimeFormat.MinSecMil);
+                        if (GameManager.Instance.CurrentGameMode.GetType() == typeof(KartGameMode) && ((KartGameMode)GameManager.Instance.CurrentGameMode).firstFinishTime < 0f)
+                        {
+                            //TODO: Skip to failed screen
+                            runeObjectiveUI.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "0";
+                            runeObjectiveUI.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = "20 Try Again";
+                        }
+                        else
+                        {
+                            runeObjectiveUI.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "00:00:00";
+                            runeObjectiveUI.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = TimeFormatUtils.GetFormattedTime(GameManager.Instance.CurrentGameMode.necessaryTimeForRune, TimeFormat.MinSecMil);
+                        }
                     }
 
                     goToRuneScreen = true;

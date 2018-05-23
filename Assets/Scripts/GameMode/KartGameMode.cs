@@ -11,10 +11,11 @@ public class KartGameMode : GameMode {
     public int NumberOfLaps = 5;
     int currentPtsIndex = 4;
     public float maxTime = 75f;
+    float playersLeft;
 
     float timer;
 
-    float firstFinishTime = -1.0f;
+    public float firstFinishTime = -1.0f;
 
     [HideInInspector]
     private KartArrival arrival;
@@ -37,7 +38,7 @@ public class KartGameMode : GameMode {
     {
         base.StartGame(playerReferences);
         rules = new MinigameRules(this, minigameVersion);
-
+        playersLeft = playerReferences.Count;
         for (int i = 0; i < playerReferences.Count; i++)
         {
             Player player = playerReferences[i].GetComponent<Player>();
@@ -100,9 +101,12 @@ public class KartGameMode : GameMode {
         }
 
         player.FinishTime = timer;
-        player.NbPoints = currentPtsIndex--;
-        GameManager.Instance.ScoreScreenReference.RefreshScores(player, timer, TimeFormat.MinSecMil);
-
+        player.HasFinishedTheRun = true;
+        playersLeft--;
+        if(playersLeft <= 0)
+        {
+            GameManager.Instance.ScoreScreenReference.RankKartPlayers();
+        }
     }
 
     public bool CheckRuneObjectiveForKart()

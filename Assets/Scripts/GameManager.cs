@@ -318,7 +318,14 @@ public class GameManager : MonoBehaviour {
             {
                 CleanEndFinalCountdown();
                 if (scoreScreenReference && scoreScreenReference.GetComponent<ScoreScreen>()) // @remi think that
-                    scoreScreenReference.RankPlayersByPoints();
+                {
+                    if(CurrentGameMode.GetType() == typeof(KartGameMode))
+                    {
+                        scoreScreenReference.RankKartPlayers();
+                    }
+                    else
+                        scoreScreenReference.RankPlayersByPoints();
+                }
             }
             else
             {
