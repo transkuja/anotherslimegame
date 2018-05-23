@@ -58,8 +58,13 @@ public class DatabaseManager : MonoBehaviour {
 
     public void SaveData()
     {
+        #if UNITY_EDITOR
+            return;
+        #endif
         // save
+        #pragma warning disable CS0162 // Impossible d'atteindre le code détecté
         try
+        #pragma warning restore CS0162 // Impossible d'atteindre le code détecté
         {
             // if folder doesn't exist
             if (!Directory.Exists(saveDirectory))
@@ -84,8 +89,14 @@ public class DatabaseManager : MonoBehaviour {
 
     public static bool LoadData()
     {
+        #if UNITY_EDITOR
+            return false;
+        #endif
+
         // load
+        #pragma warning disable CS0162 // Impossible d'atteindre le code détecté
         try
+        #pragma warning restore CS0162 // Impossible d'atteindre le code détecté
         {
             if (!File.Exists(saveFilePath))
                 return false;
