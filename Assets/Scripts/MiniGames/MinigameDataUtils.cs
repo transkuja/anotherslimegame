@@ -245,9 +245,9 @@ public static class MinigameDataUtils
         }
         else if (curGameMode is KartGameMode)
         {
-            controls.Add(new ControlDetails(ControlType.A, "Accelerate with A"));
-            controls.Add(new ControlDetails(ControlType.B, "Reverse with B"));
-            controls.Add(new ControlDetails(ControlType.LeftThumbstick));
+            controls.Add(new ControlDetails(ControlType.RightTrigger, "Accelerate with RT"));
+            controls.Add(new ControlDetails(ControlType.LeftTrigger, "Reverse with LT"));
+            controls.Add(new ControlDetails(ControlType.LeftThumbstick, "Steer with L stick"));
             controls.Add(new ControlDetails(ControlType.X, "Boost with X"));
         }
         else if (curGameMode is Runner3DGameMode)
