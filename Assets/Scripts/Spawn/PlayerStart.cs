@@ -9,7 +9,6 @@ public class PlayerStart : MonoBehaviour {
     Transform[] playerStart;
     public GameObject playerPrefab;
 
-    [SerializeField] GameObject PlayerUI;
     [SerializeField] GameMode gameMode;
 
     public GameObject[] cameraPlayerReferences;

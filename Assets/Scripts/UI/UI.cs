@@ -59,6 +59,13 @@ public class UI : MonoBehaviour {
         }
         GameManager.Instance.finalTimerInitialized = false;
         GameManager.Instance.isTimeOver = true;
+
+        timerText = transform.GetChild(1).GetComponent<Text>();
+        UIref = transform.GetChild(0);
+        ptsText = UIref.GetChild(0).GetComponentInChildren<Text>().transform;
+        runeText = UIref.GetChild(1).GetComponentInChildren<Text>().transform;
+
+        RuleScreen = transform.GetChild(transform.childCount - 1).transform;
     }
 
     void DestroyOnMenuScreen(Scene oldScene, Scene newScene)
@@ -73,13 +80,6 @@ public class UI : MonoBehaviour {
 
     private void Start()
     {
-        timerText = transform.GetChild(1).GetComponent<Text>();
-        UIref = transform.GetChild(0);
-        ptsText = UIref.GetChild(0).GetComponentInChildren<Text>().transform;
-        runeText = UIref.GetChild(1).GetComponentInChildren<Text>().transform;
-
-        RuleScreen = transform.GetChild(transform.childCount-1).transform;
-
         // Merde copy de reference ..
         ptsTextOriginalState = ptsText;
         runeTextOriginalState = runeText;
