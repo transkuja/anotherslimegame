@@ -261,6 +261,9 @@ public class MinigameTriggerGiverBehavior : PNJDefaultBehavior
 
         GameManager.ChangeState(GameState.ForcedPauseMGRules);
 
+        // Reviens a l'étape précedente si le joueur echoue 
+        step--;
+
         retryMessageGo = Instantiate(ResourceUtils.Instance.feedbacksManager.prefabReplayScreenHub, GameManager.UiReference.transform);
         retryMessageGo.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = Utils.GetRetryMessage(MessageTypeMinigame.Retry);
         retryMessageGo.GetComponent<ReplayScreenControlsHub>().index = 0;
