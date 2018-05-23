@@ -21,12 +21,10 @@ public class Breakable : MonoBehaviour {
 
         if (GameManager.Instance.IsInHub())
         {
-            if (GetComponent<PulsingEmissive>())
+            if (persistenceIndex != -1)
             {
-                if (persistenceIndex != -1 && !DatabaseManager.Db.alreadyBrokenBreakables[persistenceIndex])
-                {
-                    GetComponent<PulsingEmissive>().enabled = true;
-                }
+                GetComponentInChildren<Renderer>().material.EnableKeyword("_EMISSION");
+                GetComponentInChildren<Renderer>().material.SetColor("_EmissionColor", (DatabaseManager.Db.alreadyBrokenBreakables[persistenceIndex]) ? Color.black : Color.white);
             }
         }
     }

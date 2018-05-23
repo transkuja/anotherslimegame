@@ -5,6 +5,8 @@ using UnityEngine;
 public class PulsingEmissive : MonoBehaviour {
 
     Material material;
+    Renderer renderer;
+
     [SerializeField]
     bool useCurrentEmissiveColor;
     [SerializeField]
@@ -19,7 +21,8 @@ public class PulsingEmissive : MonoBehaviour {
 
     IEnumerator Start()
     {
-        material = GetComponentInChildren<Renderer>().material;
+        renderer = GetComponentInChildren<Renderer>();
+        material = renderer.material;
         material.EnableKeyword("_EMISSION");
 
         if (useCurrentEmissiveColor)
@@ -30,6 +33,8 @@ public class PulsingEmissive : MonoBehaviour {
 
         while (true)
         {
+            yield return new WaitUntil(() => renderer.isVisible);
+
             Color colorToApply = material.GetColor("_EmissionColor");
 
             while (colorToApply.maxColorComponent < initialColor.maxColorComponent * pulseRangeMax && pulseRangeMax > 0.0f)
