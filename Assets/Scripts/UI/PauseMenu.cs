@@ -160,6 +160,7 @@ public class PauseMenu : MonoBehaviour {
 
     public void ExitGame()
     {
+        DatabaseManager.instance.SaveData();
         Application.Quit();
     }
 

@@ -1488,6 +1488,7 @@ public class Menu : MonoBehaviour {
     public void ExitGame()
     {
         Debug.Log("Exiting this exciting game.");
+        DatabaseManager.instance.SaveData();
         Application.Quit();
     }
 

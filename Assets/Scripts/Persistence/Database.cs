@@ -122,6 +122,7 @@ namespace DatabaseClass
     }
 
     [CreateAssetMenu(fileName = "Database", menuName = "Custom/Database", order = 1)]
+    [System.Serializable]
     public class Database : ScriptableObject
     {
 
@@ -216,6 +217,8 @@ namespace DatabaseClass
                 default:
                     return;
             }
+
+            DatabaseManager.instance.SaveData();
         }
 
         public void SetUnlock<T>(string _id, bool isUnlocked, int _version = 0) where T : Unlockable
@@ -275,6 +278,8 @@ namespace DatabaseClass
                 if (foreheads.Find(a => a.Id == _id) != null)
                     foreheads.Find(a => a.Id == _id).isUnlocked = isUnlocked;
             }
+
+            DatabaseManager.instance.SaveData();
         }
 
         public Unlockable GetDataFromId<T>(string _id) where T : Unlockable
@@ -740,6 +745,8 @@ namespace DatabaseClass
         public void NewGameSettings()
         {
             ResetAll();
+
+            DatabaseManager.instance.SaveData();
         }
 
         public void DEBUG_UnlockedAllExceptPNJ()
