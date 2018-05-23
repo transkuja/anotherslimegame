@@ -26,7 +26,7 @@ public class ColorFloorPickUp : MinigamePickUp {
         }
 
     }
-
+    bool isDisapearing = false;
     IEnumerator OnEnableCoroutine()
     {
         if (pickupType == PickUpType.BadOne)
@@ -34,7 +34,7 @@ public class ColorFloorPickUp : MinigamePickUp {
             yield return new WaitForSeconds(2.0f);
             // TODO: anim
             if (!cancelBadPickupCoroutine)
-                GetComponentInChildren<PoolChild>().ReturnToPool();
+                StartCoroutine(PlayEffectAndReturnToPool());
             else
                 cancelBadPickupCoroutine = false;
         }
@@ -54,9 +54,24 @@ public class ColorFloorPickUp : MinigamePickUp {
 
     void BadEffect(int _playerIndex)
     {
+        if (isDisapearing)
+            return;
         ColorFloorHandler.LosePoints(_playerIndex);
         ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles).GetItem(null, transform.position, Quaternion.identity, true, true, 4);
         cancelBadPickupCoroutine = true;
+        GetComponentInChildren<PoolChild>().ReturnToPool();
+    }
+
+    IEnumerator PlayEffectAndReturnToPool()
+    {
+        isDisapearing = true;
+        transform.GetChild(0).GetChild(1).GetComponent<ParticleSystem>().Play();
+        transform.GetChild(0).GetChild(0).gameObject.SetActive(false);
+        GetComponent<Animator>().enabled = false;
+        yield return new WaitForSeconds(1.5f);
+        transform.GetChild(0).GetChild(0).gameObject.SetActive(true);
+        isDisapearing = false;
+        GetComponent<Animator>().enabled = true;
         GetComponentInChildren<PoolChild>().ReturnToPool();
     }
 
