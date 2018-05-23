@@ -56,14 +56,15 @@ public class TheBall : MonoBehaviour {
 
     public virtual void OnHit(PlayerCharacterHub _pch)
     {
+        rb.velocity = Vector3.zero;
         Vector3 collisionPoint = _pch.GetComponent<Collider>().ClosestPoint(transform.position);
         Vector3 direction = transform.position - collisionPoint;
         direction.y = 0;
 
         direction.Normalize();
 
-        direction += (Vector3.up * 0.3f);
+        direction += (Vector3.up * 0.5f);
 
-        rb.AddForce(50 * direction, ForceMode.Impulse);
+        rb.AddForce(80 * direction, ForceMode.Impulse);
     }
 }
