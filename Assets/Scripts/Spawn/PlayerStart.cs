@@ -98,6 +98,7 @@ public class PlayerStart : MonoBehaviour {
         {
             DatabaseManager.Db.ResetBreakablesState();
             DatabaseManager.Db.ResetCollectablesState();
+            DatabaseManager.Db.ResetLockState();
         }
 
         gameMode.StartGame(playersReference);

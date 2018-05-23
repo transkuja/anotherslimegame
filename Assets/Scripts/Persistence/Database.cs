@@ -173,6 +173,9 @@ namespace DatabaseClass
         [SerializeField]
         public bool[] alreadyCollectedCollectables;
 
+        [SerializeField]
+        public bool[] alreadyUnlockButtons;
+
         public int NbRunes
         {
             get
@@ -722,6 +725,8 @@ namespace DatabaseClass
                 alreadyBrokenBreakables = new bool[alreadyBrokenBreakables.Length];
             if(alreadyCollectedCollectables.Length > 0)
                 alreadyCollectedCollectables = new bool[alreadyCollectedCollectables.Length];
+            if (alreadyUnlockButtons.Length > 0)
+                alreadyUnlockButtons = new bool[alreadyUnlockButtons.Length];
         }
 
         public void AllCostToZero()
@@ -795,6 +800,34 @@ namespace DatabaseClass
                 }
                 else
                     collectables[i].persistenceIndex = i;
+            }
+        }
+
+        public void ResetLockState()
+        {
+            ButtonTrigger[] button = FindObjectsOfType<ButtonTrigger>();
+            int count = 0;
+            foreach (ButtonTrigger btn in button)
+            {
+                if (btn.hasToLockAfterActivation)
+                {
+                    btn.persistenceIndex = count;
+                    count++;
+                }
+
+            }
+
+            if (alreadyUnlockButtons.Length != count)
+            {
+                alreadyUnlockButtons = new bool[count];
+            }
+
+            for (int i = 0; i < button.Length; ++i)
+            {
+                if (button[i].persistenceIndex != -1 && alreadyUnlockButtons[button[i].persistenceIndex])
+                {
+                    button[i].hasToMoveButton = true;
+                }
             }
         }
 

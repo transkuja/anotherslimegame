@@ -23,7 +23,9 @@ public class ButtonTrigger : MonoBehaviour {
     private bool doCommand = false;
     private bool doAction = false;
 
-    private bool hasToMoveButton = false;
+    [HideInInspector]
+    public bool hasToMoveButton = false;
+    public int persistenceIndex = -1;
 
     // Anim button
     private float timer = 0.5f;
@@ -146,12 +148,19 @@ public class ButtonTrigger : MonoBehaviour {
                     {
                         button[i].text.text = "";
                         button[i].isLock = true;
+
+                        // Save button changing state in db
+                        if (!DatabaseManager.Db.alreadyUnlockButtons[button[i].persistenceIndex])
+                        {
+                            DatabaseManager.Db.alreadyUnlockButtons[button[i].persistenceIndex] = true;
+                            DatabaseManager.instance.SaveData();
+                        }
                     }
                 }
-
             }
         }
 
+        // if has to reset
         if(!isLock && !hasToMoveButton && isActive && hasToResetAutomatically)
         {
             currentResetTimer -= Time.deltaTime;
