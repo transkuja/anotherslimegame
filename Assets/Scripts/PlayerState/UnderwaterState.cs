@@ -101,7 +101,7 @@ public class UnderwaterState : PlayerState
     // Disable gravity when underwater
     public override void HandleGravity()
     {
-        float seuilAPartirDuquelOnRemonte = waterLevel - waterTolerance - 1f;
+        float seuilAPartirDuquelOnRemonte = waterLevel - waterTolerance - 0.75f;
 
         // Quand on est en train de remonter
         if (!hasReachedTheSurface && hasStartedGoingUp)
@@ -116,8 +116,8 @@ public class UnderwaterState : PlayerState
         }
 
         // Rentre dans l'eau
-        if (!hasStartedGoingUp && playerCharacterHub.transform.position.y > seuilAPartirDuquelOnRemonte
-                               && playerCharacterHub.transform.position.y < waterLevel - waterTolerance + 1 )
+        if (!hasStartedGoingUp && (playerCharacterHub.transform.position.y > seuilAPartirDuquelOnRemonte
+                               && playerCharacterHub.transform.position.y < waterLevel - waterTolerance + 1 ))
         {
             playerCharacterHub.Rb.AddForce(Gravity.defaultGravity * Vector3.down);
         }
