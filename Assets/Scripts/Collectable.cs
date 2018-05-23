@@ -12,7 +12,7 @@ public class Collectable : MonoBehaviour
     ParticleSystem pickupParticles;
     private uint movementSpeed = 15;
     private int value = 5;
-
+    public bool isCollected = false;
     // Index in database to know if it has already been broken. -1 if no persistence.
     public int persistenceIndex = -1;
 
@@ -78,6 +78,8 @@ public class Collectable : MonoBehaviour
                 GetComponent<Animator>().enabled = true;
             if (GetComponent<Rigidbody>())
                 GetComponent<Rigidbody>().WakeUp();
+            isCollected = false;
+            GetComponentInChildren<Renderer>().enabled = true;
         }
     }
 
@@ -109,7 +111,7 @@ public class Collectable : MonoBehaviour
 
     public void PickUp(Player player)
     {
-        if (player && !IsAttracted && !haveToDisperse)
+        if (player && !IsAttracted && !haveToDisperse && !isCollected)
         {
             // Grab everything not linked to evolution (points)
             if (!Utils.IsAnEvolutionCollectable(GetComponent<Collectable>().type) || player.activeEvolutions <= 0.8f)
@@ -126,13 +128,14 @@ public class Collectable : MonoBehaviour
                 // En theorie sa sert a rien
                 GetComponent<Collider>().enabled = false;
                 playerTarget = player;
-                return;
             }
         }
     }
 
     public void Attract()
     {
+        if (isCollected)
+            return;
         transform.position = Vector3.Lerp(transform.position, (playerTarget.transform.position + Vector3.up * .5f), Time.deltaTime * movementSpeed);
         //GetComponent<Rigidbody>().velocity = (direction * movementSpeed * Time.deltaTime * 50.0f);
         //Debug.Log(Vector3.Distance(playerTarget.transform.position + Vector3.up * 0.5f, transform.position));
@@ -184,12 +187,16 @@ public class Collectable : MonoBehaviour
 
                 if (AudioManager.Instance != null && AudioManager.Instance.coinFX != null) AudioManager.Instance.PlayOneShot(AudioManager.Instance.coinFX);
             }
-            GetComponent<Renderer>().enabled = false;
+
+            isCollected = true;
+            
             if (pickupParticles)
+            {
+                GetComponentInChildren<Renderer>().enabled = false;
                 StartCoroutine(WaitForParticles());
+            }
             else
                 DisableOrDestroy();
-            
         }
     }
 
@@ -204,8 +211,8 @@ public class Collectable : MonoBehaviour
             if (persistenceIndex != -1 && !DatabaseManager.Db.alreadyCollectedCollectables[persistenceIndex])
             {
                 DatabaseManager.Db.alreadyCollectedCollectables[persistenceIndex] = true;
-                Destroy(this.gameObject);
             }
+            Destroy(this.gameObject);
         }
     }
 
@@ -219,7 +226,7 @@ public class Collectable : MonoBehaviour
     IEnumerator WaitForParticles()
     {
         pickupParticles.transform.SetParent(null);
-        yield return new WaitForSeconds(pickupParticles.main.duration);
+        yield return new WaitForSeconds(3.0f);
         pickupParticles.Stop();
         pickupParticles.transform.SetParent(transform);
         pickupParticles.transform.localPosition = Vector3.zero;
