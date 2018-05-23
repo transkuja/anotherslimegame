@@ -140,10 +140,13 @@ public class ButtonTrigger : MonoBehaviour {
                 {
                     activable[i].Active(true);
                 }
-                for (int i = 0; i < button.Length; i++)
+                if(hasToLockAfterActivation)
                 {
-                    button[i].text.text = "";
-                    button[i].isLock = true;
+                    for (int i = 0; i < button.Length; i++)
+                    {
+                        button[i].text.text = "";
+                        button[i].isLock = true;
+                    }
                 }
 
             }
