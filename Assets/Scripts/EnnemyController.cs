@@ -38,6 +38,8 @@ public class EnnemyController : MonoBehaviour {
 
     bool isDead = false;
 
+    public bool isSpawned = false;
+
     public enum RabiteState
     {
         Wander,
@@ -258,7 +260,7 @@ public class EnnemyController : MonoBehaviour {
             ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.HitParticles).GetItem(null, transform.position + 3.0f * Vector3.up, Quaternion.identity, true, false, (int)HitParticles.BigHit);
             this.gameObject.SetActive(false);
             DropCollectableOnGround();
-            if (GameManager.Instance.IsInHub())
+            if (GameManager.Instance.IsInHub() && !isSpawned)
                 Invoke("Reactivate", 60);
         }
     }
