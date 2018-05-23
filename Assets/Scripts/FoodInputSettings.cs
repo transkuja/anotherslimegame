@@ -27,20 +27,18 @@ public class FoodInputSettings : MonoBehaviour {
 
         set
         {
-            if (currentInput == PossibleInputs.BadOne)
-                transform.GetChild((int)currentInput).GetChild(0).gameObject.SetActive(true);
-
             currentInput = value;
-            transform.GetChild((int)currentInput).GetComponent<Image>().enabled = true;
-            transform.GetChild((int)currentInput).GetChild(0).GetComponent<Image>().color = Color.white;
 
             currentTime = 0.0f;
             if (currentInput != PossibleInputs.BadOne)
+            {
+                transform.GetChild((int)currentInput).GetComponent<Image>().enabled = true;
+                transform.GetChild((int)currentInput).GetChild(0).GetComponent<Image>().color = Color.white;
                 timeBeforeNextInput = Random.Range(((FoodGameMode)GameManager.Instance.CurrentGameMode).miniTail, ((FoodGameMode)GameManager.Instance.CurrentGameMode).maxTail);
+            }
             else
             {
-                timeBeforeNextInput = 0.0f;
-                transform.GetChild((int)currentInput).GetChild(0).gameObject.SetActive(false);
+                timeBeforeNextInput = 0.5f;
             }
 
             nextInput = GetRandomInput();
@@ -73,7 +71,6 @@ public class FoodInputSettings : MonoBehaviour {
         if (!areBadInputsEnabled)
         {
             maxRandom--;
-            transform.GetChild((int)PossibleInputs.BadOne).gameObject.SetActive(false);
         }
 
         CurrentInput = GetRandomInput(true);
@@ -85,9 +82,6 @@ public class FoodInputSettings : MonoBehaviour {
     {
         ActiveButton(currentInput);
         CurrentInput = nextInput;
-        nextInputCalled = false;
-        reverseLerpIncomingAnim = false;
-        lerpParamIncomingAnim = 0.0f;
         newColorIncomingAnim = new Color(1, 1, 1, 0.5f);
     }
 
@@ -102,23 +96,10 @@ public class FoodInputSettings : MonoBehaviour {
 
         if (!nextInputCalled && currentTime >= timeBeforeNextInput)
         {
-            Invoke("SwitchInput", reactionTime);
-            nextInputCalled = true;
+            SwitchInput();
         }
         else
             currentTime += Time.deltaTime;
-
-        if (nextInputCalled)
-        {
-            // 0.5 -> 0.9 en reactionTime/3 * 2 
-            // 0.9 -> 0.5 en reactionTime/3 * 2
-            if (lerpParamIncomingAnim >= 1.0f || lerpParamIncomingAnim <= 0.0f)
-                reverseLerpIncomingAnim = !reverseLerpIncomingAnim;
-
-            lerpParamIncomingAnim = Mathf.Clamp(lerpParamIncomingAnim + ((reverseLerpIncomingAnim) ? -Time.deltaTime : Time.deltaTime) * (6 / reactionTime), 0, 1.0f);
-            newColorIncomingAnim = new Color(1, 1, 1, Mathf.Lerp(0.25f, 0.9f, lerpParamIncomingAnim));
-            transform.GetChild((int)nextInput).GetChild(0).GetComponent<Image>().color = newColorIncomingAnim;
-        }
 
         if (isInitialized)
         {
@@ -127,19 +108,28 @@ public class FoodInputSettings : MonoBehaviour {
                 scaleAscending = false;
             if (currentScale < 0.75f)
                 scaleAscending = true;
-            transform.GetChild((int)currentInput).localScale += ((scaleAscending) ? 0.5f : -0.5f) * Time.deltaTime * Vector3.one;
-            currentScale = transform.GetChild((int)currentInput).localScale.x;
+            if (currentInput != PossibleInputs.BadOne)
+            {
+                transform.GetChild((int)currentInput).localScale += ((scaleAscending) ? 0.5f : -0.5f) * Time.deltaTime * Vector3.one;
+                currentScale = transform.GetChild((int)currentInput).localScale.x;
+            }
         }
     }
 
     public void ActiveButton(PossibleInputs _toActivate)
     {
-        transform.GetChild((int)_toActivate).GetComponent<Image>().enabled = true;
-        transform.GetChild((int)_toActivate).GetComponent<Image>().color = Color.white;
-        transform.GetChild((int)_toActivate).GetChild(0).GetComponent<Image>().color = Color.white;
+        if (_toActivate != PossibleInputs.BadOne)
+        {
+            transform.GetChild((int)_toActivate).GetComponent<Image>().enabled = true;
+            transform.GetChild((int)_toActivate).GetComponent<Image>().color = Color.white;
+            transform.GetChild((int)_toActivate).GetChild(0).GetComponent<Image>().color = Color.white;
+        }
 
-        transform.GetChild((int)CurrentInput).GetComponent<Image>().enabled = false;
-        transform.GetChild((int)CurrentInput).GetChild(0).GetComponent<Image>().color = new Color(1,1,1,0.5f);
-        transform.GetChild((int)CurrentInput).localScale = Vector3.one;
+        if (CurrentInput != PossibleInputs.BadOne)
+        {
+            transform.GetChild((int)CurrentInput).GetComponent<Image>().enabled = false;
+            transform.GetChild((int)CurrentInput).GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 0.5f);
+            transform.GetChild((int)CurrentInput).localScale = Vector3.one;
+        }
     }
 }

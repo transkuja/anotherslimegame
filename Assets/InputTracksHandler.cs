@@ -59,8 +59,8 @@ public class InputTracksHandler : MonoBehaviour {
             }
         }
 
-        for (int i = nbPlayers; i < 4; i++)
-            transform.GetChild(i).gameObject.SetActive(false);
+        for (int i = 0; i < nbPlayers; i++)
+            transform.GetChild(i).gameObject.SetActive(true);
 
         for (int i = 0; i < nbPlayers; i++)
         {

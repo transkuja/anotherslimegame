@@ -11,7 +11,7 @@ public class PlayerControllerFood : PlayerController {
     public float currentCombo = 1;
     public GameObject comboUI;
     Text comboUIText;
-    Slider comboUISlider;
+    [SerializeField]
     Image comboUIFillAreaImage;
     public Animator parentAnim;
 
@@ -31,15 +31,31 @@ public class PlayerControllerFood : PlayerController {
             if (comboUIText == null)
             {
                 comboUIText = comboUI.GetComponentInChildren<Text>();
-                comboUISlider = comboUI.GetComponentInChildren<Slider>();
-                comboUIFillAreaImage = comboUISlider.fillRect.transform.GetComponent<Image>();
             }
 
             // update combo
-            comboUIText.text = "x " + currentCombo.ToString("0.0");
-            comboUISlider.value = (currentCombo - 1) * 20;
-            comboUIFillAreaImage.color = (currentCombo > 4.0f) ? Color.red : (currentCombo > 2.5f) ? (new Color(255, 174, 0, 255) / 255.0f) : Color.green;
+            comboUIText.text = currentCombo.ToString("0.0");
+            comboUIFillAreaImage.fillAmount = ((currentCombo - 1) * 20) / 80.0f;
+            if (comboUIFillAreaImage.fillAmount > 0.75f)
+            {
+                ActivateSkull();
+            }
+            else
+                DeactivateSkull();
         }
+    }
+
+    void ActivateSkull()
+    {
+        comboUI.transform.GetChild(2).GetComponent<Image>().color = Color.red;
+        comboUI.transform.GetChild(2).GetComponent<AnimButton>().enabled = true;
+    }
+
+    void DeactivateSkull()
+    {
+        comboUI.transform.GetChild(2).GetComponent<Image>().color = new Color(1, 1, 1, 0.5f);
+        comboUI.transform.GetChild(2).GetComponent<AnimButton>().enabled = false;
+        comboUI.transform.GetChild(2).localScale = Vector3.one * 0.8f;
     }
 
     public bool AreInputsUnlocked
@@ -139,8 +155,6 @@ public class PlayerControllerFood : PlayerController {
                 AreInputsUnlocked = false;
                 GameManager.Instance.PlayerStart.PlayersReference[(int)playerIndex].GetComponentInChildren<PlayerCosmetics>().FaceEmotion
                         = FaceEmotion.Hit;
-                foodInputSettings.transform.GetChild((int)_pressed).GetComponent<Image>().color = Color.red;
-                foodInputSettings.transform.GetChild((int)_pressed).GetComponent<Image>().enabled = true;
 
                 //((FoodGameMode)GameManager.Instance.CurrentGameMode).BadInput(this);
             }
@@ -154,11 +168,6 @@ public class PlayerControllerFood : PlayerController {
         AreInputsUnlocked = true;
         GameManager.Instance.PlayerStart.PlayersReference[(int)playerIndex].GetComponentInChildren<PlayerCosmetics>().FaceEmotion
                 = FaceEmotion.Neutral;
-
-        if (_wrongInput != foodInputSettings.CurrentInput)
-            foodInputSettings.transform.GetChild((int)_wrongInput).GetComponent<Image>().enabled = false;
-        foodInputSettings.transform.GetChild((int)_wrongInput).GetComponent<Image>().color = Color.white;
-
     }
 
     void ResetStateAfterEatingSmthgBad()
