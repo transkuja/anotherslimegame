@@ -241,7 +241,8 @@ public static class MinigameDataUtils
         if (curGameMode is ColorFloorGameMode)
         {
             controls.Add(new ControlDetails(ControlType.LeftThumbstick));
-            controls.Add(new ControlDetails(ControlType.X, "Dash forward with X"));
+            if (_curGameMode.minigameVersion < 4)
+                controls.Add(new ControlDetails(ControlType.X, "Dash forward with X"));
         }
         else if (curGameMode is KartGameMode)
         {
@@ -294,7 +295,8 @@ public static class MinigameDataUtils
         {
             if (_version%2 == 0)
                 possiblePickups.Add(new PossiblePickup(PickUpType.Score, "Collect to score points"));
-            possiblePickups.Add(new PossiblePickup(PickUpType.ColorAround, "Color nearby stones"));
+            if (!((ColorFloorGameMode)curGameMode).withBadSpawns)
+                possiblePickups.Add(new PossiblePickup(PickUpType.ColorAround, "Color nearby stones"));
             possiblePickups.Add(new PossiblePickup(PickUpType.ColorArrow, "Color stones in a direction"));
             possiblePickups.Add(new PossiblePickup(PickUpType.SpeedUp, "Speeds you up"));
             if (((ColorFloorGameMode)curGameMode).withBadSpawns)
