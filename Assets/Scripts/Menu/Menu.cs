@@ -1282,9 +1282,9 @@ public class Menu : MonoBehaviour {
         if (nbPlayers == 1)
             go.transform.localPosition = new Vector3(0.0f, -65.0f, 0.0f);
         if (nbPlayers == 2)
-            go.transform.localPosition = new Vector3(-160 + (2 * _newPlayerIndex * 160), -65.0f, 0.0f);
+            go.transform.localPosition = new Vector3(-180 + (2 * _newPlayerIndex * 180), -65.0f, 0.0f);
         if (nbPlayers >= 3)
-            go.transform.localPosition = new Vector3(-(160) * Mathf.Pow(-1, _newPlayerIndex), (_newPlayerIndex < 2) ? 35.0f : -165.0f , 0.0f);
+            go.transform.localPosition = new Vector3(-(180) * Mathf.Pow(-1, _newPlayerIndex), (_newPlayerIndex < 2) ? 25.0f : -165.0f , 0.0f);
 
         go.transform.GetChild(2).GetComponent<Text>().text = ((CustomizableType)0).ToString();
         go.transform.GetChild(3).GetComponent<Text>().text = customizables[0][0].Id;
