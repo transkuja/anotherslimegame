@@ -1,10 +1,16 @@
 fileFormatVersion: 2
 guid: d8a0ce10fc7e65c478e6a3607f25a367
-timeCreated: 1507386909
+timeCreated: 1527174031
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - playerStart: {instanceID: 0}
+  - FadeManagerPrefab: {fileID: 1985122875632036, guid: cfeddb534c037ee499e3e488b76a2640,
+      type: 2}
+  - activeTutoTextForAll: {instanceID: 0}
+  - uiReference: {instanceID: 0}
+  - scoreScreenReference: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

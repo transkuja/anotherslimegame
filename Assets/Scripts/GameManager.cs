@@ -13,6 +13,10 @@ public class GameManager : MonoBehaviour {
     private PlayerStart playerStart;
     private APlayerUI specificPlayerUI;
     private SlimeDataContainer dataContainer;
+    [SerializeField]
+    private GameObject FadeManagerPrefab;
+
+    private FadeManager fadeManager;
 
     // WARNING, should be reset on load scene
     public bool isTimeOver = false;
@@ -213,6 +217,23 @@ public class GameManager : MonoBehaviour {
         }
     }
 
+    public FadeManager FadeManager
+    {
+        get
+        {
+            if(fadeManager == null)
+            {
+                fadeManager = Instantiate(FadeManagerPrefab, transform).GetComponent<FadeManager>();
+            }
+            return fadeManager;
+        }
+
+        set
+        {
+            fadeManager = value;
+        }
+    }
+
     public void RegisterPlayerStart(PlayerStart _ps)
     {
         playerStart = _ps;
@@ -330,7 +351,8 @@ public class GameManager : MonoBehaviour {
             else
             {
                 // TODO: handle this not every frame but each second
-                uiReference.TimerNeedUpdate(currentGameFinalTimer);
+                if(uiReference)
+                    uiReference.TimerNeedUpdate(currentGameFinalTimer);
             }
         }
     }
