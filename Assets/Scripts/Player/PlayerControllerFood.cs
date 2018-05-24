@@ -54,7 +54,8 @@ public class PlayerControllerFood : PlayerController {
     void DeactivateSkull()
     {
         comboUI.transform.GetChild(2).GetComponent<Image>().color = new Color(1, 1, 1, 0.5f);
-        comboUI.transform.GetChild(2).GetComponent<AnimButton>().enabled = false;
+        if (comboUI.transform.GetChild(2).GetComponent<AnimButton>())
+            comboUI.transform.GetChild(2).GetComponent<AnimButton>().enabled = false;
         comboUI.transform.GetChild(2).localScale = Vector3.one * 0.8f;
     }
 

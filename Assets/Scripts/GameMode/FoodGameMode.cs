@@ -156,18 +156,16 @@ public class FoodGameMode : GameMode {
 
         if (_minigameVersion >= 1)
         {
-            miniTail = 0.5f;
-            maxTail = 1.0f;
-            reactionTime = 0.66f;
+            miniTail = 1.2f;
+            maxTail = 2.0f;
             inputSpeed = 60.0f;
             _minigameVersion -= 1;
         }
         else
         {
-            miniTail = 1.0f;
-            maxTail = 2.0f;
+            miniTail = 2.0f;
+            maxTail = 3.0f;
             inputSpeed = 50.0f;
-            reactionTime = 1.0f;
         }
     }
 
