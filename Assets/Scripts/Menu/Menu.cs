@@ -1396,7 +1396,7 @@ public class Menu : MonoBehaviour {
         // Launch HUB
         if (selectedMode == 0)
         {
-            SendDataToContainer();
+            SendDataToContainer(MinigameType.Size);
             SceneManager.LoadScene(1);
             return;
         }
@@ -1424,12 +1424,12 @@ public class Menu : MonoBehaviour {
             AudioManager.Instance.PlayOneShot(AudioManager.Instance.buttonValidationFx);
 
 
-        SendDataToContainer(minigameContainer.GetMinigameVersion());
+        SendDataToContainer(minigameContainer.GetMinigameType(), minigameContainer.GetMinigameVersion());
         SceneManager.LoadScene(minigameContainer.GetMinigameId());
     }
 
 
-    void SendDataToContainer(int _minigameVersion = 0)
+    void SendDataToContainer(MinigameType _minigameType, int _minigameVersion = 0)
     {
         // Send data to data container
         Color[] sc = new Color[nbPlayers];
@@ -1493,7 +1493,7 @@ public class Menu : MonoBehaviour {
             ////////////////////////////////////////////////////////////////////////////////
         }
         dataContainer.SaveData(nbPlayers, sc, sf, selectedMustaches, selectedHats, selectedEars, selectedForeheads, selectedChins,
-                selectedSkins, selectedAccessories, _minigameVersion, selectedColorFades, selectedMode == 1);
+                selectedSkins, selectedAccessories, _minigameType, _minigameVersion, selectedColorFades, selectedMode == 1);
     }
 
     private void OnDestroy()

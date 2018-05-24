@@ -8,9 +8,12 @@ public class Podium : MonoBehaviour {
 
 	void Start () {
         container = SlimeDataContainer.instance;
+        if (container == null)
+            return;
 
         for (int i = 0; i < SlimeDataContainer.instance.nbPlayers; i++)
         {
+            transform.GetChild(i).gameObject.SetActive(true);
             PlayerCosmetics playerCosmetics = transform.GetChild(i).GetComponentInChildren<PlayerCosmetics>();
 
             if (GameManager.Instance.DataContainer.colorFadeSelected[i])

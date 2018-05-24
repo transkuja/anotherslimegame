@@ -476,6 +476,11 @@ namespace DatabaseClass
             return runes.Find(rune => rune.associatedMinigame == minigameType && rune.associatedMinigameVersion == minigameVersion);
         }
 
+        public MinigameType GetMinigameTypeBySceneAndVersion(string _sceneName, int _minigameVersion)
+        {
+            return minigames.Find(x => x.Id == _sceneName && x.version == _minigameVersion).type;
+        }
+
         public void ResetAll() {
             colors = new List<ColorData>();
             faces = new List<FaceData>();

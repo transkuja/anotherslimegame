@@ -119,25 +119,6 @@ abstract public class GameMode : MonoBehaviour
 
     }
 
-    public virtual void ObtainMoneyBasedOnScore()
-    {
-        float result = 0;
-        if (GameManager.Instance.DataContainer != null && GameManager.Instance.DataContainer.launchedFromMinigameScreen)
-        {
-            int[] minmax = MinigameDataUtils.GetMinMaxGoldTargetValues(this, minigameVersion);
-            for (int i = 0; i < curNbPlayers; i++)
-            {
-                int span = minmax[1] - minmax[0];
-                float lerpParam = (GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<Player>().NbPoints - minmax[0]) / (float)span;
-                float tmp = Mathf.Lerp(0, 50 + 25 * curNbPlayers, Mathf.Clamp(lerpParam, 0, 1));
-                tmp = Mathf.Clamp(tmp, 0, 500);
-                result += tmp;
-            }
-        }
-
-        GameManager.Instance.GlobalMoney += (int)(result / curNbPlayers);
-    }
-
     public virtual void OnReadySetGoBegin()
     {
         if (cursors == null)

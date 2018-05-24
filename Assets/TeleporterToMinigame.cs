@@ -57,6 +57,7 @@ public class TeleporterToMinigame : MonoBehaviour {
         GameManager.Instance.savedRotationInHub = Quaternion.LookRotation(transform.parent.forward);
 
         GameManager.Instance.DataContainer.minigameVersion = minigameVersion;
+        GameManager.Instance.DataContainer.minigameType = DatabaseManager.Db.GetMinigameTypeBySceneAndVersion(minigameSceneToTeleportTo, minigameVersion);
         DatabaseManager.instance.SaveData();
 
         SceneManager.LoadScene(minigameSceneToTeleportTo);

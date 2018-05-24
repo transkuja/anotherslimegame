@@ -28,6 +28,9 @@ public class SlimeDataContainer : MonoBehaviour {
 
     public bool launchedFromMinigameScreen = false;
     public int minigameVersion = 0;
+    public MinigameType minigameType;
+    public float[] lastScores = new float[4];
+    public int[] lastRanks = new int[4];
 
     void Awake () {
         if (instance != null)
@@ -49,7 +52,7 @@ public class SlimeDataContainer : MonoBehaviour {
 
     public void SaveData(int _nbPlayers, Color[] _selectedColors, int[] _selectedFaces, 
         string[] _selectedMustaches, string[] _selectedHats, string[] _selectedEars, string[] _selectedForeheads, 
-        string[] _selectedChins, string[] _selectedSkins, string[] _selectedAccessories, int _minigameVersion = 0,
+        string[] _selectedChins, string[] _selectedSkins, string[] _selectedAccessories, MinigameType _minigameType, int _minigameVersion = 0,
         bool[] _colorFadeSelected = null, bool _launchedFromMinigameScreen = false)
     {
         selectedColors = _selectedColors;
@@ -61,6 +64,7 @@ public class SlimeDataContainer : MonoBehaviour {
         earsSelected = _selectedEars;
         launchedFromMinigameScreen = _launchedFromMinigameScreen;
         minigameVersion = _minigameVersion;
+        minigameType = _minigameType;
         foreheadsSelected = _selectedForeheads;
         chinsSelected = _selectedChins;
         skinsSelected = _selectedSkins;

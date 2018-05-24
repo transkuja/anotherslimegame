@@ -15,10 +15,6 @@ public class ScoreScreen : MonoBehaviour {
 
     uint nbrOfPlayersAtTheEnd = 0;
 
-    // A GameObject that contains children + a camera 
-    [SerializeField]
-    Transform podium;
-
     // The root gameobject containing UI for minigame 
     [SerializeField]
     GameObject minigameUI;
@@ -71,12 +67,22 @@ public class ScoreScreen : MonoBehaviour {
 
         if (GetComponent<Canvas>().worldCamera == null)
             GetComponent<Canvas>().worldCamera = Camera.main;
-
     }
 
     public void RefreshScores(Player player, float _time = -1, TimeFormat timeFormat = TimeFormat.MinSec)
     {
         float time = (_time == -1) ? Time.timeSinceLevelLoad : _time;
+        SlimeDataContainer container = SlimeDataContainer.instance;
+        if (rank == 0)
+        {
+            container.lastRanks = new int[4];
+            container.lastScores = new float[4];
+        }
+
+        if (container != null)
+        {
+            container.lastRanks[rank] = (int)player.GetComponent<PlayerController>().playerIndex;
+        }
 
         rank++;
         if (rank == 1)
@@ -103,25 +109,12 @@ public class ScoreScreen : MonoBehaviour {
         {
             //if (transform.childCount >= rank - 1) // who did this ugly line?
             //{
-                if (GameManager.Instance.CurrentGameMode.GetType() == typeof(KartGameMode))
-                {
-                    transform.GetChild(rank).GetComponent<PlayerScore>().SetScoreMiniGameTimeOnly(
-                        (int)player.PlayerController.PlayerIndex,
-                        timeStr,
-                        (GameManager.Instance.ActivePlayersAtStart == 1)
-                    );
-                    player.NbPoints = (int)time;
-                }
-                else
-                {
-                    transform.GetChild(rank).GetComponent<PlayerScore>().SetScoreMiniGamePtsOnly(
-                        (int)player.PlayerController.PlayerIndex,
-                        player.NbPoints.ToString(),
-                        (GameManager.Instance.ActivePlayersAtStart == 1)
-                    );
-                }
+            if (GameManager.Instance.CurrentGameMode.GetType() == typeof(KartGameMode))
+            {
+                player.NbPoints = (int)time;
+            }
 
-                transform.GetChild(rank).gameObject.SetActive(true);
+            container.lastScores[(int)player.GetComponent<PlayerController>().playerIndex] = player.NbPoints;
 
             //}
         }
@@ -134,13 +127,7 @@ public class ScoreScreen : MonoBehaviour {
 
             //if (transform.childCount >= rank - 1) // who did this ugly line?
             //{
-                transform.GetChild(rank).GetComponent<PlayerScore>().SetScoreDefault(
-                    (int)player.PlayerController.PlayerIndex,
-                    GameManager.Instance.isTimeOver ? "Timeout" : timeStr,
-                    player.NbPoints.ToString()
-                );
-
-                transform.GetChild(rank).gameObject.SetActive(true);
+            container.lastScores[(int)player.GetComponent<PlayerController>().playerIndex] = player.NbPoints;
 
             //}
         }
@@ -276,25 +263,10 @@ public class ScoreScreen : MonoBehaviour {
                 if (players[i].GetComponent<Player>().cameraReference)
                     players[i].GetComponent<Player>().cameraReference.SetActive(false);
             }
+            GameManager.Instance.CurrentGameMode.EndMinigame();
 
             EnablePodium(players);
 
-            // Hide timer
-            GameManager.UiReference.transform.GetChild(1).gameObject.SetActive(false);
-
-            // Hide cursors
-            if(GameManager.Instance.CurrentGameMode.cursors)
-                GameManager.Instance.CurrentGameMode.cursors.DisableCursors();
-
-            // Change render mode so we can see the UI updating
-            GameManager.UiReference.GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
-            if(minigameUI)
-                minigameUI.SetActive(false);
-            GameManager.Instance.CurrentGameMode.EndMinigame();
-
-            gameObject.SetActive(true);
-
-            GameManager.Instance.CurrentGameMode.ObtainMoneyBasedOnScore();
 
             RuneObjective runeObjective = GameManager.Instance.CurrentGameMode.runeObjective;
             if (runeObjective != RuneObjective.None)
@@ -336,36 +308,7 @@ public class ScoreScreen : MonoBehaviour {
 
     void EnablePodium(List<GameObject> _players)
     {
-        for (int i = 1; i < nbrOfPlayersAtTheEnd + 1; i++)
-            podium.GetChild(i).gameObject.SetActive(true);
-
-        foreach (GameObject curPlayer in _players)
-        {
-            int curPlayerRank = curPlayer.GetComponent<Player>().rank;
-            GameObject podiumPlayer = podium.GetChild(curPlayerRank).gameObject;
-            PlayerCosmetics curPlayerCosmetics = curPlayer.GetComponentInChildren<PlayerCosmetics>();
-            PlayerCosmetics podiumPlayerCosmetics = podiumPlayer.GetComponentInChildren<PlayerCosmetics>();
-
-            podiumPlayerCosmetics.ColorFadeType = curPlayerCosmetics.ColorFadeType;
-            podiumPlayerCosmetics.SetUniqueColor(curPlayerCosmetics.BodyColor);
-            podiumPlayerCosmetics.FaceType = curPlayerCosmetics.FaceType;
-            podiumPlayerCosmetics.FaceEmotion = (curPlayerRank == 1 || curPlayerRank == 2) ? FaceEmotion.Winner : FaceEmotion.Loser;
-
-
-            if (curPlayerRank == 1)
-                podiumPlayer.GetComponentInChildren<Animator>().SetBool("hasFinishedFirst", true);
-            else if (curPlayerRank == 4)
-                podiumPlayer.GetComponentInChildren<Animator>().SetBool("hasFinishedLast", true);
-            else
-                podiumPlayer.GetComponentInChildren<Animator>().SetBool("hasFinished", true);
-        }
-
-        if (GameManager.Instance.CurrentGameMode.specificCameraForPodium != null)
-        {
-            GetComponent<Canvas>().worldCamera.gameObject.SetActive(false);
-            GetComponent<Canvas>().worldCamera = GameManager.Instance.CurrentGameMode.specificCameraForPodium.GetComponent<Camera>();
-        }
-        GetComponent<Canvas>().worldCamera.gameObject.SetActive(true);
+        SceneManager.LoadScene("Podium");
     }
 
     void PlayAddToScoreAnimation(RuneObjective _objectiveType)
@@ -529,16 +472,7 @@ public class ScoreScreen : MonoBehaviour {
         wellDoneText.color = Color.green;
 
         runeObjectiveUI.transform.GetChild(1).gameObject.SetActive(true);
-
-        GameObject runePreview = podium.transform.GetChild(0).gameObject;
-
-        Material mat = runePreview.GetComponentInChildren<MeshRenderer>().material;
-        Color newColor = mat.color;
-        newColor.a = 1.0f;
-        mat.color = newColor;
-        mat.SetColor("_EmissionColor", Color.magenta);
-
-        runePreview.transform.GetChild(1).gameObject.SetActive(true);
+  
     }
 
 
@@ -559,13 +493,7 @@ public class ScoreScreen : MonoBehaviour {
             if (GamePad.GetState(GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerController>().playerIndex).Buttons.A == ButtonState.Pressed
                 // Keyboard input
                 || Input.GetKeyDown(KeyCode.Return))
-            {
-                for (int i = 1; i < podium.transform.childCount; i++)
-                    podium.transform.GetChild(i).gameObject.SetActive(false);
-
-                // Activate rune preview
-                podium.transform.GetChild(0).gameObject.SetActive(true);
-
+            {                
                 for (int i = 1; i < transform.childCount-2; i++)
                     transform.GetChild(i).gameObject.SetActive(false);
                 // Activate objective texts
@@ -588,7 +516,6 @@ public class ScoreScreen : MonoBehaviour {
                     if ((GameManager.Instance.DataContainer != null && GameManager.Instance.DataContainer.launchedFromMinigameScreen) || objectiveFailedWhenRelevant)
                     {
                         runeObjectiveUI.SetActive(false);
-                        podium.transform.GetChild(0).gameObject.SetActive(false);
                         replayScreen.SetActive(true);
                     }
                     else

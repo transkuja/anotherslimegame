@@ -354,11 +354,10 @@ public static class MinigameDataUtils
         return "";
     }
 
-    public static int[] GetMinMaxGoldTargetValues(GameMode _curGameMode, int _version = 0)
+    public static int[] GetMinMaxGoldTargetValues(MinigameType _curGameType, int _version = 0)
     {
-        GameMode curGameMode = _curGameMode;
         int[] result = new int[2];
-        if (curGameMode is ColorFloorGameMode)
+        if (_curGameType == MinigameType.Floor)
         {
             result[0] = 0;
             if (_version % 2 == 1)
@@ -370,31 +369,31 @@ public static class MinigameDataUtils
             result[1] = 400;
             return result;
         }
-        else if (curGameMode is KartGameMode)
+        else if (_curGameType == MinigameType.Kart)
         {
             result[0] = 120;
             result[1] = 30;
             return result;
         }
-        else if (curGameMode is Runner3DGameMode)
+        else if (_curGameType == MinigameType.Runner)
         {
             result[0] = 0;
             result[1] = 500;
             return result;
         }
-        else if (curGameMode is FruitGameMode)
+        else if (_curGameType == MinigameType.Fruit)
         {
             result[0] = 0;
             result[1] = 500;
             return result;
         }
-        else if (curGameMode is FoodGameMode)
+        else if (_curGameType == MinigameType.Food)
         {
             result[0] = 0;
             result[1] = 2500;
             return result;
         }
-        else if (curGameMode is BreakingGameMode)
+        else if (_curGameType == MinigameType.Clash)
         {
             if (_version < 4)
             {

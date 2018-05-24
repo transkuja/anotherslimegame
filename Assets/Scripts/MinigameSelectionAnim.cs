@@ -130,6 +130,11 @@ public class MinigameSelectionAnim : MonoBehaviour {
         return minigameData.version;
     }
 
+    public MinigameType GetMinigameType()
+    {
+        return minigameData.type;
+    }
+
     public bool IsUnlocked()
     {
         return minigameData.isUnlocked;
