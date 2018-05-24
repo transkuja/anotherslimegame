@@ -18,6 +18,11 @@ public class FoodInputSettings : MonoBehaviour {
     bool isInitialized = false;
     float reactionTime;
 
+    [SerializeField]
+    Sprite redFeedback;
+    [SerializeField]
+    Sprite yellowFeedback;
+
     public PossibleInputs CurrentInput
     {
         get
@@ -38,10 +43,18 @@ public class FoodInputSettings : MonoBehaviour {
             }
             else
             {
-                timeBeforeNextInput = 0.5f;
+                timeBeforeNextInput = 0.5f + 0.1f;
             }
 
             nextInput = GetRandomInput();
+        }
+    }
+
+    public float CurrentTime
+    {
+        get
+        {
+            return currentTime;
         }
     }
 
@@ -94,7 +107,7 @@ public class FoodInputSettings : MonoBehaviour {
         if (GameManager.CurrentState != GameState.Normal)
             return;
 
-        if (!nextInputCalled && currentTime >= timeBeforeNextInput)
+        if (currentTime >= timeBeforeNextInput)
         {
             SwitchInput();
         }
@@ -118,15 +131,31 @@ public class FoodInputSettings : MonoBehaviour {
 
     public void ActiveButton(PossibleInputs _toActivate)
     {
+        Debug.Log(_toActivate);
         if (_toActivate != PossibleInputs.BadOne)
         {
             transform.GetChild((int)_toActivate).GetComponent<Image>().enabled = true;
             transform.GetChild((int)_toActivate).GetComponent<Image>().color = Color.white;
             transform.GetChild((int)_toActivate).GetChild(0).GetComponent<Image>().color = Color.white;
         }
+        else
+        {
+            for (int i = 0; i < (int)PossibleInputs.Size - 1; i++)
+            {
+                transform.GetChild(i).GetComponent<Image>().enabled = true;
+                transform.GetChild(i).GetComponent<Image>().color = Color.white;
+                transform.GetChild(i).GetComponent<Image>().sprite = redFeedback;
+            }
+        }
 
         if (CurrentInput != PossibleInputs.BadOne)
         {
+            for (int i = 0; i < (int)PossibleInputs.Size - 1; i++)
+            {
+                transform.GetChild(i).GetComponent<Image>().enabled = false;
+                transform.GetChild(i).GetComponent<Image>().sprite = yellowFeedback;
+            }
+
             transform.GetChild((int)CurrentInput).GetComponent<Image>().enabled = false;
             transform.GetChild((int)CurrentInput).GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 0.5f);
             transform.GetChild((int)CurrentInput).localScale = Vector3.one;

@@ -142,7 +142,8 @@ public class PlayerControllerFood : PlayerController {
             if (AudioManager.Instance != null && AudioManager.Instance.incorrectFx != null)
                 AudioManager.Instance.PlayOneShot(AudioManager.Instance.incorrectFx);
 
-            if (foodInputSettings.CurrentInput == PossibleInputs.BadOne)
+            if (foodInputSettings.CurrentInput == PossibleInputs.BadOne
+                && foodInputSettings.CurrentTime > 0.1f)
             {
                 HasEatenSmthgBad = true;
                 GameManager.Instance.PlayerStart.PlayersReference[(int)playerIndex].GetComponentInChildren<PlayerCosmetics>().FaceEmotion
