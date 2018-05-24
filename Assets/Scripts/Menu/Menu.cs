@@ -1397,7 +1397,8 @@ public class Menu : MonoBehaviour {
         if (selectedMode == 0)
         {
             SendDataToContainer(MinigameType.Size);
-            SceneManager.LoadScene(1);
+            LevelLoader.LoadLevelWithLoadingScreen("Hub");
+
             return;
         }
         // Go to minigame selection screen
@@ -1424,8 +1425,9 @@ public class Menu : MonoBehaviour {
             AudioManager.Instance.PlayOneShot(AudioManager.Instance.buttonValidationFx);
 
 
+
         SendDataToContainer(minigameContainer.GetMinigameType(), minigameContainer.GetMinigameVersion());
-        SceneManager.LoadScene(minigameContainer.GetMinigameId());
+		LevelLoader.LoadLevelWithFadeOut(minigameContainer.GetMinigameId());
     }
 
 

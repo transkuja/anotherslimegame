@@ -154,8 +154,9 @@ public class PauseMenu : MonoBehaviour {
 
     public void ExitToMainMenu()
     {
+        DatabaseManager.instance.SaveData();
         Resume();
-        SceneManager.LoadScene(0);
+        LevelLoader.LoadLevelWithFadeOut("Menu");
     }
 
     public void ExitGame()
