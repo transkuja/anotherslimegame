@@ -230,7 +230,7 @@ public class PauseMenu : MonoBehaviour {
     public void ExitToHub()
     {
         Resume();
-        SceneManager.LoadScene(1);
+        LevelLoader.LoadLevelWithLoadingScreen("Hub");
     }
 
     // Inverted by default

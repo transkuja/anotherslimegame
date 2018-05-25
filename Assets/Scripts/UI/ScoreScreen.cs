@@ -308,7 +308,7 @@ public class ScoreScreen : MonoBehaviour {
 
     void EnablePodium(List<GameObject> _players)
     {
-        SceneManager.LoadScene("Podium");
+        LevelLoader.LoadLevelWithFadeOut("Podium");
     }
 
     void PlayAddToScoreAnimation(RuneObjective _objectiveType)
@@ -520,7 +520,7 @@ public class ScoreScreen : MonoBehaviour {
                     }
                     else
                     {
-                        SceneManager.LoadScene(1); // ugly?
+                        LevelLoader.LoadLevelWithLoadingScreen("Hub"); // ugly?
                     }
                 }
                 //ExitToMainMenu();
@@ -531,7 +531,7 @@ public class ScoreScreen : MonoBehaviour {
 
     public void ExitToMainMenu()
     {
-        SceneManager.LoadScene(0);
+        LevelLoader.LoadLevelWithFadeOut("Menu");
     }
 
 }

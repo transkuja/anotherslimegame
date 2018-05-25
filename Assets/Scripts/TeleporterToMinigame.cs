@@ -60,7 +60,7 @@ public class TeleporterToMinigame : MonoBehaviour {
         GameManager.Instance.DataContainer.minigameType = DatabaseManager.Db.GetMinigameTypeBySceneAndVersion(minigameSceneToTeleportTo, minigameVersion);
         DatabaseManager.instance.SaveData();
 
-        SceneManager.LoadScene(minigameSceneToTeleportTo);
+        LevelLoader.LoadLevelWithFadeOut(minigameSceneToTeleportTo);
     }
 
     public void ReturnToNormalState()

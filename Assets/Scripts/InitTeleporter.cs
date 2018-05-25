@@ -151,7 +151,7 @@ public class InitTeleporter : MonoBehaviour {
             GameManager.Instance.savedPositionInHub = transform.position + transform.forward * -6.0f;
             GameManager.Instance.savedRotationInHub = Quaternion.LookRotation(-transform.forward);
         }
-        SceneManager.LoadScene(minigameSceneToTeleportTo);
+        LevelLoader.LoadLevelWithFadeOut(minigameSceneToTeleportTo);
     }
 
     private void OnCollisionExit(Collision collision)

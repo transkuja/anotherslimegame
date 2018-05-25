@@ -57,18 +57,18 @@ public class ReplayScreenControls : MonoBehaviour {
             {
                 // Reload scene
                 GameManager.Instance.previousScene = SceneManager.GetActiveScene().name;
-                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+                LevelLoader.LoadLevelWithFadeOut(SceneManager.GetActiveScene().name);
             }
             else
             {
                 GameManager.Instance.previousScene = "";
                 if (GameManager.Instance.DataContainer.launchedFromMinigameScreen)
                 {
-                    SceneManager.LoadScene(0);
+                    LevelLoader.LoadLevelWithFadeOut("Menu");
                 }
                 else
                 {
-                    SceneManager.LoadScene(1); // ugly?
+                    LevelLoader.LoadLevelWithLoadingScreen("Hub"); // ugly?
                 }
             }
         }
