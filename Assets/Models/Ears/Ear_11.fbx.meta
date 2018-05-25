@@ -8,15 +8,27 @@ ModelImporter:
     100000: //RootNode
     100002: Ear_11_L
     100004: Ear_11_R
+    100006: Ear_11
+    100008: Ear_11_L1
+    100010: Ear_11_R1
     400000: //RootNode
     400002: Ear_11_L
     400004: Ear_11_R
+    400006: Ear_11
+    400008: Ear_11_L1
+    400010: Ear_11_R1
     2300000: Ear_11_L
     2300002: Ear_11_R
+    2300004: Ear_11_L1
+    2300006: Ear_11_R1
     3300000: Ear_11_L
     3300002: Ear_11_R
+    3300004: Ear_11_L1
+    3300006: Ear_11_R1
     4300000: Ear_11_R
     4300002: Ear_11_L
+    4300004: Ear_11_L1
+    4300006: Ear_11_R1
     9500000: //RootNode
   materials:
     importMaterials: 1

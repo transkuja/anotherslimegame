@@ -1,19 +1,17 @@
 fileFormatVersion: 2
-guid: b57e641c3fc4ab34fb33b6b2865ef88e
-timeCreated: 1526298916
+guid: 903fda17b84cc5841a01a9dbef95e88a
+timeCreated: 1527253399
 licenseType: Free
 ModelImporter:
   serializedVersion: 21
   fileIDToRecycleName:
     100000: //RootNode
-    100002: polySurface1
-    100004: Ear_06
+    100002: Oeil_3eme
     400000: //RootNode
-    400002: polySurface1
-    400004: Ear_06
-    2300000: polySurface1
-    3300000: polySurface1
-    4300000: polySurface1
+    400002: Oeil_3eme
+    2300000: Oeil_3eme
+    3300000: Oeil_3eme
+    4300000: Oeil_3eme
     9500000: //RootNode
   materials:
     importMaterials: 1

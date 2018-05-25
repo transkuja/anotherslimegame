@@ -1,19 +1,17 @@
 fileFormatVersion: 2
-guid: b57e641c3fc4ab34fb33b6b2865ef88e
-timeCreated: 1526298916
+guid: dd00c70838a41e44cb046c89b619e8d1
+timeCreated: 1527253400
 licenseType: Free
 ModelImporter:
   serializedVersion: 21
   fileIDToRecycleName:
-    100000: //RootNode
-    100002: polySurface1
-    100004: Ear_06
-    400000: //RootNode
-    400002: polySurface1
-    400004: Ear_06
-    2300000: polySurface1
-    3300000: polySurface1
-    4300000: polySurface1
+    100000: Diamond
+    100002: //RootNode
+    400000: Diamond
+    400002: //RootNode
+    2300000: Diamond
+    3300000: Diamond
+    4300000: Diamond
     9500000: //RootNode
   materials:
     importMaterials: 1

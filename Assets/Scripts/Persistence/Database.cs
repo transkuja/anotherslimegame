@@ -702,14 +702,19 @@ namespace DatabaseClass
 
             // Adding foreheads
             int idForeheads = 0;
-            string[] strForeheads = { "Unicorn" };
+            string[] strForeheads = { "Unicorn", "Diamond", "Heart", "3rd Eye", "Bobble" };
             foreheads.Add(new ForeheadData { Id = strForeheads[idForeheads], model = "Foreheads/Unicorn", isUnlocked = false, costToUnlock = 300 });
-
+            foreheads.Add(new ForeheadData { Id = strForeheads[++idForeheads], model = "Foreheads/Diamond", isUnlocked = false, costToUnlock = 300 });
+            foreheads.Add(new ForeheadData { Id = strForeheads[++idForeheads], model = "Foreheads/Heart", isUnlocked = false, costToUnlock = 300 });
+            foreheads.Add(new ForeheadData { Id = strForeheads[++idForeheads], model = "Foreheads/3rdEye", isUnlocked = false, costToUnlock = 300 });
+            foreheads.Add(new ForeheadData { Id = strForeheads[++idForeheads], model = "Foreheads/Bobble", isUnlocked = false, costToUnlock = 300 });
             // Adding chins
             int idChins = 0;
-            string[] strChins = { "Bow Tie", "Goatee" };
+            string[] strChins = { "Bow Tie", "Small Bow Tie", "Goatee", "Bell" };
             chins.Add(new ChinData { Id = strChins[idChins], model = "Chins/BowTie", isUnlocked = false, costToUnlock = 300 });
+            chins.Add(new ChinData { Id = strChins[++idChins], model = "Chins/SmallBowTie", isUnlocked = false, costToUnlock = 300 });
             chins.Add(new ChinData { Id = strChins[++idChins], model = "Chins/Goatee", isUnlocked = false, costToUnlock = 300 });
+            chins.Add(new ChinData { Id = strChins[++idChins], model = "Chins/Bell", isUnlocked = false, costToUnlock = 300 });
 
             // Adding accessories
             int idAccessories = 0;
