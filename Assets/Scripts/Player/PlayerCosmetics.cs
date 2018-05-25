@@ -206,14 +206,16 @@ public class PlayerCosmetics : MonoBehaviour {
     {
         BodyTexture = Resources.Load(baseTexturePath) as Texture;
         Texture tex = Resources.Load(baseTexturePath + "_Metallic") as Texture;
-        bodyMat.SetFloat("_Metallic", tex == null? 0 : 1);
+        bodyMat.SetFloat("_Metallic", tex == null? 0 : 1f);
         bodyMat.SetTexture("_MetallicTex", tex);
         tex = Resources.Load(baseTexturePath + "_Smoothness") as Texture;
-        bodyMat.SetFloat("_Smoothness", tex == null ? 0 : 1);
+        bodyMat.SetFloat("_Smoothness", tex == null ? 0 : .75f);
         bodyMat.SetTexture("_SmoothnessTex", tex);
         //bodyMat.SetTexture("_Normal", Resources.Load(baseTexturePath + "_Normal") as Texture);
         bodyMat.SetTexture("_Height", Resources.Load(baseTexturePath + "_Height") as Texture);
         EarsTexture = Resources.Load(baseTexturePath + "_Ears") as Texture;
+        if (skinType == SkinType.Texture)
+            SetEarsColor(Color.white);
     }
 
     public SkinType SkinType
@@ -422,7 +424,14 @@ public class PlayerCosmetics : MonoBehaviour {
                 ICustomizable earCustom = ((GameObject)Instantiate(Resources.Load(data.model), earsTransform)).GetComponent<ICustomizable>();
                 earCustom.Init(GetComponentInParent<Rigidbody>());
                 InitEarsMats();
-                SetEarsColor(BodyColor);
+                if(EarsTexture != null)
+                {
+                    EarsTexture = earsTexture;
+                }
+                if (skinType == SkinType.Color || skinType == SkinType.Mixed)
+                    SetEarsColor(BodyColor);
+                else
+                    SetEarsColor(Color.white);
             }
         }
     }
