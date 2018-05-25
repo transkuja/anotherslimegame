@@ -31,7 +31,7 @@ public class BreakingPickupHandler : MonoBehaviour {
         yield return new WaitUntil(() => GameManager.CurrentState != GameState.ForcedPauseMGRules);
         while (true)
         {
-            yield return new WaitForSeconds(Random.Range(3.0f, 5.0f));
+            yield return new WaitForSeconds(Random.Range(1.5f, 2.5f));
 
             int spawnFrom = Random.Range(0, transform.childCount);
             GameObject spawnedBomb = Instantiate(bombPrefab, transform.GetChild(spawnFrom).position + Vector3.up * 2.0f, transform.GetChild(spawnFrom).rotation);
