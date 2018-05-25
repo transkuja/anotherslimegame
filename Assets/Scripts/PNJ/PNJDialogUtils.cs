@@ -6,8 +6,8 @@ public static class PNJDialogUtils {
 
     // Vincent Tuto
     static string VincentDM = "Hi, I'm Vincent!\n"
-       + "If you want to explore our world, just grap an agility evolution\n"
-       + "by going through this portal in order to grap a rune which will unlock\n"
+       + "If you want to explore our world, just grab an agility evolution\n"
+       + "by going through this portal in order to grab a rune which will unlock\n"
        + "your first minigame. Then after completing the minigame, the door will\n"
        + "be opened.";
     static FaceEmotion[] VincentDE = new FaceEmotion[1] { FaceEmotion.Neutral };
@@ -15,6 +15,17 @@ public static class PNJDialogUtils {
     ;
 
     static FaceEmotion[] VincentQE = new FaceEmotion[3] {
+        FaceEmotion.Neutral, FaceEmotion.Neutral, FaceEmotion.Winner
+    };
+
+    // Alex Tuto
+    static string AlexDM = "Hi, I'm Alex!\n"
+       + "Such an improvment since last week.";
+    static FaceEmotion[] AlexDE = new FaceEmotion[1] { FaceEmotion.Neutral };
+    static string AlexQM = ""
+    ;
+
+    static FaceEmotion[] AlexQE = new FaceEmotion[3] {
         FaceEmotion.Neutral, FaceEmotion.Neutral, FaceEmotion.Winner
     };
 
@@ -381,6 +392,8 @@ public static class PNJDialogUtils {
                 return TheoDM;
             case PNJName.Vincent:
                 return VincentDM;
+            case PNJName.Alex:
+                return AlexDM;
         }
         return "";
     }
@@ -454,6 +467,8 @@ public static class PNJDialogUtils {
                 return TheoDE;
             case PNJName.Vincent:
                 return VincentDE;
+            case PNJName.Alex:
+                return AlexDE;
         }
         return null;
     }
