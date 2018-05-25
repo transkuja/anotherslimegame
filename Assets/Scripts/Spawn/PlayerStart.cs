@@ -161,9 +161,12 @@ public class PlayerStart : MonoBehaviour {
                 else
                 {
                     Transform playerSpawn = playerStart[i];
-                    if ( DatabaseManager.Db.NbRunes > 2 && i == 0)
+                    if ( DatabaseManager.Db.NbRunes > 2)
                     {
-                        playerSpawn = playerStart[2];
+                        if (i == 0)
+                            playerSpawn = playerStart[2];
+                        else if( i == 1 )
+                            playerSpawn = playerStart[3];
                     } 
                     go.transform.position = playerSpawn.position;
                     go.transform.rotation = playerSpawn.rotation;
