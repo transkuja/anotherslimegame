@@ -4,6 +4,21 @@ using UnityEngine;
 
 public static class PNJDialogUtils {
 
+    // Vincent Tuto
+    static string VincentDM = "Hi, I'm Vincent!\n"
+       + "If you want to explore our world, just grap an agility evolution\n"
+       + "by going through this portal in order to grap a rune which will unlock\n"
+       + "your first minigame. Then after completing the minigame, the door will\n"
+       + "be opened.";
+    static FaceEmotion[] VincentDE = new FaceEmotion[1] { FaceEmotion.Neutral };
+    static string VincentQM = ""
+    ;
+
+    static FaceEmotion[] VincentQE = new FaceEmotion[3] {
+        FaceEmotion.Neutral, FaceEmotion.Neutral, FaceEmotion.Winner
+    };
+
+
     // Sneaky chief
     static string SneakyChiefDM = "Go away, I'm trying to focus.";
     static FaceEmotion[] SneakyChiefDE = new FaceEmotion[1] { FaceEmotion.Neutral };
@@ -221,7 +236,7 @@ public static class PNJDialogUtils {
 
     // Remi
     static string RemiDM = "I exiled myself here because nobody wanted to\n"
-       + "here my jokes. They called them inappropriate for\n"
+       + "hear my jokes. They called them inappropriate for\n"
        + "this world.\n"
        + "I think I'll just live in the clouds for a while.\n"
        + "You may hear me sing if you pass by,\n"
@@ -364,6 +379,8 @@ public static class PNJDialogUtils {
                 return MathieuDM;
             case PNJName.Theo:
                 return TheoDM;
+            case PNJName.Vincent:
+                return VincentDM;
         }
         return "";
     }
@@ -435,6 +452,8 @@ public static class PNJDialogUtils {
                 return MathieuDE;
             case PNJName.Theo:
                 return TheoDE;
+            case PNJName.Vincent:
+                return VincentDE;
         }
         return null;
     }
