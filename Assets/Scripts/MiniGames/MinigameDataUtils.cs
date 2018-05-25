@@ -409,4 +409,69 @@ public static class MinigameDataUtils
         }
         return result;
     }
+
+    public static int GetRuneScoreObjective(MinigameType minigameType, int minigameVersion)
+    {
+        if (minigameType == MinigameType.Floor)
+        {
+            if (minigameVersion >= 4)
+            {
+                return 75;
+            }
+            return 125;
+        }
+        else if (minigameType == MinigameType.Kart)
+        {
+            return 45;
+        }
+        else if (minigameType == MinigameType.Runner)
+        {
+            if (minigameVersion == 0)
+            {
+                return 300;
+            }
+            return 400;
+        }
+        else if (minigameType == MinigameType.Food)
+        {
+            return 1000;
+        }
+        else if (minigameType == MinigameType.Clash)
+        {
+            if (minigameVersion == 2 || minigameVersion == 3)
+            {
+                return 150;
+            }
+            else
+            {
+                return 60;
+            }
+        }
+        return 0;
+    }
+
+    public static int GetRuneScoreObjective(GameMode minigameMode, int minigameVersion)
+    {
+        if (minigameMode is ColorFloorGameMode)
+        {
+            return GetRuneScoreObjective(MinigameType.Floor, minigameVersion);
+        }
+        else if (minigameMode is KartGameMode)
+        {
+            return GetRuneScoreObjective(MinigameType.Kart, minigameVersion);
+        }
+        else if (minigameMode is Runner3DGameMode)
+        {
+            return GetRuneScoreObjective(MinigameType.Runner, minigameVersion);
+        }
+        else if (minigameMode is FoodGameMode)
+        {
+            return GetRuneScoreObjective(MinigameType.Food, minigameVersion);
+        }
+        else if (minigameMode is BreakingGameMode)
+        {
+            return GetRuneScoreObjective(MinigameType.Clash, minigameVersion);
+        }
+        return 0;
+    }
 }

@@ -111,26 +111,15 @@ public class ScoreScreen : MonoBehaviour {
             //{
             if (GameManager.Instance.CurrentGameMode.GetType() == typeof(KartGameMode))
             {
+                Debug.Log(time);
                 player.NbPoints = (int)time;
             }
-
+            Debug.Log(player.NbPoints);
             container.lastScores[(int)player.GetComponent<PlayerController>().playerIndex] = player.NbPoints;
 
             //}
         }
-        else
-        {
-            if (rank == 1)
-            {
-                GameManager.Instance.LaunchFinalTimer();
-            }
 
-            //if (transform.childCount >= rank - 1) // who did this ugly line?
-            //{
-            container.lastScores[(int)player.GetComponent<PlayerController>().playerIndex] = player.NbPoints;
-
-            //}
-        }
         player.rank = rank;
 
         nbrOfPlayersAtTheEnd++;
@@ -268,41 +257,7 @@ public class ScoreScreen : MonoBehaviour {
             EnablePodium(players);
 
 
-            RuneObjective runeObjective = GameManager.Instance.CurrentGameMode.runeObjective;
-            if (runeObjective != RuneObjective.None)
-            {
-                if (!GameManager.Instance.CurrentGameMode.IsRuneUnlocked())
-                {
-                    // Initialize rune objective screen values
-                    if (runeObjective == RuneObjective.Points)
-                    {
-                        runeObjectiveUI.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "0";
-                        runeObjectiveUI.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = (GameManager.Instance.CurrentGameMode.necessaryPointsForRune * GameManager.Instance.PlayerStart.ActivePlayersAtStart).ToString();
-                        runeObjectiveUI.transform.GetChild(0).GetChild(0).localPosition += Vector3.right * 60;
-                        runeObjectiveUI.transform.GetChild(0).GetChild(1).localPosition += Vector3.left * 60;
-                    }
-                    else if (runeObjective == RuneObjective.Time)
-                    {
-                        if (GameManager.Instance.CurrentGameMode.GetType() == typeof(KartGameMode) && ((KartGameMode)GameManager.Instance.CurrentGameMode).firstFinishTime < 0f)
-                        {
-                            //TODO: Skip to failed screen
-                            runeObjectiveUI.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "0";
-                            runeObjectiveUI.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = "20 Try Again";
-                        }
-                        else
-                        {
-                            runeObjectiveUI.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "00:00:00";
-                            runeObjectiveUI.transform.GetChild(0).GetChild(1).GetComponent<Text>().text = TimeFormatUtils.GetFormattedTime(GameManager.Instance.CurrentGameMode.necessaryTimeForRune, TimeFormat.MinSecMil);
-                        }
-                    }
-
-                    goToRuneScreen = true;
-                }
-                else
-                    startExitTimer = true;
-            }
-            else
-                startExitTimer = true;
+            
         }
     }
 

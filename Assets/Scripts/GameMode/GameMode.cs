@@ -105,6 +105,8 @@ abstract public class GameMode : MonoBehaviour
         else
             GameManager.ChangeState(GameState.Normal);
 
+        necessaryPointsForRune = MinigameDataUtils.GetRuneScoreObjective(this, minigameVersion);
+        necessaryTimeForRune = necessaryPointsForRune;
         RepositionPlayers();
     }
 

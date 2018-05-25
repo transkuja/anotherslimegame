@@ -37,6 +37,8 @@ namespace DatabaseClass
         public MinigameType associatedMinigame;
         [SerializeField]
         public int associatedMinigameVersion;
+        [SerializeField]
+        public RuneObjective objective = RuneObjective.Points;
     }
 
     [System.Serializable]
@@ -636,20 +638,20 @@ namespace DatabaseClass
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
 
             // Minigames runes
-            runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false, unlockedInMinigame = true, associatedMinigame = MinigameType.Kart, associatedMinigameVersion = 2 });
+            runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false, unlockedInMinigame = true, associatedMinigame = MinigameType.Kart, associatedMinigameVersion = 2, objective = RuneObjective.Time });
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false, unlockedInMinigame = true, associatedMinigame = MinigameType.Floor, associatedMinigameVersion = 6 });
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false, unlockedInMinigame = true, associatedMinigame = MinigameType.Runner, associatedMinigameVersion = 0 });
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false, unlockedInMinigame = true, associatedMinigame = MinigameType.Floor, associatedMinigameVersion = 2 });
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false, unlockedInMinigame = true, associatedMinigame = MinigameType.Food, associatedMinigameVersion = 0 });
 
-            runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false, unlockedInMinigame = true, associatedMinigame = MinigameType.Kart, associatedMinigameVersion = 1 });
+            runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false, unlockedInMinigame = true, associatedMinigame = MinigameType.Kart, associatedMinigameVersion = 1, objective = RuneObjective.Time });
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false, unlockedInMinigame = true, associatedMinigame = MinigameType.Floor, associatedMinigameVersion = 7 });
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false, unlockedInMinigame = true, associatedMinigame = MinigameType.Food, associatedMinigameVersion = 2 });
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false, unlockedInMinigame = true, associatedMinigame = MinigameType.Floor, associatedMinigameVersion = 3 });
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false, unlockedInMinigame = true, associatedMinigame = MinigameType.Food, associatedMinigameVersion = 1 });
 
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false, unlockedInMinigame = true, associatedMinigame = MinigameType.Runner, associatedMinigameVersion = 1 });
-            runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false, unlockedInMinigame = true, associatedMinigame = MinigameType.Kart, associatedMinigameVersion = 0 });
+            runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false, unlockedInMinigame = true, associatedMinigame = MinigameType.Kart, associatedMinigameVersion = 0, objective = RuneObjective.Time });
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false, unlockedInMinigame = true, associatedMinigame = MinigameType.Food, associatedMinigameVersion = 3 });
 
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false, unlockedInMinigame = true, associatedMinigame = MinigameType.Clash, associatedMinigameVersion = 2 });
