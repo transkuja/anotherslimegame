@@ -62,7 +62,11 @@ public class BreakableForBreakingMinigame : Breakable {
 
     void DelayedSummonRabbit()
     {
-        Instantiate(rabbit, transform.position + Vector3.up, Quaternion.identity);
+        if (gameModeRef.activeRabbits != gameModeRef.maxRabbits)
+        {
+            Instantiate(rabbit, transform.position + Vector3.up, Quaternion.identity);
+            gameModeRef.activeRabbits++;
+        }
         GetComponent<PoolChild>().ReturnToPool();
     }
 }

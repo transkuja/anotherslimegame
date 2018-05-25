@@ -229,6 +229,8 @@ public class EnnemyController : MonoBehaviour {
         rb.drag = 0.2f;
         isDead = true;
         GetComponentInChildren<PlayerCosmetics>().FaceEmotion = FaceEmotion.Hit;
+        if (GameManager.Instance.CurrentGameMode is BreakingGameMode)
+            ((BreakingGameMode)GameManager.Instance.CurrentGameMode).activeRabbits--;
     }
 
     public void HandleMovement(float x, float y)

@@ -14,6 +14,8 @@ public class BreakingGameMode : GameMode {
     public RuntimeAnimatorController RestrainedAnimatorController;
 
     public int activePots = 0;
+    public int activeRabbits = 0;
+    public int maxRabbits = 3;
 
     [SerializeField]
     Material alternativeMaterial;
