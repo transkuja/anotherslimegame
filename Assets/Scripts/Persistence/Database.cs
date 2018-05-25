@@ -578,7 +578,7 @@ namespace DatabaseClass
             minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 1, spriteImage = "screenshotMinigameAntho", isUnlocked = false, type = MinigameType.Floor, version = 2, difficulty = 3 });
             minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = -1, spriteImage = "screenshotMinigameAntho", isUnlocked = true, type = MinigameType.Floor, version = 4, difficulty = 2 });
             minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 0, spriteImage = "screenshotMinigameAntho", isUnlocked = true, type = MinigameType.Floor, version = 6, difficulty = 4 });
-            minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 0, spriteImage = "screenshotEasyKart", isUnlocked = true, type = MinigameType.Kart, version = 2, difficulty = 1 });
+            minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 1, spriteImage = "screenshotEasyKart", isUnlocked = true, type = MinigameType.Kart, version = 2, difficulty = 1 });
 
             minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = -1, spriteImage = "screenshotMinigamePush", isUnlocked = true, type = MinigameType.Clash, version = 0, difficulty = 3 });
             minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = -1, spriteImage = "screenshotMinigamePush2", isUnlocked = true, type = MinigameType.Clash, version = 1, difficulty = 1 });
