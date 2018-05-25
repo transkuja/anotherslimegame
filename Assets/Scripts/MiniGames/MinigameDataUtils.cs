@@ -422,15 +422,15 @@ public static class MinigameDataUtils
         }
         else if (minigameType == MinigameType.Kart)
         {
-            return 45;
+            return 30;
         }
         else if (minigameType == MinigameType.Runner)
         {
             if (minigameVersion == 0)
             {
-                return 300;
+                return 500;
             }
-            return 400;
+            return 450;
         }
         else if (minigameType == MinigameType.Food)
         {

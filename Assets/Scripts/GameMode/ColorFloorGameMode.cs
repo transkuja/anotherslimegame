@@ -36,7 +36,6 @@ public class ColorFloorGameMode : GameMode {
     {
         base.StartGame(playerReferences);
         rules = new MinigameRules(this, minigameVersion);
-        checkRuneObjective = CheckRuneObjectiveForColorFloor;
 
         for (int i = 0; i < playerReferences.Count; i++)
         {
@@ -109,17 +108,5 @@ public class ColorFloorGameMode : GameMode {
         }
     }
 
-    bool CheckRuneObjectiveForColorFloor()
-    {
-        int pointsObjective = 0;
-        int curScore = 0;
-        for (int i = 0; i < curNbPlayers; i++)
-        {
-            curScore += GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<Player>().NbPoints;
-            pointsObjective += necessaryPointsForRune;
-        }
-        currentScore = curScore;
-        return curScore >= pointsObjective;
-    }
 
 }

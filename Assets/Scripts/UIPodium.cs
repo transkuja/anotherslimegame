@@ -9,7 +9,7 @@ public class UIPodium : MonoBehaviour {
     [SerializeField]
     Material runeMat;
 
-    float replayScreenDelay = 1.0f;
+    float replayScreenDelay = 2.5f;
 
     void Start()
     {
@@ -74,7 +74,15 @@ public class UIPodium : MonoBehaviour {
                             runeObjectiveTexts[3].text = "Try Again";
                         else
                         {
-                            runeObjectiveTexts[3].text = TimeFormatUtils.GetFormattedTime(Mathf.Min(container.lastScores[0], container.lastScores[1]), TimeFormat.MinSecMil);
+                            if (container.lastScores[0] > 0.0f && container.lastScores[1] > 0.0f)
+                                runeObjectiveTexts[3].text = TimeFormatUtils.GetFormattedTime(Mathf.Min(container.lastScores[0], container.lastScores[1]), TimeFormat.MinSecMil);
+                            else
+                            {
+                                if (container.lastScores[0] > 0.0f)
+                                    runeObjectiveTexts[3].text = TimeFormatUtils.GetFormattedTime(container.lastScores[0], TimeFormat.MinSecMil);
+                                else
+                                    runeObjectiveTexts[3].text = TimeFormatUtils.GetFormattedTime(container.lastScores[1], TimeFormat.MinSecMil);
+                            }
                         }
                     }
                 }
@@ -102,6 +110,8 @@ public class UIPodium : MonoBehaviour {
         yield return new WaitForSeconds(2.0f);
         transform.GetChild(5).GetComponentInChildren<MeshRenderer>().material = runeMat;
         transform.GetChild(5).GetChild(1).gameObject.SetActive(true);
+        DatabaseManager.Db.SetUnlock<DatabaseClass.RuneData>(DatabaseManager.Db.GetRuneFromMinigame(container.minigameType, container.minigameVersion).Id, true);
+        GameManager.Instance.Runes += 1;
 
         StartCoroutine(ShowReplayScreen());
     }

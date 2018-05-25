@@ -57,7 +57,10 @@ public class ReplayScreenControls : MonoBehaviour {
             {
                 // Reload scene
                 GameManager.Instance.previousScene = SceneManager.GetActiveScene().name;
-                LevelLoader.LoadLevelWithFadeOut(SceneManager.GetActiveScene().name);
+                if (SlimeDataContainer.instance != null)
+                    LevelLoader.LoadLevelWithFadeOut(DatabaseManager.Db.minigames.Find(x => x.type == SlimeDataContainer.instance.minigameType && x.version == SlimeDataContainer.instance.minigameVersion).Id);
+                else
+                    Debug.LogWarning("No data container!");
             }
             else
             {
@@ -68,7 +71,7 @@ public class ReplayScreenControls : MonoBehaviour {
                 }
                 else
                 {
-                    LevelLoader.LoadLevelWithLoadingScreen("Hub"); // ugly?
+                    LevelLoader.LoadLevelWithFadeOut("Hub");
                 }
             }
         }
