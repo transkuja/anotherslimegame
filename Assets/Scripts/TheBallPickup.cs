@@ -52,7 +52,7 @@ public class TheBallPickup : TheBall {
 
     int lastHitPlayer;
 
-    public override void OnHit(PlayerCharacterHub _pch)
+    public override void OnKick(PlayerCharacterHub _pch)
     {
         if (_pch.GetComponent<EnnemyController>())
             return;
