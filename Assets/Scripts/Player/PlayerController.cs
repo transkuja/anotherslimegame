@@ -139,8 +139,11 @@ public class PlayerController : MonoBehaviour
                 }
                 else
                 {
-                    GameManager.Instance.playerWhoPausedTheGame = (int)playerIndex;
-                    GameManager.ChangeState(GameState.Paused);
+                    if(!LevelLoader.IsLoading)
+                    {
+                        GameManager.Instance.playerWhoPausedTheGame = (int)playerIndex;
+                        GameManager.ChangeState(GameState.Paused);
+                    }
                 }
             }
         }

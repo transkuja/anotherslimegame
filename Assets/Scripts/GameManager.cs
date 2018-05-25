@@ -13,8 +13,6 @@ public class GameManager : MonoBehaviour {
     private PlayerStart playerStart;
     private APlayerUI specificPlayerUI;
     private SlimeDataContainer dataContainer;
-    [SerializeField]
-    private GameObject FadeManagerPrefab;
 
     private FadeManager fadeManager;
 
@@ -223,7 +221,7 @@ public class GameManager : MonoBehaviour {
         {
             if(fadeManager == null)
             {
-                fadeManager = Instantiate(FadeManagerPrefab, transform).GetComponent<FadeManager>();
+                fadeManager = ResourceUtils.Instance.fadeManager;
             }
             return fadeManager;
         }

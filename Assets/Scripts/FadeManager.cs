@@ -3,11 +3,23 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
 
 public class FadeManager : MonoBehaviour {
     RawImage fadeImage;
 
-    private void OnLevelWasLoaded(int level)
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnLevelLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnLevelLoaded;
+    }
+
+    private void OnLevelLoaded(Scene scene, LoadSceneMode mode)
     {
         FadeIn(0.2f);
     }
@@ -33,15 +45,15 @@ public class FadeManager : MonoBehaviour {
         if(fadeImage == null)
             Init();
 
-        StopCoroutine("FadeOut");
-        float timer = 0.0f;
+        StopCoroutine("FadeOutCoroutine");
+        float fInTimer = 0.0f;
         
         Color color = fadeImage.color;
 
-        while (timer < fadeTime)
+        while (fInTimer < fadeTime)
         {
-            timer += Time.unscaledDeltaTime;
-            color.a = Mathf.Lerp(1f, 0f, timer / fadeTime);
+            fInTimer += Time.deltaTime;
+            color.a = Mathf.Lerp(1f, 0f, fInTimer / fadeTime);
             fadeImage.color = color;
             yield return null;
         }
@@ -57,16 +69,16 @@ public class FadeManager : MonoBehaviour {
         if (fadeImage == null)
             Init();
 
-        StopCoroutine("FadeIn");
+        StopCoroutine("FadeInCoroutine");
 
-        float timer = 0.0f;
+        float fOutTimer = 0.0f;
 
         Color color = fadeImage.color;
 
-        while (timer < fadeTime)
+        while (fOutTimer < fadeTime)
         {
-            timer += Time.unscaledDeltaTime;
-            color.a = Mathf.Lerp(0f, 1f, timer / fadeTime);
+            fOutTimer += Time.deltaTime;
+            color.a = Mathf.Lerp(0f, 1f, fOutTimer / fadeTime);
             fadeImage.color = color;
             yield return null;
         }

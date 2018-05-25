@@ -27,6 +27,7 @@ public class ResourceUtils : MonoBehaviour
             particleSystemManager = GetComponentInChildren<ParticleSystemManager>();
             spriteUtils = GetComponentInChildren<SpriteUtils>();
             feedbacksManager = GetComponentInChildren<FeedbacksManager>();
+            fadeManager = GetComponentInChildren<FadeManager>();
 
             SceneManager.sceneLoaded += FindPoolManager;
 
@@ -75,6 +76,9 @@ public class ResourceUtils : MonoBehaviour
 
     [HideInInspector]
     public FeedbacksManager feedbacksManager;
+
+    [HideInInspector]
+    public FadeManager fadeManager;
 
     public static ResourceUtils Instance
     {
