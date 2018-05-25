@@ -161,6 +161,10 @@ public class PlayerStart : MonoBehaviour {
                 else
                 {
                     Transform playerSpawn = playerStart[i];
+                    if ( DatabaseManager.Db.NbRunes > 2 && i == 0)
+                    {
+                        playerSpawn = playerStart[2];
+                    } 
                     go.transform.position = playerSpawn.position;
                     go.transform.rotation = playerSpawn.rotation;
                     Player currentPlayer = go.GetComponent<Player>();
