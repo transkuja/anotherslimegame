@@ -93,7 +93,7 @@ public class FoodInputSettings : MonoBehaviour {
 
     void SwitchInput()
     {
-        ActiveButton(currentInput);
+        ActiveButton(nextInput);
         CurrentInput = nextInput;
         newColorIncomingAnim = new Color(1, 1, 1, 0.5f);
     }
@@ -142,22 +142,24 @@ public class FoodInputSettings : MonoBehaviour {
             for (int i = 0; i < (int)PossibleInputs.Size - 1; i++)
             {
                 transform.GetChild(i).GetComponent<Image>().enabled = true;
-                transform.GetChild(i).GetComponent<Image>().color = Color.white;
                 transform.GetChild(i).GetComponent<Image>().sprite = redFeedback;
             }
         }
 
         if (CurrentInput != PossibleInputs.BadOne)
         {
+            if (_toActivate != PossibleInputs.BadOne)
+                transform.GetChild((int)CurrentInput).GetComponent<Image>().enabled = false;
+            transform.GetChild((int)CurrentInput).GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 0.5f);
+            transform.GetChild((int)CurrentInput).localScale = Vector3.one;
+        }
+        else
+        {
             for (int i = 0; i < (int)PossibleInputs.Size - 1; i++)
             {
                 transform.GetChild(i).GetComponent<Image>().enabled = false;
                 transform.GetChild(i).GetComponent<Image>().sprite = yellowFeedback;
             }
-
-            transform.GetChild((int)CurrentInput).GetComponent<Image>().enabled = false;
-            transform.GetChild((int)CurrentInput).GetChild(0).GetComponent<Image>().color = new Color(1, 1, 1, 0.5f);
-            transform.GetChild((int)CurrentInput).localScale = Vector3.one;
         }
     }
 }
