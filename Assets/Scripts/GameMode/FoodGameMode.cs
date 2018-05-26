@@ -46,6 +46,9 @@ public class FoodGameMode : GameMode {
     int numberOfPancakesPerPile;
     bool[] eatPancakeOnNextInput = new bool[4];
 
+    [SerializeField]
+    RuntimeAnimatorController specificAnimator;
+
     public FoodMeterHandler FoodMeterHandler
     {
         get
@@ -99,6 +102,10 @@ public class FoodGameMode : GameMode {
             playerReferences[i].GetComponent<Rigidbody>().useGravity = false;
             playerReferences[i].GetComponent<Rigidbody>().isKinematic = true;
             playerReferences[i].GetComponent<Player>().NbPoints = 0;
+
+            playerReferences[i].GetComponentInChildren<Animator>().runtimeAnimatorController = specificAnimator;
+            foreach (GameObject fork in playerReferences[i].GetComponentInChildren<Fork>().forkReferences)
+                fork.SetActive(true);
         }
 
 
@@ -200,6 +207,7 @@ public class FoodGameMode : GameMode {
         Player currentPlayer = GameManager.Instance.PlayerStart.PlayersReference[(int)_controller.PlayerIndex].GetComponent<Player>();
         currentPlayer.UpdateCollectableValue(CollectableType.Points, (int)(scoreStep * _controller.CurrentCombo));
         Transform pileOfPancake = pileOfPancakesLocation.transform.GetChild((int)_controller.PlayerIndex).GetChild(0);
+        currentPlayer.GetComponentInChildren<Animator>().SetTrigger("eat");
 
         //if (eatPancakeOnNextInput[(int)_controller.PlayerIndex])
         //{
