@@ -23,6 +23,9 @@ public class FoodInputSettings : MonoBehaviour {
     [SerializeField]
     Sprite yellowFeedback;
 
+    public float badInputChanceMin = 10.0f;
+    float badInputChance;
+
     public PossibleInputs CurrentInput
     {
         get
@@ -58,13 +61,27 @@ public class FoodInputSettings : MonoBehaviour {
         }
     }
 
-    public PossibleInputs GetRandomInput(bool _firstOne = false)
+    public PossibleInputs GetRandomInput()
     {
         PossibleInputs result;
-        if (!_firstOne)
+
+        if (areBadInputsEnabled)
         {
-            result = (PossibleInputs)Random.Range(0, maxRandom);
-        }
+            if (Random.Range(0, 100) < badInputChance)
+            {
+                result = PossibleInputs.BadOne;
+                badInputChance = badInputChanceMin;
+            }
+            else
+            {
+                if (badInputChance < badInputChanceMin)
+                    badInputChance = badInputChanceMin;
+
+                badInputChance += 5.0f;
+                result = (PossibleInputs)Random.Range(0, 4);
+            }
+
+        }       
         else
         {
             result = (PossibleInputs)Random.Range(0, 4);
@@ -86,7 +103,8 @@ public class FoodInputSettings : MonoBehaviour {
             maxRandom--;
         }
 
-        CurrentInput = GetRandomInput(true);
+        badInputChance = 0.0f;
+        CurrentInput = GetRandomInput();
 
         isInitialized = true;
     }
