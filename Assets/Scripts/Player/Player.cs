@@ -229,8 +229,17 @@ public class Player : MonoBehaviour {
                         feedback.transform.GetChild(0).position = Camera.main.WorldToScreenPoint(transform.position);
                     else
                     {
-                        feedback.transform.GetChild(0).position = Camera.main.WorldToScreenPoint(transform.position);
-                        feedback.transform.GetChild(0).position += (Vector3.right * Random.Range(-50, 50) + Vector3.up * Random.Range(-50, 50));
+                        if (pickedValue < 0)
+                        {
+                            feedback.transform.GetChild(0).position = ((FoodGameMode)GameManager.Instance.CurrentGameMode).inputTracksHandler.transform.GetChild((int)playerController.playerIndex).position;
+                            feedback.transform.GetChild(0).position += (Vector3.right * Random.Range(-50, 50) + Vector3.up * Random.Range(-50, 50));
+                            feedback.transform.GetChild(0).localScale = Vector3.one * 1.5f;
+                        }
+                        else
+                        {
+                            feedback.transform.GetChild(0).position = Camera.main.WorldToScreenPoint(transform.position);
+                            feedback.transform.GetChild(0).position += (Vector3.right * Random.Range(-50, 50) + Vector3.up * Random.Range(-50, 50));
+                        }
                     }
                     feedback.GetComponentInChildren<Text>().text += Utils.Abs(pickedValue).ToString();
                     feedback.GetComponentInChildren<Text>().enabled = true;

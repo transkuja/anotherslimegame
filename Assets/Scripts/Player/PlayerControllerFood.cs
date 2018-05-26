@@ -6,7 +6,6 @@ using UWPAndXInput;
 
 public class PlayerControllerFood : PlayerController {
     private bool areInputsUnlocked = true;
-    private bool hasEatenSmthgBad = false;
 
     public float currentCombo = 1;
     public GameObject comboUI;
@@ -72,20 +71,6 @@ public class PlayerControllerFood : PlayerController {
         }
     }
 
-    public bool HasEatenSmthgBad
-    {
-        get
-        {
-            return hasEatenSmthgBad;
-        }
-
-        set
-        {
-            hasEatenSmthgBad = value;
-            parentAnim.SetBool("wrong", hasEatenSmthgBad);
-        }
-    }
-
     private void Start()
     {
         CurrentCombo = 1.0f;
@@ -98,7 +83,7 @@ public class PlayerControllerFood : PlayerController {
 
         if (GameManager.CurrentState == GameState.Normal)
         {
-            if (AreInputsUnlocked && !HasEatenSmthgBad)
+            if (AreInputsUnlocked)
             {
                 CompareInput();
             }
@@ -146,10 +131,11 @@ public class PlayerControllerFood : PlayerController {
             if (foodInputSettings.CurrentInput == PossibleInputs.BadOne
                 && foodInputSettings.CurrentTime > 0.1f)
             {
-                HasEatenSmthgBad = true;
                 GameManager.Instance.PlayerStart.PlayersReference[(int)playerIndex].GetComponentInChildren<PlayerCosmetics>().FaceEmotion
                         = FaceEmotion.Loser;
-                Invoke("ResetStateAfterEatingSmthgBad", 1.5f);
+                ((FoodGameMode)GameManager.Instance.CurrentGameMode).BadInput(this);
+
+                Invoke("ResetStateAfterEatingSmthgBad", 0.5f);
             }
             else
             {
@@ -174,7 +160,6 @@ public class PlayerControllerFood : PlayerController {
 
     void ResetStateAfterEatingSmthgBad()
     {
-        HasEatenSmthgBad = false;
         GameManager.Instance.PlayerStart.PlayersReference[(int)playerIndex].GetComponentInChildren<PlayerCosmetics>().FaceEmotion
                 = FaceEmotion.Neutral;
     }

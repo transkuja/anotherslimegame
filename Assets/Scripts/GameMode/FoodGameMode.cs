@@ -240,17 +240,12 @@ public class FoodGameMode : GameMode {
 
     }
 
-    //public void BadInput(PlayerControllerFood _controller)
-    //{
-    //     score --
-    //    Player currentPlayer = GameManager.Instance.PlayerStart.PlayersReference[(int)_controller.PlayerIndex].GetComponent<Player>();
-    //    currentPlayer.UpdateCollectableValue(CollectableType.Points, -scoreStep);
-
-    //    int platesCount = platesLocation.GetChild((int)_controller.PlayerIndex).childCount;
-    //    if (platesCount > currentPlayer.NbPoints / 150)
-    //        Destroy(platesLocation.GetChild((int)_controller.PlayerIndex).GetChild(platesCount - 1).gameObject);
-
-    //}
+    public void BadInput(PlayerControllerFood _controller)
+    {
+        //score--
+        Player currentPlayer = GameManager.Instance.PlayerStart.PlayersReference[(int)_controller.PlayerIndex].GetComponent<Player>();
+        currentPlayer.UpdateCollectableValue(CollectableType.Points, -100);
+    }
 
     public override void EndMinigame()
     {
