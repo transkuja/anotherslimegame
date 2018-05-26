@@ -523,10 +523,6 @@ public class Menu : MonoBehaviour {
                 playerCustomScreens[i].transform.GetChild(5).gameObject.SetActive(false);
             }
 
-            // If the player i is ready, block all inputs
-            if (areReady[i])
-                continue;
-
             // Press start when you're ready to go
             if (prevControllerStates[i].Buttons.Start == ButtonState.Released && controllerStates[i].Buttons.Start == ButtonState.Pressed
                 || (prevControllerStates[i].Buttons.A == ButtonState.Released && controllerStates[i].Buttons.A == ButtonState.Pressed)
@@ -545,7 +541,85 @@ public class Menu : MonoBehaviour {
                     GoToNextStateFromCustomisationScreen();
                     return;
                 }
+                else
+                {
+                    playerCustomScreens[i].GetComponentInChildren<PlayerCosmetics>().GetComponent<Animator>().SetTrigger("APressed");
+                }
             }
+
+            playerCustomScreens[i].transform.GetChild(4).Rotate(Vector3.up, controllerStates[i].ThumbSticks.Right.X * 150.0f * Time.deltaTime);
+
+            if (prevControllerStates[i].Buttons.X == ButtonState.Released && controllerStates[i].Buttons.X == ButtonState.Pressed)
+            {
+                if (!areReady[i])
+                {
+                    PlayerCosmetics cosmetics = playerCustomScreens[i].GetComponentInChildren<PlayerCosmetics>();
+                    cosmetics.RandomSelectionUnlocked();
+
+                    // Update selection after random
+                    for (int j = 0; j < customizables[CustomizableType.Color].Count; j++)
+                    {
+                        if (cosmetics.BodyColor == ((DatabaseClass.ColorData)customizables[CustomizableType.Color][j]).color)
+                        {
+                            selectedCustomizables[(int)CustomizableType.Color, i] = j;
+                            break;
+                        }
+                    }
+
+                    selectedCustomizables[(int)CustomizableType.Face, i] = cosmetics.FaceType;
+
+                    if (cosmetics.Mustache == "None" || cosmetics.Mustache == string.Empty)
+                        selectedCustomizables[(int)CustomizableType.Mustache, i] = customizables[CustomizableType.Mustache].Count;
+                    else
+                        selectedCustomizables[(int)CustomizableType.Mustache, i] = customizables[CustomizableType.Mustache].FindIndex(x => ((DatabaseClass.MustacheData)x).Id == cosmetics.Mustache);
+
+                    if (cosmetics.Hat == "None" || cosmetics.Hat == string.Empty)
+                        selectedCustomizables[(int)CustomizableType.Hat, i] = customizables[CustomizableType.Hat].Count;
+                    else
+                        selectedCustomizables[(int)CustomizableType.Hat, i] = customizables[CustomizableType.Hat].FindIndex(x => ((DatabaseClass.HatData)x).Id == cosmetics.Hat);
+
+                    if (cosmetics.Accessory == "None" || cosmetics.Accessory == string.Empty)
+                        selectedCustomizables[(int)CustomizableType.Accessory, i] = customizables[CustomizableType.Accessory].Count;
+                    else
+                        selectedCustomizables[(int)CustomizableType.Accessory, i] = customizables[CustomizableType.Accessory].FindIndex(x => ((DatabaseClass.AccessoryData)x).Id == cosmetics.Accessory);
+
+                    if (cosmetics.Ears == "None" || cosmetics.Ears == string.Empty)
+                        selectedCustomizables[(int)CustomizableType.Ears, i] = customizables[CustomizableType.Ears].Count;
+                    else
+                        selectedCustomizables[(int)CustomizableType.Ears, i] = customizables[CustomizableType.Ears].FindIndex(x => ((DatabaseClass.EarsData)x).Id == cosmetics.Ears);
+
+                    if (cosmetics.Chin == "None" || cosmetics.Chin == string.Empty)
+                        selectedCustomizables[(int)CustomizableType.Chin, i] = customizables[CustomizableType.Chin].Count;
+                    else
+                        selectedCustomizables[(int)CustomizableType.Chin, i] = customizables[CustomizableType.Chin].FindIndex(x => ((DatabaseClass.ChinData)x).Id == cosmetics.Chin);
+
+                    if (cosmetics.Skin == "None" || cosmetics.Skin == string.Empty)
+                        selectedCustomizables[(int)CustomizableType.Skin, i] = customizables[CustomizableType.Skin].Count;
+                    else
+                        selectedCustomizables[(int)CustomizableType.Skin, i] = customizables[CustomizableType.Skin].FindIndex(x => ((DatabaseClass.SkinData)x).Id == cosmetics.Skin);
+
+                    if (cosmetics.Forehead == "None" || cosmetics.Forehead == string.Empty)
+                        selectedCustomizables[(int)CustomizableType.Forehead, i] = customizables[CustomizableType.Forehead].Count;
+                    else
+                        selectedCustomizables[(int)CustomizableType.Forehead, i] = customizables[CustomizableType.Forehead].FindIndex(x => ((DatabaseClass.ForeheadData)x).Id == cosmetics.Forehead);
+                }
+                else
+                {
+                    FaceEmotion randomEmotion = (FaceEmotion)(UnityEngine.Random.Range(1, 5));
+                    playerCustomScreens[i].GetComponentInChildren<PlayerCosmetics>().FaceEmotion = randomEmotion;
+                    StartCoroutine(ResetFace(playerCustomScreens[i].GetComponentInChildren<PlayerCosmetics>(), randomEmotion));
+                }
+            }
+
+            if (prevControllerStates[i].Buttons.Y == ButtonState.Released && controllerStates[i].Buttons.Y == ButtonState.Pressed)
+            {
+                if (areReady[i])
+                    playerCustomScreens[i].GetComponentInChildren<PlayerCosmetics>().GetComponent<Animator>().SetTrigger("YPressed");
+            }
+
+            // If the player i is ready, block LB/RB and left stick
+            if (areReady[i])
+                continue;
 
             // Y axis controls the settings selection
             if (controllerStates[i].Buttons.RightShoulder == ButtonState.Pressed && prevControllerStates[i].Buttons.RightShoulder == ButtonState.Released
@@ -585,61 +659,6 @@ public class Menu : MonoBehaviour {
                 selectedCustomizables[currentlySelectedOption[i], i]--;
                 UpdatePreview(i);
             }
-            playerCustomScreens[i].transform.GetChild(4).Rotate(Vector3.up, controllerStates[i].ThumbSticks.Right.X * 150.0f * Time.deltaTime);
-
-            if (prevControllerStates[i].Buttons.X == ButtonState.Released && controllerStates[i].Buttons.X == ButtonState.Pressed)
-            {
-                PlayerCosmetics cosmetics = playerCustomScreens[i].GetComponentInChildren<PlayerCosmetics>();
-                cosmetics.RandomSelectionUnlocked();
-
-                // Update selection after random
-                for (int j = 0; j < customizables[CustomizableType.Color].Count; j++)
-                {
-                    if (cosmetics.BodyColor == ((DatabaseClass.ColorData)customizables[CustomizableType.Color][j]).color)
-                    {
-                        selectedCustomizables[(int)CustomizableType.Color, i] = j;
-                        break;
-                    }
-                }
-
-                selectedCustomizables[(int)CustomizableType.Face, i] = cosmetics.FaceType;
-
-                if (cosmetics.Mustache == "None" || cosmetics.Mustache == string.Empty)
-                    selectedCustomizables[(int)CustomizableType.Mustache, i] = customizables[CustomizableType.Mustache].Count;
-                else
-                    selectedCustomizables[(int)CustomizableType.Mustache, i] = customizables[CustomizableType.Mustache].FindIndex(x => ((DatabaseClass.MustacheData)x).Id == cosmetics.Mustache);
-
-                if (cosmetics.Hat == "None" || cosmetics.Hat == string.Empty)
-                    selectedCustomizables[(int)CustomizableType.Hat, i] = customizables[CustomizableType.Hat].Count;
-                else
-                    selectedCustomizables[(int)CustomizableType.Hat, i] = customizables[CustomizableType.Hat].FindIndex(x => ((DatabaseClass.HatData)x).Id == cosmetics.Hat);
-
-                if (cosmetics.Accessory == "None" || cosmetics.Accessory == string.Empty)
-                    selectedCustomizables[(int)CustomizableType.Accessory, i] = customizables[CustomizableType.Accessory].Count;
-                else
-                    selectedCustomizables[(int)CustomizableType.Accessory, i] = customizables[CustomizableType.Accessory].FindIndex(x => ((DatabaseClass.AccessoryData)x).Id == cosmetics.Accessory);
-
-                if (cosmetics.Ears == "None" || cosmetics.Ears == string.Empty)
-                    selectedCustomizables[(int)CustomizableType.Ears, i] = customizables[CustomizableType.Ears].Count;
-                else
-                    selectedCustomizables[(int)CustomizableType.Ears, i] = customizables[CustomizableType.Ears].FindIndex(x => ((DatabaseClass.EarsData)x).Id == cosmetics.Ears);
-
-                if (cosmetics.Chin == "None" || cosmetics.Chin == string.Empty)
-                    selectedCustomizables[(int)CustomizableType.Chin, i] = customizables[CustomizableType.Chin].Count;
-                else
-                    selectedCustomizables[(int)CustomizableType.Chin, i] = customizables[CustomizableType.Chin].FindIndex(x => ((DatabaseClass.ChinData)x).Id == cosmetics.Chin);
-
-                if (cosmetics.Skin == "None" || cosmetics.Skin == string.Empty)
-                    selectedCustomizables[(int)CustomizableType.Skin, i] = customizables[CustomizableType.Skin].Count;
-                else
-                    selectedCustomizables[(int)CustomizableType.Skin, i] = customizables[CustomizableType.Skin].FindIndex(x => ((DatabaseClass.SkinData)x).Id == cosmetics.Skin);
-
-                if (cosmetics.Forehead == "None" || cosmetics.Forehead == string.Empty)
-                    selectedCustomizables[(int)CustomizableType.Forehead, i] = customizables[CustomizableType.Forehead].Count;
-                else
-                    selectedCustomizables[(int)CustomizableType.Forehead, i] = customizables[CustomizableType.Forehead].FindIndex(x => ((DatabaseClass.ForeheadData)x).Id == cosmetics.Forehead);
-
-            }
         }
        
         // Buy controls
@@ -667,6 +686,13 @@ public class Menu : MonoBehaviour {
                 }
             }
         }
+    }
+
+    IEnumerator ResetFace(PlayerCosmetics _cosmetics, FaceEmotion _emotionToCompare)
+    {
+        yield return new WaitForSeconds(1.0f);
+        if (_emotionToCompare == _cosmetics.FaceEmotion)
+            _cosmetics.FaceEmotion = FaceEmotion.Neutral;
     }
 
     private void MinigameSelectionCursorControls()
