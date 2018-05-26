@@ -59,12 +59,13 @@ public class InputTracksHandler : MonoBehaviour {
             }
         }
 
-        for (int i = 0; i < nbPlayers; i++)
-            transform.GetChild(i).gameObject.SetActive(true);
 
         for (int i = 0; i < nbPlayers; i++)
         {
+            transform.GetChild(i).gameObject.SetActive(true);
+
             GetComponentsInChildren<FoodInputSettings>()[i].Init();
+            GetComponentsInChildren<PlayerControllerFood>()[i].playerIndex = (UWPAndXInput.PlayerIndex)i;
 
             board.transform.GetChild(i).gameObject.SetActive(true);
         }
