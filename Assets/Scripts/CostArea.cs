@@ -203,7 +203,7 @@ public class CostArea : MonoBehaviour {
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.GetComponent<PlayerController>())
+        if (other.GetComponent<PlayerControllerHub>())
         {
             if (teleporter.GetComponent<TeleporterToMinigame>().isTeleporterActive)
             {
@@ -214,18 +214,43 @@ public class CostArea : MonoBehaviour {
                 teleporter.GetComponent<TeleporterToMinigame>().CreateButtonFeedback((int)other.GetComponent<PlayerController>().PlayerIndex);
                 other.GetComponent<Player>().RefInitTeleporter = teleporter.GetComponent<TeleporterToMinigame>();
             }
+            else
+            {
+                if (SlimeDataContainer.instance != null) 
+                {
+                    if (SlimeDataContainer.instance.nbPlayers == 1)
+                    {
+                        GameManager.UiReference.transform.GetChild(6).GetChild(0).gameObject.SetActive(true);
+                        GameManager.UiReference.transform.GetChild(6).GetChild(0).localPosition = Vector3.up * -300.0f;
+                        GameManager.UiReference.transform.GetChild(6).GetChild(0).GetComponentInChildren<Text>().text = "Find " + (mgData.nbRunesToUnlock - DatabaseManager.Db.NbRunes) + " more runes!";
+                    }
+                    else
+                    {
+                        GameManager.UiReference.transform.GetChild(6).GetChild((int)other.GetComponent<PlayerController>().playerIndex).gameObject.SetActive(true);
+                        GameManager.UiReference.transform.GetChild(6).GetChild((int)other.GetComponent<PlayerController>().playerIndex).GetComponentInChildren<Text>().text = "Find " + (mgData.nbRunesToUnlock - DatabaseManager.Db.NbRunes) + " more runes!";
+                    }
+                }
+                
+            }
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.GetComponent<PlayerController>())
+        if (other.GetComponent<PlayerControllerHub>())
         {
             if (teleporter.GetComponent<TeleporterToMinigame>().isTeleporterActive)
             {
                 minigameName[(int)other.GetComponent<PlayerController>().PlayerIndex].SetActive(false);
                 teleporter.GetComponent<TeleporterToMinigame>().DestroyButtonFeedback((int)other.GetComponent<PlayerController>().PlayerIndex);
                 other.GetComponent<Player>().RefInitTeleporter = null;
+            }
+            else
+            {
+                if (SlimeDataContainer.instance != null)
+                {
+                    GameManager.UiReference.transform.GetChild(6).GetChild((int)other.GetComponent<PlayerController>().playerIndex).gameObject.SetActive(false);
+                }
             }
         }
     }

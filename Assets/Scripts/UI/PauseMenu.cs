@@ -150,6 +150,10 @@ public class PauseMenu : MonoBehaviour {
     public void Resume()
     {
         GameManager.ChangeState(GameState.Normal);
+        if (GameManager.Instance.IsInHub())
+        {
+            GameManager.UiReference.transform.GetChild(6).gameObject.SetActive(true);
+        }
     }
 
     public void ExitToMainMenu()
@@ -187,6 +191,11 @@ public class PauseMenu : MonoBehaviour {
                 transform.GetChild((int)PauseMenuChildren.Settings).GetChild(1).GetComponentInChildren<Text>().text = "Y axis inverted";
             else
                 transform.GetChild((int)PauseMenuChildren.Settings).GetChild(1).GetComponentInChildren<Text>().text = "Y axis default";
+
+            if (GameManager.Instance.IsInHub())
+            {
+                GameManager.UiReference.transform.GetChild(6).gameObject.SetActive(false);
+            }
         }
         else
         {
