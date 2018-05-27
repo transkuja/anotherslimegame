@@ -59,34 +59,10 @@ public class EvolutionComponent : MonoBehaviour {
             ((EvolutionGhost)(this)).SetGhostVisual();
             //Then do Nothing
             affectedPart = transform.gameObject;
-        } else
-        {
-            // Le probleme ici c'est le corps prend le spot 0
+        }
+        else
             affectedPart = playerCharacter.EvolutionParts[(int)evolution.BodyPart - 2].gameObject;
 
-            if (evolution.BodyPart == BodyPart.Hammer)
-            {
-                if (playerCharacter.MainDroite.childCount == 0)
-                {
-                    // Replace with a place holder to keep the body part enum correct
-                    GameObject placeHolder = new GameObject("PlaceHolder");
-                    placeHolder.transform.SetParent(affectedPart.transform.parent);
-                    placeHolder.transform.SetSiblingIndex(affectedPart.transform.GetSiblingIndex());
-                    affectedPart.transform.SetParent(playerCharacter.MainDroite);
-                }
-            }
-            else if (evolution.BodyPart == BodyPart.Staff)
-            {
-                if (playerCharacter.MainGauche.childCount == 0)
-                {
-                    //Replace with a place holder to keep the body part enum correct
-                    GameObject placeHolder = new GameObject("PlaceHolder");
-                    placeHolder.transform.SetParent(affectedPart.transform.parent);
-                    placeHolder.transform.SetSiblingIndex(affectedPart.transform.GetSiblingIndex());
-                    affectedPart.transform.SetParent(playerCharacter.MainGauche);
-                }
-            }
-        }
         affectedPart.SetActive(true);
     }
 
@@ -105,10 +81,6 @@ public class EvolutionComponent : MonoBehaviour {
     protected virtual void OnDestroy()
     {
         player.activeEvolutions--;
-        affectedPart.transform.SetParent(transform.GetChild((int)PlayerChildren.SlimeMesh));
-        if(affectedPart.transform.parent.Find("PlaceHoder"))
-        Destroy(affectedPart.transform.parent.Find("PlaceHoder").gameObject);
-        affectedPart.transform.SetSiblingIndex((int)evolution.BodyPart);
         affectedPart.SetActive(false);
     }
 
