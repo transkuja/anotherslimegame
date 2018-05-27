@@ -99,37 +99,29 @@ public class EvolutionManager {
     {
         Powers power = (Powers)evolution.Id;
         float duration = (overrideEvolutionDuration) ? evolutionDuration : evolution.duration;
+        EvolutionComponent newEvolution;
 
         switch (power)
         {
             case Powers.Strength:
-                if (gameObject.GetComponent<EvolutionStrength>() == null)
-                    gameObject.AddComponent<EvolutionStrength>();
-
-                gameObject.GetComponent<EvolutionStrength>().Timer = duration;
+                newEvolution = gameObject.AddComponent<EvolutionStrength>();
                 break;
             case Powers.Agile:
-                if (gameObject.GetComponent<EvolutionAgile>() == null)
-                    gameObject.AddComponent<EvolutionAgile>();
-
-                gameObject.GetComponent<EvolutionAgile>().Timer = duration;
+                newEvolution = gameObject.AddComponent<EvolutionAgile>();
                 break;
             case Powers.Platformist:
-                if (gameObject.GetComponent<EvolutionPlatformist>() == null)
-                    gameObject.AddComponent<EvolutionPlatformist>();
-
-                gameObject.GetComponent<EvolutionPlatformist>().Timer = duration;
+                newEvolution = gameObject.AddComponent<EvolutionPlatformist>();
                 break;
             case Powers.Ghost:
-                if (gameObject.GetComponent<EvolutionGhost>() == null)
-                    gameObject.AddComponent<EvolutionGhost>();
-
-                gameObject.GetComponent<EvolutionGhost>().Timer = duration;
+                newEvolution = gameObject.AddComponent<EvolutionGhost>();
                 break;
             default:
+                newEvolution = null;
                 Debug.Log("Unknown power, something went wrong");
                 break;
+
         }
+        newEvolution.Timer = duration;
     }
 
     /*

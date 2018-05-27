@@ -41,6 +41,7 @@ public class FeedbacksManager : MonoBehaviour
 
     [Header("Feedbacks UI")]
     public GameObject scorePointsPrefab;
+    public GameObject feedbackCooldownEvolution;
 
     public GameObject GetPickupPreview(PickUpType _type)
     {

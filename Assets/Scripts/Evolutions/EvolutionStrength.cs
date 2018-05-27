@@ -16,6 +16,9 @@ public class EvolutionStrength : EvolutionComponent
             playerComponent.evolutionTutoShown[(int)Powers.Strength] = true;
             Utils.PopTutoText("Press Y in the air", playerComponent);
         }
+
+        if (feedbackCooldownImg != null)
+            feedbackCooldownImg.sprite = ResourceUtils.Instance.spriteUtils.Strength;
     }
 
     protected override void OnDestroy()

@@ -18,8 +18,14 @@ public class EvolutionComponent : MonoBehaviour {
     GameObject affectedPart;
     bool timerHasBeenSet = false;
 
+    protected Image feedbackCooldownImg;
+    float startTimer;
+
     public virtual void Start()
     {
+        if (GetComponentsInChildren<EvolutionComponent>().Length > 1)
+            Destroy(GetComponentsInChildren<EvolutionComponent>()[0]);
+
         player = GetComponent<Player>();
         playerController = GetComponent<PlayerControllerHub>();
         playerCharacter = GetComponent<PlayerCharacterHub>();
@@ -35,6 +41,7 @@ public class EvolutionComponent : MonoBehaviour {
         set
         {
             timer = value;
+            startTimer = value;
         }
     }
 
@@ -64,6 +71,15 @@ public class EvolutionComponent : MonoBehaviour {
             affectedPart = playerCharacter.EvolutionParts[(int)evolution.BodyPart - 2].gameObject;
 
         affectedPart.SetActive(true);
+
+        if (GameManager.Instance.IsInHub() || GameManager.Instance.CurrentGameMode is Runner3DGameMode)
+        {
+            if (feedbackCooldownImg == null)
+            {
+                // Ça c'est cadeau
+                feedbackCooldownImg = ResourceUtils.Instance.feedbackCooldown.transform.GetChild(SlimeDataContainer.instance.nbPlayers - 1).GetChild((int)GetComponent<PlayerControllerHub>().playerIndex).GetComponentInChildren<UnityEngine.UI.Image>();               
+            }
+        }
     }
 
     public virtual void Update()
@@ -71,6 +87,10 @@ public class EvolutionComponent : MonoBehaviour {
         if (timer > 0.0f)
         {
             timer -= Time.deltaTime;
+            if (feedbackCooldownImg != null && !(GameManager.Instance.CurrentGameMode is Runner3DGameMode))
+            {
+                feedbackCooldownImg.fillAmount = timer / startTimer;
+            }
             if (timer < 0.0f)
             {
                 Destroy(this);

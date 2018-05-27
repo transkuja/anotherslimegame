@@ -22,7 +22,7 @@ public class EvolutionPlatformist : EvolutionComponent {
     // Cooldown before getting another charge
     float cooldownCharge = 7.0f;
     float timerBeforeCharge = 0.0f;
-    float chargeTime = 0.3f;
+    float chargeTime = 0.1f;
 
     float platformLifetime = 6.0f;
     int indexPattern = 0;
@@ -36,6 +36,11 @@ public class EvolutionPlatformist : EvolutionComponent {
     public override void Start()
     {
         base.Start();
+        if (GameManager.Instance.IsInHub())
+        {
+            cooldownCharge = 0.5f;
+        }
+
         SetPower(Powers.Platformist);
         Player playerComponent = GetComponent<Player>();
 
@@ -48,6 +53,9 @@ public class EvolutionPlatformist : EvolutionComponent {
         {
             hasPlayedSecondTuto = true;
         }
+
+        if (feedbackCooldownImg != null)
+            feedbackCooldownImg.sprite = ResourceUtils.Instance.spriteUtils.Platformist;
     }
 
     public float TimerPlatform
@@ -139,6 +147,11 @@ public class EvolutionPlatformist : EvolutionComponent {
                 Charges = maxCharges;
                 timerBeforeCharge = 0.0f;
             }
+        }
+
+        if (GameManager.Instance.CurrentGameMode is Runner3DGameMode)
+        {
+
         }
     }
 

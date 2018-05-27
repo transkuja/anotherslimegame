@@ -146,6 +146,9 @@ public class EvolutionGhost : EvolutionComponent
             if(FindObjectOfType<MovingPlatform>())
             parent = FindObjectOfType<MovingPlatform>().transform;
         }
+
+        if (feedbackCooldownImg != null)
+            feedbackCooldownImg.sprite = ResourceUtils.Instance.spriteUtils.Ghost;
     }
 
     protected new void OnDestroy()

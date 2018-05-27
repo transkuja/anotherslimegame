@@ -18,13 +18,13 @@ public class SpriteUtils : MonoBehaviour {
 
     [Header("Texture Panneau sur les iles")]
     [SerializeField]
-    public Texture Hammer;
+    public Sprite Strength;
     [SerializeField]
-    public Texture Ghost;
+    public Sprite Ghost;
     [SerializeField]
-    public Texture Agile;
+    public Sprite Agile;
     [SerializeField]
-    public Texture Platformist;
+    public Sprite Platformist;
 
     [Header("Controls sprites")]
     public Sprite leftThumbstickSprite;

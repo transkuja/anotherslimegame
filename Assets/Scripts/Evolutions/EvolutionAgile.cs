@@ -23,6 +23,9 @@ public class EvolutionAgile : EvolutionComponent {
         {
             GetComponent<Player>().evolutionTutoShown[(int)Powers.Agile] = true;
         }
+
+        if (feedbackCooldownImg != null)
+            feedbackCooldownImg.sprite = ResourceUtils.Instance.spriteUtils.Agile;
     }
 
     protected override void OnDestroy()

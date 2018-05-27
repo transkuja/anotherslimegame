@@ -80,6 +80,8 @@ public class ResourceUtils : MonoBehaviour
     [HideInInspector]
     public FadeManager fadeManager;
 
+    public GameObject feedbackCooldown;
+
     public static ResourceUtils Instance
     {
         get

@@ -118,6 +118,8 @@ public class PlayerStart : MonoBehaviour {
 
         if (AudioManager.Instance != null)
             AudioManager.Instance.Init();
+
+        ResourceUtils.Instance.feedbackCooldown.transform.GetChild(SlimeDataContainer.instance.nbPlayers - 1).gameObject.SetActive(true);
     }
 
     public Transform GetPlayerStart(uint playerIndex)
