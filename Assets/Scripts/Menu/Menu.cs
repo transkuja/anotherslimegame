@@ -71,8 +71,11 @@ public class Menu : MonoBehaviour {
     GameObject minigameVersionUIPrefab;
     bool canChangeSelection = true;
 
-    [SerializeField]
     bool creditsShown = false;
+    [SerializeField]
+    Sprite difficultyStar;
+    [SerializeField]
+    Sprite difficultyEmptyStar;
 
     public SlimeDataContainer DataContainer
     {
@@ -374,6 +377,7 @@ public class Menu : MonoBehaviour {
                         {
                             selectedMinigameType = (MinigameType)minigameCurrentCursor;
                             minigameTypeSelected = true;
+                            transform.GetChild((int)MenuState.MinigameSelection).GetChild(4).gameObject.SetActive(false);
                             ShowMinigamesOfType(selectedMinigameType);
                         }
                         else
@@ -453,6 +457,7 @@ public class Menu : MonoBehaviour {
             Destroy(transform.GetChild((int)MenuState.MinigameSelection).GetChild(2).GetChild(i).gameObject);
 
         transform.GetChild((int)MenuState.MinigameSelection).GetChild(1).GetChild((int)selectedMinigameType).GetComponent<MinigameSelectionAnim>().ReduceYourUI();
+        transform.GetChild((int)MenuState.MinigameSelection).GetChild(4).gameObject.SetActive(true);
         Invoke("ShowMinigameTypesOnReturn", 0.4f);
     }
 
@@ -783,6 +788,39 @@ public class Menu : MonoBehaviour {
             }
             //UpdateMinigameSelection();
         }
+
+        if (!minigameTypeSelected && canChangeSelection &&
+            controllerStates[0].Buttons.X == ButtonState.Pressed && prevControllerStates[0].Buttons.X == ButtonState.Released)
+        {
+            RandomizeMinigameSelection();
+        }
+    }
+
+    void RandomizeMinigameSelection()
+    {
+        List<DatabaseClass.MinigameData> minigameTypeRand = DatabaseManager.Db.GetUnlockedMinigamesOfType((MinigameType)UnityEngine.Random.Range(0, (int)MinigameType.Size));
+        while (minigameTypeRand.Count == 0)
+            minigameTypeRand = DatabaseManager.Db.GetUnlockedMinigamesOfType((MinigameType)UnityEngine.Random.Range(0, (int)MinigameType.Size));
+
+        transform.GetChild((int)MenuState.MinigameSelection).GetChild(4).gameObject.SetActive(false);
+
+        DatabaseClass.MinigameData selectedMinigame = minigameTypeRand[UnityEngine.Random.Range(0, minigameTypeRand.Count)];
+        minigameTypeSelected = true;
+        minigameCurrentCursor = (int)selectedMinigame.type;
+        selectedMinigameType = selectedMinigame.type;
+        UpdateMinigameSelection(0);
+        ShowMinigamesOfType(selectedMinigameType);
+
+        List<DatabaseClass.MinigameData> allMinigamesOfType = DatabaseManager.Db.GetAllMinigamesOfType(selectedMinigame.type);
+        for (int i = 0; i < allMinigamesOfType.Count; i++)
+        {
+            if (allMinigamesOfType[i].Id == selectedMinigame.Id && allMinigamesOfType[i].version == selectedMinigame.version)
+            {
+                minigameCurrentVerticalCursor = i;
+                break;
+            }
+        }
+        UpdateMinigameVersionSelection(0);
     }
 
     private void UpdateMinigameSelection(int _oldValue)
@@ -842,31 +880,20 @@ public class Menu : MonoBehaviour {
         }
         else
         {
+            transform.GetChild((int)MenuState.MinigameSelection).GetChild(3).gameObject.SetActive(true);
             Image[] difficultyDots = transform.GetChild((int)MenuState.MinigameSelection).GetChild(3).GetComponentsInChildren<Image>();
 
-            for (int i = 0; i < difficulty; i++)
-            {
-                difficultyDots[i].color = Color.white;
-                if (difficulty % 2 == 0)
-                {
-                    difficultyDots[i].transform.localPosition = Vector3.right * (i * 15 - ((difficulty / 2) * 15) + 7.5f);
-                }
-                else
-                {
-                    difficultyDots[i].transform.localPosition = Vector3.right * (i * 15 - (((difficulty / 2)) * 15));
-                }
-            }
+            for (int i = 1; i <= difficulty; i++)
+                difficultyDots[i].sprite = difficultyStar;
 
-            for (int i = difficulty; i < 5; i++)
-                difficultyDots[i].color = new Color(1, 1, 1, 0);
+            for (int i = difficulty + 1; i <= 5; i++)
+                difficultyDots[i].sprite = difficultyEmptyStar;
         }
     }
 
     void HideDifficulty()
     {
-        Image[] difficultyDots = transform.GetChild((int)MenuState.MinigameSelection).GetChild(3).GetComponentsInChildren<Image>();
-        for (int i = 0; i < 5; i++)
-            difficultyDots[i].color = new Color(1, 1, 1, 0);
+        transform.GetChild((int)MenuState.MinigameSelection).GetChild(3).gameObject.SetActive(false);
     }
 
     // Move the button cursor and highlight it
@@ -1376,6 +1403,9 @@ public class Menu : MonoBehaviour {
 
         if (currentState == MenuState.MinigameSelection)
         {
+            if (!canChangeSelection)
+                return;
+
             if (minigameTypeSelected)
             {
                 minigameTypeSelected = false;

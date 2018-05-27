@@ -238,6 +238,10 @@ public class MinigameSelectionAnim : MonoBehaviour {
         isEnlarging = true;
         lerpValue = 0.0f;
         isReducing = false;
+        hasBeenSelected = false;
+        hasBeenDeselected = false;
+        isShowing = false;
+        isHiding = false;
     }
 
     public void ReduceYourUI()
@@ -245,7 +249,11 @@ public class MinigameSelectionAnim : MonoBehaviour {
         isEnlarging = false;
         isReducing = true;
         lerpValue = 1.0f;
+        hasBeenSelected = false;
+        hasBeenDeselected = false;
         MinigameGenericInformationLoad();
+        isShowing = false;
+        isHiding = false;
     }
 
 }
