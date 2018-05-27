@@ -161,7 +161,7 @@ public class PlayerStart : MonoBehaviour {
                 else
                 {
                     Transform playerSpawn = playerStart[i];
-                    if ( DatabaseManager.Db.NbRunes > 2)
+                    if ( DatabaseManager.Db.NbRunes > 1)
                     {
                         if (i == 0)
                             playerSpawn = playerStart[2];

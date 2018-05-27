@@ -156,7 +156,7 @@ public class BreakingGameMode : GameMode {
     public void OnPlayerDeath(Player player)
     {
         player.gameObject.SetActive(false);
-        player.NbPoints = (int)minigameTimer * 10;
+        player.NbPoints = (int)(minigameTimer * 10);
         nbDeadPlayers++;
         if (nbDeadPlayers == curNbPlayers)
             GameManager.Instance.ScoreScreenReference.RankPlayersByPoints();

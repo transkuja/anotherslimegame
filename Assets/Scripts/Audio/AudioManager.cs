@@ -22,11 +22,13 @@ public class AudioManager : MonoBehaviour
     public AudioClip youpiFX;
     public AudioClip hahahaFX;
     public AudioClip wahhFx;
+    public AudioClip wahhFxRabbit;
     public AudioClip blobSound;
     public AudioClip punchFx;
     public AudioClip breakFx;
     public AudioClip cantPayFx;
 
+    // Player
     public AudioClip jumpFx;
     public AudioClip dashFx;
     public AudioClip splashWaterFx;

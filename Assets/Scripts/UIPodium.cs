@@ -20,8 +20,8 @@ public class UIPodium : MonoBehaviour {
         for (int i = 0; i < SlimeDataContainer.instance.nbPlayers; i++)
         {
             transform.GetChild(i).gameObject.SetActive(true);
-            transform.GetComponentInChildren<Image>().color = container.playerColorsMenu[container.lastRanks[i]];
-            Text[] texts = transform.GetComponentsInChildren<Text>();
+            transform.GetChild(i).GetComponentInChildren<Image>().color = container.playerColorsMenu[container.lastRanks[i]];
+            Text[] texts = transform.GetChild(i).GetComponentsInChildren<Text>();
             texts[0].text = "P" + (container.lastRanks[i] + 1);
             if (container.minigameType == MinigameType.Kart)
                 texts[1].text = TimeFormatUtils.GetFormattedTime(container.lastScores[container.lastRanks[i]], TimeFormat.MinSecMil);

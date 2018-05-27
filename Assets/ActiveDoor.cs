@@ -11,9 +11,9 @@ public class ActiveDoor : MonoBehaviour {
 	void Start () {
         door = GetComponent<DoorActivable>();
 
-        if (DatabaseManager.Db.IsUnlock<DatabaseClass.RuneData>("RuneFC2"))
+        if (DatabaseManager.Db.NbRunes > 1)
         {
-            door.isActive = true;
+            door.Active(true);
             bActive = true;
             return;
         }
@@ -23,9 +23,9 @@ public class ActiveDoor : MonoBehaviour {
 	void Update () {
         if(!bActive)
         {
-            if (DatabaseManager.Db.IsUnlock<DatabaseClass.RuneData>("RuneFC2"))
+            if (DatabaseManager.Db.NbRunes > 1)
             {
-                door.isActive = true;
+                door.Active(true);
                 bActive = true;
                 return;
             }

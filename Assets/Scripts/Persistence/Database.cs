@@ -610,7 +610,7 @@ namespace DatabaseClass
             int idRune = 0;
             string[] strRune = { "Rune1Hub1", "Rune2Hub1", "Rune3Hub1", "Rune4Hub1", "Rune5Hub1",
                 "Rune6Hub1", "Rune7Hub1", "Rune8Hub1", "Rune9Hub1", "Rune10Hub1", "Rune11Hub1", "Rune12Hub1",
-                "Rune13Hub1", "Rune14Hub1",
+                "Rune13Hub1", "Rune14Hub1", "Rune15Hub1",
                 "RuneSneaky1", "RuneJoker1", "RuneSneaky2",
                 "RuneKart1", "RuneFC1", "RuneRunner", "RuneFC2", "RuneFood",
                 "RuneKart2", "RuneFC3", "RuneFood", "RuneFC4", "RuneFood",
@@ -633,6 +633,7 @@ namespace DatabaseClass
             // VincentTuto
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
 
+            runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
 

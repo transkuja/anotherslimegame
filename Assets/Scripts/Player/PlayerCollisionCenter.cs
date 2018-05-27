@@ -133,7 +133,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
                             hasCollidedWithAPlayer = true;
                             currentTimerStop = timerStopOnDashCollision;
 
-                            playerCharacter.PlayerState = playerCharacter.frozenState;
+                            // freeze other player
                             impactedPlayerCharacter.PlayerState = impactedPlayerCharacter.frozenState;
 
                             rb.velocity = Vector3.zero;
@@ -178,7 +178,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
                             hasCollidedWithAPlayer = true;
                             currentTimerStop = timerStopOnDashCollision;
 
-                            playerCharacter.PlayerState = playerCharacter.frozenState;
+                            // freeze other player
                             impactedPlayerCharacter.PlayerState = impactedPlayerCharacter.frozenState;
 
                             rb.velocity = Vector3.zero;
@@ -272,13 +272,6 @@ public class PlayerCollisionCenter : MonoBehaviour {
                 // Default interaction no one is dashing of using an abilty
                 // Can't confirm implications
                 DefaultCollision(collision, collidedPlayer);
-
-                // Not enemy nor pnj
-                if( !isAPlayer)
-                {
-                    if (AudioManager.Instance != null && AudioManager.Instance.wahhFx != null)
-                        AudioManager.Instance.PlayOneShot(AudioManager.Instance.wahhFx);
-                }
             }
         }
 
@@ -425,6 +418,18 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
     public void ExpulsePlayer(Vector3 collisionPoint, Rigidbody rbPlayerToExpulse, float repulsionFactor)
     {
+        // play fx
+        if (rbPlayerToExpulse.GetComponent<PNJController>() || rbPlayerToExpulse.GetComponent<PlayerControllerHub>())
+        {
+            if (AudioManager.Instance != null && AudioManager.Instance.wahhFx != null)
+                AudioManager.Instance.PlayOneShot(AudioManager.Instance.wahhFx);
+        }
+        else
+        {
+            if (AudioManager.Instance != null && AudioManager.Instance.wahhFxRabbit != null)
+                AudioManager.Instance.PlayOneShot(AudioManager.Instance.wahhFxRabbit);
+        }
+
         Vector3 direction = rbPlayerToExpulse.position - collisionPoint;
         direction.y = 0;
 

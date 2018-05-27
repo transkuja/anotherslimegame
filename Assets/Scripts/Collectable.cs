@@ -185,7 +185,7 @@ public class Collectable : MonoBehaviour
                     playerTarget.UpdateCollectableValue(type, value);
                 }
 
-                if (AudioManager.Instance != null && AudioManager.Instance.coinFX != null) AudioManager.Instance.PlayOneShot(AudioManager.Instance.coinFX);
+                if (AudioManager.Instance != null && AudioManager.Instance.coinFX != null) AudioManager.Instance.PlayOneShot(AudioManager.Instance.coinFX, 0.5f);
             }
 
             isCollected = true;

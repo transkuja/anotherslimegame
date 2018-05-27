@@ -264,6 +264,7 @@ public class PlayerControllerHub : PlayerController
     {
         if (PrevState.Buttons.B == ButtonState.Released && State.Buttons.B == ButtonState.Pressed)
         {
+            GameManager.ChangeState(GameState.ForcedPauseMGRules);
             // Confirm screen
             if( GameManager.Instance.ActivePlayersAtStart > 1)
             {
