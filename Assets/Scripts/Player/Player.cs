@@ -207,6 +207,7 @@ public class Player : MonoBehaviour {
         {
             case CollectableType.Rune:
                 GameManager.Instance.Runes += pickedValue;
+                playerCharacter.RuneObtained.SetActive(true);
                 break;
             case CollectableType.Money:
                 GameManager.Instance.GlobalMoney += pickedValue;

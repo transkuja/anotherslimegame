@@ -167,7 +167,8 @@ public class PlayerController : MonoBehaviour
         if (other.GetComponent<CameraTrigger>())
         {
             currentCameraTrigger = other.GetComponent<CameraTrigger>();
-            player.cameraReference.GetComponentInChildren<DynamicJoystickCameraController>().ChangeCameraBehaviour(currentCameraTrigger.behaviour);
+            if (player != null && player.cameraReference != null)
+                player.cameraReference.GetComponentInChildren<DynamicJoystickCameraController>().ChangeCameraBehaviour(currentCameraTrigger.behaviour);
         }
 
 
