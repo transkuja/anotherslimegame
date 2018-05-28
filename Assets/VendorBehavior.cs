@@ -73,7 +73,7 @@ public class VendorBehavior : PNJDefaultBehavior {
             if (playerIndex == 1)
             {
                 retryMessageGo.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = Utils.GetRetryMessage(MessageTypeMinigame.AreyoureadyPlayer1);
-                retryMessageGo.GetComponent<ReplayScreenControlsHub>().index = 0;
+                retryMessageGo.GetComponent<ReplayScreenControlsHub>().index = playerIndex;
             }
             else
             {
@@ -92,6 +92,12 @@ public class VendorBehavior : PNJDefaultBehavior {
 
 
         GameManager.ChangeState(GameState.ForcedPauseMGRules);
+    }
+
+    void GoToShop()
+    {
+        SlimeDataContainer.instance.isInTheShop = true;
+        LevelLoader.LoadLevelWithFadeOut("Menu");
     }
 
     public void EndOtherPlayerDialog(int playerIndex)
