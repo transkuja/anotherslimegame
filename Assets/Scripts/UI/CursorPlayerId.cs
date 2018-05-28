@@ -21,4 +21,13 @@ public class CursorPlayerId : MonoBehaviour {
         }
     }
 
+    public void Disable(Player p)
+    {
+        for (int i = 0; i < GameManager.Instance.PlayerStart.ActivePlayersAtStart; ++i)
+        {
+            if(GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<Player>() == p)
+                transform.GetChild(0).GetChild(i).gameObject.SetActive(false);
+        }
+    }
+
 }

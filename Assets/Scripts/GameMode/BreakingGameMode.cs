@@ -158,6 +158,8 @@ public class BreakingGameMode : GameMode {
         player.gameObject.SetActive(false);
         player.NbPoints = (int)(minigameTimer * 10);
         nbDeadPlayers++;
+        if (GameManager.Instance.CurrentGameMode.cursors)
+            GameManager.Instance.CurrentGameMode.cursors.Disable(player);
         if (nbDeadPlayers == curNbPlayers)
             GameManager.Instance.ScoreScreenReference.RankPlayersByPoints();
     }
