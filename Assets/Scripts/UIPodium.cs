@@ -10,9 +10,11 @@ public class UIPodium : MonoBehaviour {
     Material runeMat;
 
     float replayScreenDelay = 2.5f;
+    Podium podium;
 
     void Start()
     {
+        podium = FindObjectOfType<Podium>();
         container = SlimeDataContainer.instance;
         if (container == null)
             return;
@@ -44,7 +46,7 @@ public class UIPodium : MonoBehaviour {
             if (!runeData.isUnlocked)
             {
                 transform.GetChild(4).gameObject.SetActive(true);
-                transform.GetChild(5).gameObject.SetActive(true);
+                podium.transform.GetChild(0).GetChild(1).gameObject.SetActive(true);
 
                 Text[] runeObjectiveTexts = transform.GetChild(4).GetComponentsInChildren<Text>();
 
@@ -108,8 +110,8 @@ public class UIPodium : MonoBehaviour {
     IEnumerator ActivateRune()
     {
         yield return new WaitForSeconds(2.0f);
-        transform.GetChild(5).GetComponentInChildren<MeshRenderer>().material = runeMat;
-        transform.GetChild(5).GetChild(1).gameObject.SetActive(true);
+        podium.transform.GetChild(0).GetChild(1).GetComponentInChildren<MeshRenderer>().material = runeMat;
+        podium.transform.GetChild(0).GetChild(1).GetChild(1).gameObject.SetActive(true);
         DatabaseManager.Db.SetUnlock<DatabaseClass.RuneData>(DatabaseManager.Db.GetRuneFromMinigame(container.minigameType, container.minigameVersion).Id, true);
         GameManager.Instance.Runes += 1;
 
@@ -119,7 +121,7 @@ public class UIPodium : MonoBehaviour {
     IEnumerator ShowReplayScreen()
     {
         yield return new WaitForSeconds(replayScreenDelay);
-        transform.GetChild(6).gameObject.SetActive(true);
+        transform.GetChild(5).gameObject.SetActive(true);
     }
 
     void ObtainMoneyBasedOnScore(SlimeDataContainer _container)
