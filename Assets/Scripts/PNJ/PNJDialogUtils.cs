@@ -5,11 +5,11 @@ using UnityEngine;
 public static class PNJDialogUtils {
 
     // Vincent Tuto
-    static string VincentDM = "Hi, I'm Vincent!\n"
-       + "If you want to explore our world, just grab an agility evolution\n"
-       + "by going through this portal in order to grab a rune which will unlock\n"
-       + "your first minigame. Then after completing the minigame, the door will\n"
-       + "be opened.";
+    static string VincentDM = "You're new here, right?!\n"
+       + "I heard that if you can collect 2 runes\n" /* going through this portal in order to grab a rune which will unlock\n"*/
+       + "the door may open!\n"
+       + "This world is so UNREAL, I hope you'll be able\n"
+       + "to open it!";
     static FaceEmotion[] VincentDE = new FaceEmotion[1] { FaceEmotion.Neutral };
     static string VincentQM = ""
     ;
@@ -19,8 +19,11 @@ public static class PNJDialogUtils {
     };
 
     // Alex Tuto
-    static string AlexDM = "Hi, I'm Alex!\n"
-       + "Such an improvment since last week.";
+    static string AlexDM = "Wonder how I bought this car?\n"
+        + "I used to press X to break all the pots I could.\n"
+        + "They hide a lot of money that you can use to\n"
+        + "customize yourself. As for the car,\n"
+        + "I used my influence to have the only one left!";
     static FaceEmotion[] AlexDE = new FaceEmotion[1] { FaceEmotion.Neutral };
     static string AlexQM = ""
     ;
@@ -265,7 +268,7 @@ public static class PNJDialogUtils {
 
 
     // Antho
-    static string AnthoDM = "One day I'll give you something cool to do.\n"
+    static string AnthoDM = "One day I'll have some cool quest for you.\n"
        + "For now, I'm just standing there with my cool glasses.\n"
        + "And I may have left enough money in the pots around\n"
        + "for you to buy them.";
@@ -280,9 +283,10 @@ public static class PNJDialogUtils {
 
 
     // Olivier
-    static string OlivierDM = "I have worked in this project\n"
-       + "But now I'm in internship\n"
-       + "And I think I miss the most interesting part of this project.";
+    static string OlivierDM = "I'm a resourceful architect,\n"
+       + "I designed a place that builds by itself endlessly.\n"
+       + "Everytime you go there, new surprises arise!\n"
+       + "Now if you'll excuse me, I have some complicated maths to do.";
     static FaceEmotion[] OlivierDE = new FaceEmotion[3] { FaceEmotion.Hit, FaceEmotion.Neutral, FaceEmotion.Loser };
     /*static string OlivierQM = ""
     ;
