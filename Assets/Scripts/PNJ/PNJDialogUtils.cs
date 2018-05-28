@@ -165,76 +165,76 @@ public static class PNJDialogUtils {
         "I need to practice my jokes for the joke contest.\n" +
         "Can I tell you some and ask you what you think of them?\n" +
         "Here's the first one,\n" +
-        "What do you call a blind dinosaur?\n" +
-        "Doyouthinkhesaurus!\n" +
+        "1What do you call a blind dinosaur?\n" +
+        "2Doyouthinkhesaurus!\n" +
         "...\n" + 
         "Do you think he saur us?!#" +
 
         "Ok next!\n" +
-        "What did one hat say to another?\n" + 
-        "You stay here, I'll go on a head!#" +
+        "1What did one hat say to another?\n" + 
+        "2You stay here, I'll go on a head!#" +
 
         "Here's another one\n" +
-        "How do think the unthinkable?\n" +
-        "With an itheberg!\n" +
+        "1How do think the unthinkable?\n" +
+        "2With an itheberg!\n" +
         "You know, like the Titanic! The unSINKable!\n" +
         "How good was this one?!#" +
 
         "Okay, a better one\n" +
-        "What do you call a belt made out of watches?\n" +
-        "A waist of time!#" +
+        "1What do you call a belt made out of watches?\n" +
+        "2A waist of time!#" +
 
-        "I sold my vacuum the other day...\n" +
-        "all it was doing was collecting dust!#" +
+        "1I sold my vacuum the other day...\n" +
+        "2all it was doing was collecting dust!#" +
 
-        "How much does a skeleton weigh?\n" +
-        "A skeleTON!#" + 
+        "1How much does a skeleton weigh?\n" +
+        "2A skeleTON!#" +
 
-        "What is invisible and smells like carrots?\n" +
-        "Rabbit farts!#" +
+        "1What kind of shoes do ninjas wear?\n" +
+        "2Sneakers!#" +
 
         // 7
-        "I'm really starting to hate these stupid little Russian Dolls.\n" +
-        "They're so full of themselves.\n" + 
+        "1I'm really starting to hate these stupid little Russian Dolls.\n" +
+        "2They're so full of themselves.\n" + 
         "Here, take this wonderful artefact,\n" +
         "as a present for supporting me so much!#" +
 
         "Oh you're still here? Then I guess I'll have to entertain you a bit more!\n" +
         "Let's have fun!\n" + 
         "...\n" +
-        "What's the difference between a piano and a fish?!\n" +
-        "You can tune a piano, but you can't tuna fish!#" +
+        "1What's the difference between a piano and a fish?!\n" +
+        "2You can tune a piano, but you can't tuna fish!#" +
 
         "One more!\n" +
-        "What do you call a magician dog?\n" +
-        "A labracadabrador!#" +
+        "1What do you call a magician dog?\n" +
+        "2A labracadabrador!#" +
 
-        "One more!\n" +
-        "What do you call a magician dog?\n" +
-        "A labracadabrador!#" +
+        "One more!\n" +      
+        "1Why did the vet turn away the injured sea animal?\n" +
+        "2Do not accept if seal is broken!#" +
 
-        "Did you hear about the restaurant on the moon?\n" +
-        "Great food, but no atmosphere.#" +
+        "1Did you hear about the restaurant on the moon?\n" +
+        "2Great food, but no atmosphere.#" +
 
-        "Why don't dinosaurs talk?\n" +
-        "Because they're extinct.#" +
+        "1Why don't dinosaurs talk?\n" +
+        "2Because they're extinct.#" +
 
-        "Why did the scarecrow get promoted?\n" +
-        "He was outstanding in his field!#" +
+        "1Why did the scarecrow get promoted?\n" +
+        "2He was outstanding in his field!#" +
 
         "Woosh! I'm getting really good at this!\n" +
         "A few more and if you're still there I may give you something else!\n" +
-        "Why do gorillas have big nostrils?!\n" +
-        "Because gorillas have big fingers!#" +
+        "1Why do gorillas have big nostrils?!\n" +
+        "2Because gorillas have big fingers!#" +
 
-        "I used to be a banker,\n" +
-        "but I lost interest.#" +
+        "1I used to be a banker,\n" +
+        "2but I lost interest.#" +
 
-        "I'm reading a book about anti-gravity,\n" +
-        "it's impossible to put down!#" +
+        "1I'm reading a book about anti-gravity,\n" +
+        "2it's impossible to put down!#" +
 
         // 17
-        "You're such a good person!\n" +
+        "1You're such a good person!\n" +
         "...\n" +
         "...\n" +
         "...\n" +
@@ -242,7 +242,7 @@ public static class PNJDialogUtils {
         "...\n" +
         "...\n" +
         "No, really, I mean it, it wasn't one of my jokes!\n" +
-        "There!\n" +
+        "2There!\n" +
         "Take this shiny thing I found the other day while I was fleeing from angry rabbits!"
     ;
 

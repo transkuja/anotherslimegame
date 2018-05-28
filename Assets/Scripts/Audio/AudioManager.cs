@@ -50,9 +50,12 @@ public class AudioManager : MonoBehaviour
     public AudioClip musicAscenseur;
     public AudioClip endElevatorFx;
 
+    public AudioClip drumrollFx;
+    public AudioClip badumtssFx;
+
     private AudioClip musicToPlay;
     private AudioClip previousMusic;
-    
+
 
     [SerializeField]
     private float volumeMusic = 0.015f;

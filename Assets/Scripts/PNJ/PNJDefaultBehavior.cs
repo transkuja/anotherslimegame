@@ -14,6 +14,8 @@ public class PNJDefaultBehavior : MonoBehaviour {
     // Reward list
     protected RewardType[] rewards;
 
+    public bool isLocked = false;
+
     protected virtual void Start()
     {
         messages = new PNJMessages(PNJDialogUtils.GetDefaultMessages(pnjName),

@@ -31,7 +31,37 @@ public class JokerBehavior : PNJDefaultBehavior {
 
     public override string GetNextMessage(int index)
     {
-        return messages.GetQuestMessages(DatabaseManager.Db.JokerProgress).messages[index];
+        string nextMsg = messages.GetQuestMessages(DatabaseManager.Db.JokerProgress).messages[index];
+
+        if (nextMsg.StartsWith("1"))
+        {
+            if (AudioManager.Instance != null && AudioManager.Instance.drumrollFx != null)
+                AudioManager.Instance.PlayOneShot(AudioManager.Instance.drumrollFx);
+
+            nextMsg = nextMsg.Remove(0, 1);
+            GetComponentInChildren<PlayerCosmetics>().FaceEmotion = FaceEmotion.Attack;
+            isLocked = true;
+            Invoke("UnlockDialog", AudioManager.Instance.drumrollFx.length);
+        }
+        if (nextMsg.StartsWith("2"))
+        {
+            if (AudioManager.Instance != null && AudioManager.Instance.badumtssFx != null)
+                AudioManager.Instance.PlayOneShot(AudioManager.Instance.badumtssFx, 2.0f);
+
+            nextMsg = nextMsg.Remove(0, 1);
+            GetComponentInChildren<PlayerCosmetics>().FaceEmotion = FaceEmotion.Winner;
+            isLocked = true;
+            Invoke("UnlockDialog", AudioManager.Instance.badumtssFx.length);
+        }
+        else
+            GetComponentInChildren<PlayerCosmetics>().FaceEmotion = FaceEmotion.Neutral;
+
+        return nextMsg;
+    }
+
+    void UnlockDialog()
+    {
+        isLocked = false;
     }
 
     public override int GetNextMessagesLength()
