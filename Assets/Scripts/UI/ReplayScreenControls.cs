@@ -71,7 +71,7 @@ public class ReplayScreenControls : MonoBehaviour {
                 }
                 else
                 {
-                    LevelLoader.LoadLevelWithFadeOut("Hub");
+                    LevelLoader.LoadLevelWithLoadingScreen("Hub");
                 }
             }
         }
