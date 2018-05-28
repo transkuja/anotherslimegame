@@ -106,7 +106,7 @@ public class AudioManager : MonoBehaviour
     {
         get
         {
-           return youpiFX[Random.Range(0, youpiFX.Length-1)];
+           return youpiFX[Random.Range(0, youpiFX.Length)];
         }
     }
 
@@ -114,7 +114,7 @@ public class AudioManager : MonoBehaviour
     {
         get
         {
-            return lapinFx[Random.Range(0, lapinFx.Length-1)];
+            return lapinFx[Random.Range(0, lapinFx.Length)];
         }
     }
 
@@ -218,25 +218,25 @@ public class AudioManager : MonoBehaviour
 
     }
 
-    public void PlayOneShot(AudioClip clip)
+    public void PlayOneShot(AudioClip clip, float pitch = 1f)
     {
         int sourceFXIndex = 0;
         if (sourceFX[sourceFXIndex].isPlaying)
         {
             sourceFXIndex++;
         }
-
+        sourceFX[sourceFXIndex].pitch = pitch;
         sourceFX[sourceFXIndex].PlayOneShot(clip, volumeFXs);
     }
 
-    public void PlayOneShot(AudioClip clip, float volumeMultiplier)
+    public void PlayOneShot(AudioClip clip, float volumeMultiplier, float pitch)
     {
         int sourceFXIndex = 0;
         if (sourceFX[sourceFXIndex].isPlaying)
         {
             sourceFXIndex++;
         }
-
+        sourceFX[sourceFXIndex].pitch = pitch;
         sourceFX[sourceFXIndex].PlayOneShot(clip, volumeFXs * volumeMultiplier);
     }
 

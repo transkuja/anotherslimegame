@@ -143,7 +143,7 @@ public class PlayerCharacterHub : PlayerCharacter {
                                 }
                                 else
                                 {
-                                    AudioManager.Instance.PlayOneShot(AudioManager.Instance.sandStepFx, 10.0f);
+                                    AudioManager.Instance.PlayOneShot(AudioManager.Instance.sandStepFx, 10.0f, 1.0f);
                                 }
                             }
                 

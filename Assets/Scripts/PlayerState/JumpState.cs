@@ -3,6 +3,7 @@ using UnityEngine;
 using System;
 using UnityEngine.SceneManagement;
 using Cinemachine;
+using Random = UnityEngine.Random;
 
 public class JumpState : PlayerState
 {
@@ -105,7 +106,7 @@ public class JumpState : PlayerState
                         if (pnj && pnj.myAudioSource != null)
                             pnj.myAudioSource.PlayOneShot(jumpFx, 0.5f);
                         else
-                            AudioManager.Instance.PlayOneShot(jumpFx);
+                            AudioManager.Instance.PlayOneShot(jumpFx, Random.Range(1.0f, 1.15f));
                     }
           
                 }

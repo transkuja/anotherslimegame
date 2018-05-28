@@ -27,7 +27,7 @@ public class DashState : PlayerState
     {
         base.OnBegin();
         if (AudioManager.Instance != null && AudioManager.Instance.dashFx != null)
-            AudioManager.Instance.PlayOneShot(AudioManager.Instance.dashFx, 4);
+            AudioManager.Instance.PlayOneShot(AudioManager.Instance.dashFx, 4, 1.0f);
 
         if (playerCharacterHub.DashParticles && playerCharacterHub.DashParticles)
             playerCharacterHub.DashParticles.Play();

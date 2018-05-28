@@ -46,7 +46,7 @@ public class JokerBehavior : PNJDefaultBehavior {
         if (nextMsg.StartsWith("2"))
         {
             if (AudioManager.Instance != null && AudioManager.Instance.badumtssFx != null)
-                AudioManager.Instance.PlayOneShot(AudioManager.Instance.badumtssFx, 2.0f);
+                AudioManager.Instance.PlayOneShot(AudioManager.Instance.badumtssFx, 2.0f, 1.0f);
 
             nextMsg = nextMsg.Remove(0, 1);
             GetComponentInChildren<PlayerCosmetics>().FaceEmotion = FaceEmotion.Winner;

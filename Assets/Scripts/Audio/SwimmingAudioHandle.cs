@@ -7,6 +7,6 @@ public class SwimmingAudioHandle : MonoBehaviour {
     public void PlaySwimmingSound()
     {
         if (AudioManager.Instance != null && AudioManager.Instance.swimmingFx != null)
-            AudioManager.Instance.PlayOneShot(AudioManager.Instance.swimmingFx, 1.0f);
+            AudioManager.Instance.PlayOneShot(AudioManager.Instance.swimmingFx, 1.0f, 1.0f);
     }
 }
