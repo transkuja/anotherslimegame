@@ -85,13 +85,19 @@ public class DebugTools : MonoBehaviour {
                 Debug.Log("No debug panel, instantiate debug UI ...");
 
                 // UGLY
-                Transform canvasParent;
+                Transform canvasParent =null;
                 if (GameManager.UiReference == null)
-                    canvasParent = GameObject.FindObjectOfType<UI>().transform;
+                {
+                    UI ui = GameObject.FindObjectOfType<UI>();
+                    if (ui)
+                        canvasParent = ui.transform;
+                }
+
                 else
                     canvasParent = GameManager.UiReference.transform;
 
-                debugPanelReference = GameObject.Instantiate(debugPanelPrefab, canvasParent).transform;
+                if(canvasParent != null)
+                    debugPanelReference = GameObject.Instantiate(debugPanelPrefab, canvasParent).transform;
             }
             return debugPanelReference;
         }
