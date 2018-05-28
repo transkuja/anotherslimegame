@@ -48,6 +48,7 @@ public class GameManager : MonoBehaviour {
             {
 
                 instance = new GameObject("GameManager").AddComponent<GameManager>();
+                Cursor.visible = false;
                 DontDestroyOnLoad(instance);
             }
             return instance;
