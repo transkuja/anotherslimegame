@@ -48,9 +48,9 @@ public class FruitsSpawner : MonoBehaviour {
         {
             yield return new WaitForSeconds(fruitsSpawnDelay);
 
-            Vector3 positionToSpawnPlane = new Vector3(Random.Range(minX, maxX), 18.15f, Random.Range(minZ, maxZ));
+            //Vector3 positionToSpawnPlane = new Vector3(Random.Range(minX, maxX), 18.15f, Random.Range(minZ, maxZ));
 
-            if (nbPlayer == 1)
+            /*if (nbPlayer == 1)
             {
                 subPoolIndex = Random.Range(0, (int)nbPlayer + 1);
                 fruit = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.Fruits).GetItem(transform, positionToSpawnPlane, Quaternion.identity, true, false, subPoolIndex);
@@ -61,6 +61,64 @@ public class FruitsSpawner : MonoBehaviour {
             {
                 subPoolIndex = Random.Range(0, (int)nbPlayer);
                 fruit = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.Fruits).GetItem(transform, positionToSpawnPlane, Quaternion.identity, true, false, subPoolIndex);
+                fruit.GetComponent<BoxCollider>().enabled = true;
+                fruit.GetComponent<FruitType>().state = StateFruit.Safe;
+            }*/
+
+
+
+
+            if (nbPlayer == 1 || nbPlayer == 2)
+            {
+                Vector3 positionToSpawnPlane = new Vector3(Random.Range(minX, maxX), 18.15f, Random.Range(minZ, maxZ));
+                //subPoolIndex = Random.Range(0, (int)nbPlayer + 1);
+                fruit = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.Fruits).GetItem(transform, positionToSpawnPlane, Quaternion.identity, true, false, 0);
+                fruit.GetComponent<BoxCollider>().enabled = true;
+                fruit.GetComponent<FruitType>().state = StateFruit.Safe;
+
+                positionToSpawnPlane = new Vector3(Random.Range(minX, maxX), 18.15f, Random.Range(minZ, maxZ));
+                fruit = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.Fruits).GetItem(transform, positionToSpawnPlane, Quaternion.identity, true, false, 1);
+                fruit.GetComponent<BoxCollider>().enabled = true;
+                fruit.GetComponent<FruitType>().state = StateFruit.Safe;
+            }
+            else if (nbPlayer == 3)
+            {
+                //subPoolIndex = Random.Range(0, (int)nbPlayer + 1);
+                Vector3 positionToSpawnPlane = new Vector3(Random.Range(minX, maxX), 18.15f, Random.Range(minZ, maxZ));
+                fruit = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.Fruits).GetItem(transform, positionToSpawnPlane, Quaternion.identity, true, false, 0);
+                fruit.GetComponent<BoxCollider>().enabled = true;
+                fruit.GetComponent<FruitType>().state = StateFruit.Safe;
+
+                positionToSpawnPlane = new Vector3(Random.Range(minX, maxX), 18.15f, Random.Range(minZ, maxZ));
+                fruit = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.Fruits).GetItem(transform, positionToSpawnPlane, Quaternion.identity, true, false, 1);
+                fruit.GetComponent<BoxCollider>().enabled = true;
+                fruit.GetComponent<FruitType>().state = StateFruit.Safe;
+
+                positionToSpawnPlane = new Vector3(Random.Range(minX, maxX), 18.15f, Random.Range(minZ, maxZ));
+                fruit = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.Fruits).GetItem(transform, positionToSpawnPlane, Quaternion.identity, true, false, 2);
+                fruit.GetComponent<BoxCollider>().enabled = true;
+                fruit.GetComponent<FruitType>().state = StateFruit.Safe;
+            }
+            else if(nbPlayer == 4)
+            {
+                //subPoolIndex = Random.Range(0, (int)nbPlayer);
+                Vector3 positionToSpawnPlane = new Vector3(Random.Range(minX, maxX), 18.15f, Random.Range(minZ, maxZ));
+                fruit = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.Fruits).GetItem(transform, positionToSpawnPlane, Quaternion.identity, true, false, 0);
+                fruit.GetComponent<BoxCollider>().enabled = true;
+                fruit.GetComponent<FruitType>().state = StateFruit.Safe;
+
+                positionToSpawnPlane = new Vector3(Random.Range(minX, maxX), 18.15f, Random.Range(minZ, maxZ));
+                fruit = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.Fruits).GetItem(transform, positionToSpawnPlane, Quaternion.identity, true, false, 1);
+                fruit.GetComponent<BoxCollider>().enabled = true;
+                fruit.GetComponent<FruitType>().state = StateFruit.Safe;
+
+                positionToSpawnPlane = new Vector3(Random.Range(minX, maxX), 18.15f, Random.Range(minZ, maxZ));
+                fruit = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.Fruits).GetItem(transform, positionToSpawnPlane, Quaternion.identity, true, false, 2);
+                fruit.GetComponent<BoxCollider>().enabled = true;
+                fruit.GetComponent<FruitType>().state = StateFruit.Safe;
+
+                positionToSpawnPlane = new Vector3(Random.Range(minX, maxX), 18.15f, Random.Range(minZ, maxZ));
+                fruit = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.Fruits).GetItem(transform, positionToSpawnPlane, Quaternion.identity, true, false, 3);
                 fruit.GetComponent<BoxCollider>().enabled = true;
                 fruit.GetComponent<FruitType>().state = StateFruit.Safe;
             }

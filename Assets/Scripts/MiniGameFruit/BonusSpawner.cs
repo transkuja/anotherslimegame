@@ -68,44 +68,10 @@ public class BonusSpawner : MonoBehaviour {
 
                 StartCoroutine(UnspawnBonus(toInstantiate));
             }
-            else if(toInstantiate)
+            else if(toInstantiate == fruitBonus)
             {
                 toInstantiate = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.BonusFruit).GetItem(transform, new Vector3(Random.Range(minX, maxX), 18.15f, Random.Range(minZ, maxZ)), Quaternion.identity, true, false, 2);
                 toInstantiate.GetComponent<Rigidbody>().useGravity = true;
-
-                //TO DO : Mettre le type du fruit random entre les 4 possible (Et l'indiquer avec un material ?) Ou bien rien et le premier qui le prend a les points (donc pas de type précis, il est multi-type)
-                if (GameManager.Instance.PlayerStart.ActivePlayersAtStart == 1)
-                {
-                    toInstantiate.GetComponent<FruitType>().typeFruit = (Fruit)Random.Range(0, (int)GameManager.Instance.PlayerStart.ActivePlayersAtStart + 1);
-                    if (toInstantiate.GetComponent<FruitType>().typeFruit == Fruit.Clementine)
-                    {
-                        toInstantiate.GetComponent<Renderer>().material = matClementine;
-                    }
-                    else if (toInstantiate.GetComponent<FruitType>().typeFruit == Fruit.Pomme)
-                    {
-                        toInstantiate.GetComponent<Renderer>().material = matPomme;
-                    }
-                }
-                else
-                {
-                    toInstantiate.GetComponent<FruitType>().typeFruit = (Fruit)Random.Range(0, (int)GameManager.Instance.PlayerStart.ActivePlayersAtStart);
-                    if (toInstantiate.GetComponent<FruitType>().typeFruit == Fruit.Clementine)
-                    {
-                        toInstantiate.GetComponent<Renderer>().material = matClementine;
-                    }
-                    else if (toInstantiate.GetComponent<FruitType>().typeFruit == Fruit.Pomme)
-                    {
-                        toInstantiate.GetComponent<Renderer>().material = matPomme;
-                    }
-                    else if (toInstantiate.GetComponent<FruitType>().typeFruit == Fruit.Kiwi)
-                    {
-                        toInstantiate.GetComponent<Renderer>().material = matKiwi;
-                    }
-                    else if (toInstantiate.GetComponent<FruitType>().typeFruit == Fruit.Fraise)
-                    {
-                        toInstantiate.GetComponent<Renderer>().material = matFraise;
-                    }
-                }
                 StartCoroutine(UnspawnBonus(toInstantiate));
             }
         }
