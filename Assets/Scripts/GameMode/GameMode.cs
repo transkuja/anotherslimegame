@@ -246,7 +246,7 @@ abstract public class GameMode : MonoBehaviour
         Instantiate(ResourceUtils.Instance.feedbacksManager.game);
 
         if (AudioManager.Instance != null && AudioManager.Instance.gameFx != null)
-            AudioManager.Instance.PlayOneShot(AudioManager.Instance.gameFx);
+            AudioManager.Instance.Play(AudioManager.Instance.gameFx, 2.0f);
 
         // A cause du time scale
         StartCoroutine(InvokeRealTimeHelper(1f));
