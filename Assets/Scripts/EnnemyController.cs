@@ -281,7 +281,7 @@ public class EnnemyController : MonoBehaviour {
             if (GameManager.Instance.IsInHub())
             {
                 GameObject go = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.Money).GetItem(null, transform.position + Vector3.up * 0.5f, Quaternion.identity, true);
-                go.GetComponent<Collectable>().Disperse(i);
+                go.GetComponent<Collectable>().Disperse();
             }
         }
     }

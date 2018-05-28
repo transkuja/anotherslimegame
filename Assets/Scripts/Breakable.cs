@@ -125,13 +125,13 @@ public class Breakable : MonoBehaviour {
             {
                 GameObject go = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.Money).GetItem(null, transform.position + Vector3.up * 0.5f, Quaternion.identity, true);
 
-                go.GetComponent<Collectable>().Disperse(i);
+                go.GetComponent<Collectable>().Disperse();
             }
             else
             {
                 GameObject go = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.CollectablePoints).GetItem(null, transform.position + Vector3.up * 0.5f, Quaternion.identity, true);
 
-                go.GetComponent<Collectable>().Disperse(i);
+                go.GetComponent<Collectable>().Disperse();
             }
 
 

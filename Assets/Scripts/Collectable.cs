@@ -71,13 +71,13 @@ public class Collectable : MonoBehaviour
                 haveToDisperse = true;
             }
             isAttracted = false;
+            if (GetComponent<Rigidbody>())
+                GetComponent<Rigidbody>().WakeUp();
             if (GetComponent<Collider>())
                 GetComponent<Collider>().enabled = true;
             playerTarget = null;
             if (GetComponent<Animator>())
                 GetComponent<Animator>().enabled = true;
-            if (GetComponent<Rigidbody>())
-                GetComponent<Rigidbody>().WakeUp();
             isCollected = false;
             GetComponentInChildren<Renderer>().enabled = true;
         }
@@ -89,13 +89,15 @@ public class Collectable : MonoBehaviour
         needInitialisation = false;
     }
 
-    public void Disperse(int index)
+    public void Disperse()
     {
+        gameObject.SetActive(true);
         haveToDisperse = true;
         Value = Utils.GetDefaultCollectableValue((int)type);
         Vector3 dir = new Vector3(Random.Range(-10.0f, 10.0f), Random.Range(-10.0f, 10.0f), Random.Range(-10.0f, 10.0f)).normalized;
+        GetComponent<Rigidbody>().velocity = Vector3.zero;
         GetComponent<Rigidbody>().AddForce(dir*Random.Range(7.5f, 12.0f), ForceMode.Impulse);
-        StartCoroutine(ReactivateCollider());
+        StartCoroutine(EnablePickup());
         needInitialisation = false;
     }
 
@@ -213,11 +215,10 @@ public class Collectable : MonoBehaviour
         }
     }
 
-    public IEnumerator ReactivateCollider()
+    public IEnumerator EnablePickup()
     {
         yield return new WaitForSeconds(1.0f);
         haveToDisperse = false;
-        yield return null;
     }
 
     IEnumerator WaitForParticles()

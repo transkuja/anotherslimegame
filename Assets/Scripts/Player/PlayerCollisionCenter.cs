@@ -374,7 +374,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
         for (int i = 0; i < numberOfCollectablesToDrop; i++)
         {
             GameObject go = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.Money).GetItem(null, transform.position + Vector3.up * 0.5f, player.transform.rotation, true);
-            go.GetComponent<Collectable>().Disperse(i);
+            go.GetComponent<Collectable>().Disperse();
         }
     }
 
@@ -413,7 +413,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
             if (_damageOn == PlayerUIStat.Points)
             {
                 GameObject go = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.CollectablePoints).GetItem(null, transform.position + Vector3.up * 0.5f, player.transform.rotation, true);
-                go.GetComponent<Collectable>().Disperse(i);
+                go.GetComponent<Collectable>().Disperse();
             }
         }
     }
