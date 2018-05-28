@@ -20,9 +20,13 @@ public class AudioManager : MonoBehaviour
 
     public AudioClip coinFX;
     public AudioClip youpiFX;
+    public AudioClip upFX;
+    public AudioClip up1FX;
+    public AudioClip sayJumpFx;
+    public AudioClip gameFX;
     public AudioClip hahahaFX;
+    public AudioClip grrrFx;
     public AudioClip wahhFx;
-    public AudioClip wahhFxRabbit;
     public AudioClip blobSound;
     public AudioClip punchFx;
     public AudioClip breakFx;
@@ -95,6 +99,27 @@ public class AudioManager : MonoBehaviour
             volumeFXs = value;
             foreach (AudioSource source in sourceFX)
                 source.volume = volumeFXs;
+        }
+    }
+
+    public AudioClip YoupiFX
+    {
+        get
+        {
+            int rand = Random.Range(0, 4);
+            if (0 == rand)
+                return youpiFX;
+            else if (1 == rand)
+                return up1FX;
+            else if (2 == rand)
+                return sayJumpFx;
+            else
+                return upFX;
+        }
+
+        set
+        {
+            youpiFX = value;
         }
     }
 

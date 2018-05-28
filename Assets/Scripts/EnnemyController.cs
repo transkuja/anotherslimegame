@@ -40,6 +40,9 @@ public class EnnemyController : MonoBehaviour {
 
     public bool isSpawned = false;
 
+    public AudioSource myAudioSource = null;
+
+    private float speed = 0.66f;
     public enum RabiteState
     {
         Wander,
@@ -164,7 +167,7 @@ public class EnnemyController : MonoBehaviour {
         {
             transform.LookAt(currentWanderPosTarget);
 
-            HandleMovement(0, 1);
+            HandleMovement(0, speed);
 
             if (Vector3.Distance(currentWanderPosTarget, transform.position) < 2.0f)
             {
@@ -200,8 +203,7 @@ public class EnnemyController : MonoBehaviour {
     void Pursuit()
     {
         transform.LookAt(currentTarget.transform.position);
-        HandleMovement(0, 1);
-
+        HandleMovement(0, speed + 0.1f);
         if (Vector3.Distance(currentTarget.transform.position, transform.position) < attackRange)
         {
             CurrentState = RabiteState.Attack;

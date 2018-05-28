@@ -420,18 +420,6 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
     public void ExpulsePlayer(Vector3 collisionPoint, Rigidbody rbPlayerToExpulse, float repulsionFactor)
     {
-        // play fx
-        if (rbPlayerToExpulse.GetComponent<PNJController>() || rbPlayerToExpulse.GetComponent<PlayerControllerHub>())
-        {
-            if (AudioManager.Instance != null && AudioManager.Instance.wahhFx != null)
-                AudioManager.Instance.PlayOneShot(AudioManager.Instance.wahhFx);
-        }
-        else
-        {
-            if (AudioManager.Instance != null && AudioManager.Instance.wahhFxRabbit != null)
-                AudioManager.Instance.PlayOneShot(AudioManager.Instance.wahhFxRabbit);
-        }
-
         Vector3 direction = rbPlayerToExpulse.position - collisionPoint;
         direction.y = 0;
 

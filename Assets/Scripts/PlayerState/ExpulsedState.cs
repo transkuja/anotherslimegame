@@ -13,15 +13,30 @@ public class ExpulsedState : PlayerState
     public override void OnBegin()
     {
         base.OnBegin();
-        if (AudioManager.Instance != null && AudioManager.Instance.hahahaFX != null)
+        if (AudioManager.Instance != null )
         {
-            if (playerCharacterHub.GetComponent<PNJController>() && playerCharacterHub.GetComponent<PNJController>().myAudioSource != null)
+            if (playerCharacterHub.GetComponent<EnnemyController>())
             {
-                playerCharacterHub.GetComponent<PNJController>().myAudioSource.PlayOneShot(AudioManager.Instance.hahahaFX, 0.5f);
+                if (AudioManager.Instance.grrrFx != null)
+                    playerCharacterHub.GetComponent<EnnemyController>().myAudioSource.PlayOneShot(AudioManager.Instance.grrrFx);
+            }
+            else if (playerCharacterHub.GetComponent<PNJController>() && playerCharacterHub.GetComponent<PNJController>().myAudioSource != null)
+            {
+                if (playerCharacterHub.GetComponent<PNJController>().isHappy)
+                {
+                    if (AudioManager.Instance.wahhFx != null)
+                        playerCharacterHub.GetComponent<PNJController>().myAudioSource.PlayOneShot(AudioManager.Instance.wahhFx);
+                }
+                else
+                {
+                    if (AudioManager.Instance.hahahaFX != null)
+                        playerCharacterHub.GetComponent<PNJController>().myAudioSource.PlayOneShot(AudioManager.Instance.hahahaFX);
+                }
             }
             else
             {
-                AudioManager.Instance.PlayOneShot(AudioManager.Instance.hahahaFX);
+                if (AudioManager.Instance.hahahaFX != null)
+                    AudioManager.Instance.PlayOneShot(AudioManager.Instance.hahahaFX);
             }
         }
      

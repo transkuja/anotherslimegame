@@ -452,8 +452,13 @@ public class PlatformGameplay : MonoBehaviour {
                 {
                     if(GetComponentInChildren<Animator>())GetComponentInChildren<Animator>().SetBool("animate", true);
                     collision.gameObject.GetComponent<PlayerCharacterHub>().jumpState.NbJumpMade = 1;
+
+                    // play fx
+                    if (AudioManager.Instance != null && AudioManager.Instance.youpiFX != null)
+                        AudioManager.Instance.PlayOneShot(AudioManager.Instance.youpiFX);
+
                 }
-                  
+
             }
         }
     }

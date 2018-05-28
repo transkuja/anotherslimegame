@@ -97,17 +97,17 @@ public class JumpState : PlayerState
 
             if (NbJumpMade > 1)
             {
-            
-                if (AudioManager.Instance != null && AudioManager.Instance.youpiFX != null)
+                if (AudioManager.Instance != null)
                 {
-                    if (pnj && pnj.myAudioSource != null)
+                    AudioClip jumpFx = AudioManager.Instance.YoupiFX;
+                    if (jumpFx)
                     {
-                        pnj.myAudioSource.PlayOneShot(AudioManager.Instance.youpiFX, 0.5f);
+                        if (pnj && pnj.myAudioSource != null)
+                            pnj.myAudioSource.PlayOneShot(jumpFx, 0.5f);
+                        else
+                            AudioManager.Instance.PlayOneShot(jumpFx);
                     }
-                    else
-                    {
-                        AudioManager.Instance.PlayOneShot(AudioManager.Instance.youpiFX);
-                    }
+          
                 }
 
             }
