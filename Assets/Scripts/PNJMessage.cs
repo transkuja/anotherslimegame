@@ -71,7 +71,7 @@ public class PNJMessage : MonoBehaviour {
 
     public void DisplayMessage(int playerIndex)
     {
-        if (myBehavior.isLocked)
+        if (myBehavior && myBehavior.isLocked)
             return;
 
         currentMessage++;
