@@ -4,6 +4,16 @@ using UnityEngine;
 
 public static class PNJDialogUtils {
 
+    // Vendor Eric
+    static string EricDM = "";
+    static FaceEmotion[] EricDE = new FaceEmotion[1] { FaceEmotion.Neutral };
+    static string EricQM = "Do you want to change your outfits ?"
+    ;
+
+    static FaceEmotion[] EricQE = new FaceEmotion[3] {
+        FaceEmotion.Neutral, FaceEmotion.Neutral, FaceEmotion.Winner
+    };
+
     // Vincent Tuto
     static string VincentDM = "You're new here, right?!\n"
        + "I heard that if you can collect 2 runes\n" /* going through this portal in order to grab a rune which will unlock\n"*/
@@ -376,6 +386,8 @@ public static class PNJDialogUtils {
                 return GwenDM;
             case PNJName.Bob:
                 return BobDM;
+            case PNJName.Eric:
+                return EricDM;
             case PNJName.Roger:
                 return RogerDM;
             case PNJName.Risotto:
@@ -420,20 +432,22 @@ public static class PNJDialogUtils {
                 return RogerQM;
             case PNJName.Risotto:
                 return RisottoQM;
-            /*case PNJName.Remi:
-                return RemiQM;
-            case PNJName.Remi:
-                return RemiQM;
-            case PNJName.Olivier:
-                return OlivierQM;
-            case PNJName.Anais:
-                return AnaisQM;
-            case PNJName.Seb:
-                return SebQM;
-            case PNJName.Mathieu:
-                return MathieuQM;
-            case PNJName.Theo:
-                return TheoQM;*/
+            case PNJName.Eric:
+                return EricQM;
+                /*case PNJName.Remi:
+                    return RemiQM;
+                case PNJName.Remi:
+                    return RemiQM;
+                case PNJName.Olivier:
+                    return OlivierQM;
+                case PNJName.Anais:
+                    return AnaisQM;
+                case PNJName.Seb:
+                    return SebQM;
+                case PNJName.Mathieu:
+                    return MathieuQM;
+                case PNJName.Theo:
+                    return TheoQM;*/
         }
         return "";
     }
@@ -473,6 +487,8 @@ public static class PNJDialogUtils {
                 return VincentDE;
             case PNJName.Alex:
                 return AlexDE;
+            case PNJName.Eric:
+                return EricDE;
         }
         return null;
     }
@@ -494,20 +510,22 @@ public static class PNJDialogUtils {
                 return RogerQE;
             case PNJName.Risotto:
                 return RisottoQE;
-            /*case PNJName.Remi:
-                return RemiQE;
-            case PNJName.Antho:
-                return AnthoQE;
-            case PNJName.Olivier:
-                return OlivierQE;
-            case PNJName.Anais:
-                return AnaisQE;
-            case PNJName.Seb:
-                return SebQE;
-            case PNJName.Mathieu:
-                return MathieuQE;
-            case PNJName.Theo:
-                return TheoQE;*/
+            case PNJName.Eric:
+                return EricQE;
+                /*case PNJName.Remi:
+                    return RemiQE;
+                case PNJName.Antho:
+                    return AnthoQE;
+                case PNJName.Olivier:
+                    return OlivierQE;
+                case PNJName.Anais:
+                    return AnaisQE;
+                case PNJName.Seb:
+                    return SebQE;
+                case PNJName.Mathieu:
+                    return MathieuQE;
+                case PNJName.Theo:
+                    return TheoQE;*/
         }
         return null;
     }
