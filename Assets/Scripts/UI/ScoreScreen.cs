@@ -251,18 +251,10 @@ public class ScoreScreen : MonoBehaviour {
                     players[i].GetComponent<Player>().cameraReference.SetActive(false);
             }
             GameManager.Instance.CurrentGameMode.EndMinigame();
-
-            EnablePodium(players);
-
-
-            
         }
     }
 
-    void EnablePodium(List<GameObject> _players)
-    {
-        LevelLoader.LoadLevelWithFadeOut("Podium");
-    }
+ 
 
     void PlayAddToScoreAnimation(RuneObjective _objectiveType)
     {

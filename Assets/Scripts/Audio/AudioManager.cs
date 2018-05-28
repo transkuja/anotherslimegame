@@ -36,6 +36,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip sandStepFx;
     public AudioClip cascadaFx;
     public AudioClip windBlowingFx;
+    public AudioClip gameFx;
 
     public AudioClip buttonValidationFx;
     public AudioClip changeOptionFx;

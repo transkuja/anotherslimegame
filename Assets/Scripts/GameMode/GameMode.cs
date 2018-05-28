@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UWPAndXInput;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public enum ViewMode {
     thirdPerson3d, // Camera + deplacement comme dans  hub
@@ -239,7 +240,29 @@ abstract public class GameMode : MonoBehaviour
     // Used to handle specific extra behavior at the end of the minigame
     public virtual void EndMinigame()
     {
+        if (cursors)
+            cursors.DisableCursors();
+            
+        Instantiate(ResourceUtils.Instance.feedbacksManager.game);
 
+        if (AudioManager.Instance != null && AudioManager.Instance.gameFx != null)
+            AudioManager.Instance.PlayOneShot(AudioManager.Instance.gameFx);
+
+        // A cause du time scale
+        StartCoroutine(InvokeRealTimeHelper(1f));
+        Time.timeScale = 0.0f;
+    }
+
+    private IEnumerator InvokeRealTimeHelper(float delay)
+    {
+        float timeElapsed = 0f;
+        while (timeElapsed < delay)
+        {
+            timeElapsed += Time.unscaledDeltaTime;
+            yield return null;
+        }
+        Time.timeScale = 1.0f;
+        LevelLoader.LoadLevelWithFadeOut("Podium");
     }
 
     /* 

@@ -250,6 +250,7 @@ public class FoodGameMode : GameMode {
     public override void EndMinigame()
     {
         minigameUI.SetActive(false);
+        base.EndMinigame();
     }
 
     bool CheckRuneObjectiveForFood()
