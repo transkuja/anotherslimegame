@@ -10,8 +10,12 @@ public class GoalTrigger : MonoBehaviour {
     {
         if(other.GetComponent<TheBall>())
         {
-            if(! DatabaseManager.Db.IsUnlock<DatabaseClass.RuneData>(rune.GetComponent<Collectable>().idRune))
-                DropRuneOnTheGround();
+            // will fix the after the rune was get
+            if(rune && rune.GetComponent<Collectable>())
+            {
+                if (!DatabaseManager.Db.IsUnlock<DatabaseClass.RuneData>(rune.GetComponent<Collectable>().idRune))
+                    DropRuneOnTheGround();
+            }
         }
     }
 

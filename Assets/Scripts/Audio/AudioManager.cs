@@ -103,7 +103,7 @@ public class AudioManager : MonoBehaviour
     {
         get
         {
-           return youpiFX[Random.Range(0, youpiFX.Length)];
+           return youpiFX[Random.Range(0, youpiFX.Length-1)];
         }
     }
 
@@ -111,7 +111,7 @@ public class AudioManager : MonoBehaviour
     {
         get
         {
-            return lapinFx[Random.Range(0, youpiFX.Length)];
+            return lapinFx[Random.Range(0, lapinFx.Length-1)];
         }
     }
 
