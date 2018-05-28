@@ -111,10 +111,8 @@ public class ScoreScreen : MonoBehaviour {
             //{
             if (GameManager.Instance.CurrentGameMode.GetType() == typeof(KartGameMode))
             {
-                Debug.Log(time);
                 player.NbPoints = (int)time;
             }
-            Debug.Log(player.NbPoints);
             container.lastScores[(int)player.GetComponent<PlayerController>().playerIndex] = player.NbPoints;
 
             //}

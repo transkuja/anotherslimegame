@@ -738,8 +738,6 @@ namespace DatabaseClass
             skins.Add(new SkinData { Id = strSkins[++idSkins], texture = "Skins/Catch2", skinType = SkinType.Texture, isUnlocked = false, costToUnlock = 600 });
             skins.Add(new SkinData { Id = strSkins[++idSkins], texture = "Skins/Catch3", skinType = SkinType.Texture, isUnlocked = false, costToUnlock = 600 });
             skins.Add(new SkinData { Id = strSkins[++idSkins], texture = "Skins/Panda", skinType = SkinType.Texture, isUnlocked = false, costToUnlock = 600 });
-            skins.Add(new SkinData { Id = strSkins[++idSkins], texture = "Skins/Spe1", skinType = SkinType.Texture, isUnlocked = false, costToUnlock = 600 });
-            skins.Add(new SkinData { Id = strSkins[++idSkins], texture = "Skins/Spe2", skinType = SkinType.Texture, isUnlocked = false, costToUnlock = 600 });
 
             SneakyChiefProgress = 0;
             JokerProgress = 0;
