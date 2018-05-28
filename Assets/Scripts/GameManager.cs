@@ -266,7 +266,9 @@ public class GameManager : MonoBehaviour {
 
                 currentState = GameState.Paused;
                 pauseMenuReference.gameObject.SetActive(true);
-                UiReference.TooglePersistenceUI(true);
+                UiReference.TooglePersistenceUI(false, CollectableType.Money, 0.0f);
+                pauseMenuReference.transform.GetChild(4).GetChild(0).GetComponentInChildren<UnityEngine.UI.Text>().text = Instance.GlobalMoney.ToString();
+                pauseMenuReference.transform.GetChild(4).GetChild(1).GetChild(1).GetComponent<UnityEngine.UI.Text>().text = Instance.Runes.ToString();
                 for (int i = 0; i < instance.playerStart.ActivePlayersAtStart; i++)
                 {
                     PlayerCharacterHub curPlayerCharacter = instance.playerStart.PlayersReference[i].GetComponent<PlayerCharacterHub>();
@@ -291,7 +293,7 @@ public class GameManager : MonoBehaviour {
                 Time.timeScale = 1;
                 currentState = GameState.Normal;
                 pauseMenuReference.gameObject.SetActive(false);
-                UiReference.TooglePersistenceUI(false);
+
                 for (int i = 0; i < instance.playerStart.ActivePlayersAtStart; i++)
                 {
                     PlayerCharacterHub curPlayerCharacter = instance.playerStart.PlayersReference[i].GetComponent<PlayerCharacterHub>();

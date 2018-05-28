@@ -99,6 +99,15 @@ public class UI : MonoBehaviour {
             GetComponent<Canvas>().renderMode = RenderMode.ScreenSpaceOverlay;
         }
 
+        if( SlimeDataContainer.instance != null && SlimeDataContainer.instance.nbPlayers > 1)
+        {
+            if (SceneManager.GetActiveScene().name != "Podium")
+            {
+                UIref.transform.localPosition = new Vector3(-115.0f, 360f);
+                UIref.GetChild(0).GetComponent<Image>().enabled = true;
+                UIref.GetChild(1).GetComponent<Image>().enabled = true;
+            }
+        }
     }
 
     public void Update()
@@ -152,14 +161,14 @@ public class UI : MonoBehaviour {
     public void HandleFeedback(CollectableType type)
     {
         if (type == CollectableType.Rune)
-            HandleFeedback(runeText, runeTextOriginalState);
+            HandleFeedback(type, runeText, runeTextOriginalState);
         if (type == CollectableType.Money)
-            HandleFeedback(ptsText, ptsTextOriginalState);
+            HandleFeedback(type, ptsText, ptsTextOriginalState);
     }
 
-    public void HandleFeedback(Transform txtToChange, Transform originalState)
+    public void HandleFeedback(CollectableType type,Transform txtToChange, Transform originalState)
     {
-        TooglePersistenceUI(true);
+        TooglePersistenceUI(true, type);
         txtToChange.GetComponent<Text>().fontSize += 20;
 
         isUiShown = true;
@@ -199,7 +208,7 @@ public class UI : MonoBehaviour {
     }
 
 
-    public void TooglePersistenceUI(bool active)
+    public void TooglePersistenceUI(bool active, CollectableType type = CollectableType.Money, float t =1.0f)
     {
         if (active)
         {
@@ -208,19 +217,23 @@ public class UI : MonoBehaviour {
             // Reset timer
             currentTimer = 0.0f;
             if(!UIref.gameObject.activeSelf)
-                StartCoroutine(FadeIn(.75f));
+                StartCoroutine(FadeIn(.75f, type));
         }
         else
         {
             if (UIref.gameObject.activeSelf)
-                StartCoroutine(FadeOut(1.0f));
+                StartCoroutine(FadeOut(t));
         }
 
     }
 
-    IEnumerator FadeIn(float seconds)
+    IEnumerator FadeIn(float seconds, CollectableType type)
     {
         UIref.gameObject.SetActive(true);
+        if (type == CollectableType.Money)
+            UIref.GetChild(0).gameObject.SetActive(true);
+        if (type == CollectableType.Rune)
+            UIref.GetChild(1).gameObject.SetActive(true);
         Image[] images = UIref.GetComponentsInChildren<Image>();
         Text[] texts = UIref.GetComponentsInChildren<Text>();
 
@@ -250,6 +263,8 @@ public class UI : MonoBehaviour {
 
     IEnumerator FadeOut(float seconds)
     {
+        UIref.GetChild(0).gameObject.SetActive(false);
+        UIref.GetChild(1).gameObject.SetActive(false);
         Image[] images = UIref.GetComponentsInChildren<Image>();
         Text[] texts = UIref.GetComponentsInChildren<Text>();
         float timer = 0.0f;
