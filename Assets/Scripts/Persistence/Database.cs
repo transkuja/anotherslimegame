@@ -517,7 +517,8 @@ namespace DatabaseClass
                                 "Color 15",
                                 "Color 16",
                                 "Color 17",
-                                "Color 18"
+                                "Color 18",
+                                "White"
             };
             Color[] tabColor = { new Color(255, 197, 41, 255) / 255,
                                 new Color(244, 230, 81, 255) / 255,
@@ -536,7 +537,8 @@ namespace DatabaseClass
                                 new Color(225, 121, 71, 255) / 255,
                                 new Color(244, 59, 151, 255) / 255,
                                 new Color(236, 108, 108, 255) / 255,
-                                new Color(236, 81, 24, 255) / 255
+                                new Color(236, 81, 24, 255) / 255,
+                                new Color(255, 255, 255, 255) / 255
             };
             colors.Add(new ColorData { Id = strColor[idColors], color = tabColor[idColors], isUnlocked = true });
             colors.Add(new ColorData { Id = strColor[++idColors], color = tabColor[idColors], isUnlocked = true });
