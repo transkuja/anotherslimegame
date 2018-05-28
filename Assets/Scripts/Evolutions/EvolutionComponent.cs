@@ -81,7 +81,7 @@ public class EvolutionComponent : MonoBehaviour {
             if (feedbackCooldownImg == null)
             {
                 // Ça c'est cadeau
-                feedbackCooldownImg = ResourceUtils.Instance.feedbackCooldown.transform.GetChild(SlimeDataContainer.instance.nbPlayers - 1).GetChild((int)GetComponent<PlayerControllerHub>().playerIndex).GetComponentInChildren<UnityEngine.UI.Image>();               
+                feedbackCooldownImg = ResourceUtils.Instance.feedbackCooldown.transform.GetChild(SlimeDataContainer.instance.nbPlayers - 1).GetChild((int)GetComponent<PlayerControllerHub>().playerIndex).GetChild(1).GetComponent<Image>();               
             }
         }
     }

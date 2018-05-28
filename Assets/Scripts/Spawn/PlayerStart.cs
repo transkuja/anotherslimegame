@@ -119,7 +119,37 @@ public class PlayerStart : MonoBehaviour {
         if (AudioManager.Instance != null)
             AudioManager.Instance.Init();
 
-        ResourceUtils.Instance.feedbackCooldown.transform.GetChild(SlimeDataContainer.instance.nbPlayers - 1).gameObject.SetActive(true);
+        Transform feedbacksCooldown = ResourceUtils.Instance.feedbackCooldown.transform;
+
+        if (GameManager.Instance.IsInHub() || GameManager.Instance.CurrentGameMode is Runner3DGameMode)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                feedbacksCooldown.GetChild(i).gameObject.SetActive(i == SlimeDataContainer.instance.nbPlayers - 1);
+            }
+            for (int i = 0; i < feedbacksCooldown.GetChild(SlimeDataContainer.instance.nbPlayers - 1).childCount; i++)
+            {
+                if (GameManager.Instance.IsInHub())
+                {
+                    feedbacksCooldown.GetChild(SlimeDataContainer.instance.nbPlayers - 1).GetChild(i).GetChild(0).gameObject.SetActive(false); // deactivate alpha
+                    Image feedbackImg = feedbacksCooldown.GetChild(SlimeDataContainer.instance.nbPlayers - 1).GetChild(i).GetChild(1).GetComponent<Image>();
+                    feedbackImg.fillMethod = Image.FillMethod.Radial360;
+                    feedbackImg.fillOrigin = 2;
+                }
+                else if (GameManager.Instance.CurrentGameMode is Runner3DGameMode && GameManager.Instance.CurrentGameMode.minigameVersion != 0)
+                {
+                    feedbacksCooldown.GetChild(SlimeDataContainer.instance.nbPlayers - 1).GetChild(i).GetChild(0).gameObject.SetActive(true); // activate alpha
+                    Image feedbackImg = feedbacksCooldown.GetChild(SlimeDataContainer.instance.nbPlayers - 1).GetChild(i).GetChild(1).GetComponent<Image>();
+                    feedbackImg.fillMethod = Image.FillMethod.Vertical;
+                    feedbackImg.fillOrigin = 0;
+                }
+            }
+        }
+        else
+        {
+            for (int i = 0; i < 4; i++)
+                feedbacksCooldown.GetChild(i).gameObject.SetActive(false);
+        }
     }
 
     public Transform GetPlayerStart(uint playerIndex)

@@ -54,6 +54,14 @@ public class EvolutionPlatformist : EvolutionComponent {
             hasPlayedSecondTuto = true;
         }
 
+        if (GameManager.Instance.CurrentGameMode is Runner3DGameMode && GameManager.Instance.CurrentGameMode.minigameVersion != 0)
+        {
+            feedbackCooldownImg.transform.parent.GetChild(0).GetComponent<Image>().sprite = ResourceUtils.Instance.spriteUtils.Platformist;
+            feedbackCooldownImg.transform.parent.GetChild(0).GetChild(0).gameObject.SetActive(true);
+            feedbackCooldownImg.fillAmount = 1;
+
+        }
+
         if (feedbackCooldownImg != null)
             feedbackCooldownImg.sprite = ResourceUtils.Instance.spriteUtils.Platformist;
     }
@@ -142,17 +150,21 @@ public class EvolutionPlatformist : EvolutionComponent {
         if (Charges < maxCharges)
         {
             timerBeforeCharge += Time.deltaTime;
+
+            if (GameManager.Instance.CurrentGameMode is Runner3DGameMode)
+            {
+                feedbackCooldownImg.fillAmount = timerBeforeCharge/cooldownCharge;
+            }
+
             if (timerBeforeCharge >= cooldownCharge)
             {
+                if (GameManager.Instance.CurrentGameMode is Runner3DGameMode && GameManager.Instance.CurrentGameMode.minigameVersion != 0)
+                    feedbackCooldownImg.transform.parent.GetChild(0).GetChild(0).gameObject.SetActive(true);
                 Charges = maxCharges;
                 timerBeforeCharge = 0.0f;
             }
         }
 
-        if (GameManager.Instance.CurrentGameMode is Runner3DGameMode)
-        {
-
-        }
     }
 
     //public void CreatePlatform(GamePadState receivedInput)
@@ -216,6 +228,9 @@ public class EvolutionPlatformist : EvolutionComponent {
                     trappedComponent.owner = GetComponent<Player>();
             }
             Charges = 0;
+
+            if (GameManager.Instance.CurrentGameMode is Runner3DGameMode && GameManager.Instance.CurrentGameMode.minigameVersion != 0)
+                feedbackCooldownImg.transform.parent.GetChild(0).GetChild(0).gameObject.SetActive(false);
         }
     }
     
