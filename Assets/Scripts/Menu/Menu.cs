@@ -136,11 +136,6 @@ public class Menu : MonoBehaviour {
         Cursor.visible = false;
         minigameTypeSelected = false;
 
-        if (SlimeDataContainer.instance != null && SlimeDataContainer.instance.isInTheShop)
-        {
-            SetState(MenuState.CustomisationScreen);
-        }
-
         // Deactivate debug tools in menu
         if (ResourceUtils.Instance != null && ResourceUtils.Instance.debugTools != null)
             ResourceUtils.Instance.debugTools.ActivateDebugMode();
@@ -213,7 +208,7 @@ public class Menu : MonoBehaviour {
         }
 
         // Load data from container if players come from a minigame. Menu initialized on minigame selection screen.
-        if (DataContainer.launchedFromMinigameScreen)
+        if (DataContainer.launchedFromMinigameScreen || DataContainer.isInTheShop)
         {
             nbPlayers = dataContainer.nbPlayers;
             selectedMode = (dataContainer.launchedFromMinigameScreen) ? 1 : 0;
@@ -271,6 +266,14 @@ public class Menu : MonoBehaviour {
 
                 currentlySelectedOption = new int[4];
             }
+
+            if (DataContainer.isInTheShop)
+            {
+                selectedMode = 0;
+                nbPlayers = SlimeDataContainer.instance.nbPlayers;
+                SetState(MenuState.CustomisationScreen);
+            }
+
             SetState(MenuState.MinigameSelection);
         }
         // Default behaviour. Start on title screen.
@@ -286,7 +289,7 @@ public class Menu : MonoBehaviour {
                     }
                 }
             }
-            
+
             SetState(MenuState.TitleScreen);
         }
     }
