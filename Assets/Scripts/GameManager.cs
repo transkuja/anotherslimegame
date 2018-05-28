@@ -177,10 +177,10 @@ public class GameManager : MonoBehaviour {
             // Unlock minigame base
             foreach( DatabaseClass.MinigameData minigame in DatabaseManager.Db.minigames)
             {
-                if (DatabaseManager.Db.NbRunes >= minigame.nbRunesToUnlock && minigame.nbRunesToUnlock != -1 && !DatabaseManager.Db.IsUnlock<DatabaseClass.MinigameData>(minigame.Id))
+                if (DatabaseManager.Db.NbRunes >= minigame.nbRunesToUnlock && minigame.nbRunesToUnlock != -1 && !DatabaseManager.Db.IsUnlock<DatabaseClass.MinigameData>(minigame.Id, minigame.version))
                 {
                     // TODO: Notifier le joueur
-                    DatabaseManager.Db.SetUnlock<DatabaseClass.MinigameData>(minigame.Id, true);
+                    DatabaseManager.Db.SetUnlock<DatabaseClass.MinigameData>(minigame.Id, true, minigame.version);
                 }
             }
             UiReference.UpdateRunes();
