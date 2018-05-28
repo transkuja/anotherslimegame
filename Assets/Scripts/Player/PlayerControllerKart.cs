@@ -5,7 +5,7 @@ using UWPAndXInput;
 
 public class PlayerControllerKart : PlayerController {
 
-    public bool useAlternativeCommands = true;
+    public bool useAlternativeCommands = false;
 
     public enum DrivingCondition
     {
@@ -55,6 +55,7 @@ public class PlayerControllerKart : PlayerController {
     float hitTimer = 0.0f;
     [SerializeField]
     bool clamp = true;
+    int currentAccelerationButtonPressed = 0;
 
     public KartPlayerState CurrentState
     {
@@ -171,6 +172,19 @@ public class PlayerControllerKart : PlayerController {
 
         transform.Rotate(Vector3.up * velocityRatio * state.ThumbSticks.Left.X * Time.deltaTime * turnSpeed);
 
+        currentAccelerationButtonPressed = 0; // 1 if we go forward, -1 if reverse, 0 if no or both buttons pressed
+
+        if (state.Buttons.A == ButtonState.Pressed)
+            currentAccelerationButtonPressed++;
+
+        if (state.Buttons.B == ButtonState.Pressed)
+            currentAccelerationButtonPressed--;
+        
+        if (currentAccelerationButtonPressed > 0)
+            rb.AddForce(transform.forward * Time.deltaTime * forwardSpeed, ForceMode.VelocityChange);
+        else if (currentAccelerationButtonPressed < 0)
+            rb.AddForce(-transform.forward * Time.deltaTime * forwardSpeed / 2.0f, ForceMode.VelocityChange);
+
         rb.AddForce(transform.forward * Time.deltaTime * forwardSpeed * state.Triggers.Right, ForceMode.VelocityChange);
         rb.AddForce(-transform.forward * Time.deltaTime * forwardSpeed / 2.0f * state.Triggers.Left, ForceMode.VelocityChange);
 
@@ -215,9 +229,22 @@ public class PlayerControllerKart : PlayerController {
             targetForward = transform.forward;
 
         transform.rotation = Quaternion.LookRotation(Vector3.Lerp(transform.forward, targetForward, Time.deltaTime * 6.0f * Mathf.Clamp(rb.velocity.magnitude / 2.0f, 0.0f, 1.0f)), Vector3.up);
-
-
+        
         //transform.Rotate(Vector3.up * velocityRatio * state.ThumbSticks.Left.X * Time.deltaTime * turnSpeed);
+
+        currentAccelerationButtonPressed = 0; // 1 if we go forward, -1 if reverse, 0 if no or both buttons pressed
+
+        if (state.Buttons.A == ButtonState.Pressed)
+            currentAccelerationButtonPressed++;
+
+        if (state.Buttons.B == ButtonState.Pressed)
+            currentAccelerationButtonPressed--;
+
+        if (currentAccelerationButtonPressed > 0)
+            rb.AddForce(transform.forward * Time.deltaTime * forwardSpeed, ForceMode.VelocityChange);
+
+        else if (currentAccelerationButtonPressed < 0)
+            rb.AddForce(-transform.forward * Time.deltaTime * forwardSpeed / 2.0f, ForceMode.VelocityChange);
 
         rb.AddForce(transform.forward * Time.deltaTime * forwardSpeed * state.Triggers.Right, ForceMode.VelocityChange);
         rb.AddForce(-transform.forward * Time.deltaTime * forwardSpeed / 2.0f * state.Triggers.Left, ForceMode.VelocityChange);
