@@ -265,8 +265,16 @@ public class PlayerControllerHub : PlayerController
         if (PrevState.Buttons.B == ButtonState.Released && State.Buttons.B == ButtonState.Pressed)
         {
             GameManager.ChangeState(GameState.ForcedPauseMGRules);
+
+            // Stop all players from moving
+            for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
+            {
+                GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<PlayerCharacterHub>().Rb.drag = 25.0f;
+                GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<PlayerCharacterHub>().Rb.velocity = Vector3.zero;
+            }
+
             // Confirm screen
-            if( GameManager.Instance.ActivePlayersAtStart > 1)
+            if ( GameManager.Instance.ActivePlayersAtStart > 1)
             {
                 GameObject retryMessageGo = Instantiate(ResourceUtils.Instance.feedbacksManager.prefabReplayScreenHub, GameManager.UiReference.transform);
                 // other player

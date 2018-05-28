@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class FrozenState : PlayerState {
-    public float maxFrozenTime = 2.0f;
+    public float maxFrozenTime = 1.0f;
     float timer = 0.0f;
     public FrozenState(PlayerCharacterHub _playerCharacterHub) : base(_playerCharacterHub)
     {
@@ -31,7 +31,6 @@ public class FrozenState : PlayerState {
 
     public override Vector3 HandleSpeed(float x, float y)
     {
- 
         return Vector3.zero;
     }
 

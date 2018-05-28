@@ -157,6 +157,8 @@ public class EvolutionGhost : EvolutionComponent
         player.activeEvolutions--;
         gameObject.layer = LayerMask.NameToLayer("Player");
         RemoveGhostVisual();
+
+        playerCharacter.PlayerState = playerCharacter.freeState;
     }
 
     public override void Update()

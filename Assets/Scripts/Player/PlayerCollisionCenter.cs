@@ -134,6 +134,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
                             currentTimerStop = timerStopOnDashCollision;
 
                             // freeze other player
+                            playerCharacter.PlayerState = playerCharacter.frozenState;
                             impactedPlayerCharacter.PlayerState = impactedPlayerCharacter.frozenState;
 
                             rb.velocity = Vector3.zero;
@@ -179,6 +180,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
                             currentTimerStop = timerStopOnDashCollision;
 
                             // freeze other player
+                            playerCharacter.PlayerState = playerCharacter.frozenState;
                             impactedPlayerCharacter.PlayerState = impactedPlayerCharacter.frozenState;
 
                             rb.velocity = Vector3.zero;

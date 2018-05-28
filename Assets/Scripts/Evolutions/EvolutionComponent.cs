@@ -23,9 +23,6 @@ public class EvolutionComponent : MonoBehaviour {
 
     public virtual void Start()
     {
-        if (GetComponentsInChildren<EvolutionComponent>().Length > 1)
-            Destroy(GetComponentsInChildren<EvolutionComponent>()[0]);
-
         player = GetComponent<Player>();
         playerController = GetComponent<PlayerControllerHub>();
         playerCharacter = GetComponent<PlayerCharacterHub>();
@@ -59,6 +56,13 @@ public class EvolutionComponent : MonoBehaviour {
 
         // recuperation de l'évolution a partir du nom passé en paramètre
         evolution = GameManager.EvolutionManager.GetEvolutionByPowerName(powerName);
+
+        // Si il y a une ancienne evolution qui n'est pas la meme on l'enleve
+        if (GetComponentsInChildren<EvolutionComponent>().Length > 1)
+        {
+            if (GetComponentsInChildren<EvolutionComponent>()[0].evolution.Id != evolution.Id)
+                Destroy(GetComponentsInChildren<EvolutionComponent>()[0]);
+        }
 
         if (evolution.BodyPart == BodyPart.None && powerName == Powers.Ghost)
         {
@@ -102,6 +106,9 @@ public class EvolutionComponent : MonoBehaviour {
     {
         player.activeEvolutions--;
         affectedPart.SetActive(false);
+
+        // Plarformist and wall jump clean up ! important
+        playerCharacter.PlayerState = playerCharacter.freeState;
     }
 
     public virtual void OnCollisionEnter(Collision coll)
