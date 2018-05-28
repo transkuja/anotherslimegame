@@ -283,6 +283,10 @@ namespace DatabaseClass
                 if (foreheads.Find(a => a.Id == _id) != null)
                     foreheads.Find(a => a.Id == _id).isUnlocked = isUnlocked;
             }
+            else
+            {
+                Debug.LogWarning("No matching id " + _id + " with version " + _version);
+            }
 
             DatabaseManager.instance.SaveData();
         }
@@ -388,6 +392,11 @@ namespace DatabaseClass
                 if (foreheads.Find(a => a.Id == _id) != null)
                     return foreheads.Find(a => a.Id == _id).isUnlocked;
             }
+            else
+            {
+                Debug.LogWarning("No matching id " + _id + " with version " + _version);
+            }
+
             return false;
         }
 
