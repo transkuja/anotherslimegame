@@ -42,7 +42,7 @@ public class BreakableForBreakingMinigame : Breakable {
 
             // Handle feedback
             GameObject feedback = Instantiate(ResourceUtils.Instance.feedbacksManager.scorePointsPrefab, null);
-            feedback.GetComponentInChildren<Outline>().effectColor = Color.green;
+            feedback.GetComponentInChildren<Outline>().effectColor = SlimeDataContainer.instance.playerColorsMenu[(int)_playerControllerHub.PlayerIndex];
             feedback.GetComponentInChildren<Text>().text = "+ 1";
             feedback.transform.GetChild(0).position = Camera.main.WorldToScreenPoint(transform.position);
             feedback.GetComponentInChildren<Text>().enabled = true;
