@@ -12,7 +12,6 @@ public class HubMode : GameMode
         if (GameManager.Instance.playerEvolutionTutoShown == null)
         {
             GameManager.Instance.playerEvolutionTutoShown = new bool[activePlayersAtStart][];
-            GameManager.Instance.playerCostAreaTutoShown = new bool[activePlayersAtStart];
         }
         else
         {
@@ -20,7 +19,6 @@ public class HubMode : GameMode
             {
                 Player currentPlayer = playerReferences[i].GetComponent<Player>();
                 currentPlayer.evolutionTutoShown = GameManager.Instance.playerEvolutionTutoShown[i];
-                currentPlayer.costAreaTutoShown = GameManager.Instance.playerCostAreaTutoShown[i];
             }
         }
     }

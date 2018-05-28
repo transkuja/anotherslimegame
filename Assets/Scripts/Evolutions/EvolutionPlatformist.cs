@@ -47,7 +47,7 @@ public class EvolutionPlatformist : EvolutionComponent {
         if (playerComponent.evolutionTutoShown != null && playerComponent.evolutionTutoShown.Length > 0 && !playerComponent.evolutionTutoShown[(int)Powers.Platformist] && !GameManager.Instance.CurrentGameMode.IsMiniGame())
         {
             playerComponent.evolutionTutoShown[(int)Powers.Platformist] = true;
-            Utils.PopTutoText("Hold RT to create platforms", playerComponent);
+            Utils.PopTutoText("Hold", ControlType.RightTrigger, "to create platforms", playerComponent);
         }
         else
         {
@@ -273,7 +273,7 @@ public class EvolutionPlatformist : EvolutionComponent {
         if (!hasPlayedSecondTuto && !GameManager.Instance.CurrentGameMode.IsMiniGame())
         {
             hasPlayedSecondTuto = true;
-            Utils.PopTutoText("Press RB to change platforms' pattern", GetComponent<Player>());
+            Utils.PopTutoText("Press", ControlType.RightShoulder, "to change pattern", GetComponent<Player>());
         }
     }
 

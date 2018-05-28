@@ -34,6 +34,7 @@ public class SpriteUtils : MonoBehaviour {
     public Sprite YButtonSprite;
     public Sprite rightTriggerSprite;
     public Sprite leftTriggerSprite;
+    public Sprite rightShoulderSprite;
 
 
     [Header("GP related")]
@@ -64,6 +65,9 @@ public class SpriteUtils : MonoBehaviour {
                 break;
             case ControlType.LeftTrigger:
                 result = leftTriggerSprite;
+                break;
+            case ControlType.RightShoulder:
+                result = rightShoulderSprite;
                 break;
             default:
                 return null;

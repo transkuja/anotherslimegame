@@ -29,7 +29,6 @@ public class GameManager : MonoBehaviour {
 
     // Players persistence
     public bool[][] playerEvolutionTutoShown;
-    public bool[] playerCostAreaTutoShown;
 
     public Vector3 savedPositionInHub = Vector3.zero;
     public Quaternion savedRotationInHub = Quaternion.identity;

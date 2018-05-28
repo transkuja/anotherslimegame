@@ -273,8 +273,8 @@ public class Menu : MonoBehaviour {
                 nbPlayers = SlimeDataContainer.instance.nbPlayers;
                 SetState(MenuState.CustomisationScreen);
             }
-
-            SetState(MenuState.MinigameSelection);
+            else
+                SetState(MenuState.MinigameSelection);
         }
         // Default behaviour. Start on title screen.
         else

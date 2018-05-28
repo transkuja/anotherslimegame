@@ -124,7 +124,7 @@ public class RuleScreenHandler : MonoBehaviour {
     }
 }
 
-public enum ControlType { LeftThumbstick, A, B, X, Y, RightTrigger, LeftTrigger }
+public enum ControlType { LeftThumbstick, A, B, X, Y, RightTrigger, LeftTrigger, RightShoulder }
 public class ControlDetails
 {
     public ControlType button;

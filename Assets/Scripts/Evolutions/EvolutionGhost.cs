@@ -138,7 +138,7 @@ public class EvolutionGhost : EvolutionComponent
         if (player.evolutionTutoShown != null && player.evolutionTutoShown.Length > 0 && !player.evolutionTutoShown[(int)Powers.Ghost] && !GameManager.Instance.CurrentGameMode.IsMiniGame())
         {
             player.evolutionTutoShown[(int)Powers.Ghost] = true;
-            Utils.PopTutoText("Hold LT to leave a trail behind", player);
+            Utils.PopTutoText("Hold", ControlType.LeftTrigger, "to leave a trail behind", player);
         }
 
         if (GameManager.Instance.CurrentGameMode.GetType() == typeof(FruitGameMode))

@@ -26,7 +26,7 @@ public class PrefabLoot : MonoBehaviour {
 
     [Header("UI")]
 
-    public GameObject prefabTutoText;
+    public GameObject prefabTutoEvolution;
     public GameObject prefabTutoTextForAll;
 
     public GameObject SpawnCollectableInstance(Vector3 where, Quaternion direction, Transform parent, CollectableType myItemType, bool useAlternativePrefab = false)

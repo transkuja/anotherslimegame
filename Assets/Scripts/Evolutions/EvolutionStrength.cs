@@ -14,7 +14,7 @@ public class EvolutionStrength : EvolutionComponent
         if (playerComponent.evolutionTutoShown != null && playerComponent.evolutionTutoShown.Length > 0 && !playerComponent.evolutionTutoShown[(int)Powers.Strength] && !GameManager.Instance.CurrentGameMode.IsMiniGame())
         {
             playerComponent.evolutionTutoShown[(int)Powers.Strength] = true;
-            Utils.PopTutoText("Press Y in the air", playerComponent);
+            Utils.PopTutoText("Press", ControlType.Y, "in the air to stomp", playerComponent);
         }
 
         if (feedbackCooldownImg != null)
