@@ -42,6 +42,7 @@ public class BreakingGameSpawner : MonoBehaviour {
     }
 
     int[] previouslyFell;
+    int counter = 0;
 
     IEnumerator FallingPlatforms()
     {
@@ -60,8 +61,18 @@ public class BreakingGameSpawner : MonoBehaviour {
 
             int[] randIndex = BoardSpawner.GetPattern((BoardSpawner.Pattern)Random.Range(0, (int)BoardSpawner.Pattern.Size));
             Fall(randIndex);
-            reactionTime -= 0.1f;
-            reactionTime = Mathf.Clamp(reactionTime * 0.9f, 0.5f, 2.0f);
+            if (reactionTime > 0.5f)
+            {
+                reactionTime -= 0.1f;
+                reactionTime = Mathf.Clamp(reactionTime * 0.9f, 0.5f, 2.0f);
+            }
+            else
+            {
+                counter++;
+                if (counter % 10 == 0)
+                    reactionTime -= reactionTime * 0.1f;
+            }
+            
         }
     }
 
