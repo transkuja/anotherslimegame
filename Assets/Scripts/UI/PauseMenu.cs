@@ -160,6 +160,7 @@ public class PauseMenu : MonoBehaviour {
     {
         DatabaseManager.instance.SaveData();
         Resume();
+        GameManager.Instance.savedPositionInHub = Vector3.zero;
         LevelLoader.LoadLevelWithFadeOut("Menu");
     }
 
