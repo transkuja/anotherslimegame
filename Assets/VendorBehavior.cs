@@ -11,6 +11,7 @@ public class VendorBehavior : PNJDefaultBehavior {
 
     private Vector3[] initialpos = new Vector3[2];
     private Quaternion initialrot;
+    private int pindex;
 
     protected override void Start()
     {
@@ -69,35 +70,55 @@ public class VendorBehavior : PNJDefaultBehavior {
         retryMessageGo = Instantiate(ResourceUtils.Instance.feedbacksManager.prefabReplayScreenHub, GameManager.UiReference.transform);
         if (GameManager.Instance.ActivePlayersAtStart == 2)
         {
-            // other player
-            if (playerIndex == 1)
-            {
-                retryMessageGo.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = Utils.GetRetryMessage(MessageTypeMinigame.AreyoureadyPlayer1);
-                retryMessageGo.GetComponent<ReplayScreenControlsHub>().index = playerIndex;
-            }
-            else
-            {
-                retryMessageGo.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = Utils.GetRetryMessage(MessageTypeMinigame.AreyoureadyPlayer2);
-                retryMessageGo.GetComponent<ReplayScreenControlsHub>().index = 1;
-            }
+            retryMessageGo.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "Are you sure ?";
+            retryMessageGo.GetComponent<ReplayScreenControlsHub>().index = playerIndex;
+            retryMessageGo.GetComponent<ReplayScreenControlsHub>().validationFct += AskOtherPlayer;
+            pindex = playerIndex;
         }
         else
         {
-            retryMessageGo.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = Utils.GetRetryMessage(MessageTypeMinigame.AreYouReady);
+            retryMessageGo.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "Go to shop ?";
             retryMessageGo.GetComponent<ReplayScreenControlsHub>().index = 0;
+            retryMessageGo.GetComponent<ReplayScreenControlsHub>().validationFct += GoToShop;
         }
-
-        //retryMessageGo.GetComponent<ReplayScreenControlsHub>().validationFct += PrepareForStart;
-        //retryMessageGo.GetComponent<ReplayScreenControlsHub>().refusalFct += CleanMinigameHub;
+        retryMessageGo.GetComponent<ReplayScreenControlsHub>().refusalFct += CleanVendor;
 
 
         GameManager.ChangeState(GameState.ForcedPauseMGRules);
     }
 
+    public void AskOtherPlayer()
+    {
+        // Stop all players from moving
+        for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
+        {
+            GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<PlayerCharacterHub>().Rb.drag = 25.0f;
+            GameManager.Instance.PlayerStart.PlayersReference[i].GetComponent<PlayerCharacterHub>().Rb.velocity = Vector3.zero;
+        }
+
+        retryMessageGo = Instantiate(ResourceUtils.Instance.feedbacksManager.prefabReplayScreenHub, GameManager.UiReference.transform);
+
+        retryMessageGo.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "Go to shop?";
+        retryMessageGo.GetComponent<ReplayScreenControlsHub>().index = (pindex == 0)? 1 : 0;
+        retryMessageGo.GetComponent<ReplayScreenControlsHub>().validationFct += GoToShop;
+ 
+        retryMessageGo.GetComponent<ReplayScreenControlsHub>().refusalFct += CleanVendor;
+
+
+        GameManager.ChangeState(GameState.ForcedPauseMGRules);
+    }
+
+
     void GoToShop()
     {
         SlimeDataContainer.instance.isInTheShop = true;
         LevelLoader.LoadLevelWithFadeOut("Menu");
+    }
+
+    public void CleanVendor()
+    {
+        step = 0;
+        GameManager.ChangeState(GameState.Normal);
     }
 
     public void EndOtherPlayerDialog(int playerIndex)
