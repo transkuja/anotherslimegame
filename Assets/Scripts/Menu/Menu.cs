@@ -136,6 +136,11 @@ public class Menu : MonoBehaviour {
         Cursor.visible = false;
         minigameTypeSelected = false;
 
+        if (SlimeDataContainer.instance != null && SlimeDataContainer.instance.isInTheShop)
+        {
+            SetState(MenuState.CustomisationScreen);
+        }
+
         // Deactivate debug tools in menu
         if (ResourceUtils.Instance != null && ResourceUtils.Instance.debugTools != null)
             ResourceUtils.Instance.debugTools.ActivateDebugMode();
@@ -1396,6 +1401,9 @@ public class Menu : MonoBehaviour {
 
     void ReturnToPreviousState()
     {
+        if (SlimeDataContainer.instance.isInTheShop)
+            return;
+
         if (currentState == MenuState.TitleScreen)
             return;
 
@@ -1551,8 +1559,13 @@ public class Menu : MonoBehaviour {
                 selectedAccessories[i] = customizables[CustomizableType.Accessory][selectedCustomizables[(int)CustomizableType.Accessory, i]].Id;
             ////////////////////////////////////////////////////////////////////////////////
         }
-        dataContainer.SaveData(nbPlayers, sc, sf, selectedMustaches, selectedHats, selectedEars, selectedForeheads, selectedChins,
-                selectedSkins, selectedAccessories, _minigameType, _minigameVersion, selectedColorFades, selectedMode == 1);
+
+        if (dataContainer.isInTheShop)
+            dataContainer.SaveData(dataContainer.nbPlayers, sc, sf, selectedMustaches, selectedHats, selectedEars, selectedForeheads, selectedChins,
+                selectedSkins, selectedAccessories, _minigameType, _minigameVersion, selectedColorFades, false);
+        else
+            dataContainer.SaveData(nbPlayers, sc, sf, selectedMustaches, selectedHats, selectedEars, selectedForeheads, selectedChins,
+                    selectedSkins, selectedAccessories, _minigameType, _minigameVersion, selectedColorFades, selectedMode == 1);
     }
 
     private void OnDestroy()

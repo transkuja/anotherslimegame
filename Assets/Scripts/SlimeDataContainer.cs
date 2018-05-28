@@ -32,6 +32,8 @@ public class SlimeDataContainer : MonoBehaviour {
     public float[] lastScores = new float[4];
     public int[] lastRanks = new int[4];
 
+    public bool isInTheShop = false;
+
     void Awake () {
         if (instance != null)
         {
