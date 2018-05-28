@@ -150,6 +150,13 @@ namespace Runner3D
                     if (child.GetComponent<PlatformGameplay>())
                         child.GetComponent<PlatformGameplay>().enabled = true;
                 }
+                if (((Runner3DGameMode)GameManager.Instance.CurrentGameMode).spawnTraps)
+                {
+                    SpawnATrap[] rabitesToSpawn = GetComponentsInChildren<SpawnATrap>();
+                    if (rabitesToSpawn != null && rabitesToSpawn.Length > 0)
+                        foreach (SpawnATrap s in rabitesToSpawn)
+                            s.SpawnTraps();
+                }
             }
         }
 

@@ -10,7 +10,7 @@ public class Runner3DGameMode : GameMode {
         SoloInfinite,
         LastRemaining
     }
-
+    public bool spawnTraps = false;
     [SerializeField]private EMode mode = EMode.SoloInfinite;
     public RunnerLevelGenerator levelGenerator;
     int nbDeadPlayers;

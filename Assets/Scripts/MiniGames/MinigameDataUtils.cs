@@ -24,6 +24,7 @@ public static class MinigameDataUtils
     private static string ClashWithSpikesTitle = "Trapped Clash";
     private static string ClashWithPotsTitle = "Clash";
     private static string SuperRunnerTitle = "Super Runner";
+    private static string TrappedRunnerTitle = "Trapped Runner";
     private static string FoodTitle = "Eat Them All";
     private static string FoodTitleV2 = "Eat Them Faster";
     private static string FoodTitleV3 = "Don't Eat Them All";
@@ -67,6 +68,8 @@ public static class MinigameDataUtils
         {
             if (_version == 1)
                 return SuperRunnerTitle;
+            else if (_version == 2)
+                return TrappedRunnerTitle;
             return RunnerTitle;
         }
         else if (curGameMode is FruitGameMode)
@@ -146,6 +149,10 @@ public static class MinigameDataUtils
         else if (_minigameId == "Minigame3dRunner 1")
         {
             return SuperRunnerTitle;
+        }
+        else if(_minigameId == "Minigame3dRunner 2")
+        {
+            return TrappedRunnerTitle;
         }
         else if (_minigameId == "MiniGameFruits")
         {
