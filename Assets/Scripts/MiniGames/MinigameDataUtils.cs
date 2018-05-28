@@ -194,20 +194,31 @@ public static class MinigameDataUtils
     public static string GetDescription(GameMode _curGameMode, int _version = 0)
     {
         GameMode curGameMode = _curGameMode;
+        bool fromHub = (SlimeDataContainer.instance != null && !SlimeDataContainer.instance.launchedFromMinigameScreen);
+
         if (curGameMode is ColorFloorGameMode)
         {
             if (_version % 2 == 1)
-                return "Encircle areas with your color to capture the center and earn points. The one with the most points win!";
+                if (fromHub)
+                    return "Encircle areas with your color to capture the center and convert your squares into points!";
+                else
+                    return "Encircle areas with your color to capture the center and convert your squares into points. The one with the most points win!";
 
-            return "Color the floor and collect score pickup to earn points. Be the one with the most points to win!";
+            if (fromHub)
+                return "Grab golden crystals to convert your squares into points!";
+            else
+                return "Grab golden crystals to convert your squares into points! Be the one with the most points to win!";
         }
         else if (curGameMode is KartGameMode)
         {
-            return "Win the race.";
+            if (fromHub)
+                return "Beat the clock!";
+            else
+                return "Win the race.";
         }
         else if (curGameMode is Runner3DGameMode)
         {
-            return "RUN !\n Beware : Platforms disappears after some time";
+            return "RUN !";
         }
         else if (curGameMode is FruitGameMode)
         {
@@ -231,7 +242,7 @@ public static class MinigameDataUtils
         {
             if (_version == 4)
                 return "Survive!";
-            string desc = "Break pots as fast as you can!\n";
+            string desc = "Break pots as fast as you can! ";
             if (_version == 3)
                 desc += "Be careful, rabbits may be hiding inside.";
 
