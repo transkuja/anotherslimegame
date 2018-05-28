@@ -17,21 +17,13 @@ public class ExpulsedState : PlayerState
         {
             if (playerCharacterHub.GetComponent<EnnemyController>())
             {
-                if (AudioManager.Instance.grrrFx != null)
-                    playerCharacterHub.GetComponent<EnnemyController>().myAudioSource.PlayOneShot(AudioManager.Instance.grrrFx);
+                if (AudioManager.Instance.lapinFx.Length > 0)
+                    playerCharacterHub.GetComponent<EnnemyController>().myAudioSource.PlayOneShot(AudioManager.Instance.LapinFx);
             }
             else if (playerCharacterHub.GetComponent<PNJController>() && playerCharacterHub.GetComponent<PNJController>().myAudioSource != null)
             {
-                if (playerCharacterHub.GetComponent<PNJController>().isHappy)
-                {
-                    if (AudioManager.Instance.wahhFx != null)
-                        playerCharacterHub.GetComponent<PNJController>().myAudioSource.PlayOneShot(AudioManager.Instance.wahhFx);
-                }
-                else
-                {
-                    if (AudioManager.Instance.hahahaFX != null)
-                        playerCharacterHub.GetComponent<PNJController>().myAudioSource.PlayOneShot(AudioManager.Instance.hahahaFX);
-                }
+                if (AudioManager.Instance.hahahaFX != null)
+                    playerCharacterHub.GetComponent<PNJController>().myAudioSource.PlayOneShot(AudioManager.Instance.hahahaFX);
             }
             else
             {

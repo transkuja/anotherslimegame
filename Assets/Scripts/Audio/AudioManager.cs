@@ -19,13 +19,9 @@ public class AudioManager : MonoBehaviour
     public AudioClip musicFloorMinigame;
 
     public AudioClip coinFX;
-    public AudioClip youpiFX;
-    public AudioClip upFX;
-    public AudioClip up1FX;
-    public AudioClip sayJumpFx;
-    public AudioClip gameFX;
+    public AudioClip[] youpiFX;
+    public AudioClip[] lapinFx;
     public AudioClip hahahaFX;
-    public AudioClip grrrFx;
     public AudioClip wahhFx;
     public AudioClip blobSound;
     public AudioClip punchFx;
@@ -106,20 +102,15 @@ public class AudioManager : MonoBehaviour
     {
         get
         {
-            int rand = Random.Range(0, 4);
-            if (0 == rand)
-                return youpiFX;
-            else if (1 == rand)
-                return up1FX;
-            else if (2 == rand)
-                return sayJumpFx;
-            else
-                return upFX;
+           return youpiFX[Random.Range(0, youpiFX.Length)];
         }
+    }
 
-        set
+    public AudioClip LapinFx
+    {
+        get
         {
-            youpiFX = value;
+            return lapinFx[Random.Range(0, youpiFX.Length)];
         }
     }
 

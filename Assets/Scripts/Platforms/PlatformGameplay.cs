@@ -454,8 +454,8 @@ public class PlatformGameplay : MonoBehaviour {
                     collision.gameObject.GetComponent<PlayerCharacterHub>().jumpState.NbJumpMade = 1;
 
                     // play fx
-                    if (AudioManager.Instance != null && AudioManager.Instance.youpiFX != null)
-                        AudioManager.Instance.PlayOneShot(AudioManager.Instance.youpiFX);
+                    if (AudioManager.Instance != null && AudioManager.Instance.youpiFX.Length > 0)
+                        AudioManager.Instance.PlayOneShot(AudioManager.Instance.YoupiFX);
 
                 }
 
