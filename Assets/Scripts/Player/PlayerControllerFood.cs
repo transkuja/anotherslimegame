@@ -47,7 +47,8 @@ public class PlayerControllerFood : PlayerController {
     void ActivateSkull()
     {
         comboUI.transform.GetChild(2).GetComponent<Image>().color = Color.red;
-        comboUI.transform.GetChild(2).GetComponent<AnimButton>().enabled = true;
+        if (comboUI.transform.GetChild(2).GetComponent<AnimButton>() != null)
+            comboUI.transform.GetChild(2).GetComponent<AnimButton>().enabled = true;
     }
 
     void DeactivateSkull()
@@ -129,7 +130,7 @@ public class PlayerControllerFood : PlayerController {
                 AudioManager.Instance.PlayOneShot(AudioManager.Instance.incorrectFx);
 
             if (foodInputSettings.CurrentInput == PossibleInputs.BadOne
-                && foodInputSettings.CurrentTime > 0.1f)
+                && foodInputSettings.CurrentTime > 0.2f)
             {
                 GameManager.Instance.PlayerStart.PlayersReference[(int)playerIndex].GetComponentInChildren<PlayerCosmetics>().FaceEmotion
                         = FaceEmotion.Loser;

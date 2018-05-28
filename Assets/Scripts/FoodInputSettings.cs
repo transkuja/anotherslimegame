@@ -46,7 +46,7 @@ public class FoodInputSettings : MonoBehaviour {
             }
             else
             {
-                timeBeforeNextInput = Random.Range(0.5f, 0.9f) + 0.1f;
+                timeBeforeNextInput = Random.Range(0.5f, 0.9f) + 0.2f;
             }
 
             nextInput = GetRandomInput();
