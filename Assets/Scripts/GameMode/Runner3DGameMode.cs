@@ -93,6 +93,13 @@ public class Runner3DGameMode : GameMode {
                 break;
         }
     }
+
+    public override void EndMinigame()
+    {
+        base.EndMinigame();
+        GameManager.Instance.SpecificPlayerUI.gameObject.SetActive(false);
+    }
+
     public void EndGame()
     {
         DebugDestroy dd = FindObjectOfType<DebugDestroy>();
