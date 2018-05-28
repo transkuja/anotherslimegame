@@ -133,6 +133,7 @@ public class Menu : MonoBehaviour {
 
     private void Start()
     {
+        Cursor.visible = false;
         minigameTypeSelected = false;
 
         // Deactivate debug tools in menu
