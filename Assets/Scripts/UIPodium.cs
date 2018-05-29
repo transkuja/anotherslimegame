@@ -156,9 +156,9 @@ public class UIPodium : MonoBehaviour {
             feedback.GetComponentInChildren<Text>().text = "+ ";
         }
 
-        feedback.transform.GetChild(0).position = Camera.main.WorldToScreenPoint(GameManager.UiReference.transform.GetChild(0).position)+ (Vector3.right * 300)+(Vector3.down * 60);
+        feedback.transform.GetChild(0).position = Camera.main.WorldToScreenPoint(GameManager.UiReference.transform.GetChild(0).position)+ (Vector3.right * 350)+(Vector3.down * 80);
      
-        feedback.GetComponentInChildren<Text>().text += Utils.Abs(result).ToString();
+        feedback.GetComponentInChildren<Text>().text += ((int)(result / _container.nbPlayers)).ToString();
         feedback.GetComponentInChildren<Text>().enabled = true;
 
         GameManager.Instance.GlobalMoney += (int)(result / _container.nbPlayers);
