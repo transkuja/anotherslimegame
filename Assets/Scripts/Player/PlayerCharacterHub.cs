@@ -271,16 +271,20 @@ public class PlayerCharacterHub : PlayerCharacter {
 
         if (dotProduct > 0.9f && dotProduct < 1.1f)
         {
-            ParticleSystem.Burst[] bursts = new ParticleSystem.Burst[LandingParticles.emission.burstCount];
-            LandingParticles.emission.GetBursts(bursts);
-
-            if (bursts.Length > 0)
+            if (LandingParticles)
             {
-                bursts[0].minCount = (short)Mathf.Lerp(2.0f, 6.0f, (collision.relativeVelocity.magnitude / 150.0f));
-                bursts[0].maxCount = (short)Mathf.Lerp(3.0f, 8.0f, (collision.relativeVelocity.magnitude / 150.0f));
-                LandingParticles.emission.SetBursts(bursts);
-                LandingParticles.Play();
+                ParticleSystem.Burst[] bursts = new ParticleSystem.Burst[LandingParticles.emission.burstCount];
+                LandingParticles.emission.GetBursts(bursts);
+
+                if (bursts.Length > 0)
+                {
+                    bursts[0].minCount = (short)Mathf.Lerp(2.0f, 6.0f, (collision.relativeVelocity.magnitude / 150.0f));
+                    bursts[0].maxCount = (short)Mathf.Lerp(3.0f, 8.0f, (collision.relativeVelocity.magnitude / 150.0f));
+                    LandingParticles.emission.SetBursts(bursts);
+                    LandingParticles.Play();
+                }
             }
+        
         }
 
         if (!collision.transform.GetComponent<Player>())
