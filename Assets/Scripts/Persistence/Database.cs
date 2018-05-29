@@ -596,8 +596,8 @@ namespace DatabaseClass
             minigames.Add(new MinigameData { Id = strMinigame[idMinigames], costToUnlock = -1, nbRunesToUnlock = -1, spriteImage = "screenshotMinigameAntho", isUnlocked = true, type = MinigameType.Floor, version = 0, difficulty = 1 });
             minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 5, spriteImage = "screenshotMinigameAntho", isUnlocked = false, type = MinigameType.Floor, version = 2, difficulty = 3 });
             minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = -1, spriteImage = "screenshotMinigameAntho", isUnlocked = true, type = MinigameType.Floor, version = 4, difficulty = 2 });
-            minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 2, spriteImage = "screenshotMinigameAntho", isUnlocked = true, type = MinigameType.Floor, version = 6, difficulty = 4 });
-            minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 1, spriteImage = "screenshotEasyKart", isUnlocked = true, type = MinigameType.Kart, version = 2, difficulty = 1 });
+            minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 2, spriteImage = "screenshotMinigameAntho", isUnlocked = false, type = MinigameType.Floor, version = 6, difficulty = 4 });
+            minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 1, spriteImage = "screenshotEasyKart", isUnlocked = false, type = MinigameType.Kart, version = 2, difficulty = 1 });
 
             minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = -1, spriteImage = "screenshotMinigamePush", isUnlocked = true, type = MinigameType.Clash, version = 0, difficulty = 3 });
             minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = -1, spriteImage = "screenshotMinigamePush2", isUnlocked = true, type = MinigameType.Clash, version = 1, difficulty = 1 });
@@ -621,9 +621,9 @@ namespace DatabaseClass
             minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 21, spriteImage = "screenshotFood3", isUnlocked = false, type = MinigameType.Food, version = 2, difficulty = 2 });
             minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 31, spriteImage = "screenshotFood4", isUnlocked = false, type = MinigameType.Food, version = 3, difficulty = 3 });
 
-            minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 18, spriteImage = "screenshotMinigamePush", isUnlocked = true, type = MinigameType.Clash, version = 2, difficulty = 1 });
-            minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 31, spriteImage = "screenshotMinigamePush", isUnlocked = true, type = MinigameType.Clash, version = 3, difficulty = 3 });
-            minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 14, spriteImage = "screenshotMinigamePush", isUnlocked = true, type = MinigameType.Clash, version = 4, difficulty = 4 });
+            minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 18, spriteImage = "screenshotMinigamePush", isUnlocked = false, type = MinigameType.Clash, version = 2, difficulty = 1 });
+            minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 31, spriteImage = "screenshotMinigamePush", isUnlocked = false, type = MinigameType.Clash, version = 3, difficulty = 3 });
+            minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 14, spriteImage = "screenshotMinigamePush", isUnlocked = false, type = MinigameType.Clash, version = 4, difficulty = 4 });
 
 
             // Adding costArea
