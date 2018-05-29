@@ -635,7 +635,7 @@ namespace DatabaseClass
                 "RuneKart1", "RuneFC1", "RuneRunner", "RuneFC2", "RuneFood",
                 "RuneKart2", "RuneFC3", "RuneFood", "RuneFC4", "RuneFood",
                 "RuneRunner2", "RuneKart3", "RuneFood4",
-                "RuneBreaking1", "RuneBreaking2", "RuneBreaking3" };
+                "RuneBreaking1", "RuneBreaking2", "RuneBreaking3", "RuneRunner3" };
             runes.Add(new RuneData { Id = strRune[idRune], isUnlocked = false });
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false });
@@ -682,6 +682,8 @@ namespace DatabaseClass
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false, unlockedInMinigame = true, associatedMinigame = MinigameType.Clash, associatedMinigameVersion = 2 });
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false, unlockedInMinigame = true, associatedMinigame = MinigameType.Clash, associatedMinigameVersion = 3 });
             runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false, unlockedInMinigame = true, associatedMinigame = MinigameType.Clash, associatedMinigameVersion = 4 });
+
+            runes.Add(new RuneData { Id = strRune[++idRune], isUnlocked = false, unlockedInMinigame = true, associatedMinigame = MinigameType.Runner, associatedMinigameVersion = 2 });
 
             // Adding mustaches
             int idMustache = 0;
