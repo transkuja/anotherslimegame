@@ -616,10 +616,10 @@ namespace DatabaseClass
             minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 10, spriteImage = "screenshotMinigameAntho2", isUnlocked = false, type = MinigameType.Floor, version = 7, difficulty = 5 });
 
             // TODO: needs a screenshot
-            minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 5, spriteImage = "screenshotMinigameFood", isUnlocked = false, type = MinigameType.Food, difficulty = 1 });
-            minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 14, spriteImage = "screenshotMinigameFood", isUnlocked = false, type = MinigameType.Food, version = 1, difficulty = 2 });
-            minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 21, spriteImage = "screenshotMinigameFood", isUnlocked = false, type = MinigameType.Food, version = 2, difficulty = 2 });
-            minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 31, spriteImage = "screenshotMinigameFood", isUnlocked = false, type = MinigameType.Food, version = 3, difficulty = 3 });
+            minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 5, spriteImage = "screenshotFood1", isUnlocked = false, type = MinigameType.Food, difficulty = 1 });
+            minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 14, spriteImage = "screenshotFood2", isUnlocked = false, type = MinigameType.Food, version = 1, difficulty = 2 });
+            minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 21, spriteImage = "screenshotFood3", isUnlocked = false, type = MinigameType.Food, version = 2, difficulty = 2 });
+            minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 31, spriteImage = "screenshotFood4", isUnlocked = false, type = MinigameType.Food, version = 3, difficulty = 3 });
 
             minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 18, spriteImage = "screenshotMinigamePush", isUnlocked = true, type = MinigameType.Clash, version = 2, difficulty = 1 });
             minigames.Add(new MinigameData { Id = strMinigame[++idMinigames], costToUnlock = -1, nbRunesToUnlock = 31, spriteImage = "screenshotMinigamePush", isUnlocked = true, type = MinigameType.Clash, version = 3, difficulty = 3 });
@@ -699,7 +699,7 @@ namespace DatabaseClass
             hats.Add(new HatData { Id = strHat[idHat], model = "Hats/CapHat", shouldHideEars = true, isUnlocked = false, costToUnlock = 200 });
             hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/ChiefHat", shouldHideEars = true, isUnlocked = false, costToUnlock = 200 });
             hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/CowboyHat", spriteUnlock= "cowboyhat", shouldHideEars = true, isUnlocked = false }); // Bob give it
-            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/GlitterHat", shouldHideEars = true, isUnlocked = false, costToUnlock = 200 });
+            hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/GlitterHat", spriteUnlock = "glitterhat", shouldHideEars = true, isUnlocked = false, costToUnlock = -1 });
             hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/TopHatHat", shouldHideEars = true, isUnlocked = false, costToUnlock = 200 });
             hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/FlowerCrown", shouldHideEars = false, isUnlocked = false, costToUnlock = 200 });
             hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/ChineseHat", shouldHideEars = false, isUnlocked = false, costToUnlock = 200 });
