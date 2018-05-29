@@ -216,7 +216,7 @@ public class PlayerCollisionCenter : MonoBehaviour {
                     Collectable c = collectablesCollided[i].GetComponent<Collectable>();
 
                     // Enemy and PNJ cant pick anything
-                    if (!isAPlayer)
+                    if (!isAPlayer &&  !(GameManager.Instance.CurrentGameMode is PushGameMode))
                         return;
 
                     if (c.isActiveAndEnabled && !c.IsAttracted && !c.haveToDisperse)
