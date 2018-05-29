@@ -62,7 +62,7 @@ public enum Powers { Strength, Platformist, Agile, Ghost, Size }
 public class EvolutionManager {
 
     // Evolution database handled in code
-    Evolution strengthEvolution = new Evolution(Powers.Strength, -1, CollectableType.StrengthEvolution1, 30, BodyPart.Hammer);
+    Evolution strengthEvolution = new Evolution(Powers.Strength, -1, CollectableType.StrengthEvolution1, 30, BodyPart.None);
     Evolution agileEvolution = new Evolution(Powers.Agile, -1, CollectableType.AgileEvolution1, 30, BodyPart.None);
     Evolution platformistEvolution = new Evolution(Powers.Platformist, -1, CollectableType.PlatformistEvolution1, 30, BodyPart.Staff);
     Evolution ghostEvolution = new Evolution(Powers.Ghost, -1, CollectableType.GhostEvolution1, 30, BodyPart.None);

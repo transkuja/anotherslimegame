@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum PlayerChildren { SlimeMesh, ShadowProjector, BubbleParticles, SplashParticles, WaterTrailParticles, CameraTarget, DustTrailParticles, DashParticles, LandingParticles, TeleportParticles, RuneObtained };
+public enum PlayerChildren { SlimeMesh, ShadowProjector, BubbleParticles, SplashParticles, WaterTrailParticles, CameraTarget, DustTrailParticles, DashParticles, LandingParticles, TeleportParticles, RuneObtained, StrengthParticles };
 public enum BodyPart { Body, Rig, Wings, Hammer, Staff, Customization, GhostParticles, Size, None}
 
 
@@ -42,6 +42,8 @@ public class PlayerCharacter : MonoBehaviour {
     private ParticleSystem landingParticles;
     private ParticleSystem ghostParticles;
     private ParticleSystem teleportParticles;
+    private ParticleSystem strengthParticles;
+
 
     public ParticleSystem DustTrailParticles
     {
@@ -119,6 +121,16 @@ public class PlayerCharacter : MonoBehaviour {
         {
             if (!ghostParticles) ghostParticles = transform.GetChild((int)PlayerChildren.SlimeMesh).GetChild(4).GetComponent<ParticleSystem>();
             return ghostParticles;
+        }
+    }
+
+
+    public ParticleSystem StrengthParticles
+    {
+        get
+        {
+            if (!strengthParticles) strengthParticles = transform.GetChild((int)PlayerChildren.StrengthParticles).GetComponent<ParticleSystem>();
+            return strengthParticles;
         }
     }
 
