@@ -897,12 +897,50 @@ public class Menu : MonoBehaviour {
 
             for (int i = difficulty + 1; i <= 5; i++)
                 difficultyDots[i].sprite = difficultyEmptyStar;
+
+            if (selectedMinigameType == MinigameType.Floor)
+            {
+                transform.GetChild((int)MenuState.MinigameSelection).GetChild(5).gameObject.SetActive(true);
+                int tmpVersion = minigames[(int)selectedMinigameType][minigameCurrentVerticalCursor].version;
+
+                if (tmpVersion >= 4)
+                {
+                    transform.GetChild((int)MenuState.MinigameSelection).GetChild(5).GetChild(3).gameObject.SetActive(true);
+                    tmpVersion -= 4;
+                }
+                else
+                {
+                    transform.GetChild((int)MenuState.MinigameSelection).GetChild(5).GetChild(3).gameObject.SetActive(false);
+                }
+
+                if (tmpVersion >= 2)
+                {
+                    transform.GetChild((int)MenuState.MinigameSelection).GetChild(5).GetChild(0).gameObject.SetActive(true);
+                    tmpVersion -= 2;
+                }
+                else
+                {
+                    transform.GetChild((int)MenuState.MinigameSelection).GetChild(5).GetChild(0).gameObject.SetActive(false);
+                }
+
+                if (tmpVersion == 1)
+                {
+                    transform.GetChild((int)MenuState.MinigameSelection).GetChild(5).GetChild(1).gameObject.SetActive(true);
+                    transform.GetChild((int)MenuState.MinigameSelection).GetChild(5).GetChild(2).gameObject.SetActive(false);
+                }
+                else
+                {
+                    transform.GetChild((int)MenuState.MinigameSelection).GetChild(5).GetChild(1).gameObject.SetActive(false);
+                    transform.GetChild((int)MenuState.MinigameSelection).GetChild(5).GetChild(2).gameObject.SetActive(true);
+                }
+            }
         }
     }
 
     void HideDifficulty()
     {
         transform.GetChild((int)MenuState.MinigameSelection).GetChild(3).gameObject.SetActive(false);
+        transform.GetChild((int)MenuState.MinigameSelection).GetChild(5).gameObject.SetActive(false);
     }
 
     // Move the button cursor and highlight it
