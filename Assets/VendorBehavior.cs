@@ -112,6 +112,10 @@ public class VendorBehavior : PNJDefaultBehavior {
     void GoToShop()
     {
         SlimeDataContainer.instance.isInTheShop = true;
+
+        GameManager.Instance.savedPositionInHub = transform.position + transform.forward;
+        GameManager.Instance.savedRotationInHub = Quaternion.LookRotation(-transform.forward);
+
         LevelLoader.LoadLevelWithFadeOut("Menu");
     }
 
