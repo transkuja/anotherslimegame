@@ -1465,6 +1465,7 @@ public class Menu : MonoBehaviour {
         if (selectedMode == 0)
         {
             SendDataToContainer(MinigameType.Size);
+            SlimeDataContainer.instance.isInTheShop = false;
             LevelLoader.LoadLevelWithLoadingScreen("Hub");
 
             return;
