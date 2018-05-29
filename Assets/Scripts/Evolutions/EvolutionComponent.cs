@@ -64,17 +64,29 @@ public class EvolutionComponent : MonoBehaviour {
                 Destroy(GetComponentsInChildren<EvolutionComponent>()[0]);
         }
 
-        if (evolution.BodyPart == BodyPart.None && powerName == Powers.Ghost)
+        if (evolution.BodyPart == BodyPart.None)
         {
-            //Change player appearence
-            ((EvolutionGhost)(this)).SetGhostVisual();
-            //Then do Nothing
-            affectedPart = transform.gameObject;
+            if (powerName == Powers.Ghost)
+            {
+                //Change player appearence
+                ((EvolutionGhost)(this)).SetGhostVisual();
+                //Then do Nothing
+                affectedPart = transform.gameObject;
+                affectedPart.SetActive(true);
+            }
+            else if (powerName == Powers.Agile)
+            {
+                ParticleSystem.MainModule mainModule = GetComponent<PlayerCharacterHub>().DashParticles.GetComponent<ParticleSystem>().main;
+                mainModule.loop = true;
+            }
         }
         else
+        {
             affectedPart = playerCharacter.EvolutionParts[(int)evolution.BodyPart - 2].gameObject;
+            affectedPart.SetActive(true);
 
-        affectedPart.SetActive(true);
+        }
+
 
         if (GameManager.Instance.IsInHub() || GameManager.Instance.CurrentGameMode is Runner3DGameMode)
         {
@@ -105,7 +117,8 @@ public class EvolutionComponent : MonoBehaviour {
     protected virtual void OnDestroy()
     {
         player.activeEvolutions--;
-        affectedPart.SetActive(false);
+        if (affectedPart != null)
+            affectedPart.SetActive(false);
 
         // Plarformist and wall jump clean up ! important
         playerCharacter.PlayerState = playerCharacter.freeState;
