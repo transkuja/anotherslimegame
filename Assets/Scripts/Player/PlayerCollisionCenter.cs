@@ -215,8 +215,8 @@ public class PlayerCollisionCenter : MonoBehaviour {
                 {
                     Collectable c = collectablesCollided[i].GetComponent<Collectable>();
 
-                    // Enemy and PNJ cant pick anything except money
-                    if (c.type == CollectableType.Money && (!isAPlayer))
+                    // Enemy and PNJ cant pick anything
+                    if (!isAPlayer)
                         return;
 
                     if (c.isActiveAndEnabled && !c.IsAttracted && !c.haveToDisperse)
