@@ -38,7 +38,7 @@ public class EvolutionPlatformist : EvolutionComponent {
         base.Start();
         if (GameManager.Instance.IsInHub())
         {
-            cooldownCharge = 0.5f;
+            cooldownCharge = 1.0f;
         }
 
         SetPower(Powers.Platformist);
@@ -229,7 +229,7 @@ public class EvolutionPlatformist : EvolutionComponent {
             }
             Charges = 0;
 
-            if (GameManager.Instance.CurrentGameMode is Runner3DGameMode && GameManager.Instance.CurrentGameMode.minigameVersion != 0)
+            if (GameManager.Instance.CurrentGameMode is Runner3DGameMode && GameManager.Instance.CurrentGameMode.minigameVersion == 1)
                 feedbackCooldownImg.transform.parent.GetChild(0).GetChild(0).gameObject.SetActive(false);
         }
     }
@@ -297,6 +297,12 @@ public class EvolutionPlatformist : EvolutionComponent {
         }
 
         ShowPattern();
+    }
+
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+        ClearShowPattern();
     }
 }
 
