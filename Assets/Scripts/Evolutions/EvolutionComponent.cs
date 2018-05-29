@@ -84,7 +84,8 @@ public class EvolutionComponent : MonoBehaviour {
             else if (powerName == Powers.Strength)
             {
                 transform.GetChild((int)BodyPart.Body).GetChild(1).localScale = new Vector3(1.3f, 1.3f, 1.3f);
-                GetComponent<PlayerCharacterHub>().StrengthParticles.Play();
+                if (GetComponent<PlayerCharacterHub>().StrengthParticles && GetComponent<PlayerCharacterHub>().StrengthParticles.GetComponent<StrengthParticlesHandler>())
+                    GetComponent<PlayerCharacterHub>().StrengthParticles.GetComponent<StrengthParticlesHandler>().enabled = true;
             }
         }
         else

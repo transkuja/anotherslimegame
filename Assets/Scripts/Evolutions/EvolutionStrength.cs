@@ -37,6 +37,7 @@ public class EvolutionStrength : EvolutionComponent
         playerCharacter.stats.RemoveBuff(jumpHeightBuff);
 
         transform.GetChild((int)BodyPart.Body).GetChild(1).localScale = Vector3.one;
-        GetComponent<PlayerCharacterHub>().StrengthParticles.Stop();
+        if(GetComponent<PlayerCharacterHub>().StrengthParticles && GetComponent<PlayerCharacterHub>().StrengthParticles.GetComponent<StrengthParticlesHandler>())
+            GetComponent<PlayerCharacterHub>().StrengthParticles.GetComponent<StrengthParticlesHandler>().enabled = false;
     }
 }
