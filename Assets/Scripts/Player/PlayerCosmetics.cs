@@ -127,7 +127,7 @@ public class PlayerCosmetics : MonoBehaviour {
         if (!bodyMat)
             Init();
 
-        SetSkinTextures("");
+        SetSkinTextures("Skins/None");
         BodyColor = bodyColor;
     }
 
@@ -205,7 +205,7 @@ public class PlayerCosmetics : MonoBehaviour {
             else
             {
                 BodyTexture = null;
-                EarsTexture = null;
+                //EarsTexture = null;
                 SkinType = SkinType.Color;
             }
         }
@@ -222,7 +222,9 @@ public class PlayerCosmetics : MonoBehaviour {
         bodyMat.SetTexture("_SmoothnessTex", tex);
         //bodyMat.SetTexture("_Normal", Resources.Load(baseTexturePath + "_Normal") as Texture);
         bodyMat.SetTexture("_Height", Resources.Load(baseTexturePath + "_Height") as Texture);
+        Debug.Log("Tex " + (Resources.Load(baseTexturePath + "_Ears") as Texture));
         EarsTexture = Resources.Load(baseTexturePath + "_Ears") as Texture;
+
         if (skinType == SkinType.Texture)
             SetEarsColor(Color.white);
     }
@@ -290,12 +292,10 @@ public class PlayerCosmetics : MonoBehaviour {
             earsTexture = value;
             if (ears == "None" || earsMats == null || earsMats.Length == 0)
                 return;
-            if (skinType == SkinType.Texture || skinType == SkinType.Mixed)
+            Debug.Log("Hello " + earsTexture);
+            foreach(Material mat in earsMats)
             {
-                foreach(Material mat in earsMats)
-                {
-                    mat.SetTexture("_MainTex", earsTexture);
-                }
+                mat.SetTexture("_MainTex", earsTexture);
             }
         }
     }
@@ -436,6 +436,11 @@ public class PlayerCosmetics : MonoBehaviour {
                 if(EarsTexture != null)
                 {
                     EarsTexture = earsTexture;
+                }
+                else
+                {
+                    Debug.Log("Tex" + (Resources.Load("_Ears") as Texture).ToString());
+                    EarsTexture = Resources.Load("_Ears") as Texture;
                 }
                 if (skinType == SkinType.Color || skinType == SkinType.Mixed)
                     SetEarsColor(BodyColor);
