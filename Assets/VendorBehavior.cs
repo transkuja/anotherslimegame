@@ -70,25 +70,27 @@ public class VendorBehavior : PNJDefaultBehavior {
         retryMessageGo = Instantiate(ResourceUtils.Instance.feedbacksManager.prefabReplayScreenHub, GameManager.UiReference.transform);
         if (GameManager.Instance.ActivePlayersAtStart == 2)
         {
-            retryMessageGo.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "Are you sure ?";
+            retryMessageGo.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "Go to shop?";
+            retryMessageGo.transform.localPosition += ((playerIndex == 1)? Vector3.right : Vector3.left )* 350;
             retryMessageGo.GetComponent<ReplayScreenControlsHub>().index = playerIndex;
             retryMessageGo.GetComponent<ReplayScreenControlsHub>().validationFct += AskOtherPlayer;
             pindex = playerIndex;
         }
         else
         {
-            retryMessageGo.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "Go to shop ?";
+            retryMessageGo.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "Go to shop?";
             retryMessageGo.GetComponent<ReplayScreenControlsHub>().index = 0;
             retryMessageGo.GetComponent<ReplayScreenControlsHub>().validationFct += GoToShop;
         }
         retryMessageGo.GetComponent<ReplayScreenControlsHub>().refusalFct += CleanVendor;
-
 
         GameManager.ChangeState(GameState.ForcedPauseMGRules);
     }
 
     public void AskOtherPlayer()
     {
+        Destroy(retryMessageGo.gameObject);
+
         // Stop all players from moving
         for (int i = 0; i < GameManager.Instance.PlayerStart.PlayersReference.Count; i++)
         {
@@ -97,6 +99,7 @@ public class VendorBehavior : PNJDefaultBehavior {
         }
 
         retryMessageGo = Instantiate(ResourceUtils.Instance.feedbacksManager.prefabReplayScreenHub, GameManager.UiReference.transform);
+        retryMessageGo.transform.localPosition += ((pindex == 1) ? Vector3.left : Vector3.right) * 350;
 
         retryMessageGo.transform.GetChild(0).GetChild(0).GetComponent<Text>().text = "Go to shop?";
         retryMessageGo.GetComponent<ReplayScreenControlsHub>().index = (pindex == 0)? 1 : 0;
