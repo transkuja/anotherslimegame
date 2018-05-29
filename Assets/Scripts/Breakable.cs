@@ -9,6 +9,8 @@ public class Breakable : MonoBehaviour {
     public int minCollectableDropOnBreak = 1;
     public int maxCollectableDropOnBreak = 5;
 
+    private Color customWhite = new Color(0.6f, 0.6f, 0.6f, 0.5f);
+
     // Index in database to know if it has already been broken. -1 if no persistence.
     public int persistenceIndex = -1;
 
@@ -17,14 +19,14 @@ public class Breakable : MonoBehaviour {
         if (transform.gameObject.layer != LayerMask.NameToLayer("Breakable"))
             transform.gameObject.layer = LayerMask.NameToLayer("Breakable");
 
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.1f);
 
         if (GameManager.Instance.IsInHub())
         {
             if (persistenceIndex != -1)
             {
                 GetComponentInChildren<Renderer>().material.EnableKeyword("_EMISSION");
-                GetComponentInChildren<Renderer>().material.SetColor("_EmissionColor", (DatabaseManager.Db.alreadyBrokenBreakables[persistenceIndex]) ? Color.black : Color.white);
+                GetComponentInChildren<Renderer>().material.SetColor("_EmissionColor", (DatabaseManager.Db.alreadyBrokenBreakables[persistenceIndex]) ? Color.black : customWhite);
             }
         }
     }
