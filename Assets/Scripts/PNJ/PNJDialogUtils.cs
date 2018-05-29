@@ -5,12 +5,14 @@ using UnityEngine;
 public static class PNJDialogUtils {
 
     // Vendor Eric
-    static string EricDM = "";
-    static FaceEmotion[] EricDE = new FaceEmotion[1] { FaceEmotion.Neutral };
-    static string EricQM = "Do you want to change your outfits ?"
+    static string PierreDM = "";
+    static FaceEmotion[] PierreDe = new FaceEmotion[1] { FaceEmotion.Neutral };
+    static string PierreQM = "Over here, stranger!\n"
+        + "I have a lot of goods for sell.\n"
+        + "Do you want to change your outfit?"
     ;
 
-    static FaceEmotion[] EricQE = new FaceEmotion[3] {
+    static FaceEmotion[] PierreQE = new FaceEmotion[3] {
         FaceEmotion.Neutral, FaceEmotion.Neutral, FaceEmotion.Winner
     };
 
@@ -386,8 +388,8 @@ public static class PNJDialogUtils {
                 return GwenDM;
             case PNJName.Bob:
                 return BobDM;
-            case PNJName.Eric:
-                return EricDM;
+            case PNJName.Pierre:
+                return PierreDM;
             case PNJName.Roger:
                 return RogerDM;
             case PNJName.Risotto:
@@ -432,8 +434,8 @@ public static class PNJDialogUtils {
                 return RogerQM;
             case PNJName.Risotto:
                 return RisottoQM;
-            case PNJName.Eric:
-                return EricQM;
+            case PNJName.Pierre:
+                return PierreQM;
                 /*case PNJName.Remi:
                     return RemiQM;
                 case PNJName.Remi:
@@ -487,8 +489,8 @@ public static class PNJDialogUtils {
                 return VincentDE;
             case PNJName.Alex:
                 return AlexDE;
-            case PNJName.Eric:
-                return EricDE;
+            case PNJName.Pierre:
+                return PierreDe;
         }
         return null;
     }
@@ -510,8 +512,8 @@ public static class PNJDialogUtils {
                 return RogerQE;
             case PNJName.Risotto:
                 return RisottoQE;
-            case PNJName.Eric:
-                return EricQE;
+            case PNJName.Pierre:
+                return PierreQE;
                 /*case PNJName.Remi:
                     return RemiQE;
                 case PNJName.Antho:

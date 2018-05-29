@@ -10,7 +10,7 @@ public enum HitParticles
 
 public enum RewardTypeEnum { None, Rune, Money, Customizable }
 
-public enum PNJName { Bob, Roger, Risotto, SneakyChief, Joker, Gwen, Mickey, Remi, Antho, Olivier, Anais, Seb, Mathieu, Theo, Vincent, Alex, Eric }
+public enum PNJName { Bob, Roger, Risotto, SneakyChief, Joker, Gwen, Mickey, Remi, Antho, Olivier, Anais, Seb, Mathieu, Theo, Vincent, Alex, Pierre }
 
 public enum MessageTypeMinigame { AreYouReady, AreyoureadyPlayer1, AreyoureadyPlayer2, Retry }
 
