@@ -322,6 +322,15 @@ public class MinigameTriggerGiverBehavior : PNJDefaultBehavior
         GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerCharacterHub>().dialogState = DialogState.Normal;
         GetComponent<PNJMessage>().myCharacter.dialogState = DialogState.Normal;
 
+        DatabaseClass.HatData hat = DatabaseManager.Db.hats.Find(a => a.Id == currentHatToUnlock);
+        if (hat != null && hat.spriteUnlock != string.Empty)
+        {
+            GameObject go = Instantiate(ResourceUtils.Instance.feedbacksManager.prefabUnlocks, GameManager.UiReference.transform);
+            go.transform.GetChild(1).GetComponent<Image>().sprite = Resources.Load<Sprite>(hat.spriteUnlock);
+
+            Destroy(go, 3.5f);
+        }
+
         CleanMinigameHub();
         yield return null;
     }

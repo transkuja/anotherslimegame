@@ -11,6 +11,9 @@ public class FeedbacksManager : MonoBehaviour
     public GameObject prefabBButton;
     public GameObject prefabFadeInAndOut;
 
+    [Header("Unlocks")]
+    public GameObject prefabUnlocks;
+
     [Header("Minigame Feedbacks")]
     public GameObject prefabRunnerFeedback;
     public GameObject prefabJumpFeedback;
