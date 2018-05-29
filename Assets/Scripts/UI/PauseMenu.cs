@@ -5,12 +5,18 @@ using UWPAndXInput;
 
 public class PauseMenu : MonoBehaviour {
     enum PauseMenuChildren { Title, DefaultMenu, Settings, Exit }
-    enum PauseMenuState { Default, Settings, Exit}
+    enum PauseMenuState { Default, Settings, Exit, Controls }
     PauseMenuState currentState;
 
     GameObject defaultMenu;
     GameObject settingsMenu;
     GameObject exitMenu;
+
+    [SerializeField]
+    GameObject controlsScreen;
+
+    [SerializeField]
+    public GameObject uiProgress;
 
     int selection = 0;
     Button currentlySelectedButton;
@@ -19,6 +25,11 @@ public class PauseMenu : MonoBehaviour {
 
     [SerializeField]
     GameObject menuCursor;
+
+    [SerializeField]
+    Sprite controls1P;
+    [SerializeField]
+    Sprite controls2P;
 
     PauseMenuState CurrentState
     {
@@ -31,6 +42,8 @@ public class PauseMenu : MonoBehaviour {
                 defaultMenu.SetActive(true);
                 settingsMenu.SetActive(false);
                 exitMenu.SetActive(false);
+                controlsScreen.SetActive(false);
+                uiProgress.SetActive(true);
             }
             else if (value == PauseMenuState.Settings)
             {
@@ -54,6 +67,22 @@ public class PauseMenu : MonoBehaviour {
                     exitMenu.transform.GetChild(1).gameObject.SetActive(true);
                 }
 
+            }
+            else if (value == PauseMenuState.Controls)
+            {
+                defaultMenu.SetActive(false);
+                settingsMenu.SetActive(false);
+                exitMenu.SetActive(false);
+                controlsScreen.SetActive(true);
+                if (GameManager.Instance.IsInHub() && SlimeDataContainer.instance.nbPlayers == 2)
+                    controlsScreen.transform.GetChild(0).GetComponent<Image>().sprite = controls2P;
+                else
+                    controlsScreen.transform.GetChild(0).GetComponent<Image>().sprite = controls1P;
+
+                controlsScreen.transform.GetChild(0).gameObject.SetActive(true);
+                controlsScreen.transform.GetChild(1).gameObject.SetActive(false);
+
+                uiProgress.SetActive(false);
             }
 
             if (value == PauseMenuState.Exit)
@@ -89,11 +118,26 @@ public class PauseMenu : MonoBehaviour {
 
         if (prevControllerState.Buttons.A == ButtonState.Released && controllerState.Buttons.A == ButtonState.Pressed)
         {
-            if (CurrentlySelectedButton != null)
+            if (currentState != PauseMenuState.Controls)
             {
-                if (AudioManager.Instance != null && AudioManager.Instance.buttonValidationFx != null)
-                    AudioManager.Instance.PlayOneShot(AudioManager.Instance.buttonValidationFx);
-                CurrentlySelectedButton.onClick.Invoke();
+                if (CurrentlySelectedButton != null)
+                {
+                    if (AudioManager.Instance != null && AudioManager.Instance.buttonValidationFx != null)
+                        AudioManager.Instance.PlayOneShot(AudioManager.Instance.buttonValidationFx);
+                    CurrentlySelectedButton.onClick.Invoke();
+                }
+            }
+            else
+            {
+                if (controlsScreen.transform.GetChild(0).gameObject.activeInHierarchy)
+                {
+                    controlsScreen.transform.GetChild(0).gameObject.SetActive(false);
+                    controlsScreen.transform.GetChild(1).gameObject.SetActive(true);
+                }
+                else
+                {
+                    ChangeState((int)PauseMenuState.Default);
+                }
             }
         }
 
