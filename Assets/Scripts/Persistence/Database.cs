@@ -695,7 +695,7 @@ namespace DatabaseClass
 
             // Adding hats
             int idHat = 0;
-            string[] strHat = { "Cap", "Chief", "Cowboy", "Glitter", "Top Hat", "Flowers", "Chinese", "Cat", "Marine", "Police", "Sombrero", "Crete", "Party", "Magical", "Witch" };
+            string[] strHat = { "Cap", "Chef", "Cowboy", "Glitter", "Top Hat", "Flowers", "Chinese", "Cat", "Marine", "Police", "Sombrero", "Mohawk", "Party", "Magical", "Witch" };
             hats.Add(new HatData { Id = strHat[idHat], model = "Hats/CapHat", shouldHideEars = true, isUnlocked = false, costToUnlock = 200 });
             hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/ChiefHat", shouldHideEars = true, isUnlocked = false, costToUnlock = 200 });
             hats.Add(new HatData { Id = strHat[++idHat], model = "Hats/CowboyHat", spriteUnlock= "cowboyhat", shouldHideEars = true, isUnlocked = false }); // Bob give it
@@ -729,7 +729,7 @@ namespace DatabaseClass
 
             // Adding foreheads
             int idForeheads = 0;
-            string[] strForeheads = { "Unicorn", "Diamond", "Heart", "3rd Eye", "Bobble" };
+            string[] strForeheads = { "Unicorn", "Diamond", "Heart", "Third Eye", "Bobble" };
             foreheads.Add(new ForeheadData { Id = strForeheads[idForeheads], model = "Foreheads/Unicorn", isUnlocked = false, costToUnlock = 300 });
             foreheads.Add(new ForeheadData { Id = strForeheads[++idForeheads], model = "Foreheads/Diamond", isUnlocked = false, costToUnlock = 300 });
             foreheads.Add(new ForeheadData { Id = strForeheads[++idForeheads], model = "Foreheads/Heart", isUnlocked = false, costToUnlock = 300 });
@@ -753,7 +753,7 @@ namespace DatabaseClass
 
             // Adding Skins
             int idSkins = 0;
-            string[] strSkins = { "Tatoo1", "Tatoo2", "Catch1", "Catch2", "Catch3", "Panda", "Special1", "Special2"};
+            string[] strSkins = { "Tattoo", "Heart Tattoo", "El Blobo Loco", "El Terrible Blobo", "Señor Blobo", "Panda" };
             skins.Add(new SkinData { Id = strSkins[idSkins], texture = "Skins/Base1", skinType = SkinType.Mixed, metallic = .05f, smoothness = .4f, isUnlocked = true });
             skins.Add(new SkinData { Id = strSkins[++idSkins], texture = "Skins/Base2", skinType = SkinType.Mixed, metallic = .05f, smoothness = .4f, isUnlocked = true });
             skins.Add(new SkinData { Id = strSkins[++idSkins], texture = "Skins/Catch1", skinType = SkinType.Texture, metallic = 1f, smoothness = .75f, isUnlocked = false, costToUnlock = 600 });
