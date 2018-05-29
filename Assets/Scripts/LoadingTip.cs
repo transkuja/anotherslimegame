@@ -3,7 +3,13 @@
 public class LoadingTip : MonoBehaviour {
     
 	void Start () {
-        if (LevelLoader.TargetLevelId != "Hub" || GameManager.Instance.ActivePlayersAtStart < 2)
-            gameObject.SetActive(false);
+
+        if( SlimeDataContainer.instance != null)
+        {
+            if (LevelLoader.TargetLevelId != "Hub" || SlimeDataContainer.instance .nbPlayers < 2)
+                gameObject.SetActive(false);
+        }
+
+
 	}
 }

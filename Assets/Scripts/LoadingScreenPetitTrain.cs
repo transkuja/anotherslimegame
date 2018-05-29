@@ -24,13 +24,13 @@ public class LoadingScreenPetitTrain : MonoBehaviour {
         childrenTransforms = new Transform[transform.childCount];
         offset = GetScreenWidthPercentage(offsetPercentage);
         percentHeight = GetScreenHeightPercentage(height);
-        posTimer = 0f; ;
+        posTimer = (Screen.width / 2.0f);
         startHeight = transform.position.y;
 
         for (int i = 0; i < childrenTransforms.Length; i++)
         {
             childrenTransforms[i] = transform.GetChild(i);
-            childrenTransforms[i].position = new Vector3(i * offset, (Mathf.Sin((- (i * offset)) * frequency) * percentHeight) + startHeight, 0f);
+            childrenTransforms[i].position = new Vector3((Screen.width/ 2.0f) +  i * offset, (Mathf.Sin((- (i * offset)) * frequency) * percentHeight) + startHeight, 0f);
         }
     }
 
