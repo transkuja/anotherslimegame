@@ -18,7 +18,7 @@ public class BreakableForPotInHub : Breakable {
     public override void PostCollisionProcess(PlayerCharacterHub _playerCharacterHub, PlayerControllerHub _playerControllerHub)
     {
         int rand = Random.Range(0, 100);
-        if( rand < 10)
+        if( rand < 5)
             Invoke("DelayedSummonRabbit", 0.3f);
     }
 
