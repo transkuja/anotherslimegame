@@ -925,6 +925,15 @@ public class Menu : MonoBehaviour {
 
         CustomizableType currentCustomType = (CustomizableType)(currentlySelectedOption[_playerIndex]);
         playerCustomScreens[_playerIndex].transform.GetChild(2).GetComponent<Text>().text = currentCustomType.ToString();
+
+        if (currentCustomType != 0)
+            playerCustomScreens[_playerIndex].transform.GetChild(2).GetChild(0).GetChild((int)currentCustomType - 1).GetComponent<Image>().color = new Color(54, 54, 54, 114) / 255.0f;
+        else
+            playerCustomScreens[_playerIndex].transform.GetChild(2).GetChild(0).GetChild((int)CustomizableType.Size - 1).GetComponent<Image>().color = new Color(54, 54, 54, 114) / 255.0f;
+
+        playerCustomScreens[_playerIndex].transform.GetChild(2).GetChild(0).GetChild((int)currentCustomType).GetComponent<Image>().color = Color.yellow;
+        playerCustomScreens[_playerIndex].transform.GetChild(2).GetChild(0).GetChild((int)(currentCustomType + 1)%(int)CustomizableType.Size).GetComponent<Image>().color = new Color(54, 54, 54, 114) / 255.0f;
+
         List<DatabaseClass.Unlockable> unlockedList = customizables[currentCustomType];
         if (unlockedList.Count == 0)
         {
@@ -1364,10 +1373,12 @@ public class Menu : MonoBehaviour {
         if (nbPlayers >= 3)
             go.transform.localPosition = new Vector3(-(180) * Mathf.Pow(-1, _newPlayerIndex), (_newPlayerIndex < 2) ? 25.0f : -165.0f , 0.0f);
 
+        go.transform.GetChild(2).GetChild(0).GetChild(0).GetComponent<Image>().color = Color.yellow;
         go.transform.GetChild(2).GetComponent<Text>().text = ((CustomizableType)0).ToString();
         go.transform.GetChild(3).GetComponent<Text>().text = customizables[0][0].Id;
         go.transform.GetChild(4).GetComponentInChildren<PlayerCosmetics>().SetUniqueColor(((DatabaseClass.ColorData)customizables[CustomizableType.Color][0]).color);
         go.transform.GetChild(4).GetComponentInChildren<PlayerCosmetics>().FaceType = ((DatabaseClass.FaceData)customizables[CustomizableType.Face][0]).indiceForShader;
+
         playerCustomScreens.Add(go);
 
         return go;
