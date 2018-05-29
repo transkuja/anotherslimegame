@@ -17,7 +17,7 @@ public static class MinigameDataUtils
 
     private static string ClassicKartTitle = "Kart From Hell";
     private static string SnowKartTitle = "Snow Kart";
-    private static string EasyKartTitle = "Easy Kart";
+    private static string EasyKartTitle = "First Race";
     private static string RunnerTitle = "Classic Runner";
     private static string FruitTitle = "Classic Balls";
     private static string FruitTitle2 = "Super Balls";
@@ -441,7 +441,7 @@ public static class MinigameDataUtils
         {
             if (minigameVersion >= 4)
             {
-                return 75;
+                return 80;
             }
             return 125;
         }
@@ -459,7 +459,12 @@ public static class MinigameDataUtils
         }
         else if (minigameType == MinigameType.Food)
         {
-            return 1000;
+            if (minigameVersion == 0 || minigameVersion == 1)
+                return 2000;
+            if (minigameVersion == 2)
+                return 1500;
+            if (minigameVersion == 3)
+                return 1250;
         }
         else if (minigameType == MinigameType.Clash)
         {
