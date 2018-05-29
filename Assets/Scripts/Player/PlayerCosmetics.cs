@@ -437,8 +437,7 @@ public class PlayerCosmetics : MonoBehaviour {
                 }
                 else
                 {
-                    Debug.Log("Tex" + (Resources.Load("_Ears") as Texture).ToString());
-                    EarsTexture = Resources.Load("_Ears") as Texture;
+                    EarsTexture = Resources.Load("None_Ears") as Texture;
                 }
                 if (skinType == SkinType.Color || skinType == SkinType.Mixed)
                     SetEarsColor(BodyColor);
