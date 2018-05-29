@@ -54,7 +54,7 @@ public class EvolutionPlatformist : EvolutionComponent {
             hasPlayedSecondTuto = true;
         }
 
-        if (GameManager.Instance.CurrentGameMode is Runner3DGameMode && GameManager.Instance.CurrentGameMode.minigameVersion != 0)
+        if (GameManager.Instance.CurrentGameMode is Runner3DGameMode && GameManager.Instance.CurrentGameMode.minigameVersion == 1)
         {
             feedbackCooldownImg.transform.parent.GetChild(0).GetComponent<Image>().sprite = ResourceUtils.Instance.spriteUtils.Platformist;
             feedbackCooldownImg.transform.parent.GetChild(0).GetChild(0).gameObject.SetActive(true);
@@ -158,7 +158,7 @@ public class EvolutionPlatformist : EvolutionComponent {
 
             if (timerBeforeCharge >= cooldownCharge)
             {
-                if (GameManager.Instance.CurrentGameMode is Runner3DGameMode && GameManager.Instance.CurrentGameMode.minigameVersion != 0)
+                if (GameManager.Instance.CurrentGameMode is Runner3DGameMode && GameManager.Instance.CurrentGameMode.minigameVersion == 1)
                     feedbackCooldownImg.transform.parent.GetChild(0).GetChild(0).gameObject.SetActive(true);
                 Charges = maxCharges;
                 timerBeforeCharge = 0.0f;

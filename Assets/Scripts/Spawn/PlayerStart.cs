@@ -121,7 +121,7 @@ public class PlayerStart : MonoBehaviour {
 
         Transform feedbacksCooldown = ResourceUtils.Instance.feedbackCooldown.transform;
 
-        if (GameManager.Instance.IsInHub() || GameManager.Instance.CurrentGameMode is Runner3DGameMode)
+        if (GameManager.Instance.IsInHub() || (GameManager.Instance.CurrentGameMode is Runner3DGameMode && GameManager.Instance.CurrentGameMode.minigameVersion == 1))
         {
             for (int i = 0; i < 4; i++)
             {
