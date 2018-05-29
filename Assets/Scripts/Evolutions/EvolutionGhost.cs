@@ -6,6 +6,7 @@ using UWPAndXInput;
 public class EvolutionGhost : EvolutionComponent
 {
     Material baseMat;
+    Material baseMatEars;
     Material ghostMat;
     Material baseDustTrailMat;
     Material ghostDustTrailMat;
@@ -113,7 +114,13 @@ public class EvolutionGhost : EvolutionComponent
 
 
         playerCharacter.Body.GetComponentInChildren<Renderer>().material = ghostMat;
-        if(playerCharacter.GhostParticles)
+        if( playerCharacter.GetComponentInChildren<PlayerCosmetics>().Ears != "None")
+        {
+            foreach( Renderer r in playerCharacter.GetComponentInChildren<CustomizableSockets>().GetSocket(CustomizableType.Ears).GetComponentsInChildren<Renderer>())
+                r.material = ghostMat;
+        }
+
+        if (playerCharacter.GhostParticles)
             playerCharacter.GhostParticles.Play();
         playerCharacter.DustTrailParticles.GetComponent<ParticleSystemRenderer>().material = ghostDustTrailMat;
         playerCharacter.DustTrailParticles.transform.GetChild(0).GetComponent<ParticleSystemRenderer>().material = ghostDustTrailMat;
@@ -126,6 +133,13 @@ public class EvolutionGhost : EvolutionComponent
         playerCharacter.Body.GetComponentInChildren<Renderer>().material = baseMat;
         if (playerCharacter.GhostParticles)
             playerCharacter.GhostParticles.Stop();
+
+        if (playerCharacter.GetComponentInChildren<PlayerCosmetics>().Ears != "None")
+        {
+            playerCharacter.GetComponentInChildren<PlayerCosmetics>().Ears = playerCharacter.GetComponentInChildren<PlayerCosmetics>().Ears;
+        }
+
+
         playerCharacter.DustTrailParticles.GetComponent<ParticleSystemRenderer>().material = baseDustTrailMat;
         playerCharacter.DustTrailParticles.transform.GetChild(0).GetComponent<ParticleSystemRenderer>().material = baseDustTrailMat;
     }
