@@ -177,5 +177,5 @@ public static class Utils
     }
 
     public static string[] MinigameTypeStr = { "Coloring", "Runner", "Collect", "Kart", "Clash", "Food" };
-    public static string[] MinigameTypeSprite = { "screenshotColorType", "screenshotMinigameSuperRunner", "screenshotMinigameFruits", "screenshotKartType", "screenshotClashType", "screenshotMinigameFood" };
+    public static string[] MinigameTypeSprite = { "screenshotColorType", "screenshotMinigameRunner", "screenshotMinigameFruits", "screenshotKartType", "screenshotClashType", "screenshotMinigameFood" };
 }
