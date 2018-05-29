@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class JokerBehavior : PNJDefaultBehavior {
 
@@ -25,6 +26,18 @@ public class JokerBehavior : PNJDefaultBehavior {
     {
         if (IsEventOver())
             return;
+
+        if ( step == 8)
+        {
+            DatabaseClass.HatData hat = DatabaseManager.Db.hats.Find(a => a.Id == "Glitter");
+            if (hat != null && hat.spriteUnlock != string.Empty)
+            {
+                GameObject go = Instantiate(ResourceUtils.Instance.feedbacksManager.prefabUnlocks, GameManager.UiReference.transform);
+                go.transform.GetChild(1).GetComponent<Image>().sprite = Resources.Load<Sprite>(hat.spriteUnlock);
+
+                Destroy(go, 2.5f);
+            }
+        }
 
         GetComponent<PNJController>().UpdateOriginalPosition();
     }
