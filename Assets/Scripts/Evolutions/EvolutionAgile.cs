@@ -35,6 +35,8 @@ public class EvolutionAgile : EvolutionComponent {
         playerCharacter.stats.RemoveBuff(jumpHeightBuff);
         ParticleSystem.MainModule mainModule = GetComponent<PlayerCharacterHub>().DashParticles.GetComponent<ParticleSystem>().main;
         mainModule.loop = false;
+
+        transform.GetChild((int)BodyPart.Body).GetChild(1).localScale = Vector3.one;
         base.OnDestroy();
     }
 }

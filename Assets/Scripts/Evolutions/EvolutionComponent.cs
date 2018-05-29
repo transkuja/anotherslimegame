@@ -78,11 +78,12 @@ public class EvolutionComponent : MonoBehaviour {
             {
                 ParticleSystem.MainModule mainModule = GetComponent<PlayerCharacterHub>().DashParticles.GetComponent<ParticleSystem>().main;
                 mainModule.loop = true;
+                transform.GetChild((int)BodyPart.Body).GetChild(1).localScale = new Vector3(0.9f, 0.9f, 0.9f);
                 GetComponent<PlayerCharacterHub>().DashParticles.Play();
             }
             else if (powerName == Powers.Strength)
             {
-                transform.GetChild((int)BodyPart.Body).GetChild(1).localScale = new Vector3(1.5f, 1.5f, 1.5f);
+                transform.GetChild((int)BodyPart.Body).GetChild(1).localScale = new Vector3(1.3f, 1.3f, 1.3f);
                 GetComponent<PlayerCharacterHub>().StrengthParticles.Play();
             }
         }
