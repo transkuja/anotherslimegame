@@ -222,7 +222,6 @@ public class PlayerCosmetics : MonoBehaviour {
         bodyMat.SetTexture("_SmoothnessTex", tex);
         //bodyMat.SetTexture("_Normal", Resources.Load(baseTexturePath + "_Normal") as Texture);
         bodyMat.SetTexture("_Height", Resources.Load(baseTexturePath + "_Height") as Texture);
-        Debug.Log("Tex " + (Resources.Load(baseTexturePath + "_Ears") as Texture));
         EarsTexture = Resources.Load(baseTexturePath + "_Ears") as Texture;
 
         if (skinType == SkinType.Texture)
@@ -292,7 +291,6 @@ public class PlayerCosmetics : MonoBehaviour {
             earsTexture = value;
             if (ears == "None" || earsMats == null || earsMats.Length == 0)
                 return;
-            Debug.Log("Hello " + earsTexture);
             foreach(Material mat in earsMats)
             {
                 mat.SetTexture("_MainTex", earsTexture);
