@@ -149,6 +149,18 @@ public class UIPodium : MonoBehaviour {
             }
         }
 
+        GameObject feedback = Instantiate(ResourceUtils.Instance.feedbacksManager.scorePointsPrefab, null);
+        if (result >= 0)
+        {
+            feedback.GetComponentInChildren<Outline>().effectColor = Color.green;
+            feedback.GetComponentInChildren<Text>().text = "+ ";
+        }
+
+        feedback.transform.GetChild(0).position = Camera.main.WorldToScreenPoint(GameManager.UiReference.transform.GetChild(0).position)+ (Vector3.right * 300)+(Vector3.down * 60);
+     
+        feedback.GetComponentInChildren<Text>().text += Utils.Abs(result).ToString();
+        feedback.GetComponentInChildren<Text>().enabled = true;
+
         GameManager.Instance.GlobalMoney += (int)(result / _container.nbPlayers);
     }
 

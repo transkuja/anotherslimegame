@@ -22,7 +22,8 @@ public class PushGameMode : GameMode {
             player = playerReferences[i].GetComponent<Player>();
             player.UpdateCollectableValue(CollectableType.StrengthEvolution1, 1);
             player.NbLife = 3;
-            player.UpdateCollectableValue(CollectableType.Points, pointsOnStart);
+            if( minigameVersion == 0)
+                player.UpdateCollectableValue(CollectableType.Points, pointsOnStart);
         }
 
         LaunchTimer();
