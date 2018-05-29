@@ -89,6 +89,11 @@ namespace DatabaseClass
         public string texture;
         [SerializeField]
         public SkinType skinType;
+
+        [SerializeField]
+        public float metallic;
+        [SerializeField]
+        public float smoothness;
     }
 
     [System.Serializable]
@@ -747,11 +752,11 @@ namespace DatabaseClass
             // Adding Skins
             int idSkins = 0;
             string[] strSkins = { "Tatoo1", "Tatoo2", "Catch1", "Catch2", "Catch3", "Panda", "Special1", "Special2"};
-            skins.Add(new SkinData { Id = strSkins[idSkins], texture = "Skins/Base1", skinType = SkinType.Mixed, isUnlocked = true });
-            skins.Add(new SkinData { Id = strSkins[++idSkins], texture = "Skins/Base2", skinType = SkinType.Mixed, isUnlocked = true });
-            skins.Add(new SkinData { Id = strSkins[++idSkins], texture = "Skins/Catch1", skinType = SkinType.Texture, isUnlocked = false, costToUnlock = 600 });
-            skins.Add(new SkinData { Id = strSkins[++idSkins], texture = "Skins/Catch2", skinType = SkinType.Texture, isUnlocked = false, costToUnlock = 600 });
-            skins.Add(new SkinData { Id = strSkins[++idSkins], texture = "Skins/Catch3", skinType = SkinType.Texture, isUnlocked = false, costToUnlock = 600 });
+            skins.Add(new SkinData { Id = strSkins[idSkins], texture = "Skins/Base1", skinType = SkinType.Mixed, metallic = .05f, smoothness = .4f, isUnlocked = true });
+            skins.Add(new SkinData { Id = strSkins[++idSkins], texture = "Skins/Base2", skinType = SkinType.Mixed, metallic = .05f, smoothness = .4f, isUnlocked = true });
+            skins.Add(new SkinData { Id = strSkins[++idSkins], texture = "Skins/Catch1", skinType = SkinType.Texture, metallic = 1f, smoothness = .75f, isUnlocked = false, costToUnlock = 600 });
+            skins.Add(new SkinData { Id = strSkins[++idSkins], texture = "Skins/Catch2", skinType = SkinType.Texture, metallic = 1f, smoothness = .75f, isUnlocked = false, costToUnlock = 600 });
+            skins.Add(new SkinData { Id = strSkins[++idSkins], texture = "Skins/Catch3", skinType = SkinType.Texture, metallic = 1f, smoothness = .75f, isUnlocked = false, costToUnlock = 600 });
             skins.Add(new SkinData { Id = strSkins[++idSkins], texture = "Skins/Panda", skinType = SkinType.Texture, isUnlocked = false, costToUnlock = 600 });
 
             SneakyChiefProgress = 0;

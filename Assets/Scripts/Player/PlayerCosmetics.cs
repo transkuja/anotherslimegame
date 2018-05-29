@@ -82,6 +82,11 @@ public class PlayerCosmetics : MonoBehaviour {
     [SerializeField]
     string chin = "None";
 
+    [SerializeField]
+    float metallic = 0f;
+    [SerializeField]
+    float smoothness = 0f;
+
     private void Awake()
     {
         Init(true);
@@ -188,8 +193,12 @@ public class PlayerCosmetics : MonoBehaviour {
                 {
                     Debug.LogWarning("Can't find data of " + skin + " in the database");
                     skin = "None";
+                    metallic = 0f;
+                    smoothness = 0f;
                     return;
                 }
+                metallic = data.metallic;
+                smoothness = data.smoothness;
                 SkinType = data.skinType;
                 SetSkinTextures(data.texture);
             }
@@ -206,10 +215,10 @@ public class PlayerCosmetics : MonoBehaviour {
     {
         BodyTexture = Resources.Load(baseTexturePath) as Texture;
         Texture tex = Resources.Load(baseTexturePath + "_Metallic") as Texture;
-        bodyMat.SetFloat("_Metallic", tex == null? 0 : 1f);
+        bodyMat.SetFloat("_Metallic", tex == null? 0 : metallic);
         bodyMat.SetTexture("_MetallicTex", tex);
         tex = Resources.Load(baseTexturePath + "_Smoothness") as Texture;
-        bodyMat.SetFloat("_Smoothness", tex == null ? 0 : .75f);
+        bodyMat.SetFloat("_Smoothness", tex == null ? 0 : smoothness);
         bodyMat.SetTexture("_SmoothnessTex", tex);
         //bodyMat.SetTexture("_Normal", Resources.Load(baseTexturePath + "_Normal") as Texture);
         bodyMat.SetTexture("_Height", Resources.Load(baseTexturePath + "_Height") as Texture);
