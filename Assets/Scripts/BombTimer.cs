@@ -37,7 +37,11 @@ public class BombTimer : MonoBehaviour {
         else
             yield return new WaitForSeconds(4f);
 
-        bombToFollow.GetComponent<TheBombPickup>().Explode();
-        Destroy(gameObject);
+        if (bombToFollow && bombToFollow.GetComponent<TheBombPickup>())
+        {
+            bombToFollow.GetComponent<TheBombPickup>().Explode();
+        }
+        if(gameObject)
+            Destroy(gameObject);
     }
 }
