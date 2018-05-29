@@ -41,6 +41,7 @@ public class FeedbacksManager : MonoBehaviour
     public GameObject changerFruitPreview;
     public GameObject aspiratorFruitPreview;
     public GameObject giantFruitPreview;
+    public GameObject ballPickupPreview;
 
     [Header("Feedbacks UI")]
     public GameObject scorePointsPrefab;
@@ -82,6 +83,9 @@ public class FeedbacksManager : MonoBehaviour
                 break;
             case PickUpType.GiantFruit:
                 result = giantFruitPreview;
+                break;
+            case PickUpType.BallPickup:
+                result = ballPickupPreview;
                 break;
             default:
                 return null;

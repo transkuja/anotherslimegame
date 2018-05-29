@@ -150,6 +150,7 @@ abstract public class GameMode : MonoBehaviour
 
         ruleScreenRef.GetComponentInChildren<Text>().text = rules.title;
         ruleScreenRef.GetChild(1).GetComponent<Text>().text = rules.howToPlay + ((runeObjective != RuneObjective.None) ? "\n\nRune objective:\n" + rules.runeObtention : "");
+        ruleScreenRef.GetChild(1).localPosition = Vector3.up * -50.0f;
         ruleScreenRef.GetChild(1).gameObject.SetActive(true);
         GameObject controlDetailsPage = new GameObject("ControlDetailsPage");
         controlDetailsPage.transform.SetParent(ruleScreenRef);
@@ -161,7 +162,7 @@ abstract public class GameMode : MonoBehaviour
         foreach (ControlDetails control in rules.controls)
         {
             GameObject entry = Instantiate(ResourceUtils.Instance.feedbacksManager.ruleScreenShortPrefab, controlDetailsPage.transform);
-            entry.transform.localPosition = new Vector2(0, 100 * (1 - i));
+            entry.transform.localPosition = new Vector2(0, 100 * (1 - i) - 20.0f);
             entry.GetComponentInChildren<Image>().sprite = ResourceUtils.Instance.spriteUtils.GetControlSprite(control.button);
             entry.GetComponentInChildren<Text>().text = control.description;
             i++;
@@ -178,7 +179,7 @@ abstract public class GameMode : MonoBehaviour
         foreach (PossiblePickup pickup in rules.possiblePickups)
         {
             GameObject entry = Instantiate(ResourceUtils.Instance.feedbacksManager.ruleScreenShortPrefab, possiblePickupsPage.transform);
-            entry.transform.localPosition = new Vector2(0, 100 * (1 - i));
+            entry.transform.localPosition = new Vector2(0, 80 * (1 - i));
 
             GameObject pickupPreview = Instantiate(ResourceUtils.Instance.feedbacksManager.GetPickupPreview(pickup.pickupType), entry.GetComponentInChildren<Image>().transform);
             pickupPreview.transform.localPosition = Vector3.right * 15 + Vector3.forward * -50;

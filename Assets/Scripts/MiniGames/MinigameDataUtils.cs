@@ -333,6 +333,13 @@ public static class MinigameDataUtils
             possiblePickups.Add(new PossiblePickup(PickUpType.Aspirator, "Collect all balls of your color"));
             possiblePickups.Add(new PossiblePickup(PickUpType.GiantFruit, "A mega ball which give you more point"));
         }
+        else if (curGameMode is BreakingGameMode)
+        {
+            if (_version != 4)
+            {
+                possiblePickups.Add(new PossiblePickup(PickUpType.BallPickup, "Hit it multiple times to get a power!"));
+            }
+        }
         return possiblePickups;
     }
 
