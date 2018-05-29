@@ -136,7 +136,7 @@ public class PlayerStart : MonoBehaviour {
                     feedbackImg.fillMethod = Image.FillMethod.Radial360;
                     feedbackImg.fillOrigin = 2;
                 }
-                else if (GameManager.Instance.CurrentGameMode is Runner3DGameMode && GameManager.Instance.CurrentGameMode.minigameVersion != 0)
+                else if (GameManager.Instance.CurrentGameMode is Runner3DGameMode && GameManager.Instance.CurrentGameMode.minigameVersion == 1)
                 {
                     feedbacksCooldown.GetChild(SlimeDataContainer.instance.nbPlayers - 1).GetChild(i).GetChild(0).gameObject.SetActive(true); // activate alpha
                     Image feedbackImg = feedbacksCooldown.GetChild(SlimeDataContainer.instance.nbPlayers - 1).GetChild(i).GetChild(1).GetComponent<Image>();
