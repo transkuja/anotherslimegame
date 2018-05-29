@@ -632,8 +632,8 @@ namespace DatabaseClass
                 "Rune6Hub1", "Rune7Hub1", "Rune8Hub1", "Rune9Hub1", "Rune10Hub1", "Rune11Hub1", "Rune12Hub1",
                 "Rune13Hub1", "Rune14Hub1", "Rune15Hub1",
                 "RuneSneaky1", "RuneJoker1", "RuneSneaky2",
-                "RuneKart1", "RuneFC1", "RuneRunner", "RuneFC2", "RuneFood",
-                "RuneKart2", "RuneFC3", "RuneFood", "RuneFC4", "RuneFood",
+                "RuneKart1", "RuneFC1", "RuneRunner1", "RuneFC2", "RuneFood1",
+                "RuneKart2", "RuneFC3", "RuneFood2", "RuneFC4", "RuneFood3",
                 "RuneRunner2", "RuneKart3", "RuneFood4",
                 "RuneBreaking1", "RuneBreaking2", "RuneBreaking3", "RuneRunner3" };
             runes.Add(new RuneData { Id = strRune[idRune], isUnlocked = false });
