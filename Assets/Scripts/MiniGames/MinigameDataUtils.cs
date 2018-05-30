@@ -460,7 +460,7 @@ public static class MinigameDataUtils
         else if (minigameType == MinigameType.Food)
         {
             if (minigameVersion == 0 || minigameVersion == 1)
-                return 2000;
+                return 1750;
             if (minigameVersion == 2)
                 return 1500;
             if (minigameVersion == 3)
