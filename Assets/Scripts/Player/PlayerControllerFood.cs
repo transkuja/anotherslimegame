@@ -122,13 +122,13 @@ public class PlayerControllerFood : PlayerController {
         {
             ((FoodGameMode)GameManager.Instance.CurrentGameMode).GoodInput(this);
             if (AudioManager.Instance != null && AudioManager.Instance.positiveSoundFx != null)
-                AudioManager.Instance.PlayOneShot(AudioManager.Instance.incorrectFx);
+                AudioManager.Instance.PlayOneShot(AudioManager.Instance.incorrectFx, 0.5f, 1f);
         }
         else
         {
 
             if (AudioManager.Instance != null && AudioManager.Instance.incorrectFx != null)
-                AudioManager.Instance.PlayOneShot(AudioManager.Instance.incorrectFx);
+                AudioManager.Instance.PlayOneShot(AudioManager.Instance.incorrectFx, 0.5f, 1f);
 
             if (foodInputSettings.CurrentInput == PossibleInputs.BadOne
                 && foodInputSettings.CurrentTime > 0.2f)
