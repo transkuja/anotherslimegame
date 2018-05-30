@@ -251,12 +251,6 @@ public class PlayerCollisionCenter : MonoBehaviour {
                 hasCollidedWithAPlayer = false;
             }
         }
-
-        // Visu invincibility
-        if (!canBeHit)
-        {
-            player.Clignote();
-        }
     }
 
     private void OnCollisionEnter(Collision collision)
@@ -425,18 +419,13 @@ public class PlayerCollisionCenter : MonoBehaviour {
 
         direction.Normalize();
         ForcedJump(direction, repulsionFactor, rbPlayerToExpulse);
+        rbPlayerToExpulse.GetComponent<Player>().Clignote(invincibilityFrame);
         StartCoroutine(ReactivateCollider(rbPlayerToExpulse.GetComponent<Player>()));
     }
 
     public IEnumerator ReactivateCollider(Player p)
     {
-        yield return new WaitForSeconds(invincibilityFrame);
-        if(p)
-        {
-            p.GetComponent<PlayerCollisionCenter>().canBeHit = true;
-            p.ArreteDeClignoter();
-        }
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(invincibilityFrame + 0.3f);
         if (p)
         {
             impactedPlayers.Remove(p);

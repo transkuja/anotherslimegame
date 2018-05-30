@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -347,19 +348,22 @@ public class Player : MonoBehaviour {
             OnDeathEvent(this);
     }
 
-    public void Clignote()
+    public IEnumerator ClignoteCoroutine(float time)
     {
-        currentTimerInvincibilite += Time.deltaTime;
-        if(currentTimerInvincibilite> timerInvincibilite)
+        float timer = 0f;
+        while(timer < time)
         {
             playerCharacter.Body.GetComponentInChildren<Renderer>().enabled = !playerCharacter.Body.GetComponentInChildren<Renderer>().enabled;
-            currentTimerInvincibilite = 0.0f;
+            yield return new WaitForSeconds(timerInvincibilite);
+            timer += timerInvincibilite;
         }
-    
+        playerCharacter.Body.GetComponentInChildren<Renderer>().enabled = true;
+        if(GetComponent<PlayerCollisionCenter>())
+            GetComponent<PlayerCollisionCenter>().canBeHit = true;
     }
 
-    public void ArreteDeClignoter()
+    public void Clignote(float time)
     {
-        playerCharacter.Body.GetComponentInChildren<Renderer>().enabled = true;
+        StartCoroutine(ClignoteCoroutine(time));
     }
 }
