@@ -714,12 +714,12 @@ namespace DatabaseClass
             // Adding ears
             int idEars = 0;
             string[] strEars = { "Ears1", "Ears2", "Ears3", "Ears4", "Ears5", "Ears6", "Ears7", "Ears8", "Ears9", "Ears10", "Ears11", "Ears12" };
-            ears.Add(new EarsData { Id = strEars[idEars], model = "Ears/Ears1", isUnlocked = true, costToUnlock = 200 });
-            ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/Ears2", isUnlocked = false, costToUnlock = 200 });
-            ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/Ears3", isUnlocked = false, costToUnlock = 200 });
-            ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/Ears4", isUnlocked = false, costToUnlock = 200 });
-            ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/Ears5", isUnlocked = false, costToUnlock = 200 });
-            ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/Ears6", isUnlocked = false, costToUnlock = 200 });
+            ears.Add(new EarsData { Id = strEars[idEars], model = "Ears/Ears1", isUnlocked = true});
+            ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/Ears2", isUnlocked = true, costToUnlock = 200 });
+            ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/Ears3", isUnlocked = true, costToUnlock = 200 });
+            ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/Ears4", isUnlocked = true, costToUnlock = 200 });
+            ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/Ears5", isUnlocked = true, costToUnlock = 200 });
+            ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/Ears6", isUnlocked = true, costToUnlock = 200 });
             ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/Ears7", isUnlocked = false, costToUnlock = 200 });
             ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/Ears8", isUnlocked = false, costToUnlock = 200 });
             ears.Add(new EarsData { Id = strEars[++idEars], model = "Ears/Ears9", isUnlocked = false, costToUnlock = 200 });
@@ -753,7 +753,7 @@ namespace DatabaseClass
 
             // Adding Skins
             int idSkins = 0;
-            string[] strSkins = { "Tattoo", "Heart Tattoo", "El Blobo Loco", "El Terrible Blobo", "Señor Blobo", "Panda" };
+            string[] strSkins = { "Tattoo", "Heart Tattoo", "El Blobo Loco", "El Terrible", "Señor Blobo", "Panda" };
             skins.Add(new SkinData { Id = strSkins[idSkins], texture = "Skins/Base1", skinType = SkinType.Mixed, metallic = .05f, smoothness = .4f, isUnlocked = true });
             skins.Add(new SkinData { Id = strSkins[++idSkins], texture = "Skins/Base2", skinType = SkinType.Mixed, metallic = .05f, smoothness = .4f, isUnlocked = true });
             skins.Add(new SkinData { Id = strSkins[++idSkins], texture = "Skins/Catch1", skinType = SkinType.Texture, metallic = 1f, smoothness = .75f, isUnlocked = false, costToUnlock = 600 });
@@ -872,6 +872,62 @@ namespace DatabaseClass
                     button[i].hasToMoveButton = true;
                 }
             }
+        }
+
+        public void ProgressGold()
+        {
+            ResetAll();
+
+            foreach (Unlockable a in ears)
+                a.isUnlocked = true;
+            foreach (Unlockable a in mustaches)
+                a.isUnlocked = true;
+            foreach (Unlockable a in skins)
+                a.isUnlocked = true;
+            foreach (Unlockable a in chins)
+                a.isUnlocked = true;
+            foreach (Unlockable a in foreheads)
+                a.isUnlocked = true;
+
+            foreach (Unlockable a in hats)
+                a.isUnlocked = true;
+            foreach (Unlockable a in accessories)
+                a.isUnlocked = true;
+
+
+            SetUnlock<HatData>("Cowboy", false);
+            SetUnlock<HatData>("Police", false);
+            SetUnlock<HatData>("Glitter", false);
+
+            for (int i = 0; i < 5; i++)
+            {
+                int index = UnityEngine.Random.Range(0, hats.Count);
+                while (!hats[index].isUnlocked)
+                    index = UnityEngine.Random.Range(0, hats.Count);
+                hats[index].isUnlocked = false;
+            }
+            for (int i = 0; i < 2; i++)
+            {
+                int index = UnityEngine.Random.Range(0, accessories.Count);
+                while (!accessories[index].isUnlocked)
+                    index = UnityEngine.Random.Range(0, accessories.Count);
+                accessories[index].isUnlocked = false;
+            }
+
+            foreach (RuneData rune in runes)
+                rune.isUnlocked = true;
+
+            SetUnlock<RuneData>("RuneSneaky1", false);
+            SetUnlock<RuneData>("RuneSneaky2", false);
+            SetUnlock<RuneData>("RuneJoker1", false);
+            
+            foreach (MinigameData mgData in minigames)
+            {
+                if (mgData.nbRunesToUnlock <= NbRunes)
+                    SetUnlock<MinigameData>(mgData.Id, true, mgData.version);
+            }
+
+            Money = 500;
         }
 
         public void UnlockAllMinigamesAndAlmostAllCustomizables()

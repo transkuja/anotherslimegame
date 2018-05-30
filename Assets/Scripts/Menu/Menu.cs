@@ -131,18 +131,9 @@ public class Menu : MonoBehaviour {
         nbPlayers = _nbPlayersSelected;
     }
 
-    private void Start()
+    void LoadFromDatabase()
     {
-        Cursor.visible = false;
-        minigameTypeSelected = false;
-
-        // Deactivate debug tools in menu
-        if (ResourceUtils.Instance != null && ResourceUtils.Instance.debugTools != null)
-            ResourceUtils.Instance.debugTools.ActivateDebugMode();
-
-        if (AudioManager.Instance != null)
-            AudioManager.Instance.Fade(AudioManager.Instance.musicMenu);
-
+        customizables.Clear();
         for (int i = 0; i < (int)CustomizableType.Size; i++)
             customizables.Add((CustomizableType)i, new List<DatabaseClass.Unlockable>());
 
@@ -203,9 +194,24 @@ public class Menu : MonoBehaviour {
                     c[j] = allMinigamesOfTypeI[j];
                 }
 
-                minigames.Add(c);    
+                minigames.Add(c);
             }
         }
+    }
+
+    private void Start()
+    {
+        Cursor.visible = false;
+        minigameTypeSelected = false;
+
+        // Deactivate debug tools in menu
+        if (ResourceUtils.Instance != null && ResourceUtils.Instance.debugTools != null)
+            ResourceUtils.Instance.debugTools.ActivateDebugMode();
+
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.Fade(AudioManager.Instance.musicMenu);
+
+        LoadFromDatabase();
 
         // Load data from container if players come from a minigame. Menu initialized on minigame selection screen.
         if (DataContainer.launchedFromMinigameScreen || DataContainer.isInTheShop)
@@ -296,6 +302,11 @@ public class Menu : MonoBehaviour {
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            DatabaseManager.Db.ProgressGold();
+            LoadFromDatabase();
+        }
 
         // Save all players input
         for (int i = 0; i < 4; i++)
