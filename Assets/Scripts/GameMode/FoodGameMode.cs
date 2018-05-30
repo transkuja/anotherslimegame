@@ -165,7 +165,7 @@ public class FoodGameMode : GameMode {
         {
             miniTail = 1.2f;
             maxTail = 2.0f;
-            inputSpeed = 60.0f;
+            inputSpeed = 50.0f;
             _minigameVersion -= 1;
         }
         else

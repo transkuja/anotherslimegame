@@ -80,6 +80,8 @@ public class PlayerControllerFood : PlayerController {
     }
 
     public override void Update () {
+        prevState = state;
+        state = GamePad.GetState(playerIndex);
 
         if (GameManager.CurrentState == GameState.Normal)
         {
