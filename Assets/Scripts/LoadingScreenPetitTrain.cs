@@ -30,7 +30,7 @@ public class LoadingScreenPetitTrain : MonoBehaviour {
         for (int i = 0; i < childrenTransforms.Length; i++)
         {
             childrenTransforms[i] = transform.GetChild(i);
-            childrenTransforms[i].position = new Vector3((Screen.width/ 2.0f) +  i * offset, (Mathf.Sin((- (i * offset)) * frequency) * percentHeight) + startHeight, 0f);
+            childrenTransforms[i].position = new Vector3((Screen.width/ 2.0f) +  i * offset, (Mathf.Sin((- (i * offset)) * frequency * Time.deltaTime * 50f) * percentHeight) + startHeight, 0f);
         }
     }
 
