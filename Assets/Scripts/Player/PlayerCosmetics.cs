@@ -44,7 +44,7 @@ public class PlayerCosmetics : MonoBehaviour {
     Texture bodyTexture;
 
     [SerializeField]
-    Texture earsTexture;
+    string earsTexture;
 
     [SerializeField]
     int faceType;
@@ -205,13 +205,14 @@ public class PlayerCosmetics : MonoBehaviour {
             else
             {
                 BodyTexture = null;
-                //EarsTexture = null;
+                EarsTexture = "None";
                 SkinType = SkinType.Color;
             }
         }
     }
 
     void SetSkinTextures(string baseTexturePath)
+
     {
         BodyTexture = Resources.Load(baseTexturePath) as Texture;
         Texture tex = Resources.Load(baseTexturePath + "_Metallic") as Texture;
@@ -222,7 +223,7 @@ public class PlayerCosmetics : MonoBehaviour {
         bodyMat.SetTexture("_SmoothnessTex", tex);
         //bodyMat.SetTexture("_Normal", Resources.Load(baseTexturePath + "_Normal") as Texture);
         bodyMat.SetTexture("_Height", Resources.Load(baseTexturePath + "_Height") as Texture);
-        EarsTexture = Resources.Load(baseTexturePath + "_Ears") as Texture;
+        EarsTexture = baseTexturePath;
 
         if (skinType == SkinType.Texture)
             SetEarsColor(Color.white);
@@ -276,7 +277,7 @@ public class PlayerCosmetics : MonoBehaviour {
         }
     }
 
-    public Texture EarsTexture
+    public string EarsTexture
     {
         get
         {
@@ -291,9 +292,25 @@ public class PlayerCosmetics : MonoBehaviour {
             earsTexture = value;
             if (ears == "None" || earsMats == null || earsMats.Length == 0)
                 return;
-            foreach(Material mat in earsMats)
+
+            foreach (Material mat in earsMats)
             {
-                mat.SetTexture("_MainTex", earsTexture);
+                mat.SetTexture("_MainTex", Resources.Load(earsTexture + "_Ears") as Texture);
+                bodyMat.SetFloat("_Metallic", .05f);
+                mat.SetTexture("_MetallicTex", Resources.Load(earsTexture + "_Ears_Metallic") as Texture);
+                bodyMat.SetFloat("_Smoothness", .4f);
+                mat.SetTexture("_SmoothnessTex", Resources.Load(earsTexture + "_Ears_Smoothness") as Texture);
+
+                if(earsTexture == "Skins/None" || earsTexture == "Skins/Base1" || earsTexture == "Skins/Base2")
+                {
+                    mat.SetFloat("_Metallic", .05f);
+                    mat.SetFloat("_Smoothness", .4f);
+                }
+                else
+                {
+                    mat.SetFloat("_Metallic", 0f);
+                    mat.SetFloat("_Smoothness", 0f);
+                }
             }
         }
     }
@@ -437,7 +454,7 @@ public class PlayerCosmetics : MonoBehaviour {
                 }
                 else
                 {
-                    EarsTexture = Resources.Load("None_Ears") as Texture;
+                    EarsTexture = "None";
                 }
                 if (skinType == SkinType.Color || skinType == SkinType.Mixed)
                     SetEarsColor(BodyColor);
