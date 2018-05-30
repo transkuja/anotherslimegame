@@ -216,6 +216,7 @@ public class CostArea : MonoBehaviour {
             }
             else
             {
+                GameManager.UiReference.transform.GetChild(6).gameObject.SetActive(true);
                 if (SlimeDataContainer.instance != null) 
                 {
                     if (SlimeDataContainer.instance.nbPlayers == 1)
