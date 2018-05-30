@@ -119,7 +119,7 @@ public class PlayerControllerHub : PlayerController
                 return;
 
  
-            if (playerCharacterHub.dialogState == DialogState.Normal)
+            if (playerCharacterHub.DialogState == DialogState.Normal)
             {
                 HandleJumpWithController();
                 HandleMovementWithController();
@@ -130,7 +130,7 @@ public class PlayerControllerHub : PlayerController
                 if (Player.RefInitTeleporter != null)
                     LaunchMinigameInput();
             }
-            else if(playerCharacterHub.dialogState == DialogState.Dialog)
+            else if(playerCharacterHub.DialogState == DialogState.Dialog)
             {
                 Rb.drag = 25.0f;
                 Rb.velocity = Vector3.zero;
@@ -242,7 +242,7 @@ public class PlayerControllerHub : PlayerController
     public void HandlePNJWithController(int indexPlayer)
     {
         // TMP
-        if (playerCharacterHub.dialogState == DialogState.Dialog)
+        if (playerCharacterHub.DialogState == DialogState.Dialog)
         {
             if (Player.RefMessage != null)
             {

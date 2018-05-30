@@ -33,7 +33,7 @@ public class PNJController : MonoBehaviour
     public void Update()
     {
         // retourne à la postion d'origine
-        if (playerCharacterHub.dialogState == DialogState.Normal)
+        if (playerCharacterHub.DialogState == DialogState.Normal)
         {
             if (Vector3.Distance(originalPos, transform.position) > 1f)
             {

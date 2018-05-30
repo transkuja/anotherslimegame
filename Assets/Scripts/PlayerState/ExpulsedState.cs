@@ -18,7 +18,7 @@ public class ExpulsedState : PlayerState
             if (playerCharacterHub.GetComponent<EnnemyController>())
             {
                 if (AudioManager.Instance.lapinFx.Length > 0)
-                    playerCharacterHub.GetComponent<EnnemyController>().myAudioSource.PlayOneShot(AudioManager.Instance.LapinFx);
+                    playerCharacterHub.GetComponent<EnnemyController>().myAudioSource.PlayOneShot(AudioManager.Instance.LapinFx, 1.5f);
             }
             else if (playerCharacterHub.GetComponent<PNJController>() && playerCharacterHub.GetComponent<PNJController>().myAudioSource != null)
             {

@@ -10,7 +10,7 @@ public class PlayerCharacterHub : PlayerCharacter {
     private PlayerControllerHub playerController;
     private PNJController pnjController;
 
-    public DialogState dialogState;
+    private DialogState dialogState;
 
     [SerializeField] public Stats stats;
 
@@ -190,6 +190,32 @@ public class PlayerCharacterHub : PlayerCharacter {
         }
     }
     public bool PendingStepSound { get { return pendingStepSound; } set { pendingStepSound = value; } }
+
+    public DialogState DialogState
+    {
+        get
+        {
+            return dialogState;
+        }
+
+        set
+        {
+            if( value == DialogState.Dialog)
+            {
+                if(GetComponent<PNJController>() && GetComponent<PNJMessage>())
+                {
+                    // play fx
+                    if (AudioManager.Instance != null && AudioManager.Instance.pnjFilleFx && AudioManager.Instance.pnjGarçonFx)
+                    {
+                        AudioManager.Instance.PlayOneShot(PNJDialogUtils.GetDialogSound(GetComponent<PNJMessage>().pnjName), 1.2f, PNJDialogUtils.GetDialogPitch(GetComponent<PNJMessage>().pnjName));
+                    }
+
+                }
+
+            }
+            dialogState = value;
+        }
+    }
     #endregion
 
     private void Awake()

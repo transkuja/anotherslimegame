@@ -48,7 +48,7 @@ public class PNJMessage : MonoBehaviour {
     // Trigger Enter
     public void OnEnterTrigger(int playerIndex)
     {
-        if (myCharacter.dialogState == DialogState.Dialog)
+        if (myCharacter.DialogState == DialogState.Dialog)
             return;
 
         BbuttonShown[playerIndex].SetActive(true);
@@ -56,12 +56,12 @@ public class PNJMessage : MonoBehaviour {
 
     public bool OnExitTrigger(int playerIndex)
     {
-        if (myCharacter.dialogState == DialogState.Dialog)
+        if (myCharacter.DialogState == DialogState.Dialog)
             return false;
 
         if (Message[playerIndex])
             Message[playerIndex].SetActive(false);
-        GameManager.Instance.PlayerStart.PlayersReference[playerIndex].GetComponent<PlayerCharacterHub>().dialogState = DialogState.Normal;
+        GameManager.Instance.PlayerStart.PlayersReference[playerIndex].GetComponent<PlayerCharacterHub>().DialogState = DialogState.Normal;
 
         if (BbuttonShown[playerIndex])
             BbuttonShown[playerIndex].SetActive(false);
@@ -108,18 +108,18 @@ public class PNJMessage : MonoBehaviour {
     // First interaction
     public void Interact(int playerIndex)
     {
-        if (myCharacter.dialogState == DialogState.Dialog)
+        if (myCharacter.DialogState == DialogState.Dialog)
             return;
 
         // Both character hub dialogState change to Dialog
         PlayerCharacterHub joueurQuiluiParle = GameManager.Instance.PlayerStart.PlayersReference[playerIndex].GetComponent<PlayerCharacterHub>();
         if (joueurQuiluiParle)
         {
-            joueurQuiluiParle.dialogState = DialogState.Dialog;
+            joueurQuiluiParle.DialogState = DialogState.Dialog;
             transform.LookAt(new Vector3(joueurQuiluiParle.transform.position.x, transform.position.y, joueurQuiluiParle.transform.position.z));
         }
 
-        myCharacter.dialogState = DialogState.Dialog;
+        myCharacter.DialogState = DialogState.Dialog;
    
         // Display Message Hide Button B
         BbuttonShown[playerIndex].SetActive(false);

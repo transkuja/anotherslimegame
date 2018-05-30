@@ -308,8 +308,8 @@ public class MinigameTriggerGiverBehavior : PNJDefaultBehavior
           () => FadeInAndOut == null
          );
 
-        GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerCharacterHub>().dialogState = DialogState.Dialog;
-        GetComponent<PNJMessage>().myCharacter.dialogState = DialogState.Dialog;
+        GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerCharacterHub>().DialogState = DialogState.Dialog;
+        GetComponent<PNJMessage>().myCharacter.DialogState = DialogState.Dialog;
    
         GetComponent<PNJMessage>().Message[0].SetActive(true);
         GetComponent<PNJMessage>().NextMessage(0);
@@ -319,8 +319,8 @@ public class MinigameTriggerGiverBehavior : PNJDefaultBehavior
         rewards[0].GetReward();
 
         // Force Normal
-        GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerCharacterHub>().dialogState = DialogState.Normal;
-        GetComponent<PNJMessage>().myCharacter.dialogState = DialogState.Normal;
+        GameManager.Instance.PlayerStart.PlayersReference[0].GetComponent<PlayerCharacterHub>().DialogState = DialogState.Normal;
+        GetComponent<PNJMessage>().myCharacter.DialogState = DialogState.Normal;
 
         DatabaseClass.HatData hat = DatabaseManager.Db.hats.Find(a => a.Id == currentHatToUnlock);
         if (hat != null && hat.spriteUnlock != string.Empty)

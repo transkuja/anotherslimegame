@@ -375,6 +375,90 @@ public static class PNJDialogUtils {
         FaceEmotion.Attack, FaceEmotion.Neutral, FaceEmotion.Attack, FaceEmotion.Neutral, FaceEmotion.Attack, FaceEmotion.Neutral, FaceEmotion.Attack, FaceEmotion.Neutral
     };
 
+    public static float GetDialogPitch(PNJName _pnjName)
+    {
+        switch (_pnjName)
+        {
+            case PNJName.SneakyChief:
+                return 1.0f;
+            case PNJName.Joker:
+                return 1.0f;
+            case PNJName.Mickey:
+                return 1.0f;
+            case PNJName.Gwen:
+                return 1.2f;
+            case PNJName.Bob:
+                return 0.8f;
+            case PNJName.Pierre:
+                return 1.0f;
+            case PNJName.Roger:
+                return 0.8f;
+            case PNJName.Risotto:
+                return 1.0f;
+            case PNJName.Remi:
+                return 1.0f;
+            case PNJName.Antho:
+                return 1.0f;
+            case PNJName.Olivier:
+                return 1.0f;
+            case PNJName.Anais:
+                return 1.3f;
+            case PNJName.Seb:
+                return 1.0f;
+            case PNJName.Mathieu:
+                return 1.2f;
+            case PNJName.Theo:
+                return 0.8f;
+            case PNJName.Vincent:
+                return 1.0f;
+            case PNJName.Alex:
+                return 0.8f;
+        }
+        return 1.0f;
+    }
+    public static AudioClip GetDialogSound(PNJName _pnjName)
+    {
+        switch (_pnjName)
+        {
+            case PNJName.SneakyChief:
+                return AudioManager.Instance.pnjGarçonFx;
+            case PNJName.Joker:
+                return AudioManager.Instance.pnjGarçonFx;
+            case PNJName.Mickey:
+                return AudioManager.Instance.pnjGarçonFx;
+            case PNJName.Gwen:
+                return AudioManager.Instance.pnjFilleFx;
+            case PNJName.Bob:
+                return AudioManager.Instance.pnjGarçonFx;
+            case PNJName.Pierre:
+                return AudioManager.Instance.pnjGarçonFx;
+            case PNJName.Roger:
+                return AudioManager.Instance.pnjGarçonFx;
+            case PNJName.Risotto:
+                return AudioManager.Instance.pnjGarçonFx;
+            case PNJName.Remi:
+                return AudioManager.Instance.pnjGarçonFx;
+            case PNJName.Antho:
+                return AudioManager.Instance.pnjGarçonFx;
+            case PNJName.Olivier:
+                return AudioManager.Instance.pnjGarçonFx;
+            case PNJName.Anais:
+                return AudioManager.Instance.pnjFilleFx;
+            case PNJName.Seb:
+                return AudioManager.Instance.pnjGarçonFx;
+            case PNJName.Mathieu:
+                return AudioManager.Instance.pnjGarçonFx;
+            case PNJName.Theo:
+                return AudioManager.Instance.pnjGarçonFx;
+            case PNJName.Vincent:
+                return AudioManager.Instance.pnjGarçonFx;
+            case PNJName.Alex:
+                return AudioManager.Instance.pnjGarçonFx;
+        }
+        return AudioManager.Instance.pnjFilleFx;
+    }
+
+
     public static string GetDefaultMessages(PNJName _pnjName)
     {
         switch (_pnjName)
@@ -535,9 +619,9 @@ public static class PNJDialogUtils {
 
     public static void EndDialog(PlayerCharacterHub pnj, int playerIndex)
     {
-        pnj.dialogState = DialogState.Normal;
+        pnj.DialogState = DialogState.Normal;
 
-        GameManager.Instance.PlayerStart.PlayersReference[playerIndex].GetComponent<PlayerCharacterHub>().dialogState = DialogState.Normal;
+        GameManager.Instance.PlayerStart.PlayersReference[playerIndex].GetComponent<PlayerCharacterHub>().DialogState = DialogState.Normal;
         pnj.GetComponent<PNJMessage>().currentMessage = 0;
 
         pnj.GetComponent<PNJMessage>().Message[playerIndex].SetActive(false);

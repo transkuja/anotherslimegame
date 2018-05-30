@@ -21,6 +21,8 @@ public class AudioManager : MonoBehaviour
     public AudioClip coinFX;
     public AudioClip[] youpiFX;
     public AudioClip[] lapinFx;
+    public AudioClip pnjFilleFx;
+    public AudioClip pnjGarçonFx;
     public AudioClip hahahaFX;
     public AudioClip wahhFx;
     public AudioClip blobSound;
@@ -117,6 +119,9 @@ public class AudioManager : MonoBehaviour
             return lapinFx[Random.Range(0, lapinFx.Length)];
         }
     }
+
+    public AudioClip nanazda;
+    public AudioClip waha;
 
     void Awake()
     {

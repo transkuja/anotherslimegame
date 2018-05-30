@@ -207,6 +207,11 @@ public class EnnemyController : MonoBehaviour {
         if (Vector3.Distance(currentTarget.transform.position, transform.position) < attackRange)
         {
             CurrentState = RabiteState.Attack;
+
+
+            // play fx
+            if (AudioManager.Instance != null && AudioManager.Instance.nanazda != null)
+                AudioManager.Instance.PlayOneShot(AudioManager.Instance.nanazda, 1.2f,  Random.Range(1.1f, 1.3f));
         }
         else if(Vector3.Distance(currentTarget.transform.position, transform.position) > pursuitMaxRange)
         {
