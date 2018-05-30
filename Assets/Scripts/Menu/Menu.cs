@@ -134,6 +134,7 @@ public class Menu : MonoBehaviour {
     void LoadFromDatabase()
     {
         customizables.Clear();
+        minigames.Clear();
         for (int i = 0; i < (int)CustomizableType.Size; i++)
             customizables.Add((CustomizableType)i, new List<DatabaseClass.Unlockable>());
 
@@ -193,7 +194,6 @@ public class Menu : MonoBehaviour {
                 {
                     c[j] = allMinigamesOfTypeI[j];
                 }
-
                 minigames.Add(c);
             }
         }
@@ -1648,6 +1648,7 @@ public class Menu : MonoBehaviour {
     {
         // Reset -> Unlock all -> cowboy / candy / sneakyprogress = 0
         DatabaseManager.Db.NewGameSettings();
+        LoadFromDatabase();
     }
 
     public void ShowCredits()

@@ -795,6 +795,7 @@ namespace DatabaseClass
             ResetAll();
 
             DatabaseManager.instance.SaveData();
+            DatabaseManager.LoadData();
         }
 
         public void DEBUG_UnlockedAllExceptPNJ()
@@ -928,6 +929,9 @@ namespace DatabaseClass
             }
 
             Money = 500;
+            DatabaseManager.instance.SaveData();
+            DatabaseManager.LoadData();
+
         }
 
         public void UnlockAllMinigamesAndAlmostAllCustomizables()

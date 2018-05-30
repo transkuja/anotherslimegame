@@ -39,7 +39,7 @@ public class MinigameSelectionAnim : MonoBehaviour {
     [SerializeField]
     GameObject costToUnlockChild;
 
-    private void Start()
+    private void OnEnable()
     {
         if (isMinigamePanel)
         {
@@ -48,7 +48,7 @@ public class MinigameSelectionAnim : MonoBehaviour {
         initialPosition = transform.localPosition;
     }
 
-    void MinigameGenericInformationLoad()
+    public void MinigameGenericInformationLoad()
     {
         if (DatabaseManager.Db.GetUnlockedMinigamesOfType((MinigameType)transform.GetSiblingIndex()) == null ||
             DatabaseManager.Db.GetUnlockedMinigamesOfType((MinigameType)transform.GetSiblingIndex()).Count == 0)
