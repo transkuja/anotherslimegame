@@ -80,7 +80,6 @@ public class PlayerControllerFood : PlayerController {
     }
 
     public override void Update () {
-        base.Update();
 
         if (GameManager.CurrentState == GameState.Normal)
         {
