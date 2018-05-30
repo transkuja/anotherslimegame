@@ -364,6 +364,14 @@ public class Player : MonoBehaviour {
 
     public void Clignote(float time)
     {
+        if(gameObject.activeSelf)
         StartCoroutine(ClignoteCoroutine(time));
+    }
+
+    private void OnEnable()
+    {
+        playerCharacter.Body.GetComponentInChildren<Renderer>().enabled = true;
+        if (GetComponent<PlayerCollisionCenter>())
+            GetComponent<PlayerCollisionCenter>().canBeHit = true;
     }
 }
