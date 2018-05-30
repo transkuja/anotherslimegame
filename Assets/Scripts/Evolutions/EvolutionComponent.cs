@@ -117,6 +117,10 @@ public class EvolutionComponent : MonoBehaviour {
             }
             if (timer < 0.0f)
             {
+                if (feedbackCooldownImg != null && !(GameManager.Instance.CurrentGameMode is Runner3DGameMode))
+                {
+                    feedbackCooldownImg.fillAmount = 0.0f;
+                }
                 Destroy(this);
             }
         }

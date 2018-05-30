@@ -255,7 +255,8 @@ public static class PNJDialogUtils {
         "...\n" +
         "No, really, I mean it, it wasn't one of my jokes!\n" +
         "2There!\n" +
-        "Take this shiny thing I found the other day while I was fleeing from angry rabbits!"
+        "Take this shiny thing I found the other day while\n" +
+        " I was fleeing from angry rabbits!"
     ;
 
 
