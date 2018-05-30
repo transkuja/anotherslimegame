@@ -21,6 +21,7 @@ public class AudioManager : MonoBehaviour
     public AudioClip coinFX;
     public AudioClip[] youpiFX;
     public AudioClip[] lapinFx;
+    public AudioClip lapinWanderFx;
     public AudioClip pnjFilleFx;
     public AudioClip pnjGarçonFx;
     public AudioClip hahahaFX;

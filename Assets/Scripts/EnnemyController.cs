@@ -135,8 +135,21 @@ public class EnnemyController : MonoBehaviour {
     Vector3 playerToWanderTarget;
     Collider[] playersCollided;
 
+    float wanderSoundTimer = 0f;
+    float wanderSoundMaxTimer = 6f;
+
     void Wander()
     {
+        wanderSoundTimer += Time.deltaTime;
+        if(wanderSoundTimer > wanderSoundMaxTimer)
+        {
+            wanderSoundTimer = 0;
+            // play fx
+            if (myAudioSource && AudioManager.Instance.lapinWanderFx != null)
+                myAudioSource.PlayOneShot(AudioManager.Instance.lapinWanderFx, 2f);
+            wanderSoundMaxTimer = Random.Range(6f, 12f);
+        }
+
         wanderTimer += Time.deltaTime;
         if (originReach && wanderTimer > nextActionTime)
         {
