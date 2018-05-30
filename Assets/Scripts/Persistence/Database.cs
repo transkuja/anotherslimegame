@@ -924,7 +924,7 @@ namespace DatabaseClass
             foreach (MinigameData mgData in minigames)
             {
                 if (mgData.nbRunesToUnlock <= NbRunes)
-                    SetUnlock<MinigameData>(mgData.Id, true, mgData.version);
+                    mgData.isUnlocked = true;
             }
 
             Money = 500;
