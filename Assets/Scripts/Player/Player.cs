@@ -370,6 +370,7 @@ public class Player : MonoBehaviour {
 
     private void OnEnable()
     {
+        if(playerCharacter && playerCharacter.Body && playerCharacter.Body.GetComponentInChildren<Renderer>())
         playerCharacter.Body.GetComponentInChildren<Renderer>().enabled = true;
         if (GetComponent<PlayerCollisionCenter>())
             GetComponent<PlayerCollisionCenter>().canBeHit = true;

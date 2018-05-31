@@ -773,6 +773,7 @@ public class DebugTools : MonoBehaviour {
 
         if (computedFPS > 1.0f)
         {
+            if (DebugPanelReference && DebugPanelReference.GetComponent<DebugPanel>())
             DebugPanelReference.GetComponent<DebugPanel>().UpdateFPS(lastFramesTime.Count / computedFPS);
             lastFramesTime.Clear();
         }
