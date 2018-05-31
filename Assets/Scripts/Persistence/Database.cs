@@ -896,25 +896,6 @@ namespace DatabaseClass
                 a.isUnlocked = true;
 
 
-            SetUnlock<HatData>("Cowboy", false);
-            SetUnlock<HatData>("Police", false);
-            SetUnlock<HatData>("Glitter", false);
-
-            for (int i = 0; i < 5; i++)
-            {
-                int index = UnityEngine.Random.Range(0, hats.Count);
-                while (!hats[index].isUnlocked)
-                    index = UnityEngine.Random.Range(0, hats.Count);
-                hats[index].isUnlocked = false;
-            }
-            for (int i = 0; i < 2; i++)
-            {
-                int index = UnityEngine.Random.Range(0, accessories.Count);
-                while (!accessories[index].isUnlocked)
-                    index = UnityEngine.Random.Range(0, accessories.Count);
-                accessories[index].isUnlocked = false;
-            }
-
             foreach (RuneData rune in runes)
                 rune.isUnlocked = true;
 
