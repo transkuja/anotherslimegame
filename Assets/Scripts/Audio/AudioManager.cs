@@ -158,9 +158,7 @@ public class AudioManager : MonoBehaviour
             }
             else
             {
-                if( GameManager.Instance.CurrentGameMode is FruitGameMode)
-                    s_instance.Fade(musicFruitMinigame);
-                else if (GameManager.Instance.CurrentGameMode is PushGameMode || GameManager.Instance.CurrentGameMode is BreakingGameMode)
+                if (GameManager.Instance.CurrentGameMode is PushGameMode || GameManager.Instance.CurrentGameMode is BreakingGameMode)
                     s_instance.Fade(musicClashMinigame);
                 else if (GameManager.Instance.CurrentGameMode is Runner3DGameMode)
                     s_instance.Fade(musicRunnerMinigame);

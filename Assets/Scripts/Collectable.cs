@@ -62,14 +62,8 @@ public class Collectable : MonoBehaviour
     {
         if (GetComponent<PoolChild>())
         {
-            if (GetComponent<FruitType>())
-            {
-                haveToDisperse = false;
-            }
-            else
-            {
-                haveToDisperse = true;
-            }
+
+            haveToDisperse = true;
             isAttracted = false;
             if (GetComponent<Rigidbody>())
                 GetComponent<Rigidbody>().WakeUp();
@@ -147,42 +141,12 @@ public class Collectable : MonoBehaviour
             // Won't play the sound fx and wont update player money
             if (!(playerTarget.GetComponent<EnnemyController>() || playerTarget.GetComponent<PNJController>()))
             {
-                if (GetComponent<FruitType>())
+                // FIx rune tmp rémi
+                if (type == CollectableType.Rune)
                 {
-                    //Debug.Log("EntreeFruit");
-                    if (name == "fruitChanger(Clone)")
-                    {
-                        GetComponentInParent<Transform>().GetComponentInParent<BonusSpawner>().canChange = true;
-                        GetComponentInParent<Transform>().GetComponentInParent<BonusSpawner>().playerTest = playerTarget;
-                    }
-                    if (name == "Aspirator(Clone)")
-                    {
-                        GetComponentInParent<Transform>().GetComponentInParent<BonusSpawner>().playerTest = playerTarget;
-                        GetComponentInParent<Transform>().GetComponentInParent<BonusSpawner>().AspireFruit();
-
-                    }
-                    if (name == "FruitBonuss(Clone)")
-                    {
-                        playerTarget.UpdateCollectableValue(type, value + 1 * 18);
-                    }
-                    if ((int)playerTarget.GetComponent<PlayerController>().PlayerIndex == (int)GetComponent<FruitType>().typeFruit)
-                    {
-                        playerTarget.UpdateCollectableValue(type, value * (6 - (int)GetComponent<FruitType>().state));
-                    }
-                    else
-                    {
-                        playerTarget.UpdateCollectableValue(type, -value * 2);
-                    }
+                    DatabaseManager.Db.SetUnlock<DatabaseClass.RuneData>(idRune, true);
                 }
-                else
-                {
-                    // FIx rune tmp rémi
-                    if (type == CollectableType.Rune)
-                    {
-                        DatabaseManager.Db.SetUnlock<DatabaseClass.RuneData>(idRune, true);
-                    }
-                    playerTarget.UpdateCollectableValue(type, value);
-                }
+                playerTarget.UpdateCollectableValue(type, value);
 
                 if (AudioManager.Instance != null && AudioManager.Instance.coinFX != null) AudioManager.Instance.PlayOneShot(AudioManager.Instance.coinFX, 0.5f, 1.0f);
             }

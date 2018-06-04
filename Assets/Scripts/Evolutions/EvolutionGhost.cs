@@ -106,12 +106,6 @@ public class EvolutionGhost : EvolutionComponent
         baseDustTrailMat = playerCharacter.DustTrailParticles.GetComponent<ParticleSystemRenderer>().sharedMaterial;
         ghostDustTrailMat = ResourceUtils.Instance.refPrefabGhost.GhostDustTrailMaterial;
 
-        if (GameManager.Instance.CurrentGameMode.GetType() == typeof(FruitGameMode))
-        {
-            return;
-        }
-
-
 
         playerCharacter.Body.GetComponentInChildren<Renderer>().material = ghostMat;
         if( playerCharacter.GetComponentInChildren<PlayerCosmetics>().Ears != "None")
@@ -153,12 +147,6 @@ public class EvolutionGhost : EvolutionComponent
         {
             player.evolutionTutoShown[(int)Powers.Ghost] = true;
             Utils.PopTutoText("Hold", ControlType.LeftTrigger, "to leave a trail behind", player);
-        }
-
-        if (GameManager.Instance.CurrentGameMode.GetType() == typeof(FruitGameMode))
-        {
-            if(FindObjectOfType<MovingPlatform>())
-            parent = FindObjectOfType<MovingPlatform>().transform;
         }
 
         if (feedbackCooldownImg != null)
@@ -237,17 +225,7 @@ public class EvolutionGhost : EvolutionComponent
                     if(Physics.Raycast(ray, out hit, 1.0f, ~(1 << LayerMask.NameToLayer("GhostTrail"))))
                     {
                         GameObject trailPane = ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.GhostTrail).GetItem(parent, hit.point + Vector3.up * 0.01f, Quaternion.identity, true, true);
-                        if (GameManager.Instance.CurrentGameMode.GetType() == typeof(FruitGameMode))
-                        {
-                            if (GameManager.Instance.DataContainer != null)
-                            {
-                                trailPane.GetComponent<GhostTrail>().color = GameManager.Instance.DataContainer.selectedColors[(int)GetComponent<PlayerController>().PlayerIndex];
 
-                                // On enable de merde
-                                trailPane.GetComponent<GhostTrail>().gameObject.SetActive(false);
-                                trailPane.GetComponent<GhostTrail>().gameObject.SetActive(true);
-                            }
-                        }
                         float scale = Random.Range(0.8f, 1.2f);
                         trailPane.transform.localScale *= scale;
                         timeSinceLastTrailComponentSpawned = 0.0f;

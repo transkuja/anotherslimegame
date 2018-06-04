@@ -72,12 +72,6 @@ public static class MinigameDataUtils
                 return TrappedRunnerTitle;
             return RunnerTitle;
         }
-        else if (curGameMode is FruitGameMode)
-        {
-            if (_version == 1)
-                return FruitTitle2;
-            return FruitTitle;
-        }
         else if (curGameMode is PushGameMode)
         {
             if (_version == 1)
@@ -220,13 +214,6 @@ public static class MinigameDataUtils
         {
             return "RUN !";
         }
-        else if (curGameMode is FruitGameMode)
-        {
-            if(curGameMode.minigameVersion == 0)
-                return "Collect balls of your color\n Beware : Balls degrade in the time\n";
-            else
-                return "Collect balls of your color\n Beware : Ground is moving\n";
-        }
         else if (curGameMode is PushGameMode)
         {
             if (curGameMode.minigameVersion == 0)
@@ -280,14 +267,6 @@ public static class MinigameDataUtils
             }
 
         }
-        else if (curGameMode is FruitGameMode)
-        {
-            controls.Add(new ControlDetails(ControlType.LeftThumbstick));
-            controls.Add(new ControlDetails(ControlType.A));
-            controls.Add(new ControlDetails(ControlType.X, "Dash forward with X"));
-            if (_curGameMode.minigameVersion == 1)
-                controls.Add(new ControlDetails(ControlType.LeftTrigger, "Spray incapacitant with LT"));
-        }
         else if (curGameMode is PushGameMode)
         {
             controls.Add(new ControlDetails(ControlType.LeftThumbstick));
@@ -327,12 +306,6 @@ public static class MinigameDataUtils
         else if (curGameMode is Runner3DGameMode)
         {
         }
-        else if (curGameMode is FruitGameMode)
-        {
-            possiblePickups.Add(new PossiblePickup(PickUpType.Changer, "Convert all balls to your color"));
-            possiblePickups.Add(new PossiblePickup(PickUpType.Aspirator, "Collect all balls of your color"));
-            possiblePickups.Add(new PossiblePickup(PickUpType.GiantFruit, "A mega ball which give you more point"));
-        }
         else if (curGameMode is BreakingGameMode)
         {
             if (_version != 4)
@@ -360,10 +333,6 @@ public static class MinigameDataUtils
         else if (curGameMode is Runner3DGameMode)
         {
             return "Run for " + _curGameMode.necessaryPointsForRune * GameManager.Instance.ActivePlayersAtStart + "m!";
-        }
-        else if (curGameMode is FruitGameMode)
-        {
-            return "Score " + _curGameMode.necessaryPointsForRune * GameManager.Instance.ActivePlayersAtStart;
         }
         else if (curGameMode is FoodGameMode)
         {
@@ -401,12 +370,6 @@ public static class MinigameDataUtils
             return result;
         }
         else if (_curGameType == MinigameType.Runner)
-        {
-            result[0] = 0;
-            result[1] = 500;
-            return result;
-        }
-        else if (_curGameType == MinigameType.Fruit)
         {
             result[0] = 0;
             result[1] = 500;

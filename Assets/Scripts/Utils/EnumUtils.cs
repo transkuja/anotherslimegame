@@ -16,4 +16,4 @@ public enum MessageTypeMinigame { AreYouReady, AreyoureadyPlayer1, AreyoureadyPl
 
 public enum PossibleInputs { A, B, X, Y, BadOne, Size, None }
 
-public enum MinigameType { Floor, Runner, Fruit, Kart, Clash, Food, Size };
+public enum MinigameType { Floor, Runner, Kart, Shape, Clash, Food, Size };
