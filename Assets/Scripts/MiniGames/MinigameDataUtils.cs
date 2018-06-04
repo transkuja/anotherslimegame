@@ -19,8 +19,6 @@ public static class MinigameDataUtils
     private static string SnowKartTitle = "Snow Kart";
     private static string EasyKartTitle = "First Race";
     private static string RunnerTitle = "Classic Runner";
-    private static string FruitTitle = "Classic Balls";
-    private static string FruitTitle2 = "Super Balls";
     private static string ClashWithSpikesTitle = "Trapped Clash";
     private static string ClashWithPotsTitle = "Clash";
     private static string SuperRunnerTitle = "Super Runner";
@@ -147,14 +145,6 @@ public static class MinigameDataUtils
         else if(_minigameId == "Minigame3dRunner 2")
         {
             return TrappedRunnerTitle;
-        }
-        else if (_minigameId == "MiniGameFruits")
-        {
-            return FruitTitle;
-        }
-        else if (_minigameId == "MiniGameFruits2")
-        {
-            return FruitTitle2;
         }
         else if (_minigameId == "MinigamePush")
         {
