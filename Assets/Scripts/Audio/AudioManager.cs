@@ -11,7 +11,6 @@ public class AudioManager : MonoBehaviour
 
     public AudioClip musicMenu;
     public AudioClip musicGame;
-    public AudioClip musicFruitMinigame;
     public AudioClip musicRunnerMinigame;
     public AudioClip musicFoodMinigame;
     public AudioClip musicKartMinigame;

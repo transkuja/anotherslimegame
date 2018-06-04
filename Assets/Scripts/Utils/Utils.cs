@@ -16,10 +16,7 @@ public static class Utils
             50,            // CollectableType Evolution4 (Ghost)
             9999,          // Max points
             30,              // Max Runes
-            99999,           // Max money
-            9999,           // Max Fruits
-            0,               //Bonus
-            0               //Color
+            99999           // Max money
         };
 
     static int[] defaultValueCollectable =
@@ -30,10 +27,7 @@ public static class Utils
         50,                // CollectableType Evolution4 (Ghost)
         5,                // points
         1,                  // Rune
-        5,                  // Money
-        1,                   //Fruit
-        0,                  //Bonus
-        0               //Color
+        5                  // Money
     };
 
     /*

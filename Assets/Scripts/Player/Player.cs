@@ -249,20 +249,6 @@ public class Player : MonoBehaviour {
 
                 NbPoints += pickedValue;  
                 break;
-            case CollectableType.Fruits:
-                NbPoints += pickedValue;
-                if (NbPoints < 0)
-                {
-                    NbPoints = 0;
-                }
-                break;
-            case CollectableType.Bonus:
-                NbPoints += pickedValue;
-                if (NbPoints < 0)
-                {
-                    NbPoints = 0;
-                }
-                break;
             default:
                 EvolutionCheck(type);
                 break;
