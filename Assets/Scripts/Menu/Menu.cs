@@ -909,7 +909,7 @@ public class Menu : MonoBehaviour {
             for (int i = difficulty + 1; i <= 5; i++)
                 difficultyDots[i].sprite = difficultyEmptyStar;
 
-            if (selectedMinigameType == MinigameType.Floor)
+            if (selectedMinigameType == MinigameType.Floor || selectedMinigameType == MinigameType.Shape)
             {
                 transform.GetChild((int)MenuState.MinigameSelection).GetChild(5).gameObject.SetActive(true);
                 int tmpVersion = minigames[(int)selectedMinigameType][minigameCurrentVerticalCursor].version;
