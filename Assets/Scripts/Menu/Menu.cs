@@ -500,20 +500,12 @@ public class Menu : MonoBehaviour {
 
     private void DefaultCursorControls()
     {
-        if ((controllerStates[0].ThumbSticks.Left.X > 0.5f && prevControllerStates[0].ThumbSticks.Left.X < 0.5f)
-            || (controllerStates[0].ThumbSticks.Left.Y < -0.75f && prevControllerStates[0].ThumbSticks.Left.Y > -0.75f)
-            // Keyboard input
-            || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.RightArrow)
-            )
+        if (Controls.MenuDefaultMoveDown(controllerStates[0], prevControllerStates[0], 0))
         {
             buttonNeedUpdate = true;
             currentCursor++;
         }
-        else if ((controllerStates[0].ThumbSticks.Left.X < -0.5f && prevControllerStates[0].ThumbSticks.Left.X > -0.5f)
-            || (controllerStates[0].ThumbSticks.Left.Y > 0.75f && prevControllerStates[0].ThumbSticks.Left.Y < 0.75f)
-            // Keyboard input
-            || Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.LeftArrow)
-            )
+        else if (Controls.MenuDefaultMoveUp(controllerStates[0], prevControllerStates[0], 0))
         {
             buttonNeedUpdate = true;
             currentCursor--;
