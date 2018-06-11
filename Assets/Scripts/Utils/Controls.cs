@@ -85,7 +85,7 @@ public static class Controls {
     {
         if (playerIndex == keyboardIndex)
         {
-            return (Input.GetKeyDown(KeyCode.LeftArrow) ? -1 : Input.GetKeyDown(KeyCode.RightArrow) ? 1 : 0);
+            return (Input.GetAxis("Mouse X"));
         }
         else
         {
