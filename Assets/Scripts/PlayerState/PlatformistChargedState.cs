@@ -10,7 +10,8 @@ public class PlatformistChargedState : PlayerState
 
     public override void Move(Vector3 initialVelocity, float airControlFactor, float x, float y, bool forceCameraRecenter = false)
     {
-        base.Move(initialVelocity, airControlFactor, x, y, forceCameraRecenter);
+        playerCharacterHub.transform.LookAt(playerCharacterHub.transform.position + initialVelocity);
+
         playerCharacterHub.Rb.velocity = Vector3.zero;
     }
 
