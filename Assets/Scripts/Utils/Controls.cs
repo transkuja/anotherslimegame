@@ -373,19 +373,70 @@ public static class Controls {
     }
 
     #endregion
+
+    #region Minigame specific
+
+    public static bool FoodLowerButton(GamePadState prevState, GamePadState currentState, int playerIndex)
+    {
+        if (playerIndex == keyboardIndex)
+        {
+            return (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow));
+        }
+        else
+        {
+            return (currentState.Buttons.A == ButtonState.Pressed && prevState.Buttons.A == ButtonState.Released);
+        }
+    }
+
+    public static bool FoodUpperButton(GamePadState prevState, GamePadState currentState, int playerIndex)
+    {
+        if (playerIndex == keyboardIndex)
+        {
+            return (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.UpArrow));
+        }
+        else
+        {
+            return (currentState.Buttons.Y == ButtonState.Pressed && prevState.Buttons.Y == ButtonState.Released);
+        }
+    }
+
+    public static bool FoodLeftButton(GamePadState prevState, GamePadState currentState, int playerIndex)
+    {
+        if (playerIndex == keyboardIndex)
+        {
+            return (Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.LeftArrow));
+        }
+        else
+        {
+            return (currentState.Buttons.X == ButtonState.Pressed && prevState.Buttons.X == ButtonState.Released);
+        }
+    }
+
+    public static bool FoodRightButton(GamePadState prevState, GamePadState currentState, int playerIndex)
+    {
+        if (playerIndex == keyboardIndex)
+        {
+            return (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow));
+        }
+        else
+        {
+            return (currentState.Buttons.B == ButtonState.Pressed && prevState.Buttons.B == ButtonState.Released);
+        }
+    }
+    #endregion
     /*  Move zqsd ok
      * Camera mouse axis ok =/
      * Dash clic gauche ok
      * Jump space ok 
-     * Stomp clic droit à tester
+     * Stomp clic droit ok
      * Interact E à tester
      * Validate dialog E clic gauche à tester
      * Return backspace clic droit à tester
      * Pause echap ok
      * 
-     * Spawn platforms clic droit 
-     * Change platforms pattern roulette souris
-     * Tp to other player T
+     * Spawn platforms clic droit ok
+     * Change platforms pattern roulette souris ok
+     * Tp to other player T à tester
      * 
      * */
 }

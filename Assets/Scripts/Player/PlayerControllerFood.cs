@@ -94,22 +94,22 @@ public class PlayerControllerFood : PlayerController {
 
     void CompareInput()
     {
-        if (prevState.Buttons.A == ButtonState.Released && state.Buttons.A == ButtonState.Pressed)
+        if (Controls.FoodLowerButton(prevState, state, (int)playerIndex))
         {
             CheckInput(PossibleInputs.A);
         }
 
-        if (prevState.Buttons.B == ButtonState.Released && state.Buttons.B == ButtonState.Pressed)
+        if (Controls.FoodRightButton(prevState, state, (int)playerIndex))
         {
             CheckInput(PossibleInputs.B);
         }
 
-        if (prevState.Buttons.X == ButtonState.Released && state.Buttons.X == ButtonState.Pressed)
+        if (Controls.FoodLeftButton(prevState, state, (int)playerIndex))
         {
             CheckInput(PossibleInputs.X);
         }
 
-        if (prevState.Buttons.Y == ButtonState.Released && state.Buttons.Y == ButtonState.Pressed)
+        if (Controls.FoodUpperButton(prevState, state, (int)playerIndex))
         {
             CheckInput(PossibleInputs.Y);
         }
