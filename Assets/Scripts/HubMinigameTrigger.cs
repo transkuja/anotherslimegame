@@ -25,7 +25,8 @@ public class HubMinigameTrigger : MonoBehaviour
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Player" && other.GetComponent<PlayerController>() && other.GetComponent<PlayerController>().IsUsingAController)
+        if (other.tag == "Player" && other.GetComponent<PlayerController>() &&
+            other.GetComponent<EnnemyController>() == null && other.GetComponent<PNJController>() == null)
         {
             if (GameManager.CurrentState == GameState.Normal)
             {
@@ -46,7 +47,9 @@ public class HubMinigameTrigger : MonoBehaviour
 
     public void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Player" && other.GetComponent<PlayerController>() && other.GetComponent<PlayerController>().IsUsingAController)
+        if (other.tag == "Player" && other.GetComponent<PlayerController>() &&
+            other.GetComponent<EnnemyController>() == null && other.GetComponent<PNJController>() == null)
+        {
             if (GameManager.CurrentState == GameState.Normal)
             {
                 // TMP
@@ -56,9 +59,10 @@ public class HubMinigameTrigger : MonoBehaviour
 
                 if (defaultmessage)
                 {
-                    if( defaultmessage.OnExitTrigger((int)other.GetComponent<PlayerController>().PlayerIndex))
+                    if (defaultmessage.OnExitTrigger((int)other.GetComponent<PlayerController>().PlayerIndex))
                         other.GetComponent<Player>().RefMessage = null;
                 }
             }
+        }
     }
 }

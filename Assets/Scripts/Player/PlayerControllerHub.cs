@@ -254,7 +254,7 @@ public class PlayerControllerHub : PlayerController
         {
             if (Player.RefMessage != null)
             {
-                if (Controls.HubPNJPreviousMsg(PrevState, State, (int)playerIndex))
+                if (Controls.HubInteract(PrevState, State, (int)playerIndex))
                     Player.RefMessage.Interact(indexPlayer);
             }
         }
