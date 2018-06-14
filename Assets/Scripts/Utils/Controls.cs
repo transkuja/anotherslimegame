@@ -310,17 +310,80 @@ public static class Controls {
             return (currentState.Buttons.B == ButtonState.Pressed && prevState.Buttons.B == ButtonState.Released);
         }
     }
+
+    public static bool PauseGame(GamePadState prevState, GamePadState currentState, int playerIndex)
+    {
+        if (playerIndex == keyboardIndex)
+        {
+            return (Input.GetKeyDown(KeyCode.Escape));
+        }
+        else
+        {
+            return (currentState.Buttons.Start == ButtonState.Pressed && prevState.Buttons.Start == ButtonState.Released);
+        }
+    }
+
+    public static bool PlatformSpawnPressed(GamePadState prevState, GamePadState currentState, int playerIndex)
+    {
+        if (playerIndex == keyboardIndex)
+        {
+            return (Input.GetMouseButtonDown(1));
+        }
+        else
+        {
+            return (prevState.Triggers.Right < 0.1f && currentState.Triggers.Right > 0.1f);
+        }
+    }
+
+    public static bool PlatformSpawnHold(GamePadState prevState, GamePadState currentState, int playerIndex)
+    {
+        if (playerIndex == keyboardIndex)
+        {
+            return (Input.GetMouseButton(1));
+        }
+        else
+        {
+            return (currentState.Triggers.Right > 0.1f);
+        }
+    }
+
+    public static bool PlatformSpawnReleased(GamePadState prevState, GamePadState currentState, int playerIndex)
+    {
+        if (playerIndex == keyboardIndex)
+        {
+            return (Input.GetMouseButtonUp(1));
+        }
+        else
+        {
+            return (prevState.Triggers.Right > 0.1f && currentState.Triggers.Right < 0.1f);
+        }
+    }
+
+    public static bool ChangePlatformsPattern(GamePadState prevState, GamePadState currentState, int playerIndex)
+    {
+        if (playerIndex == keyboardIndex)
+        {
+            return (Input.GetAxis("Mouse ScrollWheel") > 0.07f || Input.GetAxis("Mouse ScrollWheel") < -0.07f);
+        }
+        else
+        {
+            return (prevState.Buttons.LeftShoulder == ButtonState.Released && currentState.Buttons.LeftShoulder == ButtonState.Pressed)
+                || (prevState.Buttons.RightShoulder == ButtonState.Released && currentState.Buttons.RightShoulder == ButtonState.Pressed);
+        }
+    }
+
     #endregion
-    /*  Move zqsd
-     * Camera mouse axis
-     * Dash clic gauche
-     * Jump space
-     * Stomp clic droit
-     * Interact E
-     * Validate dialog E
-     * Return backspace
-     * Pause echap
-     * Spawn platforms clic droit
+    /*  Move zqsd ok
+     * Camera mouse axis ok =/
+     * Dash clic gauche ok
+     * Jump space ok 
+     * Stomp clic droit à tester
+     * Interact E à tester
+     * Validate dialog E clic gauche à tester
+     * Return backspace clic droit à tester
+     * Pause echap ok
+     * 
+     * Spawn platforms clic droit 
      * Change platforms pattern roulette souris
      * Tp to other player T
      * 

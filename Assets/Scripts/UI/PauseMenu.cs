@@ -155,14 +155,12 @@ public class PauseMenu : MonoBehaviour {
 
     private void DefaultCursorControls()
     {
-        if ((controllerState.ThumbSticks.Left.X > 0.5f && prevControllerState.ThumbSticks.Left.X < 0.5f)
-            || (controllerState.ThumbSticks.Left.Y < -0.75f && prevControllerState.ThumbSticks.Left.Y > -0.75f))
+        if (Controls.MenuDefaultMoveDown(controllerState, prevControllerState, GameManager.Instance.playerWhoPausedTheGame))
         {
             selection++;
             UpdateSelectionVisual();
         }
-        else if ((controllerState.ThumbSticks.Left.X < -0.5f && prevControllerState.ThumbSticks.Left.X > -0.5f)
-            || (controllerState.ThumbSticks.Left.Y > 0.75f && prevControllerState.ThumbSticks.Left.Y < 0.75f))
+        else if (Controls.MenuDefaultMoveUp(controllerState, prevControllerState, GameManager.Instance.playerWhoPausedTheGame))
         {
             selection--;
             UpdateSelectionVisual();

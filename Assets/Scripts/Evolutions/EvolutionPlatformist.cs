@@ -285,13 +285,9 @@ public class EvolutionPlatformist : EvolutionComponent {
         }
     }
 
-    public void IndexSelection(GamePadState receivedPrevState, GamePadState receivedState)
+    public void IndexSelection(GamePadState receivedPrevState, GamePadState receivedState, int playerIndex)
     {
-        if (receivedPrevState.Buttons.LeftShoulder == ButtonState.Released && receivedState.Buttons.LeftShoulder == ButtonState.Pressed)
-        {
-            IndexPattern = (IndexPattern + moduloIndexPattern - 1) % moduloIndexPattern;
-        }
-        if (receivedPrevState.Buttons.RightShoulder == ButtonState.Released && receivedState.Buttons.RightShoulder == ButtonState.Pressed)
+        if (Controls.ChangePlatformsPattern(receivedPrevState, receivedState, playerIndex))
         {
             IndexPattern = (IndexPattern + 1) % moduloIndexPattern;
         }

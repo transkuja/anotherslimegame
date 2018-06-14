@@ -46,10 +46,10 @@ public class PlayerControllerHub : PlayerController
             if (platformistComponent.Charges == 0)
                 return;
 
-            if (prevState.Triggers.Right < 0.1f && state.Triggers.Right > 0.1f)
+            if (Controls.PlatformSpawnPressed(prevState, state, (int)playerIndex))
                 rightTriggerHasBeenPressed = true;
 
-            if (rightTriggerHasBeenPressed && state.Triggers.Right > 0.1f)
+            if (rightTriggerHasBeenPressed && Controls.PlatformSpawnHold(prevState, state, (int)playerIndex))
                 timerRightTriggerPressed += Time.deltaTime;
 
             if (timerRightTriggerPressed > platformistComponent.ChargeTime)
@@ -57,10 +57,10 @@ public class PlayerControllerHub : PlayerController
                 // Show pattern + buttons to swap
                 // Tant qu'on a pas relaché la gachette
                 playerCharacterHub.PlayerState = playerCharacterHub.platformistChargedState;
-                platformistComponent.IndexSelection(prevState, state);
+                platformistComponent.IndexSelection(prevState, state, (int)playerIndex);
             }
 
-            if (prevState.Triggers.Right > 0.1f && state.Triggers.Right < 0.1f)
+            if (Controls.PlatformSpawnReleased(prevState, state, (int)playerIndex))
             {
                 playerCharacterHub.PlayerState = playerCharacterHub.freeState;
 

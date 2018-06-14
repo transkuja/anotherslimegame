@@ -126,7 +126,7 @@ public class PlayerController : MonoBehaviour
 
         if (SceneManager.GetActiveScene() != SceneManager.GetSceneByBuildIndex(0))
         {
-            if (prevState.Buttons.Start == ButtonState.Released && state.Buttons.Start == ButtonState.Pressed)
+            if (Controls.PauseGame(prevState, state, (int)playerIndex))
             {
                 // Only the player who paused the game can remove the pause
                 if (GameManager.CurrentState == GameState.Paused)
