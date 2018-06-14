@@ -94,6 +94,9 @@ public static class ColorFloorHandler {
 
         foreach (OnColoredFloorTrigger c in _toRegister)
         {
+            if (c.IsLocked())
+                return;
+
             if (!currentlyColoredByPlayer[_playerIndex].Contains(c))
             {
                 UnregisterFloor(c);

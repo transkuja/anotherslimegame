@@ -39,7 +39,7 @@ public class OnColoredFloorTrigger : BoardFloor {
 
     void ResetState()
     {
-        if (currentState == FloorState.AnimLocked || material.GetColor("_EmissionColor") == Color.black)
+        if (currentState == FloorState.AnimLocked && material.GetColor("_EmissionColor") == Color.black)
         {
             currentOwner = -1;
             currentState = FloorState.Normal;
