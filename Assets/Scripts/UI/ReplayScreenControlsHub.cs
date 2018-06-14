@@ -45,10 +45,7 @@ public class ReplayScreenControlsHub : MonoBehaviour {
         prevControllerState = controllerState;
         controllerState = GamePad.GetState((PlayerIndex)index);
 
-        if ((controllerState.ThumbSticks.Left.X > 0.5f && prevControllerState.ThumbSticks.Left.X < 0.5f)
-            || (controllerState.ThumbSticks.Left.Y < -0.75f && prevControllerState.ThumbSticks.Left.Y > -0.75f)
-            || (controllerState.ThumbSticks.Left.X < -0.5f && prevControllerState.ThumbSticks.Left.X > -0.5f)
-            || (controllerState.ThumbSticks.Left.Y > 0.75f && prevControllerState.ThumbSticks.Left.Y < 0.75f))
+        if (Controls.MenuDefaultMoveDown(prevControllerState, controllerState, index) || Controls.MenuDefaultMoveUp(prevControllerState, controllerState, index))
         {
             if (AudioManager.Instance != null && AudioManager.Instance.changeOptionFx != null)
                 AudioManager.Instance.PlayOneShot(AudioManager.Instance.changeOptionFx);
@@ -59,7 +56,7 @@ public class ReplayScreenControlsHub : MonoBehaviour {
 
         // Callback
 
-        if (prevControllerState.Buttons.A == ButtonState.Released && controllerState.Buttons.A == ButtonState.Pressed)
+        if (Controls.MenuValidation(prevControllerState, controllerState, index))
         {
             if (AudioManager.Instance != null && AudioManager.Instance.buttonValidationFx != null)
                 AudioManager.Instance.PlayOneShot(AudioManager.Instance.buttonValidationFx);

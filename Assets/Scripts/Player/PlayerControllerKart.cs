@@ -198,7 +198,7 @@ public class PlayerControllerKart : PlayerController {
             dashTimer = 0.0f;
             DisableClampingForSeconds(0.15f);
         }
-        targetForward = new Vector3(state.ThumbSticks.Left.X, 0, state.ThumbSticks.Left.Y);
+        targetForward = new Vector3(Controls.HubMoveX(state, (int)playerIndex), 0, Controls.HubMoveY(state, (int)playerIndex));
         if (targetForward == Vector3.zero)
             targetForward = transform.forward;
     }

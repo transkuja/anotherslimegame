@@ -71,8 +71,8 @@ public class MinigameColorFloorGP : MonoBehaviour {
             StartCoroutine(Jump(curPlayer, speedMultiplier));
             controllerStates[i] = GamePad.GetState((PlayerIndex)i);
 
-            float x = controllerStates[i].ThumbSticks.Left.X;
-            float y = controllerStates[i].ThumbSticks.Left.Y;
+            float x = Controls.HubMoveX(controllerStates[i], i);
+            float y = Controls.HubMoveY(controllerStates[i], i);
             if (Utils.Abs(x) < 0.1f && Utils.Abs(y) < 0.1f)
             {
                 continue;
