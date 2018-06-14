@@ -95,24 +95,24 @@ public class PlayerControllerHub : PlayerController
             return;
         if (!playerIndexSet)
             return;
-        if (!prevState.IsConnected)
-        {
-            isUsingAController = false;
-            for (int i = 0; i < GameManager.Instance.ActivePlayersAtStart; i++)
-            {
-                GamePadState testState = GamePad.GetState(playerIndex);
+        //if (!prevState.IsConnected)
+        //{
+        //    isUsingAController = false;
+        //    for (int i = 0; i < GameManager.Instance.ActivePlayersAtStart; i++)
+        //    {
+        //        GamePadState testState = GamePad.GetState(playerIndex);
 
-                if (testState.IsConnected)
-                {
-                    playerIndexSet = true;
-                    isUsingAController = true;
-                    break;
-                }
-            }
-        }
+        //        if (testState.IsConnected)
+        //        {
+        //            playerIndexSet = true;
+        //            isUsingAController = true;
+        //            break;
+        //        }
+        //    }
+        //}
 
-        if (isUsingAController)
-        {
+        //if (isUsingAController)
+        //{
             base.Update();
 
             if (GameManager.CurrentState == GameState.ForcedPauseMGRules)
@@ -139,7 +139,7 @@ public class PlayerControllerHub : PlayerController
 
             HandlePNJWithController((int)PlayerIndex);
 
-        }
+        //}
     }
     public Vector3 GetVelocity3DThirdPerson(Vector3 initialVelocity, float airControlFactor)
     {
@@ -157,20 +157,20 @@ public class PlayerControllerHub : PlayerController
 
     public virtual void HandleMovementWithController()
     {
-        Vector3 initialVelocity = playerCharacterHub.PlayerState.HandleSpeed(State.ThumbSticks.Left.X, State.ThumbSticks.Left.Y);
+        Vector3 initialVelocity = playerCharacterHub.PlayerState.HandleSpeed(Controls.HubMoveX(State, (int)playerIndex), Controls.HubMoveY(State, (int)playerIndex));
 
         Vector3 velocityVec = Vector3.zero;
         if(GameManager.Instance.CurrentGameMode.ViewMode == ViewMode.thirdPerson3d)
             velocityVec = GetVelocity3DThirdPerson(initialVelocity, Player.airControlFactor);
         
-        playerCharacterHub.PlayerState.Move(velocityVec, Player.airControlFactor, State.ThumbSticks.Left.X, State.ThumbSticks.Left.Y, forceCameraRecenter);
+        playerCharacterHub.PlayerState.Move(velocityVec, Player.airControlFactor, Controls.HubMoveX(State, (int)playerIndex), Controls.HubMoveY(State, (int)playerIndex), forceCameraRecenter);
 
         // TMP Animation
-        playerCharacterHub.PlayerState.HandleControllerAnim(State.ThumbSticks.Left.X, State.ThumbSticks.Left.Y);
+        playerCharacterHub.PlayerState.HandleControllerAnim(Controls.HubMoveX(State, (int)playerIndex), Controls.HubMoveY(State, (int)playerIndex));
     }
     public virtual void HandleJumpWithController()
     {
-        if (prevState.Buttons.A == ButtonState.Released && state.Buttons.A == ButtonState.Pressed && playerCharacterHub.PlayerState != playerCharacterHub.dashState)
+        if (Controls.HubJump(prevState, state, (int)playerIndex) && playerCharacterHub.PlayerState != playerCharacterHub.dashState)
         {
 #if UNITY_EDITOR
             tryByPassJumpStop = true;
@@ -185,11 +185,11 @@ public class PlayerControllerHub : PlayerController
     }
     public virtual void HandleDashWithController()
     {
-        if (PrevState.Buttons.X == ButtonState.Released && State.Buttons.X == ButtonState.Pressed)
+        if (Controls.HubDash(PrevState, State, (int)playerIndex))
             playerCharacterHub.PlayerState.OnDashPressed();
 
         if (GetComponent<EvolutionStrength>() != null)
-            if (PrevState.Buttons.Y == ButtonState.Released && State.Buttons.Y == ButtonState.Pressed)
+            if (Controls.HubStomp(PrevState, State, (int)playerIndex))
                 playerCharacterHub.PlayerState.OnDownDashPressed();
     }
 
@@ -197,7 +197,7 @@ public class PlayerControllerHub : PlayerController
     {
         if (GameManager.Instance.IsInHub() && GameManager.Instance.PlayerStart.ActivePlayersAtStart == 2 && playerCharacterHub.IsGrounded)
         {
-            if (state.Buttons.B == ButtonState.Pressed && state.Buttons.Y == ButtonState.Pressed)
+            if (Controls.HubTeleportToPlayer(state, (int)playerIndex))
             {
                 if (!canTeleportAgain)
                     return;
@@ -246,7 +246,7 @@ public class PlayerControllerHub : PlayerController
         {
             if (Player.RefMessage != null)
             {
-                if (PrevState.Buttons.A == ButtonState.Released && State.Buttons.A == ButtonState.Pressed)
+                if (Controls.HubPNJNextMsg(PrevState, State, (int)playerIndex))
                     Player.RefMessage.DisplayMessage(indexPlayer);
             }
         }
@@ -254,7 +254,7 @@ public class PlayerControllerHub : PlayerController
         {
             if (Player.RefMessage != null)
             {
-                if (PrevState.Buttons.B == ButtonState.Released && State.Buttons.B == ButtonState.Pressed)
+                if (Controls.HubPNJPreviousMsg(PrevState, State, (int)playerIndex))
                     Player.RefMessage.Interact(indexPlayer);
             }
         }
@@ -262,7 +262,7 @@ public class PlayerControllerHub : PlayerController
 
     void LaunchMinigameInput()
     {
-        if (PrevState.Buttons.B == ButtonState.Released && State.Buttons.B == ButtonState.Pressed)
+        if (Controls.HubInteract(PrevState, State, (int)playerIndex))
         {
             GameManager.ChangeState(GameState.ForcedPauseMGRules);
 

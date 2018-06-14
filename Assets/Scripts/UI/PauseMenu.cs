@@ -116,7 +116,7 @@ public class PauseMenu : MonoBehaviour {
 
         DefaultCursorControls();
 
-        if (prevControllerState.Buttons.A == ButtonState.Released && controllerState.Buttons.A == ButtonState.Pressed)
+        if (Controls.HubPNJNextMsg(prevControllerState, controllerState, GameManager.Instance.playerWhoPausedTheGame))
         {
             if (currentState != PauseMenuState.Controls)
             {
@@ -142,7 +142,7 @@ public class PauseMenu : MonoBehaviour {
         }
 
         // TMP: return to 1st screen if B is pressed. Works for now but we may want to just go back 1 page backward at a time.
-        if (prevControllerState.Buttons.B == ButtonState.Released && controllerState.Buttons.B == ButtonState.Pressed)
+        if (Controls.HubPNJPreviousMsg(prevControllerState, controllerState, GameManager.Instance.playerWhoPausedTheGame))
         {
             if (currentState > 0)
             {

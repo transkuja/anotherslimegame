@@ -79,29 +79,26 @@ public class DynamicJoystickCameraController : MonoBehaviour {
         if (associatedPlayerCharacter == null)
             return;
 
-        if (associatedPlayerController.IsUsingAController)
-        {
-            prevState = state;
-            state = GamePad.GetState(playerIndex);
+        prevState = state;
+        state = GamePad.GetState(playerIndex);
 
-            RecenterBehaviour();
-            CameraStickBehaviour();
+        RecenterBehaviour();
+        CameraStickBehaviour();
 
-            // Handle camera behaviour when the player is moving on the sides
-            if (TurnCameraWithLThumb && !forceMiddleRig)
-                freelookCamera.m_XAxis.m_InputAxisValue += UpdateCameraXAxisValue(state.ThumbSticks.Left.X);
+        // Handle camera behaviour when the player is moving on the sides
+        if (TurnCameraWithLThumb && !forceMiddleRig)
+            freelookCamera.m_XAxis.m_InputAxisValue += UpdateCameraXAxisValue(Controls.HubMoveX(state, (int)playerIndex));
             
 
-            if (Utils.Abs(state.ThumbSticks.Left.Y) > 0.1f)
-            {
-                needToTendToMiddleRig = true;
-                lerpOldValue = freelookCamera.m_YAxis.Value;
-                lerpValue = 0.0f;
-            }
-
-            if (!forceMiddleRig)
-                TendToMiddleRig(associatedPlayerController);
+        if (Utils.Abs(Controls.HubMoveY(state, (int)playerIndex)) > 0.1f)
+        {
+            needToTendToMiddleRig = true;
+            lerpOldValue = freelookCamera.m_YAxis.Value;
+            lerpValue = 0.0f;
         }
+
+        if (!forceMiddleRig)
+            TendToMiddleRig(associatedPlayerController);
     }
 
     public void ChangeCameraBehaviour(CameraBehaviour _newBehaviour, bool _reset = false)
@@ -171,11 +168,11 @@ public class DynamicJoystickCameraController : MonoBehaviour {
     /// </summary>
     void CameraStickBehaviour()
     {
-
-        if (Utils.Abs(state.ThumbSticks.Right.X) > 0.1f)
+        if (Utils.Abs(Controls.HubCameraX(state, (int)playerIndex)) > 0.1f)
         {
+
             TurnCameraWithLThumb = false;
-            freelookCamera.m_XAxis.m_InputAxisValue = -state.ThumbSticks.Right.X * cameraXAdjuster;
+            freelookCamera.m_XAxis.m_InputAxisValue = -Controls.HubCameraX(state, (int)playerIndex) * cameraXAdjuster;
             freelookCamera.m_RecenterToTargetHeading.m_enabled = false;
             needToTendToMiddleRig = false;
         }
@@ -184,10 +181,10 @@ public class DynamicJoystickCameraController : MonoBehaviour {
 
         if (!forceMiddleRig)
         {
-            if (Utils.Abs(state.ThumbSticks.Right.Y) > 0.1f)
+            if (Utils.Abs(Controls.HubCameraY(state, (int)playerIndex)) > 0.1f)
             {
                 TurnCameraWithLThumb = false;
-                freelookCamera.m_YAxis.m_InputAxisValue = state.ThumbSticks.Right.Y * cameraYAdjuster;
+                freelookCamera.m_YAxis.m_InputAxisValue = Controls.HubCameraY(state, (int)playerIndex) * cameraYAdjuster;
                 freelookCamera.m_RecenterToTargetHeading.m_enabled = false;
                 needToTendToMiddleRig = false;
 
@@ -196,7 +193,7 @@ public class DynamicJoystickCameraController : MonoBehaviour {
                 freelookCamera.m_YAxis.m_InputAxisValue = 0;
         }
 
-        if ((Utils.Abs(state.ThumbSticks.Right.X) + Utils.Abs(state.ThumbSticks.Right.Y)) < 0.1f)
+        if ((Utils.Abs(Controls.HubCameraX(state, (int)playerIndex)) + Utils.Abs(Controls.HubCameraY(state, (int)playerIndex))) < 0.1f)
             TurnCameraWithLThumb = true;
 
         if (associatedPlayerCharacter.PlayerState == associatedPlayerCharacter.teleportState)

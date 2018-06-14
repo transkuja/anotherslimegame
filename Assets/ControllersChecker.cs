@@ -5,6 +5,7 @@ using UWPAndXInput;
 
 public class ControllersChecker : MonoBehaviour {
 
+    [SerializeField]
     int controllersConnected = 0;
 
     void Awake()

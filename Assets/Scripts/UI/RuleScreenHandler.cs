@@ -44,11 +44,11 @@ public class RuleScreenHandler : MonoBehaviour {
             prevState = curPadState;
             curPadState = GamePad.GetState(0);
 
-            if (prevState.Buttons.A == ButtonState.Released && curPadState.Buttons.A == ButtonState.Pressed)
+            if (Controls.HubPNJNextMsg(prevState, curPadState, 0))
             {
                 ChangeState(true);
             }
-            else if (prevState.Buttons.B == ButtonState.Released && curPadState.Buttons.B == ButtonState.Pressed)
+            else if (Controls.HubPNJPreviousMsg(prevState, curPadState, 0))
             {
                 ChangeState(false);
             }
