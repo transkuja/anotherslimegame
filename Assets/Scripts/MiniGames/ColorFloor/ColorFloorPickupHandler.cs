@@ -94,7 +94,7 @@ public class ColorFloorPickupHandler : MonoBehaviour
             spawnedPickups.Add(
                 ResourceUtils.Instance.poolManager.GetPoolByName(PoolName.ColorFloorPickUps).GetItem(
                     transform.GetChild(randChild / lineCount).GetChild(randChild % lineSize),
-                    Vector3.up * (1.5f + ((subpoolIndex == 0) ? 1.5f : 0.0f)),
+                    Vector3.up * (1.5f + ((subpoolIndex == 0 && GameManager.Instance.CurrentGameMode.minigameVersion % 2 == 0) ? 1.5f : 0.0f)),
                     Quaternion.identity,
                     true,
                     false,
