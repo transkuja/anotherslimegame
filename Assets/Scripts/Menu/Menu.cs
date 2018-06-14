@@ -316,10 +316,7 @@ public class Menu : MonoBehaviour {
         }
 
         // Player 1 has the lead and can rewind the menu state by pressing B
-        if (prevControllerStates[0].Buttons.B == ButtonState.Released && controllerStates[0].Buttons.B == ButtonState.Pressed
-                // Keyboard input
-                || Input.GetKeyDown(KeyCode.Backspace)
-                || Input.GetKeyDown(KeyCode.Escape))
+        if (Controls.MenuCancellation(prevControllerStates[0], controllerStates[0], 0))
         {
             if (creditsShown)
             {
@@ -373,9 +370,7 @@ public class Menu : MonoBehaviour {
                 buttonNeedUpdate = false;
             }
 
-            if (prevControllerStates[0].Buttons.A == ButtonState.Released && controllerStates[0].Buttons.A == ButtonState.Pressed
-                // Keyboard input
-                || Input.GetKeyDown(KeyCode.Return) || Input.GetKeyDown(KeyCode.KeypadEnter))
+            if (Controls.MenuValidation(prevControllerStates[0], controllerStates[0], 0))
             {
                 if (creditsShown)
                 {
@@ -500,20 +495,12 @@ public class Menu : MonoBehaviour {
 
     private void DefaultCursorControls()
     {
-        if ((controllerStates[0].ThumbSticks.Left.X > 0.5f && prevControllerStates[0].ThumbSticks.Left.X < 0.5f)
-            || (controllerStates[0].ThumbSticks.Left.Y < -0.75f && prevControllerStates[0].ThumbSticks.Left.Y > -0.75f)
-            // Keyboard input
-            || Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.RightArrow)
-            )
+        if (Controls.MenuDefaultMoveDown(controllerStates[0], prevControllerStates[0], 0))
         {
             buttonNeedUpdate = true;
             currentCursor++;
         }
-        else if ((controllerStates[0].ThumbSticks.Left.X < -0.5f && prevControllerStates[0].ThumbSticks.Left.X > -0.5f)
-            || (controllerStates[0].ThumbSticks.Left.Y > 0.75f && prevControllerStates[0].ThumbSticks.Left.Y < 0.75f)
-            // Keyboard input
-            || Input.GetKeyDown(KeyCode.Q) || Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.LeftArrow)
-            )
+        else if (Controls.MenuDefaultMoveUp(controllerStates[0], prevControllerStates[0], 0))
         {
             buttonNeedUpdate = true;
             currentCursor--;
@@ -530,10 +517,7 @@ public class Menu : MonoBehaviour {
         for (int i = 0; i < nbPlayers; i++)
         {
             // Unready player 
-            if (prevControllerStates[i].Buttons.B == ButtonState.Released && controllerStates[i].Buttons.B == ButtonState.Pressed
-                // Keyboard input
-                || (i == 1 && Input.GetKeyDown(KeyCode.KeypadPeriod))
-                || (i == 0 && Input.GetKeyDown(KeyCode.Escape)))
+            if (Controls.MenuCancellation(prevControllerStates[i], controllerStates[i], i))
             {
                 // Go back to previous state if player 1 is not ready and pressed B
                 if (i == 0 && !areReady[0])
@@ -549,11 +533,7 @@ public class Menu : MonoBehaviour {
             }
 
             // Press start when you're ready to go
-            if (prevControllerStates[i].Buttons.Start == ButtonState.Released && controllerStates[i].Buttons.Start == ButtonState.Pressed
-                || (prevControllerStates[i].Buttons.A == ButtonState.Released && controllerStates[i].Buttons.A == ButtonState.Pressed)
-                // Keyboard input
-                || (i == 0 && Input.GetKeyDown(KeyCode.A))
-                || (i == 1 && Input.GetKeyDown(KeyCode.KeypadEnter)))
+            if (Controls.MenuIsReady(prevControllerStates[i], controllerStates[i], i))
             {
                 areReady[i] = true;
 
@@ -572,9 +552,9 @@ public class Menu : MonoBehaviour {
                 }
             }
 
-            playerCustomScreens[i].transform.GetChild(4).Rotate(Vector3.up, controllerStates[i].ThumbSticks.Right.X * 150.0f * Time.deltaTime);
+            playerCustomScreens[i].transform.GetChild(4).Rotate(Vector3.up, Controls.MenuRotateCharacter(controllerStates[i], i) * 150.0f * Time.deltaTime);
 
-            if (prevControllerStates[i].Buttons.X == ButtonState.Released && controllerStates[i].Buttons.X == ButtonState.Pressed)
+            if (Controls.MenuRandomize(prevControllerStates[i], controllerStates[i], i))
             {
                 if (!areReady[i])
                 {
@@ -636,7 +616,7 @@ public class Menu : MonoBehaviour {
                 }
             }
 
-            if (prevControllerStates[i].Buttons.Y == ButtonState.Released && controllerStates[i].Buttons.Y == ButtonState.Pressed)
+            if (Controls.MenuBuy(prevControllerStates[i], controllerStates[i], i))
             {
                 if (areReady[i])
                     playerCustomScreens[i].GetComponentInChildren<PlayerCosmetics>().GetComponent<Animator>().SetTrigger("YPressed");
@@ -647,17 +627,13 @@ public class Menu : MonoBehaviour {
                 continue;
 
             // Y axis controls the settings selection
-            if (controllerStates[i].Buttons.RightShoulder == ButtonState.Pressed && prevControllerStates[i].Buttons.RightShoulder == ButtonState.Released
-                // Keyboard input
-                || (i == 0 && (Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.S)))
-                || (i == 1 && (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow)))
-                )
+            if (Controls.MenuNextCustomizableType(prevControllerStates[i], controllerStates[i], i))
             {
                 currentlySelectedOption[i]++;
                 currentlySelectedOption[i] = currentlySelectedOption[i] % (int)CustomizableType.Size;
                 UpdatePreview(i);
             }
-            else if (controllerStates[i].Buttons.LeftShoulder == ButtonState.Pressed && prevControllerStates[i].Buttons.LeftShoulder == ButtonState.Released)
+            else if (Controls.MenuPreviousCustomizableType(prevControllerStates[i], controllerStates[i], i))
             {
                 currentlySelectedOption[i]--;
                 if (currentlySelectedOption[i] < 0)
@@ -667,19 +643,12 @@ public class Menu : MonoBehaviour {
                 UpdatePreview(i);
             }
             // X axis controls the settings values
-            else if (controllerStates[i].ThumbSticks.Left.X > 0.5f && prevControllerStates[i].ThumbSticks.Left.X < 0.5f
-                // Keyboard input
-                || (i == 0 && Input.GetKeyDown(KeyCode.D))
-                || (i == 1 && Input.GetKeyDown(KeyCode.RightArrow))
-                )
+            else if (Controls.MenuNextCustomizableValue(prevControllerStates[i], controllerStates[i], i))
             {
                 selectedCustomizables[currentlySelectedOption[i], i]++;
                 UpdatePreview(i);
             }
-            else if (controllerStates[i].ThumbSticks.Left.X < -0.5f && prevControllerStates[i].ThumbSticks.Left.X > -0.5f
-                // Keyboard input
-                || (i == 0 && Input.GetKeyDown(KeyCode.Q))
-                || (i == 1 && Input.GetKeyDown(KeyCode.LeftArrow)))
+            else if (Controls.MenuPreviousCustomizableValue(prevControllerStates[i], controllerStates[i], i))
             {
                 selectedCustomizables[currentlySelectedOption[i], i]--;
                 UpdatePreview(i);
@@ -687,7 +656,7 @@ public class Menu : MonoBehaviour {
         }
        
         // Buy controls
-        if (prevControllerStates[0].Buttons.Y == ButtonState.Released && controllerStates[0].Buttons.Y == ButtonState.Pressed)
+        if (Controls.MenuBuy(prevControllerStates[0], controllerStates[0], 0))
         {
             if (playerCustomScreens[0].GetComponentInChildren<UnlockableContainer>() != null) // if inactive, will be null
             {
@@ -722,10 +691,7 @@ public class Menu : MonoBehaviour {
 
     private void MinigameSelectionCursorControls()
     {
-        if ((controllerStates[0].ThumbSticks.Left.X > 0.5f && prevControllerStates[0].ThumbSticks.Left.X < 0.5f)
-            // Keyboard input
-            || (Input.GetKeyDown(KeyCode.D) || (Input.GetKeyDown(KeyCode.RightArrow)))
-            )
+        if (Controls.MenuNextCustomizableValue(prevControllerStates[0], controllerStates[0], 0))
         {
             if (!minigameTypeSelected && canChangeSelection)
             {
@@ -738,10 +704,7 @@ public class Menu : MonoBehaviour {
                 }
             }
         }
-        else if ((controllerStates[0].ThumbSticks.Left.X < -0.5f && prevControllerStates[0].ThumbSticks.Left.X > -0.5f)
-            // Keyboard input
-            || (Input.GetKeyDown(KeyCode.Q) || (Input.GetKeyDown(KeyCode.LeftArrow)))
-            )
+        else if (Controls.MenuPreviousCustomizableValue(prevControllerStates[0], controllerStates[0], 0))
         {
             if (!minigameTypeSelected && canChangeSelection)
             {
@@ -754,10 +717,7 @@ public class Menu : MonoBehaviour {
             }
         }
 
-        if ((controllerStates[0].ThumbSticks.Left.Y > 0.5f && prevControllerStates[0].ThumbSticks.Left.Y < 0.5f)
-           // Keyboard input
-           || (Input.GetKeyDown(KeyCode.Z) || (Input.GetKeyDown(KeyCode.UpArrow)))
-           )
+        if (Controls.MenuPreviousMinigameTypeY(prevControllerStates[0], controllerStates[0], 0))
         {
             if (minigameTypeSelected)
             {
@@ -782,10 +742,7 @@ public class Menu : MonoBehaviour {
                 }
             }
         }
-        else if ((controllerStates[0].ThumbSticks.Left.Y < -0.5f && prevControllerStates[0].ThumbSticks.Left.Y > -0.5f)
-            // Keyboard input
-            || (Input.GetKeyDown(KeyCode.S) || (Input.GetKeyDown(KeyCode.DownArrow)))
-            )
+        else if (Controls.MenuNextMinigameTypeY(prevControllerStates[0], controllerStates[0], 0))
         {
             if (minigameTypeSelected)
             {
@@ -810,7 +767,7 @@ public class Menu : MonoBehaviour {
         }
 
         if (!minigameTypeSelected && canChangeSelection &&
-            controllerStates[0].Buttons.X == ButtonState.Pressed && prevControllerStates[0].Buttons.X == ButtonState.Released)
+            Controls.MenuRandomize(prevControllerStates[0], controllerStates[0], 0))
         {
             RandomizeMinigameSelection();
         }
