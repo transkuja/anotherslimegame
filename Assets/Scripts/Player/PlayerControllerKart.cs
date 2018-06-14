@@ -130,7 +130,7 @@ public class PlayerControllerKart : PlayerController {
         base.Update();
         sound.pitch = rb.velocity.magnitude / maxVelocityMagnitude + 1.8f;
         state = GamePad.GetState(PlayerIndex);
-        if (Input.GetKeyDown(KeyCode.M))
+        if (Input.GetKeyDown(KeyCode.M) && DebugTools.isDebugModeActive)
             useAlternativeCommands = !useAlternativeCommands;
         switch(CurrentState)
         {
@@ -170,14 +170,14 @@ public class PlayerControllerKart : PlayerController {
         // Clamp Rotation speed relative to maxVelocity
         float velocityRatio = directionFactor * ((rb.velocity.magnitude > maxVelocityMagnitude) ? 1.0f : (rb.velocity.magnitude / maxVelocityMagnitude));
 
-        transform.Rotate(Vector3.up * velocityRatio * state.ThumbSticks.Left.X * Time.deltaTime * turnSpeed);
+        transform.Rotate(Vector3.up * velocityRatio * Controls.HubMoveX(state, (int)playerIndex) * Time.deltaTime * turnSpeed);
 
         currentAccelerationButtonPressed = 0; // 1 if we go forward, -1 if reverse, 0 if no or both buttons pressed
 
-        if (state.Buttons.A == ButtonState.Pressed)
+        if (Controls.KartSpeedUp(state, (int)playerIndex))
             currentAccelerationButtonPressed++;
 
-        if (state.Buttons.B == ButtonState.Pressed)
+        if (Controls.KartSpeedDown(state, (int)playerIndex))
             currentAccelerationButtonPressed--;
         
         if (currentAccelerationButtonPressed > 0)
@@ -192,7 +192,7 @@ public class PlayerControllerKart : PlayerController {
 
         if(clamp)
             rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxVelocityMagnitude);
-        if (dashTimer >= dashCooldown && state.Buttons.X == ButtonState.Pressed && prevState.Buttons.X == ButtonState.Released)
+        if (dashTimer >= dashCooldown && Controls.HubDash(prevState, state, (int)playerIndex))
         {
             rb.AddForce(transform.forward * dashForce, ForceMode.Impulse);
             dashTimer = 0.0f;
@@ -222,7 +222,7 @@ public class PlayerControllerKart : PlayerController {
         // Clamp Rotation speed relative to maxVelocity
         float velocityRatio = directionFactor * ((rb.velocity.magnitude > maxVelocityMagnitude) ? 1.0f : (rb.velocity.magnitude / maxVelocityMagnitude));
 
-        targetForward = new Vector3(state.ThumbSticks.Left.X, 0, state.ThumbSticks.Left.Y);
+        targetForward = new Vector3(Controls.HubMoveX(state, (int)playerIndex), 0, Controls.HubMoveY(state, (int)playerIndex));
 
         if (targetForward == Vector3.zero)
 
@@ -234,10 +234,10 @@ public class PlayerControllerKart : PlayerController {
 
         currentAccelerationButtonPressed = 0; // 1 if we go forward, -1 if reverse, 0 if no or both buttons pressed
 
-        if (state.Buttons.A == ButtonState.Pressed)
+        if (Controls.KartSpeedUp(state, (int)playerIndex))
             currentAccelerationButtonPressed++;
 
-        if (state.Buttons.B == ButtonState.Pressed)
+        if (Controls.KartSpeedDown(state, (int)playerIndex))
             currentAccelerationButtonPressed--;
 
         if (currentAccelerationButtonPressed > 0)
@@ -253,7 +253,7 @@ public class PlayerControllerKart : PlayerController {
 
         if (clamp)
             rb.velocity = Vector3.ClampMagnitude(rb.velocity, maxVelocityMagnitude);
-        if (dashTimer >= dashCooldown && state.Buttons.X == ButtonState.Pressed && prevState.Buttons.X == ButtonState.Released)
+        if (dashTimer >= dashCooldown && Controls.HubDash(prevState, state, (int)playerIndex))
         {
             rb.AddForce(transform.forward * dashForce, ForceMode.Impulse);
             dashTimer = 0.0f;

@@ -423,6 +423,31 @@ public static class Controls {
             return (currentState.Buttons.B == ButtonState.Pressed && prevState.Buttons.B == ButtonState.Released);
         }
     }
+
+    public static bool KartSpeedUp(GamePadState currentState, int playerIndex)
+    {
+        if (playerIndex == keyboardIndex)
+        {
+            return (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Z) || Input.GetKeyDown(KeyCode.UpArrow));
+        }
+        else
+        {
+            return (currentState.Buttons.A == ButtonState.Pressed);
+        }
+    }
+
+    public static bool KartSpeedDown(GamePadState currentState, int playerIndex)
+    {
+        if (playerIndex == keyboardIndex)
+        {
+            return (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow));
+        }
+        else
+        {
+            return (currentState.Buttons.B == ButtonState.Pressed);
+        }
+    }
+
     #endregion
     /*  Move zqsd ok
      * Camera mouse axis ok =/
@@ -438,5 +463,9 @@ public static class Controls {
      * Change platforms pattern roulette souris ok
      * Tp to other player T à tester
      * 
+     * Food: tester
+     * Kart:
+     * avancer
+     * reculer
      * */
 }
