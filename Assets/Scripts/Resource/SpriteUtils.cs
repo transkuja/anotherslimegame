@@ -36,6 +36,21 @@ public class SpriteUtils : MonoBehaviour {
     public Sprite leftTriggerSprite;
     public Sprite rightShoulderSprite;
 
+    [Header("Keyboard sprites")]
+    public Sprite keyboardZ;
+    public Sprite keyboardQ;
+    public Sprite keyboardS;
+    public Sprite keyboardD;
+
+    public Sprite keyboardE;
+    public Sprite keyboardA;
+    public Sprite keyboardR;
+    public Sprite keyboardT;
+
+    public Sprite leftMouse;
+    public Sprite rightMouse;
+    public Sprite middleMouse;
+
 
     [Header("GP related")]
     public Sprite badOneSprite;

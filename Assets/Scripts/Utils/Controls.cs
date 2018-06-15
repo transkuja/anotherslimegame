@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UWPAndXInput;
+using UnityEngine.SceneManagement;
 
 public static class Controls {
     public static int keyboardIndex = 0;
@@ -449,6 +450,25 @@ public static class Controls {
     }
 
     #endregion
+
+    public static int nbPlayersSelectedInMenu = 0;
+
+    public static bool IsKeyboardUsed()
+    {
+        if (SceneManager.GetActiveScene().name == "Menu")
+        {
+            return nbPlayersSelectedInMenu > keyboardIndex;
+        }
+        else
+        {
+            if (GameManager.Instance.DataContainer != null)
+            {
+                return GameManager.Instance.DataContainer.nbPlayers > keyboardIndex;
+            }
+            // Default case, should never happen in build
+            return false;
+        }
+    }
     /*  Move zqsd ok
      * Camera mouse axis ok =/
      * Dash clic gauche ok

@@ -129,6 +129,7 @@ public class Menu : MonoBehaviour {
     public void SetNbPlayers(int _nbPlayersSelected)
     {
         nbPlayers = _nbPlayersSelected;
+        Controls.nbPlayersSelectedInMenu = nbPlayers;
     }
 
     void LoadFromDatabase()
