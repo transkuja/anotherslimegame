@@ -8,14 +8,13 @@ public class HubMode : GameMode
     public override void StartGame(List<GameObject> playerReferences)
     {
         base.StartGame(playerReferences);
-        int activePlayersAtStart = playerReferences.Count;
         if (GameManager.Instance.playerEvolutionTutoShown == null)
         {
-            GameManager.Instance.playerEvolutionTutoShown = new bool[activePlayersAtStart][];
+            GameManager.Instance.playerEvolutionTutoShown = new bool[2][];
         }
         else
         {
-            for (int i = 0; i < activePlayersAtStart; i++)
+            for (int i = 0; i < 2; i++)
             {
                 Player currentPlayer = playerReferences[i].GetComponent<Player>();
                 currentPlayer.evolutionTutoShown = GameManager.Instance.playerEvolutionTutoShown[i];
