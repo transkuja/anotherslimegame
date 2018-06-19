@@ -89,6 +89,9 @@ public class SpriteUtils : MonoBehaviour {
             case KeyboardControlType.TurnKart:
                 result = keyboardQD;
                 break;
+            case KeyboardControlType.NextDialog:
+                result = keyboardE;
+                break;
             default:
                 return null;
         }

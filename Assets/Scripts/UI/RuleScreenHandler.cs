@@ -125,7 +125,7 @@ public class RuleScreenHandler : MonoBehaviour {
 }
 
 public enum ControlType { LeftThumbstick, A, B, X, Y, RightTrigger, LeftTrigger, RightShoulder }
-public enum KeyboardControlType { Move, Jump, Dash, Stomp, SpawnPl, ChangePatternPl, Accelerate, Reverse, TurnKart }
+public enum KeyboardControlType { Move, Jump, Dash, Stomp, SpawnPl, ChangePatternPl, Accelerate, Reverse, TurnKart, NextDialog }
 public class ControlDetails
 {
     public ControlType button;
