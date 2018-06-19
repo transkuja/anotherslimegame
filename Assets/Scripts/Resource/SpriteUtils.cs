@@ -55,7 +55,7 @@ public class SpriteUtils : MonoBehaviour {
     [Header("GP related")]
     public Sprite badOneSprite;
 
-    public Sprite GetControlSprite(ControlType _type)
+    public Sprite GetControlSprite(ControlType _type, bool _isKeyboard = false)
     {
         Sprite result = null;
         switch(_type)

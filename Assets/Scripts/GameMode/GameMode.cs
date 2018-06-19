@@ -163,7 +163,9 @@ abstract public class GameMode : MonoBehaviour
         {
             GameObject entry = Instantiate(ResourceUtils.Instance.feedbacksManager.ruleScreenShortPrefab, controlDetailsPage.transform);
             entry.transform.localPosition = new Vector2(0, 100 * (1 - i) - 20.0f);
-            entry.GetComponentInChildren<Image>().sprite = ResourceUtils.Instance.spriteUtils.GetControlSprite(control.button);
+            entry.GetComponentsInChildren<Image>(true)[0].sprite = ResourceUtils.Instance.spriteUtils.GetControlSprite(control.button);
+            entry.GetComponentsInChildren<Image>(true)[1].sprite = ResourceUtils.Instance.spriteUtils.GetControlSprite(control.button);
+            entry.GetComponentsInChildren<Image>(true)[2].sprite = ResourceUtils.Instance.spriteUtils.GetControlSprite(control.button);
             entry.GetComponentInChildren<Text>().text = control.description;
             i++;
         }
