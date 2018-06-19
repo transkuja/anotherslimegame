@@ -1308,6 +1308,7 @@ public class Menu : MonoBehaviour {
                     if (nbPlayers >= 3)
                         playerCustomScreens[i].transform.localPosition = new Vector3(-(180) * Mathf.Pow(-1, i), (i < 2) ? 25.0f : -165.0f, 0.0f);
 
+                    ShowControlsOnCustomScreen(i);
                     UpdatePreviewFull(i);
                     UpdatePreview(i); // Used to reset cursors last position
                 }
@@ -1368,6 +1369,20 @@ public class Menu : MonoBehaviour {
         }
     }
 
+    void ShowControlsOnCustomScreen(int _playerIndex)
+    {
+        bool showKeyboardControls = (_playerIndex == Controls.keyboardIndex);
+        playerCustomScreens[_playerIndex].transform.GetChild(2).GetChild(2).GetComponent<Image>().enabled = !showKeyboardControls;
+        playerCustomScreens[_playerIndex].transform.GetChild(2).GetChild(3).GetComponent<Image>().enabled = !showKeyboardControls;
+        playerCustomScreens[_playerIndex].transform.GetChild(2).GetChild(4).GetComponent<Image>().enabled = showKeyboardControls;
+        playerCustomScreens[_playerIndex].transform.GetChild(2).GetChild(5).GetComponent<Image>().enabled = showKeyboardControls;
+
+        playerCustomScreens[_playerIndex].transform.GetChild(3).GetChild(0).GetComponent<Image>().enabled = !showKeyboardControls;
+        playerCustomScreens[_playerIndex].transform.GetChild(3).GetChild(1).GetComponent<Image>().enabled = !showKeyboardControls;
+        playerCustomScreens[_playerIndex].transform.GetChild(3).GetChild(3).GetComponent<Image>().enabled = showKeyboardControls;
+        playerCustomScreens[_playerIndex].transform.GetChild(3).GetChild(4).GetComponent<Image>().enabled = showKeyboardControls;
+    }
+
     GameObject CreatePlayerCustomScreen(int _newPlayerIndex)
     {
         GameObject go = Instantiate(playerCustomScreenPrefab, transform.GetChild((int)MenuState.CustomisationScreen));
@@ -1387,6 +1402,7 @@ public class Menu : MonoBehaviour {
         go.transform.GetChild(4).GetComponentInChildren<PlayerCosmetics>().FaceType = ((DatabaseClass.FaceData)customizables[CustomizableType.Face][0]).indiceForShader;
 
         playerCustomScreens.Add(go);
+        ShowControlsOnCustomScreen(_newPlayerIndex);
 
         return go;
     }
