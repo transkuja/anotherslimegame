@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UWPAndXInput;
+using UnityEngine.SceneManagement;
 
 public class ControllersChecker : MonoBehaviour {
 
@@ -17,14 +18,18 @@ public class ControllersChecker : MonoBehaviour {
 
         while (true)
         {
-            controllersConnected = 0;
-            for (int i = 0; i < 4; i++)
+            // Controllers are not swapped once the game has started
+            if (SceneManager.GetActiveScene().name == "Menu")
             {
-                if (GamePad.GetState((PlayerIndex)i).IsConnected)
-                    controllersConnected++;
+                controllersConnected = 0;
+                for (int i = 0; i < 4; i++)
+                {
+                    if (GamePad.GetState((PlayerIndex)i).IsConnected)
+                        controllersConnected++;
 
+                }
+                Controls.keyboardIndex = controllersConnected;
             }
-            Controls.keyboardIndex = controllersConnected;
             yield return new WaitForSeconds(1.0f);
         }
     }
