@@ -159,14 +159,26 @@ abstract public class GameMode : MonoBehaviour
         controlDetailsPage.transform.localScale = Vector3.one;
         controlDetailsPage.SetActive(false);
         int i = 0;
+        int controlsStep = rules.controls.Count > 4 ? 80 : 100;
+        int controlsOffset = rules.controls.Count > 4 ? 0 : 40;
+
         foreach (ControlDetails control in rules.controls)
         {
             GameObject entry = Instantiate(ResourceUtils.Instance.feedbacksManager.ruleScreenShortPrefab, controlDetailsPage.transform);
-            entry.transform.localPosition = new Vector2(0, 100 * (1 - i) - 20.0f);
+            entry.transform.localPosition = new Vector2(0, controlsStep * (1 - i) - controlsOffset);
             entry.GetComponentsInChildren<Image>(true)[0].sprite = ResourceUtils.Instance.spriteUtils.GetControlSprite(control.button);
             entry.GetComponentsInChildren<Image>(true)[1].sprite = ResourceUtils.Instance.spriteUtils.GetControlSprite(control.button);
-            entry.GetComponentsInChildren<Image>(true)[2].sprite = ResourceUtils.Instance.spriteUtils.GetControlSprite(control.button);
-            entry.GetComponentInChildren<Text>().text = control.description;
+            entry.GetComponentsInChildren<Image>(true)[2].sprite = ResourceUtils.Instance.spriteUtils.GetKeyboardControlSprite(control.keyboardKey);
+            entry.GetComponentsInChildren<Image>(true)[2].preserveAspect = true;
+            if (control.keyboardKey == KeyboardControlType.Move)
+            {
+                entry.GetComponentsInChildren<Image>(true)[2].GetComponent<RectTransform>().localScale = Vector3.one * 2.0f;
+            }
+            if (control.keyboardKey == KeyboardControlType.Jump)
+            {
+                entry.GetComponentsInChildren<Image>(true)[2].GetComponent<RectTransform>().localScale = Vector3.one * 1.5f;
+            }
+            entry.GetComponentInChildren<Text>().text = control.description + (Controls.IsKeyboardUsed() ? control.keyboardDescription : "");
             i++;
         }
 
@@ -181,6 +193,7 @@ abstract public class GameMode : MonoBehaviour
         foreach (PossiblePickup pickup in rules.possiblePickups)
         {
             GameObject entry = Instantiate(ResourceUtils.Instance.feedbacksManager.ruleScreenShortPrefab, possiblePickupsPage.transform);
+            entry.transform.GetComponent<SwitchableUIControllerOrBoth>().ForceOneImageOnly();
             entry.transform.localPosition = new Vector2(0, 80 * (1 - i));
 
             GameObject pickupPreview = Instantiate(ResourceUtils.Instance.feedbacksManager.GetPickupPreview(pickup.pickupType), entry.GetComponentInChildren<Image>().transform);

@@ -125,33 +125,53 @@ public class RuleScreenHandler : MonoBehaviour {
 }
 
 public enum ControlType { LeftThumbstick, A, B, X, Y, RightTrigger, LeftTrigger, RightShoulder }
+public enum KeyboardControlType { Move, Jump, Dash, Stomp, SpawnPl, ChangePatternPl, Accelerate, Reverse, TurnKart }
 public class ControlDetails
 {
     public ControlType button;
+    public KeyboardControlType keyboardKey;
     public string description;
+    public string keyboardDescription;
 
-    public ControlDetails(ControlType _button, string _description)
+    public ControlDetails(ControlType _button, KeyboardControlType _key, string _description, string _keyboardDescription)
     {
         button = _button;
+        keyboardKey = _key;
         description = _description;
+        keyboardDescription = _keyboardDescription;
     }
 
-    public ControlDetails(ControlType _button)
+    public ControlDetails(ControlType _button, KeyboardControlType _key)
     {
         if (_button == ControlType.LeftThumbstick)
+        {
             description = "Move with L stick";
-
+            keyboardDescription = " or ZQSD";
+        }
         else if (_button == ControlType.A)
-            description = "Jump with A";         
+        {
+            description = "Jump with A";
+            keyboardDescription = " or space bar";
+        }
         else if (_button == ControlType.RightTrigger)
+        {
             description = "Accelerate with RT";
+            keyboardDescription = " or Z";
+        }
         else if (_button == ControlType.LeftTrigger)
+        {
             description = "Reverse with LT";
+            keyboardDescription = " or S";
+        }
         else if (_button == ControlType.LeftThumbstick)
+        {
             description = "Steer with L stick";
+            keyboardDescription = " or Q and D";
+        }
 
 
         button = _button;
+        keyboardKey = _key;
     }
 }
 
@@ -184,9 +204,9 @@ public class MinigameRules
         runeObtention = MinigameDataUtils.GetRuneInformation(_curGameMode, _version);
     }
 
-    public void AddControl(ControlType _newButton, string _effect)
+    public void AddControl(ControlType _newButton, KeyboardControlType _newKey, string _effect, string _keyboardDesc)
     {
-        controls.Add(new ControlDetails(_newButton, _effect));
+        controls.Add(new ControlDetails(_newButton, _newKey, _effect, _keyboardDesc));
     }
 
     public void AddPossiblePickup(PickUpType _newPossiblePickupType, string _effect)

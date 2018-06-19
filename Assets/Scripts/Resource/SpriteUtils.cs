@@ -37,6 +37,9 @@ public class SpriteUtils : MonoBehaviour {
     public Sprite rightShoulderSprite;
 
     [Header("Keyboard sprites")]
+    public Sprite keyboardZQSD;
+    public Sprite keyboardQD;
+
     public Sprite keyboardZ;
     public Sprite keyboardQ;
     public Sprite keyboardS;
@@ -46,6 +49,7 @@ public class SpriteUtils : MonoBehaviour {
     public Sprite keyboardA;
     public Sprite keyboardR;
     public Sprite keyboardT;
+    public Sprite keyboardSpaceBar;
 
     public Sprite leftMouse;
     public Sprite rightMouse;
@@ -55,7 +59,47 @@ public class SpriteUtils : MonoBehaviour {
     [Header("GP related")]
     public Sprite badOneSprite;
 
-    public Sprite GetControlSprite(ControlType _type, bool _isKeyboard = false)
+    public Sprite GetKeyboardControlSprite(KeyboardControlType _key)
+    {
+        Sprite result = null;
+        switch (_key)
+        {
+            case KeyboardControlType.Move:
+                result = keyboardZQSD;
+                break;
+            case KeyboardControlType.Jump:
+                result = keyboardSpaceBar;
+                break;
+            case KeyboardControlType.Dash:
+                result = leftMouse;
+                break;
+            case KeyboardControlType.SpawnPl:
+            case KeyboardControlType.Stomp:
+                result = rightMouse;
+                break;
+            case KeyboardControlType.Accelerate:
+                result = keyboardZ;
+                break;
+            case KeyboardControlType.ChangePatternPl:
+                result = middleMouse;
+                break;
+            case KeyboardControlType.Reverse:
+                result = keyboardS;
+                break;
+            case KeyboardControlType.TurnKart:
+                result = keyboardQD;
+                break;
+            default:
+                return null;
+        }
+
+        if (result == null)
+            Debug.LogWarning("No specified sprite for control type " + _key);
+
+        return result;
+    }
+
+    public Sprite GetControlSprite(ControlType _type)
     {
         Sprite result = null;
         switch(_type)

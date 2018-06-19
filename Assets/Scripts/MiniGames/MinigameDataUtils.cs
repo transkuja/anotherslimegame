@@ -235,40 +235,41 @@ public static class MinigameDataUtils
 
         if (curGameMode is ColorFloorGameMode)
         {
-            controls.Add(new ControlDetails(ControlType.LeftThumbstick));
+            controls.Add(new ControlDetails(ControlType.LeftThumbstick, KeyboardControlType.Move));
             if (_curGameMode.minigameVersion < 4)
-                controls.Add(new ControlDetails(ControlType.X, "Dash forward with X"));
+                controls.Add(new ControlDetails(ControlType.X, KeyboardControlType.Dash, "Dash forward with X", " or left mouse click"));
         }
         else if (curGameMode is KartGameMode)
         {
-            controls.Add(new ControlDetails(ControlType.RightTrigger, "Accelerate with RT"));
-            controls.Add(new ControlDetails(ControlType.LeftTrigger, "Reverse with LT"));
-            controls.Add(new ControlDetails(ControlType.LeftThumbstick, "Steer with L stick"));
-            controls.Add(new ControlDetails(ControlType.X, "Boost with X"));
+            controls.Add(new ControlDetails(ControlType.RightTrigger, KeyboardControlType.Accelerate, "Accelerate with RT", " or Z"));
+            controls.Add(new ControlDetails(ControlType.LeftTrigger, KeyboardControlType.Reverse, "Reverse with LT", " or S"));
+            controls.Add(new ControlDetails(ControlType.LeftThumbstick, KeyboardControlType.TurnKart, "Steer with L stick", " or Q and D"));
+            controls.Add(new ControlDetails(ControlType.X, KeyboardControlType.Dash, "Boost with X", " or left mouse click"));
         }
         else if (curGameMode is Runner3DGameMode)
         {
-            controls.Add(new ControlDetails(ControlType.LeftThumbstick));
-            controls.Add(new ControlDetails(ControlType.A));
-            controls.Add(new ControlDetails(ControlType.X, "Dash forward with X"));
+            controls.Add(new ControlDetails(ControlType.LeftThumbstick, KeyboardControlType.Move));
+            controls.Add(new ControlDetails(ControlType.A, KeyboardControlType.Jump));
+            controls.Add(new ControlDetails(ControlType.X, KeyboardControlType.Dash, "Dash forward with X", " or left mouse click"));
             if (_curGameMode.minigameVersion == 1)
             {
-                controls.Add(new ControlDetails(ControlType.RightTrigger, "Create platforms with RT"));
+                controls.Add(new ControlDetails(ControlType.RightTrigger, KeyboardControlType.SpawnPl, "Create platforms with RT", " or right mouse click"));
+                controls.Add(new ControlDetails(ControlType.RightShoulder, KeyboardControlType.ChangePatternPl, "Change platforms' pattern with RB", " or mouse scroll wheel"));
             }
 
         }
         else if (curGameMode is PushGameMode)
         {
-            controls.Add(new ControlDetails(ControlType.LeftThumbstick));
-            controls.Add(new ControlDetails(ControlType.A));
-            controls.Add(new ControlDetails(ControlType.X, "Dash forward with X"));
-            controls.Add(new ControlDetails(ControlType.Y, "Stomp the ground with Y"));
+            controls.Add(new ControlDetails(ControlType.LeftThumbstick, KeyboardControlType.Move));
+            controls.Add(new ControlDetails(ControlType.A, KeyboardControlType.Jump));
+            controls.Add(new ControlDetails(ControlType.X, KeyboardControlType.Dash, "Dash forward with X", " or left mouse click"));
+            controls.Add(new ControlDetails(ControlType.Y, KeyboardControlType.Stomp, "Stomp the ground with Y", " or right mouse click"));
         }
         else if (curGameMode is BreakingGameMode)
         {
-            controls.Add(new ControlDetails(ControlType.LeftThumbstick));
-            controls.Add(new ControlDetails(ControlType.A));
-            controls.Add(new ControlDetails(ControlType.X, "Dash forward with X"));
+            controls.Add(new ControlDetails(ControlType.LeftThumbstick, KeyboardControlType.Move));
+            controls.Add(new ControlDetails(ControlType.A, KeyboardControlType.Jump));
+            controls.Add(new ControlDetails(ControlType.X, KeyboardControlType.Dash, "Dash forward with X", " or left mouse click"));
         }
         return controls;
     }
