@@ -1,7 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class TeleporterToMinigame : MonoBehaviour {
 
@@ -22,8 +21,11 @@ public class TeleporterToMinigame : MonoBehaviour {
         refCanvas[_playerIndex] = Instantiate(ResourceUtils.Instance.feedbacksManager.prefabCanvasWithUiCameraAdapter, transform);
         refCanvas[_playerIndex].GetComponent<UICameraApdater>().PlayerIndex = _playerIndex;
         refCanvas[_playerIndex].transform.localPosition += Vector3.up * 5.0f;
+        refCanvas[_playerIndex].transform.localScale = Vector3.one * 1.5f;
         BButtonShown[_playerIndex] = Instantiate(ResourceUtils.Instance.feedbacksManager.prefabBButton, refCanvas[_playerIndex].transform);
         BButtonShown[_playerIndex].SetActive(true);
+        if (_playerIndex == Controls.keyboardIndex)
+            BButtonShown[_playerIndex].GetComponentInChildren<Image>().sprite = ResourceUtils.Instance.spriteUtils.keyboardE;
 
         refCanvas[_playerIndex].layer = LayerMask.NameToLayer((_playerIndex == 0) ? "CameraP1" : "CameraP2");
     }

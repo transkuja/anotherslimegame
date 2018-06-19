@@ -52,6 +52,8 @@ public class PNJMessage : MonoBehaviour {
             return;
 
         BbuttonShown[playerIndex].SetActive(true);
+        if (playerIndex == Controls.keyboardIndex)
+            BbuttonShown[playerIndex].GetComponentInChildren<Image>().sprite = ResourceUtils.Instance.spriteUtils.keyboardE;
     }
 
     public bool OnExitTrigger(int playerIndex)
