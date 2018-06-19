@@ -33,6 +33,7 @@ public static class PNJDialogUtils {
     // Alex Tuto
     static string AlexDM = "Wonder how I bought this car?\n"
         + "I used to press X to break all the pots I could.\n"
+        + "It also worked with my mouse's left click.\n"
         + "They hide a lot of money that you can use to\n"
         + "customize yourself. As for the car,\n"
         + "I used my influence to have the only one left!";
