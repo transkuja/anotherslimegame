@@ -77,6 +77,15 @@ public class PlayerControllerFood : PlayerController {
         CurrentCombo = 1.0f;
         parentAnim = GetComponentInParent<Animator>();
         foodInputSettings = GetComponent<FoodInputSettings>();
+
+        if ((int)playerIndex == Controls.keyboardIndex)
+        {
+            // A B X Y
+            transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = ResourceUtils.Instance.spriteUtils.keyboardS;
+            transform.GetChild(1).GetChild(0).GetComponent<Image>().sprite = ResourceUtils.Instance.spriteUtils.keyboardD;
+            transform.GetChild(2).GetChild(0).GetComponent<Image>().sprite = ResourceUtils.Instance.spriteUtils.keyboardQ;
+            transform.GetChild(3).GetChild(0).GetComponent<Image>().sprite = ResourceUtils.Instance.spriteUtils.keyboardZ;
+        }
     }
 
     public override void Update () {
