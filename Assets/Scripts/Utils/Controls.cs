@@ -16,7 +16,7 @@ public static class Controls {
         }
         else
         {
-            return (currentState.ThumbSticks.Left.Y > 0.75f && prevState.ThumbSticks.Left.Y < 0.75f) || (currentState.ThumbSticks.Left.X < -0.5f && prevState.ThumbSticks.Left.X > -0.5f);
+            return (currentState.ThumbSticks.Left.Y > 0.5f && prevState.ThumbSticks.Left.Y < 0.5f) || (currentState.ThumbSticks.Left.X < -0.5f && prevState.ThumbSticks.Left.X > -0.5f);
         }
     }
 
@@ -29,7 +29,7 @@ public static class Controls {
         else
         {
             return (currentState.ThumbSticks.Left.X > 0.5f && prevState.ThumbSticks.Left.X < 0.5f)
-                || (currentState.ThumbSticks.Left.Y < -0.75f && prevState.ThumbSticks.Left.Y > -0.75f);
+                || (currentState.ThumbSticks.Left.Y < -0.5f && prevState.ThumbSticks.Left.Y > -0.5f);
         }
     }
 
