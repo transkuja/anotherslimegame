@@ -92,6 +92,31 @@ public static class Utils
         //}
     }
 
+    public static void PopTutoText(string _actionText, KeyboardControlType _button, string _desc, Player _player)
+    {
+        GameObject tutoEvolution = GameObject.Instantiate(ResourceUtils.Instance.refPrefabLoot.prefabTutoEvolution, GameManager.UiReference.transform);
+        tutoEvolution.transform.position = _player.cameraReference.GetComponentInChildren<Camera>().WorldToScreenPoint(_player.transform.position)
+                                        + Vector3.up * ((GameManager.Instance.PlayerStart.PlayersReference.Count > 2) ? 80.0f : 160.0f);
+
+        tutoEvolution.transform.GetChild(0).GetComponent<Text>().text = _actionText;
+        tutoEvolution.transform.GetChild(1).GetComponent<Image>().sprite = ResourceUtils.Instance.spriteUtils.GetKeyboardControlSprite(_button);
+        tutoEvolution.transform.GetChild(2).GetComponent<Text>().text = _desc;
+
+        if (GameManager.Instance.activeTutoTextForAll != null)
+        {
+            tutoEvolution.SetActive(false);
+            _player.PendingTutoText = tutoEvolution;
+        }
+        else
+        {
+            if (_player.activeTutoText != null)
+                _player.activeTutoText.SetActive(false);
+
+            _player.activeTutoText = tutoEvolution;
+            GameObject.Destroy(tutoEvolution, timerTutoText);
+        }
+    }
+
     public static void PopTutoText(string _actionText, ControlType _button, string _desc, Player _player)
     {
         GameObject tutoEvolution = GameObject.Instantiate(ResourceUtils.Instance.refPrefabLoot.prefabTutoEvolution, GameManager.UiReference.transform);

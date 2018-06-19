@@ -47,7 +47,10 @@ public class EvolutionPlatformist : EvolutionComponent {
         if (playerComponent.evolutionTutoShown != null && playerComponent.evolutionTutoShown.Length > 0 && !playerComponent.evolutionTutoShown[(int)Powers.Platformist] && !GameManager.Instance.CurrentGameMode.IsMiniGame())
         {
             playerComponent.evolutionTutoShown[(int)Powers.Platformist] = true;
-            Utils.PopTutoText("Hold", ControlType.RightTrigger, "to create platforms", playerComponent);
+            if ((int)GetComponent<PlayerController>().playerIndex == Controls.keyboardIndex)
+                Utils.PopTutoText("Hold", KeyboardControlType.SpawnPl, "to create platforms", playerComponent);
+            else
+                Utils.PopTutoText("Hold", ControlType.RightTrigger, "to create platforms", playerComponent);
         }
         else
         {
@@ -273,7 +276,11 @@ public class EvolutionPlatformist : EvolutionComponent {
         if (!hasPlayedSecondTuto && !GameManager.Instance.CurrentGameMode.IsMiniGame())
         {
             hasPlayedSecondTuto = true;
-            Utils.PopTutoText("Press", ControlType.RightShoulder, "to change pattern", GetComponent<Player>());
+            if ((int)GetComponent<PlayerController>().playerIndex == Controls.keyboardIndex)
+                Utils.PopTutoText("Scroll", KeyboardControlType.ChangePatternPl, "to change pattern", GetComponent<Player>());
+            else
+
+                Utils.PopTutoText("Press", ControlType.RightShoulder, "to change pattern", GetComponent<Player>());
         }
     }
 

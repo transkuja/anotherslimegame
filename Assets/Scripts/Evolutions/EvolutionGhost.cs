@@ -146,7 +146,11 @@ public class EvolutionGhost : EvolutionComponent
         if (player.evolutionTutoShown != null && player.evolutionTutoShown.Length > 0 && !player.evolutionTutoShown[(int)Powers.Ghost] && !GameManager.Instance.CurrentGameMode.IsMiniGame())
         {
             player.evolutionTutoShown[(int)Powers.Ghost] = true;
-            Utils.PopTutoText("Hold", ControlType.LeftTrigger, "to leave a trail behind", player);
+            if ((int)GetComponent<PlayerController>().playerIndex == Controls.keyboardIndex)
+                Utils.PopTutoText("Hold", KeyboardControlType.Stomp, "to leave a trail behind", player);
+            else
+
+                Utils.PopTutoText("Hold", ControlType.RightTrigger, "to leave a trail behind", player);
         }
 
         if (feedbackCooldownImg != null)
@@ -206,7 +210,7 @@ public class EvolutionGhost : EvolutionComponent
         if (!hitZero)
         {
             
-            if(state.Triggers.Left > 0.1f)
+            if(Controls.LeaveATrail(state, (int)GetComponent<PlayerController>().playerIndex))
             {
                 timeBeforeLastButtonPress = 0.0f;
                 isButtonPressedAndDidNotHitZero = true;

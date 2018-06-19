@@ -373,6 +373,17 @@ public static class Controls {
         }
     }
 
+    public static bool LeaveATrail(GamePadState currentState, int playerIndex)
+    {
+        if (playerIndex == keyboardIndex)
+        {
+            return (Input.GetMouseButton(1));
+        }
+        else
+        {
+            return currentState.Triggers.Right > 0.1f;
+        }
+    }
     #endregion
 
     #region Minigame specific
