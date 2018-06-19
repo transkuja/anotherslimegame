@@ -208,7 +208,7 @@ public static class Controls {
     {
         if (playerIndex == keyboardIndex)
         {
-            return Input.GetAxis("Mouse X");
+            return Input.GetAxis("Mouse X")/2.0f;
         }
         else
         {
@@ -220,7 +220,7 @@ public static class Controls {
     {
         if (playerIndex == keyboardIndex)
         {
-            return Input.GetAxis("Mouse Y");
+            return Input.GetAxis("Mouse Y")/4.0f;
         }
         else
         {
