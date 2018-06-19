@@ -280,7 +280,7 @@ public static class Controls {
     {
         if (playerIndex == keyboardIndex)
         {
-            return (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.E));
+            return (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.Return));
         }
         else
         {
